@@ -1,3 +1,11 @@
+## 1.1.77 - Office-like tab spacing controls
+
+- Adds `TLazRibbon.TabCaptionHorizontalPadding`, `TabCaptionSpacing` and `MinTabCaptionWidth` so developers can tune Ribbon tab geometry from the Object Inspector.
+- Changes the default tab caption metrics to a more Office-like layout: 10 px horizontal padding, 2 px spacing between tabs and 40 px minimum caption width.
+- Applies the same metrics to contextual-tab header width calculations so contextual groups continue to size coherently.
+- Keeps skin color/font behavior unchanged; tab geometry is now controlled by the new Ribbon properties rather than by skin selection.
+- Updates runtime and design-time package versions to 1.1.77.
+
 ## 1.1.76 - Office-style Dialog Launcher rename
 
 - Renames the `TLazRibbonPane` More Options API to Office-style Dialog Launcher naming: `ShowDialogLauncher`, `DialogLauncherStyle` and `OnDialogLauncherClick`.

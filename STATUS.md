@@ -1,9 +1,11 @@
 # LazRibbon Status
 
-`1.1.76 - Office-style Dialog Launcher rename` is the current stabilization build.
+`1.1.77 - Office-like tab spacing controls` is the current stabilization build.
 
 
-The 1.1.76 build intentionally renames the unfinished `TLazRibbonPane` More Options API to the Office-style Dialog Launcher terminology. Use `ShowDialogLauncher`, `DialogLauncherStyle` and `OnDialogLauncherClick`; the default style is now `dlsArrow`, matching the classic Office Dialog Box Launcher glyph. This is a deliberate breaking change because the package is still pre-adoption in this project.
+The 1.1.77 build adds explicit `TLazRibbon` tab geometry controls: `TabCaptionHorizontalPadding`, `TabCaptionSpacing` and `MinTabCaptionWidth`. The defaults are now more Office-like, so tabs no longer appear visually squeezed together, and developers can tune this directly in the Object Inspector. Skin changes still control colors, fonts and gradients; these tab metrics are Ribbon layout properties.
+
+The 1.1.76 build intentionally renamed the unfinished `TLazRibbonPane` More Options API to the Office-style Dialog Launcher terminology. Use `ShowDialogLauncher`, `DialogLauncherStyle` and `OnDialogLauncherClick`; the default style is now `dlsArrow`, matching the classic Office Dialog Box Launcher glyph. This is a deliberate breaking change because the package is still pre-adoption in this project.
 
 The 1.1.75 build expanded the standalone Skin Editor Appearance inspector. It can browse all published `Appearance` sections together, filter properties by section/name/type/value, show property types in the list and edit additional RTTI-supported value kinds. It preserves the 1.1.73 Lazarus 4.8 baseline, the 1.1.74 public-repository documentation, and the formal regression checklist around the behavior stabilized in 1.1.70.
 The main runtime behavior remains the staged KeyTips flow, with multi-character KeyTips. The 1.1.70 build keeps the mouse-cancel behavior and fixes Backspace routing when a `TLazRibbonForm` contains focused client controls:

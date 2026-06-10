@@ -149,10 +149,12 @@ const
   TOOLBAR_CORNER_RADIUS = 0;  //was: 3;
   /// <summary>Tab caption height: -1 = automatic</summary>
   TOOLBAR_TAB_CAPTIONS_HEIGHT = -1;  // was: 22;
-  /// <summary>Tab caption horizontal padding</summary>
-  TOOLBAR_TAB_CAPTIONS_TEXT_HPADDING = 4;
+  /// <summary>Default tab caption horizontal padding</summary>
+  TOOLBAR_TAB_CAPTIONS_TEXT_HPADDING = 10;
+  /// <summary>Default space between tab captions</summary>
+  TOOLBAR_TAB_CAPTIONS_HSPACING = 2;
   /// <summary>Min tab caption width</summary>
-  TOOLBAR_MIN_TAB_CAPTION_WIDTH = 32;
+  TOOLBAR_MIN_TAB_CAPTION_WIDTH = 40;
 
 
   // *********************
@@ -312,6 +314,7 @@ var
   ToolbarTabCaptionsHeight: Integer;
   /// <summary>Tab caption horizontal padding</summary>
   ToolbarTabCaptionsTextHPadding: Integer;
+  ToolbarTabCaptionsHSpacing: Integer;
   ToolbarMinTabCaptionWidth: Integer;
   /// <summary>Toolbar total height</summary>
   //ToolbarHeight: Integer;
@@ -410,6 +413,7 @@ begin
   ToolbarCornerRadius := TOOLBAR_CORNER_RADIUS;
   ToolbarTabCaptionsHeight := TOOLBAR_TAB_CAPTIONS_HEIGHT;  // is -1
   ToolbarTabCaptionsTextHPadding := LazScaleX(TOOLBAR_TAB_CAPTIONS_TEXT_HPADDING, FromDPI, ToDPI);
+  ToolbarTabCaptionsHSpacing := LazScaleX(TOOLBAR_TAB_CAPTIONS_HSPACING, FromDPI, ToDPI);
   ToolbarMinTabCaptionWidth := LazScaleX(TOOLBAR_MIN_TAB_CAPTION_WIDTH, FromDPI, ToDPI);
 //  ToolbarHeight := ToolbarTabCaptionsHeight + TabHeight;
 

@@ -59,6 +59,11 @@ type
   { Type describes Menu Button states }
   TLazRibbonMenuButtonState = (mbtIdle, mbtHottrack, mbtPressed);
 
+const
+  LAZRIBBON_DEFAULT_TAB_CAPTION_HORIZONTAL_PADDING = TOOLBAR_TAB_CAPTIONS_TEXT_HPADDING;
+  LAZRIBBON_DEFAULT_TAB_CAPTION_SPACING = TOOLBAR_TAB_CAPTIONS_HSPACING;
+  LAZRIBBON_DEFAULT_MIN_TAB_CAPTION_WIDTH = TOOLBAR_MIN_TAB_CAPTION_WIDTH;
+
 type
   TLazRibbon = class;
 
@@ -494,6 +499,9 @@ type
     { Visual headers shown above visible contextual tab groups. }
     FShowContextualGroupHeaders: Boolean;
     FContextualGroupHeaderHeight: Integer;
+    FTabCaptionHorizontalPadding: Integer;
+    FTabCaptionSpacing: Integer;
+    FMinTabCaptionWidth: Integer;
 
     { Application/Menu Button mode }
     FApplicationButtonMode: TLazRibbonApplicationButtonMode;
@@ -763,6 +771,9 @@ type
     procedure SetKeyTipsVisible(AValue: Boolean);
     procedure SetShowContextualGroupHeaders(AValue: Boolean);
     procedure SetContextualGroupHeaderHeight(AValue: Integer);
+    procedure SetTabCaptionHorizontalPadding(AValue: Integer);
+    procedure SetTabCaptionSpacing(AValue: Integer);
+    procedure SetMinTabCaptionWidth(AValue: Integer);
     function EffectiveContextualGroupHeaderHeight: Integer;
     procedure InvalidateHostedTitleBar;
     function QuickAccessHitTest(X, Y: Integer): Integer;
@@ -941,6 +952,15 @@ type
     property ShowKeyTips: Boolean read FShowKeyTips write SetShowKeyTips default True;
     property ShowContextualGroupHeaders: Boolean read FShowContextualGroupHeaders write SetShowContextualGroupHeaders default True;
     property ContextualGroupHeaderHeight: Integer read FContextualGroupHeaderHeight write SetContextualGroupHeaderHeight default 18;
+    property TabCaptionHorizontalPadding: Integer
+      read FTabCaptionHorizontalPadding write SetTabCaptionHorizontalPadding
+      default LAZRIBBON_DEFAULT_TAB_CAPTION_HORIZONTAL_PADDING;
+    property TabCaptionSpacing: Integer
+      read FTabCaptionSpacing write SetTabCaptionSpacing
+      default LAZRIBBON_DEFAULT_TAB_CAPTION_SPACING;
+    property MinTabCaptionWidth: Integer
+      read FMinTabCaptionWidth write SetMinTabCaptionWidth
+      default LAZRIBBON_DEFAULT_MIN_TAB_CAPTION_WIDTH;
     property HelpButtonHint: String read FHelpButtonHint write SetHelpButtonHint;
     property OnHelpButtonClick: TNotifyEvent read FOnHelpButtonClick write FOnHelpButtonClick;
     property OnRibbonMinimizedChanged: TNotifyEvent read FOnRibbonMinimizedChanged write FOnRibbonMinimizedChanged;
@@ -2609,6 +2629,9 @@ begin
   FKeyTipsPrefix := '';
   FShowContextualGroupHeaders := True;
   FContextualGroupHeaderHeight := 18;
+  FTabCaptionHorizontalPadding := LAZRIBBON_DEFAULT_TAB_CAPTION_HORIZONTAL_PADDING;
+  FTabCaptionSpacing := LAZRIBBON_DEFAULT_TAB_CAPTION_SPACING;
+  FMinTabCaptionWidth := LAZRIBBON_DEFAULT_MIN_TAB_CAPTION_WIDTH;
   TabStop := True;
   FLastSkinApplied := False;
 
@@ -4077,6 +4100,39 @@ begin
   SetBufferInvalid;
   if not (FInternalUpdating or FUpdating) then
     Repaint;
+end;
+
+procedure TLazRibbon.SetTabCaptionHorizontalPadding(AValue: Integer);
+begin
+  if AValue < 0 then
+    AValue := 0;
+  if AValue > 64 then
+    AValue := 64;
+  if FTabCaptionHorizontalPadding = AValue then Exit;
+  FTabCaptionHorizontalPadding := AValue;
+  NotifyMetricsChanged;
+end;
+
+procedure TLazRibbon.SetTabCaptionSpacing(AValue: Integer);
+begin
+  if AValue < 0 then
+    AValue := 0;
+  if AValue > 32 then
+    AValue := 32;
+  if FTabCaptionSpacing = AValue then Exit;
+  FTabCaptionSpacing := AValue;
+  NotifyMetricsChanged;
+end;
+
+procedure TLazRibbon.SetMinTabCaptionWidth(AValue: Integer);
+begin
+  if AValue < 0 then
+    AValue := 0;
+  if AValue > 300 then
+    AValue := 300;
+  if FMinTabCaptionWidth = AValue then Exit;
+  FMinTabCaptionWidth := AValue;
+  NotifyMetricsChanged;
 end;
 
 procedure TLazRibbon.ShowKeyTipsOverlay;
@@ -6407,9 +6463,22 @@ var
   GroupTabAppearance: TLazRibbonToolbarAppearance;
   PrevVisibleTabIndex: Integer;
   ContextualGroupGap: Integer;
+  ScaledTabCaptionHorizontalPadding: Integer;
+  ScaledTabCaptionSpacing: Integer;
+  ScaledMinTabCaptionWidth: Integer;
  {$IFDEF LCLCocoa}
   scalefactor: Double;
  {$ENDIF}
+
+  function CalculateTabCaptionWidth(AAppearance: TLazRibbonToolbarAppearance;
+    const ACaption: String): Integer;
+  begin
+    FBuffer.Canvas.Font.Assign(AAppearance.Tab.TabHeaderFont);
+    Result := 2 +  // Frame
+      2 * AAppearance.Tab.CornerRadius +
+      2 * ScaledTabCaptionHorizontalPadding +
+      Max(ScaledMinTabCaptionWidth, FBuffer.Canvas.TextWidth(ACaption));
+  end;
 begin
   if (csDestroying in ComponentState) or FInternalUpdating or FUpdating then
     exit;
@@ -6436,6 +6505,12 @@ begin
   TabAppearance := FAppearance;
   ContextHeaderHeight := EffectiveContextualGroupHeaderHeight;
   ContextualGroupGap := 4;
+  ScaledTabCaptionHorizontalPadding := Max(0,
+    LazScaleX(FTabCaptionHorizontalPadding, 96, Screen.PixelsPerInch));
+  ScaledTabCaptionSpacing := Max(0,
+    LazScaleX(FTabCaptionSpacing, 96, Screen.PixelsPerInch));
+  ScaledMinTabCaptionWidth := Max(0,
+    LazScaleX(FMinTabCaptionWidth, 96, Screen.PixelsPerInch));
 
   CollapseButtonReserve := 0;
   CollapseButtonSize := Max(18, TabAppearance.Tab.CalcCaptionHeight - 6);
@@ -6677,14 +6752,7 @@ begin
           TabAppearance := FAppearance;
         FBuffer.Canvas.Font.Assign(TabAppearance.Tab.TabHeaderFont);
 
-        TabWidth := 2 +  // Frame
-          2 * TabAppearance.Tab.CornerRadius +
-          // Curves
-          2 * ToolbarTabCaptionsTextHPadding +
-          // Internal margins
-          max(ToolbarMinTabCaptionWidth,
-          FBuffer.Canvas.TextWidth(FTabs.Items[i].Caption));
-        // Breadth of text
+        TabWidth := CalculateTabCaptionWidth(TabAppearance, FTabs.Items[i].Caption);
 
         { Contextual group headers must not look like labels hanging outside
           the tab.  If a contextual group starts at this tab and its header
@@ -6710,16 +6778,14 @@ begin
                 SameText(FTabs[GroupIndex].ContextualGroupCaption,
                   FTabs[i].ContextualGroupCaption) do
           begin
+            if GroupIndex > i then
+              Inc(GroupNaturalWidth, ScaledTabCaptionSpacing);
             if FTabs[GroupIndex].OverrideAppearance then
               GroupTabAppearance := FTabs[GroupIndex].CustomAppearance
             else
               GroupTabAppearance := FAppearance;
-            FBuffer.Canvas.Font.Assign(GroupTabAppearance.Tab.TabHeaderFont);
-            Inc(GroupNaturalWidth, 2 +
-              2 * GroupTabAppearance.Tab.CornerRadius +
-              2 * ToolbarTabCaptionsTextHPadding +
-              max(ToolbarMinTabCaptionWidth,
-                FBuffer.Canvas.TextWidth(FTabs.Items[GroupIndex].Caption)));
+            Inc(GroupNaturalWidth, CalculateTabCaptionWidth(GroupTabAppearance,
+              FTabs.Items[GroupIndex].Caption));
             Inc(GroupIndex);
           end;
 
@@ -6733,12 +6799,12 @@ begin
         begin
           FTabRects[i].Right := x;
           FTabRects[i].Left := x - TabWidth + 1;
-          x := FTabRects[i].Left - 1;
+          x := FTabRects[i].Left - 1 - ScaledTabCaptionSpacing;
         end else
         begin
           FTabRects[i].Left := x;
           FTabRects[i].Right := x + TabWidth - 1;
-          x := FTabRects[i].Right + 1;
+          x := FTabRects[i].Right + 1 + ScaledTabCaptionSpacing;
         end;
         FTabRects[i].Top := ContextHeaderHeight;
         FTabRects[i].Bottom := ContextHeaderHeight + TabAppearance.Tab.CalcCaptionHeight;

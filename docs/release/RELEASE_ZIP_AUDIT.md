@@ -1,3 +1,11 @@
+## 1.1.77 check
+
+- Package metadata updated to 1.1.77.
+- `TLazRibbon` exposes `TabCaptionHorizontalPadding`, `TabCaptionSpacing` and `MinTabCaptionWidth` for Office-like tab layout tuning.
+- Default tab caption metrics are 10 px horizontal padding, 2 px spacing and 40 px minimum caption width.
+- Contextual tab header width calculations use the same tab metrics.
+- Release ZIP should still be created through `tools/build_release_zip.ps1` and must pass the generated-artifact audit.
+
 ## 1.1.76 check
 
 - Package metadata updated to 1.1.76.

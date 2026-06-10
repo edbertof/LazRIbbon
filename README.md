@@ -50,9 +50,9 @@ tools/LazRibbonSkinEditor/
 
 ## Current version
 
-This distribution is **LazRibbon 1.1.76 Office-style Dialog Launcher rename**.
+This distribution is **LazRibbon 1.1.77 Office-like tab spacing controls**.
 
-The stable 1.0.0 line remains the conservative baseline for production use. The 1.1 line is a controlled stabilization line now validated with Lazarus 4.8, with the 1.1.70 runtime behavior preserved and the 1.1.72 packaging/design-time polish applied on top. The 1.1.76 build renames the unfinished pane More Options API to Office-style Dialog Launcher terminology and keeps the 1.1.75 Skin Editor Appearance inspector work.
+The stable 1.0.0 line remains the conservative baseline for production use. The 1.1 line is a controlled stabilization line now validated with Lazarus 4.8, with the 1.1.70 runtime behavior preserved and the 1.1.72 packaging/design-time polish applied on top. The 1.1.77 build adds Office-like tab spacing controls and keeps the 1.1.76 Dialog Launcher rename and the 1.1.75 Skin Editor Appearance inspector work.
 
 Highlights in the current 1.1 line:
 
@@ -60,6 +60,7 @@ Highlights in the current 1.1 line:
 - Quick Access Toolbar support, including title-bar hosting in `TLazRibbonForm`.
 - ScreenTips, staged KeyTips, multi-character KeyTips and a design-time KeyTip validator.
 - Contextual tabs with optional contextual group headers.
+- Configurable Ribbon tab caption metrics through `TabCaptionHorizontalPadding`, `TabCaptionSpacing` and `MinTabCaptionWidth`.
 - Office-style Dialog Launcher support on `TLazRibbonPane` through `ShowDialogLauncher`, `DialogLauncherStyle` and `OnDialogLauncherClick`.
 - Built-in and external `.skin` loading through `TLazRibbonSkinManager`, with `SkinFolder = '.\Skins'` as the default external folder.
 - Skin XML icon embedding through `Icon16Data`, `Icon24Data` and `Icon32Data`, while keeping the legacy file-name tags for compatibility.
@@ -100,6 +101,18 @@ LazRibbonBackstageView1.OverlayMode := bomCoverClientArea;
 ```
 
 When used inside `TLazRibbonForm`, the custom title bar remains visible and interactive while the BackStage fills the form content.
+
+## Tab Spacing
+
+Tab captions use Office-like spacing by default. These metrics are layout properties of `TLazRibbon`, not skin colors:
+
+```pascal
+LazRibbon1.TabCaptionHorizontalPadding := 10;
+LazRibbon1.TabCaptionSpacing := 2;
+LazRibbon1.MinTabCaptionWidth := 40;
+```
+
+Increase `TabCaptionHorizontalPadding` when tab text feels crowded, increase `TabCaptionSpacing` when adjacent tabs need more separation, and use `MinTabCaptionWidth` to keep short captions from becoming too narrow.
 
 ## Dialog Launcher
 
