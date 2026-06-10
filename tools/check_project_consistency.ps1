@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
   [string]$SourceRoot = (Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path)),
-  [string]$ExpectedVersion = '1.1.75'
+  [string]$ExpectedVersion = '1.1.76'
 )
 
 $ErrorActionPreference = 'Stop'

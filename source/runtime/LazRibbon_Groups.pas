@@ -38,9 +38,9 @@ type
     Width: integer;
   end;
 
-  // 'More options' button states
-  TLazRibbonMoreOptionsButtonState = (mobsIdle, mobsBtnHottrack, mobsBtnPressed);
-  TLazRibbonMoreOptionsButtonStyle = (mobsPlus, mobsArrow);
+  // Dialog Launcher button states
+  TLazRibbonDialogLauncherState = (dlsIdle, dlsHotTrack, dlsPressed);
+  TLazRibbonDialogLauncherStyle = (dlsArrow, dlsPlus);
 
   TLazRibbonPane = class;
 
@@ -49,11 +49,11 @@ type
     FPaneState: TLazRibbonPaneState;
     FMouseHoverElement: TLazRibbonMousePaneElement;
     FMouseActiveElement: TLazRibbonMousePaneElement;
-    // 'More options' button
-    FMoreOptionsButtonState: TLazRibbonMoreOptionsButtonState;
-    FMoreOptionsButtonStyle: TLazRibbonMoreOptionsButtonStyle;
-    FInMoreOptionsButton: boolean;
-    FOnMoreOptionsButtonClick: TNotifyEvent;
+    // Dialog Launcher button
+    FDialogLauncherState: TLazRibbonDialogLauncherState;
+    FDialogLauncherStyle: TLazRibbonDialogLauncherStyle;
+    FInDialogLauncher: boolean;
+    FOnDialogLauncherClick: TNotifyEvent;
   protected
     FCaption: string;
     FRect: T2DIntRect;
@@ -67,8 +67,8 @@ type
     FLargeImagesWidth: Integer;
     FVisible: boolean;
     FItems: TLazRibbonItems;
-    FMoreOptionsButtonRect: T2DIntRect;
-    FShowMoreOptionsButton: boolean;
+    FDialogLauncherRect: T2DIntRect;
+    FShowDialogLauncher: boolean;
 
     // *** Generating a layout of elements ***
     function GenerateLayout: TLazRibbonPaneItemsLayout;
@@ -91,8 +91,8 @@ type
     procedure SetLargeImagesWidth(const Value: Integer);
     procedure SetRect(ARect : T2DIntRect);
     procedure SetToolbarDispatch(const Value: TLazRibbonBaseToolbarDispatch);
-    procedure SetShowMoreOptionsButton(const Value: boolean);
-    procedure SetMoreOptionsButtonStyle(const Value: TLazRibbonMoreOptionsButtonStyle);
+    procedure SetShowDialogLauncher(const Value: boolean);
+    procedure SetDialogLauncherStyle(const Value: TLazRibbonDialogLauncherStyle);
 
   public
     // *** Constructor, destructor ***
@@ -110,14 +110,14 @@ type
     // *** Geometry and drawing ***
     function GetWidth: integer;
     procedure Draw(ABuffer: TBitmap; ClipRect: T2DIntRect);
-    procedure DrawMoreOptionsButton(ABuffer: TBitmap; ClipRect: T2DIntRect);
+    procedure DrawDialogLauncher(ABuffer: TBitmap; ClipRect: T2DIntRect);
     function FindItemAt(x, y: integer): integer;
 
     // *** Support for elements ***
     procedure FreeingItem(AItem: TLazRibbonBaseItem);
 
-    // *** 'More options' button ***
-    procedure DoMoreOptionsButtonClick; 
+    // *** Dialog Launcher button ***
+    procedure DoDialogLauncherClick;
 
     property ToolbarDispatch: TLazRibbonBaseToolbarDispatch read FToolbarDispatch write SetToolbarDispatch;
     property Appearance: TLazRibbonToolbarAppearance read FAppearance write SetAppearance;
@@ -135,12 +135,12 @@ type
       read FCaption write SetCaption;
     property Visible: boolean
       read FVisible write SetVisible default true;
-    property ShowMoreOptionsButtonStyle: TLazRibbonMoreOptionsButtonStyle
-      read FMoreOptionsButtonStyle write SetMoreOptionsButtonStyle default mobsPlus;
-    property ShowMoreOptionsButton: boolean
-      read FShowMoreOptionsButton write SetShowMoreOptionsButton default false;
-    property OnMoreOptionsButtonClick: TNotifyEvent
-      read FOnMoreOptionsButtonClick write FOnMoreOptionsButtonClick;
+    property DialogLauncherStyle: TLazRibbonDialogLauncherStyle
+      read FDialogLauncherStyle write SetDialogLauncherStyle default dlsArrow;
+    property ShowDialogLauncher: boolean
+      read FShowDialogLauncher write SetShowDialogLauncher default false;
+    property OnDialogLauncherClick: TNotifyEvent
+      read FOnDialogLauncherClick write FOnDialogLauncherClick;
   end;
 
   TLazRibbonPanes = class(TLazRibbonCollection)
@@ -190,7 +190,7 @@ implementation
 
 // Husker : temp, à déplacer dans les constantes   //!!!!!!!!!
 //const
-//  PaneMoreOptionButtonWidth : integer = 15;   
+//  PaneDialogLauncherWidth : integer = 15;
 
 { TLazRibbonPane }
 
@@ -204,8 +204,9 @@ begin
   FMouseActiveElement.ElementType := peNone;
   FMouseActiveElement.ElementIndex := -1;
 
-  FMoreOptionsButtonState := mobsIdle;
-  FInMoreOptionsButton := False;
+  FDialogLauncherState := dlsIdle;
+  FDialogLauncherStyle := dlsArrow;
+  FInDialogLauncher := False;
 
   FCaption := 'Pane';
   {$IFDEF EnhancedRecordSupport}
@@ -244,20 +245,20 @@ var
 begin
   FRect := ARect;
 
-  // Set 'More options' button rect
+  // Set 'Dialog launcher' button rect
   if IsRightToLeft then
   begin
     x1 := FRect.Left + PaneBorderHalfSize + 2;
-    x2 := FRect.Left + PaneBorderHalfSize + PaneMoreOptionsButtonWidth;
+    x2 := FRect.Left + PaneBorderHalfSize + PaneDialogLauncherWidth;
   end else
   begin
-    x1 := FRect.Right - PaneBorderHalfSize - PaneMoreOptionsButtonWidth;
+    x1 := FRect.Right - PaneBorderHalfSize - PaneDialogLauncherWidth;
     x2 := FRect.Right - PaneBorderHalfSize - 2;
   end;
   {$IFDEF EnhancedRecordSupport}
-  FMoreOptionsButtonRect := T2DIntRect.Create(
+  FDialogLauncherRect := T2DIntRect.Create(
   {$ELSE}
-  FMoreOptionsButtonRect := Create2DIntRect(
+  FDialogLauncherRect := Create2DIntRect(
   {$ENDIF}
     x1,
     FRect.Bottom - PaneCaptionHeight - PaneBorderHalfSize,
@@ -394,20 +395,20 @@ begin
     true
   );
 
-  // Draw the 'More option' button
-  DrawMoreOptionsButton(ABuffer, ClipRect);
+  // Draw the 'Dialog launcher' button
+  DrawDialogLauncher(ABuffer, ClipRect);
 
   // Pane label
   ABuffer.Canvas.Font.Assign(FAppearance.Pane.CaptionFont);
   w := ABuffer.Canvas.TextWidth(FCaption);  // Panel label width
 
-  // Handle visibility of 'More options' button to set Pane label position
-  if FShowMoreOptionsButton then
+  // Handle visibility of 'Dialog launcher' button to set Pane label position
+  if FShowDialogLauncher then
   begin
     if isRTL then
-      x := FRect.Right - (FRect.Width - PaneMoreOptionsButtonWidth - w) div 2 - w
+      x := FRect.Right - (FRect.Width - PaneDialogLauncherWidth - w) div 2 - w
     else
-      x := FRect.Left + (FRect.Width - PaneMoreOptionsButtonWidth - w) div 2;
+      x := FRect.Left + (FRect.Width - PaneDialogLauncherWidth - w) div 2;
   end else
   begin
     if isRTL then
@@ -537,16 +538,16 @@ begin
       FItems[i].Draw(ABuffer, ClipRect);
 end;
 
-{ Drawing procedure for the 'More options' button }
-procedure TLazRibbonPane.DrawMoreOptionsButton(ABuffer: TBitmap; ClipRect: T2DIntRect);
+{ Drawing procedure for the 'Dialog launcher' button }
+procedure TLazRibbonPane.DrawDialogLauncher(ABuffer: TBitmap; ClipRect: T2DIntRect);
 var
-  mobFontColor, mobFrameColor: TColor;
-  mobGradientFromColor, mobGradientToColor: TColor;
-  mobInnerLightColor, mobInnerDarkColor: TColor;
-  mobGradientKind: TBackgroundKind;
-  mobSign: String;  // Holds the icon of the 'More options' button
-  mobX: Integer;    // X and Y position of the '+' sign of the 'More options' button
-  mobY: Integer;
+  LauncherFontColor, LauncherFrameColor: TColor;
+  LauncherGradientFromColor, LauncherGradientToColor: TColor;
+  LauncherInnerLightColor, LauncherInnerDarkColor: TColor;
+  LauncherGradientKind: TBackgroundKind;
+  LauncherSign: String;
+  LauncherX: Integer;
+  LauncherY: Integer;
 begin
   // Under some conditions, we are not able to draw
   // * No dispatcher
@@ -557,45 +558,45 @@ begin
   if FAppearance = nil then
      exit;
 
-  // Draw the 'More options' button in the right corner of the Pane label background
-  if FShowMoreOptionsButton then
+  // Draw the 'Dialog launcher' button in the right corner of the Pane label background
+  if FShowDialogLauncher then
   begin
-    //FmobButtonState:=mobbsIdle;
-    //FmobButtonState:=mobbsBtnHottrack;
-    //FmobButtonState:=mobbsBtnPressed;
     // Get colors for drawing
-    if (FMoreOptionsButtonState = mobsIdle) then
+    if (FDialogLauncherState = dlsIdle) then
     begin
       FAppearance.Element.GetIdleButtonColors(False,
-        mobFontColor, mobFrameColor, mobInnerLightColor, mobInnerDarkColor,
-        mobGradientFromColor, mobGradientToColor, mobGradientKind
+        LauncherFontColor, LauncherFrameColor, LauncherInnerLightColor,
+        LauncherInnerDarkColor, LauncherGradientFromColor, LauncherGradientToColor,
+        LauncherGradientKind
       );
     end else
-    if FMoreOptionsButtonState = mobsBtnHottrack then
+    if FDialogLauncherState = dlsHotTrack then
     begin
       FAppearance.Element.GetHotTrackButtonColors(False,
-        mobFontColor, mobFrameColor, mobInnerLightColor, mobInnerDarkColor,
-        mobGradientFromColor, mobGradientToColor, mobGradientKind
+        LauncherFontColor, LauncherFrameColor, LauncherInnerLightColor,
+        LauncherInnerDarkColor, LauncherGradientFromColor, LauncherGradientToColor,
+        LauncherGradientKind
       );
     end else
-    if FMoreOptionsButtonState = mobsBtnPressed then
+    if FDialogLauncherState = dlsPressed then
     begin
       FAppearance.Element.GetActiveButtonColors(False,
-        mobFontColor, mobFrameColor, mobInnerLightColor, mobInnerDarkColor,
-        mobGradientFromColor, mobGradientToColor, mobGradientKind
+        LauncherFontColor, LauncherFrameColor, LauncherInnerLightColor,
+        LauncherInnerDarkColor, LauncherGradientFromColor, LauncherGradientToColor,
+        LauncherGradientKind
       );
     end;
 
-    // Draw the 'more options' button border
+    // Draw the 'dialog launcher' button border
     TButtonTools.DrawButton(
       ABuffer,
-      FMoreOptionsButtonRect,
-      mobFrameColor,
-      mobInnerLightColor,
-      mobInnerDarkColor,
-      mobGradientFromColor,
-      mobGradientToColor,
-      mobGradientKind,
+      FDialogLauncherRect,
+      LauncherFrameColor,
+      LauncherInnerLightColor,
+      LauncherInnerDarkColor,
+      LauncherGradientFromColor,
+      LauncherGradientToColor,
+      LauncherGradientKind,
       false,
       false,
       false,
@@ -604,27 +605,27 @@ begin
       ClipRect
     );
 
-    // Draw the '+' sign in the button
-    case FMoreOptionsButtonStyle of
-      mobsPlus:
-        mobSign := '+';
-      mobsArrow:
+    // Draw the launcher glyph in the button
+    case FDialogLauncherStyle of
+      dlsArrow:
        {$IFDEF LCLWin32}
-        mobSign := #$EE#$8A#$BD;   // in region Private Use Area
+        LauncherSign := #$EE#$8A#$BD;   // in region Private Use Area
        {$ELSE}
-        mobSign := #$E2#$9E#$98;   // in region Dingbats
+        LauncherSign := #$E2#$9E#$98;   // in region Dingbats
       {$ENDIF}
+      dlsPlus:
+        LauncherSign := '+';
     end;
     ABuffer.Canvas.Font.Assign(FAppearance.Pane.CaptionFont);
-    mobX := FMoreOptionsButtonRect.Left + (FMoreOptionsButtonRect.Width - ABuffer.Canvas.TextWidth(mobSign)) div 2;
-    mobY := FMoreOptionsButtonRect.Bottom - PaneBorderSize - PaneCaptionHeight + 2 +
+    LauncherX := FDialogLauncherRect.Left + (FDialogLauncherRect.Width - ABuffer.Canvas.TextWidth(LauncherSign)) div 2;
+    LauncherY := FDialogLauncherRect.Bottom - PaneBorderSize - PaneCaptionHeight + 2 +
           (PaneCaptionHeight - ABuffer.Canvas.TextHeight('Wy')) div 2;
     TGUITools.DrawText(
       ABuffer.Canvas,
-      mobX,
-      mobY,
-      mobSign,
-      mobFontColor,
+      LauncherX,
+      LauncherY,
+      LauncherSign,
+      LauncherFontColor,
       ClipRect
     );
   end;
@@ -656,11 +657,11 @@ begin
   FItems.RemoveReference(AItem);
 end;
 
-// Support for 'More options' button click
-procedure TLazRibbonPane.DoMoreOptionsButtonClick;
+// Support for 'Dialog launcher' button click
+procedure TLazRibbonPane.DoDialogLauncherClick;
 begin
-  if Assigned(FOnMoreOptionsButtonClick) then
-    FOnMoreOptionsButtonClick(self);
+  if Assigned(FOnDialogLauncherClick) then
+    FOnDialogLauncherClick(self);
 end;
 
 function TLazRibbonPane.GenerateLayout: TLazRibbonPaneItemsLayout;
@@ -968,9 +969,9 @@ begin
   // *** The minimum width of the sheet (text) ***
   TextW := tmpBitmap.Canvas.TextWidth(FCaption);
 
-  // Widen width to include 'More options' button if necessary
-  if FShowMoreOptionsButton then
-    PaneCaptionWidth := 2*PaneBorderSize + 2*PaneCaptionHMargin + TextW + PaneMoreOptionsButtonWidth
+  // Widen width to include 'Dialog launcher' button if necessary
+  if FShowDialogLauncher then
+    PaneCaptionWidth := 2*PaneBorderSize + 2*PaneCaptionHMargin + TextW + PaneDialogLauncherWidth
   else
     PaneCaptionWidth := 2*PaneBorderSize + 2*PaneCaptionHMargin + TextW;
 
@@ -998,18 +999,18 @@ end;
 procedure TLazRibbonPane.MouseDown(Button: TMouseButton; Shift: TShiftState;
   X, Y: Integer);
 begin
-  // Handle mouse down on 'More options' button
-  if FInMoreOptionsButton and FShowMoreOptionsButton then
+  // Handle mouse down on 'Dialog launcher' button
+  if FInDialogLauncher and FShowDialogLauncher then
   begin
-    FMoreOptionsButtonState := mobsBtnPressed;
-    // Draw the 'More options' button
+    FDialogLauncherState := dlsPressed;
+    // Draw the 'Dialog launcher' button
     if Assigned(FToolbarDispatch) then
       FToolbarDispatch.NotifyVisualsChanged;
-    // Fire OnMoreOptionsButtonClick event
-    DoMoreOptionsButtonClick;
+    // Fire OnDialogLauncherClick event
+    DoDialogLauncherClick;
     // Set the button drawing to idle
-    FMoreOptionsButtonState := mobsIdle;
-    // Draw the 'More options' button
+    FDialogLauncherState := dlsIdle;
+    // Draw the 'Dialog launcher' button
     if Assigned(FToolbarDispatch) then
       FToolbarDispatch.NotifyVisualsChanged;
   end;
@@ -1092,17 +1093,17 @@ begin
       FToolbarDispatch.NotifyVisualsChanged;
   end;
 
-  // Test if mouse on 'More options' button
-  if FMoreOptionsButtonRect.Contains(X, Y) then
+  // Test if mouse on 'Dialog launcher' button
+  if FDialogLauncherRect.Contains(X, Y) then
   begin
-    FInMoreOptionsButton := True;
-    FMoreOptionsButtonState := mobsBtnHottrack;
+    FInDialogLauncher := True;
+    FDialogLauncherState := dlsHotTrack;
     if Assigned(FToolbarDispatch) then
       FToolbarDispatch.NotifyVisualsChanged;
   end else
   begin
-    FInMoreOptionsButton := False;
-    FMoreOptionsButtonState := mobsIdle;
+    FInDialogLauncher := False;
+    FDialogLauncherState := dlsIdle;
     if Assigned(FToolbarDispatch) then
       FToolbarDispatch.NotifyVisualsChanged;
   end;
@@ -1173,11 +1174,11 @@ var
 begin
   ClearActive := not (ssLeft in Shift) and not (ssMiddle in Shift) and not (ssRight in Shift);
 
-  // Handle mouse up on 'More options' button
-  if FInMoreOptionsButton then
+  // Handle mouse up on 'Dialog launcher' button
+  if FInDialogLauncher then
   begin
-    FMoreOptionsButtonState := mobsBtnHottrack;
-    // Draw the 'More options' button
+    FDialogLauncherState := dlsHotTrack;
+    // Draw the 'Dialog launcher' button
     if Assigned(FToolbarDispatch) then
       FToolbarDispatch.NotifyVisualsChanged;
   end;
@@ -1289,18 +1290,18 @@ begin
     FToolbarDispatch.NotifyItemsChanged;
 end;
 
-procedure TLazRibbonPane.SetShowMoreOptionsButton(const Value: boolean);
+procedure TLazRibbonPane.SetShowDialogLauncher(const Value: boolean);
 begin
-  if FShowMoreOptionsButton = Value then exit;
-  FShowMoreOptionsButton := Value;
+  if FShowDialogLauncher = Value then exit;
+  FShowDialogLauncher := Value;
   if Assigned(FToolbarDispatch) then
     FToolbarDispatch.NotifyItemsChanged;
 end;
 
-procedure TLazRibbonPane.SetMoreOptionsButtonStyle(const Value: TLazRibbonMoreOptionsButtonStyle);
+procedure TLazRibbonPane.SetDialogLauncherStyle(const Value: TLazRibbonDialogLauncherStyle);
 begin
-  if FMoreOptionsButtonStyle = Value then exit;
-  FMoreOptionsButtonStyle := Value;
+  if FDialogLauncherStyle = Value then exit;
+  FDialogLauncherStyle := Value;
   if Assigned(FToolbarDispatch) then
     FToolbarDispatch.NotifyItemsChanged;
 end;

@@ -85,7 +85,7 @@ type
     MenuItem8: TMenuItem;
     MenuItem9: TMenuItem;
     Panel1: TPanel;
-    ShowMoreOptionsButtonCheckbox: TLazRibbonCheckbox;
+    ShowDialogLauncherCheckbox: TLazRibbonCheckbox;
     LazLargeButton4: TLazRibbonLargeButton;
     LazLargeButton5: TLazRibbonLargeButton;
     LazPane2: TLazRibbonPane;
@@ -156,9 +156,9 @@ type
     procedure edMenuButtonCaptionEditingDone(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
     procedure FormCreate(Sender: TObject);
-    procedure ShowMoreOptionsButtonCheckboxClick(Sender: TObject);
-    procedure LazPane2MoreOptionsButtonClick(Sender: TObject);
-    procedure LazPane6MoreOptionsButtonClick(Sender: TObject);
+    procedure ShowDialogLauncherCheckboxClick(Sender: TObject);
+    procedure LazPane2DialogLauncherClick(Sender: TObject);
+    procedure LazPane6DialogLauncherClick(Sender: TObject);
     procedure LazToolbar1MenuButtonClick(Sender: TObject);
     procedure StyleMenuClick(Sender: TObject);
   private
@@ -314,20 +314,20 @@ begin
   edMenuButtonCaption.Text := LazToolbar1.MenuButtonCaption;
 end;
 
-procedure TForm1.ShowMoreOptionsButtonCheckboxClick(Sender: TObject);
+procedure TForm1.ShowDialogLauncherCheckboxClick(Sender: TObject);
 begin
-  LazPane2.ShowMoreOptionsButton := ShowMoreOptionsButtonCheckbox.Checked;
-  LazPane6.ShowMoreOptionsButton := ShowMoreOptionsButtonCheckbox.Checked;
+  LazPane2.ShowDialogLauncher := ShowDialogLauncherCheckbox.Checked;
+  LazPane6.ShowDialogLauncher := ShowDialogLauncherCheckbox.Checked;
 end;
 
-procedure TForm1.LazPane2MoreOptionsButtonClick(Sender: TObject);
+procedure TForm1.LazPane2DialogLauncherClick(Sender: TObject);
 begin
-  ShowMessage('You clicked on the ''More options'' button of the "Format settings" pane.');
+  ShowMessage('You clicked on the ''Dialog launcher'' button of the "Format settings" pane.');
 end;
 
-procedure TForm1.LazPane6MoreOptionsButtonClick(Sender: TObject);
+procedure TForm1.LazPane6DialogLauncherClick(Sender: TObject);
 begin
-  ShowMessage('You clicked the ''More options'' button of the "User interface" pane.');
+  ShowMessage('You clicked the ''Dialog launcher'' button of the "User interface" pane.');
 end;
 
 procedure TForm1.LazToolbar1MenuButtonClick(Sender: TObject);
@@ -344,8 +344,8 @@ begin
     SetUserInterface(ini.ReadBool('MainForm', 'RibbonInterface', AcRibbonGUI.Checked));
     LazToolbar1.Style := TLazRibbonStyle(ini.ReadInteger('MainForm', 'RibbonStyle', 0));
     SetStyle(LazToolbar1.Style);
-    ShowMoreOptionsButtonCheckbox.Checked := ini.ReadBool('MainForm', 'ShowMoreOptionsButton', false);
-    ShowMoreOptionsButtonCheckboxClick(nil);
+    ShowDialogLauncherCheckbox.Checked := ini.ReadBool('MainForm', 'ShowDialogLauncher', false);
+    ShowDialogLauncherCheckboxClick(nil);
     LazToolbar1.ShowMenuButton := ini.ReadBool('MainForm', 'ShowMenuButton', false);
     LazToolbar1.MenuButtonStyle := TLazRibbonMenubuttonStyle(ini.ReadInteger('MainForm', 'MenuButtonStyle', 0));
     LazToolbar1.MenuButtonCaption := ini.ReadString('MainForm', 'MenuButtonCaption', 'Menu');
@@ -388,7 +388,7 @@ begin
   try
     ini.WriteBool('MainForm', 'RibbonInterface', AcRibbonGUI.Checked);
     ini.WriteInteger('MainForm', 'RibbonStyle', ord(LazToolbar1.Style));
-    ini.WriteBool('MainForm', 'ShowMoreOptionsButton', ShowMoreOptionsButtonCheckbox.Checked);
+    ini.WriteBool('MainForm', 'ShowDialogLauncher', ShowDialogLauncherCheckbox.Checked);
     ini.WriteBool('MainForm', 'ShowMenuButton', LazToolbar1.ShowMenuButton);
     ini.WriteInteger('MainForm', 'MenuButtonStyle', ord(LazToolbar1.MenuButtonStyle));
     ini.WriteString('MainForm', 'MenuButtonCaption', LazToolbar1.MenuButtonCaption);

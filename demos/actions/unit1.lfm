@@ -602,7 +602,7 @@ object Form1: TForm1
       )
       object LazPane2: TLazRibbonPane
         Caption = 'Format settings'
-        OnMoreOptionsButtonClick = LazPane2MoreOptionsButtonClick
+        OnDialogLauncherClick = LazPane2DialogLauncherClick
         Items = (
           'LazSmallButton4'
           'LazSmallButton6'
@@ -762,13 +762,13 @@ object Form1: TForm1
       )
       object LazPane6: TLazRibbonPane
         Caption = 'User interface'
-        ShowMoreOptionsButtonStyle = mobsArrow
-        OnMoreOptionsButtonClick = LazPane6MoreOptionsButtonClick
+        DialogLauncherStyle = dlsArrow
+        OnDialogLauncherClick = LazPane6DialogLauncherClick
         Items = (
           'LazRadioButton1'
           'LazRadioButton2'
           'LazSmallButton3'
-          'ShowMoreOptionsButtonCheckbox'
+          'ShowDialogLauncherCheckbox'
         )
         object LazRadioButton1: TLazRibbonRadioButton
           Action = AcClassicalGUI
@@ -789,15 +789,15 @@ object Form1: TForm1
           ButtonKind = bkDropdown
           DropdownMenu = StyleMenu
         end
-        object ShowMoreOptionsButtonCheckbox: TLazRibbonCheckbox
-          Caption = 'Show ''More Options'''
-          OnClick = ShowMoreOptionsButtonCheckboxClick
+        object ShowDialogLauncherCheckbox: TLazRibbonCheckbox
+          Caption = 'Show ''Dialog Launcher'''
+          OnClick = ShowDialogLauncherCheckboxClick
           TableBehaviour = tbBeginsRow
         end
       end
       object LazPane5: TLazRibbonPane
         Caption = 'Save settings'
-        ShowMoreOptionsButtonStyle = mobsArrow
+        DialogLauncherStyle = dlsArrow
         Items = (
           'LazSmallButton5'
           'LazCheckbox1'

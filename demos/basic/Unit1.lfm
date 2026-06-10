@@ -197,8 +197,8 @@ object Form2: TForm2
       )
       object LazPane2: TLazRibbonPane
         Caption = 'File'
-        ShowMoreOptionsButton = True
-        OnMoreOptionsButtonClick = LazPane2MoreOptionsButtonClick
+        ShowDialogLauncher = True
+        OnDialogLauncherClick = LazPane2DialogLauncherClick
         Items = (
           'LazLargeButton4'
           'LazSmallButton2'
@@ -231,9 +231,9 @@ object Form2: TForm2
       end
       object LazPane3: TLazRibbonPane
         Caption = 'Edit'
-        ShowMoreOptionsButtonStyle = mobsArrow
-        ShowMoreOptionsButton = True
-        OnMoreOptionsButtonClick = LazPane3MoreOptionsButtonClick
+        DialogLauncherStyle = dlsArrow
+        ShowDialogLauncher = True
+        OnDialogLauncherClick = LazPane3DialogLauncherClick
         Items = (
           'LazSmallButton1'
           'LazSmallButton5'

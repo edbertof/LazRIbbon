@@ -198,7 +198,7 @@ object Form1: TForm1
         )
         object LazPane1: TLazRibbonPane
           Caption = 'File commands'
-          ShowMoreOptionsButton = True
+          ShowDialogLauncher = True
           Items = (
             'LazLargeButton1'
             'LazLargeButton14'
@@ -235,8 +235,8 @@ object Form1: TForm1
         end
         object LazPane10: TLazRibbonPane
           Caption = 'Edit commands'
-          ShowMoreOptionsButtonStyle = mobsArrow
-          ShowMoreOptionsButton = True
+          DialogLauncherStyle = dlsArrow
+          ShowDialogLauncher = True
           Items = (
             'LazSmallButton31'
             'LazSmallButton32'
@@ -534,7 +534,7 @@ object Form1: TForm1
         )
         object LazPane2: TLazRibbonPane
           Caption = 'File commands'
-          ShowMoreOptionsButton = True
+          ShowDialogLauncher = True
           Items = (
             'LazLargeButton2'
             'LazLargeButton12'
@@ -571,8 +571,8 @@ object Form1: TForm1
         end
         object LazPane3: TLazRibbonPane
           Caption = 'Edit commands'
-          ShowMoreOptionsButtonStyle = mobsArrow
-          ShowMoreOptionsButton = True
+          DialogLauncherStyle = dlsArrow
+          ShowDialogLauncher = True
           Items = (
             'LazSmallButton24'
             'LazSmallButton25'
@@ -869,7 +869,7 @@ object Form1: TForm1
         )
         object LazPane4: TLazRibbonPane
           Caption = 'File commands'
-          ShowMoreOptionsButton = True
+          ShowDialogLauncher = True
           Items = (
             'LazLargeButton3'
             'LazLargeButton10'
@@ -906,8 +906,8 @@ object Form1: TForm1
         end
         object LazPane9: TLazRibbonPane
           Caption = 'Edit commands'
-          ShowMoreOptionsButtonStyle = mobsArrow
-          ShowMoreOptionsButton = True
+          DialogLauncherStyle = dlsArrow
+          ShowDialogLauncher = True
           Items = (
             'LazSmallButton17'
             'LazSmallButton18'
@@ -1234,7 +1234,7 @@ object Form1: TForm1
         )
         object LazPane5: TLazRibbonPane
           Caption = 'File commands'
-          ShowMoreOptionsButton = True
+          ShowDialogLauncher = True
           Items = (
             'LazLargeButton4'
             'LazLargeButton8'
@@ -1271,8 +1271,8 @@ object Form1: TForm1
         end
         object LazPane8: TLazRibbonPane
           Caption = 'Edit commands'
-          ShowMoreOptionsButtonStyle = mobsArrow
-          ShowMoreOptionsButton = True
+          DialogLauncherStyle = dlsArrow
+          ShowDialogLauncher = True
           Items = (
             'LazSmallButton10'
             'LazSmallButton11'
@@ -1584,7 +1584,7 @@ object Form1: TForm1
         )
         object LazPane6: TLazRibbonPane
           Caption = 'File commands'
-          ShowMoreOptionsButton = True
+          ShowDialogLauncher = True
           Items = (
             'LazLargeButton7'
             'LazLargeButton5'
@@ -1621,8 +1621,8 @@ object Form1: TForm1
         end
         object LazPane7: TLazRibbonPane
           Caption = 'Edit commands'
-          ShowMoreOptionsButtonStyle = mobsArrow
-          ShowMoreOptionsButton = True
+          DialogLauncherStyle = dlsArrow
+          ShowDialogLauncher = True
           Items = (
             'LazSmallButton3'
             'LazSmallButton4'

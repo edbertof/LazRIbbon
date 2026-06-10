@@ -1,3 +1,12 @@
+## 1.1.76 - Office-style Dialog Launcher rename
+
+- Renames the `TLazRibbonPane` More Options API to Office-style Dialog Launcher naming: `ShowDialogLauncher`, `DialogLauncherStyle` and `OnDialogLauncherClick`.
+- Renames the related runtime types and constants to `TLazRibbonDialogLauncherState`, `TLazRibbonDialogLauncherStyle` and `PaneDialogLauncherWidth`.
+- Changes the default `DialogLauncherStyle` to `dlsArrow`, matching the Office Dialog Box Launcher glyph.
+- Updates the active demos to use the new property, event and enum names.
+- Intentionally removes the old More Options names; this build is not source-compatible with the earlier unfinished API.
+- Updates runtime and design-time package versions to 1.1.76.
+
 ## 1.1.75 - Skin Editor Appearance inspector pass
 
 - Expands the standalone `LazRibbonSkinEditor` Appearance inspector with an all-sections view for Tab, MenuButton, Pane, Element and Popup.

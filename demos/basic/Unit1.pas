@@ -77,8 +77,8 @@ type
     procedure FormShow(Sender: TObject);
     procedure LazCheckbox1Click(Sender: TObject);
     procedure LazCheckbox2Click(Sender: TObject);
-    procedure LazPane2MoreOptionsButtonClick(Sender: TObject);
-    procedure LazPane3MoreOptionsButtonClick(Sender: TObject);
+    procedure LazPane2DialogLauncherClick(Sender: TObject);
+    procedure LazPane3DialogLauncherClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -171,14 +171,14 @@ begin
     LazCheckbox2.Checked := true;
 end;
 
-procedure TForm2.LazPane2MoreOptionsButtonClick(Sender: TObject);
+procedure TForm2.LazPane2DialogLauncherClick(Sender: TObject);
 begin
-  ShowMessage('You clicked on ''More options'' button of the File pane.');
+  ShowMessage('You clicked on ''Dialog launcher'' button of the File pane.');
 end;
 
-procedure TForm2.LazPane3MoreOptionsButtonClick(Sender: TObject);
+procedure TForm2.LazPane3DialogLauncherClick(Sender: TObject);
 begin
-  ShowMessage('You clicked on ''More options'' button of the Edit pane.');
+  ShowMessage('You clicked on ''Dialog launcher'' button of the Edit pane.');
 end;
 
 end.

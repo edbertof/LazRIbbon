@@ -50,9 +50,9 @@ tools/LazRibbonSkinEditor/
 
 ## Current version
 
-This distribution is **LazRibbon 1.1.75 Skin Editor Appearance inspector pass**.
+This distribution is **LazRibbon 1.1.76 Office-style Dialog Launcher rename**.
 
-The stable 1.0.0 line remains the conservative baseline for production use. The 1.1 line is a controlled stabilization line now validated with Lazarus 4.8, with the 1.1.70 runtime behavior preserved and the 1.1.72 packaging/design-time polish applied on top. The 1.1.75 build expands the Skin Editor Appearance inspector while keeping runtime UI behavior unchanged.
+The stable 1.0.0 line remains the conservative baseline for production use. The 1.1 line is a controlled stabilization line now validated with Lazarus 4.8, with the 1.1.70 runtime behavior preserved and the 1.1.72 packaging/design-time polish applied on top. The 1.1.76 build renames the unfinished pane More Options API to Office-style Dialog Launcher terminology and keeps the 1.1.75 Skin Editor Appearance inspector work.
 
 Highlights in the current 1.1 line:
 
@@ -60,6 +60,7 @@ Highlights in the current 1.1 line:
 - Quick Access Toolbar support, including title-bar hosting in `TLazRibbonForm`.
 - ScreenTips, staged KeyTips, multi-character KeyTips and a design-time KeyTip validator.
 - Contextual tabs with optional contextual group headers.
+- Office-style Dialog Launcher support on `TLazRibbonPane` through `ShowDialogLauncher`, `DialogLauncherStyle` and `OnDialogLauncherClick`.
 - Built-in and external `.skin` loading through `TLazRibbonSkinManager`, with `SkinFolder = '.\Skins'` as the default external folder.
 - Skin XML icon embedding through `Icon16Data`, `Icon24Data` and `Icon32Data`, while keeping the legacy file-name tags for compatibility.
 - Expanded Skin Editor Appearance inspector with all-section browsing, filtering and broader RTTI property editing.
@@ -99,6 +100,18 @@ LazRibbonBackstageView1.OverlayMode := bomCoverClientArea;
 ```
 
 When used inside `TLazRibbonForm`, the custom title bar remains visible and interactive while the BackStage fills the form content.
+
+## Dialog Launcher
+
+`TLazRibbonPane` uses Office-style Dialog Box Launcher naming for the small button in the lower corner of a Ribbon group:
+
+```pascal
+LazRibbonPaneFont.ShowDialogLauncher := True;
+LazRibbonPaneFont.DialogLauncherStyle := dlsArrow;
+LazRibbonPaneFont.OnDialogLauncherClick := @PaneFontDialogLauncherClick;
+```
+
+`dlsArrow` is the default Office-like glyph. `dlsPlus` remains available for applications that prefer a plus sign, but the public API now uses Dialog Launcher names only.
 
 ## Installation summary
 

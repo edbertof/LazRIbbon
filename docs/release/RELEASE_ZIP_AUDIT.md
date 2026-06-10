@@ -1,3 +1,11 @@
+## 1.1.76 check
+
+- Package metadata updated to 1.1.76.
+- `TLazRibbonPane` exposes Office-style Dialog Launcher names: `ShowDialogLauncher`, `DialogLauncherStyle` and `OnDialogLauncherClick`.
+- The default `DialogLauncherStyle` is `dlsArrow`; `dlsPlus` remains available as an alternate glyph style.
+- Active demos use the new property, event and enum names.
+- Release ZIP should still be created through `tools/build_release_zip.ps1` and must pass the generated-artifact audit.
+
 ## 1.1.75 check
 
 - Package metadata updated to 1.1.75.

@@ -110,8 +110,8 @@ const
   PANE_BORDER_HALF_SIZE = 1;
   /// <summary>Pane caption horizontal padding</summary>
   PANE_CAPTION_HMARGIN = 6;
-  // Pane 'More options' button width
-  PANE_MOREOPTIONSBUTTON_WIDTH = 15;
+  // Pane 'Dialog launcher' button width
+  PANE_DIALOG_LAUNCHER_WIDTH = 15;
 
   // ************
   // *** Tabs ***
@@ -266,8 +266,8 @@ var
   PaneHeight: Integer;
   /// <summary>Pane caption horizontal padding</summary>
   PaneCaptionHMargin: Integer;
-  // Pane 'More options' button width
-  PaneMoreOptionsButtonWidth : Integer;
+  // Pane 'Dialog launcher' button width
+  PaneDialogLauncherWidth : Integer;
 
   // ************
   // *** Tabs ***
@@ -392,7 +392,7 @@ begin
   PaneBorderHalfSize := LazScaleX(PANE_BORDER_HALF_SIZE, FromDPI, ToDPI);
   PaneHeight := MaxElementHeight + PaneCaptionHeight + 2 * PaneBorderSize;
   PaneCaptionHMargin := LazScaleX(PANE_CAPTION_HMARGIN, FromDPI, ToDPI);
-  PaneMoreOptionsButtonWidth := LazScaleX(PANE_MOREOPTIONSBUTTON_WIDTH, FromDPI, ToDPI);
+  PaneDialogLauncherWidth := LazScaleX(PANE_DIALOG_LAUNCHER_WIDTH, FromDPI, ToDPI);
 
   TabCornerRadius := TAB_CORNER_RADIUS;
   TabPaneLeftPadding := LazScaleX(TAB_PANE_LEFTPADDING, FromDPI, ToDPI);
