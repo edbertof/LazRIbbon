@@ -1,0 +1,18 @@
+LazRibbon 0.3.37
+=================
+
+Correção de estado visual do BackStage.
+
+- Corrigido o comportamento em que o item ativo do BackStage alternava entre
+  branco/preto e azul/branco dependendo da posição do mouse sobre outros itens.
+- O item ativo agora usa uma superfície selecionada estável, independente do
+  hover de outros comandos.
+- A superfície selecionada passa por uma regra de separação mínima contra a
+  coluna de navegação antes do cálculo de contraste do texto.
+- O cálculo de texto do item ativo usa a mesma superfície usada para pintar o
+  item, evitando decisões baseadas em pixels amostrados após o desenho.
+- Quando o BackStage está vinculado ao toolbar, a seleção usa um acento estável
+  derivado do estilo, em vez de reutilizar cores claras de aba ativa.
+- O demo ribbon_form agora define SkinManager explicitamente no BackStageView.
+
+Não foram alteradas a lógica de fechamento do TLazRibbonForm, a TitleBar nem a QAT.

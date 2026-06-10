@@ -1,0 +1,10 @@
+LazRibbon 0.3.24
+==================
+
+Foco: correção definitiva de contraste do item ativo no BackStage em skins claros.
+
+Alterações:
+- O item ativo do menu lateral do BackStage calcula uma cor de legenda própria, independente de cores muted/disabled do skin.
+- A cor do texto ativo é reaplicada imediatamente antes de TextRect.
+- A cor também é enviada ao handle do Canvas via SetTextColor, evitando que certos caminhos de desenho/widgetset restaurem uma cor clara após o desenho do ícone.
+- Não houve alteração na lógica de fechamento da janela estabilizada anteriormente.

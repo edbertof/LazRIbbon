@@ -1,0 +1,6 @@
+# LazRibbon 0.1.28
+
+- BackStage agora fecha automaticamente ao selecionar outra aba real do Ribbon.
+- Nova propriedade TLazRibbonBackstageView.CloseOnRibbonTabClick, padrão True.
+- Mantida compatibilidade com OpenOnTabCaption para projetos que ainda usam uma aba real chamada "Arquivo".
+- Se o evento OnClose cancelar o fechamento do BackStage, a troca de aba é bloqueada para evitar estado visual inconsistente.

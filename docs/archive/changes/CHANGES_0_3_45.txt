@@ -1,0 +1,11 @@
+LazRibbon 0.3.46
+
+Correção focada no BackStage com múltiplas páginas selecionáveis.
+
+- Corrigida a prioridade dos estados de navegação do BackStage.
+- O item de página ativo agora é determinado por ActivePageIndex -> item de navegação, e não pela combinação frágil Page/hover do laço de pintura.
+- Em estilo Office, o item selecionado usa uma superfície estável conectada ao painel de conteúdo.
+- Hover de outro item não altera mais a aparência do item selecionado.
+- O item selecionado também ignora pressed/hover enquanto já está ativo.
+- Mantida a lógica de contraste WCAG 4,5:1.
+- Não foram alterados TLazRibbonForm, TitleBar, QAT nem fechamento da janela.

@@ -1,0 +1,55 @@
+LazRibbon 0.3.6
+=================
+
+Objetivo
+--------
+Primeira integração visual da Quick Access Toolbar (QAT) com a barra superior do TLazRibbonForm, aproximando a composição do modelo DevExpress/Office: ícone/QAT à esquerda, título centralizado e botões do sistema à direita.
+
+Alterações
+----------
+1. TLazRibbonQuickAccessPosition recebeu uma nova posição:
+
+   qapTitleBar
+
+   Quando usada, a QAT deixa de ser desenhada na linha das abas do TLazRibbon e passa a ser desenhada pelo TLazRibbonForm.TitleBar.
+
+2. TLazRibbonTitleBar agora desenha e trata eventos da QAT quando:
+
+   Form.Ribbon <> nil
+   Ribbon.QuickAccessToolBar.Visible = True
+   Ribbon.QuickAccessToolBar.Position = qapTitleBar
+
+3. A QAT na barra de título suporta:
+
+   - itens vinculados a Action/LinkedItem;
+   - execução dos comandos;
+   - botão de customização;
+   - dropdown de itens vinculados;
+   - imagens da própria QAT ou do Ribbon;
+   - glyphs vetoriais simples de fallback.
+
+4. TLazRibbon ganhou o método público:
+
+   ShowQuickAccessCustomizeMenuAtScreen(const AScreenPoint: TPoint)
+
+   Isso permite ao TLazRibbonForm abrir o menu de customização da QAT a partir da barra de título.
+
+5. O demo demos/ribbon_form foi ajustado para usar:
+
+   LazRibbon1.QuickAccessToolBar.Position := qapTitleBar;
+
+Observações
+-----------
+Esta ainda não é uma implementação completa de área não-cliente como no DevExpress. O TLazRibbonForm continua usando uma barra superior client-area. O objetivo desta versão é avançar visualmente sem reintroduzir instabilidade no fechamento da janela.
+
+Teste recomendado
+-----------------
+1. Compilar LazRibbonRuntime.lpk.
+2. Compilar LazRibbonDesign.lpk.
+3. Abrir demos/ribbon_form/project1.lpi.
+4. Verificar:
+   - QAT na barra superior, não mais na linha das abas;
+   - execução dos botões Novo/Abrir/Salvar pela QAT;
+   - botão de customização da QAT;
+   - minimizar, maximizar/restaurar e fechar;
+   - fechamento repetido sem Access Violation.

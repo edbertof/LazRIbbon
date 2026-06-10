@@ -1,0 +1,28 @@
+LazRibbon 0.2.0
+=================
+
+Marco de consolidação.
+
+Base: LazRibbon 0.1.57, considerada estável após os testes manuais realizados no Lazarus 4.6.
+
+Alterações nesta versão:
+
+1. Versão dos pacotes atualizada para 0.2.0:
+   - LazRibbonRuntime.lpk
+   - LazRibbonDesign.lpk
+
+2. Documentação de consolidação adicionada:
+   - REGRESSION_CHECKLIST_0_2_0.md
+   - ACTION_LINKEDITEM_MODEL_0_2_0.md
+   - ROADMAP_0_2_0.md
+   - DEMOS_STATUS_0_2_0.md
+
+3. Reposicionamento do projeto:
+   - 0.2.x: estabilização do Ribbon como componente usável;
+   - 0.3.x: início do TLazRibbonForm;
+   - 0.4.x: SkinEditor e skins externos;
+   - 0.5.x: acabamento visual e design-time avançado;
+   - 1.0: versão pública estável.
+
+Observação importante:
+Esta versão evita mudanças arriscadas no código-fonte runtime. O objetivo foi congelar um ponto estável e documentar critérios mínimos de regressão.

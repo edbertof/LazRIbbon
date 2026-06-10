@@ -1,0 +1,10 @@
+LazRibbon 0.3.27
+=================
+
+BackStage navigation contrast fix.
+
+Changes:
+- Reworked selected BackStage navigation item color resolution.
+- Selected item text color is now calculated from the actual selected surface.
+- Avoids using ActiveColor alone when it is visually too close to the navigation background.
+- Preserves the stabilized TLazRibbonForm close/destruction logic from 0.3.18.

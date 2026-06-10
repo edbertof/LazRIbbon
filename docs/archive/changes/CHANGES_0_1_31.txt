@@ -1,0 +1,8 @@
+LazRibbon 0.1.31
+
+- Ajuste no demo demos/backstage_recent_files:
+  - removido o título redundante acima da lista de recentes;
+  - a lista agora começa mais acima, aproveitando melhor a área de conteúdo;
+  - mantida a navegação pelo item lateral "Recentes", que já identifica a página.
+
+Observação: TLazRibbonBackstageRecentList não tinha título próprio; o título era apenas um TLabel do demo.

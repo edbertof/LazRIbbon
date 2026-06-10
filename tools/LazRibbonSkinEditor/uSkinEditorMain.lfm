@@ -1,0 +1,1283 @@
+object frmLazRibbonSkinEditor: TfrmLazRibbonSkinEditor
+  Left = 388
+  Height = 820
+  Top = 163
+  Width = 1180
+  Caption = 'LazRibbon Skin Editor'
+  ClientHeight = 820
+  ClientWidth = 1180
+  Color = clBtnFace
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Position = poScreenCenter
+  LCLVersion = '4.6.0.0'
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  object pnlLivePreview: TPanel
+    Left = 0
+    Height = 132
+    Top = 0
+    Width = 1180
+    Align = alTop
+    BevelOuter = bvNone
+    ClientHeight = 132
+    ClientWidth = 1180
+    ParentBackground = False
+    TabOrder = 1
+    object lblLivePreview: TLabel
+      Left = 12
+      Height = 13
+      Top = 8
+      Width = 184
+      Caption = 'Pré-visualização da skin em tempo real'
+      Visible = False
+    end
+    object PreviewToolbar: TLazRibbon
+      Left = 0
+      Height = 132
+      Top = 0
+      Width = 1180
+      ApplicationButton.Caption = 'Arquivo'
+      ApplicationButton.Visible = True
+      ApplicationButton.Mode = abmBackstage
+      ApplicationButton.BackstageView = EditorBackstage
+      QuickAccessToolBar.Items = <>
+      QuickAccessToolBar.CustomizeMenuTitle = 'Personalizar Barra de Ferramentas de Acesso Rápido'
+      QuickAccessToolBar.MoreCommandsCaption = 'Mais Comandos...'
+      QuickAccessToolBar.StorageSection = 'QuickAccessToolBar'
+      QuickAccessToolBar.ShowAboveRibbonCaption = 'Mostrar Acima da Faixa de Opções'
+      QuickAccessToolBar.ShowBelowRibbonCaption = 'Mostrar Abaixo da Faixa de Opções'
+      QuickAccessToolBar.MinimizeRibbonCaption = 'Minimizar a Faixa de Opções'
+      QuickAccessToolBar.RestoreRibbonCaption = 'Restaurar a Faixa de Opções'
+      QuickAccessToolBar.ResetToDefaultsCaption = 'Restaurar Barra de Acesso Rápido'
+      ApplicationButtonCaption = 'Arquivo'
+      ApplicationButtonVisible = True
+      ApplicationButtonMode = abmBackstage
+      CollapseRibbonHint = 'Minimizar a Faixa de Opções'
+      ExpandRibbonHint = 'Restaurar a Faixa de Opções'
+      HelpButtonHint = 'Ajuda'
+      Color = 15850175
+      AppearanceSource = asSkinManager
+      SkinManager = PreviewSkinManager
+      BackstageView = EditorBackstage
+      Appearance.Tab.TabHeaderFont.Color = 9126421
+      Appearance.Tab.BorderColor = 14922381
+      Appearance.Tab.CornerRadius = 4
+      Appearance.Tab.GradientFromColor = 16115934
+      Appearance.Tab.GradientToColor = 15587527
+      Appearance.Tab.GradientType = bkConcave
+      Appearance.Tab.InactiveTabHeaderFontColor = 9126421
+      Appearance.MenuButton.CaptionFont.Color = clWhite
+      Appearance.MenuButton.IdleFrameColor = 10569759
+      Appearance.MenuButton.IdleGradientFromColor = 14649927
+      Appearance.MenuButton.IdleGradientToColor = 12017961
+      Appearance.MenuButton.IdleGradientType = bkConcave
+      Appearance.MenuButton.IdleCaptionColor = clWhite
+      Appearance.MenuButton.HotTrackFrameColor = 10569759
+      Appearance.MenuButton.HotTrackGradientFromColor = 15179099
+      Appearance.MenuButton.HotTrackGradientToColor = 12478257
+      Appearance.MenuButton.HotTrackGradientType = bkConcave
+      Appearance.MenuButton.HotTrackCaptionColor = clWhite
+      Appearance.MenuButton.HotTrackBrightnessChange = 40
+      Appearance.MenuButton.ActiveFrameColor = 11095324
+      Appearance.MenuButton.ActiveGradientFromColor = 14518846
+      Appearance.MenuButton.ActiveGradientToColor = 12411174
+      Appearance.MenuButton.ActiveGradientType = bkConcave
+      Appearance.MenuButton.ActiveCaptionColor = clWhite
+      Appearance.MenuButton.ShapeStyle = mbssRounded
+      Appearance.Pane.BorderDarkColor = 14335646
+      Appearance.Pane.BorderLightColor = 16315117
+      Appearance.Pane.CaptionBgColor = 15849922
+      Appearance.Pane.CaptionFont.Color = 9126421
+      Appearance.Pane.GradientFromColor = 16115934
+      Appearance.Pane.GradientToColor = 15587527
+      Appearance.Pane.GradientType = bkConcave
+      Appearance.Element.CaptionFont.Color = 5978398
+      Appearance.Element.IdleFrameColor = 14727067
+      Appearance.Element.IdleGradientFromColor = 15653832
+      Appearance.Element.IdleGradientToColor = 15323324
+      Appearance.Element.IdleGradientType = bkConcave
+      Appearance.Element.IdleInnerLightColor = 15852501
+      Appearance.Element.IdleInnerDarkColor = 15520702
+      Appearance.Element.IdleKnobColor = 11631958
+      Appearance.Element.IdleTrackColor = 16182242
+      Appearance.Element.IdleCaptionColor = 11631958
+      Appearance.Element.HotTrackFrameColor = 10211293
+      Appearance.Element.HotTrackGradientFromColor = 14351615
+      Appearance.Element.HotTrackGradientToColor = 5101567
+      Appearance.Element.HotTrackGradientType = bkConcave
+      Appearance.Element.HotTrackInnerLightColor = 12972543
+      Appearance.Element.HotTrackInnerDarkColor = 8045272
+      Appearance.Element.HotTrackTrackColor = 14351615
+      Appearance.Element.HotTrackCaptionColor = 8864367
+      Appearance.Element.HotTrackBrightnessChange = 40
+      Appearance.Element.ActiveFrameColor = 5535371
+      Appearance.Element.ActiveGradientFromColor = 7126014
+      Appearance.Element.ActiveGradientToColor = 4035324
+      Appearance.Element.ActiveGradientType = bkConcave
+      Appearance.Element.ActiveInnerLightColor = 961020
+      Appearance.Element.ActiveInnerDarkColor = 961020
+      Appearance.Element.ActiveKnobColor = 4035324
+      Appearance.Element.ActiveTrackColor = 12972543
+      Appearance.Element.ActiveCaptionColor = 8405614
+      Appearance.Element.KnobAsGradient = True
+      Appearance.Element.Style = esRounded
+      Appearance.Popup.CaptionFont.Color = 5978398
+      Appearance.Popup.CheckedFrameColor = 3577330
+      Appearance.Popup.CheckedGradientFromColor = 9823231
+      Appearance.Popup.CheckedGradientToColor = 9823231
+      Appearance.Popup.CheckedGradientType = bkSolid
+      Appearance.Popup.DisabledCaptionColor = clSilver
+      Appearance.Popup.DividerLineColor = 14922381
+      Appearance.Popup.GutterFrameColor = 12961221
+      Appearance.Popup.GutterGradientFromColor = 15658729
+      Appearance.Popup.GutterGradientToColor = 15658729
+      Appearance.Popup.GutterGradientType = bkSolid
+      Appearance.Popup.HotTrackCaptionColor = 8864367
+      Appearance.Popup.HotTrackFrameColor = 10079963
+      Appearance.Popup.HotTrackGradientFromColor = 14351615
+      Appearance.Popup.HotTrackGradientToColor = 5101567
+      Appearance.Popup.HotTrackGradientType = bkConcave
+      Appearance.Popup.IdleCaptionColor = 11631958
+      Appearance.Popup.IdleGradientFromColor = 16448250
+      Appearance.Popup.IdleGradientToColor = 16448250
+      Appearance.Popup.IdleGradientType = bkSolid
+      Appearance.Popup.SelectionShape = ssRectangle
+      Appearance.Popup.Style = psGutter
+      TabIndex = 0
+      MenuButtonCaption = 'Arquivo'
+      ShowMenuButton = True
+      Align = alClient
+      Tabs = (
+        'EditorTabSkin'
+        'EditorTabPreview'
+      )
+      object EditorTabSkin: TLazRibbonTab
+        CustomAppearance.Tab.TabHeaderFont.Color = 9126421
+        CustomAppearance.Tab.BorderColor = 14922381
+        CustomAppearance.Tab.CornerRadius = 4
+        CustomAppearance.Tab.GradientFromColor = 16115934
+        CustomAppearance.Tab.GradientToColor = 15587527
+        CustomAppearance.Tab.GradientType = bkConcave
+        CustomAppearance.Tab.InactiveTabHeaderFontColor = 9126421
+        CustomAppearance.MenuButton.CaptionFont.Color = clWhite
+        CustomAppearance.MenuButton.IdleFrameColor = 10569759
+        CustomAppearance.MenuButton.IdleGradientFromColor = 14649927
+        CustomAppearance.MenuButton.IdleGradientToColor = 12017961
+        CustomAppearance.MenuButton.IdleGradientType = bkConcave
+        CustomAppearance.MenuButton.IdleCaptionColor = clWhite
+        CustomAppearance.MenuButton.HotTrackFrameColor = 10569759
+        CustomAppearance.MenuButton.HotTrackGradientFromColor = 15179099
+        CustomAppearance.MenuButton.HotTrackGradientToColor = 12478257
+        CustomAppearance.MenuButton.HotTrackGradientType = bkConcave
+        CustomAppearance.MenuButton.HotTrackCaptionColor = clWhite
+        CustomAppearance.MenuButton.HotTrackBrightnessChange = 40
+        CustomAppearance.MenuButton.ActiveFrameColor = 11095324
+        CustomAppearance.MenuButton.ActiveGradientFromColor = 14518846
+        CustomAppearance.MenuButton.ActiveGradientToColor = 12411174
+        CustomAppearance.MenuButton.ActiveGradientType = bkConcave
+        CustomAppearance.MenuButton.ActiveCaptionColor = clWhite
+        CustomAppearance.MenuButton.ShapeStyle = mbssRounded
+        CustomAppearance.Pane.BorderDarkColor = 14335646
+        CustomAppearance.Pane.BorderLightColor = 16315117
+        CustomAppearance.Pane.CaptionBgColor = 15849922
+        CustomAppearance.Pane.CaptionFont.Color = 9126421
+        CustomAppearance.Pane.GradientFromColor = 16115934
+        CustomAppearance.Pane.GradientToColor = 15587527
+        CustomAppearance.Pane.GradientType = bkConcave
+        CustomAppearance.Element.IdleFrameColor = 14727067
+        CustomAppearance.Element.IdleGradientFromColor = 15653832
+        CustomAppearance.Element.IdleGradientToColor = 15323324
+        CustomAppearance.Element.IdleGradientType = bkConcave
+        CustomAppearance.Element.IdleInnerLightColor = 15852501
+        CustomAppearance.Element.IdleInnerDarkColor = 15520702
+        CustomAppearance.Element.IdleKnobColor = 11631958
+        CustomAppearance.Element.IdleTrackColor = 16182242
+        CustomAppearance.Element.IdleCaptionColor = 11631958
+        CustomAppearance.Element.HotTrackFrameColor = 10211293
+        CustomAppearance.Element.HotTrackGradientFromColor = 14351615
+        CustomAppearance.Element.HotTrackGradientToColor = 5101567
+        CustomAppearance.Element.HotTrackGradientType = bkConcave
+        CustomAppearance.Element.HotTrackInnerLightColor = 12972543
+        CustomAppearance.Element.HotTrackInnerDarkColor = 8045272
+        CustomAppearance.Element.HotTrackTrackColor = 14351615
+        CustomAppearance.Element.HotTrackCaptionColor = 8864367
+        CustomAppearance.Element.HotTrackBrightnessChange = 40
+        CustomAppearance.Element.ActiveFrameColor = 5535371
+        CustomAppearance.Element.ActiveGradientFromColor = 7126014
+        CustomAppearance.Element.ActiveGradientToColor = 4035324
+        CustomAppearance.Element.ActiveGradientType = bkConcave
+        CustomAppearance.Element.ActiveInnerLightColor = 961020
+        CustomAppearance.Element.ActiveInnerDarkColor = 961020
+        CustomAppearance.Element.ActiveKnobColor = 4035324
+        CustomAppearance.Element.ActiveTrackColor = 12972543
+        CustomAppearance.Element.ActiveCaptionColor = 8405614
+        CustomAppearance.Element.KnobAsGradient = True
+        CustomAppearance.Element.Style = esRounded
+        CustomAppearance.Popup.CheckedFrameColor = 3577330
+        CustomAppearance.Popup.CheckedGradientFromColor = 9823231
+        CustomAppearance.Popup.CheckedGradientToColor = 9823231
+        CustomAppearance.Popup.CheckedGradientType = bkSolid
+        CustomAppearance.Popup.DisabledCaptionColor = clSilver
+        CustomAppearance.Popup.DividerLineColor = 14922381
+        CustomAppearance.Popup.GutterFrameColor = 12961221
+        CustomAppearance.Popup.GutterGradientFromColor = 15658729
+        CustomAppearance.Popup.GutterGradientToColor = 15658729
+        CustomAppearance.Popup.GutterGradientType = bkSolid
+        CustomAppearance.Popup.HotTrackCaptionColor = 8864367
+        CustomAppearance.Popup.HotTrackFrameColor = 10079963
+        CustomAppearance.Popup.HotTrackGradientFromColor = 14351615
+        CustomAppearance.Popup.HotTrackGradientToColor = 5101567
+        CustomAppearance.Popup.HotTrackGradientType = bkConcave
+        CustomAppearance.Popup.IdleCaptionColor = 11631958
+        CustomAppearance.Popup.IdleGradientFromColor = 16448250
+        CustomAppearance.Popup.IdleGradientToColor = 16448250
+        CustomAppearance.Popup.IdleGradientType = bkSolid
+        CustomAppearance.Popup.SelectionShape = ssRectangle
+        CustomAppearance.Popup.Style = psGutter
+        Caption = 'Página inicial'
+        Panes = (
+          'EditorPaneBases'
+          'EditorPaneFile'
+          'EditorPaneAppearance'
+          'EditorPaneExport'
+        )
+        object EditorPaneBases: TLazRibbonPane
+          Caption = 'Bases'
+          Items = (
+            'PreviewBaseGallery'
+          )
+          object PreviewBaseGallery: TLazRibbonSkinGalleryItem
+            Caption = 'Bases'
+            DisplayMode = rimLarge
+            Width = 210
+            SelectedSkinName = 'OfficeBlue'
+            MaxVisibleItems = 8
+            OnSkinSelected = BaseGallerySkinSelected
+          end
+        end
+        object EditorPaneFile: TLazRibbonPane
+          Caption = 'Área de transferência'
+          Items = (
+            'EditorLargeNewFromBase'
+            'EditorSmallOpen'
+            'EditorSmallSaveAs'
+          )
+          object EditorLargeNewFromBase: TLazRibbonLargeButton
+            Caption = 'Colar'
+          end
+          object EditorSmallOpen: TLazRibbonSmallButton
+            Caption = 'Copiar'
+          end
+          object EditorSmallSaveAs: TLazRibbonSmallButton
+            Caption = 'Recortar'
+          end
+        end
+        object EditorPaneAppearance: TLazRibbonPane
+          Caption = 'Estilos'
+          Items = (
+            'EditorLargeFullAppearance'
+            'EditorSmallApplyPaletteAppearance'
+          )
+          object EditorLargeFullAppearance: TLazRibbonLargeButton
+            Caption = 'Fonte'
+          end
+          object EditorSmallApplyPaletteAppearance: TLazRibbonSmallButton
+            Caption = 'Realçar'
+          end
+        end
+        object EditorPaneExport: TLazRibbonPane
+          Caption = 'Inserir'
+          Items = (
+            'EditorLargeExportBuiltIns'
+          )
+          object EditorLargeExportBuiltIns: TLazRibbonLargeButton
+            Caption = 'Tabela'
+          end
+        end
+      end
+      object EditorTabPreview: TLazRibbonTab
+        CustomAppearance.Tab.TabHeaderFont.Color = 9126421
+        CustomAppearance.Tab.BorderColor = 14922381
+        CustomAppearance.Tab.CornerRadius = 4
+        CustomAppearance.Tab.GradientFromColor = 16115934
+        CustomAppearance.Tab.GradientToColor = 15587527
+        CustomAppearance.Tab.GradientType = bkConcave
+        CustomAppearance.Tab.InactiveTabHeaderFontColor = 9126421
+        CustomAppearance.MenuButton.CaptionFont.Color = clWhite
+        CustomAppearance.MenuButton.IdleFrameColor = 10569759
+        CustomAppearance.MenuButton.IdleGradientFromColor = 14649927
+        CustomAppearance.MenuButton.IdleGradientToColor = 12017961
+        CustomAppearance.MenuButton.IdleGradientType = bkConcave
+        CustomAppearance.MenuButton.IdleCaptionColor = clWhite
+        CustomAppearance.MenuButton.HotTrackFrameColor = 10569759
+        CustomAppearance.MenuButton.HotTrackGradientFromColor = 15179099
+        CustomAppearance.MenuButton.HotTrackGradientToColor = 12478257
+        CustomAppearance.MenuButton.HotTrackGradientType = bkConcave
+        CustomAppearance.MenuButton.HotTrackCaptionColor = clWhite
+        CustomAppearance.MenuButton.HotTrackBrightnessChange = 40
+        CustomAppearance.MenuButton.ActiveFrameColor = 11095324
+        CustomAppearance.MenuButton.ActiveGradientFromColor = 14518846
+        CustomAppearance.MenuButton.ActiveGradientToColor = 12411174
+        CustomAppearance.MenuButton.ActiveGradientType = bkConcave
+        CustomAppearance.MenuButton.ActiveCaptionColor = clWhite
+        CustomAppearance.MenuButton.ShapeStyle = mbssRounded
+        CustomAppearance.Pane.BorderDarkColor = 14335646
+        CustomAppearance.Pane.BorderLightColor = 16315117
+        CustomAppearance.Pane.CaptionBgColor = 15849922
+        CustomAppearance.Pane.CaptionFont.Color = 9126421
+        CustomAppearance.Pane.GradientFromColor = 16115934
+        CustomAppearance.Pane.GradientToColor = 15587527
+        CustomAppearance.Pane.GradientType = bkConcave
+        CustomAppearance.Element.IdleFrameColor = 14727067
+        CustomAppearance.Element.IdleGradientFromColor = 15653832
+        CustomAppearance.Element.IdleGradientToColor = 15323324
+        CustomAppearance.Element.IdleGradientType = bkConcave
+        CustomAppearance.Element.IdleInnerLightColor = 15852501
+        CustomAppearance.Element.IdleInnerDarkColor = 15520702
+        CustomAppearance.Element.IdleKnobColor = 11631958
+        CustomAppearance.Element.IdleTrackColor = 16182242
+        CustomAppearance.Element.IdleCaptionColor = 11631958
+        CustomAppearance.Element.HotTrackFrameColor = 10211293
+        CustomAppearance.Element.HotTrackGradientFromColor = 14351615
+        CustomAppearance.Element.HotTrackGradientToColor = 5101567
+        CustomAppearance.Element.HotTrackGradientType = bkConcave
+        CustomAppearance.Element.HotTrackInnerLightColor = 12972543
+        CustomAppearance.Element.HotTrackInnerDarkColor = 8045272
+        CustomAppearance.Element.HotTrackTrackColor = 14351615
+        CustomAppearance.Element.HotTrackCaptionColor = 8864367
+        CustomAppearance.Element.HotTrackBrightnessChange = 40
+        CustomAppearance.Element.ActiveFrameColor = 5535371
+        CustomAppearance.Element.ActiveGradientFromColor = 7126014
+        CustomAppearance.Element.ActiveGradientToColor = 4035324
+        CustomAppearance.Element.ActiveGradientType = bkConcave
+        CustomAppearance.Element.ActiveInnerLightColor = 961020
+        CustomAppearance.Element.ActiveInnerDarkColor = 961020
+        CustomAppearance.Element.ActiveKnobColor = 4035324
+        CustomAppearance.Element.ActiveTrackColor = 12972543
+        CustomAppearance.Element.ActiveCaptionColor = 8405614
+        CustomAppearance.Element.KnobAsGradient = True
+        CustomAppearance.Element.Style = esRounded
+        CustomAppearance.Popup.CheckedFrameColor = 3577330
+        CustomAppearance.Popup.CheckedGradientFromColor = 9823231
+        CustomAppearance.Popup.CheckedGradientToColor = 9823231
+        CustomAppearance.Popup.CheckedGradientType = bkSolid
+        CustomAppearance.Popup.DisabledCaptionColor = clSilver
+        CustomAppearance.Popup.DividerLineColor = 14922381
+        CustomAppearance.Popup.GutterFrameColor = 12961221
+        CustomAppearance.Popup.GutterGradientFromColor = 15658729
+        CustomAppearance.Popup.GutterGradientToColor = 15658729
+        CustomAppearance.Popup.GutterGradientType = bkSolid
+        CustomAppearance.Popup.HotTrackCaptionColor = 8864367
+        CustomAppearance.Popup.HotTrackFrameColor = 10079963
+        CustomAppearance.Popup.HotTrackGradientFromColor = 14351615
+        CustomAppearance.Popup.HotTrackGradientToColor = 5101567
+        CustomAppearance.Popup.HotTrackGradientType = bkConcave
+        CustomAppearance.Popup.IdleCaptionColor = 11631958
+        CustomAppearance.Popup.IdleGradientFromColor = 16448250
+        CustomAppearance.Popup.IdleGradientToColor = 16448250
+        CustomAppearance.Popup.IdleGradientType = bkSolid
+        CustomAppearance.Popup.SelectionShape = ssRectangle
+        CustomAppearance.Popup.Style = psGutter
+        Caption = 'Exibir'
+        Panes = (
+          'PreviewPaneFile'
+          'PreviewPaneView'
+          'EditorPaneSampleEdit'
+          'EditorPaneSampleOptions'
+        )
+        object PreviewPaneFile: TLazRibbonPane
+          Caption = 'Documento'
+          Items = (
+            'PreviewLargeNew'
+            'PreviewSmallOpen'
+            'PreviewSmallSave'
+          )
+          object PreviewLargeNew: TLazRibbonLargeButton
+            Caption = 'Novo'
+          end
+          object PreviewSmallOpen: TLazRibbonSmallButton
+            Caption = 'Abrir'
+          end
+          object PreviewSmallSave: TLazRibbonSmallButton
+            Caption = 'Salvar'
+          end
+        end
+        object PreviewPaneView: TLazRibbonPane
+          Caption = 'Janela'
+          Items = (
+            'PreviewLargeZoom'
+          )
+          object PreviewLargeZoom: TLazRibbonLargeButton
+            Caption = 'Zoom'
+          end
+        end
+        object EditorPaneSampleEdit: TLazRibbonPane
+          Caption = 'Exemplos'
+          Items = (
+            'PreviewLargePaste'
+            'PreviewSmallCopy'
+            'PreviewSmallCut'
+          )
+          object PreviewLargePaste: TLazRibbonLargeButton
+            Caption = 'Colar'
+          end
+          object PreviewSmallCopy: TLazRibbonSmallButton
+            Caption = 'Copiar'
+          end
+          object PreviewSmallCut: TLazRibbonSmallButton
+            Caption = 'Recortar'
+          end
+        end
+        object EditorPaneSampleOptions: TLazRibbonPane
+          Caption = 'Opções'
+          Items = (
+            'PreviewCheckAuto'
+          )
+          object PreviewCheckAuto: TLazRibbonCheckbox
+            Caption = 'Opção ativa'
+            Checked = True
+            State = cbChecked
+          end
+        end
+      end
+    end
+  end
+  object pnlTop: TPanel
+    Left = 0
+    Height = 30
+    Top = 132
+    Width = 1180
+    Align = alTop
+    BevelOuter = bvNone
+    ClientHeight = 30
+    ClientWidth = 1180
+    ParentBackground = False
+    TabOrder = 0
+    object lblBaseSkin: TLabel
+      Left = 10
+      Height = 13
+      Top = 8
+      Width = 68
+      Caption = 'Base em foco:'
+      Layout = tlCenter
+    end
+    object lblWorkflow: TLabel
+      Left = 10
+      Height = 1
+      Top = 8
+      Width = 1
+      Font.Style = [fsBold]
+      ParentFont = False
+      Visible = False
+    end
+    object lblBaseHint: TLabel
+      Left = 392
+      Height = 13
+      Top = 8
+      Width = 321
+      Caption = 'Visualizando base. Para editar, use Arquivo > Nova skin pela base.'
+    end
+    object cbBaseSkin: TComboBox
+      Left = 118
+      Height = 21
+      Top = 4
+      Width = 258
+      Enabled = False
+      ItemHeight = 13
+      Style = csDropDownList
+      TabOrder = 0
+    end
+  end
+  object pnlLeft: TPanel
+    Left = -320
+    Height = 120
+    Top = 720
+    Width = 250
+    BorderSpacing.Left = 8
+    BorderSpacing.Top = 2
+    BorderSpacing.Bottom = 8
+    BevelOuter = bvNone
+    ClientHeight = 120
+    ClientWidth = 250
+    ParentBackground = False
+    TabOrder = 2
+    Visible = False
+    object lblSkinListTitle: TLabel
+      Left = 0
+      Height = 13
+      Top = 0
+      Width = 250
+      Align = alTop
+      Alignment = taCenter
+      Caption = 'Bases disponíveis'
+      Layout = tlCenter
+    end
+    object lstSkins: TListBox
+      Left = 6
+      Height = 101
+      Top = 13
+      Width = 238
+      Align = alClient
+      BorderSpacing.Left = 6
+      BorderSpacing.Right = 6
+      BorderSpacing.Bottom = 6
+      ItemHeight = 0
+      TabOrder = 0
+      OnClick = lstSkinsClick
+    end
+  end
+  object pnlBottom: TPanel
+    Left = 0
+    Height = 28
+    Top = 792
+    Width = 1180
+    Align = alBottom
+    BevelOuter = bvNone
+    ClientHeight = 28
+    ClientWidth = 1180
+    ParentBackground = False
+    TabOrder = 3
+    object lblStatus: TLabel
+      Left = 8
+      Height = 28
+      Top = 0
+      Width = 1164
+      Align = alClient
+      BorderSpacing.Left = 8
+      BorderSpacing.Right = 8
+      Caption = 'Pronto. Use a galeria de bases no Ribbon para visualizar skins e o menu Arquivo para criar ou abrir uma skin editável.'
+      Layout = tlCenter
+    end
+  end
+  object pcMain: TPageControl
+    Left = 8
+    Height = 620
+    Top = 164
+    Width = 1164
+    ActivePage = tabMetadata
+    Align = alClient
+    BorderSpacing.Left = 8
+    BorderSpacing.Top = 2
+    BorderSpacing.Right = 8
+    BorderSpacing.Bottom = 8
+    TabIndex = 0
+    TabOrder = 4
+    object tabMetadata: TTabSheet
+      Caption = 'Identidade'
+      ClientHeight = 594
+      ClientWidth = 1156
+      object pnlMetadata: TPanel
+        Left = 12
+        Height = 410
+        Top = 12
+        Width = 1128
+        BevelOuter = bvNone
+        ClientHeight = 410
+        ClientWidth = 1128
+        ParentBackground = False
+        TabOrder = 0
+        object lblName: TLabel
+          Left = 16
+          Height = 13
+          Top = 20
+          Width = 64
+          Caption = 'Nome interno'
+        end
+        object edtName: TEdit
+          Left = 136
+          Height = 21
+          Top = 16
+          Width = 260
+          TabOrder = 0
+          OnChange = MetadataChanged
+        end
+        object lblDisplayName: TLabel
+          Left = 16
+          Height = 13
+          Top = 56
+          Width = 64
+          Caption = 'Nome exibido'
+        end
+        object edtDisplayName: TEdit
+          Left = 136
+          Height = 21
+          Top = 52
+          Width = 360
+          TabOrder = 1
+          OnChange = MetadataChanged
+        end
+        object lblAuthor: TLabel
+          Left = 16
+          Height = 13
+          Top = 92
+          Width = 27
+          Caption = 'Autor'
+        end
+        object edtAuthor: TEdit
+          Left = 136
+          Height = 21
+          Top = 88
+          Width = 260
+          TabOrder = 2
+          OnChange = MetadataChanged
+        end
+        object lblDescription: TLabel
+          Left = 16
+          Height = 13
+          Top = 128
+          Width = 46
+          Caption = 'Descrição'
+        end
+        object memDescription: TMemo
+          Left = 136
+          Height = 72
+          Top = 124
+          Width = 520
+          ScrollBars = ssVertical
+          TabOrder = 3
+          OnChange = MetadataChanged
+        end
+        object lblGroupName: TLabel
+          Left = 16
+          Height = 13
+          Top = 212
+          Width = 30
+          Caption = 'Grupo'
+        end
+        object edtGroupName: TEdit
+          Left = 136
+          Height = 21
+          Top = 208
+          Width = 260
+          TabOrder = 4
+          OnChange = MetadataChanged
+        end
+        object lblIcon16: TLabel
+          Left = 16
+          Height = 13
+          Top = 248
+          Width = 68
+          Caption = 'Ícone 16x16'
+        end
+        object edtIcon16: TEdit
+          Left = 136
+          Height = 21
+          Top = 244
+          Width = 420
+          TabOrder = 5
+          OnChange = MetadataChanged
+        end
+        object btnIcon16: TButton
+          Left = 562
+          Height = 25
+          Top = 243
+          Width = 28
+          Caption = '...'
+          TabOrder = 6
+          Tag = 16
+          OnClick = IconFileButtonClick
+        end
+        object lblIcon24: TLabel
+          Left = 16
+          Height = 13
+          Top = 284
+          Width = 68
+          Caption = 'Ícone 24x24'
+        end
+        object edtIcon24: TEdit
+          Left = 136
+          Height = 21
+          Top = 280
+          Width = 420
+          TabOrder = 7
+          OnChange = MetadataChanged
+        end
+        object btnIcon24: TButton
+          Left = 562
+          Height = 25
+          Top = 279
+          Width = 28
+          Caption = '...'
+          TabOrder = 8
+          Tag = 24
+          OnClick = IconFileButtonClick
+        end
+        object lblIcon32: TLabel
+          Left = 16
+          Height = 13
+          Top = 320
+          Width = 68
+          Caption = 'Ícone 32x32'
+        end
+        object edtIcon32: TEdit
+          Left = 136
+          Height = 21
+          Top = 316
+          Width = 420
+          TabOrder = 9
+          OnChange = MetadataChanged
+        end
+        object btnIcon32: TButton
+          Left = 562
+          Height = 25
+          Top = 315
+          Width = 28
+          Caption = '...'
+          TabOrder = 10
+          Tag = 32
+          OnClick = IconFileButtonClick
+        end
+        object lblPreviewImage: TLabel
+          Left = 16
+          Height = 13
+          Top = 356
+          Width = 39
+          Caption = 'Preview'
+        end
+        object edtPreviewImage: TEdit
+          Left = 136
+          Height = 21
+          Top = 352
+          Width = 420
+          TabOrder = 11
+          OnChange = MetadataChanged
+        end
+        object btnPreviewImage: TButton
+          Left = 562
+          Height = 25
+          Top = 351
+          Width = 28
+          Caption = '...'
+          TabOrder = 12
+          Tag = 99
+          OnClick = IconFileButtonClick
+        end
+        object imgSkinIcon: TImage
+          Left = 620
+          Height = 64
+          Top = 244
+          Width = 64
+          Center = True
+          Stretch = True
+        end
+      end
+    end
+    object tabSimpleColors: TTabSheet
+      Caption = 'Cores do Ribbon'
+      ClientHeight = 594
+      ClientWidth = 1156
+      object pnlSimpleColors: TPanel
+        Left = 0
+        Height = 594
+        Top = 0
+        Width = 1156
+        Align = alClient
+        BevelOuter = bvNone
+        ClientHeight = 594
+        ClientWidth = 1156
+        ParentBackground = False
+        TabOrder = 0
+        object lblHintSimple: TLabel
+          Left = 16
+          Height = 36
+          Top = 14
+          Width = 980
+          AutoSize = False
+          Caption = 'Clique em uma amostra de cor. O editor atualiza a paleta e aplica o resultado imediatamente no Ribbon acima.'
+          WordWrap = True
+        end
+        object lblColorBack: TLabel
+          Left = 24
+          Height = 13
+          Top = 72
+          Width = 57
+          Caption = 'Fundo geral'
+        end
+        object pnlColorBack: TPanel
+          Left = 204
+          Height = 24
+          Top = 67
+          Width = 130
+          BevelOuter = bvLowered
+          ParentBackground = False
+          TabOrder = 0
+          OnClick = ColorPanelClick
+        end
+        object lblColorText: TLabel
+          Left = 24
+          Height = 13
+          Top = 104
+          Width = 28
+          Caption = 'Texto'
+        end
+        object pnlColorText: TPanel
+          Left = 204
+          Height = 24
+          Top = 99
+          Width = 130
+          BevelOuter = bvLowered
+          ParentBackground = False
+          TabOrder = 1
+          OnClick = ColorPanelClick
+        end
+        object lblColorMutedText: TLabel
+          Left = 24
+          Height = 13
+          Top = 136
+          Width = 83
+          Caption = 'Texto secundário'
+        end
+        object pnlColorMutedText: TPanel
+          Left = 204
+          Height = 24
+          Top = 131
+          Width = 130
+          BevelOuter = bvLowered
+          ParentBackground = False
+          TabOrder = 2
+          OnClick = ColorPanelClick
+        end
+        object lblColorFrame: TLabel
+          Left = 24
+          Height = 13
+          Top = 168
+          Width = 33
+          Caption = 'Bordas'
+        end
+        object pnlColorFrame: TPanel
+          Left = 204
+          Height = 24
+          Top = 163
+          Width = 130
+          BevelOuter = bvLowered
+          ParentBackground = False
+          TabOrder = 3
+          OnClick = ColorPanelClick
+        end
+        object lblColorNavigation: TLabel
+          Left = 24
+          Height = 13
+          Top = 200
+          Width = 107
+          Caption = 'Navegação/backstage'
+        end
+        object pnlColorNavigation: TPanel
+          Left = 204
+          Height = 24
+          Top = 195
+          Width = 130
+          BevelOuter = bvLowered
+          ParentBackground = False
+          TabOrder = 4
+          OnClick = ColorPanelClick
+        end
+        object lblColorActive: TLabel
+          Left = 24
+          Height = 13
+          Top = 232
+          Width = 87
+          Caption = 'Ativo/pressionado'
+        end
+        object pnlColorActive: TPanel
+          Left = 204
+          Height = 24
+          Top = 227
+          Width = 130
+          BevelOuter = bvLowered
+          ParentBackground = False
+          TabOrder = 5
+          OnClick = ColorPanelClick
+        end
+        object lblColorHot: TLabel
+          Left = 24
+          Height = 13
+          Top = 264
+          Width = 61
+          Caption = 'Mouse sobre'
+        end
+        object pnlColorHot: TPanel
+          Left = 204
+          Height = 24
+          Top = 259
+          Width = 130
+          BevelOuter = bvLowered
+          ParentBackground = False
+          TabOrder = 6
+          OnClick = ColorPanelClick
+        end
+        object lblColorRibbonTop: TLabel
+          Left = 420
+          Height = 13
+          Top = 72
+          Width = 58
+          Caption = 'Ribbon topo'
+        end
+        object pnlColorRibbonTop: TPanel
+          Left = 610
+          Height = 24
+          Top = 67
+          Width = 130
+          BevelOuter = bvLowered
+          ParentBackground = False
+          TabOrder = 7
+          OnClick = ColorPanelClick
+        end
+        object lblColorRibbonBottom: TLabel
+          Left = 420
+          Height = 13
+          Top = 104
+          Width = 59
+          Caption = 'Ribbon base'
+        end
+        object pnlColorRibbonBottom: TPanel
+          Left = 610
+          Height = 24
+          Top = 99
+          Width = 130
+          BevelOuter = bvLowered
+          ParentBackground = False
+          TabOrder = 8
+          OnClick = ColorPanelClick
+        end
+        object lblColorRibbonTabActive: TLabel
+          Left = 420
+          Height = 13
+          Top = 136
+          Width = 46
+          Caption = 'Aba ativa'
+        end
+        object pnlColorRibbonTabActive: TPanel
+          Left = 610
+          Height = 24
+          Top = 131
+          Width = 130
+          BevelOuter = bvLowered
+          ParentBackground = False
+          TabOrder = 9
+          OnClick = ColorPanelClick
+        end
+        object lblColorRibbonTabHot: TLabel
+          Left = 420
+          Height = 13
+          Top = 168
+          Width = 67
+          Caption = 'Aba em hover'
+        end
+        object pnlColorRibbonTabHot: TPanel
+          Left = 610
+          Height = 24
+          Top = 163
+          Width = 130
+          BevelOuter = bvLowered
+          ParentBackground = False
+          TabOrder = 10
+          OnClick = ColorPanelClick
+        end
+        object lblColorRibbonGroup: TLabel
+          Left = 420
+          Height = 13
+          Top = 200
+          Width = 57
+          Caption = 'Grupo/pane'
+        end
+        object pnlColorRibbonGroup: TPanel
+          Left = 610
+          Height = 24
+          Top = 195
+          Width = 130
+          BevelOuter = bvLowered
+          ParentBackground = False
+          TabOrder = 11
+          OnClick = ColorPanelClick
+        end
+        object lblColorRibbonGroupFrame: TLabel
+          Left = 420
+          Height = 13
+          Top = 232
+          Width = 74
+          Caption = 'Borda do grupo'
+        end
+        object pnlColorRibbonGroupFrame: TPanel
+          Left = 610
+          Height = 24
+          Top = 227
+          Width = 130
+          BevelOuter = bvLowered
+          ParentBackground = False
+          TabOrder = 12
+          OnClick = ColorPanelClick
+        end
+      end
+    end
+    object tabBackstage: TTabSheet
+      Caption = 'BackStage'
+    end
+    object tabPreview: TTabSheet
+      Caption = 'Validação'
+      ClientHeight = 594
+      ClientWidth = 1156
+      object pnlPreviewHost: TPanel
+        Left = 0
+        Height = 594
+        Top = 0
+        Width = 1156
+        Align = alClient
+        BevelOuter = bvNone
+        ClientHeight = 594
+        ClientWidth = 1156
+        ParentBackground = False
+        TabOrder = 0
+        object lblPreviewInfo: TLabel
+          Left = 16
+          Height = 36
+          Top = 18
+          Width = 980
+          AutoSize = False
+          Caption = 'Use o Ribbon acima para validar a skin: abas, grupos, botões grandes, botões pequenos, checkbox e contraste de texto.'
+          WordWrap = True
+        end
+      end
+    end
+    object tabAdvanced: TTabSheet
+      Caption = 'Avançado'
+    end
+  end
+  object EditorBackstage: TLazRibbonBackstageView
+    Left = 260
+    Height = 420
+    Top = 360
+    Width = 900
+    AppearanceSource = asSkinManager
+    BackstageTabCaption = 'Arquivo'
+    BackButtonHint = 'Voltar'
+    Buttons = <    
+      item
+        Caption = 'Informações'
+        Page = BackstagePageInfo
+      end    
+      item
+        Caption = 'Nova skin pela base...'
+        Kind = bbkCommand
+        OnExecute = btnNewFromBaseClick
+      end    
+      item
+        Caption = 'Abrir skin...'
+        Kind = bbkCommand
+        OnExecute = btnOpenClick
+      end    
+      item
+        Caption = 'Salvar como...'
+        Kind = bbkCommand
+        OnExecute = btnSaveAsClick
+      end    
+      item
+        Kind = bbkSeparator
+      end    
+      item
+        Caption = 'Exportar skins internos...'
+        Kind = bbkCommand
+        OnExecute = btnExportBuiltInsClick
+      end    
+      item
+        Caption = 'Ajustes avançados do Appearance...'
+        Kind = bbkCommand
+        Section = bbsBottom
+        OnExecute = btnEditFullAppearanceClick
+      end    
+      item
+        Caption = 'Regerar Appearance pela paleta'
+        Kind = bbkCommand
+        Section = bbsBottom
+        OnExecute = btnApplyPaletteToAppearanceClick
+      end>
+    Align = alNone
+    BorderSpacing.Left = 8
+    BorderSpacing.Top = 4
+    BorderSpacing.Right = 8
+    BorderSpacing.Bottom = 8
+    Font.Height = -12
+    Font.Name = 'Segoe UI'
+    ItemHeight = 48
+    LinkedToolbar = PreviewToolbar
+    NavigationWidth = 220
+    ParentFont = False
+    ParentShowHint = False
+    ShowHint = True
+    SkinManager = PreviewSkinManager
+    UseToolbarAppearance = False
+    UseSkinManager = True
+    Visible = False
+    object BackstagePageInfo: TLazRibbonBackstagePage
+      Left = 232
+      Height = 420
+      Top = 0
+      Width = 668
+      Caption = 'Informações'
+      ParentColor = False
+      object BackstageLabelInfoTitle: TLabel
+        Left = 36
+        Height = 32
+        Top = 32
+        Width = 403
+        Caption = 'Gerenciador de skins do LazRibbon'
+        Font.Height = -24
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object BackstageLabelInfoText: TLabel
+        Left = 38
+        Height = 96
+        Top = 82
+        Width = 580
+        AutoSize = False
+        Caption = 'Use esta área para criar, abrir, salvar e exportar skins. O Ribbon visível no editor funciona como pré-visualização real da skin em edição.'
+        WordWrap = True
+      end
+    end
+  end
+  object PreviewSkinManager: TLazRibbonSkinManager
+    ActiveSkinName = 'OfficeBlue'
+    Appearance.Tab.TabHeaderFont.Color = 9126421
+    Appearance.Tab.BorderColor = 14922381
+    Appearance.Tab.CornerRadius = 4
+    Appearance.Tab.GradientFromColor = 16115934
+    Appearance.Tab.GradientToColor = 15587527
+    Appearance.Tab.GradientType = bkConcave
+    Appearance.Tab.InactiveTabHeaderFontColor = 9126421
+    Appearance.MenuButton.CaptionFont.Color = clWhite
+    Appearance.MenuButton.IdleFrameColor = 10569759
+    Appearance.MenuButton.IdleGradientFromColor = 14649927
+    Appearance.MenuButton.IdleGradientToColor = 12017961
+    Appearance.MenuButton.IdleGradientType = bkConcave
+    Appearance.MenuButton.IdleCaptionColor = clWhite
+    Appearance.MenuButton.HotTrackFrameColor = 10569759
+    Appearance.MenuButton.HotTrackGradientFromColor = 15179099
+    Appearance.MenuButton.HotTrackGradientToColor = 12478257
+    Appearance.MenuButton.HotTrackGradientType = bkConcave
+    Appearance.MenuButton.HotTrackCaptionColor = clWhite
+    Appearance.MenuButton.HotTrackBrightnessChange = 40
+    Appearance.MenuButton.ActiveFrameColor = 11095324
+    Appearance.MenuButton.ActiveGradientFromColor = 14518846
+    Appearance.MenuButton.ActiveGradientToColor = 12411174
+    Appearance.MenuButton.ActiveGradientType = bkConcave
+    Appearance.MenuButton.ActiveCaptionColor = clWhite
+    Appearance.MenuButton.ShapeStyle = mbssRounded
+    Appearance.Pane.BorderDarkColor = 14335646
+    Appearance.Pane.BorderLightColor = 16315117
+    Appearance.Pane.CaptionBgColor = 15849922
+    Appearance.Pane.CaptionFont.Color = 9126421
+    Appearance.Pane.GradientFromColor = 16115934
+    Appearance.Pane.GradientToColor = 15587527
+    Appearance.Pane.GradientType = bkConcave
+    Appearance.Element.CaptionFont.Color = 5978398
+    Appearance.Element.IdleFrameColor = 14727067
+    Appearance.Element.IdleGradientFromColor = 15653832
+    Appearance.Element.IdleGradientToColor = 15323324
+    Appearance.Element.IdleGradientType = bkConcave
+    Appearance.Element.IdleInnerLightColor = 15852501
+    Appearance.Element.IdleInnerDarkColor = 15520702
+    Appearance.Element.IdleKnobColor = 11631958
+    Appearance.Element.IdleTrackColor = 16182242
+    Appearance.Element.IdleCaptionColor = 11631958
+    Appearance.Element.HotTrackFrameColor = 10211293
+    Appearance.Element.HotTrackGradientFromColor = 14351615
+    Appearance.Element.HotTrackGradientToColor = 5101567
+    Appearance.Element.HotTrackGradientType = bkConcave
+    Appearance.Element.HotTrackInnerLightColor = 12972543
+    Appearance.Element.HotTrackInnerDarkColor = 8045272
+    Appearance.Element.HotTrackTrackColor = 14351615
+    Appearance.Element.HotTrackCaptionColor = 8864367
+    Appearance.Element.HotTrackBrightnessChange = 40
+    Appearance.Element.ActiveFrameColor = 5535371
+    Appearance.Element.ActiveGradientFromColor = 7126014
+    Appearance.Element.ActiveGradientToColor = 4035324
+    Appearance.Element.ActiveGradientType = bkConcave
+    Appearance.Element.ActiveInnerLightColor = 961020
+    Appearance.Element.ActiveInnerDarkColor = 961020
+    Appearance.Element.ActiveKnobColor = 4035324
+    Appearance.Element.ActiveTrackColor = 12972543
+    Appearance.Element.ActiveCaptionColor = 8405614
+    Appearance.Element.KnobAsGradient = True
+    Appearance.Element.Style = esRounded
+    Appearance.Popup.CaptionFont.Color = 5978398
+    Appearance.Popup.CheckedFrameColor = 3577330
+    Appearance.Popup.CheckedGradientFromColor = 9823231
+    Appearance.Popup.CheckedGradientToColor = 9823231
+    Appearance.Popup.CheckedGradientType = bkSolid
+    Appearance.Popup.DisabledCaptionColor = clSilver
+    Appearance.Popup.DividerLineColor = 14922381
+    Appearance.Popup.GutterFrameColor = 12961221
+    Appearance.Popup.GutterGradientFromColor = 15658729
+    Appearance.Popup.GutterGradientToColor = 15658729
+    Appearance.Popup.GutterGradientType = bkSolid
+    Appearance.Popup.HotTrackCaptionColor = 8864367
+    Appearance.Popup.HotTrackFrameColor = 10079963
+    Appearance.Popup.HotTrackGradientFromColor = 14351615
+    Appearance.Popup.HotTrackGradientToColor = 5101567
+    Appearance.Popup.HotTrackGradientType = bkConcave
+    Appearance.Popup.IdleCaptionColor = 11631958
+    Appearance.Popup.IdleGradientFromColor = 16448250
+    Appearance.Popup.IdleGradientToColor = 16448250
+    Appearance.Popup.IdleGradientType = bkSolid
+    Appearance.Popup.SelectionShape = ssRectangle
+    Appearance.Popup.Style = psGutter
+    BackColor = clWhite
+    NavigationColor = 16577256
+    ActiveColor = 16444380
+    HotColor = 16577514
+    FrameColor = 13809300
+    TextColor = 5978398
+    MutedTextColor = 8351583
+    RecentOddColor = 16644856
+    RecentHoverColor = 16643308
+    RecentSelectedColor = 16575451
+    RecentSelectedFrameColor = 14395774
+    RecentTitleColor = 8535040
+    Left = 820
+    Top = 16
+  end
+  object ColorDialog: TColorDialog
+    Color = clBlack
+    CustomColors.Strings = (
+      'ColorA=000000'
+      'ColorB=000080'
+      'ColorC=008000'
+      'ColorD=008080'
+      'ColorE=800000'
+      'ColorF=800080'
+      'ColorG=808000'
+      'ColorH=808080'
+      'ColorI=C0C0C0'
+      'ColorJ=0000FF'
+      'ColorK=00FF00'
+      'ColorL=00FFFF'
+      'ColorM=FF0000'
+      'ColorN=FF00FF'
+      'ColorO=FFFF00'
+      'ColorP=FFFFFF'
+      'ColorQ=C0DCC0'
+      'ColorR=F0CAA6'
+      'ColorS=F0FBFF'
+      'ColorT=A4A0A0'
+    )
+    Left = 822
+    Top = 72
+  end
+  object OpenDialog: TOpenDialog
+    Filter = 'Skins do LazRibbon (*.skin;*.lazskin)|*.skin;*.lazskin|Todos os arquivos (*.*)|*.*'
+    Left = 822
+    Top = 124
+  end
+  object SaveDialog: TSaveDialog
+    DefaultExt = '.skin'
+    Filter = 'Skins do LazRibbon (*.skin)|*.skin|Skin legado (*.lazskin)|*.lazskin'
+    Left = 822
+    Top = 176
+  end
+  object SelectDirDialog: TSelectDirectoryDialog
+    Left = 822
+    Top = 228
+  end
+end

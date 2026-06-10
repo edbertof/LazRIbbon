@@ -1,0 +1,5 @@
+LazRibbon 0.3.14
+
+- Corrige chamada a ShellApi.ExtractAssociatedIcon em LazRibbon_Form.pas.
+- O terceiro argumento passa a ser passado por ponteiro (@IconIndex), como requerido pela assinatura LPWORD do FPC/Lazarus.
+- Mantém as melhorias anteriores para tentativa de recuperação/desenho do ícone do projeto na barra de título customizada.

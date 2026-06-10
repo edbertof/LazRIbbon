@@ -1,0 +1,5 @@
+LazRibbon 0.1.13
+
+- Ajuste nos skins built-in: Pane/Group volta a usar as cores calibradas de LazRibbon_Appearance.Reset para skins Office-style.
+- A mudanca toma como referencia o demo demos/basic, que ja apresentava gradiente de Pane visualmente mais integrado ao Ribbon.
+- Skins escuros continuam usando o mapeamento derivado de paleta para manter contraste adequado.

@@ -1,0 +1,24 @@
+LazRibbon 0.1.12
+=================
+
+Foco desta versão: acabamento visual do TLazRibbonSkinGalleryItem e harmonização dos panes.
+
+Alterações:
+
+1. TLazRibbonSkinGalleryItem
+   - As setas de rolagem deixaram de ser desenhadas como caracteres (^ e v).
+   - Foram substituídas por chevrons vetoriais desenhados no Canvas.
+   - Os botões de rolagem agora usam gradiente, borda derivada do skin e estado visual de hover.
+   - O estado desabilitado passa a usar cor suavizada em vez de texto/símbolo comum.
+
+2. Hover dos botões de rolagem
+   - Foi acrescentado controle interno de hover para os botões superior/inferior do gallery.
+   - Ao mover o mouse sobre as setas, o componente redesenha apenas o estado visual necessário.
+
+3. Panes/Groups
+   - O degradê dos panes foi suavizado.
+   - As cores agora são derivadas com mais força do gradiente principal do Ribbon, reduzindo o aspecto de bloco visual independente observado na versão 0.1.11.
+
+Observação:
+
+Esta versão ainda deve ser validada no Lazarus 4.6. Se houver erro de compilação, testar primeiro LazRibbonRuntime.lpk e enviar o log completo antes de reinstalar o design-time.

@@ -1,0 +1,14 @@
+LazRibbon 0.3.40
+================
+
+BackStage page-entry visual model
+----------------------------------
+
+- Added TLazRibbonBackstagePageButtonVisualMode.
+- Added TLazRibbonBackstageView.PageButtonVisualMode.
+- Default is bpvmFixedHeader, matching the DevExpress/Office BackStage behavior where page entries such as Recentes act as stable content anchors rather than hover/selected menu buttons.
+- Fixed page entries no longer change appearance when the mouse moves over other BackStage commands or over the page entry itself.
+- Fixed page captions use WCAG contrast against the real navigation background.
+- The previous selectable/highlighted behavior remains available by setting PageButtonVisualMode = bpvmSelectable.
+
+No changes were made to TLazRibbonForm closing logic, TitleBar, QAT, or design-time registration.

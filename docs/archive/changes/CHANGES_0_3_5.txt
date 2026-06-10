@@ -1,0 +1,24 @@
+LazRibbon 0.3.5
+================
+
+Correções no TLazRibbonForm:
+
+- Corrigido Access Violation ao fechar o formulário customizado.
+  A causa provável era uma referência pendurada para FTitleBar durante a destruição
+  do formulário: Notification(opRemove) podia tentar chamar FTitleBar.Invalidate
+  quando a barra de título já estava em destruição ou já havia sido removida.
+
+- Adicionado SafeInvalidateTitleBar para impedir invalidações durante csDestroying
+  e para validar apenas quando o handle da barra de título ainda está alocado.
+
+- Notification agora reconhece quando o próprio FTitleBar está sendo removido e
+  zera a referência imediatamente.
+
+- Destroy agora limpa a referência inversa FTitleBar.FOwnerForm e zera FTitleBar
+  antes do inherited Destroy.
+
+Observação:
+
+- A integração visual completa no estilo DevExpress, com QAT, título e botões
+  do sistema na mesma linha, ainda é uma etapa arquitetural separada. Esta versão
+  estabiliza primeiro o ciclo de fechamento do TLazRibbonForm.

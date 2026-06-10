@@ -1,0 +1,6 @@
+LazRibbon 0.1.38
+
+- Corrige o demo demos/quick_access_toolbar.
+- Implementa os handlers FormCreate, FormClose e QuickAccessMoreCommands declarados em unit1.pas.
+- Completa o ActionList do demo com ActionRedo, ActionPrint e ActionEmail para alimentar o menu de personalização da QuickAccessToolBar.
+- Remove uses desnecessários do demo.

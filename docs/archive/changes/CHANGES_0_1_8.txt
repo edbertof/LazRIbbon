@@ -1,0 +1,10 @@
+LazRibbon 0.1.8
+
+Correção no registro design-time:
+- Removidas chamadas RegisterUnit para units do runtime (LazRibbon_Core, LazRibbon_Buttons, LazRibbon_Checkboxes, LazRibbon_Groups, LazRibbon_Tabs) dentro de LazRibbon_Register.pas.
+- Essas units pertencem ao pacote LazRibbonRuntime, não ao arquivo .lpk do LazRibbonDesign.
+- O registro dos componentes agora é feito diretamente por RegisterComponents/RegisterNoIcon durante o Register do pacote design-time.
+
+Motivo:
+- Evita o erro de instalação/reconstrução da IDE:
+  Unidade "LazRibbon_Core" não encontrada no arquivo lpk.

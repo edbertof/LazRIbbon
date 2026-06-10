@@ -1,0 +1,16 @@
+LazRibbon 0.3.19
+==================
+
+Foco: refinamento visual do TLazRibbonForm com TitleBar integrada.
+
+Alterações:
+
+1. TitleBar com gradiente mais claro e mais integrado ao skin do Ribbon.
+2. QAT em qapTitleBar com uma cápsula visual discreta atrás dos botões.
+3. Botões da QAT ligeiramente menores quando ButtonSize não é definido, melhorando o alinhamento com o ícone e o título.
+4. Título centralizado de forma mais correta: o cálculo agora considera de modo simétrico a área ocupada pela QAT à esquerda e pelos botões do sistema à direita.
+5. Botão Fechar não desenha mais o X em branco quando não está em hover/pressed; o branco fica reservado para o estado vermelho de hover/pressed.
+6. Duplo clique na área vazia da TitleBar alterna maximizar/restaurar, aproximando o comportamento do padrão do Windows/Office.
+
+Observação:
+Esta versão não altera a lógica de fechamento estabilizada na 0.3.18. O objetivo foi polimento visual e comportamento básico da barra superior.

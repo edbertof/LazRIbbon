@@ -1,0 +1,9 @@
+LazRibbon 0.3.4
+================
+
+Correção de compilação em Lazarus 4.6:
+
+- Substituído o uso direto de WM_CLOSE por LR_WM_CLOSE = $0010 em LazRibbon_Form.pas.
+- Motivo: em algumas configurações do Lazarus/FPC, WM_CLOSE e LM_CLOSE não ficam disponíveis pelas units usadas no pacote.
+- A chamada continua usando PostMessage para não executar Close diretamente dentro do MouseUp da barra de título customizada.
+- Atualizada a versão dos pacotes Runtime e Design para 0.3.4.

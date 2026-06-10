@@ -1,0 +1,26 @@
+LazRibbon 0.1.11
+=================
+
+Alterações principais:
+
+1. Aperfeiçoamento visual dos Panes/Groups
+   - A aparência dos Panes deixou de ser derivada de uma cor quase plana.
+   - O SkinManager agora deriva as cores do Pane a partir da paleta do skin:
+     * GradientFromColor passa a ser uma variação mais clara de RibbonGroupColor.
+     * GradientToColor passa a ser uma combinação de RibbonGroupColor com RibbonTopColor.
+     * CaptionBgColor passa a ser derivado da combinação entre RibbonGroupColor e RibbonTopColor.
+     * BorderLightColor passa a ser uma variação clara de RibbonGroupFrameColor.
+   - O objetivo é reduzir o efeito de bloco sólido nos Panes, especialmente nos skins claros.
+
+2. Caption do Pane com gradiente
+   - O fundo da faixa de legenda do Pane deixou de ser sólido.
+   - Agora é desenhado com gradiente vertical derivado de CaptionBgColor.
+
+3. Renomeação de nomes automáticos internos
+   - Novos Tabs criados pelo editor passam a usar nomes como LazRibbonTab1.
+   - Novos Panes criados pelo editor passam a usar nomes como LazRibbonPane1.
+   - Isso remove mais resíduos visuais do LazToolbar original em novos formulários.
+
+Observação:
+- Esta versão ainda não foi compilada neste ambiente, porque não há Lazarus/FPC instalado aqui.
+- Testar primeiro LazRibbonRuntime.lpk e depois LazRibbonDesign.lpk.

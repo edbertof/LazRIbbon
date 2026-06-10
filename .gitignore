@@ -1,0 +1,38 @@
+# Lazarus / Free Pascal build outputs
+lib/
+**/lib/
+**/backup/
+**/*.ppu
+**/*.o
+**/*.obj
+**/*.a
+**/*.or
+**/*.res
+**/*.rsj
+**/*.compiled
+**/*.dbg
+**/*.exe
+**/*.dll
+**/*.so
+**/*.dylib
+
+# Lazarus session/user files
+packagefiles.xml
+**/*.lps
+**/*.lps.bak
+**/*.bak
+**/*~
+.lazarus-pcp/
+.tools/
+
+# Demo output folders
+**/bin/
+
+# Generated release archives
+*.zip
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+*.tmp
+*.log

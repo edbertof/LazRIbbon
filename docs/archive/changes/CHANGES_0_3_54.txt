@@ -1,0 +1,18 @@
+LazRibbon 0.3.54 - Project Hygiene Baseline
+
+This version is intentionally conservative. It does not alter runtime behavior.
+
+Changes:
+- Added README.md with overview, components, package layout and recommended demos.
+- Added INSTALL.md with runtime/design-time installation steps.
+- Added STATUS.md with known technical debt and maintenance policy.
+- Added CHANGELOG.md as consolidated changelog entry point.
+- Added LICENSE.txt to replace the missing license.txt referenced by source headers.
+- Added .gitignore for Lazarus/FPC build artifacts.
+- Removed generated binary/build artifacts from the ZIP distribution.
+- Updated LazRibbonRuntime.lpk and LazRibbonDesign.lpk to release 0.3.54.
+
+Rationale:
+- Prepare the project for safer maintenance before larger refactorings.
+- Reduce distribution size and avoid confusion between source files and compiled outputs.
+- Provide minimal documentation needed by users and contributors.

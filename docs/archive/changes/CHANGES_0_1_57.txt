@@ -1,0 +1,15 @@
+LazRibbon 0.1.57
+=================
+
+Foco: QuickAccessToolBar respeitando botões dropdown vinculados.
+
+Alterações:
+- Itens da QAT que usam LinkedItem agora detectam quando o item original é um botão dropdown.
+- A QAT desenha uma pequena seta no item quando o LinkedItem possui DropdownMenu.
+- Ao clicar no item da QAT, o mesmo menu dropdown do botão original é aberto.
+- EffectiveVisible da QAT não depende mais de LinkedItem.Visible; isso permite que um comando exista apenas na QAT mesmo que sua representação de origem não esteja visível no Ribbon.
+- AddAction agora tenta preferir um LinkedItem existente com a mesma Action, preservando comportamento de dropdown quando o usuário adiciona a Action pelo menu de personalização.
+- Demo quick_access_toolbar atualizado com um botão Modo Toque/Mouse do tipo dropdown.
+
+Observação:
+A QAT continua sendo uma representação compacta de comandos já existentes. Para comandos simples, use Action. Para comandos com comportamento visual específico, como dropdown, prefira LinkedItem.

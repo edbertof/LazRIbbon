@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Package Version="5">
+    <PathDelim Value="\"/>
+    <Name Value="LazRibbonRuntime"/>
+    <Type Value="RunTime"/>
+    <Author Value="Derived from LazToolbar. LazRibbon fork/refactoring by Edberto Ferneda project."/>
+    <CompilerOptions>
+      <Version Value="26"/>
+      <PathDelim Value="\"/>
+      <SearchPaths>
+        <OtherUnitFiles Value="..\source\runtime"/>
+        <UnitOutputDirectory Value="..\lib\runtime\$(TargetCPU)-$(TargetOS)"/>
+      </SearchPaths>
+    </CompilerOptions>
+    <Description Value="LazRibbon runtime components - independent fork of LazToolbar"/>
+    <License Value="Modified LGPL / same license terms preserved from LazToolbar where applicable"/>
+    <Version Major="1" Minor="1" Release="75"/>
+    <Files Count="29">
+      <Item1>
+        <Filename Value="..\source\runtime\LazRibbon_Core.pas"/>
+        <UnitName Value="LazRibbon_Core"/>
+      </Item1>
+      <Item2>
+        <Filename Value="..\source\runtime\LazRibbon_Appearance.pas"/>
+        <UnitName Value="LazRibbon_Appearance"/>
+      </Item2>
+      <Item3>
+        <Filename Value="..\source\runtime\LazRibbon_BaseItem.pas"/>
+        <UnitName Value="LazRibbon_BaseItem"/>
+      </Item3>
+      <Item4>
+        <Filename Value="..\source\runtime\LazRibbon_Buttons.pas"/>
+        <UnitName Value="LazRibbon_Buttons"/>
+      </Item4>
+      <Item5>
+        <Filename Value="..\source\runtime\LazRibbon_Checkboxes.pas"/>
+        <UnitName Value="LazRibbon_Checkboxes"/>
+      </Item5>
+      <Item6>
+        <Filename Value="..\source\runtime\LazRibbon_Const.pas"/>
+        <UnitName Value="LazRibbon_Const"/>
+      </Item6>
+      <Item7>
+        <Filename Value="..\source\runtime\LazRibbon_Dispatch.pas"/>
+        <UnitName Value="LazRibbon_Dispatch"/>
+      </Item7>
+      <Item8>
+        <Filename Value="..\source\runtime\LazRibbon_Exceptions.pas"/>
+        <UnitName Value="LazRibbon_Exceptions"/>
+      </Item8>
+      <Item9>
+        <Filename Value="..\source\runtime\LazRibbon_Items.pas"/>
+        <UnitName Value="LazRibbon_Items"/>
+      </Item9>
+      <Item10>
+        <Filename Value="..\source\runtime\LazRibbon_Groups.pas"/>
+        <UnitName Value="LazRibbon_Groups"/>
+      </Item10>
+      <Item11>
+        <Filename Value="..\source\runtime\LazRibbon_RibbonCommands.pas"/>
+        <UnitName Value="LazRibbon_RibbonCommands"/>
+      </Item11>
+      <Item12>
+        <Filename Value="..\source\runtime\LazRibbon_RibbonExtItems.pas"/>
+        <UnitName Value="LazRibbon_RibbonExtItems"/>
+      </Item12>
+      <Item13>
+        <Filename Value="..\source\runtime\LazRibbon_SkinDefinition.pas"/>
+        <UnitName Value="LazRibbon_SkinDefinition"/>
+      </Item13>
+      <Item14>
+        <Filename Value="..\source\runtime\LazRibbon_SkinManager.pas"/>
+        <UnitName Value="LazRibbon_SkinManager"/>
+      </Item14>
+      <Item15>
+        <Filename Value="..\source\runtime\LazRibbon_SkinSelector.pas"/>
+        <UnitName Value="LazRibbon_SkinSelector"/>
+      </Item15>
+      <Item16>
+        <Filename Value="..\source\runtime\LazRibbon_SkinSelectorItem.pas"/>
+        <UnitName Value="LazRibbon_SkinSelectorItem"/>
+      </Item16>
+      <Item17>
+        <Filename Value="..\source\runtime\LazRibbon_Tabs.pas"/>
+        <UnitName Value="LazRibbon_Tabs"/>
+      </Item17>
+      <Item18>
+        <Filename Value="..\source\runtime\LazRibbon_Tools.pas"/>
+        <UnitName Value="LazRibbon_Tools"/>
+      </Item18>
+      <Item19>
+        <Filename Value="..\source\runtime\LazRibbon_Types.pas"/>
+        <UnitName Value="LazRibbon_Types"/>
+      </Item19>
+      <Item20>
+        <Filename Value="..\source\runtime\LazRibbon_Backstage.pas"/>
+        <UnitName Value="LazRibbon_Backstage"/>
+      </Item20>
+      <Item21>
+        <Filename Value="..\source\runtime\LazRibbon_Math.pas"/>
+        <UnitName Value="LazRibbon_Math"/>
+      </Item21>
+      <Item22>
+        <Filename Value="..\source\runtime\LazRibbon_GUITools.pas"/>
+        <UnitName Value="LazRibbon_GUITools"/>
+      </Item22>
+      <Item23>
+        <Filename Value="..\source\runtime\LazRibbon_GraphTools.pas"/>
+        <UnitName Value="LazRibbon_GraphTools"/>
+      </Item23>
+      <Item24>
+        <Filename Value="..\source\runtime\LazRibbon_XMLIni.pas"/>
+        <UnitName Value="LazRibbon_XMLIni"/>
+      </Item24>
+      <Item25>
+        <Filename Value="..\source\runtime\LazRibbon_XMLParser.pas"/>
+        <UnitName Value="LazRibbon_XMLParser"/>
+      </Item25>
+      <Item26>
+        <Filename Value="..\source\runtime\LazRibbon_XMLTools.pas"/>
+        <UnitName Value="LazRibbon_XMLTools"/>
+      </Item26>
+      <Item27>
+        <Filename Value="..\source\runtime\LazRibbon_Popup.pas"/>
+        <UnitName Value="LazRibbon_Popup"/>
+      </Item27>
+      <Item28>
+        <Filename Value="..\source\runtime\LazRibbon_BackstageBase.pas"/>
+        <UnitName Value="LazRibbon_BackstageBase"/>
+      </Item28>
+      <Item29>
+        <Filename Value="..\source\runtime\LazRibbon_Form.pas"/>
+        <UnitName Value="LazRibbon_Form"/>
+      </Item29>
+    </Files>
+    <RequiredPkgs Count="1">
+      <Item1>
+        <PackageName Value="LCL"/>
+      </Item1>
+    </RequiredPkgs>
+    <UsageOptions>
+      <UnitPath Value="$(PkgOutDir)"/>
+    </UsageOptions>
+    <PublishOptions>
+      <Version Value="2"/>
+    </PublishOptions>
+  </Package>
+</CONFIG>

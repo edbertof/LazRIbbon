@@ -1,0 +1,194 @@
+object Form1: TForm1
+  Left = 300
+  Height = 430
+  Top = 200
+  Width = 840
+  Caption = 'LazRibbon Demo - BackStage Recent Files'
+  OnClose = FormClose
+  OnCreate = FormCreate
+  ClientHeight = 430
+  ClientWidth = 840
+  Color = clBtnFace
+  LCLVersion = '4.6.0.0'
+  object ActionList1: TActionList
+    Left = 112
+    Top = 160
+    object actNew: TAction
+      Caption = 'Novo'
+      Hint = 'Criar um novo banco de dados'
+      ImageIndex = 0
+      OnExecute = ActionExecute
+    end
+    object actOpen: TAction
+      Caption = 'Abrir'
+      Hint = 'Abrir um banco de dados'
+      ImageIndex = 1
+      OnExecute = ActionExecute
+    end
+    object actClose: TAction
+      Caption = 'Fechar'
+      Enabled = False
+      Hint = 'Fechar o banco de dados atual'
+      ImageIndex = 2
+      OnExecute = ActionExecute
+    end
+    object actExit: TAction
+      Caption = 'Sair'
+      Hint = 'Sair do sistema'
+      ImageIndex = 3
+      OnExecute = ActionExecute
+    end
+  end
+  object LazRibbonSkinManager1: TLazRibbonSkinManager
+    ActiveSkin = sbsCaramel
+    Left = 32
+    Top = 160
+  end
+  object LazRibbon1: TLazRibbon
+    Left = 0
+    Height = 112
+    Top = 0
+    Width = 840
+    Align = alTop
+    ApplicationButton.Caption = 'Arquivo'
+    ApplicationButton.Visible = True
+    ApplicationButton.Mode = abmBackstage
+    ApplicationButton.BackstageView = LazRibbonBackstageView1
+    BackstageView = LazRibbonBackstageView1
+    SkinManager = LazRibbonSkinManager1
+    Tabs = (
+      'LazRibbonTabHome'
+      'LazRibbonTabAppearance'
+    )
+    TabIndex = 0
+    object LazRibbonTabHome: TLazRibbonTab
+      Caption = 'Página Inicial'
+      Panes = (
+        'LazRibbonPaneDatabase'
+      )
+      object LazRibbonPaneDatabase: TLazRibbonPane
+        Caption = 'Banco de Dados'
+        Items = (
+          'LazRibbonLargeButtonNew'
+          'LazRibbonLargeButtonOpen'
+        )
+        object LazRibbonLargeButtonNew: TLazRibbonLargeButton
+          Action = actNew
+        end
+        object LazRibbonLargeButtonOpen: TLazRibbonLargeButton
+          Action = actOpen
+        end
+      end
+    end
+    object LazRibbonTabAppearance: TLazRibbonTab
+      Caption = 'Aparência'
+    end
+  end
+  object LazRibbonBackstageView1: TLazRibbonBackstageView
+    Left = 0
+    Height = 318
+    Top = 112
+    Width = 840
+    Align = alClient
+    OverlayMode = bomCoverClientArea
+    ActivePageIndex = 1
+    BackButtonVisible = False
+    NavigationWidth = 138
+    ItemHeight = 38
+    SkinManager = LazRibbonSkinManager1
+    Visible = False
+    Buttons = <
+      item
+        Kind = bbkCommand
+        LinkedItem = LazRibbonLargeButtonNew
+        CloseBackstageOnClick = False
+      end
+      item
+        Kind = bbkCommand
+        LinkedItem = LazRibbonLargeButtonOpen
+        CloseBackstageOnClick = False
+      end
+      item
+        Kind = bbkCommand
+        Action = actClose
+        CloseBackstageOnClick = False
+      end
+      item
+        Caption = 'Recentes'
+        Page = LazRibbonBackstagePageRecent
+        BeginGroup = True
+      end
+      item
+        Kind = bbkCommand
+        Action = actExit
+        Section = bbsBottom
+      end>
+    object LazRibbonBackstagePageInfo: TLazRibbonBackstagePage
+      Left = 138
+      Height = 318
+      Top = 0
+      Width = 702
+      Caption = 'Informações'
+      object LabelInfoTitle: TLabel
+        Left = 36
+        Height = 30
+        Top = 32
+        Width = 160
+        Caption = 'Informações'
+        Font.Height = -23
+        Font.Name = 'Segoe UI'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object LabelInfoText: TLabel
+        Left = 38
+        Height = 70
+        Top = 76
+        Width = 560
+        Caption = 'Este demo mostra um BackStage no estilo de aplicações com Ribbon: comandos simples na coluna esquerda e uma lista de arquivos recentes na página principal.'
+        Font.Name = 'Segoe UI'
+        ParentFont = False
+        WordWrap = True
+      end
+    end
+    object LazRibbonBackstagePageRecent: TLazRibbonBackstagePage
+      Left = 138
+      Height = 318
+      Top = 0
+      Width = 702
+      Caption = 'Recentes'
+      object LazRibbonBackstageRecentList1: TLazRibbonBackstageRecentList
+        Left = 20
+        Height = 270
+        Top = 24
+        Width = 650
+        Anchors = [akTop, akLeft, akRight, akBottom]
+        Font.Height = -12
+        Font.Name = 'Segoe UI'
+        ItemHeight = 54
+        MaxRecentItems = 25
+        ScrollBarMode = rsmAuto
+        StorageSection = 'RecentDatabases'
+        Items.Strings = (
+          'CENSO.BD=sample-data\censo.bd'
+          'EMPRESA.BD=sample-data\empresa.bd'
+          'TESTE 2.BD=sample-data\teste2.bd'
+          'teste.bd=sample-data\teste.bd'
+          'teste 4.bd=sample-data\teste4.bd'
+          'Mais Um.bd=sample-data\mais-um.bd'
+          'OUTRO TESTE.BD=sample-data\outro-teste.bd'
+          'BIBLIOTECA.BD=sample-data\biblioteca.bd'
+          'ARQUIVOLOGIA.BD=sample-data\arquivologia.bd'
+          'PESQUISA.BD=sample-data\pesquisa.bd'
+          'UNESP.BD=sample-data\unesp.bd'
+          'DEMO_LONGO.BD=sample-data\demo-longo.bd'
+        )
+        ParentFont = False
+        SelectedIndex = 3
+        SelectionStyle = brsOfficeGold
+        SkinManager = LazRibbonSkinManager1
+        OnItemClick = RecentItemClick
+      end
+    end
+  end
+end

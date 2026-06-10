@@ -1,0 +1,27 @@
+LazRibbon 0.1.51
+=================
+
+Foco: pequenos aprimoramentos de usabilidade em design-time.
+
+Alterações:
+
+1. QuickAccessToolBar.Items
+   - O nome exibido no editor de coleção agora prioriza:
+     Action.Caption, Action.Name, LinkedItem.Caption, LinkedItem.Name e Caption.
+   - Adicionados métodos auxiliares:
+       TLazRibbonQuickAccessItems.AddAction(AAction)
+       TLazRibbonQuickAccessItems.AddLinkedItem(AItem)
+
+2. BackstageView.Buttons
+   - O nome exibido no editor de coleção agora prioriza:
+     Action.Caption, Action.Name, LinkedItem.Caption, LinkedItem.Name, Page.Caption, Page.Name e Caption.
+   - Itens posicionados no rodapé recebem indicação "[bottom]" no editor.
+   - Separadores aparecem como "--- separator ---".
+   - Adicionados métodos auxiliares:
+       TLazRibbonBackstageButtons.AddCommand(AAction, ACaption)
+       TLazRibbonBackstageButtons.AddPage(APage, ACaption)
+       TLazRibbonBackstageButtons.AddSeparator
+
+3. Observação
+   - Esta versão ainda não cria um editor visual próprio para coleções.
+   - O objetivo é melhorar o editor padrão do Lazarus sem aumentar risco estrutural.

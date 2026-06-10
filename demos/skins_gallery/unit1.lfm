@@ -1,0 +1,82 @@
+object Form1: TForm1
+  Left = 300
+  Height = 380
+  Top = 200
+  Width = 840
+  Caption = 'LazRibbon Demo - Skins Gallery'
+  ClientHeight = 380
+  ClientWidth = 840
+  Color = clBtnFace
+  LCLVersion = '4.6.0.0'
+  object LazRibbonSkinManager1: TLazRibbonSkinManager
+    ActiveSkin = sbsModernLight
+    Left = 32
+    Top = 160
+  end
+  object LazRibbon1: TLazRibbon
+    Left = 0
+    Height = 112
+    Top = 0
+    Width = 840
+    Align = alTop
+    ApplicationButton.Caption = 'Arquivo'
+    ApplicationButton.Hint = 'Abre as opções de arquivo e configuração.'
+    ApplicationButton.Visible = True
+    MenuButtonCaption = 'Arquivo'
+    ShowMenuButton = True
+    SkinManager = LazRibbonSkinManager1
+    ShowHint = True
+    Tabs = (
+      'LazRibbonTabHome'
+    )
+    TabIndex = 0
+    object LazRibbonTabHome: TLazRibbonTab
+      Caption = 'Início'
+      Panes = (
+        'LazRibbonPaneCommands'
+        'LazRibbonPaneSkins'
+      )
+      object LazRibbonPaneCommands: TLazRibbonPane
+        Caption = 'Comandos'
+        Items = (
+          'LazRibbonLargeButtonNew'
+          'LazRibbonSmallButtonOpen'
+        )
+        object LazRibbonLargeButtonNew: TLazRibbonLargeButton
+          Caption = 'Novo'
+          Hint = 'Cria um novo documento.'
+          ScreenTipTitle = 'Novo'
+          ScreenTipText = 'Cria um novo documento usando o modelo padrão.'
+          ScreenTipShortcut = 'Ctrl+N'
+          ScreenTipFooter = 'Exemplo de ScreenTip enriquecido.'
+        end
+        object LazRibbonSmallButtonOpen: TLazRibbonSmallButton
+          Caption = 'Abrir'
+          Hint = 'Abre um documento existente.'
+          ScreenTipTitle = 'Abrir'
+          ScreenTipText = 'Abre um arquivo já existente para edição.'
+          ScreenTipShortcut = 'Ctrl+O'
+          ScreenTipFooter = 'Use Hint para compatibilidade ou ScreenTipText para uma descrição maior.'
+          ShowCaption = True
+          TableBehaviour = tbBeginsRow
+        end
+      end
+      object LazRibbonPaneSkins: TLazRibbonPane
+        Caption = 'Skins'
+        Items = (
+          'LazRibbonSkinGalleryItem1'
+        )
+        object LazRibbonSkinGalleryItem1: TLazRibbonSkinGalleryItem
+          Caption = 'Skins'
+          DisplayMode = rimLarge
+          Width = 150
+          Columns = 4
+          IconWidth = 22
+          IconHeight = 22
+          MaxVisibleItems = 8
+          ShowHints = True
+        end
+      end
+    end
+  end
+end

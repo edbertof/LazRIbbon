@@ -1,0 +1,12 @@
+LazRibbon 0.3.38
+
+BackStage navigation state fix:
+
+- Corrected the selected/active BackStage navigation item so it no longer changes
+  its surface when the mouse moves over other BackStage commands.
+- Active page selection now has priority over transient pressed/hover states.
+- The selected surface is resolved once by GetColors and reused by DrawNavFill,
+  avoiding a second color-resolution pass during painting.
+- WCAG-based text contrast logic from 0.3.35/0.3.36 is preserved.
+- No changes were made to TLazRibbonForm closing, TitleBar, QAT, or design-time
+  registration.

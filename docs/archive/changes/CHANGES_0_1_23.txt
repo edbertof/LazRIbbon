@@ -1,0 +1,7 @@
+LazRibbon 0.1.23
+
+- Refinado o glyph do botão de retorno do BackStage.
+- Substituída a seta preenchida com haste por um chevron vetorial mais limpo.
+- Mantidos estados de hover/pressed e compatibilidade com skins claros e escuros.
+
+Observação: esta alteração é visual e concentrada em LazRibbon_Backstage.pas.

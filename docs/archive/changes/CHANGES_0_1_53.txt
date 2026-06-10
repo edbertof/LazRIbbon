@@ -1,0 +1,20 @@
+LazRibbon 0.1.53
+
+Foco: QuickAccessToolBar como configuração inicial + personalização persistente.
+
+Alterações:
+- QuickAccessToolBar.LoadFromIniFile agora retorna Boolean.
+  True: encontrou e carregou configuração do usuário.
+  False: não encontrou configuração salva; mantém os Items definidos no .lfm.
+- LoadFromIniFile não apaga mais os itens de design-time quando o arquivo INI não existe ou não tem a seção da QAT.
+- QuickAccessToolBar captura automaticamente os itens definidos em design-time após Loaded.
+- Adicionados métodos:
+    CaptureDefaultItems
+    ResetToDefaultItems
+- Menu de personalização passa a incluir "Restaurar Barra de Acesso Rápido".
+- Salva/restaura também ShowResetToDefaultsItem.
+
+Modelo conceitual:
+- CustomizeActionList = catálogo de ações que o usuário pode escolher.
+- Items = configuração inicial/padrão definida pelo programador no .lfm.
+- INI = configuração personalizada do usuário final.

@@ -1,0 +1,15 @@
+LazRibbon 0.1.7
+
+Correção principal:
+- Renomeados os formulários design-time internos para evitar colisão de recursos ao reconstruir a IDE com o LazToolbarPackage original instalado.
+
+Antes:
+- TfrmEditWindow / frmEditWindow
+- TfrmAppearanceEditWindow / frmAppearanceEditWindow
+
+Agora:
+- TfrmLazRibbonEditWindow / frmLazRibbonEditWindow
+- TfrmLazRibbonAppearanceEditWindow / frmLazRibbonAppearanceEditWindow
+
+Motivo:
+- O Lazarus gera recursos por nome de classe do formulário. Como o pacote original também usa TfrmEditWindow, a IDE falhava com Duplicate resource: TFRMEDITWINDOW.

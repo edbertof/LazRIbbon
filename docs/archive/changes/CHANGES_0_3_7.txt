@@ -1,0 +1,14 @@
+LazRibbon 0.3.7
+
+Correção de estabilidade no TLazRibbonForm / QAT na barra de título.
+
+- O botão Fechar customizado deixou de postar mensagem WM_CLOSE/LR_WM_CLOSE.
+- O fechamento agora é enfileirado por Application.QueueAsyncCall, chamando Close somente depois do MouseUp terminar.
+- O MouseUp do botão Fechar sai imediatamente após enfileirar o fechamento, evitando Invalidate/HitTest em componentes que podem entrar em destruição.
+- TLazRibbonTitleBar recebeu OwnerFormAlive e SafeInvalidate para evitar acesso ao formulário/Ribbon durante destruição.
+- A QAT na TitleBar agora checa se o formulário e o Ribbon não estão em csDestroying antes de consultar itens.
+- TLazRibbonQuickAccessToolBar.Changed não chama repaint/métricas quando o Ribbon já está destruindo.
+- TLazRibbon.NotifyAppearanceChanged e NotifyMetricsChanged ignoram chamadas durante csDestroying.
+- O despachante global de mudança de skin ignora owners em destruição.
+
+Objetivo: manter a aparência da 0.3.6, mas eliminar o Access Violation ao fechar a janela.

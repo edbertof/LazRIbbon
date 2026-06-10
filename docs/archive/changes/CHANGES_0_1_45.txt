@@ -1,0 +1,10 @@
+LazRibbon 0.1.45
+
+Correção de estabilidade no encerramento do demo QuickAccessToolBar.
+
+- Itens da QuickAccessToolBar agora registram FreeNotification para Action e LinkedItem.
+- O Ribbon limpa referências da QuickAccessToolBar quando Actions, LinkedItems ou ActionList são destruídos.
+- O menu temporário de personalização da QAT é descartado quando suas Actions deixam de existir.
+- A destruição do Ribbon limpa o menu de personalização antes de liberar o objeto.
+
+Objetivo: evitar Access Violation ao encerrar aplicações que usam QuickAccessToolBar com ActionList.

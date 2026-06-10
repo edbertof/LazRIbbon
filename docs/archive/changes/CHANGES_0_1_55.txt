@@ -1,0 +1,19 @@
+LazRibbon 0.1.55
+
+Foco: simplificacao conceitual da QuickAccessToolBar.
+
+Mudancas:
+- A QAT passa a tratar a personalizacao do usuario como escolha dos comandos/acoes exibidos.
+- Por padrao, o menu rapido da QAT mostra apenas as acoes disponiveis e a opcao de restaurar o padrao.
+- As opcoes "Mais Comandos...", "Mostrar Abaixo/Acima da Faixa de Opcoes" e "Minimizar/Restaurar a Faixa de Opcoes" deixam de aparecer por padrao no menu da QAT.
+- AllowPositionChange e AllowMinimizeRibbon passam a False por padrao.
+- ShowMoreCommandsItem, ShowPositionMenuItem e ShowMinimizeRibbonMenuItem passam a False por padrao.
+- SaveToIniFile/LoadFromIniFile da QAT passam a persistir apenas a lista de comandos escolhidos pelo usuario.
+- Propriedades de politica/layout da QAT permanecem definidas pela aplicacao, via LFM/codigo, e nao pelo arquivo INI do usuario.
+
+Observacao:
+As propriedades avancadas continuam existindo para compatibilidade e casos especiais, mas o uso recomendado e simples:
+1. Defina as Actions em TActionList.
+2. Aponte QuickAccessToolBar.CustomizeActionList para esse TActionList.
+3. Defina QuickAccessToolBar.Items como padrao inicial.
+4. Use LoadFromIniFile/SaveToIniFile para carregar/salvar apenas a selecao de botoes do usuario.

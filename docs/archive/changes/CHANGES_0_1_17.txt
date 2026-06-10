@@ -1,0 +1,52 @@
+LazRibbon 0.1.17
+=================
+
+Foco desta versão: tornar a integração com TLazRibbonSkinManager mais intuitiva,
+sem recriar a referência circular que ocorreu na 0.1.15.
+
+Alterações principais:
+
+1. TLazRibbonSkinGalleryItem
+   - Agora herda automaticamente o SkinManager do TLazRibbon em que está inserido.
+   - A propriedade SkinManager continua existindo, mas passa a funcionar como override opcional.
+   - Regra efetiva:
+       a) se SkinManager do item estiver definido, usa esse;
+       b) caso contrário, usa o SkinManager do TLazRibbon proprietário;
+       c) se nenhum existir, usa a lista interna de skins built-in.
+   - Todas as rotinas de desenho, contagem de skins, seleção e hints passaram a usar o SkinManager efetivo.
+
+2. TLazRibbonSkinSelectorItem
+   - Agora também tenta obter o SkinManager do TLazRibbon pelo dispatcher interno.
+   - Mantém fallback via RTTI apenas como compatibilidade.
+
+3. TLazRibbonBackstageView
+   - Ao definir SkinManager, ativa automaticamente:
+       AppearanceSource = asSkinManager
+       UseSkinManager = True
+
+4. TLazRibbonBackstageRecentList
+   - Ao definir SkinManager, também ativa automaticamente:
+       AppearanceSource = asSkinManager
+       UseSkinManager = True
+
+5. Arquitetura
+   - Foi adicionada em LazRibbon_Dispatch uma consulta genérica:
+       GetSkinManagerObject: TObject
+   - Isso permite que itens internos consultem o SkinManager do Ribbon sem usar LazRibbon_Core
+     e sem provocar referência circular.
+
+Procedimento de teste recomendado:
+
+1. Fechar o Lazarus.
+2. Fazer backup da versão funcional anterior.
+3. Apagar D:\Sistemas\LazRibbon\lib.
+4. Substituir os fontes pela versão 0.1.17.
+5. Compilar LazRibbonRuntime.lpk.
+6. Compilar LazRibbonDesign.lpk.
+7. Instalar o design-time somente se ambos compilarem.
+8. Testar um projeto com:
+     LazRibbon1.SkinManager = LazRibbonSkinManager1
+   deixando LazRibbonSkinGalleryItem1.SkinManager vazio.
+
+Resultado esperado:
+Ao selecionar um skin no LazRibbonSkinGalleryItem, o TLazRibbon deve mudar automaticamente.

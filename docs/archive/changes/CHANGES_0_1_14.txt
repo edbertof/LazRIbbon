@@ -1,0 +1,6 @@
+LazRibbon 0.1.14
+
+- Corrige a causa real da diferença visual dos Panes quando o TLazRibbon usa TLazRibbonSkinManager.
+- Para skins Office internos claros, o SkinManager agora preserva a aparência completa calibrada por LazRibbon_Appearance.Reset, em vez de substituir Tab/Pane/Element/Popup pelo algoritmo genérico de paleta.
+- Skins escuros continuam usando a aparência derivada da paleta, pois não há baseline Office 2007 dark completo no Appearance original.
+- Mantém a compatibilidade com os skins internos e com o seletor/galeria de skins.

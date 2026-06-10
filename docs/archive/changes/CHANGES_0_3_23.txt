@@ -1,0 +1,11 @@
+LazRibbon 0.3.23
+
+Correção visual do BackStage:
+
+- Reforçado o contraste da opção ativa no menu lateral do BackStage.
+- O item selecionado não herda mais a cor esmaecida de controles desabilitados.
+- Em skins claros, a legenda da opção ativa passa a usar texto preto de alto contraste.
+- Em skins escuros, a legenda da opção ativa usa texto branco.
+- O gradiente do item ativo foi ajustado para não se misturar ao fundo branco em skins claros.
+
+A lógica de fechamento da janela não foi alterada.

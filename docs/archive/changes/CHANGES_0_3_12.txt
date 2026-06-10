@@ -1,0 +1,12 @@
+LazRibbon 0.3.12
+================
+
+- Reworked the TLazRibbonForm custom title bar application icon lookup.
+- The title bar now tries Form.Icon, Application.Icon, Application.MainForm.Icon,
+  Windows window/class icon handles, conventional executable resource names
+  and, as a final Windows fallback, ShellApi.ExtractIconEx(Application.ExeName).
+- Added an internal cached TIcon in TLazRibbonTitleBar so icons extracted from
+  the executable are owned and released safely.
+- Goal: display the real project/application icon before the Quick Access Toolbar
+  when BorderStyle=bsNone is used by the custom Ribbon form chrome.
+- Added project1.ico to demos/ribbon_form so the demo itself has a real project icon for testing.

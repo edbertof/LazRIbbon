@@ -1,0 +1,9 @@
+LazRibbon 0.3.49
+
+Correção no BackStage:
+- o item de página selecionado passa a usar uma superfície neutra e estável, baseada na área de conteúdo do BackStage;
+- a seleção não herda mais ActiveColor/HotColor/acento do skin;
+- hover sobre Novo/Abrir/Recentes não deve alterar a cor do item selecionado;
+- mantém a lógica de contraste WCAG para o texto.
+
+Não foram alterados TLazRibbonForm, TitleBar, QAT nem a lógica de fechamento da janela.

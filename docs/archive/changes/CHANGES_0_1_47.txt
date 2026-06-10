@@ -1,0 +1,16 @@
+LazRibbon 0.1.47
+=================
+
+Foco: botão de recolher/restaurar Ribbon na faixa de abas.
+
+Novidades:
+- TLazRibbon ganhou ShowCollapseButton, CollapseRibbonHint e ExpandRibbonHint.
+- O botão aparece no lado direito da faixa de abas, semelhante ao comportamento do DevExpress/Office.
+- Quando RibbonMinimized=False, o botão mostra seta para cima e minimiza a Faixa de Opções.
+- Quando RibbonMinimized=True, o botão mostra seta para baixo e restaura a Faixa de Opções.
+- O botão tem estados visualmente distintos: normal, hover e pressed.
+- O hit-test, tooltip e clique do botão foram integrados ao ciclo de mouse do TLazRibbon.
+- O menu da QuickAccessToolBar continua podendo controlar RibbonMinimized; o novo botão é apenas um atalho visual direto.
+
+Observação:
+- O botão de ajuda ainda não foi implementado. Ele deve ser tratado em uma próxima etapa, com propriedade própria ShowHelpButton/OnHelpButtonClick.

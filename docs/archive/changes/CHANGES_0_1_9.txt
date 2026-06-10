@@ -1,0 +1,14 @@
+LazRibbon 0.1.9
+
+Correção:
+- TLazRibbon agora muda automaticamente AppearanceSource para asSkinManager quando um TLazRibbonSkinManager é associado enquanto o componente ainda está no modo padrão asInternalStyle.
+- Isso corrige o caso em que TLazRibbonSkinGalleryItem altera o SkinManager, mas o TLazRibbon continua visualmente no skin interno padrão.
+
+Procedimento de teste:
+1. Apagar a pasta lib.
+2. Compilar LazRibbonRuntime.
+3. Compilar/instalar LazRibbonDesign.
+4. Em um formulário, definir:
+   LazRibbon1.SkinManager := LazRibbonSkinManager1;
+   LazRibbonSkinGalleryItem1.SkinManager := LazRibbonSkinManager1;
+   A propriedade AppearanceSource deve ir para asSkinManager automaticamente.

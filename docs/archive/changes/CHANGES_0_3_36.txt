@@ -1,0 +1,34 @@
+LazRibbon 0.3.36
+=================
+
+Consolidação do sistema de skins e contraste.
+
+1. Movidas para LazRibbon_SkinDefinition funções reutilizáveis de contraste:
+   - LazRelativeLuminance
+   - LazContrastRatio
+   - LazEnsureContrastTextColor
+
+2. TLazRibbonSkinManager.ApplyPaletteToAppearance passou a aplicar proteção de contraste
+   em textos de abas, menu button, panes, elementos e popups.
+
+3. TLazRibbonSkinManager.Backstage agora expõe as cores específicas de navegação
+   do BackStage, em vez de depender apenas das cores genéricas do skin:
+   - NavigationColor
+   - TextColor
+   - MutedTextColor
+   - HotColor
+   - HotTextColor
+   - SelectedColor
+   - SelectedTextColor
+   - SelectedFrameColor
+
+4. Mantidos aliases de compatibilidade no grupo Backstage:
+   - ActiveColor -> SelectedColor
+   - FrameColor -> SelectedFrameColor
+
+5. O LazRibbonSkinEditor agora mostra os campos específicos do BackStage na aba
+   Avançado, permitindo editar as cores de navegação/hover/seleção.
+
+6. As amostras de cor do SkinEditor agora usam texto com contraste automático.
+
+7. Não foram alteradas as rotinas de fechamento do TLazRibbonForm, QAT ou TitleBar.

@@ -1,0 +1,5 @@
+LazRibbon 0.1.25
+
+Correção do demo backstage_recent_files:
+- Substituído o identificador inexistente sbsOfficeBeige por sbsCaramel.
+- O erro ocorria apenas no demo, não no runtime do pacote.

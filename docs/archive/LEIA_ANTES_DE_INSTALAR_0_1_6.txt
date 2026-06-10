@@ -1,0 +1,15 @@
+LazRibbon 0.1.6
+
+Correção principal:
+- Separação dos diretórios de saída dos pacotes Runtime e Design.
+- Isso evita que unidades/forms de design-time (.lfm) fiquem visíveis pelo pacote runtime e causem erro de recurso duplicado ao recompilar a IDE.
+
+Antes de testar esta versão:
+1. Feche o Lazarus.
+2. Apague a pasta D:\Sistemas\LazRibbon\lib, se ela existir.
+3. Abra o Lazarus.
+4. Compile packages\LazRibbonRuntime.lpk.
+5. Compile e instale packages\LazRibbonDesign.lpk.
+6. Reinicie o Lazarus quando solicitado.
+
+Não adicione LazToolbarPackage como dependência.

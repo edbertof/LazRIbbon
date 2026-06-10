@@ -1,0 +1,7 @@
+LazRibbon 0.3.46
+
+- BackStage: estabilizada a superfície visual do item de página selecionado.
+- O item selecionado agora usa sempre a superfície da área de conteúdo do BackStage, e não ActiveColor/HotColor do skin.
+- Corrige o caso em que "Recentes" ficava azul escuro quando o mouse passava sobre "Novo" ou "Abrir".
+- Mantida a lógica WCAG 4,5:1 para a cor do texto.
+- Não altera TLazRibbonForm, TitleBar, QAT nem fechamento da janela.

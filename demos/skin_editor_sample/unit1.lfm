@@ -1,0 +1,334 @@
+object Form1: TForm1
+  Left = 541
+  Height = 520
+  Top = 254
+  Width = 743
+  Caption = 'LazRibbon Demo - Skin Editor Sample'
+  ClientHeight = 520
+  ClientWidth = 743
+  LCLVersion = '4.6.0.0'
+  object LazToolbar1: TLazRibbon
+    Left = 0
+    Height = 112
+    Top = 0
+    Width = 743
+    Color = 15850175
+    Style = lazOffice2007Silver
+    AppearanceSource = asSkinManager
+    SkinManager = LazSkinManager1
+    Appearance.Tab.TabHeaderFont.Color = 5978398
+    Appearance.Tab.BorderColor = 13809300
+    Appearance.Tab.CornerRadius = 4
+    Appearance.Tab.GradientFromColor = 15850175
+    Appearance.Tab.GradientToColor = 16775149
+    Appearance.Tab.GradientType = bkConcave
+    Appearance.Tab.InactiveTabHeaderFontColor = 8351583
+    Appearance.MenuButton.CaptionFont.Color = clWhite
+    Appearance.MenuButton.IdleFrameColor = 13809300
+    Appearance.MenuButton.IdleGradientFromColor = clWhite
+    Appearance.MenuButton.IdleGradientToColor = clWhite
+    Appearance.MenuButton.IdleGradientType = bkConcave
+    Appearance.MenuButton.IdleCaptionColor = 5978398
+    Appearance.MenuButton.HotTrackFrameColor = 13809300
+    Appearance.MenuButton.HotTrackGradientFromColor = 16444635
+    Appearance.MenuButton.HotTrackGradientToColor = 16444635
+    Appearance.MenuButton.HotTrackGradientType = bkConcave
+    Appearance.MenuButton.HotTrackCaptionColor = 5978398
+    Appearance.MenuButton.HotTrackBrightnessChange = 40
+    Appearance.MenuButton.ActiveFrameColor = 13809300
+    Appearance.MenuButton.ActiveGradientFromColor = 16444380
+    Appearance.MenuButton.ActiveGradientToColor = 16444380
+    Appearance.MenuButton.ActiveGradientType = bkConcave
+    Appearance.MenuButton.ActiveCaptionColor = 5978398
+    Appearance.MenuButton.ShapeStyle = mbssRounded
+    Appearance.Pane.BorderDarkColor = 13809300
+    Appearance.Pane.BorderLightColor = 13809300
+    Appearance.Pane.CaptionBgColor = 16775149
+    Appearance.Pane.CaptionFont.Color = 5978398
+    Appearance.Pane.GradientFromColor = 16709614
+    Appearance.Pane.GradientToColor = clWhite
+    Appearance.Pane.GradientType = bkConcave
+    Appearance.Element.CaptionFont.Color = 5978398
+    Appearance.Element.IdleFrameColor = 13809300
+    Appearance.Element.IdleGradientFromColor = 16709614
+    Appearance.Element.IdleGradientToColor = 16709614
+    Appearance.Element.IdleGradientType = bkSolid
+    Appearance.Element.IdleInnerLightColor = 16709614
+    Appearance.Element.IdleInnerDarkColor = 13809300
+    Appearance.Element.IdleKnobColor = clWhite
+    Appearance.Element.IdleTrackColor = 13809300
+    Appearance.Element.IdleCaptionColor = 5978398
+    Appearance.Element.HotTrackFrameColor = 13809300
+    Appearance.Element.HotTrackGradientFromColor = 16444635
+    Appearance.Element.HotTrackGradientToColor = 16444635
+    Appearance.Element.HotTrackGradientType = bkSolid
+    Appearance.Element.HotTrackInnerLightColor = 16444635
+    Appearance.Element.HotTrackInnerDarkColor = 13809300
+    Appearance.Element.HotTrackTrackColor = 16444635
+    Appearance.Element.HotTrackCaptionColor = 5978398
+    Appearance.Element.HotTrackBrightnessChange = 40
+    Appearance.Element.ActiveFrameColor = 13809300
+    Appearance.Element.ActiveGradientFromColor = 16444380
+    Appearance.Element.ActiveGradientToColor = 16444380
+    Appearance.Element.ActiveGradientType = bkSolid
+    Appearance.Element.ActiveInnerLightColor = 16444380
+    Appearance.Element.ActiveInnerDarkColor = 13809300
+    Appearance.Element.ActiveKnobColor = clWhite
+    Appearance.Element.ActiveTrackColor = 16444380
+    Appearance.Element.ActiveCaptionColor = 5978398
+    Appearance.Element.KnobAsGradient = True
+    Appearance.Element.Style = esRounded
+    Appearance.Popup.CaptionFont.Color = 9126421
+    Appearance.Popup.CheckedFrameColor = 3577330
+    Appearance.Popup.CheckedGradientFromColor = 9823231
+    Appearance.Popup.CheckedGradientToColor = 9823231
+    Appearance.Popup.CheckedGradientType = bkSolid
+    Appearance.Popup.DisabledCaptionColor = clSilver
+    Appearance.Popup.DividerLineColor = 12500670
+    Appearance.Popup.GutterFrameColor = 12961221
+    Appearance.Popup.GutterGradientFromColor = 15724527
+    Appearance.Popup.GutterGradientToColor = 15724527
+    Appearance.Popup.GutterGradientType = bkSolid
+    Appearance.Popup.HotTrackCaptionColor = 8864367
+    Appearance.Popup.HotTrackFrameColor = 10079963
+    Appearance.Popup.HotTrackGradientFromColor = 14351615
+    Appearance.Popup.HotTrackGradientToColor = 5101567
+    Appearance.Popup.HotTrackGradientType = bkConcave
+    Appearance.Popup.IdleCaptionColor = 6317407
+    Appearance.Popup.IdleGradientFromColor = 16448250
+    Appearance.Popup.IdleGradientToColor = 16448250
+    Appearance.Popup.IdleGradientType = bkSolid
+    Appearance.Popup.SelectionShape = ssRectangle
+    Appearance.Popup.Style = psGutter
+    TabIndex = 0
+    MenuButtonCaption = 'Arquivo'
+    ShowMenuButton = True
+    Tabs = (
+      'LazTab1'
+    )
+    object LazTab1: TLazRibbonTab
+      CustomAppearance.Tab.TabHeaderFont.Color = 9126421
+      CustomAppearance.Tab.BorderColor = 14922381
+      CustomAppearance.Tab.CornerRadius = 4
+      CustomAppearance.Tab.GradientFromColor = 16115934
+      CustomAppearance.Tab.GradientToColor = 15587527
+      CustomAppearance.Tab.GradientType = bkConcave
+      CustomAppearance.Tab.InactiveTabHeaderFontColor = 9126421
+      CustomAppearance.MenuButton.CaptionFont.Color = clWhite
+      CustomAppearance.MenuButton.IdleFrameColor = 10569759
+      CustomAppearance.MenuButton.IdleGradientFromColor = 14649927
+      CustomAppearance.MenuButton.IdleGradientToColor = 12017961
+      CustomAppearance.MenuButton.IdleGradientType = bkConcave
+      CustomAppearance.MenuButton.IdleCaptionColor = clWhite
+      CustomAppearance.MenuButton.HotTrackFrameColor = 10569759
+      CustomAppearance.MenuButton.HotTrackGradientFromColor = 15179099
+      CustomAppearance.MenuButton.HotTrackGradientToColor = 12478257
+      CustomAppearance.MenuButton.HotTrackGradientType = bkConcave
+      CustomAppearance.MenuButton.HotTrackCaptionColor = clWhite
+      CustomAppearance.MenuButton.HotTrackBrightnessChange = 40
+      CustomAppearance.MenuButton.ActiveFrameColor = 11095324
+      CustomAppearance.MenuButton.ActiveGradientFromColor = 14518846
+      CustomAppearance.MenuButton.ActiveGradientToColor = 12411174
+      CustomAppearance.MenuButton.ActiveGradientType = bkConcave
+      CustomAppearance.MenuButton.ActiveCaptionColor = clWhite
+      CustomAppearance.MenuButton.ShapeStyle = mbssRounded
+      CustomAppearance.Pane.BorderDarkColor = 14335646
+      CustomAppearance.Pane.BorderLightColor = 16315117
+      CustomAppearance.Pane.CaptionBgColor = 15849922
+      CustomAppearance.Pane.CaptionFont.Color = 9126421
+      CustomAppearance.Pane.GradientFromColor = 16115934
+      CustomAppearance.Pane.GradientToColor = 15587527
+      CustomAppearance.Pane.GradientType = bkConcave
+      CustomAppearance.Element.IdleFrameColor = 14727067
+      CustomAppearance.Element.IdleGradientFromColor = 15653832
+      CustomAppearance.Element.IdleGradientToColor = 15323324
+      CustomAppearance.Element.IdleGradientType = bkConcave
+      CustomAppearance.Element.IdleInnerLightColor = 15852501
+      CustomAppearance.Element.IdleInnerDarkColor = 15520702
+      CustomAppearance.Element.IdleKnobColor = 11631958
+      CustomAppearance.Element.IdleTrackColor = 16182242
+      CustomAppearance.Element.IdleCaptionColor = 11631958
+      CustomAppearance.Element.HotTrackFrameColor = 10211293
+      CustomAppearance.Element.HotTrackGradientFromColor = 14351615
+      CustomAppearance.Element.HotTrackGradientToColor = 5101567
+      CustomAppearance.Element.HotTrackGradientType = bkConcave
+      CustomAppearance.Element.HotTrackInnerLightColor = 12972543
+      CustomAppearance.Element.HotTrackInnerDarkColor = 8045272
+      CustomAppearance.Element.HotTrackTrackColor = 14351615
+      CustomAppearance.Element.HotTrackCaptionColor = 8864367
+      CustomAppearance.Element.HotTrackBrightnessChange = 40
+      CustomAppearance.Element.ActiveFrameColor = 5535371
+      CustomAppearance.Element.ActiveGradientFromColor = 7126014
+      CustomAppearance.Element.ActiveGradientToColor = 4035324
+      CustomAppearance.Element.ActiveGradientType = bkConcave
+      CustomAppearance.Element.ActiveInnerLightColor = 961020
+      CustomAppearance.Element.ActiveInnerDarkColor = 961020
+      CustomAppearance.Element.ActiveKnobColor = 4035324
+      CustomAppearance.Element.ActiveTrackColor = 12972543
+      CustomAppearance.Element.ActiveCaptionColor = 8405614
+      CustomAppearance.Element.KnobAsGradient = True
+      CustomAppearance.Element.Style = esRounded
+      CustomAppearance.Popup.CheckedFrameColor = 3577330
+      CustomAppearance.Popup.CheckedGradientFromColor = 9823231
+      CustomAppearance.Popup.CheckedGradientToColor = 9823231
+      CustomAppearance.Popup.CheckedGradientType = bkSolid
+      CustomAppearance.Popup.DisabledCaptionColor = clSilver
+      CustomAppearance.Popup.DividerLineColor = 14922381
+      CustomAppearance.Popup.GutterFrameColor = 12961221
+      CustomAppearance.Popup.GutterGradientFromColor = 15658729
+      CustomAppearance.Popup.GutterGradientToColor = 15658729
+      CustomAppearance.Popup.GutterGradientType = bkSolid
+      CustomAppearance.Popup.HotTrackCaptionColor = 8864367
+      CustomAppearance.Popup.HotTrackFrameColor = 10079963
+      CustomAppearance.Popup.HotTrackGradientFromColor = 14351615
+      CustomAppearance.Popup.HotTrackGradientToColor = 5101567
+      CustomAppearance.Popup.HotTrackGradientType = bkConcave
+      CustomAppearance.Popup.IdleCaptionColor = 11631958
+      CustomAppearance.Popup.IdleGradientFromColor = 16448250
+      CustomAppearance.Popup.IdleGradientToColor = 16448250
+      CustomAppearance.Popup.IdleGradientType = bkSolid
+      CustomAppearance.Popup.SelectionShape = ssRectangle
+      CustomAppearance.Popup.Style = psGutter
+      Caption = 'Editar'
+      Panes = (
+        'LazPane1'
+        'LazPane2'
+      )
+      object LazPane1: TLazRibbonPane
+        Caption = 'Pane'
+        Items = (
+          'LazLargeButton1'
+        )
+        object LazLargeButton1: TLazRibbonLargeButton
+          Caption = 'Button'
+        end
+      end
+      object LazPane2: TLazRibbonPane
+        Caption = 'Pane'
+        Items = (
+          'LazLargeButton3'
+          'LazLargeButton2'
+          'LazRibbonSkinGalleryItem2'
+          'LazSmallButton1'
+          'LazSmallButton2'
+          'LazSmallButton3'
+        )
+        object LazLargeButton3: TLazRibbonLargeButton
+          Caption = 'Button'
+        end
+        object LazLargeButton2: TLazRibbonLargeButton
+          Caption = 'Button'
+        end
+        object LazRibbonSkinGalleryItem2: TLazRibbonSkinGalleryItem
+          Caption = 'Skins'
+          DisplayMode = rimLarge
+          Width = 100
+          ItemWidth = 18
+          ItemHeight = 18
+          SkinManager = LazSkinManager1
+          ShowCaptions = True
+        end
+        object LazSmallButton1: TLazRibbonSmallButton
+          Caption = 'Button'
+          TableBehaviour = tbBeginsColumn
+        end
+        object LazSmallButton2: TLazRibbonSmallButton
+          Caption = 'Button'
+          TableBehaviour = tbBeginsRow
+        end
+        object LazSmallButton3: TLazRibbonSmallButton
+          Caption = 'Button'
+          TableBehaviour = tbBeginsRow
+        end
+      end
+    end
+  end
+  object LazBackstageView1: TLazRibbonBackstageView
+    Left = 256
+    Height = 248
+    Top = 272
+    Width = 487
+    AppearanceSource = asSkinManager
+    BackstageTabCaption = 'Arquivo'
+    Buttons = <    
+      item
+        Caption = 'Novo'
+        Kind = bbkCommand
+      end    
+      item
+        Caption = 'Abrir'
+        Kind = bbkCommand
+      end    
+      item
+        Caption = 'Recentes'
+        Page = LazBackstagePage1
+      end    
+      item
+        Caption = 'Fechar'
+        Kind = bbkCommand
+      end    
+      item
+        Kind = bbkSeparator
+      end    
+      item
+        Caption = 'Sair'
+        Kind = bbkCommand
+      end>
+    Align = alNone
+    Font.Height = -12
+    Font.Name = 'Segoe UI'
+    LinkedToolbar = LazToolbar1
+    ParentFont = False
+    ShowCloseButton = True
+    SkinManager = LazSkinManager1
+    Style = lazOffice2007Silver
+    UseToolbarAppearance = False
+    UseSkinManager = True
+    OnClick = LazBackstageView1Click
+    object LazBackstagePage1: TLazRibbonBackstagePage
+      Left = 180
+      Height = 248
+      Top = 0
+      Width = 307
+      ParentColor = False
+      object LazBackstageRecentList1: TLazRibbonBackstageRecentList
+        Left = 0
+        Height = 248
+        Top = 0
+        Width = 307
+        Align = alClient
+        Font.Height = -12
+        Font.Name = 'Segoe UI'
+        ParentColor = False
+        ParentFont = False
+      end
+    end
+  end
+  object LazSkinSelector1: TLazRibbonSkinSelector
+    Left = 56
+    Height = 180
+    Top = 128
+    Width = 272
+    ParentColor = False
+    IconWidth = 30
+    IconHeight = 30
+    SelectedSkinName = 'ClassicBlue'
+    ShowCaptions = False
+  end
+  object LazSkinManager1: TLazRibbonSkinManager
+    BackColor = clWhite
+    NavigationColor = 16577256
+    ActiveColor = 16444380
+    HotColor = 16577514
+    FrameColor = 13809300
+    TextColor = 5978398
+    MutedTextColor = 8351583
+    RecentOddColor = 16644856
+    RecentHoverColor = 16643308
+    RecentSelectedColor = 16575451
+    RecentSelectedFrameColor = 14395774
+    RecentTitleColor = 8535040
+    Left = 448
+    Top = 144
+  end
+end

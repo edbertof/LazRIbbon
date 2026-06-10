@@ -1,0 +1,19 @@
+LazRibbon 0.3.55 - License and headers normalization
+======================================================
+
+Scope
+-----
+This is a project hygiene release. It does not intentionally change runtime behavior.
+
+Changes
+-------
+- Added normalized license/project headers to Pascal units that did not contain an explicit header.
+- Preserved existing LazToolbar/LazRibbon copyright and license notices where already present.
+- Corrected a minor typo in existing block comments where the license reference line started with a stray apostrophe.
+- Added LICENSE_NOTES.md documenting the header policy adopted in this pass.
+- Updated package versions to 0.3.55.
+
+Important
+---------
+This release does not attempt to resolve all legal questions automatically. It only makes the source tree clearer and more consistent.
+Any third-party resources, skins, icons, or external assets must still be reviewed separately.

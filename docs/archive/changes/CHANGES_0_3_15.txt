@@ -1,0 +1,14 @@
+LazRibbon 0.3.15
+================
+
+Correção focada no fechamento do TLazRibbonForm.
+
+- Removido o fechamento via Application.QueueAsyncCall/DoQueuedCloseFromTitleBar.
+- O botão Fechar customizado voltou a postar uma mensagem WM_CLOSE localmente definida
+  por meio de LCLIntf.PostMessage. Isso evita executar um callback de método do próprio
+  formulário durante a sequência de destruição da aplicação.
+- O código mantém a proteção contra fechamento direto dentro do MouseUp.
+- FTitleIcon agora é liberado no destrutor de TLazRibbonForm.
+
+Observação: a constante LR_WM_CLOSE = $0010 é mantida localmente para evitar depender
+da disponibilidade de WM_CLOSE ou LM_CLOSE nas units de Lazarus/FPC em uso.

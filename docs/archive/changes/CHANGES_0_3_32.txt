@@ -1,0 +1,8 @@
+LazRibbon 0.3.32
+
+Correção de compilação após a versão 0.3.31.
+
+- Corrigido erro em LazRibbon_Form.pas causado por conflito entre Classes.RegisterClass e Windows.RegisterClass.
+- O registro runtime de TLazRibbonTitleBar agora usa Classes.RegisterClass explicitamente.
+- O pacote de design também passa a usar Classes.RegisterClass para TLazRibbonTitleBar e TLazRibbonForm.
+- Nenhuma alteração foi feita na lógica de fechamento da janela, na TitleBar/QAT ou no desenho do BackStage.

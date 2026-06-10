@@ -1,0 +1,25 @@
+LazRibbon 0.1.39
+==================
+
+Foco: refinamento da QuickAccessToolBar.
+
+Alterações:
+
+1. QuickAccessToolBar.Position ganhou o valor qapBelowRibbon.
+   - qapBeforeTabs: comportamento anterior, antes das abas.
+   - qapBelowRibbon: desenha a barra em uma linha própria abaixo da linha de abas e acima dos panes.
+
+2. Menu de personalização da QuickAccessToolBar agora inclui opção para alternar a posição:
+   - Mostrar Abaixo da Faixa de Opções
+   - Mostrar Acima da Faixa de Opções
+
+3. Persistência em INI agora salva e carrega a posição da QuickAccessToolBar.
+
+4. Novas propriedades do subobjeto QuickAccessToolBar:
+   - ShowPositionMenuItem
+   - ShowAboveRibbonCaption
+   - ShowBelowRibbonCaption
+
+Observação:
+A função de minimizar a faixa de opções ainda não foi implementada nesta versão.
+O objetivo foi consolidar primeiro a posição da QuickAccessToolBar e sua persistência.

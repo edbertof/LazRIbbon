@@ -1,0 +1,9 @@
+LazRibbon 0.3.42
+
+Correção focada no BackStage:
+
+- Itens de página selecionados continuam usando PageButtonVisualMode = bpvmSelectable.
+- A legenda de itens selecionados com página associada passa a ser calculada contra a superfície realmente pintada no Canvas.
+- A cor da skin BackstageNavSelectedTextColor é usada apenas como preferência; se não atingir contraste mínimo, a rotina WCAG escolhe preto/branco automaticamente.
+- Corrige casos em que "Novo" ou "Recentes" desapareciam em skins claros quando selecionados.
+- Não altera TLazRibbonForm, TitleBar, QAT ou a lógica de fechamento.

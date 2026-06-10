@@ -1,0 +1,16 @@
+LazRibbon 0.1.56
+
+Foco: consolidar o modelo de comandos por Actions.
+
+Alterações:
+- Demo quick_access_toolbar agora inclui a action ActionTouchMouse, que existe apenas na QuickAccessToolBar.
+- Isso demonstra que a QAT não precisa conter apenas botões que também estejam no Ribbon: ela pode expor qualquer Action do catálogo da aplicação.
+- Reforçada a leitura correta de CustomizeActionList: é o catálogo de ações disponíveis para a QAT, não uma lista de botões já existentes no Ribbon.
+- Pequeno endurecimento no vínculo entre botões do Ribbon e TCustomAction, evitando casts diretos quando a Action não for TCustomAction.
+
+Uso recomendado:
+1. Defina os comandos reais em TActionList.
+2. Use essas Actions em botões do Ribbon, BackStage, PopupMenu e/ou QAT.
+3. Actions que existem só na QAT também são válidas.
+4. QuickAccessToolBar.Items define o padrão inicial.
+5. O INI salva a escolha do usuário.

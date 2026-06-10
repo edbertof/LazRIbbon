@@ -1,0 +1,21 @@
+LazRibbon 0.3.16
+
+Correção de estabilidade no fechamento do TLazRibbonForm:
+
+- TLazRibbonForm.Destroy agora chama Destroying no início do destrutor.
+  Em Lazarus/FPC, o destrutor descendente executa antes de TComponent.Destroy
+  marcar csDestroying; isso deixava paints, notificações e consultas à QAT
+  enxergarem o formulário como ainda ativo durante a desmontagem.
+
+- TLazRibbon.Destroy também chama Destroying no início do destrutor, evitando
+  que TLazRibbonQuickAccessToolBar.Changed e dispatches de métrica/aparência
+  repintem ou recalculem layout enquanto objetos internos já estão sendo liberados.
+
+- TLazRibbonForm.EffectiveSkinManager agora retorna nil durante destruição
+  ou quando Ribbon/SkinManager já estão em destruição.
+
+- A TitleBar é desabilitada, escondida e desconectada do formulário antes da
+  destruição herdada.
+
+Objetivo: corrigir Access Violation ao fechar o demo ribbon_form sem remover
+o ícone do projeto nem a QAT integrada à barra de título.

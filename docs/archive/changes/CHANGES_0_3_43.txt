@@ -1,0 +1,8 @@
+LazRibbon 0.3.43
+
+- Padroniza a lógica visual do BackStage em modo bpvmSelectable.
+- Separa de forma rígida estado selecionado e estado hover para itens de página.
+- O item selecionado passa a usar uma superfície estável de destaque.
+- O hover de itens não selecionados passa a usar uma superfície única, independente da página ativa.
+- Mantém a proteção de contraste WCAG 4,5:1 para as legendas.
+- Não altera TLazRibbonForm, TitleBar, QAT nem a lógica de fechamento.

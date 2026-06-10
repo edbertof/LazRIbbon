@@ -1,0 +1,2659 @@
+object Form1: TForm1
+  Left = 280
+  Height = 662
+  Top = 130
+  Width = 636
+  Caption = 'LazRibbon Demo - Styles'
+  ClientHeight = 662
+  ClientWidth = 636
+  Color = clMedGray
+  LCLVersion = '4.99.0.0'
+  object ScrollBox1: TScrollBox
+    Left = 0
+    Height = 620
+    Top = 0
+    Width = 636
+    HorzScrollBar.Page = 75
+    VertScrollBar.Page = 608
+    Align = alClient
+    ClientHeight = 616
+    ClientWidth = 632
+    ParentBackground = False
+    TabOrder = 0
+    object LazToolbar1: TLazRibbon
+      Left = 0
+      Height = 112
+      Top = 0
+      Width = 632
+      Color = clMedGray
+      Appearance.Tab.TabHeaderFont.Color = 9126421
+      Appearance.Tab.BorderColor = 14922381
+      Appearance.Tab.CornerRadius = 4
+      Appearance.Tab.GradientFromColor = 16115934
+      Appearance.Tab.GradientToColor = 15587527
+      Appearance.Tab.GradientType = bkConcave
+      Appearance.Tab.InactiveTabHeaderFontColor = 9126421
+      Appearance.MenuButton.CaptionFont.Color = clWhite
+      Appearance.MenuButton.IdleFrameColor = 10569759
+      Appearance.MenuButton.IdleGradientFromColor = 14649927
+      Appearance.MenuButton.IdleGradientToColor = 12017961
+      Appearance.MenuButton.IdleGradientType = bkConcave
+      Appearance.MenuButton.IdleCaptionColor = clWhite
+      Appearance.MenuButton.HotTrackFrameColor = 10569759
+      Appearance.MenuButton.HotTrackGradientFromColor = 15179099
+      Appearance.MenuButton.HotTrackGradientToColor = 12478257
+      Appearance.MenuButton.HotTrackGradientType = bkConcave
+      Appearance.MenuButton.HotTrackCaptionColor = clWhite
+      Appearance.MenuButton.HotTrackBrightnessChange = 40
+      Appearance.MenuButton.ActiveFrameColor = 11095324
+      Appearance.MenuButton.ActiveGradientFromColor = 14518846
+      Appearance.MenuButton.ActiveGradientToColor = 12411174
+      Appearance.MenuButton.ActiveGradientType = bkConcave
+      Appearance.MenuButton.ActiveCaptionColor = clWhite
+      Appearance.MenuButton.ShapeStyle = mbssRounded
+      Appearance.Pane.BorderDarkColor = 14335646
+      Appearance.Pane.BorderLightColor = 16315117
+      Appearance.Pane.CaptionBgColor = 15849922
+      Appearance.Pane.CaptionFont.Color = 9126421
+      Appearance.Pane.GradientFromColor = 16115934
+      Appearance.Pane.GradientToColor = 15587527
+      Appearance.Pane.GradientType = bkConcave
+      Appearance.Element.CaptionFont.Color = clMenuText
+      Appearance.Element.IdleFrameColor = 14727067
+      Appearance.Element.IdleGradientFromColor = 15653832
+      Appearance.Element.IdleGradientToColor = 15323324
+      Appearance.Element.IdleGradientType = bkConcave
+      Appearance.Element.IdleInnerLightColor = 15852501
+      Appearance.Element.IdleInnerDarkColor = 15520702
+      Appearance.Element.IdleCaptionColor = 11631958
+      Appearance.Element.HotTrackFrameColor = 10211293
+      Appearance.Element.HotTrackGradientFromColor = 14351615
+      Appearance.Element.HotTrackGradientToColor = 5101567
+      Appearance.Element.HotTrackGradientType = bkConcave
+      Appearance.Element.HotTrackInnerLightColor = 12972543
+      Appearance.Element.HotTrackInnerDarkColor = 8045272
+      Appearance.Element.HotTrackCaptionColor = 8864367
+      Appearance.Element.HotTrackBrightnessChange = 40
+      Appearance.Element.ActiveFrameColor = 5535371
+      Appearance.Element.ActiveGradientFromColor = 7126014
+      Appearance.Element.ActiveGradientToColor = 4035324
+      Appearance.Element.ActiveGradientType = bkConcave
+      Appearance.Element.ActiveInnerLightColor = 961020
+      Appearance.Element.ActiveInnerDarkColor = 961020
+      Appearance.Element.ActiveCaptionColor = 8405614
+      Appearance.Element.Style = esRounded
+      Appearance.Popup.CheckedFrameColor = 3577330
+      Appearance.Popup.CheckedGradientFromColor = 9823231
+      Appearance.Popup.CheckedGradientToColor = 9823231
+      Appearance.Popup.CheckedGradientType = bkSolid
+      Appearance.Popup.DisabledCaptionColor = clSilver
+      Appearance.Popup.DividerLineColor = 14922381
+      Appearance.Popup.GutterFrameColor = 12961221
+      Appearance.Popup.GutterGradientFromColor = 15658729
+      Appearance.Popup.GutterGradientToColor = 15658729
+      Appearance.Popup.GutterGradientType = bkSolid
+      Appearance.Popup.HotTrackCaptionColor = 8864367
+      Appearance.Popup.HotTrackFrameColor = 10079963
+      Appearance.Popup.HotTrackGradientFromColor = 14351615
+      Appearance.Popup.HotTrackGradientToColor = 5101567
+      Appearance.Popup.HotTrackGradientType = bkConcave
+      Appearance.Popup.IdleCaptionColor = 11631958
+      Appearance.Popup.IdleGradientFromColor = 16448250
+      Appearance.Popup.IdleGradientToColor = 16448250
+      Appearance.Popup.IdleGradientType = bkConcave
+      Appearance.Popup.SelectionShape = ssRectangle
+      Appearance.Popup.Style = psGutter
+      TabIndex = 0
+      Images = SmallImages
+      LargeImages = LargeImages
+      MenuButtonCaption = 'Menu'
+      ShowMenuButton = True
+      Tabs = (
+        'LazTab1'
+      )
+      object LazTab1: TLazRibbonTab
+        CustomAppearance.Tab.TabHeaderFont.Color = 9126421
+        CustomAppearance.Tab.BorderColor = 14922381
+        CustomAppearance.Tab.CornerRadius = 4
+        CustomAppearance.Tab.GradientFromColor = 16115934
+        CustomAppearance.Tab.GradientToColor = 15587527
+        CustomAppearance.Tab.GradientType = bkConcave
+        CustomAppearance.Tab.InactiveTabHeaderFontColor = 9126421
+        CustomAppearance.MenuButton.CaptionFont.Color = clWhite
+        CustomAppearance.MenuButton.IdleFrameColor = 10569759
+        CustomAppearance.MenuButton.IdleGradientFromColor = 14649927
+        CustomAppearance.MenuButton.IdleGradientToColor = 12017961
+        CustomAppearance.MenuButton.IdleGradientType = bkConcave
+        CustomAppearance.MenuButton.IdleCaptionColor = clWhite
+        CustomAppearance.MenuButton.HotTrackFrameColor = 10569759
+        CustomAppearance.MenuButton.HotTrackGradientFromColor = 15179099
+        CustomAppearance.MenuButton.HotTrackGradientToColor = 12478257
+        CustomAppearance.MenuButton.HotTrackGradientType = bkConcave
+        CustomAppearance.MenuButton.HotTrackCaptionColor = clWhite
+        CustomAppearance.MenuButton.HotTrackBrightnessChange = 40
+        CustomAppearance.MenuButton.ActiveFrameColor = 11095324
+        CustomAppearance.MenuButton.ActiveGradientFromColor = 14518846
+        CustomAppearance.MenuButton.ActiveGradientToColor = 12411174
+        CustomAppearance.MenuButton.ActiveGradientType = bkConcave
+        CustomAppearance.MenuButton.ActiveCaptionColor = clWhite
+        CustomAppearance.MenuButton.ShapeStyle = mbssRounded
+        CustomAppearance.Pane.BorderDarkColor = 14335646
+        CustomAppearance.Pane.BorderLightColor = 16315117
+        CustomAppearance.Pane.CaptionBgColor = 15849922
+        CustomAppearance.Pane.CaptionFont.Color = 9126421
+        CustomAppearance.Pane.GradientFromColor = 16115934
+        CustomAppearance.Pane.GradientToColor = 15587527
+        CustomAppearance.Pane.GradientType = bkConcave
+        CustomAppearance.Element.CaptionFont.Color = clMenuText
+        CustomAppearance.Element.IdleFrameColor = 14727067
+        CustomAppearance.Element.IdleGradientFromColor = 15653832
+        CustomAppearance.Element.IdleGradientToColor = 15323324
+        CustomAppearance.Element.IdleGradientType = bkConcave
+        CustomAppearance.Element.IdleInnerLightColor = 15852501
+        CustomAppearance.Element.IdleInnerDarkColor = 15520702
+        CustomAppearance.Element.IdleCaptionColor = 11631958
+        CustomAppearance.Element.HotTrackFrameColor = 10211293
+        CustomAppearance.Element.HotTrackGradientFromColor = 14351615
+        CustomAppearance.Element.HotTrackGradientToColor = 5101567
+        CustomAppearance.Element.HotTrackGradientType = bkConcave
+        CustomAppearance.Element.HotTrackInnerLightColor = 12972543
+        CustomAppearance.Element.HotTrackInnerDarkColor = 8045272
+        CustomAppearance.Element.HotTrackCaptionColor = 8864367
+        CustomAppearance.Element.HotTrackBrightnessChange = 40
+        CustomAppearance.Element.ActiveFrameColor = 5535371
+        CustomAppearance.Element.ActiveGradientFromColor = 7126014
+        CustomAppearance.Element.ActiveGradientToColor = 4035324
+        CustomAppearance.Element.ActiveGradientType = bkConcave
+        CustomAppearance.Element.ActiveInnerLightColor = 961020
+        CustomAppearance.Element.ActiveInnerDarkColor = 961020
+        CustomAppearance.Element.ActiveCaptionColor = 8405614
+        CustomAppearance.Element.Style = esRounded
+        CustomAppearance.Popup.CheckedFrameColor = 3577330
+        CustomAppearance.Popup.CheckedGradientFromColor = 9823231
+        CustomAppearance.Popup.CheckedGradientToColor = 9823231
+        CustomAppearance.Popup.CheckedGradientType = bkSolid
+        CustomAppearance.Popup.DisabledCaptionColor = clSilver
+        CustomAppearance.Popup.DividerLineColor = 14922381
+        CustomAppearance.Popup.GutterFrameColor = 12961221
+        CustomAppearance.Popup.GutterGradientFromColor = 15658729
+        CustomAppearance.Popup.GutterGradientToColor = 15658729
+        CustomAppearance.Popup.GutterGradientType = bkSolid
+        CustomAppearance.Popup.HotTrackCaptionColor = 8864367
+        CustomAppearance.Popup.HotTrackFrameColor = 10079963
+        CustomAppearance.Popup.HotTrackGradientFromColor = 14351615
+        CustomAppearance.Popup.HotTrackGradientToColor = 5101567
+        CustomAppearance.Popup.HotTrackGradientType = bkConcave
+        CustomAppearance.Popup.IdleCaptionColor = 11631958
+        CustomAppearance.Popup.IdleGradientFromColor = 16448250
+        CustomAppearance.Popup.IdleGradientToColor = 16448250
+        CustomAppearance.Popup.IdleGradientType = bkConcave
+        CustomAppearance.Popup.SelectionShape = ssRectangle
+        CustomAppearance.Popup.Style = psGutter
+        Caption = 'Office2007 Blue'
+        Panes = (
+          'LazPane1'
+          'LazPane10'
+          'LazPane16'
+          'LazPane11'
+        )
+        object LazPane1: TLazRibbonPane
+          Caption = 'File commands'
+          ShowMoreOptionsButton = True
+          Items = (
+            'LazLargeButton1'
+            'LazLargeButton14'
+            'LazSmallButton29'
+            'LazSmallButton30'
+            'LazLargeButton15'
+          )
+          object LazLargeButton1: TLazRibbonLargeButton
+            Caption = 'New'
+            ButtonKind = bkDropdown
+            LargeImageIndex = 0
+          end
+          object LazLargeButton14: TLazRibbonLargeButton
+            Caption = 'Open file...'
+            ButtonKind = bkButtonDropdown
+            LargeImageIndex = 1
+          end
+          object LazSmallButton29: TLazRibbonSmallButton
+            Caption = 'Save'
+            HideFrameWhenIdle = True
+            ImageIndex = 0
+            ButtonKind = bkButtonDropdown
+          end
+          object LazSmallButton30: TLazRibbonSmallButton
+            Caption = 'Save as...'
+            HideFrameWhenIdle = True
+            ImageIndex = 1
+            TableBehaviour = tbBeginsRow
+          end
+          object LazLargeButton15: TLazRibbonLargeButton
+            Caption = 'Exit program'
+            LargeImageIndex = 3
+          end
+        end
+        object LazPane10: TLazRibbonPane
+          Caption = 'Edit commands'
+          ShowMoreOptionsButtonStyle = mobsArrow
+          ShowMoreOptionsButton = True
+          Items = (
+            'LazSmallButton31'
+            'LazSmallButton32'
+            'LazSmallButton33'
+            'LazSmallButton34'
+            'LazSmallButton35'
+          )
+          object LazSmallButton31: TLazRibbonSmallButton
+            Caption = 'Cut'
+            HideFrameWhenIdle = True
+            ImageIndex = 2
+          end
+          object LazSmallButton32: TLazRibbonSmallButton
+            Caption = 'Copy'
+            HideFrameWhenIdle = True
+            ImageIndex = 3
+            TableBehaviour = tbBeginsRow
+          end
+          object LazSmallButton33: TLazRibbonSmallButton
+            Caption = 'Paste'
+            HideFrameWhenIdle = True
+            ImageIndex = 4
+            TableBehaviour = tbBeginsRow
+          end
+          object LazSmallButton34: TLazRibbonSmallButton
+            Caption = 'Select all'
+            TableBehaviour = tbBeginsColumn
+          end
+          object LazSmallButton35: TLazRibbonSmallButton
+            Caption = 'Unselect'
+            TableBehaviour = tbBeginsRow
+          end
+        end
+        object LazPane16: TLazRibbonPane
+          Caption = 'Format commands'
+          Items = (
+            'LazSmallButton41'
+            'LazSmallButton42'
+            'LazSmallButton44'
+            'LazSmallButton43'
+            'LazSmallButton45'
+            'LazSmallButton46'
+            'LazSmallButton47'
+          )
+          object LazSmallButton41: TLazRibbonSmallButton
+            Caption = 'Button'
+            GroupBehaviour = gbBeginsGroup
+            ImageIndex = 5
+            ShowCaption = False
+            ButtonKind = bkToggle
+          end
+          object LazSmallButton42: TLazRibbonSmallButton
+            Caption = 'Button'
+            GroupBehaviour = gbContinuesGroup
+            ImageIndex = 6
+            ShowCaption = False
+            ButtonKind = bkToggle
+          end
+          object LazSmallButton44: TLazRibbonSmallButton
+            Caption = 'Button'
+            GroupBehaviour = gbContinuesGroup
+            ImageIndex = 7
+            ShowCaption = False
+            ButtonKind = bkToggle
+          end
+          object LazSmallButton43: TLazRibbonSmallButton
+            Caption = 'Button'
+            GroupBehaviour = gbEndsGroup
+            ImageIndex = 8
+            ShowCaption = False
+            ButtonKind = bkToggle
+          end
+          object LazSmallButton45: TLazRibbonSmallButton
+            Caption = 'Button'
+            GroupBehaviour = gbBeginsGroup
+            ImageIndex = 9
+            ShowCaption = False
+            TableBehaviour = tbBeginsRow
+            ButtonKind = bkToggle
+            Checked = True
+            GroupIndex = 1
+          end
+          object LazSmallButton46: TLazRibbonSmallButton
+            Caption = 'Button'
+            GroupBehaviour = gbContinuesGroup
+            ImageIndex = 10
+            ShowCaption = False
+            ButtonKind = bkToggle
+            GroupIndex = 1
+          end
+          object LazSmallButton47: TLazRibbonSmallButton
+            Caption = 'Button'
+            GroupBehaviour = gbEndsGroup
+            ImageIndex = 11
+            ShowCaption = False
+            ButtonKind = bkToggle
+            GroupIndex = 1
+          end
+        end
+        object LazPane11: TLazRibbonPane
+          Caption = 'Settings'
+          Items = (
+            'LazSmallButton36'
+            'LazCheckbox1'
+          )
+          object LazSmallButton36: TLazRibbonSmallButton
+            Caption = 'Save now'
+            HideFrameWhenIdle = True
+            TableBehaviour = tbBeginsRow
+          end
+          object LazCheckbox1: TLazRibbonCheckbox
+            Caption = 'Auto save'
+            TableBehaviour = tbBeginsRow
+          end
+        end
+      end
+    end
+    object LazToolbar2: TLazRibbon
+      Left = 0
+      Height = 112
+      Top = 124
+      Width = 632
+      Color = clMedGray
+      Style = lazOffice2007Silver
+      Appearance.Tab.TabHeaderFont.Color = 8016716
+      Appearance.Tab.BorderColor = 12500670
+      Appearance.Tab.CornerRadius = 4
+      Appearance.Tab.GradientFromColor = 16052978
+      Appearance.Tab.GradientToColor = 15722209
+      Appearance.Tab.GradientType = bkConcave
+      Appearance.Tab.InactiveTabHeaderFontColor = 8016716
+      Appearance.MenuButton.CaptionFont.Color = clWhite
+      Appearance.MenuButton.IdleFrameColor = 10569759
+      Appearance.MenuButton.IdleGradientFromColor = 14649927
+      Appearance.MenuButton.IdleGradientToColor = 12017961
+      Appearance.MenuButton.IdleGradientType = bkConcave
+      Appearance.MenuButton.IdleCaptionColor = clWhite
+      Appearance.MenuButton.HotTrackFrameColor = 10569759
+      Appearance.MenuButton.HotTrackGradientFromColor = 15179099
+      Appearance.MenuButton.HotTrackGradientToColor = 12478257
+      Appearance.MenuButton.HotTrackGradientType = bkConcave
+      Appearance.MenuButton.HotTrackCaptionColor = clWhite
+      Appearance.MenuButton.HotTrackBrightnessChange = 40
+      Appearance.MenuButton.ActiveFrameColor = 11095324
+      Appearance.MenuButton.ActiveGradientFromColor = 14518846
+      Appearance.MenuButton.ActiveGradientToColor = 12411174
+      Appearance.MenuButton.ActiveGradientType = bkConcave
+      Appearance.MenuButton.ActiveCaptionColor = clWhite
+      Appearance.MenuButton.ShapeStyle = mbssRounded
+      Appearance.Pane.BorderDarkColor = 10921638
+      Appearance.Pane.BorderLightColor = clWhite
+      Appearance.Pane.CaptionBgColor = 15000804
+      Appearance.Pane.CaptionFont.Color = 3552822
+      Appearance.Pane.GradientFromColor = 16316664
+      Appearance.Pane.GradientToColor = 15329769
+      Appearance.Pane.GradientType = bkConcave
+      Appearance.Element.CaptionFont.Color = 9126421
+      Appearance.Element.IdleFrameColor = 12104105
+      Appearance.Element.IdleGradientFromColor = 16053490
+      Appearance.Element.IdleGradientToColor = 15132131
+      Appearance.Element.IdleGradientType = bkConcave
+      Appearance.Element.IdleInnerLightColor = 16184048
+      Appearance.Element.IdleInnerDarkColor = 13091002
+      Appearance.Element.IdleCaptionColor = 6317407
+      Appearance.Element.HotTrackFrameColor = 10211293
+      Appearance.Element.HotTrackGradientFromColor = 14351615
+      Appearance.Element.HotTrackGradientToColor = 5101567
+      Appearance.Element.HotTrackGradientType = bkConcave
+      Appearance.Element.HotTrackInnerLightColor = 12972543
+      Appearance.Element.HotTrackInnerDarkColor = 8045272
+      Appearance.Element.HotTrackCaptionColor = 8864367
+      Appearance.Element.HotTrackBrightnessChange = 40
+      Appearance.Element.ActiveFrameColor = 5535371
+      Appearance.Element.ActiveGradientFromColor = 7126014
+      Appearance.Element.ActiveGradientToColor = 4035324
+      Appearance.Element.ActiveGradientType = bkConcave
+      Appearance.Element.ActiveInnerLightColor = 961020
+      Appearance.Element.ActiveInnerDarkColor = 961020
+      Appearance.Element.ActiveCaptionColor = 8405614
+      Appearance.Element.Style = esRounded
+      Appearance.Popup.CaptionFont.Color = 9126421
+      Appearance.Popup.CheckedFrameColor = 3577330
+      Appearance.Popup.CheckedGradientFromColor = 9823231
+      Appearance.Popup.CheckedGradientToColor = 9823231
+      Appearance.Popup.CheckedGradientType = bkSolid
+      Appearance.Popup.DisabledCaptionColor = clSilver
+      Appearance.Popup.DividerLineColor = 12500670
+      Appearance.Popup.GutterFrameColor = 12961221
+      Appearance.Popup.GutterGradientFromColor = 15724527
+      Appearance.Popup.GutterGradientToColor = 15724527
+      Appearance.Popup.GutterGradientType = bkSolid
+      Appearance.Popup.HotTrackCaptionColor = 8864367
+      Appearance.Popup.HotTrackFrameColor = 10079963
+      Appearance.Popup.HotTrackGradientFromColor = 14351615
+      Appearance.Popup.HotTrackGradientToColor = 5101567
+      Appearance.Popup.HotTrackGradientType = bkConcave
+      Appearance.Popup.IdleCaptionColor = 6317407
+      Appearance.Popup.IdleGradientFromColor = 16448250
+      Appearance.Popup.IdleGradientToColor = 16448250
+      Appearance.Popup.IdleGradientType = bkConcave
+      Appearance.Popup.SelectionShape = ssRectangle
+      Appearance.Popup.Style = psGutter
+      TabIndex = 0
+      Images = SmallImages
+      LargeImages = LargeImages
+      MenuButtonCaption = 'Menu'
+      ShowMenuButton = True
+      Tabs = (
+        'LazTab2'
+      )
+      object LazTab2: TLazRibbonTab
+        CustomAppearance.Tab.TabHeaderFont.Color = 9126421
+        CustomAppearance.Tab.BorderColor = 14922381
+        CustomAppearance.Tab.CornerRadius = 4
+        CustomAppearance.Tab.GradientFromColor = 16115934
+        CustomAppearance.Tab.GradientToColor = 15587527
+        CustomAppearance.Tab.GradientType = bkConcave
+        CustomAppearance.Tab.InactiveTabHeaderFontColor = 9126421
+        CustomAppearance.MenuButton.CaptionFont.Color = clWhite
+        CustomAppearance.MenuButton.IdleFrameColor = 10569759
+        CustomAppearance.MenuButton.IdleGradientFromColor = 14649927
+        CustomAppearance.MenuButton.IdleGradientToColor = 12017961
+        CustomAppearance.MenuButton.IdleGradientType = bkConcave
+        CustomAppearance.MenuButton.IdleCaptionColor = clWhite
+        CustomAppearance.MenuButton.HotTrackFrameColor = 10569759
+        CustomAppearance.MenuButton.HotTrackGradientFromColor = 15179099
+        CustomAppearance.MenuButton.HotTrackGradientToColor = 12478257
+        CustomAppearance.MenuButton.HotTrackGradientType = bkConcave
+        CustomAppearance.MenuButton.HotTrackCaptionColor = clWhite
+        CustomAppearance.MenuButton.HotTrackBrightnessChange = 40
+        CustomAppearance.MenuButton.ActiveFrameColor = 11095324
+        CustomAppearance.MenuButton.ActiveGradientFromColor = 14518846
+        CustomAppearance.MenuButton.ActiveGradientToColor = 12411174
+        CustomAppearance.MenuButton.ActiveGradientType = bkConcave
+        CustomAppearance.MenuButton.ActiveCaptionColor = clWhite
+        CustomAppearance.MenuButton.ShapeStyle = mbssRounded
+        CustomAppearance.Pane.BorderDarkColor = 14335646
+        CustomAppearance.Pane.BorderLightColor = 16315117
+        CustomAppearance.Pane.CaptionBgColor = 15849922
+        CustomAppearance.Pane.CaptionFont.Color = 9126421
+        CustomAppearance.Pane.GradientFromColor = 16115934
+        CustomAppearance.Pane.GradientToColor = 15587527
+        CustomAppearance.Pane.GradientType = bkConcave
+        CustomAppearance.Element.CaptionFont.Color = clMenuText
+        CustomAppearance.Element.IdleFrameColor = 14727067
+        CustomAppearance.Element.IdleGradientFromColor = 15653832
+        CustomAppearance.Element.IdleGradientToColor = 15323324
+        CustomAppearance.Element.IdleGradientType = bkConcave
+        CustomAppearance.Element.IdleInnerLightColor = 15852501
+        CustomAppearance.Element.IdleInnerDarkColor = 15520702
+        CustomAppearance.Element.IdleCaptionColor = 11631958
+        CustomAppearance.Element.HotTrackFrameColor = 10211293
+        CustomAppearance.Element.HotTrackGradientFromColor = 14351615
+        CustomAppearance.Element.HotTrackGradientToColor = 5101567
+        CustomAppearance.Element.HotTrackGradientType = bkConcave
+        CustomAppearance.Element.HotTrackInnerLightColor = 12972543
+        CustomAppearance.Element.HotTrackInnerDarkColor = 8045272
+        CustomAppearance.Element.HotTrackCaptionColor = 8864367
+        CustomAppearance.Element.HotTrackBrightnessChange = 40
+        CustomAppearance.Element.ActiveFrameColor = 5535371
+        CustomAppearance.Element.ActiveGradientFromColor = 7126014
+        CustomAppearance.Element.ActiveGradientToColor = 4035324
+        CustomAppearance.Element.ActiveGradientType = bkConcave
+        CustomAppearance.Element.ActiveInnerLightColor = 961020
+        CustomAppearance.Element.ActiveInnerDarkColor = 961020
+        CustomAppearance.Element.ActiveCaptionColor = 8405614
+        CustomAppearance.Element.Style = esRounded
+        CustomAppearance.Popup.CheckedFrameColor = 3577330
+        CustomAppearance.Popup.CheckedGradientFromColor = 9823231
+        CustomAppearance.Popup.CheckedGradientToColor = 9823231
+        CustomAppearance.Popup.CheckedGradientType = bkSolid
+        CustomAppearance.Popup.DisabledCaptionColor = clSilver
+        CustomAppearance.Popup.DividerLineColor = 14922381
+        CustomAppearance.Popup.GutterFrameColor = 12961221
+        CustomAppearance.Popup.GutterGradientFromColor = 15658729
+        CustomAppearance.Popup.GutterGradientToColor = 15658729
+        CustomAppearance.Popup.GutterGradientType = bkSolid
+        CustomAppearance.Popup.HotTrackCaptionColor = 8864367
+        CustomAppearance.Popup.HotTrackFrameColor = 10079963
+        CustomAppearance.Popup.HotTrackGradientFromColor = 14351615
+        CustomAppearance.Popup.HotTrackGradientToColor = 5101567
+        CustomAppearance.Popup.HotTrackGradientType = bkConcave
+        CustomAppearance.Popup.IdleCaptionColor = 11631958
+        CustomAppearance.Popup.IdleGradientFromColor = 16448250
+        CustomAppearance.Popup.IdleGradientToColor = 16448250
+        CustomAppearance.Popup.IdleGradientType = bkConcave
+        CustomAppearance.Popup.SelectionShape = ssRectangle
+        CustomAppearance.Popup.Style = psGutter
+        Caption = 'Office2007 Silver'
+        Panes = (
+          'LazPane2'
+          'LazPane3'
+          'LazPane17'
+          'LazPane12'
+        )
+        object LazPane2: TLazRibbonPane
+          Caption = 'File commands'
+          ShowMoreOptionsButton = True
+          Items = (
+            'LazLargeButton2'
+            'LazLargeButton12'
+            'LazSmallButton22'
+            'LazSmallButton23'
+            'LazLargeButton13'
+          )
+          object LazLargeButton2: TLazRibbonLargeButton
+            Caption = 'New'
+            ButtonKind = bkDropdown
+            LargeImageIndex = 0
+          end
+          object LazLargeButton12: TLazRibbonLargeButton
+            Caption = 'Open file...'
+            ButtonKind = bkButtonDropdown
+            LargeImageIndex = 1
+          end
+          object LazSmallButton22: TLazRibbonSmallButton
+            Caption = 'Save'
+            HideFrameWhenIdle = True
+            ImageIndex = 0
+            ButtonKind = bkButtonDropdown
+          end
+          object LazSmallButton23: TLazRibbonSmallButton
+            Caption = 'Save as...'
+            HideFrameWhenIdle = True
+            ImageIndex = 1
+            TableBehaviour = tbBeginsRow
+          end
+          object LazLargeButton13: TLazRibbonLargeButton
+            Caption = 'Exit program'
+            LargeImageIndex = 3
+          end
+        end
+        object LazPane3: TLazRibbonPane
+          Caption = 'Edit commands'
+          ShowMoreOptionsButtonStyle = mobsArrow
+          ShowMoreOptionsButton = True
+          Items = (
+            'LazSmallButton24'
+            'LazSmallButton25'
+            'LazSmallButton26'
+            'LazSmallButton27'
+            'LazSmallButton28'
+          )
+          object LazSmallButton24: TLazRibbonSmallButton
+            Caption = 'Cut'
+            HideFrameWhenIdle = True
+            ImageIndex = 2
+          end
+          object LazSmallButton25: TLazRibbonSmallButton
+            Caption = 'Copy'
+            HideFrameWhenIdle = True
+            ImageIndex = 3
+            TableBehaviour = tbBeginsRow
+          end
+          object LazSmallButton26: TLazRibbonSmallButton
+            Caption = 'Paste'
+            HideFrameWhenIdle = True
+            ImageIndex = 4
+            TableBehaviour = tbBeginsRow
+          end
+          object LazSmallButton27: TLazRibbonSmallButton
+            Caption = 'Select all'
+            TableBehaviour = tbBeginsColumn
+          end
+          object LazSmallButton28: TLazRibbonSmallButton
+            Caption = 'Unselect'
+            TableBehaviour = tbBeginsRow
+          end
+        end
+        object LazPane17: TLazRibbonPane
+          Caption = 'Format commands'
+          Items = (
+            'LazSmallButton48'
+            'LazSmallButton49'
+            'LazSmallButton50'
+            'LazSmallButton51'
+            'LazSmallButton52'
+            'LazSmallButton53'
+            'LazSmallButton54'
+          )
+          object LazSmallButton48: TLazRibbonSmallButton
+            Caption = 'Button'
+            GroupBehaviour = gbBeginsGroup
+            ImageIndex = 5
+            ShowCaption = False
+            ButtonKind = bkToggle
+          end
+          object LazSmallButton49: TLazRibbonSmallButton
+            Caption = 'Button'
+            GroupBehaviour = gbContinuesGroup
+            ImageIndex = 6
+            ShowCaption = False
+            ButtonKind = bkToggle
+          end
+          object LazSmallButton50: TLazRibbonSmallButton
+            Caption = 'Button'
+            GroupBehaviour = gbContinuesGroup
+            ImageIndex = 7
+            ShowCaption = False
+            ButtonKind = bkToggle
+          end
+          object LazSmallButton51: TLazRibbonSmallButton
+            Caption = 'Button'
+            GroupBehaviour = gbEndsGroup
+            ImageIndex = 8
+            ShowCaption = False
+            ButtonKind = bkToggle
+          end
+          object LazSmallButton52: TLazRibbonSmallButton
+            Caption = 'Button'
+            GroupBehaviour = gbBeginsGroup
+            ImageIndex = 9
+            ShowCaption = False
+            TableBehaviour = tbBeginsRow
+            ButtonKind = bkToggle
+            Checked = True
+            GroupIndex = 1
+          end
+          object LazSmallButton53: TLazRibbonSmallButton
+            Caption = 'Button'
+            GroupBehaviour = gbContinuesGroup
+            ImageIndex = 10
+            ShowCaption = False
+            ButtonKind = bkToggle
+            GroupIndex = 1
+          end
+          object LazSmallButton54: TLazRibbonSmallButton
+            Caption = 'Button'
+            GroupBehaviour = gbEndsGroup
+            ImageIndex = 11
+            ShowCaption = False
+            ButtonKind = bkToggle
+            GroupIndex = 1
+          end
+        end
+        object LazPane12: TLazRibbonPane
+          Caption = 'Settings'
+          Items = (
+            'LazSmallButton37'
+            'LazCheckbox2'
+          )
+          object LazSmallButton37: TLazRibbonSmallButton
+            Caption = 'Save now'
+            HideFrameWhenIdle = True
+          end
+          object LazCheckbox2: TLazRibbonCheckbox
+            Caption = 'Auto save'
+            TableBehaviour = tbBeginsRow
+          end
+        end
+      end
+    end
+    object LazToolbar3: TLazRibbon
+      Left = 0
+      Height = 112
+      Top = 248
+      Width = 632
+      Color = clMedGray
+      Style = lazOffice2007SilverTurquoise
+      Appearance.Tab.TabHeaderFont.Color = 8016716
+      Appearance.Tab.BorderColor = 12500670
+      Appearance.Tab.CornerRadius = 4
+      Appearance.Tab.GradientFromColor = 16052978
+      Appearance.Tab.GradientToColor = 15722209
+      Appearance.Tab.GradientType = bkConcave
+      Appearance.Tab.InactiveTabHeaderFontColor = 8016716
+      Appearance.MenuButton.CaptionFont.Color = clWhite
+      Appearance.MenuButton.IdleFrameColor = 10569759
+      Appearance.MenuButton.IdleGradientFromColor = 14649927
+      Appearance.MenuButton.IdleGradientToColor = 12017961
+      Appearance.MenuButton.IdleGradientType = bkConcave
+      Appearance.MenuButton.IdleCaptionColor = clWhite
+      Appearance.MenuButton.HotTrackFrameColor = 10569759
+      Appearance.MenuButton.HotTrackGradientFromColor = 15179099
+      Appearance.MenuButton.HotTrackGradientToColor = 12478257
+      Appearance.MenuButton.HotTrackGradientType = bkConcave
+      Appearance.MenuButton.HotTrackCaptionColor = clWhite
+      Appearance.MenuButton.HotTrackBrightnessChange = 40
+      Appearance.MenuButton.ActiveFrameColor = 11095324
+      Appearance.MenuButton.ActiveGradientFromColor = 14518846
+      Appearance.MenuButton.ActiveGradientToColor = 12411174
+      Appearance.MenuButton.ActiveGradientType = bkConcave
+      Appearance.MenuButton.ActiveCaptionColor = clWhite
+      Appearance.MenuButton.ShapeStyle = mbssRounded
+      Appearance.Pane.BorderDarkColor = 10921638
+      Appearance.Pane.BorderLightColor = clWhite
+      Appearance.Pane.CaptionBgColor = 15000804
+      Appearance.Pane.CaptionFont.Color = 3552822
+      Appearance.Pane.GradientFromColor = 16316664
+      Appearance.Pane.GradientToColor = 15329769
+      Appearance.Pane.GradientType = bkConcave
+      Appearance.Element.CaptionFont.Color = 9126421
+      Appearance.Element.IdleFrameColor = 12104105
+      Appearance.Element.IdleGradientFromColor = 16053490
+      Appearance.Element.IdleGradientToColor = 15132131
+      Appearance.Element.IdleGradientType = bkConcave
+      Appearance.Element.IdleInnerLightColor = 16184048
+      Appearance.Element.IdleInnerDarkColor = 13091002
+      Appearance.Element.IdleCaptionColor = 6317407
+      Appearance.Element.HotTrackFrameColor = 10386702
+      Appearance.Element.HotTrackGradientFromColor = 16511440
+      Appearance.Element.HotTrackGradientToColor = 16047498
+      Appearance.Element.HotTrackGradientType = bkConcave
+      Appearance.Element.HotTrackInnerLightColor = 16445385
+      Appearance.Element.HotTrackInnerDarkColor = 12687889
+      Appearance.Element.HotTrackCaptionColor = 8864367
+      Appearance.Element.HotTrackBrightnessChange = 40
+      Appearance.Element.ActiveFrameColor = 7823883
+      Appearance.Element.ActiveGradientFromColor = 16046978
+      Appearance.Element.ActiveGradientToColor = 15516990
+      Appearance.Element.ActiveGradientType = bkConcave
+      Appearance.Element.ActiveInnerLightColor = 15980666
+      Appearance.Element.ActiveInnerDarkColor = 7559947
+      Appearance.Element.ActiveCaptionColor = 8405614
+      Appearance.Element.Style = esRounded
+      Appearance.Popup.CaptionFont.Color = 9126421
+      Appearance.Popup.CheckedFrameColor = 10386702
+      Appearance.Popup.CheckedGradientFromColor = 16511440
+      Appearance.Popup.CheckedGradientToColor = 16511440
+      Appearance.Popup.CheckedGradientType = bkSolid
+      Appearance.Popup.DisabledCaptionColor = clSilver
+      Appearance.Popup.DividerLineColor = 12500670
+      Appearance.Popup.GutterFrameColor = 12961221
+      Appearance.Popup.GutterGradientFromColor = 15724527
+      Appearance.Popup.GutterGradientToColor = 15724527
+      Appearance.Popup.GutterGradientType = bkSolid
+      Appearance.Popup.HotTrackCaptionColor = 8864367
+      Appearance.Popup.HotTrackFrameColor = 10386702
+      Appearance.Popup.HotTrackGradientFromColor = 16511440
+      Appearance.Popup.HotTrackGradientToColor = 16047498
+      Appearance.Popup.HotTrackGradientType = bkConcave
+      Appearance.Popup.IdleCaptionColor = 6317407
+      Appearance.Popup.IdleGradientFromColor = 16448250
+      Appearance.Popup.IdleGradientToColor = 16448250
+      Appearance.Popup.IdleGradientType = bkConcave
+      Appearance.Popup.SelectionShape = ssRectangle
+      Appearance.Popup.Style = psGutter
+      TabIndex = 0
+      Images = SmallImages
+      LargeImages = LargeImages
+      MenuButtonCaption = 'Menu'
+      ShowMenuButton = True
+      Tabs = (
+        'LazTab4'
+      )
+      object LazTab4: TLazRibbonTab
+        CustomAppearance.Tab.TabHeaderFont.Color = 9126421
+        CustomAppearance.Tab.BorderColor = 14922381
+        CustomAppearance.Tab.CornerRadius = 4
+        CustomAppearance.Tab.GradientFromColor = 16115934
+        CustomAppearance.Tab.GradientToColor = 15587527
+        CustomAppearance.Tab.GradientType = bkConcave
+        CustomAppearance.Tab.InactiveTabHeaderFontColor = 9126421
+        CustomAppearance.MenuButton.CaptionFont.Color = clWhite
+        CustomAppearance.MenuButton.IdleFrameColor = 10569759
+        CustomAppearance.MenuButton.IdleGradientFromColor = 14649927
+        CustomAppearance.MenuButton.IdleGradientToColor = 12017961
+        CustomAppearance.MenuButton.IdleGradientType = bkConcave
+        CustomAppearance.MenuButton.IdleCaptionColor = clWhite
+        CustomAppearance.MenuButton.HotTrackFrameColor = 10569759
+        CustomAppearance.MenuButton.HotTrackGradientFromColor = 15179099
+        CustomAppearance.MenuButton.HotTrackGradientToColor = 12478257
+        CustomAppearance.MenuButton.HotTrackGradientType = bkConcave
+        CustomAppearance.MenuButton.HotTrackCaptionColor = clWhite
+        CustomAppearance.MenuButton.HotTrackBrightnessChange = 40
+        CustomAppearance.MenuButton.ActiveFrameColor = 11095324
+        CustomAppearance.MenuButton.ActiveGradientFromColor = 14518846
+        CustomAppearance.MenuButton.ActiveGradientToColor = 12411174
+        CustomAppearance.MenuButton.ActiveGradientType = bkConcave
+        CustomAppearance.MenuButton.ActiveCaptionColor = clWhite
+        CustomAppearance.MenuButton.ShapeStyle = mbssRounded
+        CustomAppearance.Pane.BorderDarkColor = 14335646
+        CustomAppearance.Pane.BorderLightColor = 16315117
+        CustomAppearance.Pane.CaptionBgColor = 15849922
+        CustomAppearance.Pane.CaptionFont.Color = 9126421
+        CustomAppearance.Pane.GradientFromColor = 16115934
+        CustomAppearance.Pane.GradientToColor = 15587527
+        CustomAppearance.Pane.GradientType = bkConcave
+        CustomAppearance.Element.CaptionFont.Color = clMenuText
+        CustomAppearance.Element.IdleFrameColor = 14727067
+        CustomAppearance.Element.IdleGradientFromColor = 15653832
+        CustomAppearance.Element.IdleGradientToColor = 15323324
+        CustomAppearance.Element.IdleGradientType = bkConcave
+        CustomAppearance.Element.IdleInnerLightColor = 15852501
+        CustomAppearance.Element.IdleInnerDarkColor = 15520702
+        CustomAppearance.Element.IdleCaptionColor = 11631958
+        CustomAppearance.Element.HotTrackFrameColor = 10211293
+        CustomAppearance.Element.HotTrackGradientFromColor = 14351615
+        CustomAppearance.Element.HotTrackGradientToColor = 5101567
+        CustomAppearance.Element.HotTrackGradientType = bkConcave
+        CustomAppearance.Element.HotTrackInnerLightColor = 12972543
+        CustomAppearance.Element.HotTrackInnerDarkColor = 8045272
+        CustomAppearance.Element.HotTrackCaptionColor = 8864367
+        CustomAppearance.Element.HotTrackBrightnessChange = 40
+        CustomAppearance.Element.ActiveFrameColor = 5535371
+        CustomAppearance.Element.ActiveGradientFromColor = 7126014
+        CustomAppearance.Element.ActiveGradientToColor = 4035324
+        CustomAppearance.Element.ActiveGradientType = bkConcave
+        CustomAppearance.Element.ActiveInnerLightColor = 961020
+        CustomAppearance.Element.ActiveInnerDarkColor = 961020
+        CustomAppearance.Element.ActiveCaptionColor = 8405614
+        CustomAppearance.Element.Style = esRounded
+        CustomAppearance.Popup.CheckedFrameColor = 3577330
+        CustomAppearance.Popup.CheckedGradientFromColor = 9823231
+        CustomAppearance.Popup.CheckedGradientToColor = 9823231
+        CustomAppearance.Popup.CheckedGradientType = bkSolid
+        CustomAppearance.Popup.DisabledCaptionColor = clSilver
+        CustomAppearance.Popup.DividerLineColor = 14922381
+        CustomAppearance.Popup.GutterFrameColor = 12961221
+        CustomAppearance.Popup.GutterGradientFromColor = 15658729
+        CustomAppearance.Popup.GutterGradientToColor = 15658729
+        CustomAppearance.Popup.GutterGradientType = bkSolid
+        CustomAppearance.Popup.HotTrackCaptionColor = 8864367
+        CustomAppearance.Popup.HotTrackFrameColor = 10079963
+        CustomAppearance.Popup.HotTrackGradientFromColor = 14351615
+        CustomAppearance.Popup.HotTrackGradientToColor = 5101567
+        CustomAppearance.Popup.HotTrackGradientType = bkConcave
+        CustomAppearance.Popup.IdleCaptionColor = 11631958
+        CustomAppearance.Popup.IdleGradientFromColor = 16448250
+        CustomAppearance.Popup.IdleGradientToColor = 16448250
+        CustomAppearance.Popup.IdleGradientType = bkConcave
+        CustomAppearance.Popup.SelectionShape = ssRectangle
+        CustomAppearance.Popup.Style = psGutter
+        Caption = 'Office2007 Silver/turquoise'
+        Panes = (
+          'LazPane4'
+          'LazPane9'
+          'LazPane18'
+          'LazPane13'
+        )
+        object LazPane4: TLazRibbonPane
+          Caption = 'File commands'
+          ShowMoreOptionsButton = True
+          Items = (
+            'LazLargeButton3'
+            'LazLargeButton10'
+            'LazSmallButton15'
+            'LazSmallButton16'
+            'LazLargeButton11'
+          )
+          object LazLargeButton3: TLazRibbonLargeButton
+            Caption = 'New'
+            ButtonKind = bkDropdown
+            LargeImageIndex = 0
+          end
+          object LazLargeButton10: TLazRibbonLargeButton
+            Caption = 'Open file...'
+            ButtonKind = bkButtonDropdown
+            LargeImageIndex = 1
+          end
+          object LazSmallButton15: TLazRibbonSmallButton
+            Caption = 'Save'
+            HideFrameWhenIdle = True
+            ImageIndex = 0
+            ButtonKind = bkButtonDropdown
+          end
+          object LazSmallButton16: TLazRibbonSmallButton
+            Caption = 'Save as...'
+            HideFrameWhenIdle = True
+            ImageIndex = 1
+            TableBehaviour = tbBeginsRow
+          end
+          object LazLargeButton11: TLazRibbonLargeButton
+            Caption = 'Exit program'
+            LargeImageIndex = 3
+          end
+        end
+        object LazPane9: TLazRibbonPane
+          Caption = 'Edit commands'
+          ShowMoreOptionsButtonStyle = mobsArrow
+          ShowMoreOptionsButton = True
+          Items = (
+            'LazSmallButton17'
+            'LazSmallButton18'
+            'LazSmallButton19'
+            'LazSmallButton20'
+            'LazSmallButton21'
+          )
+          object LazSmallButton17: TLazRibbonSmallButton
+            Caption = 'Cut'
+            HideFrameWhenIdle = True
+            ImageIndex = 2
+          end
+          object LazSmallButton18: TLazRibbonSmallButton
+            Caption = 'Copy'
+            HideFrameWhenIdle = True
+            ImageIndex = 3
+            TableBehaviour = tbBeginsRow
+          end
+          object LazSmallButton19: TLazRibbonSmallButton
+            Caption = 'Paste'
+            HideFrameWhenIdle = True
+            ImageIndex = 4
+            TableBehaviour = tbBeginsRow
+          end
+          object LazSmallButton20: TLazRibbonSmallButton
+            Caption = 'Select all'
+            TableBehaviour = tbBeginsColumn
+          end
+          object LazSmallButton21: TLazRibbonSmallButton
+            Caption = 'Unselect'
+            TableBehaviour = tbBeginsRow
+          end
+        end
+        object LazPane18: TLazRibbonPane
+          Caption = 'Format commands'
+          Items = (
+            'LazSmallButton55'
+            'LazSmallButton56'
+            'LazSmallButton57'
+            'LazSmallButton58'
+            'LazSmallButton59'
+            'LazSmallButton60'
+            'LazSmallButton61'
+          )
+          object LazSmallButton55: TLazRibbonSmallButton
+            Caption = 'Button'
+            GroupBehaviour = gbBeginsGroup
+            ImageIndex = 5
+            ShowCaption = False
+            ButtonKind = bkToggle
+          end
+          object LazSmallButton56: TLazRibbonSmallButton
+            Caption = 'Button'
+            GroupBehaviour = gbContinuesGroup
+            ImageIndex = 6
+            ShowCaption = False
+            ButtonKind = bkToggle
+          end
+          object LazSmallButton57: TLazRibbonSmallButton
+            Caption = 'Button'
+            GroupBehaviour = gbContinuesGroup
+            ImageIndex = 7
+            ShowCaption = False
+            ButtonKind = bkToggle
+          end
+          object LazSmallButton58: TLazRibbonSmallButton
+            Caption = 'Button'
+            GroupBehaviour = gbEndsGroup
+            ImageIndex = 8
+            ShowCaption = False
+            ButtonKind = bkToggle
+          end
+          object LazSmallButton59: TLazRibbonSmallButton
+            Caption = 'Button'
+            GroupBehaviour = gbBeginsGroup
+            ImageIndex = 9
+            ShowCaption = False
+            TableBehaviour = tbBeginsRow
+            ButtonKind = bkToggle
+            Checked = True
+            GroupIndex = 1
+          end
+          object LazSmallButton60: TLazRibbonSmallButton
+            Caption = 'Button'
+            GroupBehaviour = gbContinuesGroup
+            ImageIndex = 10
+            ShowCaption = False
+            ButtonKind = bkToggle
+            GroupIndex = 1
+          end
+          object LazSmallButton61: TLazRibbonSmallButton
+            Caption = 'Button'
+            GroupBehaviour = gbEndsGroup
+            ImageIndex = 11
+            ShowCaption = False
+            ButtonKind = bkToggle
+            GroupIndex = 1
+          end
+        end
+        object LazPane13: TLazRibbonPane
+          Caption = 'Settings'
+          Items = (
+            'LazSmallButton38'
+            'LazCheckbox3'
+          )
+          object LazSmallButton38: TLazRibbonSmallButton
+            Caption = 'Save now'
+            HideFrameWhenIdle = True
+          end
+          object LazCheckbox3: TLazRibbonCheckbox
+            Caption = 'Auto save'
+            TableBehaviour = tbBeginsRow
+          end
+        end
+      end
+    end
+    object Panel1: TPanel
+      Left = 0
+      Height = 12
+      Top = 112
+      Width = 632
+      Align = alTop
+      BevelOuter = bvNone
+      ParentBackground = False
+      TabOrder = 3
+    end
+    object Panel4: TPanel
+      Left = 0
+      Height = 12
+      Top = 484
+      Width = 632
+      Align = alTop
+      BevelOuter = bvNone
+      ParentBackground = False
+      TabOrder = 4
+    end
+    object Panel3: TPanel
+      Left = 0
+      Height = 12
+      Top = 360
+      Width = 632
+      Align = alTop
+      BevelOuter = bvNone
+      ParentBackground = False
+      TabOrder = 5
+    end
+    object LazToolbar4: TLazRibbon
+      Left = 0
+      Height = 112
+      Top = 372
+      Width = 632
+      Color = clMedGray
+      Style = lazMetroLight
+      Appearance.Tab.TabHeaderFont.Color = 9787178
+      Appearance.Tab.BorderColor = 13816015
+      Appearance.Tab.CornerRadius = 0
+      Appearance.Tab.GradientFromColor = 15856113
+      Appearance.Tab.GradientToColor = 15856113
+      Appearance.Tab.GradientType = bkSolid
+      Appearance.Tab.InactiveTabHeaderFontColor = 6908265
+      Appearance.MenuButton.CaptionFont.Color = clWhite
+      Appearance.MenuButton.IdleFrameColor = 11822592
+      Appearance.MenuButton.IdleGradientFromColor = 11822592
+      Appearance.MenuButton.IdleGradientToColor = 11822592
+      Appearance.MenuButton.IdleGradientType = bkSolid
+      Appearance.MenuButton.IdleCaptionColor = clWhite
+      Appearance.MenuButton.HotTrackFrameColor = 14515456
+      Appearance.MenuButton.HotTrackGradientFromColor = 14515456
+      Appearance.MenuButton.HotTrackGradientToColor = 14515456
+      Appearance.MenuButton.HotTrackGradientType = bkSolid
+      Appearance.MenuButton.HotTrackCaptionColor = clWhite
+      Appearance.MenuButton.ActiveFrameColor = 9852160
+      Appearance.MenuButton.ActiveGradientFromColor = 9852160
+      Appearance.MenuButton.ActiveGradientToColor = 9852160
+      Appearance.MenuButton.ActiveGradientType = bkSolid
+      Appearance.MenuButton.ActiveCaptionColor = clWhite
+      Appearance.MenuButton.ShapeStyle = mbssRectangle
+      Appearance.Pane.BorderDarkColor = 13816015
+      Appearance.Pane.BorderLightColor = 16315117
+      Appearance.Pane.CaptionBgColor = 15856113
+      Appearance.Pane.CaptionFont.Color = 6908265
+      Appearance.Pane.GradientFromColor = 15856113
+      Appearance.Pane.GradientToColor = 15856113
+      Appearance.Pane.GradientType = bkSolid
+      Appearance.Pane.HotTrackBrightnessChange = 0
+      Appearance.Pane.Style = psDividerFlat
+      Appearance.Element.CaptionFont.Color = 4144959
+      Appearance.Element.IdleFrameColor = 13487565
+      Appearance.Element.IdleGradientFromColor = 14671839
+      Appearance.Element.IdleGradientToColor = 14671839
+      Appearance.Element.IdleGradientType = bkSolid
+      Appearance.Element.IdleInnerLightColor = 15461355
+      Appearance.Element.IdleInnerDarkColor = 13487565
+      Appearance.Element.IdleCaptionColor = 6908265
+      Appearance.Element.HotTrackFrameColor = 16371364
+      Appearance.Element.HotTrackGradientFromColor = 16248808
+      Appearance.Element.HotTrackGradientToColor = 16248808
+      Appearance.Element.HotTrackGradientType = bkSolid
+      Appearance.Element.HotTrackInnerLightColor = 16248808
+      Appearance.Element.HotTrackInnerDarkColor = 16248808
+      Appearance.Element.HotTrackCaptionColor = 4144959
+      Appearance.Element.ActiveFrameColor = 14983778
+      Appearance.Element.ActiveGradientFromColor = 16244937
+      Appearance.Element.ActiveGradientToColor = 16244937
+      Appearance.Element.ActiveGradientType = bkSolid
+      Appearance.Element.ActiveInnerLightColor = 16244937
+      Appearance.Element.ActiveInnerDarkColor = 16244937
+      Appearance.Element.ActiveCaptionColor = 2894892
+      Appearance.Element.Style = esRectangle
+      Appearance.Popup.CaptionFont.Color = 4144959
+      Appearance.Popup.CheckedFrameColor = 16371364
+      Appearance.Popup.CheckedGradientFromColor = 16248808
+      Appearance.Popup.CheckedGradientToColor = 16248808
+      Appearance.Popup.CheckedGradientType = bkSolid
+      Appearance.Popup.DisabledCaptionColor = clSilver
+      Appearance.Popup.DividerLineColor = 13816015
+      Appearance.Popup.GutterFrameColor = 12961221
+      Appearance.Popup.GutterGradientFromColor = 15724527
+      Appearance.Popup.GutterGradientToColor = 15724527
+      Appearance.Popup.GutterGradientType = bkSolid
+      Appearance.Popup.HotTrackCaptionColor = 4144959
+      Appearance.Popup.HotTrackFrameColor = 16371364
+      Appearance.Popup.HotTrackGradientFromColor = 16248808
+      Appearance.Popup.HotTrackGradientToColor = 16248808
+      Appearance.Popup.HotTrackGradientType = bkSolid
+      Appearance.Popup.IdleCaptionColor = 6908265
+      Appearance.Popup.IdleGradientFromColor = 15856113
+      Appearance.Popup.IdleGradientToColor = 15856113
+      Appearance.Popup.IdleGradientType = bkSolid
+      Appearance.Popup.SelectionShape = ssRectangle
+      Appearance.Popup.Style = psDefault
+      TabIndex = 0
+      Images = SmallImages
+      LargeImages = LargeImages
+      MenuButtonCaption = 'Menu'
+      ShowMenuButton = True
+      Tabs = (
+        'LazTab5'
+      )
+      object LazTab5: TLazRibbonTab
+        CustomAppearance.Tab.TabHeaderFont.Color = 9126421
+        CustomAppearance.Tab.BorderColor = 14922381
+        CustomAppearance.Tab.CornerRadius = 4
+        CustomAppearance.Tab.GradientFromColor = 16115934
+        CustomAppearance.Tab.GradientToColor = 15587527
+        CustomAppearance.Tab.GradientType = bkConcave
+        CustomAppearance.Tab.InactiveTabHeaderFontColor = 9126421
+        CustomAppearance.MenuButton.CaptionFont.Color = clWhite
+        CustomAppearance.MenuButton.IdleFrameColor = 10569759
+        CustomAppearance.MenuButton.IdleGradientFromColor = 14649927
+        CustomAppearance.MenuButton.IdleGradientToColor = 12017961
+        CustomAppearance.MenuButton.IdleGradientType = bkConcave
+        CustomAppearance.MenuButton.IdleCaptionColor = clWhite
+        CustomAppearance.MenuButton.HotTrackFrameColor = 10569759
+        CustomAppearance.MenuButton.HotTrackGradientFromColor = 15179099
+        CustomAppearance.MenuButton.HotTrackGradientToColor = 12478257
+        CustomAppearance.MenuButton.HotTrackGradientType = bkConcave
+        CustomAppearance.MenuButton.HotTrackCaptionColor = clWhite
+        CustomAppearance.MenuButton.HotTrackBrightnessChange = 40
+        CustomAppearance.MenuButton.ActiveFrameColor = 11095324
+        CustomAppearance.MenuButton.ActiveGradientFromColor = 14518846
+        CustomAppearance.MenuButton.ActiveGradientToColor = 12411174
+        CustomAppearance.MenuButton.ActiveGradientType = bkConcave
+        CustomAppearance.MenuButton.ActiveCaptionColor = clWhite
+        CustomAppearance.MenuButton.ShapeStyle = mbssRounded
+        CustomAppearance.Pane.BorderDarkColor = 14335646
+        CustomAppearance.Pane.BorderLightColor = 16315117
+        CustomAppearance.Pane.CaptionBgColor = 15849922
+        CustomAppearance.Pane.CaptionFont.Color = 9126421
+        CustomAppearance.Pane.GradientFromColor = 16115934
+        CustomAppearance.Pane.GradientToColor = 15587527
+        CustomAppearance.Pane.GradientType = bkConcave
+        CustomAppearance.Element.CaptionFont.Color = clMenuText
+        CustomAppearance.Element.IdleFrameColor = 14727067
+        CustomAppearance.Element.IdleGradientFromColor = 15653832
+        CustomAppearance.Element.IdleGradientToColor = 15323324
+        CustomAppearance.Element.IdleGradientType = bkConcave
+        CustomAppearance.Element.IdleInnerLightColor = 15852501
+        CustomAppearance.Element.IdleInnerDarkColor = 15520702
+        CustomAppearance.Element.IdleCaptionColor = 11631958
+        CustomAppearance.Element.HotTrackFrameColor = 10211293
+        CustomAppearance.Element.HotTrackGradientFromColor = 14351615
+        CustomAppearance.Element.HotTrackGradientToColor = 5101567
+        CustomAppearance.Element.HotTrackGradientType = bkConcave
+        CustomAppearance.Element.HotTrackInnerLightColor = 12972543
+        CustomAppearance.Element.HotTrackInnerDarkColor = 8045272
+        CustomAppearance.Element.HotTrackCaptionColor = 8864367
+        CustomAppearance.Element.HotTrackBrightnessChange = 40
+        CustomAppearance.Element.ActiveFrameColor = 5535371
+        CustomAppearance.Element.ActiveGradientFromColor = 7126014
+        CustomAppearance.Element.ActiveGradientToColor = 4035324
+        CustomAppearance.Element.ActiveGradientType = bkConcave
+        CustomAppearance.Element.ActiveInnerLightColor = 961020
+        CustomAppearance.Element.ActiveInnerDarkColor = 961020
+        CustomAppearance.Element.ActiveCaptionColor = 8405614
+        CustomAppearance.Element.Style = esRounded
+        CustomAppearance.Popup.CheckedFrameColor = 3577330
+        CustomAppearance.Popup.CheckedGradientFromColor = 9823231
+        CustomAppearance.Popup.CheckedGradientToColor = 9823231
+        CustomAppearance.Popup.CheckedGradientType = bkSolid
+        CustomAppearance.Popup.DisabledCaptionColor = clSilver
+        CustomAppearance.Popup.DividerLineColor = 14922381
+        CustomAppearance.Popup.GutterFrameColor = 12961221
+        CustomAppearance.Popup.GutterGradientFromColor = 15658729
+        CustomAppearance.Popup.GutterGradientToColor = 15658729
+        CustomAppearance.Popup.GutterGradientType = bkSolid
+        CustomAppearance.Popup.HotTrackCaptionColor = 8864367
+        CustomAppearance.Popup.HotTrackFrameColor = 10079963
+        CustomAppearance.Popup.HotTrackGradientFromColor = 14351615
+        CustomAppearance.Popup.HotTrackGradientToColor = 5101567
+        CustomAppearance.Popup.HotTrackGradientType = bkConcave
+        CustomAppearance.Popup.IdleCaptionColor = 11631958
+        CustomAppearance.Popup.IdleGradientFromColor = 16448250
+        CustomAppearance.Popup.IdleGradientToColor = 16448250
+        CustomAppearance.Popup.IdleGradientType = bkConcave
+        CustomAppearance.Popup.SelectionShape = ssRectangle
+        CustomAppearance.Popup.Style = psGutter
+        Caption = 'Metro light'
+        Panes = (
+          'LazPane5'
+          'LazPane8'
+          'LazPane19'
+          'LazPane14'
+        )
+        object LazPane5: TLazRibbonPane
+          Caption = 'File commands'
+          ShowMoreOptionsButton = True
+          Items = (
+            'LazLargeButton4'
+            'LazLargeButton8'
+            'LazSmallButton8'
+            'LazSmallButton9'
+            'LazLargeButton9'
+          )
+          object LazLargeButton4: TLazRibbonLargeButton
+            Caption = 'New'
+            ButtonKind = bkDropdown
+            LargeImageIndex = 0
+          end
+          object LazLargeButton8: TLazRibbonLargeButton
+            Caption = 'Open file...'
+            ButtonKind = bkButtonDropdown
+            LargeImageIndex = 1
+          end
+          object LazSmallButton8: TLazRibbonSmallButton
+            Caption = 'Save'
+            HideFrameWhenIdle = True
+            ImageIndex = 0
+            ButtonKind = bkButtonDropdown
+          end
+          object LazSmallButton9: TLazRibbonSmallButton
+            Caption = 'Save as...'
+            HideFrameWhenIdle = True
+            ImageIndex = 1
+            TableBehaviour = tbBeginsRow
+          end
+          object LazLargeButton9: TLazRibbonLargeButton
+            Caption = 'Exit program'
+            LargeImageIndex = 3
+          end
+        end
+        object LazPane8: TLazRibbonPane
+          Caption = 'Edit commands'
+          ShowMoreOptionsButtonStyle = mobsArrow
+          ShowMoreOptionsButton = True
+          Items = (
+            'LazSmallButton10'
+            'LazSmallButton11'
+            'LazSmallButton12'
+            'LazSmallButton13'
+            'LazSmallButton14'
+          )
+          object LazSmallButton10: TLazRibbonSmallButton
+            Caption = 'Cut'
+            HideFrameWhenIdle = True
+            ImageIndex = 2
+          end
+          object LazSmallButton11: TLazRibbonSmallButton
+            Caption = 'Copy'
+            HideFrameWhenIdle = True
+            ImageIndex = 3
+            TableBehaviour = tbBeginsRow
+          end
+          object LazSmallButton12: TLazRibbonSmallButton
+            Caption = 'Paste'
+            HideFrameWhenIdle = True
+            ImageIndex = 4
+            TableBehaviour = tbBeginsRow
+          end
+          object LazSmallButton13: TLazRibbonSmallButton
+            Caption = 'Select all'
+            TableBehaviour = tbBeginsColumn
+          end
+          object LazSmallButton14: TLazRibbonSmallButton
+            Caption = 'Unselect'
+            TableBehaviour = tbBeginsRow
+          end
+        end
+        object LazPane19: TLazRibbonPane
+          Caption = 'Format commands'
+          Items = (
+            'LazSmallButton68'
+            'LazSmallButton62'
+            'LazSmallButton63'
+            'LazSmallButton64'
+            'LazSmallButton65'
+            'LazSmallButton66'
+            'LazSmallButton67'
+          )
+          object LazSmallButton68: TLazRibbonSmallButton
+            Caption = 'Button'
+            GroupBehaviour = gbBeginsGroup
+            ImageIndex = 5
+            ShowCaption = False
+            TableBehaviour = tbBeginsRow
+            ButtonKind = bkToggle
+          end
+          object LazSmallButton62: TLazRibbonSmallButton
+            Caption = 'Button'
+            GroupBehaviour = gbContinuesGroup
+            ImageIndex = 6
+            ShowCaption = False
+            ButtonKind = bkToggle
+          end
+          object LazSmallButton63: TLazRibbonSmallButton
+            Caption = 'Button'
+            GroupBehaviour = gbContinuesGroup
+            ImageIndex = 7
+            ShowCaption = False
+            ButtonKind = bkToggle
+          end
+          object LazSmallButton64: TLazRibbonSmallButton
+            Caption = 'Button'
+            GroupBehaviour = gbEndsGroup
+            ImageIndex = 8
+            ShowCaption = False
+            ButtonKind = bkToggle
+          end
+          object LazSmallButton65: TLazRibbonSmallButton
+            Caption = 'Button'
+            GroupBehaviour = gbBeginsGroup
+            ImageIndex = 9
+            ShowCaption = False
+            TableBehaviour = tbBeginsRow
+            ButtonKind = bkToggle
+            Checked = True
+            GroupIndex = 1
+          end
+          object LazSmallButton66: TLazRibbonSmallButton
+            Caption = 'Button'
+            GroupBehaviour = gbContinuesGroup
+            ImageIndex = 10
+            ShowCaption = False
+            ButtonKind = bkToggle
+            GroupIndex = 1
+          end
+          object LazSmallButton67: TLazRibbonSmallButton
+            Caption = 'Button'
+            GroupBehaviour = gbEndsGroup
+            ImageIndex = 11
+            ShowCaption = False
+            ButtonKind = bkToggle
+            GroupIndex = 1
+          end
+        end
+        object LazPane14: TLazRibbonPane
+          Caption = 'Settings'
+          Items = (
+            'LazSmallButton39'
+            'LazCheckbox4'
+          )
+          object LazSmallButton39: TLazRibbonSmallButton
+            Caption = 'Save now'
+            HideFrameWhenIdle = True
+          end
+          object LazCheckbox4: TLazRibbonCheckbox
+            Caption = 'Auto save'
+            TableBehaviour = tbBeginsRow
+          end
+        end
+      end
+    end
+    object Panel2: TPanel
+      Left = 0
+      Height = 12
+      Top = 236
+      Width = 632
+      Align = alTop
+      BevelOuter = bvNone
+      Color = clMedGray
+      ParentBackground = False
+      ParentColor = False
+      TabOrder = 7
+    end
+    object LazToolbar5: TLazRibbon
+      Left = 0
+      Height = 112
+      Top = 496
+      Width = 632
+      Color = clMedGray
+      Style = lazMetroDark
+      Appearance.Tab.TabHeaderFont.Color = clWhite
+      Appearance.Tab.BorderColor = clBlack
+      Appearance.Tab.CornerRadius = 0
+      Appearance.Tab.GradientFromColor = 4605510
+      Appearance.Tab.GradientToColor = 4605510
+      Appearance.Tab.GradientType = bkSolid
+      Appearance.Tab.InactiveTabHeaderFontColor = 7895160
+      Appearance.MenuButton.CaptionFont.Color = clWhite
+      Appearance.MenuButton.IdleFrameColor = 11822592
+      Appearance.MenuButton.IdleGradientFromColor = 11822592
+      Appearance.MenuButton.IdleGradientToColor = 11822592
+      Appearance.MenuButton.IdleGradientType = bkSolid
+      Appearance.MenuButton.IdleCaptionColor = clWhite
+      Appearance.MenuButton.HotTrackFrameColor = 14515456
+      Appearance.MenuButton.HotTrackGradientFromColor = 14515456
+      Appearance.MenuButton.HotTrackGradientToColor = 14515456
+      Appearance.MenuButton.HotTrackGradientType = bkSolid
+      Appearance.MenuButton.HotTrackCaptionColor = clWhite
+      Appearance.MenuButton.HotTrackBrightnessChange = 10
+      Appearance.MenuButton.ActiveFrameColor = 9852160
+      Appearance.MenuButton.ActiveGradientFromColor = 9852160
+      Appearance.MenuButton.ActiveGradientToColor = 9852160
+      Appearance.MenuButton.ActiveGradientType = bkSolid
+      Appearance.MenuButton.ActiveCaptionColor = clWhite
+      Appearance.MenuButton.ShapeStyle = mbssRectangle
+      Appearance.Pane.BorderDarkColor = 9208962
+      Appearance.Pane.BorderLightColor = 10657179
+      Appearance.Pane.CaptionBgColor = 4605510
+      Appearance.Pane.CaptionFont.Color = clWhite
+      Appearance.Pane.GradientFromColor = 4605510
+      Appearance.Pane.GradientToColor = 15856113
+      Appearance.Pane.GradientType = bkSolid
+      Appearance.Pane.HotTrackBrightnessChange = 0
+      Appearance.Pane.Style = psDividerFlat
+      Appearance.Element.CaptionFont.Color = 4144959
+      Appearance.Element.IdleFrameColor = 9208962
+      Appearance.Element.IdleGradientFromColor = 4473924
+      Appearance.Element.IdleGradientToColor = 4473924
+      Appearance.Element.IdleGradientType = bkSolid
+      Appearance.Element.IdleInnerLightColor = 4473924
+      Appearance.Element.IdleInnerDarkColor = 9208962
+      Appearance.Element.IdleCaptionColor = 11974326
+      Appearance.Element.HotTrackFrameColor = 12876092
+      Appearance.Element.HotTrackGradientFromColor = 8411965
+      Appearance.Element.HotTrackGradientToColor = 8411965
+      Appearance.Element.HotTrackGradientType = bkSolid
+      Appearance.Element.HotTrackInnerLightColor = 8411965
+      Appearance.Element.HotTrackInnerDarkColor = 8411965
+      Appearance.Element.HotTrackCaptionColor = 15921906
+      Appearance.Element.HotTrackBrightnessChange = 10
+      Appearance.Element.ActiveFrameColor = clBlack
+      Appearance.Element.ActiveGradientFromColor = clBlack
+      Appearance.Element.ActiveGradientToColor = clBlack
+      Appearance.Element.ActiveGradientType = bkSolid
+      Appearance.Element.ActiveInnerLightColor = clBlack
+      Appearance.Element.ActiveInnerDarkColor = clBlack
+      Appearance.Element.ActiveCaptionColor = 15000804
+      Appearance.Element.Style = esRectangle
+      Appearance.Popup.CaptionFont.Color = 4144959
+      Appearance.Popup.CheckedFrameColor = 12876092
+      Appearance.Popup.CheckedGradientFromColor = 8411965
+      Appearance.Popup.CheckedGradientToColor = 8411965
+      Appearance.Popup.CheckedGradientType = bkSolid
+      Appearance.Popup.DisabledCaptionColor = 7895160
+      Appearance.Popup.DividerLineColor = clBlack
+      Appearance.Popup.GutterFrameColor = 2105376
+      Appearance.Popup.GutterGradientFromColor = clBlack
+      Appearance.Popup.GutterGradientToColor = clBlack
+      Appearance.Popup.GutterGradientType = bkSolid
+      Appearance.Popup.HotTrackCaptionColor = 15921906
+      Appearance.Popup.HotTrackFrameColor = 12876092
+      Appearance.Popup.HotTrackGradientFromColor = 8411965
+      Appearance.Popup.HotTrackGradientToColor = 8411965
+      Appearance.Popup.HotTrackGradientType = bkSolid
+      Appearance.Popup.IdleCaptionColor = 11974326
+      Appearance.Popup.IdleGradientFromColor = 4473924
+      Appearance.Popup.IdleGradientToColor = 4473924
+      Appearance.Popup.IdleGradientType = bkSolid
+      Appearance.Popup.SelectionShape = ssRectangle
+      Appearance.Popup.Style = psDefault
+      TabIndex = 0
+      Images = SmallImages
+      LargeImages = LargeImages
+      MenuButtonCaption = 'Menu'
+      ShowMenuButton = True
+      Tabs = (
+        'LazTab6'
+      )
+      object LazTab6: TLazRibbonTab
+        CustomAppearance.Tab.TabHeaderFont.Color = 9126421
+        CustomAppearance.Tab.BorderColor = 14922381
+        CustomAppearance.Tab.CornerRadius = 4
+        CustomAppearance.Tab.GradientFromColor = 16115934
+        CustomAppearance.Tab.GradientToColor = 15587527
+        CustomAppearance.Tab.GradientType = bkConcave
+        CustomAppearance.Tab.InactiveTabHeaderFontColor = 9126421
+        CustomAppearance.MenuButton.CaptionFont.Color = clWhite
+        CustomAppearance.MenuButton.IdleFrameColor = 10569759
+        CustomAppearance.MenuButton.IdleGradientFromColor = 14649927
+        CustomAppearance.MenuButton.IdleGradientToColor = 12017961
+        CustomAppearance.MenuButton.IdleGradientType = bkConcave
+        CustomAppearance.MenuButton.IdleCaptionColor = clWhite
+        CustomAppearance.MenuButton.HotTrackFrameColor = 10569759
+        CustomAppearance.MenuButton.HotTrackGradientFromColor = 15179099
+        CustomAppearance.MenuButton.HotTrackGradientToColor = 12478257
+        CustomAppearance.MenuButton.HotTrackGradientType = bkConcave
+        CustomAppearance.MenuButton.HotTrackCaptionColor = clWhite
+        CustomAppearance.MenuButton.HotTrackBrightnessChange = 40
+        CustomAppearance.MenuButton.ActiveFrameColor = 11095324
+        CustomAppearance.MenuButton.ActiveGradientFromColor = 14518846
+        CustomAppearance.MenuButton.ActiveGradientToColor = 12411174
+        CustomAppearance.MenuButton.ActiveGradientType = bkConcave
+        CustomAppearance.MenuButton.ActiveCaptionColor = clWhite
+        CustomAppearance.MenuButton.ShapeStyle = mbssRounded
+        CustomAppearance.Pane.BorderDarkColor = 14335646
+        CustomAppearance.Pane.BorderLightColor = 16315117
+        CustomAppearance.Pane.CaptionBgColor = 15849922
+        CustomAppearance.Pane.CaptionFont.Color = 9126421
+        CustomAppearance.Pane.GradientFromColor = 16115934
+        CustomAppearance.Pane.GradientToColor = 15587527
+        CustomAppearance.Pane.GradientType = bkConcave
+        CustomAppearance.Element.CaptionFont.Color = clMenuText
+        CustomAppearance.Element.IdleFrameColor = 14727067
+        CustomAppearance.Element.IdleGradientFromColor = 15653832
+        CustomAppearance.Element.IdleGradientToColor = 15323324
+        CustomAppearance.Element.IdleGradientType = bkConcave
+        CustomAppearance.Element.IdleInnerLightColor = 15852501
+        CustomAppearance.Element.IdleInnerDarkColor = 15520702
+        CustomAppearance.Element.IdleCaptionColor = 11631958
+        CustomAppearance.Element.HotTrackFrameColor = 10211293
+        CustomAppearance.Element.HotTrackGradientFromColor = 14351615
+        CustomAppearance.Element.HotTrackGradientToColor = 5101567
+        CustomAppearance.Element.HotTrackGradientType = bkConcave
+        CustomAppearance.Element.HotTrackInnerLightColor = 12972543
+        CustomAppearance.Element.HotTrackInnerDarkColor = 8045272
+        CustomAppearance.Element.HotTrackCaptionColor = 8864367
+        CustomAppearance.Element.HotTrackBrightnessChange = 40
+        CustomAppearance.Element.ActiveFrameColor = 5535371
+        CustomAppearance.Element.ActiveGradientFromColor = 7126014
+        CustomAppearance.Element.ActiveGradientToColor = 4035324
+        CustomAppearance.Element.ActiveGradientType = bkConcave
+        CustomAppearance.Element.ActiveInnerLightColor = 961020
+        CustomAppearance.Element.ActiveInnerDarkColor = 961020
+        CustomAppearance.Element.ActiveCaptionColor = 8405614
+        CustomAppearance.Element.Style = esRounded
+        CustomAppearance.Popup.CheckedFrameColor = 3577330
+        CustomAppearance.Popup.CheckedGradientFromColor = 9823231
+        CustomAppearance.Popup.CheckedGradientToColor = 9823231
+        CustomAppearance.Popup.CheckedGradientType = bkSolid
+        CustomAppearance.Popup.DisabledCaptionColor = clSilver
+        CustomAppearance.Popup.DividerLineColor = 14922381
+        CustomAppearance.Popup.GutterFrameColor = 12961221
+        CustomAppearance.Popup.GutterGradientFromColor = 15658729
+        CustomAppearance.Popup.GutterGradientToColor = 15658729
+        CustomAppearance.Popup.GutterGradientType = bkSolid
+        CustomAppearance.Popup.HotTrackCaptionColor = 8864367
+        CustomAppearance.Popup.HotTrackFrameColor = 10079963
+        CustomAppearance.Popup.HotTrackGradientFromColor = 14351615
+        CustomAppearance.Popup.HotTrackGradientToColor = 5101567
+        CustomAppearance.Popup.HotTrackGradientType = bkConcave
+        CustomAppearance.Popup.IdleCaptionColor = 11631958
+        CustomAppearance.Popup.IdleGradientFromColor = 16448250
+        CustomAppearance.Popup.IdleGradientToColor = 16448250
+        CustomAppearance.Popup.IdleGradientType = bkConcave
+        CustomAppearance.Popup.SelectionShape = ssRectangle
+        CustomAppearance.Popup.Style = psGutter
+        Caption = 'Metro dark'
+        Panes = (
+          'LazPane6'
+          'LazPane7'
+          'LazPane20'
+          'LazPane15'
+        )
+        object LazPane6: TLazRibbonPane
+          Caption = 'File commands'
+          ShowMoreOptionsButton = True
+          Items = (
+            'LazLargeButton7'
+            'LazLargeButton5'
+            'LazSmallButton2'
+            'LazSmallButton1'
+            'LazLargeButton6'
+          )
+          object LazLargeButton7: TLazRibbonLargeButton
+            Caption = 'New'
+            ButtonKind = bkDropdown
+            LargeImageIndex = 0
+          end
+          object LazLargeButton5: TLazRibbonLargeButton
+            Caption = 'Open file...'
+            ButtonKind = bkButtonDropdown
+            LargeImageIndex = 1
+          end
+          object LazSmallButton2: TLazRibbonSmallButton
+            Caption = 'Save'
+            HideFrameWhenIdle = True
+            ImageIndex = 0
+            ButtonKind = bkButtonDropdown
+          end
+          object LazSmallButton1: TLazRibbonSmallButton
+            Caption = 'Save as...'
+            HideFrameWhenIdle = True
+            ImageIndex = 1
+            TableBehaviour = tbBeginsRow
+          end
+          object LazLargeButton6: TLazRibbonLargeButton
+            Caption = 'Exit program'
+            LargeImageIndex = 3
+          end
+        end
+        object LazPane7: TLazRibbonPane
+          Caption = 'Edit commands'
+          ShowMoreOptionsButtonStyle = mobsArrow
+          ShowMoreOptionsButton = True
+          Items = (
+            'LazSmallButton3'
+            'LazSmallButton4'
+            'LazSmallButton5'
+            'LazSmallButton6'
+            'LazSmallButton7'
+          )
+          object LazSmallButton3: TLazRibbonSmallButton
+            Caption = 'Cut'
+            HideFrameWhenIdle = True
+            ImageIndex = 2
+          end
+          object LazSmallButton4: TLazRibbonSmallButton
+            Caption = 'Copy'
+            HideFrameWhenIdle = True
+            ImageIndex = 3
+            TableBehaviour = tbBeginsRow
+          end
+          object LazSmallButton5: TLazRibbonSmallButton
+            Caption = 'Paste'
+            HideFrameWhenIdle = True
+            ImageIndex = 4
+            TableBehaviour = tbBeginsRow
+          end
+          object LazSmallButton6: TLazRibbonSmallButton
+            Caption = 'Select all'
+            TableBehaviour = tbBeginsColumn
+          end
+          object LazSmallButton7: TLazRibbonSmallButton
+            Caption = 'Unselect'
+            TableBehaviour = tbBeginsRow
+          end
+        end
+        object LazPane20: TLazRibbonPane
+          Caption = 'Format commands'
+          Items = (
+            'LazSmallButton69'
+            'LazSmallButton70'
+            'LazSmallButton71'
+            'LazSmallButton72'
+            'LazSmallButton73'
+            'LazSmallButton74'
+            'LazSmallButton75'
+          )
+          object LazSmallButton69: TLazRibbonSmallButton
+            Caption = 'Button'
+            GroupBehaviour = gbBeginsGroup
+            ImageIndex = 5
+            ShowCaption = False
+            ButtonKind = bkToggle
+          end
+          object LazSmallButton70: TLazRibbonSmallButton
+            Caption = 'Button'
+            GroupBehaviour = gbContinuesGroup
+            ImageIndex = 6
+            ShowCaption = False
+            ButtonKind = bkToggle
+          end
+          object LazSmallButton71: TLazRibbonSmallButton
+            Caption = 'Button'
+            GroupBehaviour = gbContinuesGroup
+            ImageIndex = 7
+            ShowCaption = False
+            ButtonKind = bkToggle
+          end
+          object LazSmallButton72: TLazRibbonSmallButton
+            Caption = 'Button'
+            GroupBehaviour = gbEndsGroup
+            ImageIndex = 8
+            ShowCaption = False
+            ButtonKind = bkToggle
+          end
+          object LazSmallButton73: TLazRibbonSmallButton
+            Caption = 'Button'
+            GroupBehaviour = gbBeginsGroup
+            ImageIndex = 9
+            ShowCaption = False
+            TableBehaviour = tbBeginsRow
+            ButtonKind = bkToggle
+            Checked = True
+            GroupIndex = 1
+          end
+          object LazSmallButton74: TLazRibbonSmallButton
+            Caption = 'Button'
+            GroupBehaviour = gbContinuesGroup
+            ImageIndex = 10
+            ShowCaption = False
+            ButtonKind = bkToggle
+            GroupIndex = 1
+          end
+          object LazSmallButton75: TLazRibbonSmallButton
+            Caption = 'Button'
+            GroupBehaviour = gbEndsGroup
+            ImageIndex = 11
+            ShowCaption = False
+            ButtonKind = bkToggle
+            GroupIndex = 1
+          end
+        end
+        object LazPane15: TLazRibbonPane
+          Caption = 'Settings'
+          Items = (
+            'LazSmallButton40'
+            'LazCheckbox5'
+          )
+          object LazSmallButton40: TLazRibbonSmallButton
+            Caption = 'Save now'
+            HideFrameWhenIdle = True
+          end
+          object LazCheckbox5: TLazRibbonCheckbox
+            Caption = 'auto save'
+            TableBehaviour = tbBeginsRow
+          end
+        end
+      end
+    end
+  end
+  object Panel5: TPanel
+    Left = 0
+    Height = 42
+    Top = 620
+    Width = 636
+    Align = alBottom
+    BevelOuter = bvNone
+    ClientHeight = 42
+    ClientWidth = 636
+    ParentBackground = False
+    TabOrder = 1
+    object RadioButton1: TRadioButton
+      AnchorSideLeft.Control = Panel5
+      AnchorSideTop.Control = Panel5
+      AnchorSideTop.Side = asrCenter
+      Left = 6
+      Height = 19
+      Top = 12
+      Width = 84
+      BorderSpacing.Around = 6
+      Caption = 'Left-to-right'
+      Checked = True
+      TabOrder = 1
+      TabStop = True
+      OnChange = RadioButton1Change
+    end
+    object RadioButton2: TRadioButton
+      AnchorSideLeft.Control = RadioButton1
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = Panel5
+      AnchorSideTop.Side = asrCenter
+      Left = 106
+      Height = 19
+      Top = 12
+      Width = 84
+      BorderSpacing.Left = 16
+      Caption = 'Right-to-left'
+      TabOrder = 0
+      OnChange = RadioButton1Change
+    end
+  end
+  object LargeImages: TImageList
+    Height = 32
+    Scaled = True
+    Width = 32
+    OnGetWidthForPPI = LargeImagesGetWidthForPPI
+    Left = 368
+    Top = 112
+    Bitmap = {
+      4C7A0400000020000000200000000B0C00000000000078DAED99797094F519C7
+      43125AA738ADCED4766A55F068A71D1150B4D816ACE31FD551F48F1E3A1E15C5
+      0B411444515039548444415428A02047382257054212952A18252284DCC9EE66
+      379BCD6EF64AB29BDDCDDEC7D3E7F9BDEFEFDD77377B6689DA99DD99EFBC3B9B
+      F7F77C7ECFF9FE5E00800290E9C89123352818A6C2A8591067331BE5C0E68A1C
+      3E7C7876AE7C884404854300A1A0A80040D00F10F0A1BC82FC6E009F7BC81E2A
+      2A2AE6E6C60FCBD82297B139D723B20701BC2E89ADEB50E4B40789CFD80191ED
+      13C4B8DE28576483D729F1C13D807B681FF61E243BF2584B6C8F2039DBE34439
+      A2FC411B80AB1F74CAB661ED2196EF13F829B84C6E7B948F6C26672FEEA135EB
+      3D48761857F4D927D418780759AC2536C69A097D96D639FB181B1C5680010B68
+      DB9AE47B7832637E0C9BE7D915CB1EB44BF1CE743E64CE4F126F99CF9C0DAE3E
+      F8FACB1319ED21633E8B37F799B8729FED628E79ACC5783B2C007633C61D6537
+      02D850FD06A6ACF992CF89E34D3E33BE239A6B816B12D93D8288DFD73D0C7E22
+      AE4D60BAE2B916916B127DE65C3D630F8B2FE5D91ECDB553E633E7729F6DC658
+      76BFC8EED5310D8BCF7D96E79AE5DB22E6DA34944D3E135BE482B50BC0A2CD9E
+      CF6A4C1E6F6B823C9B626A8C09F71C0E782018F6E3E32B02C1901F4238AF9B9B
+      9BA1AAAA2A73BEE4B38CCDEB9BD798146B94B31F42E100042321A87135C17ACB
+      41784DFF21BCDB530EC7ED6720807FF3F83CC4BF3B33BE6C8E39788D897DC5EB
+      9BB32957F8A9769E86DBD52FC2E49647E1DAC61930E1ECBD70F5B77F87DFD7DE
+      057F3E753FFCC7FC19DD860F75589C962F8FB73DAEC66C629E49141FFC6CE83B
+      025314B3E1FA56623F08D35BE7C34EF351B8B57E16FCA6E636B8E28B5B60DCB1
+      6950A2DAC0F770774A7E7C7DCB7DE66CAC338A7995F35B98A214D893904D7EEF
+      B57ECAF6556EAA842B8E0BEC4BAAA7C0AF8E5E0B07F41511CC136DFCFC94FC98
+      DA36C4B2A9B6B1D6029120DCA15E04D753CC9BA2313F683DC6F8FB4DD530F6D8
+      5489FDCBC3E3617CE5545A87070C782A295FF259CEEE8EF634F615D535D59A10
+      7364D709ECDF9DBC130E9805FFF7192BE1D24FA6C0C522FBE7077F0B17EC1D07
+      553D9F858391E0E749F936798D45E718EB67262DEBB17558E7E4F7F49679B0C7
+      52051F59AA59CC3BDD7AC6D70CEAA04C77007674ED852D9A5D707DE5CDF0D33D
+      BF86650D2BA8277A93F263E2CDE798C065326BB0BFC3ACC728E6546B997C362A
+      B7C0989D17C19C93CF4038120EA6E4336E34DEC22CEB146456B3D942FD4D31BF
+      0DEB7CA7F108EC41ED321C028D5BC7786A9716B66BCB619B66377CA0DA06130E
+      DD08E76DBB005E39BD94FCB726E5F31A8BE75A34002635AA034278363881B385
+      F22DEF31AAB572FD21C6DF83B1BF10F34D311F537611638FDEFC13A8D055A4CE
+      7F429F35CC6F628351C57A84EA9F660BF518AFF38B8F5E07E5DD1F33FE2EEDBE
+      21EC4BCA2E23DFA9FEE724E58B3526F9CCB86A816B421995EC3BE5E063F331E6
+      B7BCCEB7779633FED68EB21876D1A6D1B05BB51BFB3FD89BB2FF25AE186FB3C8
+      665C548F02C0D08E7932300ECD35EAEF5F1CBA9AF518D5F946E58752BE895DB8
+      A918167FB398CFBF7FA69C7F89E2CDB84A81CBD406A06F1566157E0E182AD86C
+      B970DFE5B298FF8CB12FDB3996FCE6EC45E7FAFDB3AEAE0EDC7866F4633EAA0D
+      C76079FD1BD863F360C99965705457C97E777BDD90CCEF73F1FE4DCF777ACE5B
+      7A2D3088EF0A217C8773E139D262B5B0DFABABAB4FE6F26E9E575E23A509AB14
+      AE6B562A209526AE527AAF59A5BA6924F8647F373E8D52A9B4D903D7BDA91C1C
+      BFB2FDE6EF834F7ABD7E1026952883E96295387E8A816CF8BB70AC969923B003
+      B5CD1882AD3D21D882DA6C08C2FBFA006CEA0EC0069D1FD66B7DB00EF55EA717
+      DED17860ADDA036B3ADCB01A85E18212850B56B5BBD81E52F1CBCC61D8610A0B
+      2CD416E470D646E4C859EF329657647964AC41C0528237DA9CB002F57AAB135E
+      6D71C0F2E681B4FC0FF4C40A46595D895843FD62AC5691859CE5CD0E58DA6487
+      258D7678B9C1062FD5DB60112A1D7F9DD6CB7C99BC5A05C3C96F369AB052118C
+      E7935F2FD4DAE0964D9D5046B91F2195B678E186352A4D3C7F45AB031EAA30C1
+      7D074C23CA7FF6B89D62BC2B9E4FF9BA73A70E169CB08F28FF9EBD46F7F8958A
+      59F1FC85757D306DBD064A5BBDC3B2BB1DFB94B4CD14C1FE09C356768DC087F8
+      7D4B4F1836A33E308460EA7B6AC7D52B9537C4F39FFADA02934A556C4D22BBA4
+      ADDC36B329CE03D12EE97D7D0836610F9136B0F910807F77A1F0BA1EAF6BD53E
+      9858A20C8C5BA63D2F9E7F7FA51EFEB241C3F6CA156F7763B7206657D4BA2EBF
+      202DBE8F74FAE01D2E8D0FDE567BE16DBCAEC1EB6AECAD45A71C30F92D953A51
+      FFDDB1A713FEF19141DCAB9FED976CBEC7ECFA25BB6BB95DD41A516FA93C924A
+      952437CE0737CE22412BDB07516E78F8A805AE7D53B12B11FFE6CD6A78E213AB
+      60B7C32BEE196D777825BB25A25D6EFB0DB4CBD43688F36E105E6B75497AB5C5
+      09CB5B5CB0ACD9C9B4B4C901B76FD70DA93DCEBFF15D152CACB50BFB156DAF68
+      7331456D0A5A2EDAE4769734A2F0FA0A5E5F6E188097508BEBEDB0E8AC1D5E14
+      F5429D0DA6ACED18527B9C3FB154094B1A1C924D6657B4196B7780D965B6D1E6
+      8B7582ED85676CF03CEAB9D3FD4C0BBEED876745CD3FD507736BFB604282DAE3
+      FC3FADEB10F65CCFF76B673617D60976490B44BB0B6476E7A19EF9A697E969D4
+      DC5A2BAA179E3A698539D853B3514F7E658107AA8C987BA53AD9FCBF75BB166D
+      F631BB6473BE64B70F9EAEED956C46ED5A995DD2AC1A0B3C516386C7BF14F4D8
+      09133C2AEA11D4CC2F8C30BDBC0BFB7B68ED91F04C017FDBAF47BB5698FD5574
+      CFB344DB8F93ED1AC1EE6368FF1199DD99C78DF0305E1FFABC07667C6E8407FF
+      DBC3F4AF6306780075FF6782A66D5243A2DA637CCCFDBD953D82DDE38266329B
+      28BCCE106DCAED72DBF77DAA67BA378D26AF5142A2DA13CF9F23FFCC2D514412
+      D55E5E797D5F72CF2C80543A73E64C463A7BF62C5343430353535313FB3707B9
+      2DCFCC8255E7924FBCFAFA7AC66B6C6C94982D2D2DD0D6D6C6146F2F7E0FD9F0
+      B98F9C493C12F1E2D729140A502A95096DCAF7908ECF7924F291C47D6C6D6D65
+      3EB6B7B70F59A756ABA1B3B333A9DD4CF9F1719533B98F1D1D1D43D675757581
+      4EA7CB99CF7329E7A9542AC6241F351A4D423FF57A3DF4F4F4E4CC8F67128F33
+      B55A2DF331919F269309CC6673CE7CF291E792789CD9DDDDCD64301812FA69B5
+      5AA1B7B737673EF1782E398F338D4663523FFBFBFBC16EB7E7CCA73C7226F148
+      C423711FFBFAFA86AC73381CE0743A73E6CB7DB4582C8C493C12F968B3D9989F
+      0303038C17AF5CF9721F398F443CEE632AE5CA1F29FD50F923F5C9F3F3FC3C3F
+      CFCFF3F3FC54FC02FC752494E7E7CF3F89F8FFAFC29CFEB8B030B89444DFBF6B
+      7E6161E0C9C2A20030E1F7EF9C5FEC5F26F1F1FB88C5797460725151E04BD489
+      8202F7C5E9F8740FDD4B6B70ED75B9C538F802DA0F44E31C5C908E4FF748BFD3
+      DAC2E0F3C38C6FA9CC0EC981FE4C4CEB3FDE43F7C6AC2DF6AFCAD2EFE7E5EB59
+      2C0BBC97679A7FBA97D6C4ECA130F86C86F9BE3126E645C1BDD85FA3B3AD3F5A
+      33AA28B85FB6073FDABE214D4F8FC27D9F8EF51B8A875BFFB4166D7C2DB3772A
+      15BFA8C877976CBF8305059E4B73ED3FCCC558BCC713DD43687AB27B315E8733
+      AD996CFABFB038F016BF17190793C4EA7CFCBB97DF175F6FB9F00B0A7C57CAE2
+      EA41D69821F71407A7CAE66963063DB25456DB4B3398D72D926FC5C13F0ECD7D
+      E011D91E77A4B35754E4BF279A53FF3D69F94581DDB23A7C28813F0BB39D1758
+      AF7792B29E6785C1E712F09F93F14BCEFDF32A5A83988B7909E2FF6836F1CF9A
+      5F142893C57F6692B9C7F7D73C02E78526A9FE4607A624E8BF31F8379F784F04
+      7BE6AA737756F25D453645DB3EEAF524F367FF48D480BCF6907120553DC7CE09
+      EFD8DC7D67F3D79BC9FC15EBF02B599DD4E672B6A467A0FC398CDF4FD2332ECD
+      F3F70FF2E72FC66BDF70F6406B68D6CBCF42E99EBFB25A9D1B77FEA8A1199E45
+      BD5D496B62CF1F813959D64C49DCF9CB4D3304F3392E45AE2FC77B56CB9FB7C3
+      397FC9E2303FF62CC4ED05DA6846B19926CCB5EDE26F10A740A25997E5F97B92
+      FC4C94A9680DAD3D47EF5AA38A8B837F1D55E43FC2F2909CEBA6330CDD9BAECE
+      7379EFC3E7F74DE8DF0C76D647E1F707F1B769F8B71FE5FF4F3F3BFD0F13EDCF
+      E4
+    }
+    BitmapAdv = {
+      4C69020000004C7A040000003000000030000000481400000000000078DAED9B
+      097854D5D9C76382582DB6B5A2B59F5AF7A582A0A0D84FBF2AD5AA28D656DBBA
+      A060B5E2AEC50FB55295C2872641108416596511A58A220541C18222B8B08635
+      642609D9674B3299EC616692BC7DDFB3DC39F7CEBDC99DC94C82FDE63ECFFF39
+      217397DFF9DFFF39E7BD770200A481893EFAE8A34C5418054952396A10585CBF
+      ABC2730793C82EE54F561FBA813DA97D50AF01EDED11B5B572B5868542006152
+      10207438A2600BB6A86033C0E126A146AB3E0456AF5E7D79F2F8DBB874EC21C1
+      1E34B02BDC2A7B4B23AA41C7BD7EDDBAA4F5218A9FB187B9247B6B289A5DE7B7
+      E046DFA1B93E8ABFCEE74A5A1F74FC925D6396BE1BB8257B906785099999881F
+      A53B6F6300EABC1549E983EE3ABAAC0795CC18B2C2F82577343B34D546F14383
+      1FEA3C6509EF4314BFCA1D36E4BC83BC40731D17B247F137D4601F6A92D207DD
+      7564C62D3D97EC0D06CFF5ECD01430F0FB01EAAB51554C75EE12ECC32709E983
+      EE3A1DCE8B26396F316727AF75E765ECA83AE4AFAB64AA7515C3BA4F3ED6AD0F
+      AB56ADBA3421FCC116C3186DD2B3ABBE4BEEC680C808579C6B5C4997F88316F3
+      8B6E8C4ABF8DEC012DE3A4B56BD7C6D587AEF13747ADA37ACFEB2CF3C2B96BB4
+      ACE7EDCD81356BD6743FBF55D68DECE437B137443CD7C6685D956829EB3EAE5A
+      2F40C0A3C80D50E3624A18BFB6FE37F2B169EAB9F05BCBBA3F9A9FB12BDC46F6
+      9A083BF82B12C71F353E0D6394F95EA3F01B7DAF8CA8D6C715F00A299EFB3937
+      537579E2F94DE774237B75645E54D96B6D782E7C2776A82E4B1CBFB6FE1B72DE
+      1830785E2DF8ABACD925BF2E2BD277CE2D95587E23B77E5ED4F2A28ED15A93AC
+      336E21252B3AF6AA52A684F19BCDE966F38B9C63D818AD14CC5E7D568C593763
+      AFC4E5AAAA2481FC869C37287991DCEABC28F362649799517D1759979E3376A6
+      E2C4F147E5DC2CEB3E85DF2C2F2E3D3B795EA570579508FE624D09E557B9EBAD
+      C6A8CFB00E59645D66868EA7798DEA5A7A4602F17C4DF5398EB76DDBB669F546
+      D7F8D5AC5789716AE0D6B10B7EBFCB242F15FC7C8CB7F32D180CC2C18307E9C7
+      DE71F3478D51C37A143066DD6C3E2FE7F7819E3DC55614F4C082AAB530BAF855
+      B8D9F10C5C75E021B8F1C09330CA311E66BB9643617399DA95DDA833E2E28FAA
+      D37DE6EB9159CE6556A87FC27377C80F2F7916C1CF1C8FC1E50747C3A0FDF7C3
+      A57B47C1809CBBE1E29D77C045DB6E830BBFB9152EF872388CC9CB828A16AFEC
+      035E142E8F9DDF9073B3312AF3EE7745CF2D7EB7C6BEBBB910861D1A0743F21E
+      81CB7239FB257B46C2C09C11D07FC7EFA1DFF6DB39FB57C3E1DCCD37C0399BAE
+      834B36FF0AB6F877C83E200C9C1D13BF650DE0369F1775FCE57C7CE2B6BDC901
+      3F2F1803431C8FEAD9778F80F9EE0FE1705B08E656BC8FEC376BEC676EBC1ACE
+      F8D75570D6A757C196EA6DB20F39A85EB6F96B2DF212B0C84BB53237D2D81199
+      B9BEF0398D7DB02133A1F630DB8F5A623F7BD3B570D667D7C04F90FDB47557C0
+      7F7D3C187EBAFE6A286F76C93E3C14137FC09875C318F59BACA3D48ADC50DE89
+      5DE69D7C1F40996179BF5D37E790EF92FDF4F557C0A99F5C063F5E73099CBCAA
+      1F3CB2E319B91B9A07C7D8E3EFC0736DFD179EAB35008D1331CF5C81635566C6
+      38567F8A7957B7B33612FB958C9D7C3F65CD40F8D1AAFED077E50570D287E743
+      7E7DA1DCF5265BFCEAFCE23759478DB58B14D57DB8CDAF5EA365C66CAC9E8F79
+      5737E93BB14BDFFBAEBC104E5C712E9CB0FC4C98923B53EE3AC71EBF55ED5266
+      A81979DDC5D87DC57C1DC58DE677D57799193ECFF0B1AA6E94F7533FA6CC70DF
+      4F42F61F7E700E63FFDE3F4E839B366879DB618B5F9D1735CFADEB2EF0157189
+      EC0FC7B589E7FD6E98EF5909ADEDF6D65EB98571FF6979B3E0FBEF9E067DDE39
+      052E5A39487EE4B2C7AFFAAEAFD175EC3E85DD7B887F5F80DB95FB47B3CC50DE
+      9BDB5A209EAD29DC04C723FB714BFBC2C9CB4ED7CA0B5BFC1D3C63443C2F8E70
+      FB50DE42FECE1AB761B94FB1BC5366687E8FDDFF304C3D3013BEBBF4243876C9
+      0970C1FBFDE54715F6F80D59A92A31CF8B57704B8578FE47E58D67EC34CF9CFF
+      E5CD70DEE61BD9FC2ED726CABBBAF5FDF002CCFBB9F00391F7E397FD98F9FE9D
+      C53F80DE0BFBC0756B6E882DFF8CDDC85F1C9D17C9ED29C0D9399F3FB7E146B5
+      981CAB8CFD73B1367D7AA518AB8375FC729EA1BCCBCC90EFC72C3C1E8E5E702C
+      64EECE96BBBE618BDF2CE7C4CFB262C14EA2DCE14675E4855FDDC2D7D5CFC9F7
+      6B98EF6C6D6273E4401DBFE63BB2CBCC90EFC4DE6BDE319017C893BB0EB3CDAF
+      1BA3C53CE33E435E24B726A73606C6E4656A35C1194A4D70CA473847AEEEAFE3
+      67BE5366DEE29991BE67CC3D1AEEDD70AF3AF7D85B7FE5339D2E2B42E4B794E4
+      7639851C7CDDA3818635F0A55B7E15B536F175F54208B6F1E7026AFB48DF17F3
+      CCF49ACFD94F5CD817CA1AB46782D1B6EB1F955DFAEE51F2A2B13BB988DB85F7
+      B84228C4E7CC2FB1063E73FD55BA7555AE4D34BFB7B41E86A9B8B692EF3C33DC
+      F77464EF3DF718F8ACE233C9BE2BA6FA5365F70AF628CF1D0ABB23C25E7E907F
+      DECA73B4B52607FA7F3A54618F8CD53ECA58EDAD64867CDF50BE41B2D3C3CCE9
+      31D5FF32E72AB7647739ADB9CB73B9CA0EF07E8B3E500DFC30D6917D579CA7D5
+      047D94B12AF34E6395F2AE64C61BCFF357A2B461C306A8ADADD5C629D591548B
+      0DDB701BAB094E7EE774387F793FB816E7F7CC9C2C759EA16DA71DDF93FDF71B
+      F4DDC5EEDDBBA1A5A5C5F6FB87DCDCDCD6CEF2DEDD7F3F43EF75B66EDD0A2525
+      25100804587FDADADA584BFFA6DFD3E7B81F316426EBEF6C524A29A5945282B4
+      01D98EE28BB31C10AB0666392B0766E7F6EB697E62B96961298C5E5B1993FE7B
+      4661EB80C90ECF25597967F634FF63EBAB605925C4A499F98761C8B482D68178
+      FFFABD9A7BCAB78D9F3435B7052E9D92DF86F761FFC559FB4E3892F9DFF1B5A3
+      00DEC676A9B71DDEF2B4C112D4849D0D3070B2B32D9E31D499706C16C5C3FF4E
+      658493B444B02E72B7C242572BBC59118637B19D5F1E8279A897B6D7C17DAB3C
+      30CAA091FF74A33C70EF4A37D33DA8111FBA98EE16BA6B454477AEA8803B3FA8
+      803B50D7CE2B627DB0C3FFE8BA4AC64B9EBE85BC8B9173B19B78DB9033CC7817
+      A088755E5908E6A2669706E18D12AE59C587E1EFA8BF151D8699452DF07A6133
+      BC7EA819A663FB5A4113BC96DF0453F21BE15527CAD1089351D9790D90857AE5
+      603DD3A4DC3AF8BF037530717F2D4CD8570B77AC2827FE763BFC0F7D52098B5C
+      DC5BE29C5FCE45AC73CA8230A734A4B1324EC6DAC258671C6A619C66AC931D0D
+      8C331BDBCCBC7AC8346165BCA8F17B034C2FA15EDC5303BFFBC03EFF836B7DCC
+      53D21CC5D7BF0B5F670A56E6ABC23A95589D92957B2A7D65ACB9F5F0328A5849
+      E42BC9C8FA97DD7E540D8CCBF1C39F7755C373A8DB9697DAE67F608D57DCFF16
+      1DABD157E295ACA42C95F56084557A4AFAEB3ECE497A015949E3905763DD590D
+      CF0A8DDD5E09637754C1FF62FBEB77EDF3DFB7DAA3B18EDB16A0F90492319F24
+      603ECA37E31FB9CACD724079BD17E70CDC0FFE886BEC834790AE9E550403B39D
+      2E33FE112B5DE2FED7C18D0B4B60E8EC62588A73FD91A45FCC2E6EED9FE5586D
+      C67FD787155A662F9F56002356788E28F6259E76CA747BFF4CE72B66FCBFC7B9
+      8AC6D5D3DF54B29C8DFD22D063AC6F7951ACC57593D622649F82750ACFBFF32E
+      33FEDFBE5FC6E682511FBBD87EB47FD2BC64EB39D762A14562AD5CE46EC7F5B2
+      0D16B275B395FD3CBFA215C66E0930AE7E99051799F1FFE6BD523667DDB2AC04
+      2EC1B987CE199B67EDCC379549E3C276A1C6C4B580D649C1469A57CE3517D74C
+      D29CB230CCA6359EB5619C5FBC3020CB111A3AE1F35E66FCB7FEA3049EF8DA0B
+      57CF2984EBE79744DD4BE697379A4BFAF5A6C226991817630B6B6CC4C5D84A39
+      DB1BB4AEA366510D5212C23528C8F43752116F67624D72D3A252E2DF6B35FF0F
+      5F560C8F7CE9864BA73A61E44A0FF34ADE43A357D22FE9D5DC32DE32BF04D7EC
+      52642B916CC855A27009A699C837035BD2EB87229A5EC835ADB005D74DAE21D3
+      0BC2176739175BF10F7BBB0846AC63F5063CBDC9CFF9CAC2519E499E08574863
+      625C828D73051526AC910E45B854B6A9F9CD3015DB29D84E7136E3FADE049349
+      0EAE89FB1B1857FFACBCB156FC372C3D04B7BC57CCF69BB4B7C9DC2F954DF54B
+      F071A6E60893103111DBABD84A265236D54BD866E5511DD284354823D6788DB8
+      0E71BD9CDB002F63FBE4E66ACE3FF9E0F556FCBF5C520843DF2C8441539CCC23
+      CD33ED3E0AAE02C1A448F3CBA9B2219760CBCC53B9381363434D3AD080F59254
+      3DAE3F42FBEA58FB576CEFC1DA80CD3D16CFA8F4D975C83F64663E5CBFA044C7
+      C53C136CD98E88B86711AF888BDA49C4A471D533AE89C83171BFC2861A8F5CC4
+      365EE8C53DB53ABDB0BB16EBD100D3F0A558C74D76F83BAADF881F9F61F1B9C7
+      C5EFA3720F5F51FC22A649B90D3A2EC6B68FBC52B8F6D661BD598B126CD8BE20
+      B854B671395CCFEFAA81E7B1FDF3AE00D6CE359A9EDD590357CD2A6CC37A6C63
+      47FCD72C2860F768F4A73E98888C1305DF04C12399888F985EDA53CBF8A4578C
+      6D8FE4AA8D703136E2AAE16CC8437A76879FB13D832D692C69BB1FD7A06A941F
+      9EDE56CDF4A7ADD5E2D93A6F5A47FC57BE91CFEB86AD359A671A17F995A370ED
+      0E08AF9049B48C4948323D239888CDC835460AF99EFAA60A9EDA5A054F528B7A
+      F2EB4AF6F313D83EB0D1C36BE74CC7FD1DF10F99910F835FCB8F700931BFD87D
+      8CF83536CAAF089B641AC3BCE35C924D32493DFE950F1ED354098F7EE9637A84
+      B4C5070FA37EBBB24CD4FE79833BE2A775EB17F38B34B628A66D92C9C0A578F5
+      B8222313E3DAE2656C0F634B7A08357AB307E58507BFF030FD7113D7039BDC28
+      0F0C5B5A8CF3BEA36DF0849DC775C47F71B6136B8852CEF54DB45F8F7FC5455C
+      C4A2F34BF0905F0F210B69B4D417C4E6D5B818DBE76EA6FB85FE80BAEF3397A6
+      511BB9466EA8809FCF61F34A7E67CF8FEC19E02397DE2B854BFA25D9A45FCCB3
+      2FB85F92ED7E451AD7C608DB48A17B91EF9E7F5588B69CFD3C0275F7A7E59A06
+      4F63E372B91DFE3F6C700B36AF8E4BE7D567DC2F6A399B5B3055E8B854A67B0C
+      4C7675E7BA32AAD988EDA5CEF8A99F8C8DB83672BFB4FBC8EE2597F44CB2C5C3
+      6557BF5959CAC76EB6E3D71DBFFF77C265D3F3B1062A86EB9716F1F6AD22F865
+      0FEB7FE6168AB927BFC3BF7B1E9095173E12DF9588E7C510421E95FA9E29A594
+      524A29316A7A200D62D1CE9D3BE3D6AE5DBB2027278789FE068BB467CF1ED8BB
+      772FD3BE7DFB74D76A7E202DBB27F98957325BF1920E1C38C0949B9B1B75BDCE
+      FA90687E959944BC9259F2EEDFBF9F897849F4FFEB48797979A6D7ECA80F89E0
+      37E6C28AD9EA9C0E87039C4E2793D53E567D8897DF8C59CD85F458E6C22C1B52
+      F9F9F9505050008585851D5EDBAC0FB1F2ABB9B0E295CC3217E4AF553648870E
+      1D82A2A222A6CEAEDF557EC9AC721B99899544DC321BE4B1D5398B8B8B99E86F
+      2693CD6F6456C79E9157CD05796C75CED2D252282B2B83F2F2F2A4F31BE70B33
+      66E2256E62B6938D8A8A0A70B95C4CC9E657998D1E4B9F25AFCC04893CB63AA7
+      DBED068FC7C3946C7EF29978A5546635C79259E6823CB63AA7D7EB059FCFC794
+      6C7EE9B395C7C4AB32DBC94655551553757575D2F98D3E77C42C7341FE92ACCE
+      E9F7FBA1A6A68629D9FCC46BCC85CA6B642655565632599D93FEDE9CFE5F0029
+      D9FCC44C9299306396BC6A2E3ACA465D5D1DD4D7D733259BDF8A99C69E9159E6
+      82FC553D265E955955B2F925B39C2F24B3F4D88AD98CB527F8CD3C3663B6F2B7
+      A7F97B5A29FE147FB2F98F942DC59FE24FF1A7F853FC29FE147F8A3FC59FE24F
+      F1A7F8FFD3F9D3F093234129FE147F8AFFFF1F7FEAFD5BF7F1A7F49FA9B4B4C3
+      E7A56784E690E8E76F173B1C979E1176213B70855DF4BB6F0D7FAFF09511762E
+      FADDB7887FA809FFD023281F7DD37B0527A6F70A4D4F4B0B5E142F3F1D4BE7A0
+      73D139BB833D23A375787A46D0A3B0D5E0B57F142B3F1D43C746F6097AF0DC37
+      27D1F35E623E01A332328277C4CA4FC7989CAB1D358BAE9560F6DE4765845798
+      B1A3DA8C19B2E73F66078F353B275EEB7DBCE6D109645F6DC1DE803EDE136FFE
+      E9583A87451FFE49D7EE2A3F8EAF19E699097D63B52EC532FFA4A5B59C89E7FA
+      C2D49F5EA1A95D1BAB876F1599349E7B097A9391A8F9538CADB7CDC643BC631A
+      CF79121E5F6D72CE37F1B3F444CFFFE407EEB7C8E47A95F8D90F63CF4D708A49
+      66B6D91957F1AE5F741FF01A5F47E7289819A3F7A7E0714D86F30430AB67247B
+      FDC5317536EE5F6738BE11994E8EC1FBCC280FD2C3CF7757FD80D77AD1E41E4C
+      B27D7C46A8C0707C15F6FFF8EEE2C76BF5C1637C86B928DFD6B14787069AF43D
+      BBBBEB37BCE6AB51E7E81DEC67E3DE8D8B3AEEE8D0E5DDCD8FD7FC9949869FB5
+      919DA5FAE3821EBC9F47753B3F5E93E64EC3791677BE6685B6EBD7F1D0C6389F
+      1DF5FC713C431AD7659A5B6DF8EF375CFB8D38EB8EE9CAD89B1ED7393242F38C
+      6B998D63EABB32760DB5CD1976D70C0B0FA61AF86B6CF0D718F8A7F4D4739EEE
+      1EDAF7BF3211F949087F4668AE712EB13166761AC6CCA69EE2C76B6F31D65F36
+      FABC30BAEEE9FEFFB72DE6CF8081657EE7EB57688CC9FA7559B7F3E335A3D7AF
+      D09F6C1C37C8E439E8F51E18BB334C7C1C64F3D88386637DDDF9FE0FAFF5DDA8
+      79A45728B74BF56B7A787CF7791F9C6872FD71F6FBDF7C1A1ED3627CD780BF3F
+      3DF9DEB7FC849E570CD76EC66B9F1AA30726CF30A15D786F8F4D626EBE63ACBF
+      627D7651CEF5BDA86708510376F6FC1E277B7A74EDCBE48DE5D9C9F07EE97716
+      EF4FDE4DC4BB2585FD183CE77BE6EF4F82B777712C655BBCBFDA8C35F13909F8
+      9EE65CE33AABE4E6E504789371544670ADC5FBC3269C179EA3E7D538CEDB87DE
+      09D0D8B4787FB83A5139EDE0FE6A3506D5A9F49CD9E17B39FC8CF611EF96021D
+      9C6F5922F3A98D2F8B77A106D5E2FD5A4FE39CD5EFBC865F2C7E57DBE9F1EC3B
+      91C4CF0FCAF71737E375CA6CF4234605DD5D1DAB31DC8BEFE335675A65374635
+      517D45F3750FD4B827E218FC4B7A46B83C0EEE321ABF748E23E23BBDDEC17EB8
+      3E3F817D598EF3E156E42B11EF504925FC77E1E5B48FD9777E29A59452ECFA37
+      DA2EF92C4C7A0400000040000000400000006B1B00000000000078DAED9D0774
+      1CD5D5C78D25434820100CA43B100809608A8DA9878492030153623EF81C6C8C
+      0DAE9460C014D36C03EEB861C0C6BD0321D4183B09EE36B8C8965CD47B9756D2
+      AAF7DD9574BF775F9979F376668BB4DA5D7D9ECDF99FB7ACB433F37BFF7BEF2B
+      335600A017F8D0E6CD9BEFFDE69B6F4A882002AA22E77F10FC5C63778A5C4371
+      84D8853C447F8B203F4481DAB66CD932E224E68F581CA8D7415F1D1D44ED4CED
+      6D7A8B6AF39096A8CDCDE47171B502B8512D002EA166A6D6264DD11607DEFC12
+      BBCC2DD829B3C28D2D720B7E216496F95B1ABD98096F44FBC08B5F786FC62DD8
+      65DFDDAD466EE1B9ABC9E03BB43450A9E72BCDCF89681F78F1ABDC34D67DC5BB
+      05BB4BF75CB09BF143532D94E66547AC0F2CF9DB246E8DD924DEE53C37F8DEA8
+      4BF037D79BF2B33EC88A481F785D4F9BE2B769AC2B796E606F94E2BD51E38616
+      A2E63A73FEC61AAA48F4814F7ED977C1ED52985B9BA478177EABDC8CDD941FD9
+      1BAA495B4DDBD2DCCCB0F68137BFA8EF01E6BA88F51635DEEB8DFCE8B3153F65
+      AFD214CE3EF0BA1EE415DE6BBCADC631BDB549A9EFC61CD7F989E74D4298E735
+      DEFC123755BD93AA3427232C7D60CAAFE6BA598D7349E39ACCAFC43BEB835A2D
+      CF4DF9EB2B2511FE3AA6D29CF46EEF03537E64F6C873B966EF7C6F69348E6DCD
+      F5863A6760E7F5CD92BF81B3D739397F05536D399466A7756B1F785D8F55BC5B
+      8D692A7F93B7E7BAAABDF985E7F50A3BE52FA37D5092956AD6079E50AC9DCDF9
+      E51AA7D476B5BEFB8875CC778D9DE77728D74C84BF32E4FCC86C3AA64BBE8B38
+      97635D70AB9E37186B7BA8D78DDDC26F16F381C43AAFF186314DB4BCBE6DDFF6
+      6D74F3B75A8C6B86DA2E8D6D5EB95EAD4B1BD32A798D7342595E6648FBA0DBF8
+      5B7CCCE50CDCC6FAE68BDDBBC695D3FA063565BCD671D5940254CB2A01A82AA6
+      0A0FBF3A9F513C9763BD496197B90D637A85D7D8666476E832E10E1BBFBF71AD
+      59E157B9C578DE609CCB18B915DFBDB889AA4A98B43E2802A82C0A1FBF3AB679
+      8D6BD5D6F12E8FE972AC8B78A7CC123BF2D670552BDC954506753B7FB3D9B856
+      E7734C37CCE1E47837CC652C3CAF513D2FE66D9191DF594854101EFE2693F96B
+      93F5986EEDB91CEF2679AE79CE7D97F39D7217EA2D610F2BBFD97CA6A15A5AAB
+      4BDC0D267377B9BED75AE57989698D3367CF0F0F3F5FA70734A61B3C57C7B532
+      736E9FFCE69E6BAAC80B0FBFCCDDA0B06BE3B9BA5E956B5C990FCFE571CD82DD
+      A9B057E47385895F9DBF53F64AA3EFEAB86656E350AAE7625CF38A752EA714EF
+      15F9067628CFED7E7E2F6EA9B63774A2C6F9CA7551DBF1E7781E9C77E1FE437B
+      3BBB0F83C2BD68FC0CC764D2DFDBB66DEB667EABDA2ED5B87AA77FF66A693C17
+      BE2B7319FA3D5C6B05F1EAE8E880B2B232D8B76F5FF7F0ABFB710D6635CE4F9E
+      ABDC55D25C06D9AB1D6C9E6DF272757820A7B504929B7321A92907725A8AC967
+      6ED37E282E2EC6B717740BBFAF7D99BA20E25DF51C8F85F7D7A45791BB029639
+      37C3C8BC99705DCA78B82669340C38310AAE3E3E02AE4C7818AE221A9AF232BC
+      5FF43114B638D4AE20050B06878E5FAEEFD2FC1D797DAD5BD4B9BB59AE635D91
+      5E159E5A9853FE09DC94F977B83675020C4A190B03931E27EC23E1AA638FC095
+      4787C115F143E1F2C30FC265710FC01F0EDE0F97EEBF1726A6CD84E296324338
+      10BD19127E35D6EB6576B3F55AA932872D36C6BB108E2BD26B4BDD21B825EB79
+      B83EE329CA7E4DB2CE4E7D27ECFD097BFF230F31F603F7C1EFF7DF03BFFBEE2E
+      B878DF1D70F9BEBBE10BC7B76A2CBC183A7E93F59AD9BA45E4BBE9B826C53C7F
+      B593FFBDE7FC0A6ECC7A06AE4F7F0AAE4B63BE5F83EC89A334F67B929F857B92
+      9E81CB0E0D31B2EFBD032EDAF367B870D7ADF09B1D37C3CCCC0FA05DCFA7B660
+      73C18B5FE656E3BDC622D7CD6A9C18D7F1E752BE23FB0D24DE915DF8CEF29DC7
+      3CC9F52F9C3BB5DFFFACFC5B83EFBFDD7D3B61BF052ED8F147E8B7ED26F8F5B7
+      D7C38CB4C56A3DF84D48F87DD6B812F3F98C611E5760A8F35BEBE33476E1BB1A
+      F3F7273FEF55EBFF123F8EB2EBBE23FB8D94FD97FF1E04BFD83A1036157C217F
+      6563E7F97DEC4F68EBD5127D9D2E98A9F7CA3CAEC661A875B766BDA0E5FBA064
+      1EF3529DC75AF758DA542FFEE1275E84DFEE61BE63CCF7DB7E13FCEABF84FD3F
+      8CFD67DF5C09FDB60C84E266879E6600033BC52FB37BC57B89C9B8566C8C7779
+      0E2BCD6D66967DC4637E3CCFF7D170B554E7FBF33A3F2A6D8A37FFF1495ABE8B
+      9817BE23FB4F37F787F3BEBE149E3BFA86FCB5AF3BC76F359EFB99C33A0B8D6B
+      36EC13697CBF21FD69B8568E7952EBAE3A36C2C07E29A97523935FF3E21F76F4
+      592DDF85EF3FDF3A80B05F05E7FFAB3F9C4FD8CFFDF21238FF8B4B20B7A1407C
+      CD43F4D3A0F985EF666BD52AF33D292F765CAFE01C82BF706EA3D779E6BB1CF3
+      627CBF948CEF8F26BFE2C5FF70C24483EF825DF8DE97B09FF3F945F0937F5E00
+      B39317CA5F7D2C787E654FCA2CD6AB647E891DB9C5BA0DD72BFC85F33AB35AA7
+      CE6DB0CE8F487CD98B7FE891A7B9EFD792981F003FDF42D889EFE77DC57CA7EC
+      9F5D08677DDA0F6EFD76B0FCD5B541F39BADD3D539ACD71A3D5F59AFE6B1FBC7
+      743EEF866BC99C76A05CEB08FB90E4493036FD2D1893360D1E4F79031E4F7E1D
+      4625BD0AB373967BF14FCF580C0F1F7E0A86C63D01430F8E87870E8C8521DF8F
+      82EBB7DD097DBFB818CE26BE9F4DD87FFCC92FE1EC8F7F05AE7697F8EAE1E0FD
+      B7DA97B28875C35A3D4F5BA7B3352C406E6BA9369F17B5EE73697CEFEA6B43EE
+      3FE0AC7FFC9AB29FF9D1CFE0479BCE838CBA2CF16367F0FE9B8DE726B5BD225F
+      DA9BC933B2A3F03942F24A6CCA36CCE7CDC6F7AEBE066DBD05CE40F68DE7C1E9
+      EBCF81C3CE23E247AD41F39BD576AB1A67F05C622FCF31F0CBF3F97B1327869C
+      7FE0373753F61F6EE80B3F587736C4557491BFD2C273B5C6697E2BEC65D96CDF
+      06E3BFA5C46B8CFBAC7C5BC8D8D7656FE2ECE710F6B3E0D4356740666DA636ED
+      0A9EDFA2B61B7CE77E6BFC39AC45EE32CEEFD6EB1F8E736A9DBF3B613C8C4C9C
+      0C234FBC04238E4D82478E3E0FC3E327D25AA7BEA625BD030F7EFF183CB06F24
+      0CD9FB08FC75F77018BCF32118B0F926DDF7B567C1696BCE84D3D7FCB86BF52F
+      803D58AF78A7CC9CDBC185F711C4F895F232F51DD92FF97EB0612D73C1CE5BF8
+      7C9E8DEF0FC54DF0E2FFEBBE47E91827EAFC991FFFC290EF18F3C8DE67D50FE1
+      C6AF6F96BFBAA653FCC88BADA1C6E5FBE616726431D5EAFB13EF177F6258C35E
+      A4AD61F93A4E9ACF3F78709C17FF7D7B876BE3BB56E7A57C17ECB12B4F83B7E2
+      DF96BF3AAAD3FC66DC153ED80537AA3493FD0C580D2C682985CB08BFF0FDA23D
+      F21AF646C35AE67F0E8CF1E6DFFDB036C6197D67F9CED87F00A712E5D6E78AAF
+      E1A6E1F941F3CBE339B62A7720ECA8920CF6EC047FBD96F52EF5DD7C1D772D9F
+      D35E090FEC7FDC8BFFDEDD4375F64DDE318FBEF75E160B13F64EE8FAFAC72972
+      3C5FA9EBA2B6CBB9AE703B903D43171E87BFCA5C4EBA6785EB3879EF4266C7F9
+      3CCEEBD4D7E01D0F72F6F3699D3F5D628F5941D897C7C2192BCF80D2A65279FD
+      7B75A7F845CC9BE6B9C46DE0E79E0BEE9274AE34762F91BFBE747CABAD61D575
+      1CB2E33AEE86ED7779F15FC3C777EAFB5A8C79643F9DB2C72CEF03A77C780AAC
+      4E5B2D7F657DA7F73FD45897C77435DE45AC8B7837B01315A7B1DF6BD7F7BF70
+      BF4E5ECB68EB77692D83735A757C47F6D3959867ECBD61F2C1C9323B6E32F70B
+      09BF579E9BE5BAC28DCCA22D4A256D2AAB2922303BDA6146FA6253F6BE9F5FCC
+      EA3CA97503B7FCD138BE1376F4FDD4D57ACCA3EFC8AEEC7FDED5A5FD4FC15CAE
+      8CE95EBE6770DFD399F772CC1773EEA214BDAD35ECD7C33F8B36C3055B07D1F5
+      BB60C7F15D8C71863ACFE736C67C3F1336666C5453655297F7BF65DF1D3EE25D
+      782E5AF45BA848E2A74A06284C666B2B3E26E2CBD1520ECF1F9D023FFDF2F774
+      EFC2C0BE491FE34EE3BE63CCF721FCA3768E926B9DF07D724FF8F78F717171E0
+      F1780CA6E536E4D37D1BDCBBC0F5BBD99CF686AF6EA6739B9CBA1CD5F39A6063
+      3ED2FFFE73C78E1DF4DE65474787F7FDCF7637A4D766C011673C1CAE8887F49A
+      0C793E6FB8FF595444F718FB410FFDF7CF7BF7EE0587C361DA0FBEEE7FE377F0
+      BB78ED5DBDFF1DE17FFF4E85CF341C3B760C0A0B0BA1A6A6065C2E171932DBA9
+      F03D7E863FC3DF919E7F28C16B8FE4BF9DB765CB962D5BB66CD9B215FDEA3F3B
+      FDBB2B66A743887478C0ACACF37A127F08D9854E5C333FE3DC9EC6FF71057449
+      AB0ADBE0B60FF3441F1CFFC3ACB4BE2713BFD607CB72E9F1AE9C937EAC27F441
+      28F9512BF23D70CBD25C11074D44D561D4D648F16F2AEFA0DA58D6014B735C72
+      1F8455E1E0D759DB6103D17A473BAC2B6D236AA75A4BDEAF2E6E83A5792E5892
+      DB4AF57E4E0BD57BD94C8B89DECD6A8645994C0B339A6001D1FCF42698874A6B
+      8277483B37B5916A0E2AA5816A5632D3CCE47A9841343DA9AEDBF8655F373818
+      ABE05DCBB5A684F012AD2AF6C0CA220FAC2872532D2F74C332AE0F0B5C544BF2
+      497FE4BBE0835CD21F44EF712DCE69867749FF2CCA6EA65A48FA664126E90FAE
+      79198DF00ED1DCF406AA39694CB352EBA942C1FF11F2963156C14B3D75B41B59
+      09E72A2ECA5AC858974B9C4B09E392BC56CAFB411EB2B652DEC5394CEF7231D6
+      26CABA208B71CECB64AC8CB79172CE4EAB2722BC443353EA60460AF19EB46F27
+      3375955FF59579EA917C755309DE65847199CC4A39999055F715399B35CE85A4
+      454ED557E1ADEAEB4C14679DCE59DF4AAAA59A9688AAA16D57F96556CACBBD65
+      31ECD26278697E2B8F61C1AAC7B1E66D76B3C157F3186EF466E59CE82D65E59C
+      6F12BE379318EBD413353085EB8DE3D554AF1FABEE32FF0A92B7CB655FF3755F
+      69BE22ABF03687E5AB60D57C95388DBE12D67489156338B59EC770BD16C3C25B
+      E1E954E4259A2238B95E23BCAF1EAD8257882627545275951F7D65BC8CF58E55
+      791119BFC23D2E8A9FCB75784652FDFF2B76A20A7FFC726D9AB8C7493FBB7F63
+      116C2C871EAB29719A8FFFF6C72FC61CCCD5615F94D2CFC6FFDBD9A3F9C76D65
+      3E5E312B7DBA3F7E36C6B2BA74E76A96FB530F37F468FEFB371471FE8C21FEF8
+      A74B7389410B32E9674B723C3D9AFFBA455994A3FF8CEC5FFBE37F93CF275E3C
+      C4C692EB1666F568F60F72DC8C7D76BA3390F14FCC231EFF4F698FAB7D1B70AE
+      4EDAF5A45DEFE8A0EDEB87EAFCD63E999FCE2712AA60C83F0A235EFB284F1970
+      B1F7948B689DA4B574ADD9016B482BB49ACEDBDB61F4960ABFB54FE67F29DE09
+      2F1C71C26DCB73BBB5F66D28675CEB652EFEDF063687E0EAA03C54A5AC5D85F3
+      74D2AE246B6CA11574DD4944DE2F27ED3DEB0AFDD63E99FFB9B872AA810B323A
+      55FB3668DEE97C32D35A8949676BD7D8CC988C6C8C6B396997157A347D58E066
+      22EF979216B524DF0DD70650FB64FE670E96C3D8DDA55EB54FE496168744EB1C
+      3A1B8B41B338E45CC53A97B967828BF1B096F17C58C0F8642EA10F709E8E6D9E
+      8BEA7DAEF7725D3033A931A0DA27F33FB9DF01FFFB75017D7F1F1937D79AE498
+      16879A5F8C095BD358146C925FB2678CCB4379543E64F980B732DB62BAB67691
+      3575ABA645B897C4DB45D9AD64FE5A1550ED93F9C7ED2B81BF6C64F39E31A476
+      AC52639072E99EE95E311EC1B654B00916CAE5629E71AF2857AE60623C8BC9F5
+      231B6D1536D442490BB274CDCF6A266B4E22F27E1E6951C3BE740454FB64FED1
+      7B8AE1E60FB3E9FBC9076A2DBC52FD726971F8BE1A875C94894BF68CB1B57A71
+      B15630319EF99CEB9D8C26DE36C35CF21EDB39B847483447D29DABF303AA7D32
+      FFC89D8530603EAB7D73539B29979C67720C32CF9049F74DF60ADF6B5C59269E
+      651AB9E6697C3A9B90609A9DD608B3793B2B55D74C4933521AA8062DCC0CA8F6
+      C9FC0F6D657D36684196168FBA578C6B1167144C0BB3985732971C87C233C6C5
+      7C9ACB3DD3B938539ACE83EF195383C6849A9E4C94C2F47632EE9B34C05B64AD
+      2EF426D14B713501D73E997FF0A739B4BD6B6D81498EE99ECDCB90B9189B883F
+      2FBFD218DF2C8DA9C1E015B6D3051BE77B3BD9822DB18EF2A1A691F742534FD4
+      C114AA5ADA8EFE6F99A87DFF0986FFB6B52CF7877F55AAE5D65C29B7E67226C1
+      364B921E830D7A1C225BB2CCA44B78A529D1C8348DFC37B24CE55C6F1C676C6F
+      A0C8FBD78F31BD465543DB578FD6503DF06951C0B54FE6BF7109CB99A777556A
+      B128B33126C92B2906AD6251F66BEA09DDABA989BA67C8C354A771BD2E71C96C
+      AF2454C32BD8124D4EA88197E3AB495B4DDFBF145F45FFFBB615B901D73E99FF
+      EA797C1D105F6BE0C1F76A1C4EE3B128C7E0D444DDAF29DC27EA95688FB1F7C2
+      33C1F42AE7A14A106C8C0B795E8AD75BD48B47AAB8AAC97CBD0A5E38CC34E970
+      259598BF0652FBD4FBFFD7CCCF645C8A67D4AFE3129788C3E382A9C620CA75AC
+      46F2AADA8BEBE504332626CA748449703D1FA7EB39D421276D9F25ADD0843D65
+      41D53E95FFCFABF234267F7E19991436894BB48247F7ABCA8B89B6872A0D5C13
+      0FEAED33072B88487BA002FEAEE8E9FD1530F45F4541D53E951F6B87ECD9CB42
+      F17AFB92C4A472C95EC99E3DA770210B95C6C5A4B108ED677A6A7F39D593DFEB
+      7A02F55D1951394C202DEAAE8DF941D53E957FE45687C4562DC5A0E297C4F6AC
+      491C0A3E99EB99034ECA24FB257389F60999EF7B9D0D357E1F1169C7EDD33576
+      AF439398BF065AFB54FE27F75630AF447E1DF215871546CFF60BCFCA35AEA7C8
+      6706CFBE639EE94CE51AD7B87D0ED6128E717B75AE317B4A610C69479356E8F1
+      DD463DB68B88B462FE1A68ED93F90792EFCA39E6C575A0426392B934BF0CB158
+      4E7DA27E71A95C1ADB1EC1E6D07914B651BB4A8848BBB384BE1FB993E9D11DC5
+      F02869479076E8D6C2A06B9FCCFFA765398638348B41117F1A93E0DA27FBE5A0
+      7E8DE14C3217E329A17C8FED2AE15C8C4D63DA59ACB3118DE07A846BF8F62222
+      D26E2BD2348C68F0A77941D73E99FFEE4DF93CB7F4381CAB680CE71B6DC2863C
+      AA5F2315BF04D708956BBBC445348C3305A3DBD7E6065DFB64FE07BE2CE44CA5
+      BEFDDA69E1178FC3113B4A74B6ED46BF8675A36E5C921574EDEBA6E71F23AACB
+      E7A4F43B89F9EBEC679A6DD9B265CB962D5BB66CC96A1ADD0BBAA2F8F8F8902B
+      212181EAE8D1A3F46F1AA08E1F3F4E75E2C409AAC4C4442AABEB6A1EDD6B4E4F
+      E19779855466C12B94949404C9C9C93EAF2D903E8824BFCA2B243C96B9911795
+      92926290BFEBF3D707E1E2573DF617D782173D4609DED4D454AAB4B434484F4F
+      0FE81A7DF54177F25BC5B5E0567D465E7FE713DCA88C8C8C80AFD3AA0F42CD6F
+      55BBE4B836CB63217FE7CBCCCCD494959515D4B59AF54157F905AF1ADB22AECD
+      EA971AD718CFA2F5773E644665676753057BBDA1E697EB96592EFBCB63399703
+      C9E79C9C1CC8CDCDD514697E338F5566D967C12B9831875122A6FD9D2F2F2F8F
+      2A3F3F9F2AD2FCC1D66B6C556691CB81E43332171414D0BFF7848A34BF3F662B
+      9FD53CC6B846F93B1F32E3DF3543E1DF488B34BF15AF15B3E015CC722E635CFB
+      3B1F32979494688A343F720B5E7FCCC263C12A5A91CB18D7FECE87CCA5A5A5F4
+      6FBCA122CD2FF38A9816CCC88AADEAB1CA2C623A907C4666FCFF774395979747
+      9CDF2AAEE5D89699915766967339907C46665445450555A4F9AD625BE5956BB6
+      CA2C621AE5EF7C4EA793AAB2B2922AD2FC32AF3F6699576616B91C483E237355
+      551555757575C4F9D53C96631B59B195EBB5CC2CF258E47220F18C7FEB11B9B1
+      ADADAD8D38BF95C76A5CA3545E398F455CFB3B1F32D7D5D5698A34BF555C8B78
+      567905B3E015B92C62DADFF9EAEBEB0D8A34BF19B319B7ECB3A85D721ECB318D
+      ADEC314AE58E167E359703E1356396E3DA8A351AF95566757CF2E57357B8A385
+      DF8CD98CB7AB3E472B7F4F93CD6FF3DBFC81F3F7B497CD6FF3DBFC36BFCD6FF3
+      DBFC36BFCD6FF3DBFC36BFCD6FF3DBFC36BFCD6FF3DBFC36BFCD6FF3DBFC36BF
+      CDEFFBF77B91DFEA49B2F96D7E9BDFE6B7F9EDE71F6C7E9BDFE6F7CD6FCB5624
+      44C6AA985E7DDCD75191F727177B4BBFDEBDDD89BD63DC4045DEE367270BFF29
+      31AE2D1A3B177E76B2F013DE16951F3F3B89F8C14C367F8FADE5A7C4C4B81F3D
+      25C6BD0D1513E31A1E6A7E3CA674FC1178CEE8606FFD3D61DFEBC5D3DBFDF750
+      F1E3B1D4DF25E7DC43CE7D4924D9D107722D8D163C8521E327C7B2F84E03B986
+      472210EFBD7BC7BA17597170358590BFC9E7B962DD0BF09AC2C4DE879CF3133F
+      ECA420783E0B153F1ECBDFF9883E22D716DBEDBE93F3F8BB16929B07C9EF9E1F
+      2A7E3C161E33803ED8D09D711048CC935AF5ACBFF97C67EA3F1E931CFBB90072
+      617EF7D43AF7283FE74DEF75AAEBF2EE1EFFC939AE20E7CAF01D7FA1AD89649C
+      F99DAF7E277DF31DF1E79C70CD7FF05CE49CFB7DF44123B9E68B4295F3C8E783
+      7D3FF99D1F857BFE47CE7986AF9A80739250CC91C87146FA88F90C728E9F446A
+      FE8B7140BE97E5230F4674D1FBD37BC7788AAD6A5DAF5EAECB223DFF27F5A03F
+      F96EB3D51C8C30FCA0D3F5BEB7FB294BEF7BBB9F8996F50FB996E77D5CE7842E
+      8CF5D916C73CDA957136D4FC7C6C3C6171DCACCE5C6B6CACE776ABEB243FBB23
+      DAD6BFE49AEEB23A6EAF58CFAD9DB8C67516DE2744EBFA1FE3D2E2D8AB3A11FB
+      E516E3CAD868E527D736DEFCD82E47306361AF3EEE4116D7D84A8EF3E368E527
+      D77636398ECB3407FAB80704114713CDD774EEEDD1BEFF85FB221679FB6410D7
+      B7C6FC189E37A29D9F5CE3348BE3AF08A20FBF33CFFDB67B42C3EF7298E56868
+      FC6FBDDFA26EED09C29F7CD31C0AD17E1BF1688A496C4D09CD7AC5759985FF39
+      41F03798F377BDF689FD62C23B89E4E47126CFA450EDE7F21A68C65F1704BFC7
+      823FA607ECC59F6A357605C1DFDE83F9FB58F0BB83E0AFB3E03FAB07F09F63C1
+      5F15047F9E39BFEBD2A8E73FD5757957EB9FD51C828C7FF7463BBFD5F847E66E
+      BB82F07F95F97E8FEBADA8BFB71AEB7ADBC2FF955DDDF708A60F23F76C857B97
+      C5FCF78920D63F03AC6A6867F6FBC25CFB3C16EB9FAB835CFF9659CC23C7456D
+      EC138F2D7C2B0B760F08D70B567B5F51CC7FDC827F7927F6936EB3DE576EBB3B
+      FAEA7EDBBDA1DCFFA273F45877BA8FFDCF9828CAFB58CBFDCF58776A67D7167E
+      F6BF9F8B9EB8F7BC10EAFD6F692D916771EC165253AF8A82F9DE153EEE7FE423
+      4337DEFFCA24C7EF1BC1B83F0FE7B53EEE7F0D0FD1B35D7BFCDCFF3C3302EC67
+      91731FB27EFEC4BD2B747B0AAD179363D6FB79DEA36F18D9CF25E78CF371FFBB
+      2E54F7BFA567BD1EF1F3EC4736DE8B0C53BEE7F879FEE16FDDB4B698EBA70F5A
+      F85E566CF78C719E172D9E1D96D76833BAF9F9A74D7E9F43EAED4EC4BDE250E4
+      1FAB3FADF791632605F0FCD3FAEE7E2E94DE6B8D716F08E05A80EF6F4EC03DC9
+      4E9CE72778CFC2C77D5D556BC3352763CF3FFACD05C3BA91AE4BC9DA9CE4E65F
+      B14EE05A0DF7EA30AEE97BF219F9D910F23BD3F978E309F8F8B1AE59E17AFED1
+      A426D607D10FA1565D249E7F55C6C6DF9A3EFFDCCD22F1B4BB57AF960BA3E7F9
+      778C054F5118D80BC9B98645CBF3EF4A3F9C86F50EE7C521E7266B51DC7BE9EA
+      7C3E5CF1806B6EB68F6A76AF3350D1EFAE24C7FA5334FA1DE85841F713712C23
+      FD8179CBD794D5BCC67BF8FB5CBE77B912F7B170BF2E1235DD962D5BB64E16FD
+      1FFE960322
+    }
+  end
+  object SmallImages: TImageList
+    Scaled = True
+    OnGetWidthForPPI = SmallImagesGetWidthForPPI
+    Left = 456
+    Top = 112
+    Bitmap = {
+      4C7A0C0000001000000010000000380900000000000078DAED97697053D715C7
+      2F75DBCC84404AF3A1FD42D93C9D364D9AAF699AB634D3364D4A60A624244093
+      80937648A1246C667149D8D230659934B50D3836BB8D24AF1462C003D83118F0
+      6EB4D8C6C6C8C8DA2C24D996256BD7E939F73D092FB23692161269E63FEFBE73
+      CFEF9D7BCFBBE7EA3E471A03C7303534348C50535313343737835C2E07A55229
+      F82D65B75D696C260030C728BEB1B191FBB7B4B48042A100954A15EAEBECEC1C
+      EEAB0EC70799B6B636E8E8E8809B376F86FA341ACD08DF703C315D5D5DA056AB
+      A1BBBB1B7A7A7A427DBDBDBD51798A418C5EAF0783C100269329D4D7DFDF1F95
+      371A8D9C319BCD60B55A3963B3D9428AC6C7A3E17C3CBF24FFC5F317F657C5AC
+      703CC3DB58F565AC9FFF45FD533D7A4E6D07C75B13E2AEFFA10DA9E0F1F8E0C6
+      8D41F05ECCE2CF88B5FE89F55B7A60D9B2169838B10DAAAA803F037F13A2D5BF
+      C56241560335355761FEFC2ECCBF1F264DEA80F6761BF1DB23D53FD5BED7EB03
+      C985EB3C273E1FC08297E49096D6043EB396F8D4F1DE0D1FB3B507B6481A8105
+      00D6745DE3CFB874A9067C560338337E1C71FDFAFD01C8385E0FD41354018E23
+      10087036D2FAC77042DC61EC467C963F1088A97E769F548C6037E5D7F3F1C452
+      7F06AB0B56E6B4C3137D6E21EE28361A7FF44C1BBCB947C19FB1AB4C0181407C
+      F5BF70E1223882CFD09A5D71D77F579D1A3C2E2F28CFB7424DFEB507A2FEC3A9
+      B4B4F41F1289E485E03DB54B4A4A768CE73F5C7979794FB5B6B6F69D3E7DBA22
+      68A336D6B4353737F78968BCACE0F847F6813EDA77F45959595349D41E449BF4
+      44FE87D17869FE910FAD3A35B85C2E282B2BCB2151BB4FAF0669FED1EDD1F8C3
+      B9B93F6FADBF6477DBAC505959D9866A750F5A41595BED389893F34CD4F1CB64
+      29E52512B94DDF0546BDD6D7D4D0E0A3767989544E7DB1E4B0E0D8A13D5AC555
+      18B2E8E1CAE56AD029AF8124FFD09E5858527676F694F327A5DAFE6E15285B1A
+      A0BCF8842E3333F3B158795291E4B8D678FD12F4EB6E4269719126568E31EBA3
+      AB569DFDEEB9F2539ADA8A3230773442D5F90ACDF2E5258F51DFF89C7122633A
+      29637A7F4A8AD693B95B15C039C0EDBA0AC8DCD5164849D17BA88F3183847CC7
+      F2FA6C9417B56DEAD44EEDA393B550949F7FABEC84E416B5C9467DA2CFBE916C
+      E74368B363FC4CBA9F3245BD01EF61F5CA532FAE7EF7B339D446DB7AC1579725
+      F8AABE7D97373D82B6006A13EA61542DEA16D6EA04417AB568A3BE0CC177E41C
+      D07616E54299513E8C33EF6E9F6E9E60D35B449F3363E76F998C7E5B85F1199F
+      1EDBAFFD99D0473E96C941BB227F1D8CAB8274B7E2D8DAD991DE37F905FC7E94
+      17FC5E37F83D2EF0B987C0EBB4834D8BEB4F9AE15015AC7D2E22EFF382F7F32D
+      63E4191A80FEEE16509E487747E2292EC5F4B91D1817CF074E1B781CFDE0B65B
+      C13D68E17389C4F3F18E8A1D292FCA61791178212E8D97C71563525EFC3837BF
+      CF033E8F5318A3CB0E033D2A508979213FCF900DBCCA132314312F18A3BFBB99
+      E785FCBC18D76DEF0317C6750F9AC139D0CB791FBD0B8CEB75E1F8302EC5199D
+      1712B15E53DB0809BC336C7C8AE11A30857817DDDBEE80B3BF17658421AB8EDB
+      29A6D725E48562505C974D60C92FC423EBC2313BFBF05CD3A707079ED538EF1C
+      9B1792E0AB8FF88E785E71AE1E07C5B584C62C8C4F1F1A63A475112E2F24621D
+      664D741E734C31F978C5BC0C59B49CB5DFE98ECA0BE325D620C41CC6DA4DEAA8
+      7C2C1ACECC5E95DD9EF671899AEB5FA5FCFA6BB445AAFFC74B9AAA53650D409A
+      F36935EC37011C40ED1745B6603FF98EE667496A61C71D1FD7D3F92AF8054623
+      3D2B5EC9B6A5D703EF1B3D902AA91B33DF59055743FC4F0FDEC0381A482DECE1
+      9A85ED27F3DA2143EF820D3A2790EF687EE6B1CB219EB4CDE4850F30D666A31B
+      36E99D9C5BDBE380D51A0790EF18FEC8E79CDB8ADCFBC8FCDDE0868DC8ACD70E
+      716E95C60EEFDE1E84156A1B90EF687EC6A14AD88C4C86C1051B315E3A726B44
+      6EFC7D79BDBB59DC7F66E49DE7635CC7C76887F7507FEBB6C15F6F0D40F3E195
+      61CFAFF6DE2E901F4F77341E5CF1DCF44FCF712E3846E29675F5C39F6FF64163
+      EE32BE778DAE7FDA9706706F6FCA5BEE9E7EE00C2C570FC03BC8FD0599B73BFB
+      60E90D0BBC79C30CB5D94B43FB9E97F63E8F7815EFEBF6A5C1F47D9F71EEAD4E
+      2B2C41EE0DE416B7DD8185AD26B8F2C962F0D01E509F3546B49751FFB4CCFFF0
+      58AFB79B611132AFA97A6181D208F31506B8B4E76561AFA3FA0F5D2DC23E89D7
+      CB7B5F8169FF2EE3B15E45EE15E4FE2837C0BCEB3A78A94507553BE7F2BD34DC
+      1E4476EA9FF67131BC4C1CC69B8BCC9C662DBC887AA1A9072EEEF83DAF595EF7
+      54BFD6605BCBED17763C0F333E29A9FEC15E198453C507B3855A1F47D41FA936
+      CF6C7A06A2299E33613429650CC22880522B0B59BA4CC65212E0EFAA9015C4C2
+      2BA46C4BD0262F6633D1561DEC6B95B25FC6C30F7B46B06FEDBDF0AA42B6F81E
+      C66F6C3FC9262598BFCB2A197BFC1EF2AF447E6EBCF9EF2C670F21B704ED5E5A
+      0B0A19FB43BCF923E1338EF2FCC9983C115E29655962BF231EBEE100FB16AE99
+      DFA0BD8FF7C95863C2EB976A41CA1626C0EB70DE15917277BF09C77C2DCC3C34
+      71F05BB1DEF78A9C1BDB3BF1BDA4C53506097B4AE45B129A43217B83F3527624
+      111EC7BB5BACF93589F0F4CEC535F7DB04DF8191F305EC7B09C4FEBE983B4342
+      B1A5EC79913F9B50EE646C9D58EFFF4C287785EC9858CB7F4A30F772E2E532F6
+      649C6BE6359CFB7ABE6685B5B3196DEFC511573BBA6ED076E501AAFBB0FB2FD9
+      A82FC97FE57907D6DEBE71FE7F1D31F0D5B8DE4DB4FF8462E3FE85F65EEA8BBA
+      6F14B2DFA19F9FFC691C2491F5C7BA8F929F78E67288AA4E740FFE02CECF63F4
+      A0EC050FB2F8B742319BF665F3B8CE1F41DF03A86E543DFEDFFC2AC8E3DADD85
+      D70E5471C329F6306C61DFC0F647FC7B4AC654C8AEA06F2AACCD056D12F643AC
+      B1E568EF0AAD25FCE6A2333F3D03D7EFEBA857E92C4931E82C8FF7EF608C8D68
+      93A12A51352AE18CBA5EFCEFDAC9DB52568BBA28AA4EB471E133CE217307639D
+      43E6821877271F7F11CBA636C66842BFAB243A8BF1FEBBDA863A5C59C9BE292F
+      623F0AAE6FF17F6F097DEF60BB097DDEA639A0ED163EF727787D16B588BE8FE8
+      4C8E3E03A8DAE13CEE0552D15ED95CCABE4331F03939783FA8A431E31933B9D6
+      BF3AFBD7FF7BCF4CCE3F39FFAFF3FFF7FD32FFFB2D6E72FEC9F927EBFFFED98B
+      93F34FCE3F59FF82FE0B24AD9DAE
+    }
+    BitmapAdv = {
+      4C69020000004C7A0C00000018000000180000002B1000000000000078DAED9A
+      797C53D795C75FB3B5FD34D3964FF82469A69F4012924E6692D076D2CEA7CD1F
+      93A433D36669D2A459C8D62C6D9A020921298400492190E99234409B400DD816
+      5EF022D998255E00B31583011B6C59B2B02D1BCBB62CC9926CCBB6F6C567CEB9
+      6FD1B3906C49169DA63C7FF87DDED3BBF77EEFB9E79E77EF79EFE17989034F1C
+      35363626D4993367A0A9A9099A9B9BA1A5A505743A1DDFEE45AEC7FF12772300
+      70A23C49F04F9F3E2D31B55A2D18AB5560DEBA00FAB317C2B9BD79D0D6D6166D
+      1BD347223E31451B894936EAF57A30180C60C97E55AA67532D82AEAEAED8F6DD
+      53F1C571B7B6B632E6D9B367A1BDBD1D3A3A3A6040F5BA54CF9EB7187A7A7ACE
+      6B3F159F7824E2913A3B3B999DDDDDDDE0C87B43AAE72C78132C164BCA7CA3D1
+      C898E7CE9D0393C9C46CECEDED05B3D90C8305BF96EA0D172D05BBDD9E325F64
+      F6F5F531667F7F3FB3D366B331A6586FB4E46D181E1E4E992F32AD562B63928D
+      0E87039C4E27B81AF6C058E9725E4DD5303A3A9A327F606040E20D0D0D31B95C
+      2EC68AA754F9D3D5DF9A1FDCB51AA6FB470C85AFF015FEF9FC15DF5A0D1C5E99
+      8E88F18FCAFF5BAF9F4AFE93D9FCC7FBEA0C08B7EE07DF9A3B339EFFD0FE1FE9
+      6D86F2723304861CE05B353763F98FAB7C15844221F8E083368CD163F0E8A30E
+      ECC349FCB9D3CD7FBC8BAE82C8B0050E1C6885CB2F3F86FC1E5404FB18846070
+      9C3A999B6EFEE3AE58CBD834F7FBF6ED03D5FF56C31597FA91DF87AA87B2B23E
+      1A436D3AF9CFD8D818442211D871D00055B507981FE9AFE07795F0F92BEA61ED
+      5A03FD6C465D95EA7D497112313582EA531DCC386C847B7A9AC11BF0B2B9A771
+      1C386060738D7F33535D1FA26C3DB23BA49BF41ED319A8AEAD65F720B1BD8B66
+      A6BDFE6FDDD502330E45D9A4AFD4774339CEF1F8888DB1D3DD5F72F7E8E0AB31
+      EC2FD79F83CD155A7E7FA9FE20EDFD8BF9248EDD227B3AFB63BD6110E61CE99C
+      C83ED10D5B766A33B2FFBE936F84A50546B8D61796ECCEDAD19C91FD5D671A83
+      E73FD231511F37D79B20AB429BB1FCE1FDDFAF8357D69D62FC957946A86F1DCC
+      687EF2C4134FB03EF4388E7125FF51F29F18FE64DABC79F3E5DBB76FDFAC52A9
+      5E882DA36B85858559542719563C217B2BE6273EE4B4C596D1355C8F7DD47F3A
+      6CB55A7D454949B1956D72B5B58E2D5BB67C472CA373BA4665C5C5C59674C680
+      6DFE657F4D956D3C1C62FB24DAB94736AE3D746D3C12867D559536ECEF9654F9
+      9B366DFAC6BECADDB6A0DBC5EE1D8D4663FDE4934FAEC2EB33CACACA2CEC7EC2
+      B29A3DBB6CD9D9D97352E5E7E4E45CB7ABACD4EA75F643D8EFA5DC2D989797F7
+      2E89CEC3B8E77A1CFDB053536ADDBA75EB35E9CC41415EAE69A4AF1DFC2E0784
+      8201F29189140CF8D9B591DE7628CC5775A51B3FF9AA9CFCF686233066ED66BE
+      A8ABAB1BABA9A971D3395DA332AA932E1FC77DC71E4DB1DD656A050FFAC985B9
+      6565E5A7403EA36BBBD54576AA932E9F8D2137A7B5BFE5188C9A3B984FAA906F
+      ED6801BA56A0CA69990E9B949B9BFBFC914A8D7BC8D8C47CD2D56E80A3B55570
+      F8D3B2315576F673D3E5D3BD833E36DB5A8E329F50CC94A94B203F37BB6F3A6B
+      835CDB543915A7F6ED04C7D99330D2D701278FFD157273B6EEC8049BC5694181
+      A1ACB8106C4D0761A8B3199CBD1DB0BDB0B0355D1EAEE597719CED5E8EB33CFD
+      E083877F5CB9BBC27EB86637341DDC0D765D1DF353E59E5D762AA33A7C5DB82C
+      39B6ED768EB36AB11DF0EA8785BF6C877EDD71D014E543FFE95A70B69D82052F
+      B7B3B2683D6A63BB7D72B6E36B58774068134139C5F6A57F39093B4B0A7C0777
+      AB7D451B4FC9B8AC4E4438B7719CFDDAC47CCB36A11EF6619E8B63BEF4BAEB8C
+      ACBF9F3EA88D146C531DC95365D7D1395DE3CBE052BEAEC52EB4DD169F6DFC3C
+      968D083E7949BC7EE595A622BAF6CDB9CDB675EBD67D9184E7AC4F2CDB1E6DDF
+      FF73813F42AC387EBF3A3AE6819BA2F36C6917FA5C2D63BD27D46D13E7159FBB
+      6E8EB6B75D7D3EDF7E259685853ACF725CF717F098259B8B5B657EBC55E6F32C
+      BEAEF567C2EF30B1E2FBC8BA4B366F01D9F99A3873B53641DD8AC4F33B700D96
+      37C6B47B1B7D70499C7B04E7D5B23C86DD18CF3731ED2EC13AFF81757F849A39
+      F5FD629989E3BE0FF5DD7876E8B62F8564A52F7A2BA02B5872772A6B01B58371
+      CCBCC723F82F04942F8C8783100EFA513EA07D361CF040C8E7C63DC000FAD295
+      9ED6A225F7A6C21F97B123A1000AD901640745F6182FEF28EEB9FA94FA607CCC
+      6322A120848EAC4EACCE1A087A4720E01EC6F5AD09F4C56F0592E547D01F9170
+      00C2E76A51FB21DCB58F29D4B9979711D9363D6307DC4310181B64F391341F7D
+      C2FCCD7CED8590DFCDFC11447F90CD418F8B672397E41F75A4C467F3884AE49B
+      C431B5643C56E837BF3CC6447EC88FF3D829FAA486F789B19A89B7755C8A03DE
+      9F7C8C45A4717B30CF7383CBAC87D6D2956E6D3E3FFF8CEFE7CB26FA64A2AF29
+      0698588C0579AE10BFCC9F52FB1170F5E9B08F15AC0F6A2BC59FBE38AEF818E0
+      E377CA18C3B922DB8418F3F3FC5116DB217323AA0182A4BE53A8934C528C85E4
+      31B61F42F218EB14636C0873497EDC2D854B58DB688C0C493EA118F18DD8C18F
+      9A1063C25C914F799F44634CEE536A2FF203ECFA3084EC67E34A8A31F2F564FE
+      41F9479D8C4D7649F60BF74D70A817D5C3141834F17276C38418EB92C5983CCE
+      3AAA9844B67F64206A3F1B8F53F289CF3580B28177D802DEA17E10634C1E23E2
+      5A21FA233026B61F606CDFB055E233B6E06B2AF362199513DB33688664624C14
+      D9C5B7B5C8F8FC985899CB2AD9ED45B677B00F62632C1827C602BD2798A8BD4F
+      682FF2935148BE0E319F38A33E15FCC96C43BB79BBCC8C9FCC1A45F5C4F84D14
+      63A2789FF6E1F34E6F8A7C7EFD3C2FC630BEA23A875C9EED71F6A4C4F7CB62C4
+      3F2ACE956D421C904F88ED76F4E0738829253E630B3146FEA61893C781E8130F
+      B2DDF66EA694EC97D8BCCD14233E598C7998CDBCDDA9F285BD03241526296C17
+      CBFAE74796CDBDE385DFF67E7FE17AF3F716AEEF138F77E191CEA9ECEB0FAD48
+      FB99F7B6F9591F7E74C204952E802A99C4DF5476DBFC4D1F26CBBBB5ECF4869B
+      D50DE139A50D3047DD08B77C50034FFED50A0B7A00160A929FCFC332AA3347CD
+      D7C763F8DF2A9AD627E2DF5C7A2ABCCA1680F71D61A68776B4C10D350E98854F
+      E6B19AADC363B51D1EAE6887F70642B07A2008CBCD5E40462811FFA6A213129B
+      B4A46D0C6EFBB30EFE7593016EDDD87ADE91CA161B46E05D6B00DE412DB7F860
+      4EF189847172D3F6E313F8B15A6B0FC11A7B98D9FA1B5B10DEC5B1AEB4F86105
+      EAED7E1FBC85F6132311FFC6C2BAF85CD47BF690C0E56D25E672D432E42EEDF3
+      C012D49BBD1E2046427EC1D1F3B8C45C45B65A45AE8FF96119DA4ADC5F0BDCD7
+      7BC6986ECC3F9A989F778471D708B6AE127D609DE8832502F78D5E3763BE661A
+      8557BB4761C1B911204642FEB6438C49BE7D07992B0526F381997CE0455BDDB0
+      189949ED1545CB02BAE2687E78A3EA20E3AE907305DFBEC1B86E5824D8DA52F0
+      E694EFE8DD035DA02F59EED1E62F66F9E10D39B5137DD01BE303D482EE11988F
+      7E68DAB68831C6C7E55F1AC6638E7C1FB8B6B9A98F1BB2F70B71E08E72BBA3BE
+      FD55970B7ED9390CBF300EC1999CF97C9E887968B8FB804C07A5733EFF0DC168
+      BF01CEE4BE1AB861CB5EE603E21273213289FB0A7151C4FD39EAC58E2168D8FC
+      B2F0FC1448985F89E5A4C62D2FC3ECAC2AC956F2C12B68EBCB82BD2F750CC20B
+      ED83F07CBB139E6B73C0C94D2F4ACF202C97A39C5CF65B7E8D8E547FF65F2A25
+      1F1097B795E7FEACCD09CF9E75C033A8A75A07A0FEE3E72048790AE5413D75BC
+      7AEBA2E7A22807C37A547FD6C63D1297B775106D7532E6D3063B3C857A426F83
+      C751C7373C85B9AA8BE512A1868D09C5725DAF0B8E6D9807B337EE9EE003662B
+      32E7A19E449B1FD3D9E0A73A2B3CD26285A31F3DC6EFF36EFE398C1D51FE9873
+      BFF09C5687F5677DBC53F2C13CE41193EC25E6A3A89F682DF0B0B61F7EDCDC0F
+      47FEF030CB1D4881DE934CD1FC2DFA5BCCEBA9FEAC3FED906C7D5C3FC0735B44
+      AE85711F6832C3FDA843BF7B40C81BAC53E4A056A643BF7D80F8E1479AFA041F
+      5818F721643E88BA1FAFDF7726AA03EFFF103C43663EDF118EE239CB7FD86FB3
+      547660ED0F61F69F2BD6CFDA5016BE7EBD0698D6A9271C67B173BE6CFFEA7BA5
+      DCCC2D8A7292B8D77AB0FE0F2095BD7FEF6FFE13DB9A9216D54F855FBDE2FB90
+      AA32F50E3915E94BB96553A955CDBDA02DE7BE9E165FCD41928AE84AB9DCB65D
+      DC3F5D203E138EA5519BCF7D294D7E8F5EC3FD5E14DAFB47BC56775E1F1AEE4F
+      69F20FC5CDA9D5DCD298317893F553327CA1DEB1983EBE9B51BE865B27AF6B28
+      E1BE7D01ED0F263BC769F95FC315A439BF5D31F7D6DA38F1D3A4DDC15D9DE9F8
+      C7F97451CC1A0BB92F5FA0FBCB8D7D94E8CAB83BD3E5637BBBFCFE6252731FA3
+      8CB27A21F4DBF369F2E37EC3EC56715FC0F27279FCA4139F89F8A44635F715AC
+      E391D5D764922FD46D90FB32937CB59ABB14EB5865F57D99E4E35ABA24269E0C
+      69C4A735CEDEF53EDEBFFBE3ACD1AB2EC4FE22E84C9AEBCF540AE098B6365570
+      5F4D3AFE63EFA758D11A54CABD81FE78B8BD889BF9FF9183FC3D09FDF08349F3
+      210DB7785AF9969ADB3BC53A7D7C9A7C8D10EFB532EE385D23E1F85ECB889FD4
+      DC1C19DF98E979D069B84765FCF28CF34BB9D5A9AE0529F1D55C8594EB94723F
+      C978DE4EB984C06F299FF8FFFCA72BCA2D296604FE285EFA5C869F39EE92CD6D
+      DD05F0FD7CD9FDB4E902C44E962C765EC9F81A846B8034B76AEE7B99E5739F43
+      EE88B82EA49A0F2AEBC2C5B72ED09E27EE1FB27581542B5CD34CD3E65353E43D
+      D5D3E4BF37590E846378E062CE7964B9F2F593DCD7D78BF5D27D0784F7EEDD93
+      DCD7778BF514BEC257F817153F22F0FF67927DF3BFC5F7C469F01D8CAFE65E9F
+      E4B9EFB554DE9B2478A66B6EDCCC9DF7FFCC0F1DE22EC3BE4F0B756AD278267D
+      46B617AAE5CFE9744EEFDD64F9EED329EF01ABB94B688F9DF08E4DCD19048564
+      D7ABA86E3A7B0C7BC7A6E13EA1776B71DF6BA8B98FA9CEB4F3AB22EE1AF4F593
+      F43E8989CEF1DADFE3BE2BCF355315B59D8A8FF9E57F4DF9FE2781A8EDC5FE2E
+      48D13F60AECBAF913B2E563EDEDBF3B0FD3EE474A24E603EBF50BEA68B7CDC73
+      5EA4FD8CBE97629B5F4C609470DFC1B232617F68C0BA1FD237ABB325DC2DF87B
+      90BE9312038F6785B56A454C2E41753A8567E121F9B3708B9AFB77613F086179
+      BDF8ED87EA8AFB9DB8C7D211CB5AA9BF187E9FF8FE1D79B70BCFAC1A61FC45F4
+      9BDEF3CA728B275BB67333A4775FA5DC5D68FF6358E771FA2628CF3904FEAE98
+      39B1912F85732DCA94C16F09C94BC375E158BC78AE42FB3790F0B74E2813BFA7
+      D179877CADC7718EE2D1C2CE31FFD109DF0A63C562019FD5639E0BB3E5399F10
+      3F6D624CE1F9B5A830EA53A1BC9C7EEBCAB83BE4FBD47135F745F4FB46F6AEBA
+      94CBA27C4CF8BE3E1C871F66EF1D34DC1A61FE418C5164DC23E493A3984F960A
+      F3C7E69FBE9B906F5016FA7E45EF1E917538968FEC4A615C6ED400F523BF47B0
+      EC2116F7E86BF6CD12EF05AD9AFB86B2BE2A5294B9F56ECAFCB98CBB733AFAAC
+      F927E5E78BCF983F94F851E247891F257E94F8F96CFA4B91123FCA3AA4C48F12
+      3F4AFC28F1A3C48F92FF28F98F123FCA3AA4C48F123F4AFC28F1A3C48F92FF4C
+      A6FF033CC123124C7A0C0000002000000020000000911400000000000078DAED
+      9D09785CD575C79FB18DFD5168DA7C34A14DE30D48A04DBE266D484B134852BE
+      9284256C092144066C8301139B0206B3191B1C08A5296B8817ADDE646924BCE1
+      1A2F58E005DB32B2F65DD6BE8C34A3D168469A4D23CDE939F7BE3B73E779461A
+      69DE8CECE4E9FBFEDF8CDEBBF7FDDE39E79EF3DEBDEFC9762D54C0358A8A8A8A
+      62527171315369692953797939545454841DCBBD50791D001459AE38F8C42B29
+      2961BCB2B2B220B3B2B212AAABAB99B4C7D39EC378F8C246C1241E8978DA7EB5
+      B5B550575717F198F2398CC5173C12D9481236565555311B6B6A6ACEEA77E6CC
+      19686A6A8A7ADC58F95ABFCA4C61634343C359FD5A5A5AA0B5B5356EBE88A5CC
+      ABAFAF674CB2B1B1B131A29DEDEDEDD0D9D919375FCB249E60363737331B23D9
+      69369BA1BBBB3B6E3ED92862493CC16C6B6B63EAE8E88868A7C56201ABD51A37
+      9F7822968227985D5D5D51EDB4D96C60B7DBE3E6531C05937824E291848DBDBD
+      BD67F573381CE0743AE3E6CB36F6F4F43026F14864635F5F1FB3B3BFBF9FF1B4
+      8A972FDB287824E2091B4753BCFC44E95CE527EAC7E01B7C836FF00DBEC11F8D
+      AFE0D644C8E01BF73F13E11BF37F63FE7FDECFFF1F9A0EC3A772C1FB873B923F
+      FF2776F10E3870A01B6C563778DFBB3DA9F37F62EFD9D30533661C826F7DAB1E
+      7A2D3E760EC998FF0F0D0DC18E1D1D307DFAC75883CB5066F8F6B70360C373C0
+      9F3B1236FF479FFBFD7E76CE6BDF2F808B671432B6A28CA02CE88733D8074F0E
+      E0F644CCFF057BD7AE5D50585808BBD7E1395CE8646C45A9407F14B0F1803F26
+      BDE7FFC43E5ED60E1FECFE90B1C96FF4B37BDD21B864C6E78C4D31C19F3DA819
+      BA5D53689C9FDE0E878BDB616EFA71B8AEA604EA5B1A199BC60A9DCB7BEF16C0
+      F6EDED305C466898A1DBF54FB04B387BBACDC506F7756DA550DFDC00A74E9D82
+      9D3B77B2B14C6CD7E219BADFFF3176C609640F865DE0BEEFF642FEEE3D616CBD
+      EF3F3FFEBC15E6A0DDD37AC3D917788660D6A6536C3CC86C3DF947A2D83DD5E3
+      87591B0BE1109E1BBBFF95D87AF18F9474C0BC086C6E37B28BDA1276FFCFC7DA
+      89E0588B667722F84EF730ACFCE00C5CA86193DD5F8DC0D69BBFEB440FDCFFBF
+      15B0627F074C0D848FB5486C3DF9FEE1003CBEAE86F1C5394C77FB79BCA3B0F5
+      E41F2DAA0BB28556EE686439988CF9E7FCF9F3E1F1675F63DCA56B6B60C7F11E
+      361E9235FF5DB46811A4A4A4C011F403C5C298FF1BF37F63FE7FFECEFF635566
+      66E6CCF4F4F4956969690F466B43FB3232325EA4B6E33DFE685ABD7AF50578CC
+      4F76ECD8E1C5E3B7E3B62911DA4DA17DD406DB1EA23E7AF1D7AF5FFF8BBCBCBC
+      81919111C8CECE76AE5BB7EE066D1BDA46FBA80DB5C5DFEFD48BBF312BABA01E
+      E7A1F48373E100DAB72F427CF6D13E6A535F570B59591907F5E267A4A7DBFA7A
+      CC8C4F733AF4B37BEDDAB55F11FBE93B6D1B62532A006A8B63A5572F7E6A6AAA
+      D769ED8261AF9BDFF71D39E2C16DAF4AFB5FA56DB46FD8E706A7B513D2D2523D
+      FAF1370CF4B635806FA00F468687D87C0FEDEBC771311DC7D934B4BD8FE66481
+      613FF89C7D606DAD87F4B434877EFE4F6B682AFF1CDCBD5D30E472321FE03877
+      D2B824D177766FE41E606D1AB16D667A5A9D5EFCF4F4D48C93051F0506BA1AC1
+      DB6F6171A03590ACACAC22127D1FF679C063B780B3B3114E16EC0B609F34BDF8
+      984B3FC9D9B2C9D1DF5205833D6DE0451F0F0FF900C7BC077DEFF1FBBC2C362E
+      DC476D72B66EA6D8DCA863FD999696BAC1DE5C720C1CED75CCC7E46B9C578EA0
+      EF03436E27DB46FB9A8A8F01B5A53E7AD6C0D4F5EB5F3DB0CBE4E96B2C8381AE
+      26EEEBFE3EF2010C209BB6D1BEFD3B4DDED4D4F5AFEAC9E66320FDEFD02E8FB9
+      E238D89B4371D8BF7F1F94147EC6FC4EFBA88D5C1BF454467AEABE930776056C
+      F5A7791C6C5DD0DAD800A69C6D40DB681F8EFB8F12C156AF033FDA9C953E60A9
+      38C67C3D60C638603EE46CCB86EACF0EC0A68CB4810D1B36FC20517C56E7D353
+      6B4A0B7683B5A610ECE87397A50D4A8B0A617BEE56C8484BAB4D245BCDC5474C
+      5B36067ACA0E038F433D38BADBA8DE01FA6771A2F958EB576566A4076A8FEE85
+      1E8C83BDB19C8DFD83FBF6524D5E9548B6C9649A8A765A0F7FBC1FFE2F3F1BCC
+      C587827168ABAB241F58A98D5E3C45699EA9289DB7294AD773F8B974C182DD0F
+      9B72729CB6E66AD898990175C7F64277E9A72C0E4E8C03E68183DA505BB5CF6D
+      748C89B13B6FC56374A04068CA944E787041351BFB270EEE869DB95B980F2C6A
+      1C163D50C3DAC87DF831BA6F191FBB2B0535A2394E50FFF35215749D3E049B32
+      D3A1047381CEE1772F5441B4F6EAB17E1D1BBBE7726CEB96FA76A3DE9C39B3FD
+      A4D8F6A54BDBA0E9C4418C77AA07AFCD9EA69307E1D22FB607796ADBB7D4BE62
+      BB9B8E1D83DF33A53EB58A62FE1BBE1DA65F74518B4FEC7BFDB7796ECCF79751
+      6B5E5B931F3C5FDE06A6F33EDD5FC26DF5A1E399334667C3746C3720F1AF93F7
+      CF9CD95229F62D5CB82F5B6C5F70FF477921DB5B2B34B1BC5E3A9E1319D346B1
+      FDEB52DB2E6C3B25B4AFEA42DCD627EDBF4A625C2D6DB7515BC9A629B8CD1CDA
+      DF7E65747EF737255F3584EF332F897E6E704138C3BC44E383C6D0BEEE6F44E7
+      5B2FC136436ADB00F71D4CC5CFF9E163D2FCD2D97DCDABC2C79AF93EB5EFF5EA
+      B168BB8F1863E4DE764DEEB834BFD7A02E8AD0EF223E5E47ED9B37F6F8EF9E8B
+      ED2C91F3D8DC8039346F8CDC3D13A506F460FF3931D68079D87EA7140B8CADF9
+      BF15A5EF0B31D4ECBFE26D83E3818EB183EC1A7F0D866963C56BF4FE349E60D4
+      EB51C5D6A761A2AACC7EC657B179F90FE3B9C6D171F84F000238770E8C0C33D1
+      3C8BC9EF4379F17EDFC3E676C33E1793DF3300CE8E6AA8CC7DC15595BDFC3FE2
+      E2072436CEE1425C95ED136C37F8BD9CCDE5C4FB9F4AA88AE31C881F088CC0C8
+      883FC456F9C34321BB893B2CB169CE31E476E07CB01F1C6D1513F603E3339F73
+      B6FFF0EA9834E4E26CDFA01D3FEDD0DF5C0295DB9EF14D8C1FF279ECFC7E95DF
+      C7356003752C8D9B1F166BF2B73CD6BC8392CF1D419F93DD82ED1DE8C5B99035
+      2E7E30D6283F8D6F16EBC160ACFD6ABC7D2E3BF739F1D16692D719271FD92362
+      9C8DE177BDEB056D17F9C56C8E81CFAA05E60C0E1C356FFD7C0C69E328E72CC6
+      3152BDE07CD16E508DB7932952AC393FC0F8BC4E85D70BE2923FE56372F13852
+      BD90CF818E27CE4FAE2B3CD67C8C0F09BE3AC6458D0CE64D843A19AC17DEC1F0
+      7A81EA97EA05E74BECCA6DA34AF085DD31E72B63F707C76E7F0BAF178C2FE557
+      4C7C62FB27522F78EEB09CC19C15E352F64DB08DEA6F6AE753F3DBEBB0B0F6C2
+      E772CE8A7AC17216FDC98F198AA33C8644CE86F88E603D637CCAEB415B888BF2
+      387A90DF0311EB85D715765D1AF238C36A15B72954ABD871555B643EEDF75B6A
+      46D578EB852CD91E991FF277AC7C29B7C7C1977DE9517DC9F91ADFB03616E66F
+      4F7F3778EC2433B8FBBA40D48B50CE0E865F1BA41A2DEAB3D66E4F3F3F6E90AF
+      6DA7B6F1F60BBE19D585FC4E10F56258BD3EC8E32C54AB42E3379CAD1E8FC91C
+      E4F3EB8768C7ED666DC966C645D93AF1B383DB2FDF038D91AFB2826CD59E90FD
+      BD67F9C6CDDA84EC26B6ABB71D44BD10368F9BAFC651F892D94F5C61B37A8E21
+      BB3B985CB676FC6C0FD60BBFE4739EB3726E5B83BEF484C530C496F9E3955C2F
+      A2C59A8DF1FE707B982FC99E3E6ECF44EF17449DA43A3E56BECA222E13B25DBD
+      6D13E6CB637C5C7C358EC476595BE3E047BE36C8FED6C65A8C1FC6EE6DD5852F
+      B3BD61F52AC476099B19BB9569D0DA028396E689F3C518677963098D35B55E84
+      72B6F32C9FBB54763C7C6D7E79557644BB0597EC56B97AF0C3EA85D66E1BAF55
+      5CAABF25BBE3E5EBA9689C59B7ADB875F69DCFDB2EBB79398CA63977BD60BBEC
+      672B6ED67BAD7DDEBDAFDBF2CADAA1CA0DA32AB7B40DA8ED443957E69DBEE5AA
+      0F8AFBAE301581ACBF4F791BB27A8129D30AC1EF917EFFEAFC7740DBFFAAFC62
+      DB95A6A231FD7275DEE9BE65671CF05BEB7098663F94094B5A011E432D51F558
+      944F6A4B7DD6A05EB1F8E165D4927A3B9E43D1987EB93CA7F02C3669DEB2ED70
+      4D35C0776B807D5EA3FD94BE535BC15DDD3304AB502BBB7D7045CEA931C7F7E5
+      DB4E46E45FFDCA5198B9CF0E4A118C2A6A73F59AA38CFB1232579A7DF0429717
+      9E475DB1AD706C7EF68988FC478BECF08D374AE16BAB4E8DAA7FC4368B4E59E1
+      45B3175E3013D703CF217B45A707E8D863F2B71E8FC88F24E663D5BFCCC768EB
+      8B92BDCF217B45871B9E412D6F77011D7BCC3CDB7C6C54E61A64BE22C5F5A56E
+      1E5B6E2B32D1CE159D9CF9B4CA7D0AF544DB205CBEE5B3B1EDDF7C3422738D65
+      186DE5636A5537B7558EEDB3C8253DD329B86E781299C4FDAFD64158D63200F3
+      F0D863F2371D097155918F57239B8DA76E1F8FADC4A5D80A1F3FD5E6625C6272
+      AE139622FB37CD4E9887C71ED3FF1B0F47F6B16A2BF9F93995ABF5F193C826E6
+      E3AD03CCDEA5C87E0CB94B9A1DF068633FD0B1C7E4677DCAB9DD9C1B369E245B
+      9F46DEF2766E2BB77760FCEB3FDB56784BB63CFDBD307E6601F7314A8C61ED38
+      7E4A8CA9D6506C97A29DE59B9F1CD73B9803E67A3C8767072A363DF11DC19F9B
+      FE71907B968FD5D8D298E23E76AA3E76303F97663D3EEEF74069EDA57CCB7247
+      F196A5FF20F82BC2B86EC9C7DCD665EA7822E6A34DFD28073C8CF12DC9F84D68
+      ED5AAC8505C2BFD37E088C84D6CB50F6A6D381D2CD4F5ACB339E983727F540D0
+      DE50FE846C25EE12E43DAAEAE1463B2C3E63878750A7D31E61EB40B40E15CBFC
+      9BAF6FF3F63D559F0C97662D33CF4DDD1FCCD9E0386E7686D9FB08DA4AF612F3
+      C1863E58845A506F83A20D8BF178BE98D78186FD5EBE76A2AED551FFB91BF649
+      3EE671257B0593D9DAC0B90B91B9A0BE0F1EA8B3C17DB5BD706AEDC2D0FA8FBB
+      1F863D8E70C9DB70CE3422DAAAA2FE73D6ED556D7584711F527D4CB62E64F686
+      B8F36BAD90822A7CFF7E756D517D2622D6247CA1DFB59F72FB93D89FF8542B1E
+      516D5DCC7C6C0FFA9898F7D771E67C64FFBAC6CAF4ABEA1E38F15E4A70BDC9FF
+      F9FBB14B5D3B3889FD67FF710F2C9662CB7D4CDC5EC6257B5354E6BDD516E45A
+      E097553D707765371C7FE7577C8D94D601C6C117EBAAD47FCEFB1F721F4BB115
+      F6A6A84CD23DC824EE2F90FBF38A6EB80BF5D95B77F3B918CDFF712EE21BB0C2
+      104A7CF789EF41A9BF631F9A3F1F7BF36E98FD875DCCDEFB6B43B6A6686C0DE7
+      9AE1CE7233DC5ED605477F7F177FF6A0912FECBB4D9AABF27547F13BF527BED6
+      C764EB3DAA8F05F74E897B1BEAD6D24E38F2C6ED7C9D0CED1ACF3A0C9BB7613F
+      EA3FFBDD1D415BE5D81297DBDA05779413B3137E864CE2DE5CD2C1F4E9EBB706
+      E7DB135987A2FEB3DFD90EF720F7EEA08FCD2CB6C4245B4932F726D44F8BDB99
+      0A5EFD299FF3B1791F9FDFD3A7A78F7F0A79A47D4C6CAE68864F5EBB0966BD9D
+      1FF231FAF78EA08FB9BDB794725B0553D6A1353F56D7723A826B2B2EF1690B7D
+      CADF451BFA7E68CD8D30E79D0F6C371EAB537D1C8A2DB7B51D6E8AC0153AB8FA
+      0618646B0A6D4CF47D50FDCE6453D51B2ED1E6E3976F80796F996E9EFD76BE6D
+      D69B2618AF0EACFA51686E3D0151FF78E6A8FB575E17177FFF8BD7C5C5FFE8F9
+      7F877895E8F7F5CE57559A141887BC5526A5A92A4FD95C99ABFC7812F861C273
+      395091AD7C79B2F8AA9A4B4DCA5726914F7E380EAB950BF4E2476A57BE55F96B
+      8CFBC3B8DF11A94F45AE929248BE504D8EF2B528E77028197C92EA076D0CFA93
+      C5A75844E8E799647EF324FB3F2719FCEA7CE54A8A7504FE4F129E7F26657114
+      F6F649AC3FBB8B3E542E9A04FE31BC06DD8A87983249F5BF05FDFE06EAB249BE
+      FED8311F6ED3935FFD81F2B7E3B906A00F86277A0EE3E18F710DB0D7652B9726
+      831FAD06A15E4E163F4A0D2E4E9AFD26E58B11FA3A9366BF49F94184BE0349E1
+      E3BD16B6FB2842DFCA44F2A9CE62CDFB1EB6D91BE51EECF79371FFA9D600376A
+      D624F1472A4CCA2F27A9FEB6C533179A48BD4755B339589E720FFAFC42631E6B
+      486FE1F87A6A3C3990807589BC58F915794A6E02F8ED31DB9FAB3C91D058E03D
+      A686694EEA1A11D6370D7F5F32F958DB9FD65C6BDE48722E6CD663AD238EF897
+      CB7CBCF7F96612D91722D327F17DC9BCE654E628FFA4197BA5491DFB79CA7D9A
+      5CDF98D4B18FF77461631FEB7292C7DE81B0B16F52FE33C9EBD3DD61FC38D77B
+      8DBA6BD45DA3EE1A75D7A8BBE756DDC5F8AE98CCF906ADA14FE67C03F91DE7CA
+      7CC3D09FF77B0089EC63F00DBEC137F806DFE01BFC738AEF92E6F917C770BF7A
+      B1C41FD481DF22CDB3AF8D81FF5DF95D0C1DF8F9D2FD756A0C6B136B257EBECE
+      F3DD11B4EFE7A3ACCBDC416D82EDB16FBCFCA2F5CA743C5663D833D55C655D65
+      8E720D3D772691CFC96E7ADF436A7786FAEA32E7CE57BE43CF91C7F3CC99FAE8
+      3AEFC7E369FC104D8D7AB3C362C1C743BE9A172E55CD6C1BEED3CBE7C6BC479F
+      F71F265A87279B6FC890214386CECDEB5275AE72BDC1FFD3E1ABCF945FC6CF4F
+      F1B3847DE629CF346C51FE321A9FE60278CF7F107FFF1CEFC933CA4CCAD723BD
+      934ACF47E93906AA08DB1FA67B759C4BFD8BF4CEECB5D1FE7E07552FBF3F2DDD
+      63EF89F4B72EE5F9CA55F2B34AF5FC22DF97E4292F52BBB24DCA5FA8F3A6A374
+      AE743ED86F11FE6E558FFBC708F7457DD8674155BEF2AFD86719BDE3AB7D0683
+      F3B5956ADB006A2B1EE75ED403F8BD407D37F4F13162F280F6B992F4DC6F6994
+      E75476A96DA3F6FCB99429D1E608349FA277B849D539CABF89F7E8B57CB4F387
+      9AF79EAF15FB983FF973E240A4B689BCCF3CDFF4C927CA34F13C9DDE1D0F9BF3
+      E528976BEF9FA5B588B0B618AB7F16FB8A4CCA179A339599C2FF188BEF479D57
+      662B5F1663B461AF322356BEF69D07699DC02BFEF625F8EC304F7945CBC55A31
+      578C457A3F5F3CCB369994A9FCFF7A50A6527E44E3E3B16B79AE2B53A8964873
+      E302E99CDE14E744B94E3E62B98DB58AFE2E0DC7E52DEA33F577E535239ACFAA
+      F3FD40343E7BBF9A7FFAE5BF3791C73AC581DE898EBA4E90A76CA6766C0CF0FC
+      2D46D9D45A7204CFF9C1A8FEC773A7BC4659E89C595D352967FDFBD3B5BB944B
+      70FFEF5075EABBF0D4FE08D516E16B43860C1932740EADBFE5291BF49411D3E4
+      C55FA7F70C8D581BF96FE4BF91FF46AC8DFC37F2DFC87F23D646FE1B63C29021
+      23FF8DFC3F0FC6828E7F7368C4DCC87F23FF8DFC37626EE4BF31168CFC37626E
+      E4BF31160C1932F2DFC87FE39980117F23FF8DF81BF96FC4DFC87F23FE46FE1B
+      F137F2DF88FF79A0FF0799956B16
+    }
+  end
+end

@@ -1,0 +1,14 @@
+LazRibbon 0.3.53 - Skin metadata and icons
+
+- Added skin metadata fields to TLazRibbonSkinDefinition:
+  GroupName, Notes, Icon16FileName, Icon24FileName, Icon32FileName,
+  PreviewImageFileName.
+- .lazskin XML files now save/load these metadata fields.
+- Legacy key=value .lazskin files can also read metadata keys.
+- TLazRibbonSkinSelector and TLazRibbonSkinGalleryItem now use skin icons when
+  available; they keep the color-swatch fallback when no icon is defined.
+- LazRibbonSkinEditor now exposes Group and icon/preview file fields in the
+  Identificação tab.
+
+This version intentionally stores file names/paths as metadata. It does not
+embed binary image data in .lazskin yet.

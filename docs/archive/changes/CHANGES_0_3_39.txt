@@ -1,0 +1,19 @@
+LazRibbon 0.3.39
+================
+
+Correção focada no BackStage:
+
+- O item ativo/selecionado da navegação do BackStage agora usa uma superfície
+  resolvida por estado, independente do hover do mouse.
+- A superfície selecionada não pode mais colapsar para branco/quase branco em
+  skins claros ou para tons sem separação visual em skins escuros.
+- A cor do texto selecionado é calculada contra a superfície selecionada estável,
+  mantendo contraste mínimo pela lógica WCAG já introduzida nas versões anteriores.
+- O desenho do item ativo passou a usar uma superfície sólida e estável, evitando
+  gradientes/lightening que faziam o item ativo oscilar entre estados visuais.
+
+Não foram alterados:
+- fechamento do TLazRibbonForm;
+- TitleBar;
+- QuickAccessToolBar;
+- registro design-time.

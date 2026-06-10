@@ -1,0 +1,15 @@
+LazRibbon 0.1.43
+
+Foco: posicionamento correto da QuickAccessToolBar abaixo da Faixa de Opções.
+
+Alterações:
+- Corrigido o significado de QuickAccessToolBar.Position = qapBelowRibbon.
+- A QAT agora é posicionada em uma faixa própria abaixo de todo o Ribbon, isto é, abaixo dos panes/groups.
+- A área dos panes deixa de ser deslocada para baixo pela QAT; em vez disso, é encurtada na parte inferior para reservar a faixa da QAT.
+- A faixa inferior da QAT recebeu fundo e bordas derivados do skin/appearance.
+- O hit-test continua direcionado para a QAT mesmo na posição abaixo do Ribbon.
+
+Teste recomendado:
+- demos\quick_access_toolbar\project1.lpi
+- Alternar entre "Mostrar Abaixo da Faixa de Opções" e "Mostrar Acima da Faixa de Opções".
+- Verificar se os cliques dos botões da QAT continuam funcionando nas duas posições.

@@ -1,0 +1,8 @@
+LazRibbon 0.3.35
+
+- BackStage navigation text now uses WCAG-style relative luminance contrast calculation.
+- Added a 4.5:1 minimum contrast guard for BackStage captions.
+- Skin-provided text colors are still preferred, but only when they meet the minimum contrast ratio against the actual painted surface.
+- If the skin text color is insufficient, the runtime automatically chooses black or white, whichever gives the better contrast.
+- Muted/disabled BackStage navigation text is also protected from becoming illegible.
+- No changes to window closing, TitleBar, QAT, design-time registration, or skin file structure.

@@ -1,0 +1,28 @@
+# LazRibbon 0.1.27
+
+Foco: ApplicationButton.
+
+Alterações principais:
+
+- Adicionado `TLazRibbonApplicationButtonMode`:
+  - `abmEvent`: dispara `OnApplicationButtonClick` / `OnMenuButtonClick`.
+  - `abmPopupMenu`: abre `ApplicationMenu` / `MenuButtonDropdownMenu`.
+  - `abmBackstage`: delega o clique ao `BackstageView` vinculado.
+
+- Adicionadas propriedades preferenciais no `TLazRibbon`:
+  - `ApplicationButtonCaption`
+  - `ApplicationButtonVisible`
+  - `ApplicationButtonMode`
+  - `ApplicationMenu`
+  - `OnApplicationButtonClick`
+
+- Mantidas as propriedades antigas `MenuButton*` por compatibilidade.
+
+- `BackstageView` agora coloca automaticamente o ApplicationButton em modo `abmBackstage`.
+
+- `ApplicationMenu`/`MenuButtonDropdownMenu` mantém compatibilidade: ao atribuir um menu, o modo muda para `abmPopupMenu` se ainda estiver no modo padrão `abmEvent`.
+
+- Novo demo:
+  - `demos/application_button`
+
+Esse demo permite alternar o comportamento do botão Arquivo entre BackStage, PopupMenu e evento simples.

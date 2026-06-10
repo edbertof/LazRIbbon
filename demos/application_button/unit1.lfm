@@ -1,0 +1,132 @@
+object Form1: TForm1
+  Left = 300
+  Height = 430
+  Top = 200
+  Width = 840
+  Caption = 'LazRibbon Demo - Application Button'
+  ClientHeight = 430
+  ClientWidth = 840
+  Color = clBtnFace
+  LCLVersion = '4.6.0.0'
+  object LazRibbonSkinManager1: TLazRibbonSkinManager
+    ActiveSkin = sbsOfficeBlue
+    Left = 32
+    Top = 160
+  end
+  object LazRibbonPopupMenu1: TLazRibbonPopupMenu
+    left = 224
+    top = 160
+    object MenuItemNovo: TMenuItem
+      Caption = 'Novo'
+      OnClick = PopupItemClick
+    end
+    object MenuItemAbrir: TMenuItem
+      Caption = 'Abrir'
+      OnClick = PopupItemClick
+    end
+    object MenuItemOpcoes: TMenuItem
+      Caption = 'Opções'
+      OnClick = PopupItemClick
+    end
+  end
+  object LazRibbon1: TLazRibbon
+    Left = 0
+    Height = 112
+    Top = 0
+    Width = 840
+    Align = alTop
+    ApplicationButton.Caption = 'Arquivo'
+    ApplicationButton.Visible = True
+    ApplicationButton.Mode = abmBackstage
+    ApplicationButton.BackstageView = LazRibbonBackstageView1
+    ApplicationButton.Menu = LazRibbonPopupMenu1
+    ApplicationButton.OnClick = ApplicationButtonEvent
+    BackstageView = LazRibbonBackstageView1
+    SkinManager = LazRibbonSkinManager1
+    Tabs = (
+      'LazRibbonTabHome'
+    )
+    TabIndex = 0
+    object LazRibbonTabHome: TLazRibbonTab
+      Caption = 'Página Inicial'
+      Panes = (
+        'LazRibbonPaneMain'
+      )
+      object LazRibbonPaneMain: TLazRibbonPane
+        Caption = 'Application Button'
+        Items = (
+          'LazRibbonLargeButtonDemo'
+        )
+        object LazRibbonLargeButtonDemo: TLazRibbonLargeButton
+          Caption = 'Demo'
+        end
+      end
+    end
+  end
+  object LazRibbonBackstageView1: TLazRibbonBackstageView
+    Left = 0
+    Height = 318
+    Top = 112
+    Width = 840
+    Align = alClient
+    SkinManager = LazRibbonSkinManager1
+    Visible = False
+    Buttons = <
+      item
+        Caption = 'Informações'
+        Page = LazRibbonBackstagePageInfo
+      end>
+    object LazRibbonBackstagePageInfo: TLazRibbonBackstagePage
+      Left = 180
+      Height = 318
+      Top = 0
+      Width = 660
+      Caption = 'Informações'
+      object LabelBackstageInfo: TLabel
+        Left = 32
+        Height = 60
+        Top = 36
+        Width = 640
+        Caption = 'Este demo mostra a nova API do ApplicationButton: BackStage, PopupMenu ou evento simples.'
+        Font.Height = -16
+        Font.Name = 'Segoe UI'
+        ParentFont = False
+        WordWrap = True
+      end
+    end
+  end
+  object LabelInfo: TLabel
+    Left = 18
+    Height = 20
+    Top = 140
+    Width = 760
+    Caption = 'Modo atual: abmBackstage. Clique em Arquivo para abrir/fechar o BackStage.'
+    Font.Height = -12
+    Font.Name = 'Segoe UI'
+    ParentFont = False
+  end
+  object ButtonBackstage: TButton
+    Left = 18
+    Height = 25
+    Top = 176
+    Width = 150
+    Caption = 'Modo BackStage'
+    OnClick = SetModeBackstage
+  end
+  object ButtonPopupMenu: TButton
+    Left = 178
+    Height = 25
+    Top = 176
+    Width = 150
+    Caption = 'Modo PopupMenu'
+    OnClick = SetModePopup
+  end
+  object ButtonEvent: TButton
+    Left = 338
+    Height = 25
+    Top = 176
+    Width = 150
+    Caption = 'Modo Evento'
+    OnClick = SetModeEvent
+  end
+end

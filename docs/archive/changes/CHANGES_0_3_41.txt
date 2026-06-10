@@ -1,0 +1,8 @@
+LazRibbon 0.3.41
+
+- Decision: BackStage in LazRibbon will support multiple selectable pages.
+- Page-linked BackStage buttons are selectable by default (PageButtonVisualMode = bpvmSelectable).
+- bpvmFixedHeader remains available only as a compatibility/alternative visual mode.
+- Updated demos/ribbon_form to demonstrate multiple page entries: Novo, Abrir and Recentes.
+- The BackStage content panel changes according to the selected page entry.
+- No changes to TLazRibbonForm closing logic, TitleBar or QAT.

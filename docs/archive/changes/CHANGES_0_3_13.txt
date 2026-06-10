@@ -1,0 +1,8 @@
+LazRibbon 0.3.13
+
+Correções:
+- A barra de título customizada agora possui propriedades ShowTitleIcon e TitleIcon em TLazRibbonForm.
+- O ícone do canto superior esquerdo é reservado/desenhado antes da QAT.
+- A busca automática do ícone tenta Form.Icon, TitleIcon, Application.Icon, MainForm.Icon, arquivo .ico do projeto, recurso embutido e ícone associado ao executável.
+- Se nenhum ícone for encontrado no Windows, desenha o ícone padrão da aplicação em vez de deixar o espaço vazio.
+- O demo demos/ribbon_form agora declara <Icon Value="0"/> no .lpi para que o project1.ico seja tratado como ícone do projeto pelo Lazarus.

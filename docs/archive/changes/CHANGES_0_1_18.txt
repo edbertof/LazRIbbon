@@ -1,0 +1,38 @@
+LazRibbon 0.1.18
+=================
+
+Foco da versão
+--------------
+1. Integração mais intuitiva entre TLazRibbon e TLazRibbonBackstageView.
+2. Criação de demos oficiais mínimos para regressão.
+3. Manutenção da independência em relação ao LazToolbarPackage original.
+
+Alterações técnicas
+-------------------
+- Nova unit runtime: LazRibbon_BackstageBase.pas.
+- Nova classe base: TLazRibbonCustomBackstageView.
+- TLazRibbon passa a expor a propriedade publicada:
+
+    BackstageView: TLazRibbonCustomBackstageView
+
+- Ao atribuir BackstageView ao TLazRibbon, o componente:
+  - mostra automaticamente o botão de menu;
+  - usa MenuButtonCaption como legenda do BackStage;
+  - liga o clique do botão de menu ao ShowBackstage;
+  - repassa o SkinManager do Ribbon ao BackStage quando existir.
+
+- TLazRibbonBackstageView passa a herdar de TLazRibbonCustomBackstageView.
+- TLazRibbonBackstageView implementa a ponte:
+  - AttachToRibbonComponent
+  - DetachFromRibbonComponent
+  - SetRibbonSkinManagerObject
+
+Demos adicionados
+-----------------
+- demos/popup_menu
+- demos/skins_gallery
+- demos/backstage
+
+Observação
+----------
+A integração foi feita com uma unit base separada para evitar referência circular entre LazRibbon_Core e LazRibbon_Backstage.

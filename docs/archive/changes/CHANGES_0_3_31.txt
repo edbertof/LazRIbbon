@@ -1,0 +1,20 @@
+LazRibbon 0.3.31
+
+Correções de estabilidade do TLazRibbonForm no designer e no runtime:
+
+- TLazRibbonTitleBar deixou de ser criado com Owner=Self.
+  Agora ele é um controle interno criado com Owner=nil, evitando que o Lazarus
+  tente persisti-lo como componente normal no .lfm quando TLazRibbonForm é usado
+  como classe-base do designer.
+
+- TLazRibbonForm.Loaded remove defensivamente TLazRibbonTitleBar acidentalmente
+  salvo em .lfm por versões anteriores.
+
+- LazRibbon_Form.pas registra TLazRibbonTitleBar no runtime apenas para permitir
+  a leitura de .lfm antigos ou contaminados que já contenham a classe interna.
+
+- Mantida a correção anterior que registra TLazRibbonForm como designer base class
+  no pacote de design.
+
+- Não houve mudança na lógica de fechamento estabilizada nem na aparência do
+  BackStage.

@@ -1,0 +1,18 @@
+LazRibbon 0.3.8
+================
+
+Correção de compilação no Lazarus/FPC em modo Delphi.
+
+- Em LazRibbon_Form.pas, a chamada:
+
+    Application.QueueAsyncCall(@DoQueuedCloseFromTitleBar, 0);
+
+  foi alterada para:
+
+    Application.QueueAsyncCall(DoQueuedCloseFromTitleBar, 0);
+
+  Motivo: em {$mode delphi}, o uso de @ sobre método de instância nessa chamada
+  pode gerar o erro "Variable identifier expected". A LCL aceita o método de
+  instância diretamente para QueueAsyncCall.
+
+- Atualizadas as versões dos pacotes LazRibbonRuntime e LazRibbonDesign para 0.3.8.

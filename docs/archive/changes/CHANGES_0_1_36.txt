@@ -1,0 +1,14 @@
+LazRibbon 0.1.36
+================
+
+Foco: QuickAccessToolBar icon-oriented.
+
+Alterações:
+- Adicionada a propriedade QuickAccessToolBar.FallbackGlyphStyle.
+- O padrão agora é qfgOfficeGlyphs, que desenha pequenos ícones vetoriais quando não há ImageList/ImageIndex.
+- Mantido qfgCaptionInitial para compatibilidade visual com o fallback anterior.
+- Adicionado qfgNone para projetos que desejam mostrar apenas ícones reais.
+- Documentação QUICK_ACCESS_TOOLBAR.md atualizada.
+
+Observação:
+- Em aplicações finais, o uso recomendado continua sendo associar TLazRibbon.Images a uma ImageList e usar ImageIndex via Action, LinkedItem ou item da QuickAccessToolBar.

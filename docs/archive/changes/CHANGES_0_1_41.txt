@@ -1,0 +1,9 @@
+LazRibbon 0.1.41
+
+Correções na QuickAccessToolBar.
+
+- Corrigidos textos acentuados do menu de personalização.
+- Adicionado {$codepage utf8} em LazRibbon_Core.pas para preservar strings UTF-8.
+- O menu de personalização agora é mantido enquanto está aberto, evitando perda de eventos em alguns ambientes LCL/Windows.
+- Marcar/desmarcar ações no menu força atualização visual da QuickAccessToolBar.
+- Alternar posição acima/abaixo da faixa força recálculo de métricas do Ribbon.

@@ -1,0 +1,8 @@
+LazRibbon 0.1.33
+
+- Adicionado subobjeto persistente QuickAccessToolBar em TLazRibbon.
+- Criadas as classes TLazRibbonQuickAccessToolBar, TLazRibbonQuickAccessItems e TLazRibbonQuickAccessItem.
+- QuickAccessToolBar.Items pode usar Caption manual, Action ou LinkedItem.
+- Primeira pintura funcional dos botões pequenos antes das abas do Ribbon.
+- Suporte inicial a hover, pressed, disabled e botão de customização.
+- Criado demo design-time demos/quick_access_toolbar com interface em .lfm.

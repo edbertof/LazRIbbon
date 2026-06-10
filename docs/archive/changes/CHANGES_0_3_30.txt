@@ -1,0 +1,11 @@
+LazRibbon 0.3.30
+
+Design-time fix for TLazRibbonForm designer loading.
+
+- Registered the internal TLazRibbonTitleBar class in LazRibbonDesign.
+- This fixes the Lazarus error when opening demos/ribbon_form/unit1.pas:
+  Unable to find component class "TLazRibbonTitleBar".
+- TLazRibbonTitleBar remains an internal class and is not added to the component palette.
+- Package versions updated to 0.3.30.
+
+No runtime close logic, BackStage painting logic, or TitleBar/QAT visual behavior was changed.

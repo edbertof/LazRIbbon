@@ -1,0 +1,19 @@
+# LazRibbon Status
+
+`1.1.75 - Skin Editor Appearance inspector pass` is the current stabilization build.
+
+
+The 1.1.75 build expands the standalone Skin Editor Appearance inspector. It can browse all published `Appearance` sections together, filter properties by section/name/type/value, show property types in the list and edit additional RTTI-supported value kinds. It does not introduce new runtime UI behavior; it preserves the 1.1.73 Lazarus 4.8 baseline, the 1.1.74 public-repository documentation, and the formal regression checklist around the behavior stabilized in 1.1.70.
+The main runtime behavior remains the staged KeyTips flow, with multi-character KeyTips. The 1.1.70 build keeps the mouse-cancel behavior and fixes Backspace routing when a `TLazRibbonForm` contains focused client controls:
+
+- Alt now opens a root-level overlay with Application Button, visible tabs and QAT only;
+- choosing a tab KeyTip selects that tab and changes the overlay to show the commands of the selected tab;
+- command KeyTips are no longer shown immediately with the tab/QAT root overlay;
+- title-bar QAT KeyTips are hidden during the command stage;
+- Esc from the command stage returns to the root overlay, and Esc again hides KeyTips.
+
+The design-time `Validate KeyTips` verb was adjusted to this staged model: root-level KeyTips and per-tab command KeyTips are now validated as separate scopes.
+
+The 1.1.54 resize strategy, 1.1.57 title-bar QAT overlay fix, 1.1.60 GUI/minimize fix, contextual tabs and design-time creation verbs are preserved.
+
+The 1.1.70 build specifically moves Backspace capture to `TLazRibbonForm` as well as `TLazRibbon`, because in real applications focused client controls can consume Backspace before the Ribbon receives it. It does not change the resize/minimize strategy, contextual tabs, design-time creation verbs or design-time KeyTip validation rules.

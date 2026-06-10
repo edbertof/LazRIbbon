@@ -1,0 +1,15 @@
+LazRibbon 0.1.24
+
+Foco: BackStage mais próximo de aplicações Ribbon reais.
+
+Alterações principais:
+- TLazRibbonBackstageRecentList ganhou SelectionStyle:
+  - brsSkin: usa a paleta do SkinManager.
+  - brsOfficeGold: usa seleção dourada/alaranjada semelhante ao estilo Office/DevExpress.
+- A lista de recentes passou a desenhar hover/seleção com gradiente e borda mais forte.
+- O ícone padrão da lista de recentes foi redesenhado como documento com indicação de banco de dados.
+- TLazRibbonBackstageView ganhou a propriedade BackButtonVisible como nome mais intuitivo para controlar a exibição do botão de retorno.
+- Incluído novo demo: demos/backstage_recent_files.
+
+Observação:
+- Não foi usado código proprietário de terceiros. A implementação é independente, baseada no comportamento observado nas imagens de referência.

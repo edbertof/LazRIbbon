@@ -1,0 +1,16 @@
+LazRibbon 0.3.17
+
+Correção defensiva para Access Violation ao fechar TLazRibbonForm com QAT na barra de título.
+
+Alterações principais:
+
+- TLazRibbonApplicationButton.Changed agora ignora repaints durante csDestroying.
+- TLazRibbonApplicationButton.Destroy desativa FGlyph.OnChange antes de liberar o TPicture.
+- TLazRibbon.Destroy agora desativa timer, desconecta owner/back-pointers e libera subobjetos com FreeAndNil.
+- TLazRibbonToolbarDispatch.GetTempBitmap e GetSkinManagerObject agora retornam nil durante destruição.
+- TLazRibbon.ForceRepaint, EndUpdate, InternalEndUpdate, NotifyItemsChanged, NotifyVisualsChanged, Paint, ValidateMetrics e ValidateBuffer agora ignoram chamadas durante destruição.
+- TLazRibbonForm.Destroy agora remove a TitleBar do Parent e libera explicitamente a barra antes do inherited Destroy.
+
+Objetivo:
+
+Eliminar chamadas tardias de repaint, dispatch, skin ou TPicture.OnChange durante a desmontagem da aplicação, que podiam resultar em Access Violation ao fechar o demo ribbon_form.

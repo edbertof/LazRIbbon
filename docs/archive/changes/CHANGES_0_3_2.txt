@@ -1,0 +1,23 @@
+LazRibbon 0.3.2
+================
+
+Correção incremental do TLazRibbonForm.
+
+Correções:
+
+- Evita possível Access Violation ao fechar a janela pelo botão X customizado.
+  O botão não chama mais Close diretamente dentro do MouseUp da barra de título;
+  agora posta LM_CLOSE para o handle do formulário com PostMessage.
+
+- Corrige o desenho do título da janela sobre fundo vermelho. O Canvas.Brush
+  passa para bsClear apenas durante o DrawText do Caption, impedindo herança da
+  cor usada no botão Fechar.
+
+- Evita referência pendurada da barra de título para o formulário durante a
+  destruição de TLazRibbonForm.
+
+Arquivos alterados:
+
+- source/runtime/LazRibbon_Form.pas
+- packages/LazRibbonRuntime.lpk
+- packages/LazRibbonDesign.lpk

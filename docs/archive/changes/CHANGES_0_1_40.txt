@@ -1,0 +1,7 @@
+LazRibbon 0.1.40
+
+Correção incremental da 0.1.39.
+
+- Corrigida a declaração ausente de TLazRibbon.QuickAccessPositionMenuClick.
+- A ausência da declaração quebrava a compilação do runtime com erros em LazRibbon_Core.pas.
+- Mantidas as melhorias da 0.1.39 para alternar a posição da QuickAccessToolBar pelo menu de personalização.

@@ -1,0 +1,24 @@
+LazRibbon 0.1.1
+
+Correção em relação à versão 0.1.0:
+- Os arquivos dos pacotes foram renomeados para coincidir com o nome interno do pacote:
+  packages/LazRibbonRuntime.lpk  -> Package Name: LazRibbonRuntime
+  packages/LazRibbonDesign.lpk   -> Package Name: LazRibbonDesign
+- Isso evita o aviso do Lazarus: "Nome do arquivo difere do Nome do Pacote".
+
+0.1.3
+- Corrigida referência residual em LazRibbon_Appearance.pas: lazGraphTools -> LazRibbon_GraphTools.
+- Mantida independência do pacote LazToolbarPackage.
+
+
+0.1.4:
+- Corrigido LazRibbon_SkinSelectorItem: TLazRibbonSkinSelector expõe IconWidth/IconHeight, não ItemWidth/ItemHeight.
+
+
+LazRibbon 0.1.5
+- Corrigida referência residual no pacote design-time: LazRibbon_Editor.pas usava lazToolbar no uses.
+- Substituído por LazRibbon_Core para manter independência do LazToolbarPackage.
+
+
+0.1.8: separados os diretórios de saída dos pacotes Runtime e Design para evitar duplicação de recursos .lfm na recompilação da IDE.
+Runtime: lib/runtime/$(TargetCPU)-$(TargetOS); Design: lib/design/$(TargetCPU)-$(TargetOS).

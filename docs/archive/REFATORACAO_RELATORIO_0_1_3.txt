@@ -1,0 +1,9 @@
+LazRibbon 0.1.3
+
+Correções realizadas:
+- LazRibbon_Buttons.pas: FGroupBehaviour usava o tipo residual TSPkItemGroupBehaviour. Corrigido para TLazRibbonItemGroupBehaviour.
+- LazRibbon_Checkboxes.pas: TLazRibbonCustomCheckBox herdava de TSPkCustomTableButton. Corrigido para TLazRibbonCustomTableButton.
+- Versão dos pacotes atualizada para 0.1.3.
+
+Observação:
+- Esta versão ainda não foi compilada neste ambiente porque Lazarus/FPC não estão disponíveis aqui. Testar primeiro LazRibbonRuntime.lpk.

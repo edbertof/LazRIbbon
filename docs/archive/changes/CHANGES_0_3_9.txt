@@ -1,0 +1,15 @@
+LazRibbon 0.3.9
+================
+
+Correção incremental do TLazRibbonForm.
+
+1. O ícone do formulário/projeto agora é desenhado explicitamente na barra de título customizada.
+   - Primeiro tenta usar Form.Icon.
+   - Se Form.Icon estiver vazio, usa Application.Icon como fallback.
+
+2. A Quick Access Toolbar em qapTitleBar agora começa após o ícone do formulário, preservando a ordem visual padrão do Windows/DevExpress:
+   ícone do projeto -> QAT -> título -> botões Minimizar/Maximizar/Fechar.
+
+3. O desenho do ícone usa StretchDraw em uma área 16x16, evitando que ícones maiores invadam a área da QAT.
+
+Pacotes atualizados para 0.3.9.

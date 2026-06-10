@@ -1,0 +1,39 @@
+LazRibbon 0.1.37
+
+Foco: QuickAccessToolBar como lista configurável de atalhos para Actions.
+
+Mudanças principais:
+
+1. TLazRibbonQuickAccessToolBar ganhou integração com TActionList para o menu de customização:
+   - CustomizeActionList: TCustomActionList
+   - CustomizeMenuTitle: String
+   - MoreCommandsCaption: String
+   - ShowMoreCommandsItem: Boolean
+   - OnMoreCommandsClick: TNotifyEvent
+
+2. O botão de customização da QuickAccessToolBar agora pode abrir um menu automático,
+   semelhante ao menu do Office/Word, listando as ações disponíveis e marcando as que já
+   estão presentes na barra.
+
+3. Novos métodos públicos:
+   - AddAction(AAction)
+   - RemoveAction(AAction)
+   - ToggleAction(AAction)
+   - ContainsAction(AAction)
+   - FindItemByAction(AAction)
+   - SaveToIniFile(...)
+   - LoadFromIniFile(...)
+
+4. Persistência em arquivo INI:
+   A lista salva os nomes das Actions configuradas na QuickAccessToolBar, permitindo que a
+   escolha do usuário final seja restaurada na próxima execução.
+
+5. O demo demos/quick_access_toolbar foi ajustado para:
+   - usar ActionList como fonte dos comandos;
+   - usar CustomizeActionList;
+   - salvar/carregar a configuração da QuickAccessToolBar em INI;
+   - demonstrar o item "Mais Comandos...".
+
+Observação:
+Esta versão reforça a filosofia correta: a QuickAccessToolBar não cria comandos próprios;
+ela apenas referencia Actions já existentes no sistema.

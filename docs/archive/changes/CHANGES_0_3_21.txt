@@ -1,0 +1,33 @@
+LazRibbon 0.3.21
+=================
+
+Foco: refinamento visual e estrutural inicial do BackStage.
+
+Alterações principais:
+
+1. Botão Voltar do BackStage
+   - Reduzido o tamanho padrão do botão circular.
+   - O estado normal ficou mais discreto.
+   - O preenchimento interno agora aparece apenas em hover/pressed.
+   - O glifo da seta passa a usar contraste derivado da cor real do botão.
+
+2. Itens laterais do BackStage
+   - Reduzida a altura mínima dos itens de página de 50 para 44 px.
+   - A indicação lateral da página ativa ficou menos grosseira.
+   - A seta/conector entre navegação e conteúdo ficou mais estreita e respeita melhor o skin.
+
+3. Contraste de texto
+   - Criada rotina interna para texto desabilitado com contraste mínimo legível.
+   - Itens desabilitados deixam de desaparecer em skins claros ou combinações de cor ruins.
+   - As legendas dos itens agora calculam contraste contra a superfície real do item.
+
+4. Área de conteúdo do BackStage
+   - TLazRibbonBackstagePage agora desenha título e mensagem discreta quando a página não possui controles.
+   - Isso evita a aparência de painel completamente vazio durante desenvolvimento e demos.
+
+5. Demo ribbon_form
+   - A página "Recentes" agora inclui um TLazRibbonBackstageRecentList com itens de exemplo.
+   - O RecentList usa o mesmo SkinManager do Ribbon.
+
+Observação:
+- A lógica de fechamento estabilizada na 0.3.18 não foi alterada.

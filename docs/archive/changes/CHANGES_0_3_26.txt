@@ -1,0 +1,10 @@
+LazRibbon 0.3.26
+
+Foco: correção da legibilidade do item ativo no BackStage.
+
+Alterações:
+- O texto do item ativo do BackStage passa a ser calculado a partir da superfície real pintada atrás da legenda, e não apenas da cor ActiveColor nominal do skin.
+- Criadas funções internas para resolver o par fundo/texto do item ativo.
+- O texto preferencial do skin é preservado quando tem contraste suficiente; caso contrário o componente escolhe automaticamente preto ou branco conforme a luminância do fundo.
+- Removida a estratégia anterior de forçar texto branco no item ativo, que falhava em skins claros.
+- Não houve alterações na lógica de fechamento da janela.

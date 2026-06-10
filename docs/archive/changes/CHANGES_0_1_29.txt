@@ -1,0 +1,5 @@
+# LazRibbon 0.1.29
+
+- Corrige o fechamento do BackStage ao clicar na aba atualmente selecionada do Ribbon.
+- O problema aparecia quando o BackStage era aberto por uma aba/atalho "Arquivo" enquanto a aba real selecionada continuava sendo, por exemplo, "Página Inicial".
+- Adicionado HandleRibbonTabClick em LazRibbon_BackstageBase para permitir que TLazRibbon notifique o BackStage mesmo quando não ocorre mudança de TabIndex.

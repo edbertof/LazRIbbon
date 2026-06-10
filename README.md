@@ -1,0 +1,222 @@
+﻿# LazRibbon
+
+LazRibbon is a Lazarus/Free Pascal component package for building Office-like Ribbon interfaces in LCL applications.
+
+The package is an independent Lazarus-oriented fork/refactoring derived from LazToolbar concepts. The current codebase includes runtime Ribbon controls, design-time editors, BackStage support, Quick Access Toolbar support, a custom Ribbon form shell, skins, skin selection components, and a skin editor tool.
+
+## Main components
+
+Runtime components include:
+
+- `TLazRibbon`
+- `TLazRibbonPopupMenu`
+- `TLazRibbonBackstageView`
+- `TLazRibbonBackstagePage`
+- `TLazRibbonBackstageRecentList`
+- `TLazRibbonSkinManager`
+- `TLazRibbonSkinSelector`
+- `TLazRibbonSkinGalleryItem`
+- `TLazRibbonForm`
+
+Design-time support is provided by `LazRibbonDesign.lpk`.
+
+## Design-time quick creation
+
+When `LazRibbonDesign.lpk` is installed in Lazarus, selecting a `TLazRibbon` exposes component-editor verbs such as:
+
+- `Contents editor...`
+- `Add basic tab`
+- `Add contextual tab`
+- `Add starter Ribbon layout`
+- `Validate KeyTips`
+
+`Add basic tab` creates a starter tab with one pane, one large command and one small command. `Add contextual tab` creates a visible contextual tab with `Contextual = True`, a group caption, a contextual color and one starter command. `Add starter Ribbon layout` creates a fuller Office-like scaffold with tabs, panes, starter commands, KeyTips, ScreenTips and title-bar QAT entries. `Validate KeyTips` audits missing, duplicated and prefix-ambiguous KeyTips in the staged overlay model. These verbs are intended as scaffolding only; developers should rename captions, assign actions, images and shortcuts according to the application.
+
+## Package layout
+
+```text
+packages/
+  LazRibbonRuntime.lpk
+  LazRibbonDesign.lpk
+source/runtime/
+  Runtime component units
+source/design/
+  Design-time registration and editors
+demos/
+  Example projects
+tools/LazRibbonSkinEditor/
+  Skin editor application
+```
+
+## Current version
+
+This distribution is **LazRibbon 1.1.75 Skin Editor Appearance inspector pass**.
+
+The stable 1.0.0 line remains the conservative baseline for production use. The 1.1 line is a controlled stabilization line now validated with Lazarus 4.8, with the 1.1.70 runtime behavior preserved and the 1.1.72 packaging/design-time polish applied on top. The 1.1.75 build expands the Skin Editor Appearance inspector while keeping runtime UI behavior unchanged.
+
+Highlights in the current 1.1 line:
+
+- Office-style BackStage overlay modes, including full-client-area coverage.
+- Quick Access Toolbar support, including title-bar hosting in `TLazRibbonForm`.
+- ScreenTips, staged KeyTips, multi-character KeyTips and a design-time KeyTip validator.
+- Contextual tabs with optional contextual group headers.
+- Built-in and external `.skin` loading through `TLazRibbonSkinManager`, with `SkinFolder = '.\Skins'` as the default external folder.
+- Skin XML icon embedding through `Icon16Data`, `Icon24Data` and `Icon32Data`, while keeping the legacy file-name tags for compatibility.
+- Expanded Skin Editor Appearance inspector with all-section browsing, filtering and broader RTTI property editing.
+- A showcase demo that combines Ribbon form chrome, QAT, BackStage, recent files, skins, ScreenTips, KeyTips and contextual tabs.
+- Release scripts that audit package versions, demo GUI mode and generated artifacts before creating a source ZIP.
+- GitHub-oriented contribution, validation and publishing documentation.
+
+Detailed version history lives in `CHANGELOG.md`; current stability notes and recommended next steps live in `STATUS.md`.
+
+## ScreenTips
+
+Ribbon items now support richer ScreenTip metadata while preserving the old `Hint` behavior.
+
+Use these properties on Ribbon items such as `TLazRibbonLargeButton` and `TLazRibbonSmallButton`. The same fields are also available on `TLazRibbonQuickAccessItem` and `TLazRibbon.ApplicationButton`:
+
+```pascal
+LazRibbonLargeButtonNew.Hint := 'Cria um novo documento.';
+LazRibbonLargeButtonNew.ScreenTipTitle := 'Novo';
+LazRibbonLargeButtonNew.ScreenTipText := 'Cria um novo documento usando o modelo padrÃ£o.';
+LazRibbonLargeButtonNew.ScreenTipShortcut := 'Ctrl+N';
+LazRibbonLargeButtonNew.ScreenTipFooter := 'Exemplo de ScreenTip enriquecido.';
+```
+
+When all ScreenTip fields are empty, LazRibbon uses the regular `Hint` exactly as before. Set `ShowScreenTip := False` to force legacy hint behavior even when ScreenTip fields were filled.
+
+## BackStage overlay modes
+
+`TLazRibbonBackstageView.OverlayMode` controls how the BackStage is positioned when opened from a linked `TLazRibbon`:
+
+- `bomCoverRibbonArea`: default compatibility mode; keeps Ribbon tab captions visible.
+- `bomCoverClientArea`: covers the full parent client area, matching newer Office BackStage behavior.
+
+For the newer Office-style behavior, set:
+
+```pascal
+LazRibbonBackstageView1.OverlayMode := bomCoverClientArea;
+```
+
+When used inside `TLazRibbonForm`, the custom title bar remains visible and interactive while the BackStage fills the form content.
+
+## Installation summary
+
+1. Open Lazarus 4.8.
+2. Open `packages/LazRibbonRuntime.lpk`.
+3. Compile the runtime package.
+4. Open `packages/LazRibbonDesign.lpk`.
+5. Compile and install the design-time package.
+6. Rebuild/restart Lazarus when prompted.
+7. Check the `LazRibbon` component palette.
+
+Detailed steps are in `INSTALL.md`.
+
+## Recommended demos
+
+After installation, test at least:
+
+- `demos/showcase/project1.lpi`
+- `demos/basic/project1.lpi`
+- `demos/skins_gallery/project1.lpi`
+- `demos/backstage/project1.lpi`
+- `demos/backstage_recent_files/project1.lpi`
+- `demos/ribbon_form/project1.lpi`
+- `demos/skin_editor_sample/project1.lpi`
+
+
+## Demo overview
+
+The demos are intended as both examples and manual regression checks for Lazarus 4.8:
+
+- `showcase`: visual smoke test combining `TLazRibbonForm`, title-bar QAT, Ribbon, BackStage, recent list, SkinManager, SkinGallery, ScreenTips, KeyTips and contextual tabs.
+- `basic`: tabs, panes and common items.
+- `actions`: action-linked Ribbon items.
+- `backstage`: BackStage pages and commands.
+- `backstage_recent_files`: recent-files list integration.
+- `quick_access_toolbar`: QAT behavior.
+- `ribbon_form`: custom Ribbon form shell.
+- `skins_gallery`: SkinManager, selector and gallery behavior.
+- `skin_editor_sample`: sample skin file and editor-related scenario.
+
+## Windows demo subsystem
+
+All demo projects are configured as Windows GUI applications through `GraphicApplication=True` in their `.lpi` files. This avoids the extra console/DOS window when running demos on Windows and prevents confusion with taskbar minimize/restore behavior.
+
+For `TLazRibbonForm`, the custom title-bar minimize button uses the native Windows minimize system command when available, so restore from the taskbar should behave like a normal sizeable application window.
+
+## Development status
+
+See `STATUS.md` for the current technical status, known limitations, and recommended next steps.
+
+## Repository docs
+
+- `CONTRIBUTING.md`: contribution and validation expectations.
+- `docs/quality/VALIDATION_LAZARUS_4_8.md`: Lazarus 4.8 release validation checklist.
+- `docs/release/GITHUB_PUBLISHING.md`: public repository and GitHub release checklist.
+- `docs/assets/screenshots/`: recommended location for public README screenshots.
+
+## License
+
+The package preserves the Modified LGPL / linking-exception licensing model inherited from LazToolbar where applicable. See `LICENSE.txt` and source file headers.
+
+
+## Official target environment
+
+LazRibbon is currently developed and validated for:
+
+- Lazarus 4.8
+- The Free Pascal version bundled with Lazarus 4.8
+- LCL applications
+- Windows as the primary validation platform
+
+Lazarus 4.6 was the previous validation target and may still work, but the active support target for the current 1.1 stabilization line is Lazarus 4.8.
+
+## Release hygiene
+
+Source ZIPs should contain source, package files, demos, tools and documentation only. Generated binaries, compiler output and Lazarus user-environment files such as `packagefiles.xml` should be excluded. Before packaging, run:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File tools/build_release_zip.ps1
+```
+
+The release builder creates a source ZIP and runs `tools/check_release_zip.ps1` against it.
+
+## Publishing on GitHub
+
+Before creating a public release, run the checklist in `docs/quality/VALIDATION_LAZARUS_4_8.md` and follow `docs/release/GITHUB_PUBLISHING.md`. Add screenshots under `docs/assets/screenshots/` when they are available, then reference them from this README.
+
+
+## 1.1 development line
+
+The 1.1 line is reserved for controlled architectural stabilization. The first priorities are:
+
+- keep Lazarus 4.8 as the official target;
+- preserve 1.0.0 behavior unless a change is deliberate and tested;
+- reduce unsafe coupling gradually;
+- plan interfaces before refactoring `LazRibbon_Core.pas`;
+- avoid broad compiler-mode conversion until regression checks are stronger.
+
+See `docs/release/ROADMAP_1_1.md`.
+
+
+
+### Contextual tabs
+
+`TLazRibbonTab` exposes contextual-tab metadata: `Contextual`, `ContextualGroupCaption`, and `ContextualColor`. When `Contextual = True`, the tab is drawn with a tinted face, a colored accent strip, a contextual bottom line and contextual text accent.
+
+`TLazRibbon` also exposes explicit contextual visibility helpers: `ShowContextualTabs`, `HideContextualTabs`, `SetContextualTabsVisible`, `HideAllContextualTabs`, and `ContextualTabsVisible`. The group caption is matched against `TLazRibbonTab.ContextualGroupCaption`; passing an empty group caption affects all contextual tabs.
+
+Example:
+
+```pascal
+LazRibbon1.ShowContextualTabs('Ferramentas de Imagem', True);
+LazRibbon1.HideContextualTabs('Ferramentas de Imagem');
+```
+
+This remains explicit application logic. The Ribbon does not try to infer which object is selected. Automatic group-header layout is deferred to a later release.
+
+### KeyTips
+
+The `TLazRibbon.ShowKeyTips` property enables the lightweight KeyTips overlay. With the Ribbon focused, press `Alt` to show/hide KeyTips and `Esc` to hide them. `KeyTip` metadata can be set on the Application Button, tabs, Quick Access Toolbar items and Ribbon items. In 1.1.46 the keyboard path activates the Application Button, tabs, QAT items and visible/enabled command items in the active tab. In 1.1.47 the visual overlay also covers QAT items hosted by `TLazRibbonForm` in the custom title bar. Button, button-dropdown and toggle items execute through `TLazRibbonBaseItem.ExecuteKeyTip`; pure dropdown buttons open their dropdown menu when available.
+

@@ -1,0 +1,24 @@
+LazRibbon 0.1.22
+=================
+
+Foco: refinamento visual e de usabilidade do BackStage.
+
+Alterações principais:
+
+1. Painel lateral do BackStage
+   - Navegação redesenhada para reduzir aparência de blocos sólidos.
+   - Itens de página recebem superfície ativa/hover com gradiente sutil.
+   - Página ativa passa a ter barra de destaque à esquerda e conector visual com a área de conteúdo.
+   - Comandos diretos usam desenho mais discreto e menor, diferenciando-os das páginas.
+   - Separadores e seção inferior foram suavizados.
+
+2. Demo BackStage
+   - O demo demos/backstage foi transformado em um exemplo mais realista.
+   - Inclui páginas: Informações, Novo, Abrir e Imprimir.
+   - Inclui comandos diretos: Salvar, Opções e Sair.
+   - Demonstra o uso da coleção Buttons para diferenciar páginas, comandos e separadores.
+
+3. Compatibilidade
+   - Não foram adicionadas dependências novas.
+   - A propriedade BackstageView do TLazRibbon continua sendo o ponto de integração principal.
+   - Mantém compatibilidade com a versão 0.1.21 para o uso básico do BackStage.

@@ -1,0 +1,12 @@
+LazRibbon 0.3.25
+================
+
+Correção focada no BackStage.
+
+- Corrigido o caso em que a opção ativa do menu lateral do BackStage, como
+  "Recentes", ficava quase invisível em alguns skins claros.
+- O item ativo do BackStage agora usa uma superfície de seleção baseada em
+  cor de destaque real, evitando fundo quase branco.
+- O texto do item ativo passa a ser branco e não herda mais cor esmaecida,
+  desabilitada ou muito clara do skin.
+- O botão Voltar e a lógica de fechamento da janela não foram alterados.

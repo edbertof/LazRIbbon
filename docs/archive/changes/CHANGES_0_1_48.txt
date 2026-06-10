@@ -1,0 +1,6 @@
+LazRibbon 0.1.48
+
+- Adicionado HelpButton no lado direito da faixa de abas.
+- Novas propriedades em TLazRibbon: ShowHelpButton, HelpButtonHint e OnHelpButtonClick.
+- O HelpButton possui estados normal, hover e pressed e usa cores do skin/aparência.
+- O botão de ajuda integra-se ao hit-test, hints e ciclo de mouse do Ribbon.

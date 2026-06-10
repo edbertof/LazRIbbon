@@ -1,0 +1,12 @@
+LazRibbon 0.3.47
+
+Correções no BackStage:
+
+- Corrigida a instabilidade visual do item de página selecionado.
+- O item selecionado agora é identificado também pela página associada, não apenas pelo índice de navegação.
+- O item de página selecionado usa superfície neutra/conectada à área de conteúdo, sem reaproveitar ActiveColor/HotColor/acento do skin.
+- Hover de outros itens não deve mais alterar a aparência do item selecionado.
+- Paletas embutidas ajustadas para que BackstageNavSelectedColor seja neutra nos skins claros e próxima da superfície de conteúdo nos skins escuros.
+- Mantida a proteção de contraste WCAG 4,5:1.
+
+Não foram alterados TLazRibbonForm, TitleBar, QAT ou a lógica de fechamento da janela.

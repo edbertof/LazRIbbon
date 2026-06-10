@@ -1,0 +1,21 @@
+LazRibbon 0.3.28
+==================
+
+BackStage navigation color strategy
+-----------------------------------
+
+This version stops deriving the active BackStage navigation item only from the
+generic skin ActiveColor/TextColor pair. That strategy was fragile because those
+colors are shared by other Ribbon surfaces and produced unreadable active items
+in some light and dark skins.
+
+Changes:
+- TLazRibbonSkinPalette now has explicit BackStage navigation colors:
+  BackstageNavColor, BackstageNavTextColor, BackstageNavMutedTextColor,
+  BackstageNavHoverColor, BackstageNavHoverTextColor,
+  BackstageNavSelectedColor, BackstageNavSelectedTextColor, and
+  BackstageNavSelectedFrameColor.
+- Built-in skins define a stable selected-background/selected-text pair.
+- TLazRibbonBackstageView uses these explicit colors when a SkinManager is used.
+- XML and legacy .lazskin loading/saving understand the new BackStage palette keys.
+- The window closing logic from 0.3.18 was not changed.

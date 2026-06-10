@@ -1,0 +1,29 @@
+# LazRibbon 0.1.26
+
+Foco: BackStage como extensão dos comandos do Ribbon.
+
+Alterações principais:
+
+- TLazRibbonBackstageButton ganhou a propriedade LinkedItem.
+  - Permite vincular um botão do BackStage a um item do Ribbon.
+  - Quando LinkedItem é informado, o botão herda Caption, Hint, Enabled, Visible, ImageIndex/LargeImageIndex e Action quando disponíveis.
+  - Ao clicar, executa a Action do item vinculado ou o OnClick do item.
+
+- TLazRibbonBackstageButton ganhou a propriedade BeginGroup.
+  - Desenha separação visual antes do item.
+  - Útil para criar grupos como no modelo DevExpress.
+
+- O item ativo de página no BackStage ganhou uma indicação lateral em forma de ponta/seta para a área de conteúdo.
+  - Isso diferencia melhor páginas de comandos diretos.
+
+- A área de conteúdo do BackStage em estilo Office foi levemente deslocada para acomodar a ponta do item ativo.
+
+- O editor de coleção passa a exibir nomes mais úteis quando possível, usando EffectiveCaption e fallback para Página/Comando/Separador.
+
+- O demo demos/backstage_recent_files foi atualizado para usar TActionList, Action e LinkedItem.
+  - Novo e Abrir são comandos do Ribbon reaproveitados no BackStage via LinkedItem.
+  - Fechar usa Action desabilitada.
+  - Sair usa Action.
+  - Recentes usa BeginGroup.
+
+Observação: esta versão não inicia o TLazRibbonForm. O foco continua sendo estabilizar BackStage, SkinManager e demos antes da customização da janela.

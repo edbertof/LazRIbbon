@@ -1,0 +1,5 @@
+LazRibbon 0.3.11
+
+- Corrigida falha de compilação em LazRibbon_Form.pas causada por conflito de identificadores no Windows.
+- Chamadas isoladas Rect(...) e Point(...) da barra de título foram qualificadas como Types.Rect(...) e Types.Point(...).
+- Mantidas as alterações da 0.3.10 para busca/desenho do ícone do projeto antes da QAT.

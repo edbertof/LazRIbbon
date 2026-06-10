@@ -1,0 +1,9 @@
+LazRibbon 0.1.10
+
+Correção do sistema de skins:
+- TLazRibbonSkinManager agora aplica a paleta ao objeto Appearance antes de notificar os controles.
+- Os skins built-in agora geram uma Appearance coerente com suas cores, inclusive OfficeBlack/MetroDark.
+- TLazRibbonSkinDefinition.ResetToBuiltInSkin agora chama ApplyPaletteToAppearance.
+- Alterações nas cores publicadas do SkinManager passam a atualizar Appearance, não apenas Palette.
+
+Objetivo: evitar o problema em que apenas a barra superior do Ribbon ficava escura, enquanto panes, botões e textos continuavam com a aparência clara.

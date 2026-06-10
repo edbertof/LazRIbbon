@@ -1,0 +1,20 @@
+LazRibbon 0.1.49
+
+Foco: refinamento visual dos estados dos botões do Ribbon.
+
+Alterações:
+- TLazRibbonSmallButton agora usa HideFrameWhenIdle=True como padrão, aproximando o comportamento visual ao padrão Office: botões pequenos ficam planos em repouso e ganham moldura/fundo em hover/pressed.
+- Estados disabled dos botões grandes e pequenos passaram a usar cores derivadas do Skin/Appearance, com texto e moldura suavizados em vez de apenas cinza simples.
+- Botões pressionados ganharam deslocamento visual sutil de 1px no ícone/texto/seta, dando melhor feedback de clique.
+- Mantida compatibilidade das propriedades existentes; projetos antigos que gravaram HideFrameWhenIdle=False no .lfm continuam com esse comportamento.
+
+Teste sugerido:
+- demos/basic
+- demos/quick_access_toolbar
+- demos/backstage_recent_files
+
+Verificar especialmente:
+- botões pequenos em repouso, hover e pressed;
+- botões desabilitados em skins claros e escuros;
+- botões dropdown;
+- toggle/checked quando disabled.

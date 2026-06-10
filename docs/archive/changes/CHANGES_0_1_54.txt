@@ -1,0 +1,19 @@
+LazRibbon 0.1.54
+
+Foco: maturidade da QuickAccessToolBar.
+
+Alterações:
+- TLazRibbonQuickAccessToolBar ganhou propriedades de controle de personalização:
+  * AllowCustomizing
+  * AllowQuickCustomizing
+  * AllowReset
+  * AllowPositionChange
+  * AllowMinimizeRibbon
+- TLazRibbonQuickAccessToolBar ganhou propriedade Images: TCustomImageList.
+  Se Images estiver definida, a QAT usa essa lista própria antes de recorrer ao Images do Ribbon.
+- O menu da QAT agora respeita as propriedades Allow*.
+- SaveToIniFile/LoadFromIniFile passam a preservar também as permissões Allow*.
+
+Observação:
+- Items continua representando os itens padrão definidos em design-time.
+- CustomizeActionList continua sendo o catálogo de ações disponíveis para personalização pelo usuário.

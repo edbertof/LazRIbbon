@@ -1,0 +1,19 @@
+LazRibbon 0.3.29
+================
+
+Correção de design-time do demo ribbon_form.
+
+Alterações:
+- TLazRibbonForm agora é registrado no IDE como designer base class via FormEditingHook.RegisterDesignerBaseClass(TLazRibbonForm).
+- Isso permite que formulários declarados como class(TLazRibbonForm) sejam abertos no designer visual do Lazarus, em vez de o .lfm aparecer apenas como texto.
+- Mantido RegisterClass(TLazRibbonForm) para streaming.
+- Não houve alteração na lógica de fechamento da janela nem no desenho do BackStage.
+
+Procedimento recomendado:
+1. Fechar o Lazarus.
+2. Apagar a pasta lib do pacote.
+3. Compilar LazRibbonRuntime.lpk.
+4. Compilar LazRibbonDesign.lpk.
+5. Instalar/reinstalar LazRibbonDesign.lpk.
+6. Reiniciar o Lazarus.
+7. Reabrir demos\ribbon_form\project1.lpi e usar F12 ou Exibir Formulário.

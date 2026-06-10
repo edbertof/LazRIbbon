@@ -1,0 +1,5 @@
+LazRibbon 0.1.52
+
+Correção pontual da versão 0.1.51:
+- declarados na classe TLazRibbonBackstageButtons os métodos auxiliares AddCommand, AddPage e AddSeparator, que já estavam implementados na seção implementation.
+- a falha gerava "method identifier expected" em LazRibbon_Backstage.pas ao compilar o pacote runtime.

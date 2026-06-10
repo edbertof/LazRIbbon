@@ -1,0 +1,10 @@
+LazRibbon 0.3.1
+
+Correção pontual da primeira implementação de TLazRibbonForm.
+
+Alterações:
+- Corrigida a compilação de LazRibbon_Form.pas no Lazarus/FPC.
+- Adicionada a unit Math ao uses de LazRibbon_Form.pas para disponibilizar Max/Min.
+- Atualizados LazRibbonRuntime.lpk e LazRibbonDesign.lpk para 0.3.1.
+
+Esta versão não altera comportamento visual. É uma correção de compilação da 0.3.0.

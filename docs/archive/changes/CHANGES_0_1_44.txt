@@ -1,0 +1,5 @@
+LazRibbon 0.1.44
+
+Correção de compilação no LazRibbon_Core.pas: a rotina interna DrawBelowRibbonStrip não usa mais a variável de laço I do escopo externo. Foi criada uma variável local J para evitar o erro do FPC: Illegal counter variable.
+
+Base: 0.1.43.

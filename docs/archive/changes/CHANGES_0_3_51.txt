@@ -1,0 +1,5 @@
+LazRibbon 0.3.51
+
+- Fixes BackStage navigation hover/selection inconsistency.
+- Buttons with Page assigned are now treated as page navigation items even if older .lfm files persisted Kind=bbkCommand.
+- Normalizes the ribbon_form demo so the Abrir BackStage entry is a page item.

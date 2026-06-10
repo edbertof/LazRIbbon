@@ -1,0 +1,14 @@
+LazRibbon 0.3.22
+=================
+
+BackStage visual refinement pass.
+
+Changes:
+- Improved the selected BackStage navigation item contrast.
+- Active BackStage item captions now stay readable even when the item/page is disabled or exposes a pale caption color through the linked Ribbon appearance.
+- Strengthened selected-item fill and border in light skins.
+- Made the BackStage return button more compact.
+- Reworked the return button idle state: faint ring plus clean chevron instead of a heavier filled button.
+- Simplified the BackStage chevron drawing to avoid the previous character-like/shadowed look.
+
+No changes were made to the TLazRibbonForm closing/destruction logic stabilized in 0.3.18.

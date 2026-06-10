@@ -1,0 +1,15 @@
+LazRibbon 0.3.10
+================
+
+Correção do ícone da janela no TLazRibbonForm:
+
+- A barra de título customizada agora tenta obter o ícone nesta ordem:
+  1) Form.Icon;
+  2) Application.Icon;
+  3) no Windows, ícone associado ao HWND via WM_GETICON;
+  4) no Windows, ícone da classe da janela;
+  5) no Windows, recurso MAINICON do executável.
+
+Isso corrige o caso em que BorderStyle=bsNone remove a barra de título nativa e o ícone do projeto deixa de aparecer antes da Quick Access Toolbar.
+
+Observação: se o projeto não possuir ícone definido em Projeto > Opções do Projeto > Aplicação, não haverá ícone de projeto para recuperar; nesse caso a QAT continuará iniciando no canto esquerdo.

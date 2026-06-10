@@ -1,0 +1,16 @@
+LazRibbon 0.3.3
+================
+
+Correção de compilação no Lazarus 4.6 / FPC:
+
+- LazRibbon_Form.pas
+  - Substituído LM_CLOSE por WM_CLOSE no PostMessage usado pelo botão Fechar
+    customizado do TLazRibbonForm.
+  - Motivo: LM_CLOSE não está definido neste contexto/versão do Lazarus, gerando
+    erro de compilação "Identifier not found LM_CLOSE".
+  - WM_CLOSE é a constante correta para solicitar fechamento da janela via
+    mensagem postada ao handle do formulário.
+
+- Pacotes atualizados para versão 0.3.3:
+  - packages/LazRibbonRuntime.lpk
+  - packages/LazRibbonDesign.lpk

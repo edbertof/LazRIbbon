@@ -1,0 +1,11 @@
+LazRibbon 0.1.50
+
+Correções:
+- Corrige possível Access Violation no fechamento de demos/aplicações que usam QuickAccessToolBar com Actions e LinkedItem.
+- TLazRibbonQuickAccessItem agora unregisters FreeNotification no destructor.
+- TLazRibbonQuickAccessToolBar não zera referências antes da destruição dos itens, evitando referências penduradas.
+- ClearReferencesToComponent não força repaint/Changed durante destruição do TLazRibbon.
+
+Melhoria:
+- TLazRibbonBackstageRecentList ganhou ScrollBarWidth, padrão 12, para uma barra de rolagem mais discreta.
+- A lista desenha um separador sutil derivado do skin ao lado da scrollbar.

@@ -1,0 +1,19 @@
+LazRibbon 0.1.35
+=================
+
+Foco: refinamento inicial da QuickAccessToolBar.
+
+Alterações:
+- TLazRibbonQuickAccessToolBar ganhou a propriedade ButtonFrameStyle.
+  - qfsHotOnly: estilo padrão; botões ficam planos e mostram moldura apenas no hover/pressed.
+  - qfsAlways: preserva comportamento anterior, com face sempre desenhada.
+- TLazRibbonQuickAccessToolBar ganhou ButtonSize.
+  - 0 = tamanho automático calculado a partir da altura das abas.
+  - valores > 0 permitem controlar manualmente o tamanho dos botões.
+- TLazRibbonQuickAccessToolBar ganhou Spacing.
+  - controla o espaçamento horizontal entre botões.
+- O visual idle da QuickAccessToolBar ficou menos pesado, mais próximo de uma barra de acesso rápido de Ribbon.
+
+Compatibilidade:
+- A coleção Items, Action, LinkedItem e ShowCustomizeButton foram preservados.
+- Para recuperar o visual anterior, configure ButtonFrameStyle = qfsAlways.

@@ -1,0 +1,30 @@
+LazRibbon 0.3.0
+================
+
+Marco inicial da fase TLazRibbonForm.
+
+Novidades:
+- Nova unit runtime: source/runtime/LazRibbon_Form.pas.
+- Nova classe: TLazRibbonForm = class(TForm).
+- Barra de título customizada inicial desenhada em área cliente.
+- Propriedades iniciais:
+  - Ribbon
+  - SkinManager
+  - UseCustomTitleBar
+  - TitleBarHeight
+  - ShowSystemButtons
+  - TitleAlignment
+- Botões de sistema desenhados pelo componente:
+  - minimizar
+  - maximizar/restaurar
+  - fechar
+- Arraste da janela pela barra de título customizada.
+- Integração visual básica com TLazRibbonSkinManager.
+- Novo demo em design-time:
+  - demos/ribbon_form
+
+Limitações conhecidas:
+- Esta primeira versão não implementa desenho nativo da área não-cliente.
+- A barra de título é um controle cliente interno, não uma substituição completa do frame do Windows.
+- Ainda não há integração avançada da QAT na barra de título.
+- Aero Snap, DPI avançado, múltiplos monitores e bordas redimensionáveis customizadas ficam para versões futuras.

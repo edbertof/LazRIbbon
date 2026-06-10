@@ -1,0 +1,5 @@
+LazRibbon 0.1.32
+
+- Demos novos/refinados convertidos para interface em design-time (.lfm).
+- application_button, popup_menu, skins_gallery, backstage e backstage_recent_files agora expõem os componentes principais no Object Inspector.
+- O código dos demos ficou restrito a eventos e pequenas ações, não mais à montagem visual completa em FormCreate.

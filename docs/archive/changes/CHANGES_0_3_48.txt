@@ -1,0 +1,8 @@
+LazRibbon 0.3.48
+
+Correção de compilação introduzida na 0.3.47.
+
+- Corrigida a declaração de ActivePaintPage em LazRibbon_Backstage.pas.
+- ActivePaintPage agora pertence ao escopo do Paint, onde é usado para identificar a página ativa por identidade.
+- Removida a declaração acidental de ActivePaintPage de GetNavItemHeight.
+- Nenhuma alteração em TLazRibbonForm, TitleBar, QAT ou lógica de fechamento.

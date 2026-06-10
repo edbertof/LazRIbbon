@@ -1,0 +1,19 @@
+LazRibbon license notice
+========================
+
+LazRibbon is an independent Lazarus/Free Pascal package derived from LazToolbar concepts and code lineage.
+
+Where source files contain original LazToolbar notices, those notices are preserved. The package metadata and source headers identify the inherited license model as:
+
+  Modified LGPL with linking exception, similar in spirit to the Lazarus LCL license model.
+
+Practical meaning for users of the component package:
+
+- You may use the compiled package in applications, including proprietary applications, subject to the linking exception and the preserved notices.
+- Modifications to the package source itself should preserve copyright and license notices.
+- Redistributing the package source should include this license file and source headers.
+- Third-party resources, icons, or skins added by users may have their own licenses and are not automatically covered by this notice.
+
+Important:
+
+This file is a project-level license notice intended to restore the missing `license.txt` referenced by several source headers. If a source file contains a more specific license or copyright notice, preserve that notice.

@@ -1,0 +1,25 @@
+LazRibbon 0.3.18
+================
+
+Correções focadas no Access Violation ao fechar TLazRibbonForm.
+
+1. TLazRibbonForm agora possui um estado interno FClosingFromTitleBar.
+   Isso impede que a TitleBar customizada continue consultando o formulário
+   durante o fechamento iniciado pelo botão X customizado.
+
+2. O fechamento pelo botão X agora passa por RequestCloseFromTitleBar.
+   Essa rotina solta a captura do mouse, desabilita a TitleBar e só então
+   posta WM_CLOSE para o formulário.
+
+3. TLazRibbonTitleBar libera MouseCapture no destrutor e remove referências
+   ao formulário antes de liberar recursos internos.
+
+4. TLazRibbon.Notification agora evita atualizar Tabs, Panes, QAT e menus
+   quando o Ribbon já está em destruição. Durante a destruição ele apenas
+   limpa referências diretas seguras.
+
+5. Foram acrescentadas saídas defensivas em rotinas de mouse da QAT e dos
+   botões de minimizar/restaurar Ribbon quando o TLazRibbon está destruindo.
+
+Esta versão preserva a QAT na barra de título e o ícone da aplicação antes
+da QAT.

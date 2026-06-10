@@ -1,0 +1,8 @@
+LazRibbon 0.1.42
+
+Correção da QuickAccessToolBar quando posicionada abaixo da Faixa de Opções.
+
+- Corrigido o roteamento de mouse/hit-test da QuickAccessToolBar.
+- A QAT agora é testada antes das regiões genéricas de Tabs/TabContents.
+- Isso corrige o caso em que, após selecionar "Mostrar Abaixo da Faixa de Opções", os botões da QAT deixavam de responder.
+- Mantidas as correções de acentuação e menu persistente da 0.1.41.

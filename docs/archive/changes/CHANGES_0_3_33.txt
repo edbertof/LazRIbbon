@@ -1,0 +1,10 @@
+LazRibbon 0.3.33
+
+Correção do contraste do item ativo do BackStage.
+
+- O item ativo agora usa uma única cor efetiva de superfície selecionada, calculada antes do desenho.
+- DrawNavFill e TextRect usam o mesmo fundo de referência para resolver contraste.
+- A correção deixa de confiar cegamente na cor SelectedTextColor do skin quando ela não contrasta com a superfície real.
+- Repara skins claros em que o texto ficava branco sobre seleção quase branca.
+- Repara skins escuros em que o texto podia ficar preto sobre seleção escura.
+- Não altera a lógica de fechamento da janela, TitleBar, QAT ou registro design-time.

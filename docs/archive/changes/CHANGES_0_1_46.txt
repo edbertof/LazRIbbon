@@ -1,0 +1,19 @@
+LazRibbon 0.1.46
+================
+
+Foco: minimizar/restaurar a Faixa de Opções.
+
+Alterações:
+- Nova propriedade TLazRibbon.RibbonMinimized.
+- Novo evento TLazRibbon.OnRibbonMinimizedChanged.
+- Quando RibbonMinimized=True, os panes/groups ficam ocultos e permanecem visíveis apenas as abas e a QuickAccessToolBar.
+- O menu de personalização da QuickAccessToolBar agora pode exibir o comando "Minimizar a Faixa de Opções" / "Restaurar a Faixa de Opções".
+- Novas propriedades em QuickAccessToolBar:
+  * ShowMinimizeRibbonMenuItem
+  * MinimizeRibbonCaption
+  * RestoreRibbonCaption
+- SaveToIniFile/LoadFromIniFile da QuickAccessToolBar passam a persistir RibbonMinimized.
+
+Teste principal:
+- demos\quick_access_toolbar\project1.lpi
+- Abrir menu da QAT, escolher "Minimizar a Faixa de Opções", confirmar que os panes somem, depois restaurar.

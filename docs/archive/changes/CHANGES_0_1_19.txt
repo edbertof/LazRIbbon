@@ -1,0 +1,19 @@
+LazRibbon 0.1.19
+
+Correções no BackStage:
+
+1. TLazRibbonBackstageView.ShowCloseButton agora vem ativado por padrão.
+   BackStage associado ao TLazRibbon pela propriedade BackstageView também força
+   a seta de retorno, evitando que o usuário fique preso na tela BackStage.
+
+2. A pintura do título do BackStage agora desloca o texto quando a seta de retorno
+   está visível, evitando sobreposição visual.
+
+3. TLazRibbonBackstageView.UpdatePages deixou de chamar SetBounds, Visible e
+   BringToFront incondicionalmente. Isso reduz loops de layout do LCL e corrige
+   o erro TLayoutException InvalidatedPreferredSize loop detectado ao navegar ou
+   clicar na área do BackStage.
+
+4. UpdatePages não altera mais a ordem interna dos controles BackStagePage.
+   A ordem das páginas permanece estável, o que evita inconsistências em
+   ActivePageIndex, PageCount e GetPageIndex.

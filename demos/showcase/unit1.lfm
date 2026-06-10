@@ -1,0 +1,701 @@
+object Form1: TForm1
+  Left = 260
+  Height = 640
+  Top = 140
+  Width = 1040
+  Caption = 'LazRibbon Demo - Showcase'
+  BorderStyle = bsSizeable
+  OnCreate = FormCreate
+  ClientHeight = 640
+  ClientWidth = 1040
+  Color = clBtnFace
+  Font.Height = -12
+  Font.Name = 'Segoe UI'
+  ParentFont = False
+  LCLVersion = '4.6.0.0'
+  Ribbon = LazRibbon1
+  SkinManager = LazRibbonSkinManager1
+  UseCustomTitleBar = True
+  TitleBarHeight = 32
+  ShowSystemButtons = True
+  ShowTitleIcon = True
+  TitleAlignment = taCenter
+  object ActionList1: TActionList
+    Left = 24
+    Top = 168
+    object actNew: TAction
+      Caption = 'Novo'
+      Hint = 'Criar um novo documento'
+      OnExecute = ActionExecute
+    end
+    object actOpen: TAction
+      Caption = 'Abrir'
+      Hint = 'Abrir um documento existente'
+      OnExecute = ActionExecute
+    end
+    object actSave: TAction
+      Caption = 'Salvar'
+      Hint = 'Salvar alterações'
+      OnExecute = ActionExecute
+    end
+    object actPrint: TAction
+      Caption = 'Imprimir'
+      Hint = 'Enviar para impressão'
+      OnExecute = ActionExecute
+    end
+    object actExport: TAction
+      Caption = 'Exportar'
+      Hint = 'Exportar o conteúdo atual'
+      OnExecute = ActionExecute
+    end
+    object actCut: TAction
+      Caption = 'Recortar'
+      Hint = 'Recortar seleção'
+      OnExecute = ActionExecute
+    end
+    object actCopy: TAction
+      Caption = 'Copiar'
+      Hint = 'Copiar seleção'
+      OnExecute = ActionExecute
+    end
+    object actPaste: TAction
+      Caption = 'Colar'
+      Hint = 'Colar da área de transferência'
+      OnExecute = ActionExecute
+    end
+    object actFind: TAction
+      Caption = 'Localizar'
+      Hint = 'Localizar conteúdo'
+      OnExecute = ActionExecute
+    end
+    object actReview: TAction
+      Caption = 'Revisar'
+      Hint = 'Executar revisão do documento'
+      OnExecute = ActionExecute
+    end
+    object actZoomIn: TAction
+      Caption = 'Ampliar'
+      Hint = 'Aumentar zoom'
+      OnExecute = ActionExecute
+    end
+    object actZoomOut: TAction
+      Caption = 'Reduzir'
+      Hint = 'Reduzir zoom'
+      OnExecute = ActionExecute
+    end
+    object actHelp: TAction
+      Caption = 'Ajuda'
+      Hint = 'Abrir ajuda'
+      OnExecute = ActionExecute
+    end
+    object actExit: TAction
+      Caption = 'Sair'
+      Hint = 'Sair do demo'
+      OnExecute = ActionExecute
+    end
+  end
+  object LazRibbonSkinManager1: TLazRibbonSkinManager
+    ActiveSkin = sbsModernLight
+    Left = 112
+    Top = 168
+  end
+  object LazRibbon1: TLazRibbon
+    Left = 0
+    Height = 112
+    Top = 0
+    Width = 1040
+    Align = alTop
+    ApplicationButton.Caption = 'Arquivo'
+    ApplicationButton.KeyTip = 'A'
+    ApplicationButton.Hint = 'Abre o BackStage com informações, recentes e opções.'
+    ApplicationButton.Visible = True
+    ApplicationButton.Mode = abmBackstage
+    ApplicationButton.BackstageView = LazRibbonBackstageView1
+    ShowContextualGroupHeaders = True
+    ContextualGroupHeaderHeight = 18
+    QuickAccessToolBar.Visible = True
+    QuickAccessToolBar.Position = qapTitleBar
+    QuickAccessToolBar.Items = <
+      item
+        Action = actNew
+        KeyTip = '1'
+        LinkedItem = LazRibbonLargeButtonNew
+      end
+      item
+        Action = actOpen
+        KeyTip = '2'
+        LinkedItem = LazRibbonLargeButtonOpen
+      end
+      item
+        Action = actSave
+        KeyTip = '3'
+        LinkedItem = LazRibbonSmallButtonSave
+      end>
+    QuickAccessToolBar.CustomizeActionList = ActionList1
+    QuickAccessToolBar.CustomizeMenuTitle = 'Personalizar Barra de Acesso Rápido'
+    QuickAccessToolBar.MoreCommandsCaption = 'Mais Comandos...'
+    QuickAccessToolBar.ShowAboveRibbonCaption = 'Mostrar Acima da Faixa de Opções'
+    QuickAccessToolBar.ShowBelowRibbonCaption = 'Mostrar Abaixo da Faixa de Opções'
+    QuickAccessToolBar.MinimizeRibbonCaption = 'Minimizar a Faixa de Opções'
+    QuickAccessToolBar.RestoreRibbonCaption = 'Restaurar a Faixa de Opções'
+    QuickAccessToolBar.ResetToDefaultsCaption = 'Restaurar Barra de Acesso Rápido'
+    BackstageView = LazRibbonBackstageView1
+    SkinManager = LazRibbonSkinManager1
+    ShowHint = True
+    Tabs = (
+      'LazRibbonTabHome'
+      'LazRibbonTabInsert'
+      'LazRibbonTabReview'
+      'LazRibbonTabView'
+      'LazRibbonTabPicture'
+      'LazRibbonTabTable'
+    )
+    TabIndex = 0
+    object LazRibbonTabHome: TLazRibbonTab
+      Caption = 'Início'
+      KeyTip = 'I'
+      Panes = (
+        'LazRibbonPaneClipboard'
+        'LazRibbonPaneDocument'
+        'LazRibbonPaneSearch'
+      )
+      object LazRibbonPaneClipboard: TLazRibbonPane
+        Caption = 'Área de Transferência'
+        Items = (
+          'LazRibbonLargeButtonPaste'
+          'LazRibbonSmallButtonCut'
+          'LazRibbonSmallButtonCopy'
+        )
+        object LazRibbonLargeButtonPaste: TLazRibbonLargeButton
+          Action = actPaste
+          KeyTip = 'V'
+          ScreenTipTitle = 'Colar'
+          ScreenTipText = 'Insere o conteúdo da área de transferência no ponto atual.'
+          ScreenTipShortcut = 'Ctrl+V'
+          ScreenTipFooter = 'ScreenTip enriquecido em item grande.'
+        end
+        object LazRibbonSmallButtonCut: TLazRibbonSmallButton
+          Action = actCut
+          KeyTip = 'X'
+          ScreenTipTitle = 'Recortar'
+          ScreenTipText = 'Remove a seleção e envia para a área de transferência.'
+          ScreenTipShortcut = 'Ctrl+X'
+          ShowCaption = True
+          TableBehaviour = tbBeginsRow
+        end
+        object LazRibbonSmallButtonCopy: TLazRibbonSmallButton
+          Action = actCopy
+          KeyTip = 'C'
+          ScreenTipTitle = 'Copiar'
+          ScreenTipText = 'Copia a seleção sem removê-la do documento.'
+          ScreenTipShortcut = 'Ctrl+C'
+          ShowCaption = True
+          TableBehaviour = tbBeginsRow
+        end
+      end
+      object LazRibbonPaneDocument: TLazRibbonPane
+        Caption = 'Documento'
+        Items = (
+          'LazRibbonLargeButtonNew'
+          'LazRibbonLargeButtonOpen'
+          'LazRibbonSmallButtonSave'
+        )
+        object LazRibbonLargeButtonNew: TLazRibbonLargeButton
+          Action = actNew
+          KeyTip = 'N'
+          ScreenTipTitle = 'Novo documento'
+          ScreenTipText = 'Cria um documento vazio usando o modelo padrão.'
+          ScreenTipShortcut = 'Ctrl+N'
+        end
+        object LazRibbonLargeButtonOpen: TLazRibbonLargeButton
+          Action = actOpen
+          KeyTip = 'O'
+          ScreenTipTitle = 'Abrir documento'
+          ScreenTipText = 'Abre um arquivo existente e o adiciona à lista de recentes.'
+          ScreenTipShortcut = 'Ctrl+O'
+        end
+        object LazRibbonSmallButtonSave: TLazRibbonSmallButton
+          Action = actSave
+          KeyTip = 'S'
+          ScreenTipTitle = 'Salvar'
+          ScreenTipText = 'Grava as alterações do documento atual.'
+          ScreenTipShortcut = 'Ctrl+S'
+          ShowCaption = True
+          TableBehaviour = tbBeginsRow
+        end
+      end
+      object LazRibbonPaneSearch: TLazRibbonPane
+        Caption = 'Busca'
+        Items = (
+          'LazRibbonSmallButtonFind'
+        )
+        object LazRibbonSmallButtonFind: TLazRibbonSmallButton
+          Action = actFind
+          KeyTip = 'F'
+          ScreenTipTitle = 'Localizar'
+          ScreenTipText = 'Localiza termos no conteúdo exibido no painel principal.'
+          ScreenTipShortcut = 'Ctrl+F'
+          ShowCaption = True
+        end
+      end
+    end
+    object LazRibbonTabInsert: TLazRibbonTab
+      Caption = 'Inserir'
+      KeyTip = 'T'
+      Panes = (
+        'LazRibbonPaneOutput'
+      )
+      object LazRibbonPaneOutput: TLazRibbonPane
+        Caption = 'Saída'
+        Items = (
+          'LazRibbonLargeButtonExport'
+          'LazRibbonLargeButtonPrint'
+        )
+        object LazRibbonLargeButtonExport: TLazRibbonLargeButton
+          Action = actExport
+          KeyTip = 'EX'
+          ScreenTipTitle = 'Exportar'
+          ScreenTipText = 'Exporta os dados para um formato externo.'
+        end
+        object LazRibbonLargeButtonPrint: TLazRibbonLargeButton
+          Action = actPrint
+          KeyTip = 'PR'
+          ScreenTipTitle = 'Imprimir'
+          ScreenTipText = 'Abre as opções de impressão no BackStage ou executa a ação de impressão.'
+          ScreenTipShortcut = 'Ctrl+P'
+        end
+      end
+    end
+    object LazRibbonTabReview: TLazRibbonTab
+      Caption = 'Revisão'
+      KeyTip = 'R'
+      Panes = (
+        'LazRibbonPaneReview'
+      )
+      object LazRibbonPaneReview: TLazRibbonPane
+        Caption = 'Revisar'
+        Items = (
+          'LazRibbonSmallButtonReview'
+          'LazRibbonSmallButtonHelp'
+        )
+        object LazRibbonSmallButtonReview: TLazRibbonSmallButton
+          Action = actReview
+          KeyTip = 'RV'
+          ScreenTipTitle = 'Revisar'
+          ScreenTipText = 'Executa uma rotina fictícia de revisão do documento.'
+          ShowCaption = True
+        end
+        object LazRibbonSmallButtonHelp: TLazRibbonSmallButton
+          Action = actHelp
+          KeyTip = 'HP'
+          ScreenTipTitle = 'Ajuda'
+          ScreenTipText = 'Mostra informações de ajuda sobre o demo showcase.'
+          ShowCaption = True
+          TableBehaviour = tbBeginsRow
+        end
+      end
+    end
+    object LazRibbonTabView: TLazRibbonTab
+      Caption = 'Exibir'
+      KeyTip = 'E'
+      Panes = (
+        'LazRibbonPaneZoom'
+        'LazRibbonPaneSkins'
+      )
+      object LazRibbonPaneZoom: TLazRibbonPane
+        Caption = 'Zoom'
+        Items = (
+          'LazRibbonSmallButtonZoomIn'
+          'LazRibbonSmallButtonZoomOut'
+        )
+        object LazRibbonSmallButtonZoomIn: TLazRibbonSmallButton
+          Action = actZoomIn
+          KeyTip = '+'
+          ScreenTipTitle = 'Ampliar'
+          ScreenTipText = 'Aumenta a escala visual do conteúdo.'
+          ShowCaption = True
+        end
+        object LazRibbonSmallButtonZoomOut: TLazRibbonSmallButton
+          Action = actZoomOut
+          KeyTip = '-'
+          ScreenTipTitle = 'Reduzir'
+          ScreenTipText = 'Reduz a escala visual do conteúdo.'
+          ShowCaption = True
+          TableBehaviour = tbBeginsRow
+        end
+      end
+      object LazRibbonPaneSkins: TLazRibbonPane
+        Caption = 'Aparência'
+        Items = (
+          'LazRibbonSkinGalleryItem1'
+        )
+        object LazRibbonSkinGalleryItem1: TLazRibbonSkinGalleryItem
+          Caption = 'Skins'
+          KeyTip = 'K'
+          DisplayMode = rimLarge
+          Width = 182
+          SkinManager = LazRibbonSkinManager1
+          Columns = 4
+          IconWidth = 22
+          IconHeight = 22
+          MaxVisibleItems = 8
+          ShowHints = True
+        end
+      end
+    end
+    object LazRibbonTabPicture: TLazRibbonTab
+      Caption = 'Imagem'
+      KeyTip = 'M'
+      Contextual = True
+      ContextualGroupCaption = 'Ferramentas de Imagem'
+      ContextualColor = 8388736
+      Visible = False
+      Panes = (
+        'LazRibbonPanePictureTools'
+      )
+      object LazRibbonPanePictureTools: TLazRibbonPane
+        Caption = 'Ajustar'
+        Items = (
+          'LazRibbonLargeButtonPictureExport'
+          'LazRibbonSmallButtonPictureZoomIn'
+          'LazRibbonSmallButtonPictureZoomOut'
+        )
+        object LazRibbonLargeButtonPictureExport: TLazRibbonLargeButton
+          Action = actExport
+          KeyTip = 'EX'
+          ScreenTipTitle = 'Exportar imagem'
+          ScreenTipText = 'Exemplo de comando dentro de uma aba contextual.'
+        end
+        object LazRibbonSmallButtonPictureZoomIn: TLazRibbonSmallButton
+          Action = actZoomIn
+          KeyTip = '+'
+          ScreenTipTitle = 'Ampliar imagem'
+          ScreenTipText = 'Aumenta a escala da imagem selecionada.'
+          ShowCaption = True
+        end
+        object LazRibbonSmallButtonPictureZoomOut: TLazRibbonSmallButton
+          Action = actZoomOut
+          KeyTip = '-'
+          ScreenTipTitle = 'Reduzir imagem'
+          ScreenTipText = 'Reduz a escala da imagem selecionada.'
+          ShowCaption = True
+          TableBehaviour = tbBeginsRow
+        end
+      end
+    end
+    object LazRibbonTabTable: TLazRibbonTab
+      Caption = 'Tabela'
+      KeyTip = 'B'
+      Contextual = True
+      ContextualGroupCaption = 'Ferramentas de Tabela'
+      ContextualColor = 32768
+      Visible = False
+      Panes = (
+        'LazRibbonPaneTableTools'
+      )
+      object LazRibbonPaneTableTools: TLazRibbonPane
+        Caption = 'Dados'
+        Items = (
+          'LazRibbonLargeButtonTableExport'
+          'LazRibbonSmallButtonTableFind'
+          'LazRibbonSmallButtonTableReview'
+        )
+        object LazRibbonLargeButtonTableExport: TLazRibbonLargeButton
+          Action = actExport
+          KeyTip = 'EX'
+          ScreenTipTitle = 'Exportar tabela'
+          ScreenTipText = 'Exemplo de comando em um segundo grupo contextual.'
+        end
+        object LazRibbonSmallButtonTableFind: TLazRibbonSmallButton
+          Action = actFind
+          KeyTip = 'F'
+          ScreenTipTitle = 'Localizar na tabela'
+          ScreenTipText = 'Localiza registros ou valores na tabela ativa.'
+          ShowCaption = True
+        end
+        object LazRibbonSmallButtonTableReview: TLazRibbonSmallButton
+          Action = actReview
+          KeyTip = 'RV'
+          ScreenTipTitle = 'Revisar tabela'
+          ScreenTipText = 'Executa uma validação fictícia da tabela ativa.'
+          ShowCaption = True
+          TableBehaviour = tbBeginsRow
+        end
+      end
+    end
+  end
+  object StatusBar1: TStatusBar
+    Left = 0
+    Height = 22
+    Top = 618
+    Width = 1040
+    Align = alBottom
+    SimplePanel = True
+    SimpleText = 'Pronto.'
+  end
+  object PanelWorkArea: TPanel
+    Left = 0
+    Height = 506
+    Top = 112
+    Width = 1040
+    Align = alClient
+    BevelOuter = bvNone
+    Color = clWhite
+    ParentColor = False
+    TabOrder = 0
+    object LabelWorkTitle: TLabel
+      Left = 32
+      Height = 30
+      Top = 30
+      Width = 360
+      Caption = 'LazRibbon Showcase'
+      Font.Height = -24
+      Font.Name = 'Segoe UI'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object LabelWorkSubtitle: TLabel
+      Left = 34
+      Height = 44
+      Top = 68
+      Width = 660
+      Caption = 'Este demo reúne Ribbon, Application Button, BackStage, QAT, ScreenTips, KeyTips, abas contextuais controladas por código, galeria de skins e lista de recentes em uma única vitrine visual.'
+      Font.Height = -14
+      Font.Name = 'Segoe UI'
+      ParentFont = False
+      WordWrap = True
+    end
+    object ButtonSelectPicture: TButton
+      Left = 34
+      Height = 30
+      Top = 116
+      Width = 150
+      Caption = 'Selecionar imagem'
+      OnClick = ButtonSelectPictureClick
+      TabOrder = 0
+    end
+    object ButtonSelectTable: TButton
+      Left = 194
+      Height = 30
+      Top = 116
+      Width = 140
+      Caption = 'Selecionar tabela'
+      OnClick = ButtonSelectTableClick
+      TabOrder = 1
+    end
+    object ButtonClearContext: TButton
+      Left = 344
+      Height = 30
+      Top = 116
+      Width = 130
+      Caption = 'Limpar contexto'
+      OnClick = ButtonClearContextClick
+      TabOrder = 2
+    end
+    object MemoNotes: TMemo
+      Left = 34
+      Height = 218
+      Top = 174
+      Width = 650
+      Anchors = [akTop, akLeft, akRight, akBottom]
+      Lines.Strings = (
+        'Checklist visual sugerido:'
+        ''
+        '1. Use Selecionar imagem para mostrar e selecionar o grupo Ferramentas de Imagem.'
+        '2. Use Selecionar tabela para mostrar e selecionar o grupo Ferramentas de Tabela.'
+        '3. Exiba os dois grupos e verifique se os cabeçalhos não se sobrepõem.'
+        '4. Use Limpar contexto para ocultar todos os grupos contextuais.'
+        '5. Passe o mouse sobre Novo, Abrir, Colar e Imprimir para testar ScreenTips.'
+        '6. Pressione Alt para conferir KeyTips nas abas normais e contextuais, incluindo KeyTips com dois caracteres como EX e PR.'
+        '7. Redimensione a janela e observe se o layout continua estável.'
+      )
+      ReadOnly = True
+      ScrollBars = ssAutoVertical
+      TabOrder = 3
+    end
+    object PanelSidebar: TPanel
+      Left = 720
+      Height = 260
+      Top = 132
+      Width = 280
+      Anchors = [akTop, akRight]
+      BevelOuter = bvNone
+      Color = 16448250
+      ParentColor = False
+      TabOrder = 4
+      object LabelSidebarTitle: TLabel
+        Left = 18
+        Height = 22
+        Top = 18
+        Width = 210
+        Caption = 'Componentes em foco'
+        Font.Height = -17
+        Font.Name = 'Segoe UI'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object LabelSidebarText: TLabel
+        Left = 20
+        Height = 172
+        Top = 56
+        Width = 234
+        Caption = 'TLazRibbon'#13'TLazRibbonBackstageView'#13'TLazRibbonBackstageRecentList'#13'TLazRibbonSkinManager'#13'TLazRibbonSkinGalleryItem'#13'Quick Access Toolbar'#13'ScreenTips enriquecidos'#13'KeyTips em dois estágios e com múltiplos caracteres'#13'Abas contextuais controladas por código'#13'Múltiplos grupos contextuais simultâneos'
+        Font.Height = -12
+        Font.Name = 'Segoe UI'
+        ParentFont = False
+        WordWrap = True
+      end
+    end
+  end
+  object LazRibbonBackstageView1: TLazRibbonBackstageView
+    Left = 0
+    Height = 506
+    Top = 112
+    Width = 1040
+    Align = alClient
+    OverlayMode = bomCoverClientArea
+    ActivePageIndex = 0
+    BackstageTabCaption = 'Arquivo'
+    BackButtonHint = 'Voltar'
+    NavigationWidth = 178
+    ItemHeight = 42
+    LinkedToolbar = LazRibbon1
+    SkinManager = LazRibbonSkinManager1
+    Visible = False
+    Buttons = <
+      item
+        Caption = 'Informações'
+        Page = LazRibbonBackstagePageInfo
+      end
+      item
+        Caption = 'Recentes'
+        Page = LazRibbonBackstagePageRecent
+      end
+      item
+        Caption = 'Opções'
+        Page = LazRibbonBackstagePageOptions
+        BeginGroup = True
+      end
+      item
+        Kind = bbkSeparator
+      end
+      item
+        Kind = bbkCommand
+        Action = actSave
+        CloseBackstageOnClick = False
+      end
+      item
+        Kind = bbkCommand
+        Action = actPrint
+        CloseBackstageOnClick = False
+      end
+      item
+        Kind = bbkCommand
+        Action = actExit
+        Section = bbsBottom
+      end>
+    object LazRibbonBackstagePageInfo: TLazRibbonBackstagePage
+      Left = 178
+      Height = 506
+      Top = 0
+      Width = 862
+      Caption = 'Informações'
+      object LabelInfoTitle: TLabel
+        Left = 36
+        Height = 30
+        Top = 32
+        Width = 220
+        Caption = 'Informações'
+        Font.Height = -24
+        Font.Name = 'Segoe UI'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object LabelInfoText: TLabel
+        Left = 38
+        Height = 64
+        Top = 78
+        Width = 650
+        Caption = 'O BackStage foi configurado para cobrir a área cliente. A coluna esquerda separa páginas, comandos diretos e comando inferior.'
+        Font.Height = -13
+        Font.Name = 'Segoe UI'
+        ParentFont = False
+        WordWrap = True
+      end
+      object LabelInfoDetails: TLabel
+        Left = 38
+        Height = 88
+        Top = 156
+        Width = 650
+        Caption = 'Este demo deve ser usado como vitrine visual e como teste manual rápido depois da instalação do pacote. Ele não substitui os demos específicos, mas ajuda a perceber imediatamente a aparência geral da suíte.'
+        Font.Height = -12
+        Font.Name = 'Segoe UI'
+        ParentFont = False
+        WordWrap = True
+      end
+    end
+    object LazRibbonBackstagePageRecent: TLazRibbonBackstagePage
+      Left = 178
+      Height = 506
+      Top = 0
+      Width = 862
+      Caption = 'Recentes'
+      object LazRibbonBackstageRecentList1: TLazRibbonBackstageRecentList
+        Left = 28
+        Height = 420
+        Top = 32
+        Width = 790
+        Anchors = [akTop, akLeft, akRight, akBottom]
+        Font.Height = -12
+        Font.Name = 'Segoe UI'
+        AppearanceSource = asSkinManager
+        ItemHeight = 54
+        MaxRecentItems = 20
+        ScrollBarMode = rsmAuto
+        StorageSection = 'ShowcaseRecentFiles'
+        Items.Strings = (
+          'Relatório de pesquisa.docx=sample-data\relatorios'
+          'Base bibliográfica.bib=sample-data\bibliografia'
+          'Plano de aula.odt=sample-data\ensino'
+          'Dataset.csv=sample-data\dados'
+          'Apresentação.pptx=sample-data\slides'
+          'Projeto editorial.md=sample-data\documentacao'
+        )
+        ParentFont = False
+        SelectedIndex = 0
+        SkinManager = LazRibbonSkinManager1
+        UseSkinManager = True
+        OnItemClick = RecentItemClick
+      end
+    end
+    object LazRibbonBackstagePageOptions: TLazRibbonBackstagePage
+      Left = 178
+      Height = 506
+      Top = 0
+      Width = 862
+      Caption = 'Opções'
+      object LabelOptionsTitle: TLabel
+        Left = 36
+        Height = 30
+        Top = 32
+        Width = 180
+        Caption = 'Opções'
+        Font.Height = -24
+        Font.Name = 'Segoe UI'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object LabelOptionsText: TLabel
+        Left = 38
+        Height = 84
+        Top = 78
+        Width = 650
+        Caption = 'Página fictícia para opções gerais. Em aplicações reais, este espaço pode receber configurações, contas, preferências, exportação, impressão, ajuda ou metadados do arquivo atual.'
+        Font.Height = -13
+        Font.Name = 'Segoe UI'
+        ParentFont = False
+        WordWrap = True
+      end
+    end
+  end
+end

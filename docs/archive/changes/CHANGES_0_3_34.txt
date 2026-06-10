@@ -1,0 +1,5 @@
+LazRibbon 0.3.34
+
+- Corrige o contraste do texto do item ativo no BackStage usando a cor real já pintada no canvas como base.
+- O texto ativo agora é recalculado depois de DrawNavFill, evitando branco sobre fundo claro e preto sobre fundo escuro.
+- Não altera a lógica de fechamento da janela, TitleBar, QAT ou registro design-time.

@@ -1,0 +1,12 @@
+LazRibbon 0.3.44
+================
+
+Correção do BackStage com múltiplas páginas selecionáveis.
+
+- Separada definitivamente a gramática visual de seleção e hover:
+  * item selecionado: usa retângulo/pointer de página ativa;
+  * item não selecionado sob o mouse: usa o mesmo hover leve dos comandos.
+- O hover de opções com página associada deixa de usar o desenho de página selecionada.
+- O comportamento visual passa a ser uniforme quando Novo, Abrir ou Recentes estão sob o mouse, independentemente da página ativa.
+- Mantida a lógica WCAG 4,5:1 para contraste de texto.
+- Não houve alteração em TLazRibbonForm, TitleBar, QAT ou lógica de fechamento.

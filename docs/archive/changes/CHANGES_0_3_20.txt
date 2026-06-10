@@ -1,0 +1,12 @@
+LazRibbon 0.3.20
+=================
+
+Focus: better skin integration for TLazRibbonForm title bar.
+
+Changes
+-------
+- TitleBar gradient now adapts separately to light and dark skins.
+- QAT capsule and title-bar QAT button faces now use skin-aware surface colors.
+- Title text, QAT glyphs, and system button glyphs now use contrast-aware text colors.
+- System button hover colors now avoid washing out dark skins.
+- No changes were made to the stable close/destruction logic introduced in 0.3.18.

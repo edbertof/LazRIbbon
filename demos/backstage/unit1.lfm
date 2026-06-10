@@ -1,0 +1,198 @@
+object Form1: TForm1
+  Left = 300
+  Height = 430
+  Top = 200
+  Width = 860
+  Caption = 'LazRibbon Demo - BackStage'
+  ClientHeight = 430
+  ClientWidth = 860
+  Color = clBtnFace
+  LCLVersion = '4.6.0.0'
+  object LazRibbonSkinManager1: TLazRibbonSkinManager
+    ActiveSkin = sbsOfficeBlue
+    Left = 32
+    Top = 160
+  end
+  object LazRibbon1: TLazRibbon
+    Left = 0
+    Height = 112
+    Top = 0
+    Width = 860
+    Align = alTop
+    ApplicationButton.Caption = 'Arquivo'
+    ApplicationButton.Visible = True
+    ApplicationButton.Mode = abmBackstage
+    ApplicationButton.BackstageView = LazRibbonBackstageView1
+    BackstageView = LazRibbonBackstageView1
+    SkinManager = LazRibbonSkinManager1
+    Tabs = (
+      'LazRibbonTabHome'
+    )
+    TabIndex = 0
+    object LazRibbonTabHome: TLazRibbonTab
+      Caption = 'Início'
+      Panes = (
+        'LazRibbonPaneFile'
+      )
+      object LazRibbonPaneFile: TLazRibbonPane
+        Caption = 'Exemplo'
+        Items = (
+          'LazRibbonLargeButtonExample'
+        )
+        object LazRibbonLargeButtonExample: TLazRibbonLargeButton
+          Caption = 'Comando'
+        end
+      end
+    end
+  end
+  object LazRibbonBackstageView1: TLazRibbonBackstageView
+    Left = 0
+    Height = 318
+    Top = 112
+    Width = 860
+    Align = alClient
+    OverlayMode = bomCoverClientArea
+    NavigationWidth = 205
+    ItemHeight = 46
+    SkinManager = LazRibbonSkinManager1
+    Visible = False
+    Buttons = <
+      item
+        Caption = 'Informações'
+        Page = LazRibbonBackstagePageInfo
+      end
+      item
+        Caption = 'Novo'
+        Page = LazRibbonBackstagePageNew
+      end
+      item
+        Caption = 'Abrir'
+        Page = LazRibbonBackstagePageOpen
+      end
+      item
+        Caption = 'Imprimir'
+        Page = LazRibbonBackstagePagePrint
+      end
+      item
+        Kind = bbkSeparator
+      end
+      item
+        Caption = 'Salvar'
+        Kind = bbkCommand
+        CloseBackstageOnClick = False
+        OnExecute = BackstageCommandExecute
+      end
+      item
+        Caption = 'Opções'
+        Kind = bbkCommand
+        Section = bbsBottom
+        OnExecute = BackstageCommandExecute
+      end
+      item
+        Caption = 'Sair'
+        Kind = bbkCommand
+        Section = bbsBottom
+        OnExecute = BackstageCommandExecute
+      end>
+    object LazRibbonBackstagePageInfo: TLazRibbonBackstagePage
+      Left = 205
+      Height = 318
+      Top = 0
+      Width = 655
+      Caption = 'Informações'
+      object LabelInfoTitle: TLabel
+        Left = 34
+        Height = 30
+        Top = 30
+        Width = 180
+        Caption = 'Informações'
+        Font.Height = -24
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object LabelInfoText: TLabel
+        Left = 36
+        Height = 60
+        Top = 72
+        Width = 520
+        Caption = 'Exemplo de página do BackStage. A coluna da esquerda distingue páginas, comandos diretos e área inferior.'
+        WordWrap = True
+      end
+    end
+    object LazRibbonBackstagePageNew: TLazRibbonBackstagePage
+      Left = 205
+      Height = 318
+      Top = 0
+      Width = 655
+      Caption = 'Novo'
+      object LabelNewTitle: TLabel
+        Left = 34
+        Height = 30
+        Top = 30
+        Width = 220
+        Caption = 'Novo documento'
+        Font.Height = -24
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object LabelNewText: TLabel
+        Left = 36
+        Height = 60
+        Top = 72
+        Width = 520
+        Caption = 'Aqui poderiam aparecer modelos, assistentes ou opções para criar novos registros/documentos.'
+        WordWrap = True
+      end
+    end
+    object LazRibbonBackstagePageOpen: TLazRibbonBackstagePage
+      Left = 205
+      Height = 318
+      Top = 0
+      Width = 655
+      Caption = 'Abrir'
+      object LabelOpenTitle: TLabel
+        Left = 34
+        Height = 30
+        Top = 30
+        Width = 90
+        Caption = 'Abrir'
+        Font.Height = -24
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object LabelOpenText: TLabel
+        Left = 36
+        Height = 60
+        Top = 72
+        Width = 520
+        Caption = 'Aqui poderiam aparecer arquivos recentes, locais de armazenamento e opções de importação.'
+        WordWrap = True
+      end
+    end
+    object LazRibbonBackstagePagePrint: TLazRibbonBackstagePage
+      Left = 205
+      Height = 318
+      Top = 0
+      Width = 655
+      Caption = 'Imprimir'
+      object LabelPrintTitle: TLabel
+        Left = 34
+        Height = 30
+        Top = 30
+        Width = 120
+        Caption = 'Imprimir'
+        Font.Height = -24
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object LabelPrintText: TLabel
+        Left = 36
+        Height = 60
+        Top = 72
+        Width = 520
+        Caption = 'Exemplo de página para configuração de impressão, visualização prévia e seleção de impressora.'
+        WordWrap = True
+      end
+    end
+  end
+end
