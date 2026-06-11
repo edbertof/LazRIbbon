@@ -1,3 +1,11 @@
+## 1.2.7 - Pane caption buffer height fix
+
+- Fixes the remaining Skin Editor live preview case where pane captions were still clipped when the Ribbon control was taller than the calculated default toolbar height.
+- Sizes the Ribbon back buffer to the actual control height when it is larger than `CalcToolbarHeight`, so pane layout and painting use the same vertical range.
+- Clips active tab contents explicitly before drawing panes, preventing tab-header clipping state from leaking into pane rendering.
+- Keeps the direct pane caption drawing and canvas-drawn Dialog Launcher glyph from 1.2.6/1.2.5.
+- Updates runtime and design-time package versions to 1.2.7.
+
 ## 1.2.6 - Pane caption text rendering fix
 
 - Replaces the pane caption `Canvas.TextRect` rendering path with the package's direct fit-width text routine.

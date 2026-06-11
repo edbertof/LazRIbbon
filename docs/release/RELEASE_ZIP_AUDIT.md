@@ -1,3 +1,9 @@
+## 1.2.7 check
+
+- Package metadata updated to 1.2.7.
+- Runtime fixes keep pane captions visible when a Ribbon is hosted taller than the calculated default toolbar height.
+- Release ZIP should still be created through `tools/build_release_zip.ps1` and must pass the generated-artifact audit.
+
 ## 1.2.6 check
 
 - Package metadata updated to 1.2.6.

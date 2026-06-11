@@ -241,9 +241,11 @@ var
   Pt: T2DIntPoint;
   i: integer;
   x1, x2: Integer;
+  CaptionBandHeight: Integer;
   Layout: TLazRibbonPaneItemsLayout;
 begin
   FRect := ARect;
+  CaptionBandHeight := Max(PaneCaptionHeight, PANE_CAPTION_HEIGHT);
 
   // Set 'Dialog launcher' button rect
   if IsRightToLeft then
@@ -261,7 +263,7 @@ begin
   FDialogLauncherRect := Create2DIntRect(
   {$ENDIF}
     x1,
-    FRect.Bottom - PaneCaptionHeight - PaneBorderHalfSize,
+    FRect.Bottom - CaptionBandHeight - PaneBorderHalfSize,
     x2,
     FRect.Bottom - PaneBorderHalfSize - 2
   );
@@ -306,9 +308,63 @@ var
   R: T2DIntRect;
   CaptionTextRect: TRect;
   CaptionTextY: Integer;
+  CaptionBandHeight: Integer;
   delta: Integer;
   isRTL: Boolean;
   ts: TTextStyle;
+
+  procedure DrawPaneCaptionText;
+  var
+    CaptionText: String;
+    CaptionTextWidth: Integer;
+    CaptionTextX: Integer;
+    AvailableWidth: Integer;
+  begin
+    ABuffer.Canvas.Font.Assign(FAppearance.Pane.CaptionFont);
+    CaptionTextRect := Types.Rect(
+      FRect.Left + PaneBorderSize + PaneCaptionHMargin,
+      FRect.Bottom - CaptionBandHeight - PaneBorderHalfSize,
+      FRect.Right - PaneBorderHalfSize - PaneCaptionHMargin,
+      FRect.Bottom - PaneBorderHalfSize
+    );
+    if FShowDialogLauncher then
+    begin
+      if isRTL then
+        Inc(CaptionTextRect.Left, PaneDialogLauncherWidth)
+      else
+        Dec(CaptionTextRect.Right, PaneDialogLauncherWidth);
+    end;
+    if CaptionTextRect.Right < CaptionTextRect.Left then
+      CaptionTextRect.Right := CaptionTextRect.Left;
+
+    ABuffer.Canvas.Brush.Style := bsClear;
+    ABuffer.Canvas.Font.Color := FontColor;
+    CaptionTextY := CaptionTextRect.Top +
+      Max(0, (CaptionTextRect.Bottom - CaptionTextRect.Top -
+        ABuffer.Canvas.TextHeight('Wy')) div 2);
+
+    CaptionText := FCaption;
+    AvailableWidth := Max(0, CaptionTextRect.Right - CaptionTextRect.Left + 1);
+    if (CaptionText <> '') and
+       (ABuffer.Canvas.TextWidth(CaptionText) > AvailableWidth) then
+    begin
+      while (CaptionText <> '') and
+        (ABuffer.Canvas.TextWidth(CaptionText + '...') > AvailableWidth) do
+        Delete(CaptionText, Length(CaptionText), 1);
+      if CaptionText <> '' then
+        CaptionText := CaptionText + '...'
+      else if ABuffer.Canvas.TextWidth('...') <= AvailableWidth then
+        CaptionText := '...';
+    end;
+
+    CaptionTextWidth := ABuffer.Canvas.TextWidth(CaptionText);
+    if (CaptionText <> '') and (CaptionTextWidth <= AvailableWidth) then
+    begin
+      CaptionTextX := CaptionTextRect.Left +
+        Max(0, (AvailableWidth - CaptionTextWidth) div 2);
+      ABuffer.Canvas.TextOut(CaptionTextX, CaptionTextY, CaptionText);
+    end;
+  end;
 begin
   // Under some conditions, we are not able to draw::
   // * No dispatcher
@@ -374,6 +430,9 @@ begin
 
   CaptionFromColor := TColorTools.Brighten(CaptionColor, 15);
   CaptionToColor := TColorTools.Darken(CaptionColor, 5);
+  ABuffer.Canvas.Font.Assign(FAppearance.Pane.CaptionFont);
+  CaptionBandHeight := Max(PaneCaptionHeight,
+    ABuffer.Canvas.TextHeight('Wy') + 4);
 
   // Label background
   {$IFDEF EnhancedRecordSupport}
@@ -382,7 +441,7 @@ begin
   R := Create2DIntRect(
   {$ENDIF}
     FRect.Left,
-    FRect.Bottom - PaneCaptionHeight - PaneBorderHalfSize,
+    FRect.Bottom - CaptionBandHeight - PaneBorderHalfSize,
     FRect.Right - PaneBorderHalfSize,
     FRect.Bottom - PaneBorderHalfSize
   );
@@ -399,35 +458,6 @@ begin
     true,
     true
   );
-
-  // Pane label
-  ABuffer.Canvas.Font.Assign(FAppearance.Pane.CaptionFont);
-  CaptionTextRect := Types.Rect(
-    FRect.Left + PaneBorderSize + PaneCaptionHMargin,
-    FRect.Bottom - PaneCaptionHeight - PaneBorderHalfSize,
-    FRect.Right - PaneBorderHalfSize - PaneCaptionHMargin,
-    FRect.Bottom - PaneBorderHalfSize
-  );
-  if FShowDialogLauncher then
-  begin
-    if isRTL then
-      Inc(CaptionTextRect.Left, PaneDialogLauncherWidth)
-    else
-      Dec(CaptionTextRect.Right, PaneDialogLauncherWidth);
-  end;
-  if CaptionTextRect.Right < CaptionTextRect.Left then
-    CaptionTextRect.Right := CaptionTextRect.Left;
-
-  ABuffer.Canvas.Brush.Style := bsClear;
-  ABuffer.Canvas.Font.Color := FontColor;
-  CaptionTextY := CaptionTextRect.Top +
-    Max(0, (CaptionTextRect.Bottom - CaptionTextRect.Top -
-      ABuffer.Canvas.TextHeight('Wy')) div 2);
-  TGUITools.DrawFitWText(ABuffer.Canvas, CaptionTextRect.Left,
-    CaptionTextRect.Right, CaptionTextY, FCaption, FontColor, taCenter);
-
-  // Draw the 'Dialog launcher' button
-  DrawDialogLauncher(ABuffer, ClipRect);
 
   // Frames
   case FAppearance.Pane.Style of
@@ -532,6 +562,11 @@ begin
        BorderDarkColor
      );
   end;
+
+  // Draw caption and launcher last, after frame styles that can touch the
+  // caption band.
+  DrawPaneCaptionText;
+  DrawDialogLauncher(ABuffer, ClipRect);
 end;
 
 { Drawing procedure for the 'Dialog launcher' button }

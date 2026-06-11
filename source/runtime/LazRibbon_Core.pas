@@ -5502,9 +5502,31 @@ procedure TLazRibbon.ValidateBuffer;
   end;
 
   procedure DrawTabContents;
+  var
+    SavedDC: Integer;
+    TabContentsRgn: HRGN;
   begin
     if (FTabIndex <> -1) and (not FRibbonMinimized) then
-      FTabs[FTabIndex].Draw(FBuffer, FTabContentsClipRect);
+    begin
+      // Tabs can leave a header-sized clip region active; panes need the full
+      // tab content area so captions and Dialog Launchers can paint at bottom.
+      TabContentsRgn := 0;
+      SavedDC := SaveDC(FBuffer.Canvas.Handle);
+      try
+        TabContentsRgn := CreateRectRgn(
+          FTabContentsClipRect.Left,
+          FTabContentsClipRect.Top,
+          FTabContentsClipRect.Right + 1,
+          FTabContentsClipRect.Bottom + 1
+        );
+        SelectClipRgn(FBuffer.Canvas.Handle, TabContentsRgn);
+        FTabs[FTabIndex].Draw(FBuffer, FTabContentsClipRect);
+      finally
+        RestoreDC(FBuffer.Canvas.Handle, SavedDC);
+        if TabContentsRgn <> 0 then
+          DeleteObject(TabContentsRgn);
+      end;
+    end;
   end;
 
   // Drawing procedures for Menu Button
@@ -6487,7 +6509,9 @@ begin
 
   FreeAndNil(FBuffer);
   FBuffer := TBitmap.Create;
-  ToolbarHeight := CalcToolbarHeight;
+  // Hosted previews/forms may make the Ribbon taller than its calculated
+  // minimum. Keep the back buffer aligned with that actual control height.
+  ToolbarHeight := Max(CalcToolbarHeight, Height);
  {$IFDEF LCLCocoa}
   scalefactor := GetCanvasScaleFactor;
   FBuffer.SetSize(round(scaleFactor*Width), round(scaleFactor*ToolbarHeight));

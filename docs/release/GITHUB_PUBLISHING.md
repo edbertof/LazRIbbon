@@ -40,7 +40,7 @@ Lazarus/Free Pascal component package for Office-like Ribbon interfaces, includi
 Use a title such as:
 
 ```text
-LazRibbon 1.2.6 - Pane caption text rendering fix
+LazRibbon 1.2.7 - Pane caption buffer height fix
 ```
 
 ## Release notes format

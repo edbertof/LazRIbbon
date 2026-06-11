@@ -1,9 +1,9 @@
 # LazRibbon Status
 
-`1.2.6 - Pane caption text rendering fix` is the current stabilization build.
+`1.2.7 - Pane caption buffer height fix` is the current stabilization build.
 
 
-The 1.2.6 build fixes the Skin Editor preview case where pane captions were assigned but still not painted. `TLazRibbonPane` now draws the caption text through the package's direct fit-width text routine, avoiding the `Canvas.TextRect` + `TTextStyle.Layout` path that was failing on the reported Lazarus/Windows rendering combination.
+The 1.2.7 build fixes the remaining Skin Editor preview case where pane captions were assigned but still clipped. The Ribbon buffer now uses the actual control height when it is taller than the calculated toolbar height, and active tab contents get their own explicit clip before panes are drawn.
 
 The 1.2.5 build fixes the remaining Skin Editor live Ribbon preview clipping case by giving the preview host enough height and synchronizing it after Ribbon metric recalculation. It also enables a real Dialog Launcher on the `Estilos` pane and draws the launcher glyph directly on the canvas instead of relying on font-specific private-use characters. `TLazRibbon.Appearance` remains the active low-level visual model used by internal styles and `TLazRibbonSkinManager`; renaming or hiding that API should be handled as a dedicated design-time/API cleanup.
 
