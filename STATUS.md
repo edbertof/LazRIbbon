@@ -1,7 +1,9 @@
 # LazRibbon Status
 
-`1.2.3 - Skin Editor Appearance differences filter` is the current stabilization build.
+`1.2.4 - Pane captions paint order fix` is the current stabilization build.
 
+
+The 1.2.4 build fixes pane caption rendering in `TLazRibbonPane` so the Skin Editor live Ribbon preview shows group captions reliably. Pane captions are drawn after pane items, centered inside the caption band, clipped with ellipsis when needed, and kept compatible with the Dialog Launcher.
 
 The 1.2.3 build makes the complete Appearance inspector easier to navigate by marking properties that differ from the focused base skin with `[alterado]`, showing the base value inline, and adding `Somente diferentes da base`. Runtime Ribbon UI behavior is unchanged.
 

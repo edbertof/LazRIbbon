@@ -16,7 +16,7 @@ unit LazRibbon_Groups;
 interface
 
 uses
-  Graphics, Controls, Classes, SysUtils, Math, Dialogs,
+  Graphics, Controls, Classes, SysUtils, Math, Dialogs, Types,
   LazRibbon_GraphTools, LazRibbon_GUITools, LazRibbon_Math,
   LazRibbon_Appearance, LazRibbon_Const, LazRibbon_Dispatch, LazRibbon_Exceptions,
   LazRibbon_BaseItem, LazRibbon_Items, LazRibbon_Types, LazRibbon_Tools;
@@ -300,14 +300,13 @@ end;
 
 procedure TLazRibbonPane.Draw(ABuffer: TBitmap; ClipRect: T2DIntRect);
 var
-  x: Integer;
-  y: Integer;
   BgFromColor, BgToColor, CaptionColor, CaptionFromColor, CaptionToColor: TColor;
   FontColor, BorderLightColor, BorderDarkColor, c: TColor;
   i: Integer;
   R: T2DIntRect;
+  CaptionTextRect: TRect;
+  CaptionTextStyle: TTextStyle;
   delta: Integer;
-  w: Integer;
   isRTL: Boolean;
   ts: TTextStyle;
 begin
@@ -367,6 +366,12 @@ begin
     ClipRect
   );
 
+  // Items must stay below the caption band.  Some layouts can paint close to
+  // the bottom rail, so render them before the caption background and text.
+  for i := 0 to FItems.Count - 1 do
+    if FItems[i].Visible then
+      FItems[i].Draw(ABuffer, ClipRect);
+
   CaptionFromColor := TColorTools.Brighten(CaptionColor, 15);
   CaptionToColor := TColorTools.Darken(CaptionColor, 5);
 
@@ -395,38 +400,38 @@ begin
     true
   );
 
-  // Draw the 'Dialog launcher' button
-  DrawDialogLauncher(ABuffer, ClipRect);
-
   // Pane label
   ABuffer.Canvas.Font.Assign(FAppearance.Pane.CaptionFont);
-  w := ABuffer.Canvas.TextWidth(FCaption);  // Panel label width
-
-  // Handle visibility of 'Dialog launcher' button to set Pane label position
+  CaptionTextRect := Types.Rect(
+    FRect.Left + PaneBorderSize + PaneCaptionHMargin,
+    FRect.Bottom - PaneCaptionHeight - PaneBorderHalfSize,
+    FRect.Right - PaneBorderHalfSize - PaneCaptionHMargin,
+    FRect.Bottom - PaneBorderHalfSize
+  );
   if FShowDialogLauncher then
   begin
     if isRTL then
-      x := FRect.Right - (FRect.Width - PaneDialogLauncherWidth - w) div 2 - w
+      Inc(CaptionTextRect.Left, PaneDialogLauncherWidth)
     else
-      x := FRect.Left + (FRect.Width - PaneDialogLauncherWidth - w) div 2;
-  end else
-  begin
-    if isRTL then
-      x := FRect.Right - (FRect.Width - w) div 2 - w
-    else
-      x := FRect.Left + (FRect.Width - w) div 2;
+      Dec(CaptionTextRect.Right, PaneDialogLauncherWidth);
   end;
-  y := FRect.Bottom - PaneBorderSize - PaneCaptionHeight + 1 +
-        (PaneCaptionHeight - ABuffer.Canvas.TextHeight('Wy')) div 2;
+  if CaptionTextRect.Right < CaptionTextRect.Left then
+    CaptionTextRect.Right := CaptionTextRect.Left;
 
-  TGUITools.DrawText(
-    ABuffer.Canvas,
-    x,
-    y,
-    FCaption,
-    FontColor,
-    ClipRect
-  );
+  ABuffer.Canvas.Brush.Style := bsClear;
+  ABuffer.Canvas.Font.Color := FontColor;
+  CaptionTextStyle := ABuffer.Canvas.TextStyle;
+  CaptionTextStyle.Alignment := taCenter;
+  CaptionTextStyle.Layout := tlCenter;
+  CaptionTextStyle.SingleLine := True;
+  CaptionTextStyle.Clipping := True;
+  CaptionTextStyle.EndEllipsis := True;
+  CaptionTextStyle.RightToLeft := isRTL;
+  ABuffer.Canvas.TextRect(CaptionTextRect, CaptionTextRect.Left,
+    CaptionTextRect.Top, FCaption, CaptionTextStyle);
+
+  // Draw the 'Dialog launcher' button
+  DrawDialogLauncher(ABuffer, ClipRect);
 
   // Frames
   case FAppearance.Pane.Style of
@@ -531,11 +536,6 @@ begin
        BorderDarkColor
      );
   end;
-
-  // Elements
-  for i := 0 to FItems.Count - 1 do
-    if FItems[i].Visible then
-      FItems[i].Draw(ABuffer, ClipRect);
 end;
 
 { Drawing procedure for the 'Dialog launcher' button }

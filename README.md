@@ -50,12 +50,13 @@ tools/LazRibbonSkinEditor/
 
 ## Current version
 
-This distribution is **LazRibbon 1.2.3 Skin Editor Appearance differences filter**.
+This distribution is **LazRibbon 1.2.4 Pane captions paint order fix**.
 
-The stable 1.0.0 line remains the conservative baseline for production use. The 1.1 line is a controlled stabilization line now validated with Lazarus 4.8, with the 1.1.70 runtime behavior preserved and the 1.1.72 packaging/design-time polish applied on top. The 1.2.3 build continues the Skin Editor polish line with Appearance difference markers and filtering while keeping the 1.2.2 per-property restore from base, the 1.2.1 base comparison report, the 1.2.0 validation report, the 1.1.78 high-DPI palette icons, the 1.1.77 tab spacing controls, the 1.1.76 Dialog Launcher rename and the 1.1.75 Skin Editor Appearance inspector work.
+The stable 1.0.0 line remains the conservative baseline for production use. The 1.1 line is a controlled stabilization line now validated with Lazarus 4.8, with the 1.1.70 runtime behavior preserved and the 1.1.72 packaging/design-time polish applied on top. The 1.2.4 build fixes pane caption rendering in the Ribbon preview/runtime while keeping the 1.2.3 Appearance difference markers and filtering, the 1.2.2 per-property restore from base, the 1.2.1 base comparison report, the 1.2.0 validation report, the 1.1.78 high-DPI palette icons, the 1.1.77 tab spacing controls, the 1.1.76 Dialog Launcher rename and the 1.1.75 Skin Editor Appearance inspector work.
 
 Highlights in the current 1.2 line:
 
+- Pane captions are drawn above pane items so Skin Editor Ribbon group names remain visible across skins.
 - Office-style BackStage overlay modes, including full-client-area coverage.
 - Quick Access Toolbar support, including title-bar hosting in `TLazRibbonForm`.
 - ScreenTips, staged KeyTips, multi-character KeyTips and a design-time KeyTip validator.

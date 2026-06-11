@@ -1,3 +1,11 @@
+## 1.2.4 check
+
+- Package metadata updated to 1.2.4.
+- `TLazRibbonPane` draws item contents before the caption band so pane captions stay visible.
+- Pane caption text is centered in the caption band and clipped with ellipsis when needed.
+- Skin Editor live Ribbon preview should show pane captions across skins.
+- Release ZIP should still be created through `tools/build_release_zip.ps1` and must pass the generated-artifact audit.
+
 ## 1.2.3 check
 
 - Package metadata updated to 1.2.3.

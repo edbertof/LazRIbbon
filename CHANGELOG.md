@@ -1,3 +1,11 @@
+## 1.2.4 - Pane captions paint order fix
+
+- Fixes `TLazRibbonPane` drawing so pane captions are rendered above pane items.
+- Centers pane captions inside the caption band and clips them with ellipsis when space is tight.
+- Keeps the Dialog Launcher visible on top of the caption band.
+- Fixes the Skin Editor live Ribbon preview when pane captions were not visible.
+- Updates runtime and design-time package versions to 1.2.4.
+
 ## 1.2.3 - Skin Editor Appearance differences filter
 
 - Marks Appearance inspector rows that differ from the focused base skin with `[alterado]`.
