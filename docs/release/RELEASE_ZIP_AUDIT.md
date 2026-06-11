@@ -1,3 +1,11 @@
+## 1.2.3 check
+
+- Package metadata updated to 1.2.3.
+- `LazRibbonSkinEditor` complete Appearance inspector marks properties that differ from the focused base skin.
+- The inspector can filter to show only Appearance properties that differ from the focused base skin.
+- Runtime Ribbon UI behavior remains unchanged.
+- Release ZIP should still be created through `tools/build_release_zip.ps1` and must pass the generated-artifact audit.
+
 ## 1.2.2 check
 
 - Package metadata updated to 1.2.2.

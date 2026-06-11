@@ -201,6 +201,7 @@ type
     lblAppearanceMode: TLabel;
     cbAppearanceSection: TComboBox;
     edtAppearanceFilter: TEdit;
+    chkAppearanceOnlyBaseDifferences: TCheckBox;
     btnClearAppearanceFilter: TButton;
     lstAppearanceProperties: TListBox;
     btnEditAppearanceProperty: TButton;
@@ -235,6 +236,9 @@ type
     function AppearanceSectionCaption(ASection: TLazRibbonSkinAppearanceSection): String;
     function IsColorAppearanceProperty(APropInfo: PPropInfo): Boolean;
     function FormatAppearancePropertyValue(AObject: TPersistent; APropInfo: PPropInfo): String;
+    function CompactInlineValue(const AValue: String; AMaxLength: Integer): String;
+    function AppearancePropertyDiffersFromBase(ASection: TLazRibbonSkinAppearanceSection;
+      AObject: TPersistent; APropInfo: PPropInfo; out ABaseValue: String): Boolean;
     function AppearancePropertyDisplay(ABinding: TLazRibbonAppearancePropertyBinding): String;
     function AppearancePropertyMatchesFilter(ASection: TLazRibbonSkinAppearanceSection;
       AObject: TPersistent; APropInfo: PPropInfo; const AFilter: String): Boolean;
@@ -243,6 +247,7 @@ type
     procedure ResetAppearancePropertyFromBase(ABinding: TLazRibbonAppearancePropertyBinding);
     procedure cbAppearanceSectionChange(Sender: TObject);
     procedure edtAppearanceFilterChange(Sender: TObject);
+    procedure chkAppearanceOnlyBaseDifferencesChange(Sender: TObject);
     procedure btnClearAppearanceFilterClick(Sender: TObject);
     procedure lstAppearancePropertiesDblClick(Sender: TObject);
     procedure btnOpenAppearancePageClick(Sender: TObject);
@@ -648,6 +653,15 @@ begin
   B.Caption := 'Abrir secao';
   B.OnClick := @btnOpenSelectedAppearanceSectionClick;
 
+  chkAppearanceOnlyBaseDifferences := TCheckBox.Create(Self);
+  chkAppearanceOnlyBaseDifferences.Parent := Sec;
+  chkAppearanceOnlyBaseDifferences.Left := 790;
+  chkAppearanceOnlyBaseDifferences.Top := 114;
+  chkAppearanceOnlyBaseDifferences.Width := 230;
+  chkAppearanceOnlyBaseDifferences.Height := 22;
+  chkAppearanceOnlyBaseDifferences.Caption := 'Somente diferentes da base';
+  chkAppearanceOnlyBaseDifferences.OnChange := @chkAppearanceOnlyBaseDifferencesChange;
+
   L := TLabel.Create(Self);
   L.Parent := Sec;
   L.Left := 18;
@@ -675,7 +689,7 @@ begin
   lblAppearanceInspectorHint.Left := 790;
   lblAppearanceInspectorHint.Top := 78;
   lblAppearanceInspectorHint.Width := 230;
-  lblAppearanceInspectorHint.Height := 58;
+  lblAppearanceInspectorHint.Height := 34;
   lblAppearanceInspectorHint.AutoSize := False;
   lblAppearanceInspectorHint.WordWrap := True;
   lblAppearanceInspectorHint.Caption := 'Dica: duplo clique em uma propriedade tambem edita. Cores, fontes, inteiros, booleanos e enums sao tratados automaticamente.';
@@ -816,12 +830,56 @@ begin
   end;
 end;
 
+function TfrmLazRibbonSkinEditor.CompactInlineValue(const AValue: String;
+  AMaxLength: Integer): String;
+begin
+  Result := Trim(AValue);
+  Result := StringReplace(Result, #13, ' ', [rfReplaceAll]);
+  Result := StringReplace(Result, #10, ' ', [rfReplaceAll]);
+  Result := StringReplace(Result, #9, ' ', [rfReplaceAll]);
+  while Pos('  ', Result) > 0 do
+    Result := StringReplace(Result, '  ', ' ', [rfReplaceAll]);
+  if Result = '' then
+    Result := '(vazio)';
+  if (AMaxLength > 3) and (Length(Result) > AMaxLength) then
+    Result := Copy(Result, 1, AMaxLength - 3) + '...';
+end;
+
+function TfrmLazRibbonSkinEditor.AppearancePropertyDiffersFromBase(
+  ASection: TLazRibbonSkinAppearanceSection; AObject: TPersistent;
+  APropInfo: PPropInfo; out ABaseValue: String): Boolean;
+var
+  BaseSkin: TLazRibbonSkinDefinition;
+  BaseObj: TPersistent;
+  BaseProp: PPropInfo;
+  CurrentValue: String;
+begin
+  Result := False;
+  ABaseValue := '';
+  if (AObject = nil) or (APropInfo = nil) then
+    Exit;
+
+  BaseSkin := SelectedBaseSkin;
+  BaseObj := AppearanceSectionObjectForSkin(BaseSkin, ASection);
+  if BaseObj = nil then
+    Exit;
+
+  BaseProp := GetPropInfo(BaseObj, String(APropInfo^.Name));
+  if BaseProp = nil then
+    Exit;
+
+  ABaseValue := FormatAppearancePropertyValue(BaseObj, BaseProp);
+  CurrentValue := FormatAppearancePropertyValue(AObject, APropInfo);
+  Result := ABaseValue <> CurrentValue;
+end;
+
 function TfrmLazRibbonSkinEditor.AppearancePropertyDisplay(
   ABinding: TLazRibbonAppearancePropertyBinding): String;
 var
   Obj: TPersistent;
   PropInfo: PPropInfo;
-  TypeName: String;
+  TypeName, BaseValue: String;
+  DiffersFromBase: Boolean;
 begin
   Result := '';
   if ABinding = nil then
@@ -836,8 +894,14 @@ begin
   if IsColorAppearanceProperty(PropInfo) then
     TypeName := 'TColor';
 
+  DiffersFromBase := AppearancePropertyDiffersFromBase(ABinding.Section, Obj,
+    PropInfo, BaseValue);
+
   Result := AppearanceSectionCaption(ABinding.Section) + '.' + ABinding.PropName +
     ' [' + TypeName + '] = ' + FormatAppearancePropertyValue(Obj, PropInfo);
+  if DiffersFromBase then
+    Result := '[alterado] ' + Result + ' | base = ' +
+      CompactInlineValue(BaseValue, 72);
 end;
 
 function TfrmLazRibbonSkinEditor.AppearancePropertyMatchesFilter(
@@ -867,7 +931,8 @@ var
   PropList: PPropList;
   PropCount, I: Integer;
   Binding: TLazRibbonAppearancePropertyBinding;
-  FilterText: String;
+  FilterText, BaseValue: String;
+  OnlyBaseDifferences: Boolean;
 begin
   Obj := AppearanceSectionObject(ASection);
   if Obj = nil then
@@ -876,6 +941,8 @@ begin
   FilterText := '';
   if edtAppearanceFilter <> nil then
     FilterText := edtAppearanceFilter.Text;
+  OnlyBaseDifferences := (chkAppearanceOnlyBaseDifferences <> nil) and
+    chkAppearanceOnlyBaseDifferences.Checked;
 
   PropList := nil;
   PropCount := GetPropList(Obj, PropList);
@@ -886,6 +953,10 @@ begin
         Continue;
 
       if not AppearancePropertyMatchesFilter(ASection, Obj, PropList^[I], FilterText) then
+        Continue;
+
+      if OnlyBaseDifferences and
+         (not AppearancePropertyDiffersFromBase(ASection, Obj, PropList^[I], BaseValue)) then
         Continue;
 
       Binding := TLazRibbonAppearancePropertyBinding.Create;
@@ -1213,6 +1284,12 @@ begin
 end;
 
 procedure TfrmLazRibbonSkinEditor.edtAppearanceFilterChange(Sender: TObject);
+begin
+  RefreshAppearanceInspector;
+end;
+
+procedure TfrmLazRibbonSkinEditor.chkAppearanceOnlyBaseDifferencesChange(
+  Sender: TObject);
 begin
   RefreshAppearanceInspector;
 end;

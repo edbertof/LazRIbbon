@@ -50,9 +50,9 @@ tools/LazRibbonSkinEditor/
 
 ## Current version
 
-This distribution is **LazRibbon 1.2.2 Skin Editor restore Appearance property from base**.
+This distribution is **LazRibbon 1.2.3 Skin Editor Appearance differences filter**.
 
-The stable 1.0.0 line remains the conservative baseline for production use. The 1.1 line is a controlled stabilization line now validated with Lazarus 4.8, with the 1.1.70 runtime behavior preserved and the 1.1.72 packaging/design-time polish applied on top. The 1.2.2 build continues the Skin Editor polish line with per-property Appearance restore from the focused base skin while keeping the 1.2.1 base comparison report, the 1.2.0 validation report, the 1.1.78 high-DPI palette icons, the 1.1.77 tab spacing controls, the 1.1.76 Dialog Launcher rename and the 1.1.75 Skin Editor Appearance inspector work.
+The stable 1.0.0 line remains the conservative baseline for production use. The 1.1 line is a controlled stabilization line now validated with Lazarus 4.8, with the 1.1.70 runtime behavior preserved and the 1.1.72 packaging/design-time polish applied on top. The 1.2.3 build continues the Skin Editor polish line with Appearance difference markers and filtering while keeping the 1.2.2 per-property restore from base, the 1.2.1 base comparison report, the 1.2.0 validation report, the 1.1.78 high-DPI palette icons, the 1.1.77 tab spacing controls, the 1.1.76 Dialog Launcher rename and the 1.1.75 Skin Editor Appearance inspector work.
 
 Highlights in the current 1.2 line:
 
@@ -68,6 +68,7 @@ Highlights in the current 1.2 line:
 - Skin Editor validation report for identity, image data/file state, Appearance mode and key contrast checks.
 - Skin Editor base comparison report covering metadata, icon state, palette colors and published Appearance properties.
 - Skin Editor per-property Appearance restore from the focused base skin.
+- Skin Editor Appearance difference markers and `Somente diferentes da base` filter.
 - Unified 24/36/48 px component palette icons for the visible LazRibbon design-time components.
 - A showcase demo that combines Ribbon form chrome, QAT, BackStage, recent files, skins, ScreenTips, KeyTips and contextual tabs.
 - Release scripts that audit package versions, demo GUI mode and generated artifacts before creating a source ZIP.

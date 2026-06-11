@@ -1,3 +1,12 @@
+## 1.2.3 - Skin Editor Appearance differences filter
+
+- Marks Appearance inspector rows that differ from the focused base skin with `[alterado]`.
+- Shows the corresponding base value inline for changed Appearance properties.
+- Adds `Somente diferentes da base` to the Skin Editor complete Appearance inspector.
+- Keeps the per-property restore workflow from 1.2.2 and the validation/comparison report from 1.2.1.
+- Keeps runtime Ribbon UI behavior unchanged.
+- Updates runtime and design-time package versions to 1.2.3.
+
 ## 1.2.2 - Skin Editor restore Appearance property from base
 
 - Adds `Restaurar da base` to the Skin Editor complete Appearance inspector.
