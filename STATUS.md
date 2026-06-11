@@ -1,9 +1,11 @@
 # LazRibbon Status
 
-`1.2.1 - Skin Editor base comparison report` is the current stabilization build.
+`1.2.2 - Skin Editor restore Appearance property from base` is the current stabilization build.
 
 
-The 1.2.1 build extends the standalone `LazRibbonSkinEditor` validation report with a comparison against the focused base skin. It reports changes in identity metadata, icon file/data state, palette colors and the published `Appearance` model, helping users understand what a custom skin changed before saving. Runtime Ribbon UI behavior is unchanged.
+The 1.2.2 build adds `Restaurar da base` to the standalone Skin Editor complete Appearance inspector. A user can select a published `Appearance` property and copy its value from the focused base skin into the current skin, then immediately see the live preview and validation/comparison report update. Runtime Ribbon UI behavior is unchanged.
+
+The 1.2.1 build extended the standalone `LazRibbonSkinEditor` validation report with a comparison against the focused base skin. It reports changes in identity metadata, icon file/data state, palette colors and the published `Appearance` model, helping users understand what a custom skin changed before saving.
 
 The 1.2.0 build began the Skin Editor polish line with a validation report that audits skin identity, optional metadata, icon file/data state, Appearance editing mode and key text contrast pairs before saving.
 

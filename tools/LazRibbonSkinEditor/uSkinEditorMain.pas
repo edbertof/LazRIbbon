@@ -204,6 +204,7 @@ type
     btnClearAppearanceFilter: TButton;
     lstAppearanceProperties: TListBox;
     btnEditAppearanceProperty: TButton;
+    btnResetAppearancePropertyFromBase: TButton;
     lblAppearanceInspectorHint: TLabel;
 
     procedure BindColorPanels;
@@ -239,6 +240,7 @@ type
       AObject: TPersistent; APropInfo: PPropInfo; const AFilter: String): Boolean;
     procedure AddAppearanceSectionProperties(ASection: TLazRibbonSkinAppearanceSection);
     procedure EditAppearanceProperty(ABinding: TLazRibbonAppearancePropertyBinding);
+    procedure ResetAppearancePropertyFromBase(ABinding: TLazRibbonAppearancePropertyBinding);
     procedure cbAppearanceSectionChange(Sender: TObject);
     procedure edtAppearanceFilterChange(Sender: TObject);
     procedure btnClearAppearanceFilterClick(Sender: TObject);
@@ -246,6 +248,11 @@ type
     procedure btnOpenAppearancePageClick(Sender: TObject);
     procedure btnOpenSelectedAppearanceSectionClick(Sender: TObject);
     procedure btnEditAppearancePropertyClick(Sender: TObject);
+    procedure btnResetAppearancePropertyFromBaseClick(Sender: TObject);
+    function AppearanceSectionObjectForSkin(ASkin: TLazRibbonSkinDefinition;
+      ASection: TLazRibbonSkinAppearanceSection): TPersistent;
+    function CopyAppearancePropertyValue(ABaseObj, ACurrentObj: TPersistent;
+      const APropName: String; out AErrorMessage: String): Boolean;
     function SelectedBaseSkin: TLazRibbonSkinDefinition;
     function SafeSkinIdentifier(const AValue: String): String;
     function UniqueCustomSkinIdentifier(ABaseSkin: TLazRibbonSkinDefinition): String;
@@ -623,13 +630,22 @@ begin
   btnEditAppearanceProperty.Caption := 'Editar selecionado';
   btnEditAppearanceProperty.OnClick := @btnEditAppearancePropertyClick;
 
+  btnResetAppearancePropertyFromBase := TButton.Create(Self);
+  btnResetAppearancePropertyFromBase.Parent := Sec;
+  btnResetAppearancePropertyFromBase.Left := 456;
+  btnResetAppearancePropertyFromBase.Top := 77;
+  btnResetAppearancePropertyFromBase.Width := 150;
+  btnResetAppearancePropertyFromBase.Height := 27;
+  btnResetAppearancePropertyFromBase.Caption := 'Restaurar da base';
+  btnResetAppearancePropertyFromBase.OnClick := @btnResetAppearancePropertyFromBaseClick;
+
   B := TButton.Create(Self);
   B.Parent := Sec;
-  B.Left := 456;
+  B.Left := 620;
   B.Top := 77;
-  B.Width := 190;
+  B.Width := 150;
   B.Height := 27;
-  B.Caption := 'Abrir secao no editor';
+  B.Caption := 'Abrir secao';
   B.OnClick := @btnOpenSelectedAppearanceSectionClick;
 
   L := TLabel.Create(Self);
@@ -656,10 +672,10 @@ begin
 
   lblAppearanceInspectorHint := TLabel.Create(Self);
   lblAppearanceInspectorHint.Parent := Sec;
-  lblAppearanceInspectorHint.Left := 668;
+  lblAppearanceInspectorHint.Left := 790;
   lblAppearanceInspectorHint.Top := 78;
-  lblAppearanceInspectorHint.Width := 340;
-  lblAppearanceInspectorHint.Height := 34;
+  lblAppearanceInspectorHint.Width := 230;
+  lblAppearanceInspectorHint.Height := 58;
   lblAppearanceInspectorHint.AutoSize := False;
   lblAppearanceInspectorHint.WordWrap := True;
   lblAppearanceInspectorHint.Caption := 'Dica: duplo clique em uma propriedade tambem edita. Cores, fontes, inteiros, booleanos e enums sao tratados automaticamente.';
@@ -701,21 +717,28 @@ begin
   end;
 end;
 
-function TfrmLazRibbonSkinEditor.AppearanceSectionObject(
+function TfrmLazRibbonSkinEditor.AppearanceSectionObjectForSkin(
+  ASkin: TLazRibbonSkinDefinition;
   ASection: TLazRibbonSkinAppearanceSection): TPersistent;
 begin
   Result := nil;
-  if (FCurrentSkin = nil) or (FCurrentSkin.Appearance = nil) then
+  if (ASkin = nil) or (ASkin.Appearance = nil) then
     Exit;
 
   case ASection of
-    asecTab: Result := FCurrentSkin.Appearance.Tab;
-    asecMenuButton: Result := FCurrentSkin.Appearance.MenuButton;
-    asecPane: Result := FCurrentSkin.Appearance.Pane;
-    asecElement: Result := FCurrentSkin.Appearance.Element;
-    asecPopup: Result := FCurrentSkin.Appearance.Popup;
+    asecTab: Result := ASkin.Appearance.Tab;
+    asecMenuButton: Result := ASkin.Appearance.MenuButton;
+    asecPane: Result := ASkin.Appearance.Pane;
+    asecElement: Result := ASkin.Appearance.Element;
+    asecPopup: Result := ASkin.Appearance.Popup;
     asecAll: Result := nil;
   end;
+end;
+
+function TfrmLazRibbonSkinEditor.AppearanceSectionObject(
+  ASection: TLazRibbonSkinAppearanceSection): TPersistent;
+begin
+  Result := AppearanceSectionObjectForSkin(FCurrentSkin, ASection);
 end;
 
 function TfrmLazRibbonSkinEditor.AppearanceSectionCaption(
@@ -1078,6 +1101,110 @@ begin
   UpdateAppearanceModeLabel;
   lblStatus.Caption := 'Appearance atualizado em ' +
     AppearanceSectionCaption(ABinding.Section) + '.' + ABinding.PropName + '.';
+  RefreshValidationReport;
+end;
+
+function TfrmLazRibbonSkinEditor.CopyAppearancePropertyValue(
+  ABaseObj, ACurrentObj: TPersistent; const APropName: String;
+  out AErrorMessage: String): Boolean;
+var
+  BaseProp, CurrentProp: PPropInfo;
+  Kind: TTypeKind;
+  BaseObject, CurrentObject: TObject;
+begin
+  Result := False;
+  AErrorMessage := '';
+  if (ABaseObj = nil) or (ACurrentObj = nil) then
+  begin
+    AErrorMessage := 'Secao de Appearance indisponivel.';
+    Exit;
+  end;
+
+  BaseProp := GetPropInfo(ABaseObj, APropName);
+  CurrentProp := GetPropInfo(ACurrentObj, APropName);
+  if (BaseProp = nil) or (CurrentProp = nil) then
+  begin
+    AErrorMessage := 'Propriedade nao encontrada na base ou na skin atual.';
+    Exit;
+  end;
+
+  Kind := CurrentProp^.PropType^.Kind;
+  if BaseProp^.PropType^.Kind <> Kind then
+  begin
+    AErrorMessage := 'Tipo da propriedade difere entre a base e a skin atual.';
+    Exit;
+  end;
+
+  case Kind of
+    tkInteger, tkInt64, tkQWord, tkEnumeration, tkBool,
+    tkChar, tkWChar, tkUChar:
+      SetOrdProp(ACurrentObj, CurrentProp, GetOrdProp(ABaseObj, BaseProp));
+
+    tkFloat:
+      SetFloatProp(ACurrentObj, CurrentProp, GetFloatProp(ABaseObj, BaseProp));
+
+    tkSet:
+      SetSetProp(ACurrentObj, CurrentProp, GetSetProp(ABaseObj, BaseProp, True));
+
+    tkSString, tkLString, tkAString, tkWString, tkUString:
+      SetStrProp(ACurrentObj, CurrentProp, GetStrProp(ABaseObj, BaseProp));
+
+    tkClass:
+      begin
+        BaseObject := GetObjectProp(ABaseObj, BaseProp);
+        CurrentObject := GetObjectProp(ACurrentObj, CurrentProp);
+        if (BaseObject is TFont) and (CurrentObject is TFont) then
+          TFont(CurrentObject).Assign(TFont(BaseObject))
+        else
+        begin
+          AErrorMessage := 'Esta propriedade de objeto nao pode ser restaurada automaticamente.';
+          Exit;
+        end;
+      end;
+  else
+    AErrorMessage := 'Tipo de propriedade ainda nao suportado para restauracao.';
+    Exit;
+  end;
+
+  Result := True;
+end;
+
+procedure TfrmLazRibbonSkinEditor.ResetAppearancePropertyFromBase(
+  ABinding: TLazRibbonAppearancePropertyBinding);
+var
+  BaseSkin: TLazRibbonSkinDefinition;
+  BaseObj, CurrentObj: TPersistent;
+  ErrorMessage: String;
+begin
+  if ABinding = nil then
+    Exit;
+
+  BaseSkin := SelectedBaseSkin;
+  if BaseSkin = nil then
+  begin
+    MessageDlg('Restaurar da base',
+      'Selecione uma skin-base antes de restaurar uma propriedade.',
+      mtInformation, [mbOK], 0);
+    Exit;
+  end;
+
+  BaseObj := AppearanceSectionObjectForSkin(BaseSkin, ABinding.Section);
+  CurrentObj := AppearanceSectionObjectForSkin(FCurrentSkin, ABinding.Section);
+  if not CopyAppearancePropertyValue(BaseObj, CurrentObj, ABinding.PropName,
+    ErrorMessage) then
+  begin
+    MessageDlg('Restaurar da base', ErrorMessage, mtWarning, [mbOK], 0);
+    Exit;
+  end;
+
+  FCurrentSkin.Source := sssCustom;
+  FFullAppearanceEdited := True;
+  RefreshAppearanceInspector;
+  ApplyCurrentSkinToPreview;
+  UpdateAppearanceModeLabel;
+  RefreshValidationReport;
+  lblStatus.Caption := 'Appearance restaurado da base em ' +
+    AppearanceSectionCaption(ABinding.Section) + '.' + ABinding.PropName + '.';
 end;
 
 procedure TfrmLazRibbonSkinEditor.cbAppearanceSectionChange(Sender: TObject);
@@ -1137,6 +1264,17 @@ begin
     Exit;
 
   EditAppearanceProperty(TLazRibbonAppearancePropertyBinding(
+    lstAppearanceProperties.Items.Objects[lstAppearanceProperties.ItemIndex]));
+end;
+
+procedure TfrmLazRibbonSkinEditor.btnResetAppearancePropertyFromBaseClick(
+  Sender: TObject);
+begin
+  if (lstAppearanceProperties = nil) or
+     (lstAppearanceProperties.ItemIndex < 0) then
+    Exit;
+
+  ResetAppearancePropertyFromBase(TLazRibbonAppearancePropertyBinding(
     lstAppearanceProperties.Items.Objects[lstAppearanceProperties.ItemIndex]));
 end;
 
@@ -1469,24 +1607,6 @@ var
       AddBaseDifference(ACaption, ColorToString(ABaseValue), ColorToString(ACurrentValue));
   end;
 
-  function AppearanceSectionObjectOf(ASkin: TLazRibbonSkinDefinition;
-    ASection: TLazRibbonSkinAppearanceSection): TPersistent;
-  begin
-    Result := nil;
-    if (ASkin = nil) or (ASkin.Appearance = nil) then
-      Exit;
-
-    case ASection of
-      asecTab: Result := ASkin.Appearance.Tab;
-      asecMenuButton: Result := ASkin.Appearance.MenuButton;
-      asecPane: Result := ASkin.Appearance.Pane;
-      asecElement: Result := ASkin.Appearance.Element;
-      asecPopup: Result := ASkin.Appearance.Popup;
-    else
-      Result := nil;
-    end;
-  end;
-
   procedure CompareAppearanceSection(ABaseSkin: TLazRibbonSkinDefinition;
     ASection: TLazRibbonSkinAppearanceSection);
   var
@@ -1496,8 +1616,8 @@ var
     BaseProp, CurrentProp: PPropInfo;
     PropName, BaseValue, CurrentValue: String;
   begin
-    BaseObj := AppearanceSectionObjectOf(ABaseSkin, ASection);
-    CurrentObj := AppearanceSectionObjectOf(FCurrentSkin, ASection);
+    BaseObj := AppearanceSectionObjectForSkin(ABaseSkin, ASection);
+    CurrentObj := AppearanceSectionObjectForSkin(FCurrentSkin, ASection);
     if (BaseObj = nil) or (CurrentObj = nil) then
       Exit;
 

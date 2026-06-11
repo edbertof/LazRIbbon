@@ -1,3 +1,12 @@
+## 1.2.2 - Skin Editor restore Appearance property from base
+
+- Adds `Restaurar da base` to the Skin Editor complete Appearance inspector.
+- The action copies the selected published `Appearance` property from the focused base skin into the current skin.
+- Supports colors, numbers, enums, booleans, sets, strings, characters and fonts through the same RTTI model used by the inspector.
+- Refreshes the live preview, Appearance inspector and validation/comparison report after restoring or editing an Appearance property.
+- Keeps runtime Ribbon UI behavior unchanged.
+- Updates runtime and design-time package versions to 1.2.2.
+
 ## 1.2.1 - Skin Editor base comparison report
 
 - Extends the `LazRibbonSkinEditor` validation report with a comparison against the focused base skin.

@@ -1,3 +1,11 @@
+## 1.2.2 check
+
+- Package metadata updated to 1.2.2.
+- `LazRibbonSkinEditor` complete Appearance inspector can restore the selected property from the focused base skin.
+- Restoring an Appearance property refreshes the live preview and validation/comparison report.
+- Runtime Ribbon UI behavior remains unchanged.
+- Release ZIP should still be created through `tools/build_release_zip.ps1` and must pass the generated-artifact audit.
+
 ## 1.2.1 check
 
 - Package metadata updated to 1.2.1.
