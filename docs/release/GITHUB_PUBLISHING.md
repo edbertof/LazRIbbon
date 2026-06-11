@@ -40,7 +40,7 @@ Lazarus/Free Pascal component package for Office-like Ribbon interfaces, includi
 Use a title such as:
 
 ```text
-LazRibbon 1.1.78 - Unified component palette icons
+LazRibbon 1.2.0 - Skin Editor validation report
 ```
 
 ## Release notes format

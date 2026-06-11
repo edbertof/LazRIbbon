@@ -1,3 +1,11 @@
+## 1.2.0 - Skin Editor validation report
+
+- Adds a validation report to the standalone `LazRibbonSkinEditor`.
+- The report audits skin identity, optional metadata, icon file/data state, Appearance editing mode and key contrast pairs before saving.
+- Adds design-time visible validation controls to the Skin Editor `.lfm` instead of creating them only at run time.
+- Keeps runtime Ribbon UI behavior unchanged.
+- Updates runtime and design-time package versions to 1.2.0.
+
 ## 1.1.78 - Unified component palette icons
 
 - Replaces the visible LazRibbon component palette icons with a unified Office-like visual family.

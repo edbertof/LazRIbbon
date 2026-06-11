@@ -81,6 +81,7 @@ type
     btnIcon24: TButton;
     btnIcon32: TButton;
     btnPreviewImage: TButton;
+    btnRefreshValidation: TButton;
     imgSkinIcon: TImage;
     lblAuthor: TLabel;
     lblBaseSkin: TLabel;
@@ -96,6 +97,7 @@ type
     lblHintSimple: TLabel;
     lblLivePreview: TLabel;
     lblPreviewInfo: TLabel;
+    lblValidationSummary: TLabel;
     lblSkinListTitle: TLabel;
     lblWorkflow: TLabel;
     lblStatus: TLabel;
@@ -114,6 +116,7 @@ type
     lblColorText: TLabel;
     lstSkins: TListBox;
     memDescription: TMemo;
+    memValidationReport: TMemo;
     OpenDialog: TOpenDialog;
     pcMain: TPageControl;
     pnlBottom: TPanel;
@@ -179,6 +182,7 @@ type
     procedure btnExportBuiltInsClick(Sender: TObject);
     procedure btnNewFromBaseClick(Sender: TObject);
     procedure btnOpenClick(Sender: TObject);
+    procedure btnRefreshValidationClick(Sender: TObject);
     procedure btnSaveAsClick(Sender: TObject);
     procedure BaseGallerySkinSelected(Sender: TObject);
     procedure ColorPanelClick(Sender: TObject);
@@ -210,6 +214,7 @@ type
     procedure CreateMetadataAssetControls;
     procedure ApplyInternalTabLayout;
     procedure RefreshIconPreview;
+    procedure RefreshValidationReport;
     procedure SetupPreviewToolbar;
     procedure ApplyCurrentSkinToPreview;
     procedure RefreshSkinList;
@@ -1279,6 +1284,27 @@ begin
                '- contraste aceitável;' + LineEnding +
                '- BackStage legível;' + LineEnding +
                '- arquivo salvo e reaberto sem erro.';
+  SecValidation.Visible := False;
+  SecChecklist.Visible := False;
+
+  if Assigned(lblPreviewInfo) then
+  begin
+    lblPreviewInfo.SetBounds(16, 18, 980, 36);
+    lblPreviewInfo.Caption := 'Valide a skin antes de salvar: identidade, arquivos de imagem, dados embutidos, contraste de texto e estado do Appearance detalhado.';
+  end;
+
+  if Assigned(btnRefreshValidation) then
+    btnRefreshValidation.SetBounds(16, 66, 160, 30);
+
+  if Assigned(lblValidationSummary) then
+    lblValidationSummary.SetBounds(192, 72, 860, 24);
+
+  if Assigned(memValidationReport) then
+  begin
+    memValidationReport.SetBounds(16, 112, pnlPreviewHost.ClientWidth - 32,
+      pnlPreviewHost.ClientHeight - 134);
+    memValidationReport.Anchors := [akTop, akLeft, akRight, akBottom];
+  end;
 end;
 
 procedure TfrmLazRibbonSkinEditor.RefreshIconPreview;
@@ -1312,6 +1338,171 @@ begin
     except
       imgSkinIcon.Picture.Clear;
     end;
+end;
+
+procedure TfrmLazRibbonSkinEditor.RefreshValidationReport;
+var
+  Lines: TStringList;
+  ErrorCount, WarningCount, InfoCount, OkCount: Integer;
+  P: TLazRibbonSkinPalette;
+
+  procedure AddMessage(const AKind, AText: String);
+  begin
+    if Lines = nil then Exit;
+    if SameText(AKind, 'ERRO') then
+      Inc(ErrorCount)
+    else if SameText(AKind, 'AVISO') then
+      Inc(WarningCount)
+    else if SameText(AKind, 'INFO') then
+      Inc(InfoCount)
+    else if SameText(AKind, 'OK') then
+      Inc(OkCount);
+    Lines.Add('[' + AKind + '] ' + AText);
+  end;
+
+  procedure AddBlank;
+  begin
+    if Lines <> nil then
+      Lines.Add('');
+  end;
+
+  procedure CheckRequiredText(const ACaption, AValue: String; ARequired: Boolean);
+  begin
+    if Trim(AValue) <> '' then
+      AddMessage('OK', ACaption + ': preenchido.')
+    else if ARequired then
+      AddMessage('ERRO', ACaption + ': precisa ser preenchido antes de salvar.')
+    else
+      AddMessage('INFO', ACaption + ': vazio; recomendado para skins distribuiveis.');
+  end;
+
+  procedure CheckAssetFile(const ACaption, AFileName, AEmbeddedData: String;
+    ARequired: Boolean);
+  var
+    FN: String;
+  begin
+    if Trim(AFileName) = '' then
+    begin
+      if Trim(AEmbeddedData) <> '' then
+        AddMessage('OK', ACaption + ': imagem embutida no XML.')
+      else if ARequired then
+        AddMessage('AVISO', ACaption + ': nenhum arquivo selecionado nem imagem embutida.')
+      else
+        AddMessage('INFO', ACaption + ': opcional e nao informado.');
+      Exit;
+    end;
+
+    FN := FCurrentSkin.ResolveAssetFileName(AFileName);
+    if FileExists(FN) then
+    begin
+      if Trim(AEmbeddedData) <> '' then
+        AddMessage('OK', ACaption + ': arquivo encontrado e dados embutidos ja existem.')
+      else
+        AddMessage('INFO', ACaption + ': arquivo encontrado; sera embutido no XML ao salvar.');
+    end
+    else if Trim(AEmbeddedData) <> '' then
+      AddMessage('AVISO', ACaption + ': arquivo nao encontrado, mas a imagem embutida existente sera usada.')
+    else
+      AddMessage('ERRO', ACaption + ': arquivo nao encontrado e nao ha imagem embutida.');
+  end;
+
+  procedure CheckContrast(const ACaption: String; ABackColor, ATextColor: TColor;
+    AMinimumRatio: Double);
+  var
+    Ratio: Double;
+  begin
+    Ratio := LazContrastRatio(ABackColor, ATextColor);
+    if Ratio >= AMinimumRatio then
+      AddMessage('OK', ACaption + ': contraste ' + FormatFloat('0.00', Ratio) + ':1.')
+    else
+      AddMessage('AVISO', ACaption + ': contraste ' + FormatFloat('0.00', Ratio) +
+        ':1, abaixo do minimo recomendado de ' + FormatFloat('0.00', AMinimumRatio) + ':1.');
+  end;
+
+begin
+  if (memValidationReport = nil) or (lblValidationSummary = nil) then
+    Exit;
+
+  Lines := TStringList.Create;
+  try
+    ErrorCount := 0;
+    WarningCount := 0;
+    InfoCount := 0;
+    OkCount := 0;
+
+    memValidationReport.Clear;
+    if FCurrentSkin = nil then
+    begin
+      lblValidationSummary.Caption := 'Nenhuma skin carregada.';
+      Exit;
+    end;
+
+    Lines.Add('Validacao da skin');
+    Lines.Add('=================');
+    Lines.Add('Nome exibido: ' + FCurrentSkin.DisplayName);
+    Lines.Add('Nome interno: ' + FCurrentSkin.Name);
+    if Trim(FCurrentSkin.FileName) <> '' then
+      Lines.Add('Arquivo: ' + FCurrentSkin.FileName)
+    else
+      Lines.Add('Arquivo: ainda nao salvo.');
+    AddBlank;
+
+    Lines.Add('Identidade');
+    Lines.Add('----------');
+    CheckRequiredText('Nome interno', FCurrentSkin.Name, True);
+    if (Trim(FCurrentSkin.Name) <> '') and
+       (not IsValidSkinIdentifier(FCurrentSkin.Name)) then
+      AddMessage('ERRO', 'Nome interno: use letras, numeros, sublinhado ou hifen, comecando por letra ou sublinhado.');
+    CheckRequiredText('Nome exibido', FCurrentSkin.DisplayName, True);
+    CheckRequiredText('Grupo', FCurrentSkin.GroupName, False);
+    CheckRequiredText('Autor', FCurrentSkin.Author, False);
+    CheckRequiredText('Descricao', FCurrentSkin.Description, False);
+    AddBlank;
+
+    Lines.Add('Imagens da skin');
+    Lines.Add('---------------');
+    CheckAssetFile('Icone 16x16', FCurrentSkin.Icon16FileName, FCurrentSkin.Icon16Data, True);
+    CheckAssetFile('Icone 24x24', FCurrentSkin.Icon24FileName, FCurrentSkin.Icon24Data, True);
+    CheckAssetFile('Icone 32x32', FCurrentSkin.Icon32FileName, FCurrentSkin.Icon32Data, True);
+    CheckAssetFile('Imagem de preview', FCurrentSkin.PreviewImageFileName, '', False);
+    AddBlank;
+
+    Lines.Add('Appearance');
+    Lines.Add('----------');
+    if FFullAppearanceEdited then
+      AddMessage('INFO', 'Appearance detalhado foi editado e sera preservado. Use "Regerar Appearance pela paleta" somente se quiser substituir esses ajustes.')
+    else
+      AddMessage('OK', 'Appearance esta sincronizado pelo fluxo de paleta simples.');
+    AddMessage('OK', 'Inspetor tecnico cobre Tab, MenuButton, Pane, Element e Popup.');
+    AddBlank;
+
+    Lines.Add('Contraste');
+    Lines.Add('----------');
+    P := FCurrentSkin.Palette;
+    CheckContrast('Texto sobre fundo geral', P.BackColor, P.TextColor, LAZRIBBON_MIN_TEXT_CONTRAST);
+    CheckContrast('Texto secundario sobre fundo geral', P.BackColor, P.MutedTextColor, 3.0);
+    CheckContrast('Texto sobre Ribbon topo', P.RibbonTopColor, P.TextColor, LAZRIBBON_MIN_TEXT_CONTRAST);
+    CheckContrast('Texto sobre Ribbon base', P.RibbonBottomColor, P.TextColor, LAZRIBBON_MIN_TEXT_CONTRAST);
+    CheckContrast('Texto sobre grupo/pane', P.RibbonGroupColor, P.TextColor, LAZRIBBON_MIN_TEXT_CONTRAST);
+    CheckContrast('Texto sobre hover', P.HotColor, P.TextColor, LAZRIBBON_MIN_TEXT_CONTRAST);
+    CheckContrast('Texto sobre ativo', P.ActiveColor, P.TextColor, LAZRIBBON_MIN_TEXT_CONTRAST);
+    CheckContrast('BackStage texto normal', P.BackstageNavColor, P.BackstageNavTextColor, LAZRIBBON_MIN_TEXT_CONTRAST);
+    CheckContrast('BackStage texto secundario', P.BackstageNavColor, P.BackstageNavMutedTextColor, 3.0);
+    CheckContrast('BackStage hover', P.BackstageNavHoverColor, P.BackstageNavHoverTextColor, LAZRIBBON_MIN_TEXT_CONTRAST);
+    CheckContrast('BackStage selecionado', P.BackstageNavSelectedColor, P.BackstageNavSelectedTextColor, LAZRIBBON_MIN_TEXT_CONTRAST);
+
+    memValidationReport.Lines.Assign(Lines);
+    lblValidationSummary.Caption := Format('Erros: %d   Avisos: %d   Infos: %d   OK: %d',
+      [ErrorCount, WarningCount, InfoCount, OkCount]);
+    if ErrorCount > 0 then
+      lblValidationSummary.Font.Color := clRed
+    else if WarningCount > 0 then
+      lblValidationSummary.Font.Color := clMaroon
+    else
+      lblValidationSummary.Font.Color := clGreen;
+  finally
+    Lines.Free;
+  end;
 end;
 
 procedure TfrmLazRibbonSkinEditor.IconFileButtonClick(Sender: TObject);
@@ -1513,6 +1704,7 @@ begin
     UpdateAppearanceModeLabel;
     RefreshAppearanceInspector;
     ApplyCurrentSkinToPreview;
+    RefreshValidationReport;
   finally
     FUpdating := False;
   end;
@@ -1872,6 +2064,7 @@ begin
   if (Sender = edtIcon16) or (Sender = edtIcon24) or (Sender = edtIcon32) or
      (Sender = edtPreviewImage) then
     RefreshIconPreview;
+  RefreshValidationReport;
 end;
 
 procedure TfrmLazRibbonSkinEditor.ColorPanelClick(Sender: TObject);
@@ -1887,6 +2080,7 @@ begin
     RefreshAppearanceInspector;
     ApplyCurrentSkinToPreview;
     UpdateAppearanceModeLabel;
+    RefreshValidationReport;
     if FFullAppearanceEdited then
       lblStatus.Caption := 'Cor atualizada na paleta. Os ajustes visuais detalhados do Appearance foram preservados.'
     else
@@ -1904,6 +2098,7 @@ begin
   RefreshAppearanceInspector;
   ApplyCurrentSkinToPreview;
   UpdateAppearanceModeLabel;
+  RefreshValidationReport;
   lblStatus.Caption := 'Paleta sincronizada com o Appearance. Ajustes visuais detalhados anteriores foram substituidos pela paleta.';
 end;
 
@@ -1930,6 +2125,7 @@ begin
       RefreshAppearanceInspector;
       ApplyCurrentSkinToPreview;
       UpdateAppearanceModeLabel;
+      RefreshValidationReport;
       lblStatus.Caption := 'Appearance atualizado pelo editor visual. Use sincronizacao explicita para substituir esses ajustes pela paleta.';
     end;
   finally
@@ -1966,6 +2162,7 @@ begin
   FFullAppearanceEdited := True;
   UpdateEditorFromSkin;
   lblBaseHint.Caption := 'Editando nova skin baseada em: ' + BaseDisplayName + '.';
+  RefreshValidationReport;
   lblStatus.Caption := 'Nova skin criada como copia completa de ' + BaseDisplayName + '. Palette e Appearance foram preservados.';
 end;
 
@@ -1977,8 +2174,16 @@ begin
     FFullAppearanceEdited := True;
     UpdateEditorFromSkin;
     lblBaseHint.Caption := 'Editando arquivo: ' + ExtractFileName(OpenDialog.FileName);
+    RefreshValidationReport;
     lblStatus.Caption := 'Skin carregada: ' + OpenDialog.FileName;
   end;
+end;
+
+procedure TfrmLazRibbonSkinEditor.btnRefreshValidationClick(Sender: TObject);
+begin
+  UpdateSkinFromEditor;
+  RefreshValidationReport;
+  lblStatus.Caption := 'Validacao da skin atualizada.';
 end;
 
 procedure TfrmLazRibbonSkinEditor.btnSaveAsClick(Sender: TObject);
@@ -1999,6 +2204,7 @@ begin
 
     FCurrentSkin.Source := sssExternal;
     FCurrentSkin.SaveToFile(SaveDialog.FileName);
+    RefreshValidationReport;
     lblStatus.Caption := 'Skin salva: ' + SaveDialog.FileName;
   end;
 end;

@@ -1038,6 +1038,33 @@ object frmLazRibbonSkinEditor: TfrmLazRibbonSkinEditor
           Caption = 'Use o Ribbon acima para validar a skin: abas, grupos, botões grandes, botões pequenos, checkbox e contraste de texto.'
           WordWrap = True
         end
+        object btnRefreshValidation: TButton
+          Left = 16
+          Height = 30
+          Top = 66
+          Width = 160
+          Caption = 'Atualizar validacao'
+          OnClick = btnRefreshValidationClick
+          TabOrder = 0
+        end
+        object lblValidationSummary: TLabel
+          Left = 192
+          Height = 30
+          Top = 72
+          Width = 820
+          AutoSize = False
+          Caption = 'Nenhuma validacao executada.'
+        end
+        object memValidationReport: TMemo
+          Left = 16
+          Height = 450
+          Top = 112
+          Width = 1120
+          Anchors = [akTop, akLeft, akRight, akBottom]
+          ReadOnly = True
+          ScrollBars = ssAutoBoth
+          TabOrder = 1
+        end
       end
     end
     object tabAdvanced: TTabSheet

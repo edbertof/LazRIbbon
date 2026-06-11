@@ -1,3 +1,11 @@
+## 1.2.0 check
+
+- Package metadata updated to 1.2.0.
+- `LazRibbonSkinEditor` includes a validation report for identity, metadata, icon file/data state, Appearance mode and contrast checks.
+- Validation controls are persisted in `uSkinEditorMain.lfm` for design-time visibility.
+- Runtime Ribbon UI behavior remains unchanged.
+- Release ZIP should still be created through `tools/build_release_zip.ps1` and must pass the generated-artifact audit.
+
 ## 1.1.78 check
 
 - Package metadata updated to 1.1.78.
