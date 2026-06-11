@@ -1,3 +1,11 @@
+## 1.2.1 check
+
+- Package metadata updated to 1.2.1.
+- `LazRibbonSkinEditor` validation report includes comparison against the focused base skin.
+- The base comparison covers metadata, icon file/data state, palette colors and published Appearance properties.
+- Runtime Ribbon UI behavior remains unchanged.
+- Release ZIP should still be created through `tools/build_release_zip.ps1` and must pass the generated-artifact audit.
+
 ## 1.2.0 check
 
 - Package metadata updated to 1.2.0.

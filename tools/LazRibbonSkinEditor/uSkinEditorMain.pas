@@ -1341,9 +1341,13 @@ begin
 end;
 
 procedure TfrmLazRibbonSkinEditor.RefreshValidationReport;
+const
+  MaxBaseComparisonDetails = 80;
 var
   Lines: TStringList;
+  DiffLines: TStringList;
   ErrorCount, WarningCount, InfoCount, OkCount: Integer;
+  DifferenceCount, DifferenceDetailCount: Integer;
   P: TLazRibbonSkinPalette;
 
   procedure AddMessage(const AKind, AText: String);
@@ -1419,16 +1423,205 @@ var
         ':1, abaixo do minimo recomendado de ' + FormatFloat('0.00', AMinimumRatio) + ':1.');
   end;
 
+  function CompactReportValue(const AValue: String): String;
+  begin
+    Result := Trim(AValue);
+    Result := StringReplace(Result, #13, ' ', [rfReplaceAll]);
+    Result := StringReplace(Result, #10, ' ', [rfReplaceAll]);
+    Result := StringReplace(Result, #9, ' ', [rfReplaceAll]);
+    while Pos('  ', Result) > 0 do
+      Result := StringReplace(Result, '  ', ' ', [rfReplaceAll]);
+    if Result = '' then
+      Result := '(vazio)';
+    if Length(Result) > 96 then
+      Result := Copy(Result, 1, 93) + '...';
+  end;
+
+  function EmbeddedDataState(const AData: String): String;
+  begin
+    if Trim(AData) <> '' then
+      Result := 'embutido'
+    else
+      Result := 'sem dados';
+  end;
+
+  procedure AddBaseDifference(const ACaption, ABaseValue, ACurrentValue: String);
+  begin
+    Inc(DifferenceCount);
+    if DifferenceDetailCount >= MaxBaseComparisonDetails then
+      Exit;
+
+    Inc(DifferenceDetailCount);
+    DiffLines.Add('  - ' + ACaption + ': base=' +
+      CompactReportValue(ABaseValue) + '; atual=' +
+      CompactReportValue(ACurrentValue));
+  end;
+
+  procedure CompareTextField(const ACaption, ABaseValue, ACurrentValue: String);
+  begin
+    if ABaseValue <> ACurrentValue then
+      AddBaseDifference(ACaption, ABaseValue, ACurrentValue);
+  end;
+
+  procedure CompareColorField(const ACaption: String; ABaseValue, ACurrentValue: TColor);
+  begin
+    if ABaseValue <> ACurrentValue then
+      AddBaseDifference(ACaption, ColorToString(ABaseValue), ColorToString(ACurrentValue));
+  end;
+
+  function AppearanceSectionObjectOf(ASkin: TLazRibbonSkinDefinition;
+    ASection: TLazRibbonSkinAppearanceSection): TPersistent;
+  begin
+    Result := nil;
+    if (ASkin = nil) or (ASkin.Appearance = nil) then
+      Exit;
+
+    case ASection of
+      asecTab: Result := ASkin.Appearance.Tab;
+      asecMenuButton: Result := ASkin.Appearance.MenuButton;
+      asecPane: Result := ASkin.Appearance.Pane;
+      asecElement: Result := ASkin.Appearance.Element;
+      asecPopup: Result := ASkin.Appearance.Popup;
+    else
+      Result := nil;
+    end;
+  end;
+
+  procedure CompareAppearanceSection(ABaseSkin: TLazRibbonSkinDefinition;
+    ASection: TLazRibbonSkinAppearanceSection);
+  var
+    BaseObj, CurrentObj: TPersistent;
+    PropList: PPropList;
+    PropCount, I: Integer;
+    BaseProp, CurrentProp: PPropInfo;
+    PropName, BaseValue, CurrentValue: String;
+  begin
+    BaseObj := AppearanceSectionObjectOf(ABaseSkin, ASection);
+    CurrentObj := AppearanceSectionObjectOf(FCurrentSkin, ASection);
+    if (BaseObj = nil) or (CurrentObj = nil) then
+      Exit;
+
+    PropList := nil;
+    PropCount := GetPropList(CurrentObj, PropList);
+    try
+      for I := 0 to PropCount - 1 do
+      begin
+        CurrentProp := PropList^[I];
+        if CurrentProp = nil then
+          Continue;
+
+        PropName := String(CurrentProp^.Name);
+        BaseProp := GetPropInfo(BaseObj, PropName);
+        if BaseProp = nil then
+          Continue;
+
+        BaseValue := FormatAppearancePropertyValue(BaseObj, BaseProp);
+        CurrentValue := FormatAppearancePropertyValue(CurrentObj, CurrentProp);
+        if BaseValue <> CurrentValue then
+          AddBaseDifference('Appearance.' + AppearanceSectionCaption(ASection) +
+            '.' + PropName, BaseValue, CurrentValue);
+      end;
+    finally
+      if PropList <> nil then
+        FreeMem(PropList);
+    end;
+  end;
+
+  procedure AddBaseComparison;
+  const
+    Sections: array[0..4] of TLazRibbonSkinAppearanceSection = (
+      asecTab,
+      asecMenuButton,
+      asecPane,
+      asecElement,
+      asecPopup
+    );
+  var
+    BaseSkin: TLazRibbonSkinDefinition;
+    BasePalette, CurrentPalette: TLazRibbonSkinPalette;
+    I: Integer;
+  begin
+    Lines.Add('Comparacao com base em foco');
+    Lines.Add('---------------------------');
+
+    BaseSkin := SelectedBaseSkin;
+    if BaseSkin = nil then
+    begin
+      AddMessage('INFO', 'Nenhuma base em foco para comparar.');
+      Exit;
+    end;
+
+    Lines.Add('Base: ' + BaseSkin.DisplayName + ' (' + BaseSkin.Name + ')');
+    DifferenceCount := 0;
+    DifferenceDetailCount := 0;
+    DiffLines.Clear;
+
+    CompareTextField('Nome interno', BaseSkin.Name, FCurrentSkin.Name);
+    CompareTextField('Nome exibido', BaseSkin.DisplayName, FCurrentSkin.DisplayName);
+    CompareTextField('Grupo', BaseSkin.GroupName, FCurrentSkin.GroupName);
+    CompareTextField('Autor', BaseSkin.Author, FCurrentSkin.Author);
+    CompareTextField('Descricao', BaseSkin.Description, FCurrentSkin.Description);
+    CompareTextField('Icone 16x16 arquivo', BaseSkin.Icon16FileName, FCurrentSkin.Icon16FileName);
+    CompareTextField('Icone 24x24 arquivo', BaseSkin.Icon24FileName, FCurrentSkin.Icon24FileName);
+    CompareTextField('Icone 32x32 arquivo', BaseSkin.Icon32FileName, FCurrentSkin.Icon32FileName);
+    CompareTextField('Icone 16x16 dados', EmbeddedDataState(BaseSkin.Icon16Data), EmbeddedDataState(FCurrentSkin.Icon16Data));
+    CompareTextField('Icone 24x24 dados', EmbeddedDataState(BaseSkin.Icon24Data), EmbeddedDataState(FCurrentSkin.Icon24Data));
+    CompareTextField('Icone 32x32 dados', EmbeddedDataState(BaseSkin.Icon32Data), EmbeddedDataState(FCurrentSkin.Icon32Data));
+    CompareTextField('Imagem de preview', BaseSkin.PreviewImageFileName, FCurrentSkin.PreviewImageFileName);
+
+    BasePalette := BaseSkin.Palette;
+    CurrentPalette := FCurrentSkin.Palette;
+    CompareColorField('Palette.BackColor', BasePalette.BackColor, CurrentPalette.BackColor);
+    CompareColorField('Palette.TextColor', BasePalette.TextColor, CurrentPalette.TextColor);
+    CompareColorField('Palette.MutedTextColor', BasePalette.MutedTextColor, CurrentPalette.MutedTextColor);
+    CompareColorField('Palette.FrameColor', BasePalette.FrameColor, CurrentPalette.FrameColor);
+    CompareColorField('Palette.NavigationColor', BasePalette.NavigationColor, CurrentPalette.NavigationColor);
+    CompareColorField('Palette.ActiveColor', BasePalette.ActiveColor, CurrentPalette.ActiveColor);
+    CompareColorField('Palette.HotColor', BasePalette.HotColor, CurrentPalette.HotColor);
+    CompareColorField('Palette.RibbonTopColor', BasePalette.RibbonTopColor, CurrentPalette.RibbonTopColor);
+    CompareColorField('Palette.RibbonBottomColor', BasePalette.RibbonBottomColor, CurrentPalette.RibbonBottomColor);
+    CompareColorField('Palette.RibbonTabActiveColor', BasePalette.RibbonTabActiveColor, CurrentPalette.RibbonTabActiveColor);
+    CompareColorField('Palette.RibbonTabHotColor', BasePalette.RibbonTabHotColor, CurrentPalette.RibbonTabHotColor);
+    CompareColorField('Palette.RibbonGroupColor', BasePalette.RibbonGroupColor, CurrentPalette.RibbonGroupColor);
+    CompareColorField('Palette.RibbonGroupFrameColor', BasePalette.RibbonGroupFrameColor, CurrentPalette.RibbonGroupFrameColor);
+    CompareColorField('Palette.BackstageNavColor', BasePalette.BackstageNavColor, CurrentPalette.BackstageNavColor);
+    CompareColorField('Palette.BackstageNavTextColor', BasePalette.BackstageNavTextColor, CurrentPalette.BackstageNavTextColor);
+    CompareColorField('Palette.BackstageNavMutedTextColor', BasePalette.BackstageNavMutedTextColor, CurrentPalette.BackstageNavMutedTextColor);
+    CompareColorField('Palette.BackstageNavHoverColor', BasePalette.BackstageNavHoverColor, CurrentPalette.BackstageNavHoverColor);
+    CompareColorField('Palette.BackstageNavHoverTextColor', BasePalette.BackstageNavHoverTextColor, CurrentPalette.BackstageNavHoverTextColor);
+    CompareColorField('Palette.BackstageNavSelectedColor', BasePalette.BackstageNavSelectedColor, CurrentPalette.BackstageNavSelectedColor);
+    CompareColorField('Palette.BackstageNavSelectedTextColor', BasePalette.BackstageNavSelectedTextColor, CurrentPalette.BackstageNavSelectedTextColor);
+    CompareColorField('Palette.BackstageNavSelectedFrameColor', BasePalette.BackstageNavSelectedFrameColor, CurrentPalette.BackstageNavSelectedFrameColor);
+
+    for I := Low(Sections) to High(Sections) do
+      CompareAppearanceSection(BaseSkin, Sections[I]);
+
+    if DifferenceCount = 0 then
+      AddMessage('OK', 'Skin atual igual a base em foco nos campos auditados.')
+    else
+    begin
+      AddMessage('INFO', Format('Foram encontradas %d diferencas em relacao a base em foco.',
+        [DifferenceCount]));
+      Lines.AddStrings(DiffLines);
+      if DifferenceCount > DifferenceDetailCount then
+        Lines.Add(Format('  ... mais %d diferencas omitidas para manter o relatorio legivel.',
+          [DifferenceCount - DifferenceDetailCount]));
+    end;
+  end;
+
 begin
   if (memValidationReport = nil) or (lblValidationSummary = nil) then
     Exit;
 
   Lines := TStringList.Create;
+  DiffLines := TStringList.Create;
   try
     ErrorCount := 0;
     WarningCount := 0;
     InfoCount := 0;
     OkCount := 0;
+    DifferenceCount := 0;
+    DifferenceDetailCount := 0;
 
     memValidationReport.Clear;
     if FCurrentSkin = nil then
@@ -1467,6 +1660,9 @@ begin
     CheckAssetFile('Imagem de preview', FCurrentSkin.PreviewImageFileName, '', False);
     AddBlank;
 
+    AddBaseComparison;
+    AddBlank;
+
     Lines.Add('Appearance');
     Lines.Add('----------');
     if FFullAppearanceEdited then
@@ -1501,6 +1697,7 @@ begin
     else
       lblValidationSummary.Font.Color := clGreen;
   finally
+    DiffLines.Free;
     Lines.Free;
   end;
 end;

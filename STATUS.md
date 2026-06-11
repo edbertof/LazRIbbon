@@ -1,9 +1,11 @@
 # LazRibbon Status
 
-`1.2.0 - Skin Editor validation report` is the current stabilization build.
+`1.2.1 - Skin Editor base comparison report` is the current stabilization build.
 
 
-The 1.2.0 build begins the next Skin Editor polish line. The standalone `LazRibbonSkinEditor` now has a validation report that audits skin identity, optional metadata, icon file/data state, Appearance editing mode and key text contrast pairs before saving. Runtime Ribbon UI behavior is unchanged.
+The 1.2.1 build extends the standalone `LazRibbonSkinEditor` validation report with a comparison against the focused base skin. It reports changes in identity metadata, icon file/data state, palette colors and the published `Appearance` model, helping users understand what a custom skin changed before saving. Runtime Ribbon UI behavior is unchanged.
+
+The 1.2.0 build began the Skin Editor polish line with a validation report that audits skin identity, optional metadata, icon file/data state, Appearance editing mode and key text contrast pairs before saving.
 
 The 1.1.78 build replaced the visible LazRibbon component palette icons with a unified Office-like family and added 24 px, 36 px and 48 px resources for sharper normal, 150% and 200% Lazarus UI scales.
 

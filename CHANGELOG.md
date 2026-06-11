@@ -1,3 +1,11 @@
+## 1.2.1 - Skin Editor base comparison report
+
+- Extends the `LazRibbonSkinEditor` validation report with a comparison against the focused base skin.
+- The comparison reports changes in identity metadata, icon file/data state, palette colors and published `Appearance` properties.
+- Limits detailed difference output so heavily changed skins remain readable while still showing the full difference count.
+- Keeps runtime Ribbon UI behavior unchanged.
+- Updates runtime and design-time package versions to 1.2.1.
+
 ## 1.2.0 - Skin Editor validation report
 
 - Adds a validation report to the standalone `LazRibbonSkinEditor`.
