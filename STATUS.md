@@ -1,7 +1,9 @@
 # LazRibbon Status
 
-`1.1.77 - Office-like tab spacing controls` is the current stabilization build.
+`1.1.78 - Unified component palette icons` is the current stabilization build.
 
+
+The 1.1.78 build replaces the visible LazRibbon component palette icons with a unified Office-like family and adds 24 px, 36 px and 48 px resources for sharper normal, 150% and 200% Lazarus UI scales. Runtime UI behavior is unchanged.
 
 The 1.1.77 build adds explicit `TLazRibbon` tab geometry controls: `TabCaptionHorizontalPadding`, `TabCaptionSpacing` and `MinTabCaptionWidth`. The defaults are now more Office-like, so tabs no longer appear visually squeezed together, and developers can tune this directly in the Object Inspector. Skin changes still control colors, fonts and gradients; these tab metrics are Ribbon layout properties.
 

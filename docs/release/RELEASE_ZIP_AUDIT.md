@@ -1,3 +1,11 @@
+## 1.1.78 check
+
+- Package metadata updated to 1.1.78.
+- Visible LazRibbon component palette icons share a single Office-like visual style.
+- Palette icon resources include 24 px, 36 px and 48 px entries using `ClassName`, `ClassName_150` and `ClassName_200`.
+- `source/design/icons/make_res.bat` regenerates the current `.lrs` files from all three PNG sizes.
+- Release ZIP should still be created through `tools/build_release_zip.ps1` and must pass the generated-artifact audit.
+
 ## 1.1.77 check
 
 - Package metadata updated to 1.1.77.

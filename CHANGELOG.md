@@ -1,3 +1,12 @@
+## 1.1.78 - Unified component palette icons
+
+- Replaces the visible LazRibbon component palette icons with a unified Office-like visual family.
+- Adds 24 px, 36 px and 48 px PNG variants for the palette components so Lazarus can use sharper icons at normal, 150% and 200% scales.
+- Regenerates the component `.lrs` resources with `ClassName`, `ClassName_150` and `ClassName_200` entries.
+- Updates `source/design/icons/make_res.bat` so future icon resource regeneration follows the current Lazarus high-DPI pattern.
+- Keeps runtime UI behavior unchanged.
+- Updates runtime and design-time package versions to 1.1.78.
+
 ## 1.1.77 - Office-like tab spacing controls
 
 - Adds `TLazRibbon.TabCaptionHorizontalPadding`, `TabCaptionSpacing` and `MinTabCaptionWidth` so developers can tune Ribbon tab geometry from the Object Inspector.

@@ -50,9 +50,9 @@ tools/LazRibbonSkinEditor/
 
 ## Current version
 
-This distribution is **LazRibbon 1.1.77 Office-like tab spacing controls**.
+This distribution is **LazRibbon 1.1.78 Unified component palette icons**.
 
-The stable 1.0.0 line remains the conservative baseline for production use. The 1.1 line is a controlled stabilization line now validated with Lazarus 4.8, with the 1.1.70 runtime behavior preserved and the 1.1.72 packaging/design-time polish applied on top. The 1.1.77 build adds Office-like tab spacing controls and keeps the 1.1.76 Dialog Launcher rename and the 1.1.75 Skin Editor Appearance inspector work.
+The stable 1.0.0 line remains the conservative baseline for production use. The 1.1 line is a controlled stabilization line now validated with Lazarus 4.8, with the 1.1.70 runtime behavior preserved and the 1.1.72 packaging/design-time polish applied on top. The 1.1.78 build adds a unified high-DPI component palette icon set and keeps the 1.1.77 tab spacing controls, the 1.1.76 Dialog Launcher rename and the 1.1.75 Skin Editor Appearance inspector work.
 
 Highlights in the current 1.1 line:
 
@@ -65,6 +65,7 @@ Highlights in the current 1.1 line:
 - Built-in and external `.skin` loading through `TLazRibbonSkinManager`, with `SkinFolder = '.\Skins'` as the default external folder.
 - Skin XML icon embedding through `Icon16Data`, `Icon24Data` and `Icon32Data`, while keeping the legacy file-name tags for compatibility.
 - Expanded Skin Editor Appearance inspector with all-section browsing, filtering and broader RTTI property editing.
+- Unified 24/36/48 px component palette icons for the visible LazRibbon design-time components.
 - A showcase demo that combines Ribbon form chrome, QAT, BackStage, recent files, skins, ScreenTips, KeyTips and contextual tabs.
 - Release scripts that audit package versions, demo GUI mode and generated artifacts before creating a source ZIP.
 - GitHub-oriented contribution, validation and publishing documentation.
