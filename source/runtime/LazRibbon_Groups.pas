@@ -305,7 +305,7 @@ var
   i: Integer;
   R: T2DIntRect;
   CaptionTextRect: TRect;
-  CaptionTextStyle: TTextStyle;
+  CaptionTextY: Integer;
   delta: Integer;
   isRTL: Boolean;
   ts: TTextStyle;
@@ -420,15 +420,11 @@ begin
 
   ABuffer.Canvas.Brush.Style := bsClear;
   ABuffer.Canvas.Font.Color := FontColor;
-  CaptionTextStyle := ABuffer.Canvas.TextStyle;
-  CaptionTextStyle.Alignment := taCenter;
-  CaptionTextStyle.Layout := tlCenter;
-  CaptionTextStyle.SingleLine := True;
-  CaptionTextStyle.Clipping := True;
-  CaptionTextStyle.EndEllipsis := True;
-  CaptionTextStyle.RightToLeft := isRTL;
-  ABuffer.Canvas.TextRect(CaptionTextRect, CaptionTextRect.Left,
-    CaptionTextRect.Top, FCaption, CaptionTextStyle);
+  CaptionTextY := CaptionTextRect.Top +
+    Max(0, (CaptionTextRect.Bottom - CaptionTextRect.Top -
+      ABuffer.Canvas.TextHeight('Wy')) div 2);
+  TGUITools.DrawFitWText(ABuffer.Canvas, CaptionTextRect.Left,
+    CaptionTextRect.Right, CaptionTextY, FCaption, FontColor, taCenter);
 
   // Draw the 'Dialog launcher' button
   DrawDialogLauncher(ABuffer, ClipRect);

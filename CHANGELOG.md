@@ -1,3 +1,10 @@
+## 1.2.6 - Pane caption text rendering fix
+
+- Replaces the pane caption `Canvas.TextRect` rendering path with the package's direct fit-width text routine.
+- Keeps pane captions vertically centered inside the caption band while avoiding widgetset-dependent `TTextStyle.Layout` behavior.
+- Fixes the Skin Editor live Ribbon preview case where pane captions were assigned but not painted.
+- Updates runtime and design-time package versions to 1.2.6.
+
 ## 1.2.5 - Skin Editor pane preview height and launcher fix
 
 - Increases and synchronizes the Skin Editor live Ribbon preview height so pane captions and the Dialog Launcher are not clipped.

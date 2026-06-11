@@ -1,3 +1,10 @@
+## 1.2.6 check
+
+- Package metadata updated to 1.2.6.
+- `TLazRibbonPane` draws pane captions through the direct fit-width text path.
+- Skin Editor live Ribbon preview should show pane group names such as `Documento`, `Janela`, `Exemplos` and `Opções`.
+- Release ZIP should still be created through `tools/build_release_zip.ps1` and must pass the generated-artifact audit.
+
 ## 1.2.5 check
 
 - Package metadata updated to 1.2.5.
