@@ -1,3 +1,11 @@
+## 1.2.5 check
+
+- Package metadata updated to 1.2.5.
+- Skin Editor live Ribbon preview height is no longer fixed to the older 132 px layout.
+- Skin Editor `Estilos` pane exposes a working Dialog Launcher that opens the complete Appearance editor on the Pane section.
+- Dialog Launcher glyphs are drawn by canvas lines, avoiding font/private-use character dependency.
+- Release ZIP should still be created through `tools/build_release_zip.ps1` and must pass the generated-artifact audit.
+
 ## 1.2.4 check
 
 - Package metadata updated to 1.2.4.

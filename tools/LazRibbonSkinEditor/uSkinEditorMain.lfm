@@ -16,12 +16,12 @@ object frmLazRibbonSkinEditor: TfrmLazRibbonSkinEditor
   OnDestroy = FormDestroy
   object pnlLivePreview: TPanel
     Left = 0
-    Height = 132
+    Height = 150
     Top = 0
     Width = 1180
     Align = alTop
     BevelOuter = bvNone
-    ClientHeight = 132
+    ClientHeight = 150
     ClientWidth = 1180
     ParentBackground = False
     TabOrder = 1
@@ -35,7 +35,7 @@ object frmLazRibbonSkinEditor: TfrmLazRibbonSkinEditor
     end
     object PreviewToolbar: TLazRibbon
       Left = 0
-      Height = 132
+      Height = 150
       Top = 0
       Width = 1180
       ApplicationButton.Caption = 'Arquivo'
@@ -276,6 +276,7 @@ object frmLazRibbonSkinEditor: TfrmLazRibbonSkinEditor
         end
         object EditorPaneAppearance: TLazRibbonPane
           Caption = 'Estilos'
+          ShowDialogLauncher = True
           Items = (
             'EditorLargeFullAppearance'
             'EditorSmallApplyPaletteAppearance'

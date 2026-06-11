@@ -1,7 +1,9 @@
 # LazRibbon Status
 
-`1.2.4 - Pane captions paint order fix` is the current stabilization build.
+`1.2.5 - Skin Editor pane preview height and launcher fix` is the current stabilization build.
 
+
+The 1.2.5 build fixes the remaining Skin Editor live Ribbon preview clipping case by giving the preview host enough height and synchronizing it after Ribbon metric recalculation. It also enables a real Dialog Launcher on the `Estilos` pane and draws the launcher glyph directly on the canvas instead of relying on font-specific private-use characters. `TLazRibbon.Appearance` remains the active low-level visual model used by internal styles and `TLazRibbonSkinManager`; renaming or hiding that API should be handled as a dedicated design-time/API cleanup.
 
 The 1.2.4 build fixes pane caption rendering in `TLazRibbonPane` so the Skin Editor live Ribbon preview shows group captions reliably. Pane captions are drawn after pane items, centered inside the caption band, clipped with ellipsis when needed, and kept compatible with the Dialog Launcher.
 

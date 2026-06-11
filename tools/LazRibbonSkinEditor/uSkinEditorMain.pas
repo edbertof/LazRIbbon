@@ -64,6 +64,10 @@ type
     PropName: String;
   end;
 
+const
+  SkinEditorLivePreviewMinHeight = 150;
+
+type
   { TfrmLazRibbonSkinEditor }
 
   TfrmLazRibbonSkinEditor = class(TForm)
@@ -218,6 +222,7 @@ type
     procedure RefreshIconPreview;
     procedure RefreshValidationReport;
     procedure SetupPreviewToolbar;
+    procedure SyncLivePreviewHeight;
     procedure ApplyCurrentSkinToPreview;
     procedure RefreshSkinList;
     procedure RefreshBaseCombo;
@@ -254,6 +259,7 @@ type
     procedure btnOpenSelectedAppearanceSectionClick(Sender: TObject);
     procedure btnEditAppearancePropertyClick(Sender: TObject);
     procedure btnResetAppearancePropertyFromBaseClick(Sender: TObject);
+    procedure EditorPaneAppearanceDialogLauncherClick(Sender: TObject);
     function AppearanceSectionObjectForSkin(ASkin: TLazRibbonSkinDefinition;
       ASection: TLazRibbonSkinAppearanceSection): TPersistent;
     function CopyAppearancePropertyValue(ABaseObj, ACurrentObj: TPersistent;
@@ -392,7 +398,7 @@ begin
   if Assigned(pnlLivePreview) then
   begin
     pnlLivePreview.Align := alTop;
-    pnlLivePreview.Height := 132;
+    pnlLivePreview.Height := SkinEditorLivePreviewMinHeight;
   end;
   if Assigned(pnlTop) then
   begin
@@ -415,6 +421,7 @@ begin
   PreviewToolbar.AppearanceSource := asSkinManager;
 
   SetupPreviewToolbar;
+  SyncLivePreviewHeight;
   RefreshBaseCombo;
   RefreshSkinList;
 
@@ -1949,7 +1956,12 @@ begin
     PreviewBaseGallery.MaxVisibleItems := 8;
   end;
   if Assigned(EditorPaneFile) then EditorPaneFile.Caption := 'Área de transferência';
-  if Assigned(EditorPaneAppearance) then EditorPaneAppearance.Caption := 'Estilos';
+  if Assigned(EditorPaneAppearance) then
+  begin
+    EditorPaneAppearance.Caption := 'Estilos';
+    EditorPaneAppearance.ShowDialogLauncher := True;
+    EditorPaneAppearance.OnDialogLauncherClick := @EditorPaneAppearanceDialogLauncherClick;
+  end;
   if Assigned(EditorPaneExport) then EditorPaneExport.Caption := 'Inserir';
   if Assigned(PreviewPaneFile) then PreviewPaneFile.Caption := 'Documento';
   if Assigned(PreviewPaneView) then PreviewPaneView.Caption := 'Janela';
@@ -2009,6 +2021,21 @@ begin
     PreviewToolbar.TabIndex := 0;
 end;
 
+procedure TfrmLazRibbonSkinEditor.SyncLivePreviewHeight;
+var
+  RequiredHeight: Integer;
+begin
+  if (pnlLivePreview = nil) or (PreviewToolbar = nil) then
+    Exit;
+
+  RequiredHeight := PreviewToolbar.Height;
+  if RequiredHeight < SkinEditorLivePreviewMinHeight then
+    RequiredHeight := SkinEditorLivePreviewMinHeight;
+
+  if pnlLivePreview.Height <> RequiredHeight then
+    pnlLivePreview.Height := RequiredHeight;
+end;
+
 procedure TfrmLazRibbonSkinEditor.ApplyCurrentSkinToPreview;
 var
   OldAutoRefresh: Boolean;
@@ -2038,6 +2065,7 @@ begin
   end;
 
   PreviewToolbar.ForceRepaint;
+  SyncLivePreviewHeight;
   PreviewToolbar.Invalidate;
 end;
 
@@ -2530,6 +2558,11 @@ end;
 procedure TfrmLazRibbonSkinEditor.btnEditFullAppearanceClick(Sender: TObject);
 begin
   OpenFullAppearanceEditor(-1);
+end;
+
+procedure TfrmLazRibbonSkinEditor.EditorPaneAppearanceDialogLauncherClick(Sender: TObject);
+begin
+  OpenFullAppearanceEditor(AppearanceSectionEditorPageIndex(asecPane));
 end;
 
 procedure TfrmLazRibbonSkinEditor.btnNewFromBaseClick(Sender: TObject);

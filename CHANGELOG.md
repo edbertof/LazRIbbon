@@ -1,3 +1,11 @@
+## 1.2.5 - Skin Editor pane preview height and launcher fix
+
+- Increases and synchronizes the Skin Editor live Ribbon preview height so pane captions and the Dialog Launcher are not clipped.
+- Enables `ShowDialogLauncher` on the Skin Editor `Estilos` pane and routes it to the complete Appearance editor on the Pane section.
+- Replaces the font-dependent Dialog Launcher glyph with canvas-drawn Office-style lines.
+- Keeps `TLazRibbon.Appearance` as the active low-level visual model used by internal styles and `TLazRibbonSkinManager`; a broader API/design-time rename remains a separate cleanup.
+- Updates runtime and design-time package versions to 1.2.5.
+
 ## 1.2.4 - Pane captions paint order fix
 
 - Fixes `TLazRibbonPane` drawing so pane captions are rendered above pane items.

@@ -545,9 +545,8 @@ var
   LauncherGradientFromColor, LauncherGradientToColor: TColor;
   LauncherInnerLightColor, LauncherInnerDarkColor: TColor;
   LauncherGradientKind: TBackgroundKind;
-  LauncherSign: String;
-  LauncherX: Integer;
-  LauncherY: Integer;
+  LauncherX1, LauncherY1, LauncherX2, LauncherY2: Integer;
+  LauncherCenterX, LauncherCenterY: Integer;
 begin
   // Under some conditions, we are not able to draw
   // * No dispatcher
@@ -605,29 +604,36 @@ begin
       ClipRect
     );
 
-    // Draw the launcher glyph in the button
+    // Draw the launcher glyph in the button.  The previous implementation used
+    // font-specific private-use glyphs, which could render blank depending on
+    // the active widgetset/font.  Canvas lines keep the Office-style launcher
+    // visible everywhere.
+    ABuffer.Canvas.Pen.Color := LauncherFontColor;
+    ABuffer.Canvas.Pen.Style := psSolid;
+    ABuffer.Canvas.Pen.Width := 1;
     case FDialogLauncherStyle of
       dlsArrow:
-       {$IFDEF LCLWin32}
-        LauncherSign := #$EE#$8A#$BD;   // in region Private Use Area
-       {$ELSE}
-        LauncherSign := #$E2#$9E#$98;   // in region Dingbats
-      {$ENDIF}
+        begin
+          LauncherX1 := FDialogLauncherRect.Left + 4;
+          LauncherY1 := FDialogLauncherRect.Top + 4;
+          LauncherX2 := FDialogLauncherRect.Right - 5;
+          LauncherY2 := FDialogLauncherRect.Bottom - 5;
+          ABuffer.Canvas.MoveTo(LauncherX1, LauncherY1);
+          ABuffer.Canvas.LineTo(LauncherX2, LauncherY2);
+          ABuffer.Canvas.MoveTo(LauncherX2 - 4, LauncherY2);
+          ABuffer.Canvas.LineTo(LauncherX2, LauncherY2);
+          ABuffer.Canvas.LineTo(LauncherX2, LauncherY2 - 4);
+        end;
       dlsPlus:
-        LauncherSign := '+';
+        begin
+          LauncherCenterX := FDialogLauncherRect.Left + FDialogLauncherRect.Width div 2;
+          LauncherCenterY := FDialogLauncherRect.Top + FDialogLauncherRect.Height div 2;
+          ABuffer.Canvas.MoveTo(LauncherCenterX - 3, LauncherCenterY);
+          ABuffer.Canvas.LineTo(LauncherCenterX + 4, LauncherCenterY);
+          ABuffer.Canvas.MoveTo(LauncherCenterX, LauncherCenterY - 3);
+          ABuffer.Canvas.LineTo(LauncherCenterX, LauncherCenterY + 4);
+        end;
     end;
-    ABuffer.Canvas.Font.Assign(FAppearance.Pane.CaptionFont);
-    LauncherX := FDialogLauncherRect.Left + (FDialogLauncherRect.Width - ABuffer.Canvas.TextWidth(LauncherSign)) div 2;
-    LauncherY := FDialogLauncherRect.Bottom - PaneBorderSize - PaneCaptionHeight + 2 +
-          (PaneCaptionHeight - ABuffer.Canvas.TextHeight('Wy')) div 2;
-    TGUITools.DrawText(
-      ABuffer.Canvas,
-      LauncherX,
-      LauncherY,
-      LauncherSign,
-      LauncherFontColor,
-      ClipRect
-    );
   end;
 end;
 
@@ -1094,7 +1100,7 @@ begin
   end;
 
   // Test if mouse on 'Dialog launcher' button
-  if FDialogLauncherRect.Contains(X, Y) then
+  if FShowDialogLauncher and FDialogLauncherRect.Contains(X, Y) then
   begin
     FInDialogLauncher := True;
     FDialogLauncherState := dlsHotTrack;
