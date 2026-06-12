@@ -89,6 +89,13 @@ begin
     'ItemHeight was removed. Use IconHeight instead.', '');
   RegisterPropertyEditor(TypeInfo(Integer), TLazRibbonSkinSelector, 'ItemWidth', nil);
   RegisterPropertyEditor(TypeInfo(Integer), TLazRibbonSkinSelector, 'ItemHeight', nil);
+
+  { TLazRibbon.Appearance is retained only as a legacy streaming alias.
+    New projects should edit RibbonAppearance in the Object Inspector. }
+  RegisterPropertyToSkip(TLazRibbon, 'Appearance',
+    'Appearance was renamed. Use RibbonAppearance instead.', '');
+  RegisterPropertyEditor(TypeInfo(TLazRibbonToolbarAppearance), TLazRibbon,
+    'Appearance', nil);
 end;
 
 procedure Register;
@@ -126,7 +133,7 @@ begin
   RegisterPropertyEditor(TypeInfo(TCaption), TLazRibbonCustomRibbonExtItem,
     'Caption', TLazRibbonCaptionEditor);
   RegisterPropertyEditor(TypeInfo(TLazRibbonToolbarAppearance), TLazRibbon,
-    'Appearance', TLazRibbonToolbarAppearanceEditor);
+    'RibbonAppearance', TLazRibbonToolbarAppearanceEditor);
   RegisterPropertyEditor(TypeInfo(TImageIndex), TLazRibbonLargeButton, '',
     TLazRibbonImageIndexPropertyEditor);
   RegisterPropertyEditor(TypeInfo(TImageIndex), TLazRibbonSmallButton, '',

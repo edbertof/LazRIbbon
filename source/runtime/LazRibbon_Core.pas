@@ -716,7 +716,7 @@ type
     // *** Getters and setters ***
     // ***************************
 
-    { Setter for property Appearance }
+    { Setter for property RibbonAppearance and legacy Appearance alias }
     procedure SetAppearance(const Value: TLazRibbonToolbarAppearance);
 
     { Getter for property Color }
@@ -981,8 +981,12 @@ type
       the BackStage view when available. }
     property BackstageView: TLazRibbonCustomBackstageView read FBackstageView write SetBackstageView;
 
-    { Object containing attributes of toolbar appearance }
-    property Appearance: TLazRibbonToolbarAppearance read FAppearance write SetAppearance;
+    { Object containing low-level Ribbon visual attributes. }
+    property RibbonAppearance: TLazRibbonToolbarAppearance read FAppearance write SetAppearance;
+
+    { Legacy alias accepted for older projects. New forms are streamed through
+      RibbonAppearance so the Object Inspector exposes the Office-like name. }
+    property Appearance: TLazRibbonToolbarAppearance read FAppearance write SetAppearance stored False;
 
     { Index of active tab }
     property TabIndex: integer read FTabIndex write SetTabIndex;
@@ -6959,7 +6963,7 @@ procedure TLazRibbon.SetMenuButtonDropdownMenu(const Value: TPopupMenu);
 begin
   FMenuButtonDropdownMenu := Value;
   if (FMenuButtonDropdownMenu is TLazRibbonPopupMenu) then
-    TLazRibbonPopupMenu(FMenuButtonDropdownMenu).Appearance := Self.Appearance;
+    TLazRibbonPopupMenu(FMenuButtonDropdownMenu).Appearance := Self.RibbonAppearance;
 
   { Backwards compatibility: older projects used MenuButtonDropdownMenu as the
     signal that the menu button should open a popup. Keep that behavior, but

@@ -870,10 +870,10 @@ begin
 
     AppearanceEditor:=TfrmLazRibbonAppearanceEditWindow.Create(nil);
     try
-      AppearanceEditor.Appearance.Assign(Toolbar.Appearance);
+      AppearanceEditor.Appearance.Assign(Toolbar.RibbonAppearance);
       if AppearanceEditor.ShowModal = mrOK then
       begin
-        Toolbar.Appearance.Assign(AppearanceEditor.Appearance);
+        Toolbar.RibbonAppearance.Assign(AppearanceEditor.Appearance);
         Toolbar.ForceRepaint;
         Modified;
       end;

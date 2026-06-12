@@ -1,3 +1,10 @@
+## 1.2.9 - RibbonAppearance design-time API
+
+- Adds `TLazRibbon.RibbonAppearance` as the official published Object Inspector property for the Ribbon visual model.
+- Keeps `TLazRibbon.Appearance` as a legacy alias for older `.lfm` files, but hides it from the Lazarus designer and prevents new forms from streaming the old name.
+- Registers the full visual appearance editor on `RibbonAppearance`.
+- Updates runtime and design-time package versions to 1.2.9.
+
 ## 1.2.8 - Design-time pane refresh fix
 
 - Improves design-time refresh for `TLazRibbonTab`, `TLazRibbonPane` and Ribbon items when captions, structure or Appearance values are edited in the Lazarus IDE.
@@ -27,7 +34,7 @@
 - Increases and synchronizes the Skin Editor live Ribbon preview height so pane captions and the Dialog Launcher are not clipped.
 - Enables `ShowDialogLauncher` on the Skin Editor `Estilos` pane and routes it to the complete Appearance editor on the Pane section.
 - Replaces the font-dependent Dialog Launcher glyph with canvas-drawn Office-style lines.
-- Keeps `TLazRibbon.Appearance` as the active low-level visual model used by internal styles and `TLazRibbonSkinManager`; a broader API/design-time rename remains a separate cleanup.
+- Keeps `TLazRibbon.Appearance` as the active low-level visual model used by internal styles and `TLazRibbonSkinManager` in this version; the later 1.2.9 build exposes the public Ribbon property as `RibbonAppearance`.
 - Updates runtime and design-time package versions to 1.2.5.
 
 ## 1.2.4 - Pane captions paint order fix

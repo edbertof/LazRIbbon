@@ -1,3 +1,9 @@
+## 1.2.9 check
+
+- Package metadata updated to 1.2.9.
+- `TLazRibbon.RibbonAppearance` is the streamed design-time visual property; the legacy `Appearance` alias is hidden from the designer and not written by new forms.
+- Release ZIPs created through `tools/build_release_zip.ps1` are saved in `D:\Ribbon4Lazarus` by default and must pass the generated-artifact audit.
+
 ## 1.2.8 check
 
 - Package metadata updated to 1.2.8.

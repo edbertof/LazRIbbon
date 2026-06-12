@@ -1,13 +1,14 @@
 # LazRibbon Status
 
-`1.2.8 - Design-time pane refresh fix` is the current stabilization build.
+`1.2.9 - RibbonAppearance design-time API` is the current stabilization build.
 
+The 1.2.9 build starts the API cleanup around the inherited SpkToolBar visual model. `TLazRibbon.RibbonAppearance` is now the official Object Inspector property for low-level Ribbon colors, fonts and gradients. The old `TLazRibbon.Appearance` name is retained only as a legacy alias for older `.lfm` files, hidden from the designer and not streamed by new forms.
 
 The 1.2.8 build improves Lazarus IDE design-time refresh for Ribbon panes and items. Caption edits made through the Object Inspector or the LazRibbon contents editor now force the parent Ribbon to rebuild and repaint, and tabs/panes notify the Ribbon after design-time loading so pane captions and Dialog Launchers are visible when a form opens in the designer.
 
 The 1.2.7 build fixes the remaining Skin Editor preview case where pane captions were assigned but still clipped. The Ribbon buffer now uses the actual control height when it is taller than the calculated toolbar height, and active tab contents get their own explicit clip before panes are drawn.
 
-The 1.2.5 build fixes the remaining Skin Editor live Ribbon preview clipping case by giving the preview host enough height and synchronizing it after Ribbon metric recalculation. It also enables a real Dialog Launcher on the `Estilos` pane and draws the launcher glyph directly on the canvas instead of relying on font-specific private-use characters. `TLazRibbon.Appearance` remains the active low-level visual model used by internal styles and `TLazRibbonSkinManager`; renaming or hiding that API should be handled as a dedicated design-time/API cleanup.
+The 1.2.5 build fixes the remaining Skin Editor live Ribbon preview clipping case by giving the preview host enough height and synchronizing it after Ribbon metric recalculation. It also enables a real Dialog Launcher on the `Estilos` pane and draws the launcher glyph directly on the canvas instead of relying on font-specific private-use characters. The later 1.2.9 build renamed the public `TLazRibbon` design-time visual property to `RibbonAppearance`.
 
 The 1.2.4 build fixes pane caption rendering in `TLazRibbonPane` so the Skin Editor live Ribbon preview shows group captions reliably. Pane captions are drawn after pane items, centered inside the caption band, clipped with ellipsis when needed, and kept compatible with the Dialog Launcher.
 

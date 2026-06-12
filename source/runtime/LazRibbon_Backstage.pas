@@ -2241,7 +2241,7 @@ function TLazRibbonBackstageView.GetLinkedAppearance: TLazRibbonToolbarAppearanc
 begin
   Result := nil;
   if (FAppearanceSource = asLinkedToolbar) and (FLinkedToolbar <> nil) then
-    Result := FLinkedToolbar.Appearance;
+    Result := FLinkedToolbar.RibbonAppearance;
 end;
 
 function TLazRibbonBackstageView.GetPageBackColor: TColor;
@@ -2898,7 +2898,7 @@ begin
 
     bomCoverRibbonArea:
       begin
-        TabCaptionHeight := FLinkedToolbar.Appearance.Tab.CalcCaptionHeight;
+        TabCaptionHeight := FLinkedToolbar.RibbonAppearance.Tab.CalcCaptionHeight;
         Result := FLinkedToolbar.Top + TabCaptionHeight;
       end;
   else
