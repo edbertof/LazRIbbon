@@ -1,3 +1,10 @@
+## 1.2.10 - Compact Skin Editor layout
+
+- Reduces the standalone `LazRibbonSkinEditor` initial window size from 1180x820 to 1060x700.
+- Tightens the Identity, Ribbon Colors, BackStage, Validation and Advanced editor layouts so controls sit closer together without changing the live Ribbon preview height.
+- Keeps pane captions and Dialog Launcher validation visible in the Skin Editor preview while using a smaller editor surface.
+- Updates runtime and design-time package versions to 1.2.10.
+
 ## 1.2.9 - RibbonAppearance design-time API
 
 - Adds `TLazRibbon.RibbonAppearance` as the official published Object Inspector property for the Ribbon visual model.

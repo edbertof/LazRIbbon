@@ -66,6 +66,8 @@ type
 
 const
   SkinEditorLivePreviewMinHeight = 150;
+  SkinEditorCompactClientWidth = 1060;
+  SkinEditorCompactClientHeight = 700;
 
 type
   { TfrmLazRibbonSkinEditor }
@@ -312,9 +314,9 @@ begin
 
   L := TLabel.Create(AOwner);
   L.Parent := Result;
-  L.Left := 14;
-  L.Top := 10;
-  L.Width := AWidth - 28;
+  L.Left := 12;
+  L.Top := 8;
+  L.Width := AWidth - 24;
   L.Height := 18;
   L.Caption := ATitle;
   L.Font.Style := [fsBold];
@@ -324,10 +326,10 @@ begin
   begin
     L := TLabel.Create(AOwner);
     L.Parent := Result;
-    L.Left := 14;
-    L.Top := 32;
-    L.Width := AWidth - 28;
-    L.Height := 34;
+    L.Left := 12;
+    L.Top := 28;
+    L.Width := AWidth - 24;
+    L.Height := 28;
     L.AutoSize := False;
     L.WordWrap := True;
     L.Caption := ADescription;
@@ -354,13 +356,13 @@ begin
   if (ALabel = nil) or (AColorPanel = nil) then Exit;
   ALabel.Parent := AParent;
   ALabel.Left := AX;
-  ALabel.Top := AY + 5;
+  ALabel.Top := AY + 4;
   ALabel.Width := ALabelWidth;
   AColorPanel.Parent := AParent;
-  AColorPanel.Left := AX + ALabelWidth + 14;
+  AColorPanel.Left := AX + ALabelWidth + 10;
   AColorPanel.Top := AY;
-  AColorPanel.Width := 132;
-  AColorPanel.Height := 24;
+  AColorPanel.Width := 118;
+  AColorPanel.Height := 22;
 end;
 
 procedure PlaceLabelAndEdit(ALabel: TLabel; AEdit: TControl; AParent: TWinControl;
@@ -369,10 +371,10 @@ begin
   if (ALabel = nil) or (AEdit = nil) then Exit;
   ALabel.Parent := AParent;
   ALabel.Left := AX;
-  ALabel.Top := AY + 5;
+  ALabel.Top := AY + 4;
   ALabel.Width := ALabelWidth;
   AEdit.Parent := AParent;
-  AEdit.Left := AX + ALabelWidth + 14;
+  AEdit.Left := AX + ALabelWidth + 10;
   AEdit.Top := AY;
   AEdit.Width := AEditWidth;
 end;
@@ -385,6 +387,11 @@ begin
   OpenDialog.Filter := 'Skins do LazRibbon (*.skin;*.lazskin)|*.skin;*.lazskin|Todos os arquivos (*.*)|*.*';
   SaveDialog.Filter := 'Skins do LazRibbon (*.skin)|*.skin|Skin legado (*.lazskin)|*.lazskin';
   SaveDialog.DefaultExt := 'skin';
+
+  ClientWidth := SkinEditorCompactClientWidth;
+  ClientHeight := SkinEditorCompactClientHeight;
+  Constraints.MinWidth := 980;
+  Constraints.MinHeight := 620;
 
   lblLivePreview.Caption := 'Pré-visualização da skin em tempo real';
   lblStatus.Caption := 'Pronto. Use a galeria de bases no Ribbon para visualizar skins e o menu Arquivo para criar ou abrir uma skin editável.';
@@ -489,7 +496,7 @@ var
     Btn.Left := AX;
     Btn.Top := AY;
     Btn.Width := AWidth;
-    Btn.Height := 28;
+    Btn.Height := 26;
     Btn.Caption := ACaption;
     Btn.Tag := APageIndex;
     Btn.OnClick := @btnOpenAppearancePageClick;
@@ -502,12 +509,12 @@ begin
   SecNav := CreateEditorSection(Self, tabBackstage,
     'Navegação do BackStage',
     'Cores usadas na coluna esquerda do BackStage aberto pelo botão Arquivo.',
-    16, 18, 520, 238);
+    12, 14, 492, 220);
 
   SecState := CreateEditorSection(Self, tabBackstage,
     'Estados de interação',
     'Cores usadas quando o usuário passa o mouse ou seleciona uma opção do BackStage.',
-    560, 18, 520, 238);
+    520, 14, 492, 220);
 
   for F := pfBackstageNavColor to pfBackstageNavSelectedFrameColor do
   begin
@@ -516,28 +523,28 @@ begin
     begin
       P := SecNav;
       X := 18;
-      Y := 82 + Row * 34;
+      Y := 70 + Row * 30;
     end
     else
     begin
       P := SecState;
       X := 18;
-      Y := 82 + (Row - 3) * 34;
+      Y := 70 + (Row - 3) * 30;
     end;
 
     L := TLabel.Create(Self);
     L.Parent := P;
     L.Left := X;
-    L.Top := Y + 5;
-    L.Width := 180;
+    L.Top := Y + 4;
+    L.Width := 168;
     L.Caption := PaletteFieldCaption(F);
 
     FColorPanels[F] := TPanel.Create(Self);
     FColorPanels[F].Parent := P;
-    FColorPanels[F].Left := X + 210;
+    FColorPanels[F].Left := X + 188;
     FColorPanels[F].Top := Y;
-    FColorPanels[F].Width := 132;
-    FColorPanels[F].Height := 24;
+    FColorPanels[F].Width := 118;
+    FColorPanels[F].Height := 22;
     FColorPanels[F].BevelOuter := bvLowered;
     FColorPanels[F].Caption := '';
     FColorPanels[F].OnClick := @ColorPanelClick;
@@ -547,50 +554,50 @@ begin
   SecTech := CreateEditorSection(Self, tabAdvanced,
     'Editor visual do Appearance',
     'Fluxo completo inspirado no editor nativo do SpkToolBar: preview real, cores, fontes, gradientes, estilos, importacao e exportacao.',
-    16, 18, 1064, 230);
+    12, 14, 1000, 190);
 
   B := TButton.Create(Self);
   B.Parent := SecTech;
-  B.Left := 18;
-  B.Top := 82;
-  B.Width := 250;
-  B.Height := 30;
+  B.Left := 16;
+  B.Top := 68;
+  B.Width := 230;
+  B.Height := 28;
   B.Caption := 'Abrir editor visual completo...';
   B.OnClick := @btnEditFullAppearanceClick;
 
-  AddVisualEditorButton('Menu Button', 0, 18, 124, 116);
-  AddVisualEditorButton('Tab', 1, 144, 124, 86);
-  AddVisualEditorButton('Pane', 2, 240, 124, 86);
-  AddVisualEditorButton('Item', 3, 336, 124, 86);
-  AddVisualEditorButton('Dropdown', 4, 432, 124, 104);
-  AddVisualEditorButton('Import/Export', 5, 546, 124, 118);
-  AddVisualEditorButton('Tools', 6, 674, 124, 84);
+  AddVisualEditorButton('Menu Button', 0, 16, 108, 106);
+  AddVisualEditorButton('Tab', 1, 132, 108, 76);
+  AddVisualEditorButton('Pane', 2, 218, 108, 76);
+  AddVisualEditorButton('Item', 3, 304, 108, 76);
+  AddVisualEditorButton('Dropdown', 4, 390, 108, 96);
+  AddVisualEditorButton('Import/Export', 5, 496, 108, 108);
+  AddVisualEditorButton('Tools', 6, 614, 108, 76);
 
   btnApplyPaletteAppearance := TButton.Create(Self);
   btnApplyPaletteAppearance.Parent := SecTech;
-  btnApplyPaletteAppearance.Left := 18;
-  btnApplyPaletteAppearance.Top := 172;
-  btnApplyPaletteAppearance.Width := 270;
-  btnApplyPaletteAppearance.Height := 30;
+  btnApplyPaletteAppearance.Left := 16;
+  btnApplyPaletteAppearance.Top := 148;
+  btnApplyPaletteAppearance.Width := 246;
+  btnApplyPaletteAppearance.Height := 28;
   btnApplyPaletteAppearance.Caption := 'Regerar Appearance pela paleta';
   btnApplyPaletteAppearance.OnClick := @btnApplyPaletteToAppearanceClick;
 
   lblAppearanceMode := TLabel.Create(Self);
   lblAppearanceMode.Parent := SecTech;
-  lblAppearanceMode.Left := 784;
-  lblAppearanceMode.Top := 82;
-  lblAppearanceMode.Width := 330;
-  lblAppearanceMode.Height := 104;
+  lblAppearanceMode.Left := 710;
+  lblAppearanceMode.Top := 68;
+  lblAppearanceMode.Width := 250;
+  lblAppearanceMode.Height := 88;
   lblAppearanceMode.AutoSize := False;
   lblAppearanceMode.WordWrap := True;
   lblAppearanceMode.Caption := '';
 
   L := TLabel.Create(Self);
   L.Parent := SecTech;
-  L.Left := 310;
-  L.Top := 84;
-  L.Width := 430;
-  L.Height := 52;
+  L.Left := 274;
+  L.Top := 68;
+  L.Width := 400;
+  L.Height := 36;
   L.AutoSize := False;
   L.WordWrap := True;
   L.Caption := 'Use os atalhos para abrir diretamente a pagina certa do editor visual. A paleta simples continua disponivel para criar skins rapidamente; o editor visual faz o ajuste fino do Appearance.';
@@ -610,19 +617,19 @@ begin
   Sec := CreateEditorSection(Self, tabAdvanced,
     'Inspetor completo do Appearance',
     'Lista todas as propriedades publicadas de Tab, MenuButton, Pane, Element e Popup. Edite aqui os mesmos dados salvos no arquivo da skin.',
-    16, 270, 1064, 330);
+    12, 218, 1000, 258);
 
   L := TLabel.Create(Self);
   L.Parent := Sec;
-  L.Left := 18;
-  L.Top := 82;
+  L.Left := 16;
+  L.Top := 68;
   L.Caption := 'Secao';
 
   cbAppearanceSection := TComboBox.Create(Self);
   cbAppearanceSection.Parent := Sec;
-  cbAppearanceSection.Left := 92;
-  cbAppearanceSection.Top := 78;
-  cbAppearanceSection.Width := 180;
+  cbAppearanceSection.Left := 82;
+  cbAppearanceSection.Top := 64;
+  cbAppearanceSection.Width := 160;
   cbAppearanceSection.Style := csDropDownList;
   cbAppearanceSection.Items.Add('Todas as secoes');
   cbAppearanceSection.Items.Add('Tab');
@@ -635,78 +642,78 @@ begin
 
   btnEditAppearanceProperty := TButton.Create(Self);
   btnEditAppearanceProperty.Parent := Sec;
-  btnEditAppearanceProperty.Left := 292;
-  btnEditAppearanceProperty.Top := 77;
-  btnEditAppearanceProperty.Width := 150;
-  btnEditAppearanceProperty.Height := 27;
+  btnEditAppearanceProperty.Left := 254;
+  btnEditAppearanceProperty.Top := 63;
+  btnEditAppearanceProperty.Width := 136;
+  btnEditAppearanceProperty.Height := 26;
   btnEditAppearanceProperty.Caption := 'Editar selecionado';
   btnEditAppearanceProperty.OnClick := @btnEditAppearancePropertyClick;
 
   btnResetAppearancePropertyFromBase := TButton.Create(Self);
   btnResetAppearancePropertyFromBase.Parent := Sec;
-  btnResetAppearancePropertyFromBase.Left := 456;
-  btnResetAppearancePropertyFromBase.Top := 77;
-  btnResetAppearancePropertyFromBase.Width := 150;
-  btnResetAppearancePropertyFromBase.Height := 27;
+  btnResetAppearancePropertyFromBase.Left := 402;
+  btnResetAppearancePropertyFromBase.Top := 63;
+  btnResetAppearancePropertyFromBase.Width := 136;
+  btnResetAppearancePropertyFromBase.Height := 26;
   btnResetAppearancePropertyFromBase.Caption := 'Restaurar da base';
   btnResetAppearancePropertyFromBase.OnClick := @btnResetAppearancePropertyFromBaseClick;
 
   B := TButton.Create(Self);
   B.Parent := Sec;
-  B.Left := 620;
-  B.Top := 77;
-  B.Width := 150;
-  B.Height := 27;
+  B.Left := 550;
+  B.Top := 63;
+  B.Width := 118;
+  B.Height := 26;
   B.Caption := 'Abrir secao';
   B.OnClick := @btnOpenSelectedAppearanceSectionClick;
 
   chkAppearanceOnlyBaseDifferences := TCheckBox.Create(Self);
   chkAppearanceOnlyBaseDifferences.Parent := Sec;
-  chkAppearanceOnlyBaseDifferences.Left := 790;
-  chkAppearanceOnlyBaseDifferences.Top := 114;
-  chkAppearanceOnlyBaseDifferences.Width := 230;
+  chkAppearanceOnlyBaseDifferences.Left := 738;
+  chkAppearanceOnlyBaseDifferences.Top := 96;
+  chkAppearanceOnlyBaseDifferences.Width := 220;
   chkAppearanceOnlyBaseDifferences.Height := 22;
   chkAppearanceOnlyBaseDifferences.Caption := 'Somente diferentes da base';
   chkAppearanceOnlyBaseDifferences.OnChange := @chkAppearanceOnlyBaseDifferencesChange;
 
   L := TLabel.Create(Self);
   L.Parent := Sec;
-  L.Left := 18;
-  L.Top := 112;
+  L.Left := 16;
+  L.Top := 96;
   L.Caption := 'Filtro';
 
   edtAppearanceFilter := TEdit.Create(Self);
   edtAppearanceFilter.Parent := Sec;
-  edtAppearanceFilter.Left := 92;
-  edtAppearanceFilter.Top := 108;
-  edtAppearanceFilter.Width := 420;
+  edtAppearanceFilter.Left := 82;
+  edtAppearanceFilter.Top := 92;
+  edtAppearanceFilter.Width := 382;
   edtAppearanceFilter.OnChange := @edtAppearanceFilterChange;
 
   btnClearAppearanceFilter := TButton.Create(Self);
   btnClearAppearanceFilter.Parent := Sec;
-  btnClearAppearanceFilter.Left := 524;
-  btnClearAppearanceFilter.Top := 107;
-  btnClearAppearanceFilter.Width := 122;
-  btnClearAppearanceFilter.Height := 27;
+  btnClearAppearanceFilter.Left := 474;
+  btnClearAppearanceFilter.Top := 91;
+  btnClearAppearanceFilter.Width := 112;
+  btnClearAppearanceFilter.Height := 26;
   btnClearAppearanceFilter.Caption := 'Limpar filtro';
   btnClearAppearanceFilter.OnClick := @btnClearAppearanceFilterClick;
 
   lblAppearanceInspectorHint := TLabel.Create(Self);
   lblAppearanceInspectorHint.Parent := Sec;
-  lblAppearanceInspectorHint.Left := 790;
-  lblAppearanceInspectorHint.Top := 78;
-  lblAppearanceInspectorHint.Width := 230;
-  lblAppearanceInspectorHint.Height := 34;
+  lblAppearanceInspectorHint.Left := 700;
+  lblAppearanceInspectorHint.Top := 64;
+  lblAppearanceInspectorHint.Width := 260;
+  lblAppearanceInspectorHint.Height := 30;
   lblAppearanceInspectorHint.AutoSize := False;
   lblAppearanceInspectorHint.WordWrap := True;
   lblAppearanceInspectorHint.Caption := 'Dica: duplo clique em uma propriedade tambem edita. Cores, fontes, inteiros, booleanos e enums sao tratados automaticamente.';
 
   lstAppearanceProperties := TListBox.Create(Self);
   lstAppearanceProperties.Parent := Sec;
-  lstAppearanceProperties.Left := 18;
-  lstAppearanceProperties.Top := 144;
-  lstAppearanceProperties.Width := 1018;
-  lstAppearanceProperties.Height := 156;
+  lstAppearanceProperties.Left := 16;
+  lstAppearanceProperties.Top := 124;
+  lstAppearanceProperties.Width := 950;
+  lstAppearanceProperties.Height := 106;
   lstAppearanceProperties.ItemHeight := 18;
   lstAppearanceProperties.OnDblClick := @lstAppearancePropertiesDblClick;
 end;
@@ -1381,8 +1388,8 @@ begin
     imgSkinIcon.Stretch := True;
   end;
 
-  if pnlMetadata.Height < 410 then
-    pnlMetadata.Height := 410;
+  if pnlMetadata.Height < 340 then
+    pnlMetadata.Height := 340;
 end;
 
 procedure TfrmLazRibbonSkinEditor.ApplyInternalTabLayout;
@@ -1394,100 +1401,100 @@ var
 begin
   { Identity tab }
   pnlMetadata.Align := alNone;
-  pnlMetadata.SetBounds(16, 16, 1088, 438);
+  pnlMetadata.SetBounds(12, 12, 1000, 340);
   pnlMetadata.BevelOuter := bvNone;
 
   SecMain := CreateEditorSection(Self, pnlMetadata,
     'Identificação da skin',
     'Defina o identificador interno e o nome visível usado no seletor de skins.',
-    0, 0, 520, 150);
+    0, 0, 488, 118);
   SecDesc := CreateEditorSection(Self, pnlMetadata,
     'Autoria e descrição',
     'Registre autoria e uma descrição breve para orientar uso futuro.',
-    544, 0, 520, 150);
+    504, 0, 488, 118);
   SecAssets := CreateEditorSection(Self, pnlMetadata,
     'Ícones e imagem de prévia',
     'Opcional. Os arquivos de ícone selecionados são incorporados ao XML da skin ao salvar.',
-    0, 174, 1064, 230);
+    0, 134, 992, 198);
 
-  PlaceLabelAndEdit(lblName, edtName, SecMain, 18, 78, 110, 300);
-  PlaceLabelAndEdit(lblDisplayName, edtDisplayName, SecMain, 18, 112, 110, 330);
+  PlaceLabelAndEdit(lblName, edtName, SecMain, 16, 64, 100, 286);
+  PlaceLabelAndEdit(lblDisplayName, edtDisplayName, SecMain, 16, 92, 100, 314);
 
-  PlaceLabelAndEdit(lblAuthor, edtAuthor, SecDesc, 18, 78, 90, 300);
-  PlaceLabelAndEdit(lblDescription, memDescription, SecDesc, 18, 112, 90, 350);
-  memDescription.Height := 58;
+  PlaceLabelAndEdit(lblAuthor, edtAuthor, SecDesc, 16, 64, 86, 286);
+  PlaceLabelAndEdit(lblDescription, memDescription, SecDesc, 16, 92, 86, 330);
+  memDescription.Height := 48;
 
   if Assigned(lblGroupName) then
-    PlaceLabelAndEdit(lblGroupName, edtGroupName, SecAssets, 18, 76, 120, 300);
+    PlaceLabelAndEdit(lblGroupName, edtGroupName, SecAssets, 16, 62, 108, 290);
   if Assigned(lblIcon16) then
-    PlaceLabelAndEdit(lblIcon16, edtIcon16, SecAssets, 18, 110, 120, 470);
+    PlaceLabelAndEdit(lblIcon16, edtIcon16, SecAssets, 16, 90, 108, 386);
   if Assigned(lblIcon24) then
-    PlaceLabelAndEdit(lblIcon24, edtIcon24, SecAssets, 18, 144, 120, 470);
+    PlaceLabelAndEdit(lblIcon24, edtIcon24, SecAssets, 16, 118, 108, 386);
   if Assigned(lblIcon32) then
-    PlaceLabelAndEdit(lblIcon32, edtIcon32, SecAssets, 18, 178, 120, 470);
+    PlaceLabelAndEdit(lblIcon32, edtIcon32, SecAssets, 16, 146, 108, 386);
   if Assigned(lblPreviewImage) then
-    PlaceLabelAndEdit(lblPreviewImage, edtPreviewImage, SecAssets, 18, 212, 120, 470);
+    PlaceLabelAndEdit(lblPreviewImage, edtPreviewImage, SecAssets, 16, 174, 108, 386);
 
-  if Assigned(btnIcon16) then begin btnIcon16.Parent := SecAssets; btnIcon16.SetBounds(624, 109, 28, 25); end;
-  if Assigned(btnIcon24) then begin btnIcon24.Parent := SecAssets; btnIcon24.SetBounds(624, 143, 28, 25); end;
-  if Assigned(btnIcon32) then begin btnIcon32.Parent := SecAssets; btnIcon32.SetBounds(624, 177, 28, 25); end;
-  if Assigned(btnPreviewImage) then begin btnPreviewImage.Parent := SecAssets; btnPreviewImage.SetBounds(624, 211, 28, 25); end;
-  if Assigned(imgSkinIcon) then begin imgSkinIcon.Parent := SecAssets; imgSkinIcon.SetBounds(690, 102, 96, 96); end;
+  if Assigned(btnIcon16) then begin btnIcon16.Parent := SecAssets; btnIcon16.SetBounds(520, 89, 28, 24); end;
+  if Assigned(btnIcon24) then begin btnIcon24.Parent := SecAssets; btnIcon24.SetBounds(520, 117, 28, 24); end;
+  if Assigned(btnIcon32) then begin btnIcon32.Parent := SecAssets; btnIcon32.SetBounds(520, 145, 28, 24); end;
+  if Assigned(btnPreviewImage) then begin btnPreviewImage.Parent := SecAssets; btnPreviewImage.SetBounds(520, 173, 28, 24); end;
+  if Assigned(imgSkinIcon) then begin imgSkinIcon.Parent := SecAssets; imgSkinIcon.SetBounds(590, 80, 88, 88); end;
 
   { Ribbon colors tab }
-  lblHintSimple.Left := 16;
-  lblHintSimple.Top := 14;
-  lblHintSimple.Width := 1040;
-  lblHintSimple.Height := 38;
+  lblHintSimple.Left := 12;
+  lblHintSimple.Top := 10;
+  lblHintSimple.Width := 960;
+  lblHintSimple.Height := 30;
 
   SecGeneral := CreateEditorSection(Self, pnlSimpleColors,
     'Cores gerais',
     'Base visual comum da skin: fundo, texto e bordas.',
-    16, 66, 342, 268);
+    12, 52, 312, 244);
   SecRibbon := CreateEditorSection(Self, pnlSimpleColors,
     'Ribbon e abas',
     'Cores da faixa superior, abas e grupos.',
-    386, 66, 342, 268);
+    340, 52, 312, 244);
   SecStates := CreateEditorSection(Self, pnlSimpleColors,
     'Estados de interação',
     'Cores para navegação, hover e item ativo.',
-    756, 66, 342, 268);
+    668, 52, 312, 244);
 
-  PlaceLabelAndColor(lblColorBack, pnlColorBack, SecGeneral, 18, 82, 140);
-  PlaceLabelAndColor(lblColorText, pnlColorText, SecGeneral, 18, 116, 140);
-  PlaceLabelAndColor(lblColorMutedText, pnlColorMutedText, SecGeneral, 18, 150, 140);
-  PlaceLabelAndColor(lblColorFrame, pnlColorFrame, SecGeneral, 18, 184, 140);
+  PlaceLabelAndColor(lblColorBack, pnlColorBack, SecGeneral, 16, 70, 126);
+  PlaceLabelAndColor(lblColorText, pnlColorText, SecGeneral, 16, 100, 126);
+  PlaceLabelAndColor(lblColorMutedText, pnlColorMutedText, SecGeneral, 16, 130, 126);
+  PlaceLabelAndColor(lblColorFrame, pnlColorFrame, SecGeneral, 16, 160, 126);
 
-  PlaceLabelAndColor(lblColorRibbonTop, pnlColorRibbonTop, SecRibbon, 18, 82, 140);
-  PlaceLabelAndColor(lblColorRibbonBottom, pnlColorRibbonBottom, SecRibbon, 18, 116, 140);
-  PlaceLabelAndColor(lblColorRibbonTabActive, pnlColorRibbonTabActive, SecRibbon, 18, 150, 140);
-  PlaceLabelAndColor(lblColorRibbonTabHot, pnlColorRibbonTabHot, SecRibbon, 18, 184, 140);
-  PlaceLabelAndColor(lblColorRibbonGroup, pnlColorRibbonGroup, SecRibbon, 18, 218, 140);
-  PlaceLabelAndColor(lblColorRibbonGroupFrame, pnlColorRibbonGroupFrame, SecRibbon, 18, 252, 140);
+  PlaceLabelAndColor(lblColorRibbonTop, pnlColorRibbonTop, SecRibbon, 16, 70, 126);
+  PlaceLabelAndColor(lblColorRibbonBottom, pnlColorRibbonBottom, SecRibbon, 16, 100, 126);
+  PlaceLabelAndColor(lblColorRibbonTabActive, pnlColorRibbonTabActive, SecRibbon, 16, 130, 126);
+  PlaceLabelAndColor(lblColorRibbonTabHot, pnlColorRibbonTabHot, SecRibbon, 16, 160, 126);
+  PlaceLabelAndColor(lblColorRibbonGroup, pnlColorRibbonGroup, SecRibbon, 16, 190, 126);
+  PlaceLabelAndColor(lblColorRibbonGroupFrame, pnlColorRibbonGroupFrame, SecRibbon, 16, 220, 126);
 
-  PlaceLabelAndColor(lblColorNavigation, pnlColorNavigation, SecStates, 18, 82, 140);
-  PlaceLabelAndColor(lblColorHot, pnlColorHot, SecStates, 18, 116, 140);
-  PlaceLabelAndColor(lblColorActive, pnlColorActive, SecStates, 18, 150, 140);
+  PlaceLabelAndColor(lblColorNavigation, pnlColorNavigation, SecStates, 16, 70, 126);
+  PlaceLabelAndColor(lblColorHot, pnlColorHot, SecStates, 16, 100, 126);
+  PlaceLabelAndColor(lblColorActive, pnlColorActive, SecStates, 16, 130, 126);
 
   { Validation tab }
   lblPreviewInfo.Parent := pnlPreviewHost;
-  lblPreviewInfo.Left := 32;
-  lblPreviewInfo.Top := 28;
-  lblPreviewInfo.Width := 960;
+  lblPreviewInfo.Left := 20;
+  lblPreviewInfo.Top := 16;
+  lblPreviewInfo.Width := 940;
   lblPreviewInfo.Caption := 'Valide a skin no Ribbon superior antes de salvar ou exportar. Esta página não altera dados; ela apenas orienta a revisão visual.';
 
   SecValidation := CreateEditorSection(Self, pnlPreviewHost,
     'O que observar no preview',
     'Use as abas Página inicial e Exibir do Ribbon para checar leitura, contraste e estados visuais.',
-    32, 86, 500, 250);
+    20, 64, 470, 210);
   SecChecklist := CreateEditorSection(Self, pnlPreviewHost,
     'Checklist mínimo antes de salvar',
     'Confirme estes pontos para evitar skins visualmente quebradas.',
-    560, 86, 500, 250);
+    512, 64, 470, 210);
 
   L := TLabel.Create(Self);
   L.Parent := SecValidation;
-  L.SetBounds(24, 82, 420, 118);
+  L.SetBounds(18, 68, 400, 112);
   L.AutoSize := False;
   L.WordWrap := True;
   L.Caption := '- abas ativa e inativa;' + LineEnding +
@@ -1498,7 +1505,7 @@ begin
 
   L := TLabel.Create(Self);
   L.Parent := SecChecklist;
-  L.SetBounds(24, 82, 420, 118);
+  L.SetBounds(18, 68, 400, 112);
   L.AutoSize := False;
   L.WordWrap := True;
   L.Caption := '- nome interno definido;' + LineEnding +
@@ -1511,20 +1518,20 @@ begin
 
   if Assigned(lblPreviewInfo) then
   begin
-    lblPreviewInfo.SetBounds(16, 18, 980, 36);
+    lblPreviewInfo.SetBounds(12, 12, 950, 30);
     lblPreviewInfo.Caption := 'Valide a skin antes de salvar: identidade, arquivos de imagem, dados embutidos, contraste de texto e estado do Appearance detalhado.';
   end;
 
   if Assigned(btnRefreshValidation) then
-    btnRefreshValidation.SetBounds(16, 66, 160, 30);
+    btnRefreshValidation.SetBounds(12, 52, 150, 28);
 
   if Assigned(lblValidationSummary) then
-    lblValidationSummary.SetBounds(192, 72, 860, 24);
+    lblValidationSummary.SetBounds(176, 58, 800, 22);
 
   if Assigned(memValidationReport) then
   begin
-    memValidationReport.SetBounds(16, 112, pnlPreviewHost.ClientWidth - 32,
-      pnlPreviewHost.ClientHeight - 134);
+    memValidationReport.SetBounds(12, 90, pnlPreviewHost.ClientWidth - 24,
+      pnlPreviewHost.ClientHeight - 108);
     memValidationReport.Anchors := [akTop, akLeft, akRight, akBottom];
   end;
 end;
@@ -1951,7 +1958,7 @@ begin
   if Assigned(PreviewBaseGallery) then
   begin
     PreviewBaseGallery.Caption := 'Bases';
-    PreviewBaseGallery.Width := 220;
+    PreviewBaseGallery.Width := 190;
     PreviewBaseGallery.Columns := 4;
     PreviewBaseGallery.MaxVisibleItems := 8;
   end;
@@ -2007,7 +2014,7 @@ begin
       This avoids Lazarus designer errors such as negative page width while
       preserving the BackStage behavior when opened from the Arquivo button. }
     EditorBackstage.Align := alClient;
-    EditorBackstage.NavigationWidth := 220;
+    EditorBackstage.NavigationWidth := 190;
     EditorBackstage.BorderSpacing.Left := 8;
     EditorBackstage.BorderSpacing.Right := 8;
     EditorBackstage.BorderSpacing.Top := 4;

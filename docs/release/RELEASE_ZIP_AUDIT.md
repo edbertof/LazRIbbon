@@ -1,3 +1,10 @@
+## 1.2.10 check
+
+- Package metadata updated to 1.2.10.
+- The standalone `LazRibbonSkinEditor` opens in a smaller 1060x700 window with tighter editor page spacing.
+- The Skin Editor live Ribbon preview remains tall enough to validate pane captions and Dialog Launchers.
+- Release ZIPs created through `tools/build_release_zip.ps1` are saved in `D:\Ribbon4Lazarus` by default and must pass the generated-artifact audit.
+
 ## 1.2.9 check
 
 - Package metadata updated to 1.2.9.

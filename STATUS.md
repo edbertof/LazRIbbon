@@ -1,6 +1,8 @@
 # LazRibbon Status
 
-`1.2.9 - RibbonAppearance design-time API` is the current stabilization build.
+`1.2.10 - Compact Skin Editor layout` is the current stabilization build.
+
+The 1.2.10 build tightens the standalone `LazRibbonSkinEditor` layout and reduces its default window size to 1060x700. The Identity, Ribbon Colors, BackStage, Validation and Advanced pages use closer control spacing while preserving the 150 px live Ribbon preview height needed to inspect pane captions and Dialog Launchers.
 
 The 1.2.9 build starts the API cleanup around the inherited SpkToolBar visual model. `TLazRibbon.RibbonAppearance` is now the official Object Inspector property for low-level Ribbon colors, fonts and gradients. The old `TLazRibbon.Appearance` name is retained only as a legacy alias for older `.lfm` files, hidden from the designer and not streamed by new forms.
 

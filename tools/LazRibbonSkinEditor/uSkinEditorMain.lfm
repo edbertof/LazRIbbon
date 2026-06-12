@@ -1,11 +1,11 @@
 object frmLazRibbonSkinEditor: TfrmLazRibbonSkinEditor
   Left = 388
-  Height = 820
+  Height = 700
   Top = 163
-  Width = 1180
+  Width = 1060
   Caption = 'LazRibbon Skin Editor'
-  ClientHeight = 820
-  ClientWidth = 1180
+  ClientHeight = 700
+  ClientWidth = 1060
   Color = clBtnFace
   Font.Color = clWindowText
   Font.Height = -11
@@ -18,11 +18,11 @@ object frmLazRibbonSkinEditor: TfrmLazRibbonSkinEditor
     Left = 0
     Height = 150
     Top = 0
-    Width = 1180
+    Width = 1060
     Align = alTop
     BevelOuter = bvNone
     ClientHeight = 150
-    ClientWidth = 1180
+    ClientWidth = 1060
     ParentBackground = False
     TabOrder = 1
     object lblLivePreview: TLabel
@@ -37,7 +37,7 @@ object frmLazRibbonSkinEditor: TfrmLazRibbonSkinEditor
       Left = 0
       Height = 150
       Top = 0
-      Width = 1180
+      Width = 1060
       ApplicationButton.Caption = 'Arquivo'
       ApplicationButton.Visible = True
       ApplicationButton.Mode = abmBackstage
@@ -251,7 +251,7 @@ object frmLazRibbonSkinEditor: TfrmLazRibbonSkinEditor
           object PreviewBaseGallery: TLazRibbonSkinGalleryItem
             Caption = 'Bases'
             DisplayMode = rimLarge
-            Width = 210
+            Width = 190
             SelectedSkinName = 'OfficeBlue'
             MaxVisibleItems = 8
             OnSkinSelected = BaseGallerySkinSelected
@@ -449,11 +449,11 @@ object frmLazRibbonSkinEditor: TfrmLazRibbonSkinEditor
     Left = 0
     Height = 30
     Top = 132
-    Width = 1180
+    Width = 1060
     Align = alTop
     BevelOuter = bvNone
     ClientHeight = 30
-    ClientWidth = 1180
+    ClientWidth = 1060
     ParentBackground = False
     TabOrder = 0
     object lblBaseSkin: TLabel
@@ -532,19 +532,19 @@ object frmLazRibbonSkinEditor: TfrmLazRibbonSkinEditor
   object pnlBottom: TPanel
     Left = 0
     Height = 28
-    Top = 792
-    Width = 1180
+    Top = 672
+    Width = 1060
     Align = alBottom
     BevelOuter = bvNone
     ClientHeight = 28
-    ClientWidth = 1180
+    ClientWidth = 1060
     ParentBackground = False
     TabOrder = 3
     object lblStatus: TLabel
       Left = 8
       Height = 28
       Top = 0
-      Width = 1164
+      Width = 1044
       Align = alClient
       BorderSpacing.Left = 8
       BorderSpacing.Right = 8
@@ -554,9 +554,9 @@ object frmLazRibbonSkinEditor: TfrmLazRibbonSkinEditor
   end
   object pcMain: TPageControl
     Left = 8
-    Height = 620
+    Height = 500
     Top = 164
-    Width = 1164
+    Width = 1044
     ActivePage = tabMetadata
     Align = alClient
     BorderSpacing.Left = 8
@@ -567,16 +567,16 @@ object frmLazRibbonSkinEditor: TfrmLazRibbonSkinEditor
     TabOrder = 4
     object tabMetadata: TTabSheet
       Caption = 'Identidade'
-      ClientHeight = 594
-      ClientWidth = 1156
+      ClientHeight = 474
+      ClientWidth = 1036
       object pnlMetadata: TPanel
         Left = 12
-        Height = 410
+        Height = 340
         Top = 12
-        Width = 1128
+        Width = 1000
         BevelOuter = bvNone
-        ClientHeight = 410
-        ClientWidth = 1128
+        ClientHeight = 340
+        ClientWidth = 1000
         ParentBackground = False
         TabOrder = 0
         object lblName: TLabel
@@ -767,24 +767,24 @@ object frmLazRibbonSkinEditor: TfrmLazRibbonSkinEditor
     end
     object tabSimpleColors: TTabSheet
       Caption = 'Cores do Ribbon'
-      ClientHeight = 594
-      ClientWidth = 1156
+      ClientHeight = 474
+      ClientWidth = 1036
       object pnlSimpleColors: TPanel
         Left = 0
-        Height = 594
+        Height = 474
         Top = 0
-        Width = 1156
+        Width = 1036
         Align = alClient
         BevelOuter = bvNone
-        ClientHeight = 594
-        ClientWidth = 1156
+        ClientHeight = 474
+        ClientWidth = 1036
         ParentBackground = False
         TabOrder = 0
         object lblHintSimple: TLabel
           Left = 16
           Height = 36
           Top = 14
-          Width = 980
+          Width = 960
           AutoSize = False
           Caption = 'Clique em uma amostra de cor. O editor atualiza a paleta e aplica o resultado imediatamente no Ribbon acima.'
           WordWrap = True
@@ -1017,24 +1017,24 @@ object frmLazRibbonSkinEditor: TfrmLazRibbonSkinEditor
     end
     object tabPreview: TTabSheet
       Caption = 'Validação'
-      ClientHeight = 594
-      ClientWidth = 1156
+      ClientHeight = 474
+      ClientWidth = 1036
       object pnlPreviewHost: TPanel
         Left = 0
-        Height = 594
+        Height = 474
         Top = 0
-        Width = 1156
+        Width = 1036
         Align = alClient
         BevelOuter = bvNone
-        ClientHeight = 594
-        ClientWidth = 1156
+        ClientHeight = 474
+        ClientWidth = 1036
         ParentBackground = False
         TabOrder = 0
         object lblPreviewInfo: TLabel
           Left = 16
           Height = 36
           Top = 18
-          Width = 980
+          Width = 950
           AutoSize = False
           Caption = 'Use o Ribbon acima para validar a skin: abas, grupos, botões grandes, botões pequenos, checkbox e contraste de texto.'
           WordWrap = True
@@ -1052,15 +1052,15 @@ object frmLazRibbonSkinEditor: TfrmLazRibbonSkinEditor
           Left = 192
           Height = 30
           Top = 72
-          Width = 820
+          Width = 800
           AutoSize = False
           Caption = 'Nenhuma validacao executada.'
         end
         object memValidationReport: TMemo
           Left = 16
-          Height = 450
+          Height = 350
           Top = 112
-          Width = 1120
+          Width = 1000
           Anchors = [akTop, akLeft, akRight, akBottom]
           ReadOnly = True
           ScrollBars = ssAutoBoth
