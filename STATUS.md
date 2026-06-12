@@ -1,6 +1,8 @@
 # LazRibbon Status
 
-`1.2.10 - Compact Skin Editor layout` is the current stabilization build.
+`1.2.11 - LFM RibbonAppearance migration` is the current stabilization build.
+
+The 1.2.11 build continues the path toward the 2.0 API shape by migrating the package's own `.lfm` resources from legacy `Appearance.*` streaming to the Office-like `RibbonAppearance.*` property name. The project consistency audit now rejects new `.lfm` resources that reintroduce legacy TLazRibbon Appearance streaming.
 
 The 1.2.10 build tightens the standalone `LazRibbonSkinEditor` layout and reduces its default window size to 1060x700. The Identity, Ribbon Colors, BackStage, Validation and Advanced pages use closer control spacing while preserving the 150 px live Ribbon preview height needed to inspect pane captions and Dialog Launchers.
 

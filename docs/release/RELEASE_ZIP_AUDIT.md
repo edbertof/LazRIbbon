@@ -1,3 +1,10 @@
+## 1.2.11 check
+
+- Package metadata updated to 1.2.11.
+- Demos, the standalone Skin Editor and the design-time Appearance editor stream `TLazRibbon.RibbonAppearance` in `.lfm` resources instead of legacy `Appearance`.
+- `tools/check_project_consistency.ps1` rejects new `.lfm` files containing legacy `Appearance.*` TLazRibbon streaming lines.
+- Release ZIPs created through `tools/build_release_zip.ps1` are saved in `D:\Ribbon4Lazarus` by default and must pass the generated-artifact audit.
+
 ## 1.2.10 check
 
 - Package metadata updated to 1.2.10.

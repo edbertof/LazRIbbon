@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
   [string]$SourceRoot = (Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path)),
-  [string]$ExpectedVersion = '1.2.10'
+  [string]$ExpectedVersion = '1.2.11'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -132,6 +132,16 @@ function Test-ForbiddenFiles {
   }
 }
 
+function Test-LegacyRibbonAppearanceLfm {
+  Get-ChildItem -LiteralPath $SourceRoot -Recurse -File -Filter '*.lfm' | ForEach-Object {
+    $relative = Get-RelativePath -Path $_.FullName
+    $content = Get-Content -LiteralPath $_.FullName -Raw
+    if ($content -match '(?m)^\s*Appearance\.') {
+      Add-Failure "Legacy TLazRibbon Appearance streaming found in ${relative}; use RibbonAppearance.* in LFM files."
+    }
+  }
+}
+
 if (-not (Test-Path -LiteralPath $SourceRoot)) {
   Write-Error "SourceRoot not found: $SourceRoot"
   exit 2
@@ -143,6 +153,7 @@ Test-PackageVersion -RelativePath 'packages/LazRibbonRuntime.lpk' -ExpectedVersi
 Test-PackageVersion -RelativePath 'packages/LazRibbonDesign.lpk' -ExpectedVersion $ExpectedVersion
 Test-DemoGraphicApplication
 Test-LocalEnvironmentArtifacts
+Test-LegacyRibbonAppearanceLfm
 Test-ForbiddenFiles
 
 if ($failures.Count -eq 0) {

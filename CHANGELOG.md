@@ -1,3 +1,10 @@
+## 1.2.11 - LFM RibbonAppearance migration
+
+- Migrates the package's own Lazarus form resources from the legacy `Appearance.*` streaming name to `RibbonAppearance.*`.
+- Updates demos, the standalone Skin Editor and the design-time Appearance editor form resource so project examples exercise the Office-like property name.
+- Adds a project consistency audit that rejects new `.lfm` files containing legacy `Appearance.*` TLazRibbon streaming lines.
+- Updates runtime and design-time package versions to 1.2.11.
+
 ## 1.2.10 - Compact Skin Editor layout
 
 - Reduces the standalone `LazRibbonSkinEditor` initial window size from 1180x820 to 1060x700.
