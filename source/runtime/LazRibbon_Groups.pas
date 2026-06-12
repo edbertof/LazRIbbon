@@ -1031,6 +1031,8 @@ begin
   inherited;
   if FItems.ListState = lsNeedsProcessing then
      FItems.ProcessNames(self.Owner);
+  if (csDesigning in ComponentState) and Assigned(FToolbarDispatch) then
+    FToolbarDispatch.NotifyItemsChanged;
 end;
 
 procedure TLazRibbonPane.MouseDown(Button: TMouseButton; Shift: TShiftState;

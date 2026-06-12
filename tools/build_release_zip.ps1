@@ -1,6 +1,6 @@
 [CmdletBinding()]
 param(
-  [string]$Version = '1.2.7',
+  [string]$Version = '1.2.8',
   [string]$SourceRoot,
   [string]$OutputDirectory,
   [switch]$Force
@@ -20,7 +20,7 @@ if (-not $sourceItem.PSIsContainer) {
 }
 
 if (-not $OutputDirectory) {
-  $OutputDirectory = Split-Path -Parent $sourceItem.FullName
+  $OutputDirectory = 'D:\Ribbon4Lazarus'
 }
 
 if (-not (Test-Path -LiteralPath $OutputDirectory)) {

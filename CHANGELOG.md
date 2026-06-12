@@ -1,3 +1,12 @@
+## 1.2.8 - Design-time pane refresh fix
+
+- Improves design-time refresh for `TLazRibbonTab`, `TLazRibbonPane` and Ribbon items when captions, structure or Appearance values are edited in the Lazarus IDE.
+- Registers a Ribbon-aware `Caption` property editor for tabs, panes, buttons and extended Ribbon items so Object Inspector changes force the parent Ribbon to repaint.
+- Updates the contents editor to call `ForceRepaint` after adding, removing, moving or renaming tabs, panes and items.
+- Notifies the parent Ribbon after tabs and panes finish loading in design-time mode, so pane captions and Dialog Launchers appear when a form is opened in the designer.
+- Changes the release ZIP default output folder to `D:\Ribbon4Lazarus`.
+- Updates runtime and design-time package versions to 1.2.8.
+
 ## 1.2.7 - Pane caption buffer height fix
 
 - Fixes the remaining Skin Editor live preview case where pane captions were still clipped when the Ribbon control was taller than the calculated default toolbar height.

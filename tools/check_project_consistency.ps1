@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
   [string]$SourceRoot = (Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path)),
-  [string]$ExpectedVersion = '1.2.7'
+  [string]$ExpectedVersion = '1.2.8'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -78,7 +78,7 @@ function Test-LocalEnvironmentArtifacts {
   Get-ChildItem -LiteralPath $SourceRoot -Recurse -File | ForEach-Object {
     $relative = Get-RelativePath -Path $_.FullName
     $normalized = $relative -replace '\\','/'
-    if ($normalized -match '(^|/)(\.git|lib|bin|obj|backup)(/|$)') {
+    if ($normalized -match '(^|/)(\.git|\.tools|lib|bin|obj|backup)(/|$)') {
       return
     }
     if ($normalized -match '^docs/archive/') {
@@ -108,6 +108,9 @@ function Test-ForbiddenFiles {
   Get-ChildItem -LiteralPath $SourceRoot -Recurse -Force | ForEach-Object {
     $relative = Get-RelativePath -Path $_.FullName
     $parts = $relative -replace '\\','/' -split '/' | Where-Object { $_ -ne '' }
+    if (($parts.Count -gt 0) -and ($parts[0] -eq '.tools')) {
+      return
+    }
     for ($index = 0; $index -lt $parts.Count; $index++) {
       $part = $parts[$index]
       if ($forbiddenDirectories -contains $part) {

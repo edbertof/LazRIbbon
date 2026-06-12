@@ -20,7 +20,8 @@ interface
 uses Forms, Controls, Classes, ComponentEditors, PropEdits, LazarusPackageIntf, LazIdeIntf, TypInfo, Dialogs,
      SysUtils, ImgList, GraphPropEdits, Graphics,
      LazRibbon_Core, LazRibbon_Tabs, LazRibbon_Groups, LazRibbon_Buttons,
-     LazRibbon_BaseItem, LazRibbon_EditWindow, LazRibbon_AppearanceEditor;
+     LazRibbon_BaseItem, LazRibbon_Types, LazRibbon_EditWindow,
+     LazRibbon_AppearanceEditor;
 
 const PROPERTY_CONTENTS_NAME = 'Contents';
       PROPERTY_CONTENTS_VALUE = 'Open editor...';
@@ -112,6 +113,45 @@ type TLazRibbonImageIndexPropertyEditor = class(TImageIndexPropertyEditor)
 var EditWindow : TfrmLazRibbonEditWindow;
 
 implementation
+
+function FindRibbonForPersistent(AInstance: TPersistent): TLazRibbon;
+var
+  Current: TComponent;
+  RibbonComponent: TLazRibbonComponent;
+  Guard: Integer;
+begin
+  Result := nil;
+  if AInstance is TLazRibbon then
+    Exit(TLazRibbon(AInstance));
+  if not (AInstance is TLazRibbonComponent) then
+    Exit;
+
+  Current := TLazRibbonComponent(AInstance);
+  for Guard := 0 to 8 do
+  begin
+    if Current = nil then
+      Exit;
+    if Current is TLazRibbon then
+      Exit(TLazRibbon(Current));
+    if not (Current is TLazRibbonComponent) then
+      Exit;
+
+    RibbonComponent := TLazRibbonComponent(Current);
+    if RibbonComponent.Collection <> nil then
+      Current := RibbonComponent.Collection.RootComponent
+    else
+      Current := RibbonComponent.Parent;
+  end;
+end;
+
+procedure RefreshRibbonForPersistent(AInstance: TPersistent);
+var
+  Ribbon: TLazRibbon;
+begin
+  Ribbon := FindRibbonForPersistent(AInstance);
+  if Ribbon <> nil then
+    Ribbon.ForceRepaint;
+end;
 
 { TLazRibbonEditor }
 
@@ -379,7 +419,7 @@ begin
   SmallButton.ScreenTipText := 'Segundo comando criado pelo assistente de design-time.';
 
   Ribbon.TabIndex := Ribbon.Tabs.Count - 1;
-  Ribbon.Invalidate;
+  Ribbon.ForceRepaint;
   MarkDesignerModified;
 end;
 
@@ -418,7 +458,7 @@ begin
   LargeButton.ScreenTipText := 'Comando criado em uma aba contextual pelo assistente de design-time.';
 
   Ribbon.TabIndex := Ribbon.Tabs.Count - 1;
-  Ribbon.Invalidate;
+  Ribbon.ForceRepaint;
   MarkDesignerModified;
 end;
 
@@ -567,7 +607,7 @@ begin
     Ribbon.EndUpdate;
   end;
 
-  Ribbon.Invalidate;
+  Ribbon.ForceRepaint;
   MarkDesignerModified;
 end;
 
@@ -795,7 +835,9 @@ end;
 procedure TLazRibbonCaptionEditor.SetValue(const Value: string);
 begin
   inherited;
-  EditWindow.RefreshNames;
+  if Assigned(EditWindow) then
+    EditWindow.RefreshNames;
+  RefreshRibbonForPersistent(GetComponent(0));
 end;
 
 { TLazRibbonImageIndexPropertyEditor }
@@ -832,6 +874,7 @@ begin
       if AppearanceEditor.ShowModal = mrOK then
       begin
         Toolbar.Appearance.Assign(AppearanceEditor.Appearance);
+        Toolbar.ForceRepaint;
         Modified;
       end;
     finally
@@ -849,6 +892,7 @@ begin
         if AppearanceEditor.ShowModal = mrOK then
         begin
           Tab.CustomAppearance.Assign(AppearanceEditor.Appearance);
+          RefreshRibbonForPersistent(Tab);
           Modified;
         end;
       finally

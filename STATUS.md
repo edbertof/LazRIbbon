@@ -1,7 +1,9 @@
 # LazRibbon Status
 
-`1.2.7 - Pane caption buffer height fix` is the current stabilization build.
+`1.2.8 - Design-time pane refresh fix` is the current stabilization build.
 
+
+The 1.2.8 build improves Lazarus IDE design-time refresh for Ribbon panes and items. Caption edits made through the Object Inspector or the LazRibbon contents editor now force the parent Ribbon to rebuild and repaint, and tabs/panes notify the Ribbon after design-time loading so pane captions and Dialog Launchers are visible when a form opens in the designer.
 
 The 1.2.7 build fixes the remaining Skin Editor preview case where pane captions were assigned but still clipped. The Ribbon buffer now uses the actual control height when it is taller than the calculated toolbar height, and active tab contents get their own explicit clip before panes are drawn.
 

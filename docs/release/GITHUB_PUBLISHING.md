@@ -30,7 +30,7 @@ Lazarus/Free Pascal component package for Office-like Ribbon interfaces, includi
 2. Compile `LazRibbonRuntime.lpk` with Lazarus 4.8.
 3. Compile `LazRibbonDesign.lpk` with Lazarus 4.8.
 4. Run the manual checklist in `docs/quality/VALIDATION_LAZARUS_4_8.md`.
-5. Generate a source ZIP with `tools/build_release_zip.ps1`.
+5. Generate a source ZIP with `tools/build_release_zip.ps1`; by default it is saved in `D:\Ribbon4Lazarus`.
 6. Confirm the generated ZIP passes `tools/check_release_zip.ps1`.
 7. Add showcase screenshots under `docs/assets/screenshots/`.
 8. Create a GitHub release using the same version as the packages.
@@ -40,7 +40,7 @@ Lazarus/Free Pascal component package for Office-like Ribbon interfaces, includi
 Use a title such as:
 
 ```text
-LazRibbon 1.2.7 - Pane caption buffer height fix
+LazRibbon 1.2.8 - Design-time pane refresh fix
 ```
 
 ## Release notes format

@@ -1,3 +1,9 @@
+## 1.2.8 check
+
+- Package metadata updated to 1.2.8.
+- Design-time caption, structure and Appearance edits force the Ribbon preview to rebuild and repaint.
+- Release ZIPs created through `tools/build_release_zip.ps1` are saved in `D:\Ribbon4Lazarus` by default and must pass the generated-artifact audit.
+
 ## 1.2.7 check
 
 - Package metadata updated to 1.2.7.

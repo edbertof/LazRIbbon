@@ -24,7 +24,7 @@ procedure Register;
 
 implementation
 uses
-  ImgList, LResources, FormEditingIntf,
+  ImgList, Controls, LResources, FormEditingIntf,
   LazRibbon_Core, LazRibbon_Editor, LazRibbon_Popup, LazRibbon_Buttons, LazRibbon_Checkboxes,
   LazRibbon_Groups, LazRibbon_Tabs, LazRibbon_Appearance, LazRibbon_Backstage, LazRibbon_SkinManager,
   LazRibbon_SkinSelector, LazRibbon_SkinManagerEditor, LazRibbon_RibbonExtItems, LazRibbon_Form;
@@ -117,6 +117,14 @@ begin
 
   RegisterComponentEditor(TLazRibbon, TLazRibbonEditor);
   RegisterComponentEditor(TLazRibbonSkinManager, TLazRibbonSkinManagerEditor);
+  RegisterPropertyEditor(TypeInfo(string), TLazRibbonTab, 'Caption',
+    TLazRibbonCaptionEditor);
+  RegisterPropertyEditor(TypeInfo(string), TLazRibbonPane, 'Caption',
+    TLazRibbonCaptionEditor);
+  RegisterPropertyEditor(TypeInfo(string), TLazRibbonBaseButton, 'Caption',
+    TLazRibbonCaptionEditor);
+  RegisterPropertyEditor(TypeInfo(TCaption), TLazRibbonCustomRibbonExtItem,
+    'Caption', TLazRibbonCaptionEditor);
   RegisterPropertyEditor(TypeInfo(TLazRibbonToolbarAppearance), TLazRibbon,
     'Appearance', TLazRibbonToolbarAppearanceEditor);
   RegisterPropertyEditor(TypeInfo(TImageIndex), TLazRibbonLargeButton, '',

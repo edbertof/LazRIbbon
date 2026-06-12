@@ -119,6 +119,7 @@ type
     procedure EnsureExtendedMenuItems;
     procedure CheckActionsAvailability;
     procedure Notification(AComponent: TComponent; Operation: TOperation); override;
+    procedure MarkToolbarChanged;
 
     procedure AddItem(ItemClass: TLazRibbonBaseItemClass);
     function GetItemCaption(Item: TLazRibbonBaseItem): string;
@@ -265,7 +266,7 @@ begin
     raise Exception.Create('TfrmLazRibbonEditWindow.aAddPaneExecute: ' + RSIncorrectObjectInTree);
 
   FDesigner.PropertyEditorHook.PersistentAdded(Pane,True);
-  FDesigner.Modified;
+  MarkToolbarChanged;
 end;
 
 procedure TfrmLazRibbonEditWindow.aAddSmallButtonExecute(Sender: TObject);
@@ -325,7 +326,7 @@ begin
   CheckActionsAvailability;
 
   FDesigner.PropertyEditorHook.PersistentAdded(Tab,True);
-  FDesigner.Modified;
+  MarkToolbarChanged;
 end;
 
 procedure TfrmLazRibbonEditWindow.AddItem(ItemClass: TLazRibbonBaseItemClass);
@@ -403,7 +404,7 @@ begin
     raise Exception.Create('Item class ' + ItemClass.ClassName + ' not supported');
   NewNode.SelectedIndex := NewNode.ImageIndex;
   FDesigner.PropertyEditorHook.PersistentAdded(Item,True);
-  FDesigner.Modified;
+  MarkToolbarChanged;
 end;
 
 procedure TfrmLazRibbonEditWindow.aMoveDownExecute(Sender: TObject);
@@ -488,6 +489,7 @@ begin
   end
   else
     raise Exception.Create('TfrmLazRibbonEditWindow.aMoveDownExecute: ' + RSIncorrectObjectInTree);
+  MarkToolbarChanged;
 end;
 
 procedure TfrmLazRibbonEditWindow.aMoveUpExecute(Sender: TObject);
@@ -569,6 +571,7 @@ begin
     CheckActionsAvailability;
   end else
     raise Exception.Create('TfrmLazRibbonEditWindow.aMoveUpExecute: ' + RSIncorrectObjectInTree);
+  MarkToolbarChanged;
 end;
 
 procedure TfrmLazRibbonEditWindow.aRemoveItemExecute(Sender: TObject);
@@ -819,6 +822,14 @@ begin
   end;
 end;
 
+procedure TfrmLazRibbonEditWindow.MarkToolbarChanged;
+begin
+  if FToolbar <> nil then
+    FToolbar.ForceRepaint;
+  if FDesigner <> nil then
+    FDesigner.Modified;
+end;
+
 procedure TfrmLazRibbonEditWindow.SetItemCaption(Item: TLazRibbonBaseItem; const Value : string);
 begin
   if (FToolbar = nil) or (FDesigner = nil) then
@@ -874,6 +885,7 @@ begin
   tvStructure.Items.delete(node);
   NextNode.Selected := true;
   CheckActionsAvailability;
+  MarkToolbarChanged;
 end;
 
 procedure TfrmLazRibbonEditWindow.DoRemovePane;
@@ -905,6 +917,7 @@ begin
   tvStructure.Items.Delete(Node);
   NextNode.Selected := true;
   CheckActionsAvailability;
+  MarkToolbarChanged;
 end;
 
 procedure TfrmLazRibbonEditWindow.DoRemoveTab;
@@ -949,6 +962,7 @@ begin
     FDesigner.SelectOnlyThisComponent(FToolbar);
     CheckActionsAvailability;
   end;
+  MarkToolbarChanged;
 end;
 
 procedure TfrmLazRibbonEditWindow.BuildTreeData;
@@ -1171,19 +1185,19 @@ begin
   begin
     Tab := TLazRibbonTab(Node.Data);
     Tab.Caption := S;
-    FDesigner.Modified;
+    MarkToolbarChanged;
   end else
   if TObject(Node.Data) is TLazRibbonPane then
   begin
     Pane := TLazRibbonPane(Node.Data);
     Pane.Caption := S;
-    FDesigner.Modified;
+    MarkToolbarChanged;
   end else
   if TObject(Node.Data) is TLazRibbonBaseItem then
   begin
     Item := TLazRibbonBaseItem(Node.Data);
     SetItemCaption(Item, S);
-    FDesigner.Modified;
+    MarkToolbarChanged;
   end else
     raise Exception.Create('TfrmLazRibbonEditWindow.tvStructureEdited: ' + RSDamagedTreeStructure);
 end;
