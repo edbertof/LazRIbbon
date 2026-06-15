@@ -587,7 +587,7 @@ end;
 
 procedure TfrmLazRibbonAppearanceEditWindow.SetAppearance(const Value: TLazRibbonToolbarAppearance);
 begin
-  tbPreview.Appearance.Assign(Value);
+  tbPreview.RibbonAppearance.Assign(Value);
 end;
 
 procedure TfrmLazRibbonAppearanceEditWindow.SetComboIndex(Combo: TComboBox;
@@ -631,25 +631,25 @@ end;
 
 procedure TfrmLazRibbonAppearanceEditWindow.SetLinkedFrameColor(AColor: TColor);
 begin
-  tbPreview.Appearance.Tab.BorderColor := AColor;
+  tbPreview.RibbonAppearance.Tab.BorderColor := AColor;
   SetPanelColor(pTabFrame, AColor);
 
-  tbPreview.Appearance.Pane.BorderDarkColor := AColor;
+  tbPreview.RibbonAppearance.Pane.BorderDarkColor := AColor;
   SetPanelColor(pPaneBorderDark, AColor);
 
-  tbPreview.Appearance.Element.IdleFrameColor := AColor;
+  tbPreview.RibbonAppearance.Element.IdleFrameColor := AColor;
   SetPanelColor(pItemIdleFrame, AColor);
 end;
 
 procedure TfrmLazRibbonAppearanceEditWindow.SetLinkedGradientFromColor(AColor: TColor);
 begin
-  tbPreview.Appearance.Tab.GradientFromColor := AColor;
+  tbPreview.RibbonAppearance.Tab.GradientFromColor := AColor;
   SetPanelColor(pTabGradientFrom, AColor);
 
-  tbPreview.Appearance.Pane.GradientFromColor := AColor;
+  tbPreview.RibbonAppearance.Pane.GradientFromColor := AColor;
   SetPanelColor(pPaneGradientFrom, AColor);
 
-  tbPreview.Appearance.Element.IdleGradientFromColor := AColor;
+  tbPreview.RibbonAppearance.Element.IdleGradientFromColor := AColor;
   SetPanelColor(pItemIdleGradientFrom, AColor);
 end;
 
@@ -659,25 +659,25 @@ var
 begin
   Kind := TBackgroundKind(AKindIndex);
 
-  tbPreview.Appearance.Tab.GradientType := Kind;
+  tbPreview.RibbonAppearance.Tab.GradientType := Kind;
   SetComboGradientKind(cbTabGradientKind, Kind);
 
-  tbPreview.Appearance.Pane.GradientType := Kind;
+  tbPreview.RibbonAppearance.Pane.GradientType := Kind;
   SetComboGradientKind(cbPaneGradientKind, Kind);
 
-  tbPreview.Appearance.Element.IdleGradientType := Kind;
+  tbPreview.RibbonAppearance.Element.IdleGradientType := Kind;
   SetComboGradientKind(cbItemIdleGradientKind, Kind);
 end;
 
 procedure TfrmLazRibbonAppearanceEditWindow.SetLinkedGradientToColor(AColor: TColor);
 begin
-  tbPreview.Appearance.Tab.GradientToColor := AColor;
+  tbPreview.RibbonAppearance.Tab.GradientToColor := AColor;
   SetPanelColor(pTabGradientTo, AColor);
 
-  tbPreview.Appearance.Pane.GradientToColor := AColor;
+  tbPreview.RibbonAppearance.Pane.GradientToColor := AColor;
   SetPanelColor(pPaneGradientTo, AColor);
 
-  tbPreview.Appearance.Element.IdleGradientToColor := AColor;
+  tbPreview.RibbonAppearance.Element.IdleGradientToColor := AColor;
   SetPanelColor(pItemIdleGradientTo, AColor);
 end;
 
@@ -701,7 +701,7 @@ begin
   (Sender as TSpeedButton).Down := true;
   if PickColor(pTabFrame) then
   begin
-    tbPreview.Appearance.Tab.BorderColor := pTabFrame.Color;
+    tbPreview.RibbonAppearance.Tab.BorderColor := pTabFrame.Color;
     if cbLinkTab.checked then
       SetLinkedFrameColor(pTabFrame.Color)
   end;
@@ -713,7 +713,7 @@ begin
   (Sender as TSpeedButton).Down := true;
   if PickColor(pTabGradientFrom) then
   begin
-    tbPreview.Appearance.Tab.GradientFromColor := pTabGradientFrom.Color;
+    tbPreview.RibbonAppearance.Tab.GradientFromColor := pTabGradientFrom.Color;
     if cbLinkTab.checked then
       SetLinkedFrameColor(pTabGradientFrom.Color)
   end;
@@ -725,7 +725,7 @@ begin
   (Sender as TSpeedButton).Down := true;
   if PickColor(pTabGradientTo) then
   begin
-    tbPreview.Appearance.Tab.GradientToColor := pTabGradientTo.Color;
+    tbPreview.RibbonAppearance.Tab.GradientToColor := pTabGradientTo.Color;
     if cbLinkTab.checked then
       SetLinkedFrameColor(pTabGradientTo.Color)
   end;
@@ -743,7 +743,7 @@ begin
   (Sender as TSpeedButton).Down := true;
   if PickColor(pActiveTabHeaderFont) then
   begin
-    tbPreview.Appearance.Tab.TabHeaderFont.Color := pActiveTabHeaderFont.Color;
+    tbPreview.RibbonAppearance.Tab.TabHeaderFont.Color := pActiveTabHeaderFont.Color;
     tbPreview.ForceRepaint;
   end;
   (Sender as TSpeedButton).Down := false;
@@ -755,7 +755,7 @@ var
 begin
   L := TStringList.Create;
   try
-    tbPreview.Appearance.SaveToPascal(L);
+    tbPreview.RibbonAppearance.SaveToPascal(L);
     mXML.Clear;
     mXML.Lines.Assign(L);
   finally
@@ -771,7 +771,7 @@ begin
   XML:=TLazRibbonXMLParser.Create;
   try
     Node := XML['Appearance', true];
-    tbPreview.Appearance.SaveToXML(Node);
+    tbPreview.RibbonAppearance.SaveToXML(Node);
     mXML.Clear;
     mXml.Text:=XML.Generate;
   finally
@@ -784,7 +784,7 @@ begin
   (Sender as TSpeedButton).Down := true;
   if PickColor(pInactiveTabHeaderFont) then
   begin
-    tbPreview.Appearance.Tab.InactiveTabHeaderFontColor := pInactiveTabHeaderFont.Color;
+    tbPreview.RibbonAppearance.Tab.InactiveTabHeaderFontColor := pInactiveTabHeaderFont.Color;
     tbPreview.ForceRepaint;
   end;
   (Sender as TSpeedButton).Down := false;
@@ -795,7 +795,7 @@ procedure TfrmLazRibbonAppearanceEditWindow.bItemActiveCaptionColorClick(Sender:
 begin
   (Sender as TSpeedButton).Down := true;
   if PickColor(pItemActiveCaptionColor) then
-    tbPreview.Appearance.Element.ActiveCaptionColor := pItemActiveCaptionColor.Color;
+    tbPreview.RibbonAppearance.Element.ActiveCaptionColor := pItemActiveCaptionColor.Color;
   (Sender as TSpeedButton).Down := false;
 end;
 
@@ -803,7 +803,7 @@ procedure TfrmLazRibbonAppearanceEditWindow.bItemActiveFrameColorClick(Sender: T
 begin
   (Sender as TSpeedButton).Down := true;
   if PickColor(pItemActiveFrame) then
-    tbPreview.Appearance.Element.ActiveFrameColor := pItemactiveFrame.Color;
+    tbPreview.RibbonAppearance.Element.ActiveFrameColor := pItemactiveFrame.Color;
   (Sender as TSpeedButton).Down := false;
 end;
 
@@ -811,7 +811,7 @@ procedure TfrmLazRibbonAppearanceEditWindow.bItemActiveGradientFromColorClick(Se
 begin
   (Sender as TSpeedButton).Down := true;
   if PickColor(pItemActiveGradientFrom) then
-    tbPreview.Appearance.Element.ActiveGradientFromColor := pItemActiveGradientFrom.Color;
+    tbPreview.RibbonAppearance.Element.ActiveGradientFromColor := pItemActiveGradientFrom.Color;
   (Sender as TSpeedButton).Down := false;
 end;
 
@@ -819,7 +819,7 @@ procedure TfrmLazRibbonAppearanceEditWindow.bItemActiveGradientToColorClick(Send
 begin
   (Sender as TSpeedButton).Down := true;
   if PickColor(pItemActiveGradientTo) then
-    tbPreview.Appearance.Element.ActiveGradientToColor := pItemActiveGradientTo.Color;
+    tbPreview.RibbonAppearance.Element.ActiveGradientToColor := pItemActiveGradientTo.Color;
   (Sender as TSpeedButton).Down := false;
 end;
 
@@ -827,7 +827,7 @@ procedure TfrmLazRibbonAppearanceEditWindow.bItemActiveInnerDarkColorClick(Sende
 begin
   (Sender as TSpeedButton).Down := true;
   if PickColor(pItemActiveInnerDark) then
-    tbPreview.Appearance.Element.ActiveInnerDarkColor := pItemActiveInnerDark.Color;
+    tbPreview.RibbonAppearance.Element.ActiveInnerDarkColor := pItemActiveInnerDark.Color;
   (Sender as TSpeedButton).Down := false;
 end;
 
@@ -835,7 +835,7 @@ procedure TfrmLazRibbonAppearanceEditWindow.bItemActiveInnerLightColorClick(Send
 begin
   (Sender as TSpeedButton).Down := true;
   if PickColor(pItemActiveInnerLight) then
-    tbPreview.Appearance.Element.ActiveInnerLightColor := pItemActiveInnerLight.Color;
+    tbPreview.RibbonAppearance.Element.ActiveInnerLightColor := pItemActiveInnerLight.Color;
   (Sender as TSpeedButton).Down := false;
 end;
 
@@ -843,7 +843,7 @@ procedure TfrmLazRibbonAppearanceEditWindow.bItemActiveKnobColorClick(Sender: TO
 begin
   (Sender as TSpeedButton).Down := true;
   if PickColor(pItemActiveKnobColor) then
-    tbPreview.Appearance.Element.ActiveKnobColor := pItemActiveKnobColor.Color;
+    tbPreview.RibbonAppearance.Element.ActiveKnobColor := pItemActiveKnobColor.Color;
   (Sender as TSpeedButton).Down := false;
 end;
 
@@ -851,7 +851,7 @@ procedure TfrmLazRibbonAppearanceEditWindow.bItemActiveTrackColorClick(Sender: T
 begin
   (Sender as TSpeedButton).Down := true;
   if PickColor(pItemActiveTrackColor) then
-    tbPreview.Appearance.Element.ActiveTrackColor := pItemActiveTrackColor.Color;
+    tbPreview.RibbonAppearance.Element.ActiveTrackColor := pItemActiveTrackColor.Color;
   (Sender as TSpeedButton).Down := false;
 end;
 
@@ -859,7 +859,7 @@ procedure TfrmLazRibbonAppearanceEditWindow.bItemHotTrackCaptionColorClick(Sende
 begin
   (Sender as TSpeedButton).Down := true;
   if PickColor(pItemHotTrackCaptionColor) then
-    tbPreview.Appearance.Element.HotTrackCaptionColor := pItemHotTrackCaptionColor.Color;
+    tbPreview.RibbonAppearance.Element.HotTrackCaptionColor := pItemHotTrackCaptionColor.Color;
   (Sender as TSpeedButton).Down := false;
 end;
 
@@ -867,7 +867,7 @@ procedure TfrmLazRibbonAppearanceEditWindow.bItemHotTrackFrameColorClick(Sender:
 begin
   (Sender as TSpeedButton).Down := true;
   if PickColor(pItemHottrackFrame) then
-    tbPreview.Appearance.Element.HotTrackFrameColor := pItemHottrackFrame.Color;
+    tbPreview.RibbonAppearance.Element.HotTrackFrameColor := pItemHottrackFrame.Color;
   (Sender as TSpeedButton).Down := false;
 end;
 
@@ -875,7 +875,7 @@ procedure TfrmLazRibbonAppearanceEditWindow.bItemHotTrackGradientFromColorClick(
 begin
   (Sender as TSpeedButton).Down := true;
   if PickColor(pItemHotTrackGradientFrom) then
-    tbPreview.Appearance.Element.HotTrackGradientFromColor := pItemHotTrackGradientFrom.Color;
+    tbPreview.RibbonAppearance.Element.HotTrackGradientFromColor := pItemHotTrackGradientFrom.Color;
   (Sender as TSpeedButton).Down := false;
 end;
 
@@ -883,7 +883,7 @@ procedure TfrmLazRibbonAppearanceEditWindow.bItemHotTrackGradientToColorClick(Se
 begin
   (Sender as TSpeedButton).Down := true;
   if PickColor(pItemHotTrackGradientTo) then
-    tbPreview.Appearance.Element.HotTrackGradientToColor := pItemHotTrackGradientTo.Color;
+    tbPreview.RibbonAppearance.Element.HotTrackGradientToColor := pItemHotTrackGradientTo.Color;
   (Sender as TSpeedButton).Down := false;
 end;
 
@@ -891,7 +891,7 @@ procedure TfrmLazRibbonAppearanceEditWindow.bItemHotTrackInnerDarkColorClick(Sen
 begin
   (Sender as TSpeedButton).Down := true;
   if PickColor(pItemHotTrackInnerDark) then
-    tbPreview.Appearance.Element.HotTrackInnerDarkColor := pItemHotTrackInnerDark.Color;
+    tbPreview.RibbonAppearance.Element.HotTrackInnerDarkColor := pItemHotTrackInnerDark.Color;
   (Sender as TSpeedButton).Down := false;
 end;
 
@@ -899,7 +899,7 @@ procedure TfrmLazRibbonAppearanceEditWindow.bItemHotTrackInnerLightColorClick(Se
 begin
   (Sender as TSpeedButton).Down := true;
   if PickColor(pItemHotTrackInnerLight) then
-    tbPreview.Appearance.Element.HotTrackInnerLightColor := pItemHotTrackInnerLight.Color;
+    tbPreview.RibbonAppearance.Element.HotTrackInnerLightColor := pItemHotTrackInnerLight.Color;
   (Sender as TSpeedButton).Down := false;
 end;
 
@@ -908,7 +908,7 @@ begin
   (Sender as TSpeedButton).Down := true;
   if PickColor(pItemIdleCaptionColor) then
   begin
-    tbPreview.Appearance.Element.IdleCaptionColor := pItemIdleCaptionColor.Color;
+    tbPreview.RibbonAppearance.Element.IdleCaptionColor := pItemIdleCaptionColor.Color;
     if cbLinkTab.checked then
       SetLinkedFrameColor(pItemIdleCaptionColor.Color)
   end;
@@ -920,7 +920,7 @@ begin
   (Sender as TSpeedButton).Down := true;
   if PickColor(pItemIdleFrame) then
   begin
-    tbPreview.Appearance.Element.IdleFrameColor := pItemIdleFrame.Color;
+    tbPreview.RibbonAppearance.Element.IdleFrameColor := pItemIdleFrame.Color;
     if cbLinkTab.checked then
       SetLinkedFrameColor(pItemIdleFrame.Color)
   end;
@@ -932,7 +932,7 @@ begin
   (Sender as TSpeedButton).Down := true;
   if PickColor(pItemIdleGradientFrom) then
   begin
-    tbPreview.Appearance.Element.IdleGradientFromColor := pItemIdleGradientFrom.Color;
+    tbPreview.RibbonAppearance.Element.IdleGradientFromColor := pItemIdleGradientFrom.Color;
     if cbLinkTab.checked then
       SetLinkedFrameColor(pItemIdleGradientFrom.Color)
   end;
@@ -944,7 +944,7 @@ begin
   (Sender as TSpeedButton).Down := true;
   if PickColor(pItemIdleGradientTo) then
   begin
-    tbPreview.Appearance.Element.IdleGradientToColor := pItemIdleGradientTo.Color;
+    tbPreview.RibbonAppearance.Element.IdleGradientToColor := pItemIdleGradientTo.Color;
     if cbLinkTab.checked then
       SetLinkedFrameColor(pItemIdleGradientTo.Color)
   end;
@@ -956,7 +956,7 @@ begin
   (Sender as TSpeedButton).Down := true;
   if PickColor(pItemIdleInnerDark) then
   begin
-    tbPreview.Appearance.Element.IdleInnerDarkColor := pItemIdleInnerDark.Color;
+    tbPreview.RibbonAppearance.Element.IdleInnerDarkColor := pItemIdleInnerDark.Color;
     if cbLinkTab.checked then
       SetLinkedFrameColor(pItemIdleInnerDark.Color)
   end;
@@ -968,7 +968,7 @@ begin
   (Sender as TSpeedButton).Down := true;
   if PickColor(pItemIdleInnerLight) then
   begin
-    tbPreview.Appearance.Element.IdleInnerLightColor := pItemIdleInnerLight.Color;
+    tbPreview.RibbonAppearance.Element.IdleInnerLightColor := pItemIdleInnerLight.Color;
     if cbLinkPane.Checked then
       SetLinkedFrameColor(pItemIdleInnerLight.Color)
   end;
@@ -979,7 +979,7 @@ procedure TfrmLazRibbonAppearanceEditWindow.bItemIdleKnobColorClick(Sender: TObj
 begin
   (Sender as TSpeedButton).Down := true;
   if PickColor(pItemIdleKnobColor) then
-    tbPreview.Appearance.Element.IdleKnobColor := pItemIdleKnobColor.Color;
+    tbPreview.RibbonAppearance.Element.IdleKnobColor := pItemIdleKnobColor.Color;
   (Sender as TSpeedButton).Down := false;
 end;
 
@@ -987,7 +987,7 @@ procedure TfrmLazRibbonAppearanceEditWindow.bItemIdleTrackColor1Click(Sender: TO
 begin
   (Sender as TSpeedButton).Down := true;
   if PickColor(pItemHotTrackTrackColor) then
-    tbPreview.Appearance.Element.HotTrackTrackColor := pItemHotTrackTrackColor.Color;
+    tbPreview.RibbonAppearance.Element.HotTrackTrackColor := pItemHotTrackTrackColor.Color;
   (Sender as TSpeedButton).Down := false;
 end;
 
@@ -995,7 +995,7 @@ procedure TfrmLazRibbonAppearanceEditWindow.bItemIdleTrackColorClick(Sender: TOb
 begin
   (Sender as TSpeedButton).Down := true;
   if PickColor(pItemIdleTrackColor) then
-    tbPreview.Appearance.Element.IdleTrackColor := pItemIdleTrackColor.Color;
+    tbPreview.RibbonAppearance.Element.IdleTrackColor := pItemIdleTrackColor.Color;
   (Sender as TSpeedButton).Down := false;
 end;
 
@@ -1004,7 +1004,7 @@ begin
   (Sender as TSpeedButton).Down := true;
   if PickColor(pPaneBorderDark) then
   begin
-    tbPreview.Appearance.Pane.BorderDarkColor := pPaneBorderDark.Color;
+    tbPreview.RibbonAppearance.Pane.BorderDarkColor := pPaneBorderDark.Color;
     if cbLinkPane.Checked then
       SetLinkedFrameColor(pPaneBorderDark.Color)
   end;
@@ -1016,7 +1016,7 @@ begin
   (Sender as TSpeedButton).Down := true;
   if PickColor(pPaneBorderLight) then
   begin
-    tbPreview.Appearance.Pane.BorderLightColor := pPaneBorderLight.Color;
+    tbPreview.RibbonAppearance.Pane.BorderLightColor := pPaneBorderLight.Color;
     if cbLinkPane.Checked then
       SetLinkedFrameColor(pPaneBorderLight.Color)
   end;
@@ -1027,7 +1027,7 @@ procedure TfrmLazRibbonAppearanceEditWindow.bPaneCaptionBackgroundColorClick(Sen
 begin
   (Sender as TSpeedButton).Down := true;
   if PickColor(pPaneCaptionBackground) then
-    tbPreview.Appearance.Pane.CaptionBgColor := pPaneCaptionBackground.Color;
+    tbPreview.RibbonAppearance.Pane.CaptionBgColor := pPaneCaptionBackground.Color;
   (Sender as TSpeedButton).Down := false;
 end;
 
@@ -1036,7 +1036,7 @@ begin
   (Sender as TSpeedButton).Down := true;
   if PickColor(pPaneCaptionFontColor) then
   begin
-    tbPreview.Appearance.Pane.CaptionFont.Color := pPaneCaptionFontColor.Color;
+    tbPreview.RibbonAppearance.Pane.CaptionFont.Color := pPaneCaptionFontColor.Color;
     tbPreview.ForceRepaint;
   end;
   (Sender as TSpeedButton).Down := false;
@@ -1047,7 +1047,7 @@ begin
   (Sender as TSpeedButton).Down := true;
   if PickColor(pPaneGradientFrom) then
   begin
-    tbPreview.Appearance.Pane.GradientFromColor := pPaneGradientFrom.Color;
+    tbPreview.RibbonAppearance.Pane.GradientFromColor := pPaneGradientFrom.Color;
     if cbLinkPane.Checked then
       SetLinkedFrameColor(pPaneGradientFrom.Color)
   end;
@@ -1059,7 +1059,7 @@ begin
   (Sender as TSpeedButton).Down := true;
   if PickColor(pPaneGradientTo) then
   begin
-    tbPreview.Appearance.Pane.GradientToColor := pPaneGradientTo.Color;
+    tbPreview.RibbonAppearance.Pane.GradientToColor := pPaneGradientTo.Color;
     if cbLinkPane.Checked then
       SetLinkedFrameColor(pPaneGradientTo.Color)
     end;
@@ -1071,7 +1071,7 @@ procedure TfrmLazRibbonAppearanceEditWindow.bPopupCheckedFrameColorClick(
 begin
   (Sender as TSpeedButton).Down := true;
   if PickColor(pPopupCheckedFrameColor) then
-    tbPreview.Appearance.Popup.CheckedFrameColor := pPopupCheckedFrameColor.Color;
+    tbPreview.RibbonAppearance.Popup.CheckedFrameColor := pPopupCheckedFrameColor.Color;
   (Sender as TSpeedButton).Down := false;
 end;
 
@@ -1080,7 +1080,7 @@ procedure TfrmLazRibbonAppearanceEditWindow.bPopupCheckedGradientFromColorClick(
 begin
   (Sender as TSpeedButton).Down := true;
   if PickColor(pPopupCheckedGradientFromColor) then
-    tbPreview.Appearance.Popup.CheckedGradientFromColor := pPopupCheckedGradientFromColor.Color;
+    tbPreview.RibbonAppearance.Popup.CheckedGradientFromColor := pPopupCheckedGradientFromColor.Color;
   (Sender as TSpeedButton).Down := false;
 end;
 
@@ -1089,7 +1089,7 @@ procedure TfrmLazRibbonAppearanceEditWindow.bPopupCheckedGradientToColorClick(
 begin
   (Sender as TSpeedButton).Down := true;
   if PickColor(pPopupCheckedGradientFromColor) then
-    tbPreview.Appearance.Popup.CheckedGradientToColor := pPopupCheckedGradientToColor.Color;
+    tbPreview.RibbonAppearance.Popup.CheckedGradientToColor := pPopupCheckedGradientToColor.Color;
   (Sender as TSpeedButton).Down := false;
 end;
 
@@ -1098,7 +1098,7 @@ procedure TfrmLazRibbonAppearanceEditWindow.bPopupDisabledCaptionColorClick(
 begin
   (Sender as TSpeedButton).Down := true;
   if PickColor(pPopupDisabledCaptionColor) then
-    tbPreview.Appearance.Popup.DisabledCaptionColor := pPopupDisabledCaptionColor.Color;
+    tbPreview.RibbonAppearance.Popup.DisabledCaptionColor := pPopupDisabledCaptionColor.Color;
   (Sender as TSpeedButton).Down := false;
 
 end;
@@ -1107,7 +1107,7 @@ procedure TfrmLazRibbonAppearanceEditWindow.bPopupDividerLineColorClick(Sender: 
 begin
   (Sender as TSpeedButton).Down := true;
   if PickColor(pPopupDividerLineColor) then
-    tbPreview.Appearance.Popup.DividerLineColor := pPopupDividerLineColor.Color;
+    tbPreview.RibbonAppearance.Popup.DividerLineColor := pPopupDividerLineColor.Color;
   (Sender as TSpeedButton).Down := false;
 end;
 
@@ -1115,7 +1115,7 @@ procedure TfrmLazRibbonAppearanceEditWindow.bPopupGutterFrameColorClick(Sender: 
 begin
   (Sender as TSpeedButton).Down := true;
   if PickColor(pPopupGutterFrameColor) then
-    tbPreview.Appearance.Popup.GutterFrameColor := pPopupGutterFrameColor.Color;
+    tbPreview.RibbonAppearance.Popup.GutterFrameColor := pPopupGutterFrameColor.Color;
   (Sender as TSpeedButton).Down := false;
 end;
 
@@ -1124,7 +1124,7 @@ procedure TfrmLazRibbonAppearanceEditWindow.bPopupGutterGradientFromColorClick(
 begin
   (Sender as TSpeedButton).Down := true;
   if PickColor(pPopupGutterGradientFromColor) then
-    tbPreview.Appearance.Popup.GutterGradientFromColor := pPopupGutterGradientFromColor.Color;
+    tbPreview.RibbonAppearance.Popup.GutterGradientFromColor := pPopupGutterGradientFromColor.Color;
   (Sender as TSpeedButton).Down := false;
 end;
 
@@ -1133,7 +1133,7 @@ procedure TfrmLazRibbonAppearanceEditWindow.bPopupGutterGradientToColorClick(
 begin
   (Sender as TSpeedButton).Down := true;
   if PickColor(pPopupGutterGradientToColor) then
-    tbPreview.Appearance.Popup.GutterGradientToColor := pPopupGutterGradientToColor.Color;
+    tbPreview.RibbonAppearance.Popup.GutterGradientToColor := pPopupGutterGradientToColor.Color;
   (Sender as TSpeedButton).Down := false;
 
 end;
@@ -1143,7 +1143,7 @@ procedure TfrmLazRibbonAppearanceEditWindow.bPopupHotTrackCaptionColorClick(
 begin
   (Sender as TSpeedButton).Down := true;
   if PickColor(pPopupHotTrackCaptionColor) then
-    tbPreview.Appearance.Popup.HotTrackCaptionColor := pPopupHotTrackCaptionColor.Color;
+    tbPreview.RibbonAppearance.Popup.HotTrackCaptionColor := pPopupHotTrackCaptionColor.Color;
   (Sender as TSpeedButton).Down := false;
 end;
 
@@ -1151,7 +1151,7 @@ procedure TfrmLazRibbonAppearanceEditWindow.bPopupHotTrackFrameColorClick(Sender
 begin
   (Sender as TSpeedButton).Down := true;
   if PickColor(pPopupHotTrackFrameColor) then
-    tbPreview.Appearance.Popup.HotTrackFrameColor := pPopupHotTrackFrameColor.Color;
+    tbPreview.RibbonAppearance.Popup.HotTrackFrameColor := pPopupHotTrackFrameColor.Color;
   (Sender as TSpeedButton).Down := false;
 end;
 
@@ -1160,7 +1160,7 @@ procedure TfrmLazRibbonAppearanceEditWindow.bPopupHotTrackGradientFromColorClick
 begin
   (Sender as TSpeedButton).Down := true;
   if PickColor(pPopupHotTrackGradientFromColor) then
-    tbPreview.Appearance.Popup.HotTrackGradientFromColor := pPopupHotTrackGradientFromColor.Color;
+    tbPreview.RibbonAppearance.Popup.HotTrackGradientFromColor := pPopupHotTrackGradientFromColor.Color;
   (Sender as TSpeedButton).Down := false;
 end;
 
@@ -1169,7 +1169,7 @@ procedure TfrmLazRibbonAppearanceEditWindow.bPopupHotTrackGradientToColorClick(
 begin
   (Sender as TSpeedButton).Down := true;
   if PickColor(pPopupHotTrackGradientToColor) then
-    tbPreview.Appearance.Popup.HotTrackGradientToColor := pPopupHotTrackGradientToColor.Color;
+    tbPreview.RibbonAppearance.Popup.HotTrackGradientToColor := pPopupHotTrackGradientToColor.Color;
   (Sender as TSpeedButton).Down := false;
 end;
 
@@ -1177,7 +1177,7 @@ procedure TfrmLazRibbonAppearanceEditWindow.bPopupIdleCaptionColorClick(Sender: 
 begin
   (Sender as TSpeedButton).Down := true;
   if PickColor(pPopupIdleCaptionColor) then
-    tbPreview.Appearance.Popup.IdleCaptionColor := pPopupIdleCaptionColor.Color;
+    tbPreview.RibbonAppearance.Popup.IdleCaptionColor := pPopupIdleCaptionColor.Color;
   (Sender as TSpeedButton).Down := false;
 end;
 
@@ -1186,7 +1186,7 @@ procedure TfrmLazRibbonAppearanceEditWindow.bPopupIdleGradientFromColorClick(
 begin
   (Sender as TSpeedButton).Down := true;
   if PickColor(pPopupIdleGradientFromColor) then
-    tbPreview.Appearance.Popup.IdleGradientFromColor := pPopupIdleGradientFromColor.Color;
+    tbPreview.RibbonAppearance.Popup.IdleGradientFromColor := pPopupIdleGradientFromColor.Color;
   (Sender as TSpeedButton).Down := false;
 end;
 
@@ -1195,7 +1195,7 @@ procedure TfrmLazRibbonAppearanceEditWindow.bPopupIdleGradientToColorClick(
 begin
   (Sender as TSpeedButton).Down := true;
   if PickColor(pPopupIdleGradientToColor) then
-    tbPreview.Appearance.Popup.IdleGradientToColor := pPopupIdleGradientToColor.Color;
+    tbPreview.RibbonAppearance.Popup.IdleGradientToColor := pPopupIdleGradientToColor.Color;
   (Sender as TSpeedButton).Down := false;
 end;
 
@@ -1212,13 +1212,13 @@ end;
 
 procedure TfrmLazRibbonAppearanceEditWindow.cbItemHottrackGradientKindChange(Sender: TObject);
 begin
-  with tbPreview.Appearance.Element do
+  with tbPreview.RibbonAppearance.Element do
     HotTrackGradientType := TBackgroundKind(SafeComboIndex(Sender as TComboBox));
 end;
 
 procedure TfrmLazRibbonAppearanceEditWindow.cbItemIdleGradientKindChange(Sender: TObject);
 begin
-  with tbPreview.Appearance.Element do
+  with tbPreview.RibbonAppearance.Element do
     IdleGradientType := TBackgroundKind(SafeComboIndex(Sender as TComboBox));
   if cbLinkItem.Checked then
      SetLinkedGradientKind(SafeComboIndex(Sender as TComboBox));
@@ -1226,13 +1226,13 @@ end;
 
 procedure TfrmLazRibbonAppearanceEditWindow.cbItemStyleChange(Sender: TObject);
 begin
-  with tbPreview.Appearance.Element do
+  with tbPreview.RibbonAppearance.Element do
     Style := TLazRibbonElementStyle(SafeComboIndex(Sender as TComboBox));
 end;
 
 procedure TfrmLazRibbonAppearanceEditWindow.cbKnobAsGradientChange(Sender: TObject);
 begin
-  tbPreview.Appearance.Element.KnobAsGradient := cbKnobAsGradient.Checked;
+  tbPreview.RibbonAppearance.Element.KnobAsGradient := cbKnobAsGradient.Checked;
   lblItemIdleKnobColor.Enabled := not cbKnobAsGradient.Checked;
   pItemIdleKnobColor.Enabled := not cbKnobAsGradient.Checked;
   bItemIdleKnobColor.Enabled := not cbKnobAsGradient.Checked;
@@ -1244,8 +1244,8 @@ begin
     pItemActiveKnobColor.Color := clDefault;
   end else
   begin
-    pItemIdleKnobColor.Color := tbPreview.Appearance.Element.IdleKnobColor;
-    pItemActiveKnobColor.Color := tbPreview.Appearance.Element.ActiveKnobColor;
+    pItemIdleKnobColor.Color := tbPreview.RibbonAppearance.Element.IdleKnobColor;
+    pItemActiveKnobColor.Color := tbPreview.RibbonAppearance.Element.ActiveKnobColor;
   end;
 
 end;
@@ -1267,7 +1267,7 @@ end;
 
 procedure TfrmLazRibbonAppearanceEditWindow.cbTabGradientKindChange(Sender: TObject);
 begin
-  with tbPreview.Appearance.Tab do
+  with tbPreview.RibbonAppearance.Tab do
     GradientType := TBackgroundKind(SafeComboIndex(Sender as TComboBox));
   if cbLinkTab.Checked then
     SetLinkedGradientKind(SafeComboIndex(Sender as TComboBox));
@@ -1292,7 +1292,7 @@ end;
 procedure TfrmLazRibbonAppearanceEditWindow.edItemHotTrackBrightnessChangeChange(
   Sender: TObject);
 begin
-  with tbPreview.Appearance.Element do
+  with tbPreview.RibbonAppearance.Element do
     HotTrackBrightnessChange := (Sender as TSpinEdit).Value;
   tbPreview.Invalidate;
 end;
@@ -1300,21 +1300,21 @@ end;
 procedure TfrmLazRibbonAppearanceEditWindow.edPaneHotTrackBrightnessChangeChange(
   Sender: TObject);
 begin
-  with tbPreview.Appearance.Pane do
+  with tbPreview.RibbonAppearance.Pane do
     HotTrackBrightnessChange := (Sender as TSpinEdit).Value;
   tbPreview.Invalidate;
 end;
 
 procedure TfrmLazRibbonAppearanceEditWindow.edTabCaptionHeightChange(Sender: TObject);
 begin
-  with tbPreview.Appearance.Tab do
+  with tbPreview.RibbonAppearance.Tab do
     CaptionHeight := (Sender as TSpinEdit).Value;
   tbPreview.Invalidate;
 end;
 
 procedure TfrmLazRibbonAppearanceEditWindow.edTabCornerRadiusChange(Sender: TObject);
 begin
-  with tbPreview.Appearance.Tab do
+  with tbPreview.RibbonAppearance.Tab do
     CornerRadius := (Sender as TSpinEdit).Value;
   tbPreview.Invalidate;
 end;
@@ -1371,20 +1371,20 @@ end;
 
 procedure TfrmLazRibbonAppearanceEditWindow.FormShow(Sender: TObject);
 begin
-  LoadAppearance(tbPreview.Appearance);
+  LoadAppearance(tbPreview.RibbonAppearance);
 end;
 
 function TfrmLazRibbonAppearanceEditWindow.GetAppearance: TLazRibbonToolbarAppearance;
 begin
-  result := tbPreview.Appearance;
+  result := tbPreview.RibbonAppearance;
 end;
 
 procedure TfrmLazRibbonAppearanceEditWindow.LbAppearanceStyleClick(Sender: TObject);
 begin
   if LbAppearanceStyle.ItemIndex < 0 then
     Exit;
-  tbPreview.Appearance.Reset(TLazRibbonStyle(LbAppearanceStyle.ItemIndex));
-  LoadAppearance(tbPreview.Appearance);
+  tbPreview.RibbonAppearance.Reset(TLazRibbonStyle(LbAppearanceStyle.ItemIndex));
+  LoadAppearance(tbPreview.RibbonAppearance);
 end;
 
 procedure TfrmLazRibbonAppearanceEditWindow.LoadAppearance(AAppearance: TLazRibbonToolbarAppearance);
@@ -1520,7 +1520,7 @@ end;
 procedure TfrmLazRibbonAppearanceEditWindow.pItemActiveCaptionColorClick(Sender: TObject);
 begin
   if ChangeColor(Sender as TPanel) then begin
-    tbPreview.Appearance.Element.ActiveCaptionColor:=(Sender as TPanel).Color;
+    tbPreview.RibbonAppearance.Element.ActiveCaptionColor:=(Sender as TPanel).Color;
     tbPreview.ForceRepaint;
   end;
 end;
@@ -1528,13 +1528,13 @@ end;
 procedure TfrmLazRibbonAppearanceEditWindow.pItemActiveFrameClick(Sender: TObject);
 begin
   if ChangeColor(Sender as TPanel) then
-    tbPreview.Appearance.Element.ActiveFrameColor:=(Sender as TPanel).Color;
+    tbPreview.RibbonAppearance.Element.ActiveFrameColor:=(Sender as TPanel).Color;
 end;
 
 procedure TfrmLazRibbonAppearanceEditWindow.pItemActiveGradientFromClick(Sender: TObject);
 begin
   if ChangeColor(Sender as TPanel) then
-    tbPreview.Appearance.Element.ActiveGradientFromColor:=(Sender as TPanel).Color;
+    tbPreview.RibbonAppearance.Element.ActiveGradientFromColor:=(Sender as TPanel).Color;
 end;
 
 procedure TfrmLazRibbonAppearanceEditWindow.bImportClick(Sender: TObject);
@@ -1548,8 +1548,8 @@ begin
     XML.Parse(PChar(mXML.text));
     Node := XML['Appearance', false];
     if assigned(Node) then
-      tbPreview.Appearance.LoadFromXML(Node);
-    LoadAppearance(tbPreview.Appearance);
+      tbPreview.RibbonAppearance.LoadFromXML(Node);
+    LoadAppearance(tbPreview.RibbonAppearance);
   finally
     XML.Free;
     tbPreview.EndUpdate;
@@ -1559,39 +1559,39 @@ end;
 
 procedure TfrmLazRibbonAppearanceEditWindow.bResetClick(Sender: TObject);
 begin
-  tbPreview.Appearance.Reset;
-  LoadAppearance(tbPreview.Appearance);
+  tbPreview.RibbonAppearance.Reset;
+  LoadAppearance(tbPreview.RibbonAppearance);
 end;
 
 procedure TfrmLazRibbonAppearanceEditWindow.cbItemActiveGradientKindChange(Sender: TObject);
 begin
-  with tbPreview.Appearance.Element do
+  with tbPreview.RibbonAppearance.Element do
     ActiveGradientType := TBackgroundKind(SafeComboIndex(Sender as TComboBox));
 end;
 
 procedure TfrmLazRibbonAppearanceEditWindow.pItemActiveGradientToClick(Sender: TObject);
 begin
   if ChangeColor(Sender as TPanel) then
-    tbPreview.Appearance.Element.ActiveGradientToColor := (Sender as TPanel).Color;
+    tbPreview.RibbonAppearance.Element.ActiveGradientToColor := (Sender as TPanel).Color;
 end;
 
 procedure TfrmLazRibbonAppearanceEditWindow.pItemActiveInnerDarkClick(Sender: TObject);
 begin
   if ChangeColor(Sender as TPanel) then
-    tbPreview.Appearance.Element.ActiveInnerDarkColor := (Sender as TPanel).Color;
+    tbPreview.RibbonAppearance.Element.ActiveInnerDarkColor := (Sender as TPanel).Color;
 end;
 
 procedure TfrmLazRibbonAppearanceEditWindow.pItemActiveInnerLightClick(Sender: TObject);
 begin
   if ChangeColor(Sender as TPanel) then
-    tbPreview.Appearance.Element.ActiveInnerLightColor := (Sender as TPanel).Color;
+    tbPreview.RibbonAppearance.Element.ActiveInnerLightColor := (Sender as TPanel).Color;
 end;
 
 procedure TfrmLazRibbonAppearanceEditWindow.pItemHottrackCaptionColorClick(Sender: TObject);
 begin
   if ChangeColor(Sender as TPanel) then
   begin
-    tbPreview.Appearance.Element.HotTrackCaptionColor := (Sender as TPanel).Color;
+    tbPreview.RibbonAppearance.Element.HotTrackCaptionColor := (Sender as TPanel).Color;
     tbPreview.ForceRepaint;
   end;
 end;
@@ -1599,38 +1599,38 @@ end;
 procedure TfrmLazRibbonAppearanceEditWindow.pItemHottrackFrameClick(Sender: TObject);
 begin
   if ChangeColor(Sender as TPanel) then
-    tbPreview.Appearance.Element.HotTrackFrameColor := (Sender as TPanel).Color;
+    tbPreview.RibbonAppearance.Element.HotTrackFrameColor := (Sender as TPanel).Color;
 end;
 
 procedure TfrmLazRibbonAppearanceEditWindow.pItemHottrackGradientFromClick(Sender: TObject);
 begin
   if ChangeColor(Sender as TPanel) then
-    tbPreview.Appearance.Element.HotTrackGradientFromColor := (Sender as TPanel).Color;
+    tbPreview.RibbonAppearance.Element.HotTrackGradientFromColor := (Sender as TPanel).Color;
 end;
 
 procedure TfrmLazRibbonAppearanceEditWindow.pItemHottrackGradientToClick(Sender: TObject);
 begin
   if ChangeColor(Sender as TPanel) then
-    tbPreview.Appearance.Element.HotTrackGradientToColor := (Sender as TPanel).Color;
+    tbPreview.RibbonAppearance.Element.HotTrackGradientToColor := (Sender as TPanel).Color;
 end;
 
 procedure TfrmLazRibbonAppearanceEditWindow.pItemHottrackInnerDarkClick(Sender: TObject);
 begin
   if ChangeColor(Sender as TPanel) then
-    tbPreview.Appearance.Element.HotTrackInnerDarkColor := (Sender as TPanel).Color;
+    tbPreview.RibbonAppearance.Element.HotTrackInnerDarkColor := (Sender as TPanel).Color;
 end;
 
 procedure TfrmLazRibbonAppearanceEditWindow.pItemHottrackInnerLightClick(Sender: TObject);
 begin
   if ChangeColor(Sender as TPanel) then
-    tbPreview.Appearance.Element.HotTrackInnerLightColor := (Sender as TPanel).Color;
+    tbPreview.RibbonAppearance.Element.HotTrackInnerLightColor := (Sender as TPanel).Color;
 end;
 
 procedure TfrmLazRibbonAppearanceEditWindow.pItemIdleCaptionColorClick(Sender: TObject);
 begin
   if ChangeColor(Sender as TPanel) then
   begin
-    tbPreview.Appearance.Element.IdleCaptionColor := (Sender as TPanel).Color;
+    tbPreview.RibbonAppearance.Element.IdleCaptionColor := (Sender as TPanel).Color;
     tbPreview.ForceRepaint;
   end;
 end;
@@ -1639,7 +1639,7 @@ procedure TfrmLazRibbonAppearanceEditWindow.pItemIdleFrameClick(Sender: TObject)
 begin
   if ChangeColor(Sender as TPanel) then
   begin
-    tbPreview.Appearance.Element.IdleFrameColor := (Sender as TPanel).Color;
+    tbPreview.RibbonAppearance.Element.IdleFrameColor := (Sender as TPanel).Color;
     if cbLinkItem.Checked then
       SetLinkedFrameColor((Sender as TPanel).Color);
   end;
@@ -1649,7 +1649,7 @@ procedure TfrmLazRibbonAppearanceEditWindow.pItemIdleGradientFromClick(Sender: T
 begin
   if ChangeColor(Sender as TPanel) then
   begin
-    tbPreview.Appearance.Element.IdleGradientFromColor := (Sender as TPanel).Color;
+    tbPreview.RibbonAppearance.Element.IdleGradientFromColor := (Sender as TPanel).Color;
     if cbLinkItem.Checked then
       SetLinkedGradientFromColor((Sender as TPanel).Color);
   end;
@@ -1659,7 +1659,7 @@ procedure TfrmLazRibbonAppearanceEditWindow.pItemIdleGradientToClick(Sender: TOb
 begin
   if ChangeColor(Sender as TPanel) then
   begin
-    tbPreview.Appearance.Element.IdleGradientToColor := (Sender as TPanel).Color;
+    tbPreview.RibbonAppearance.Element.IdleGradientToColor := (Sender as TPanel).Color;
     if cbLinkItem.Checked then
       SetLinkedGradientToColor((Sender as TPanel).Color);
   end;
@@ -1668,19 +1668,19 @@ end;
 procedure TfrmLazRibbonAppearanceEditWindow.pItemIdleInnerDarkClick(Sender: TObject);
 begin
   if ChangeColor(Sender as TPanel) then
-    tbPreview.Appearance.Element.IdleInnerDarkColor := (Sender as TPanel).Color;
+    tbPreview.RibbonAppearance.Element.IdleInnerDarkColor := (Sender as TPanel).Color;
 end;
 
 procedure TfrmLazRibbonAppearanceEditWindow.pItemIdleInnerLightClick(Sender: TObject);
 begin
   if ChangeColor(Sender as TPanel) then
-    tbPreview.Appearance.Element.IdleInnerLightColor := (Sender as TPanel).Color;
+    tbPreview.RibbonAppearance.Element.IdleInnerLightColor := (Sender as TPanel).Color;
 end;
 
 procedure TfrmLazRibbonAppearanceEditWindow.pItemFontClick(Sender: TObject);
 begin
   if ChangeFont(Sender as TPanel) then
-    tbPreview.Appearance.Element.CaptionFont.Assign((Sender as TPanel).Font);
+    tbPreview.RibbonAppearance.Element.CaptionFont.Assign((Sender as TPanel).Font);
   tbPreview.ForceRepaint;
 end;
 
@@ -1688,7 +1688,7 @@ procedure TfrmLazRibbonAppearanceEditWindow.pPaneBorderDarkClick(Sender: TObject
 begin
   if ChangeColor(Sender as TPanel) then
   begin
-    tbPreview.Appearance.Pane.BorderDarkColor := (Sender as TPanel).Color;
+    tbPreview.RibbonAppearance.Pane.BorderDarkColor := (Sender as TPanel).Color;
     if cbLinkPane.Checked then
       SetLinkedFrameColor((Sender as TPanel).Color);
   end;
@@ -1697,19 +1697,19 @@ end;
 procedure TfrmLazRibbonAppearanceEditWindow.pPaneBorderLightClick(Sender: TObject);
 begin
   if ChangeColor(Sender as TPanel) then
-    tbPreview.Appearance.Pane.BorderLightColor := (Sender as TPanel).Color;
+    tbPreview.RibbonAppearance.Pane.BorderLightColor := (Sender as TPanel).Color;
 end;
 
 procedure TfrmLazRibbonAppearanceEditWindow.pPaneCaptionBackgroundClick(Sender: TObject);
 begin
   if ChangeColor(Sender as TPanel) then
-    tbPreview.Appearance.Pane.CaptionBgColor := (Sender as TPanel).Color;
+    tbPreview.RibbonAppearance.Pane.CaptionBgColor := (Sender as TPanel).Color;
 end;
 
 procedure TfrmLazRibbonAppearanceEditWindow.pPaneCaptionFontClick(Sender: TObject);
 begin
   if ChangeFont(Sender as TPanel) then
-    tbPreview.Appearance.Pane.CaptionFont.Assign((Sender as TPanel).Font);
+    tbPreview.RibbonAppearance.Pane.CaptionFont.Assign((Sender as TPanel).Font);
   tbPreview.ForceRepaint;
 end;
 
@@ -1717,7 +1717,7 @@ procedure TfrmLazRibbonAppearanceEditWindow.pPaneCaptionFontColorClick(Sender: T
 begin
   if ChangeColor(Sender as TPanel) then
   begin
-    tbPreview.Appearance.Pane.CaptionFont.Color:=((Sender as TPanel).Color);
+    tbPreview.RibbonAppearance.Pane.CaptionFont.Color:=((Sender as TPanel).Color);
     pPaneCaptionFont.Font.color:=((Sender as TPanel).Color);
     tbPreview.ForceRepaint;
   end;
@@ -1727,7 +1727,7 @@ procedure TfrmLazRibbonAppearanceEditWindow.pPaneGradientFromClick(Sender: TObje
 begin
   if ChangeColor(Sender as TPanel) then
   begin
-    tbPreview.Appearance.Pane.GradientFromColor:=(Sender as TPanel).Color;
+    tbPreview.RibbonAppearance.Pane.GradientFromColor:=(Sender as TPanel).Color;
     if cbLinkPane.Checked then
       SetLinkedGradientFromColor((Sender as TPanel).Color);
   end;
@@ -1735,7 +1735,7 @@ end;
 
 procedure TfrmLazRibbonAppearanceEditWindow.cbPaneGradientKindChange(Sender: TObject);
 begin
-  with tbPreview.Appearance.Pane do
+  with tbPreview.RibbonAppearance.Pane do
     GradientType := TBackgroundKind(SafeComboIndex(Sender as TComboBox));
   if cbLinkPane.Checked then
     SetLinkedGradientKind(SafeComboIndex(Sender as TComboBox));
@@ -1743,34 +1743,34 @@ end;
 
 procedure TfrmLazRibbonAppearanceEditWindow.cbPaneStyleChange(Sender: TObject);
 begin
-  with tbPreview.Appearance.Pane do
+  with tbPreview.RibbonAppearance.Pane do
     Style := TLazRibbonPaneStyle(SafeComboIndex(Sender as TComboBox));
 end;
 
 procedure TfrmLazRibbonAppearanceEditWindow.cbPopupCheckedGradientKindChange(
   Sender: TObject);
 begin
-  with tbPreview.Appearance.Popup do
+  with tbPreview.RibbonAppearance.Popup do
     CheckedGradientType := TBackgroundKind(SafeComboIndex(Sender as TComboBox));
 end;
 
 procedure TfrmLazRibbonAppearanceEditWindow.cbPopupGutterGradientKindChange(
   Sender: TObject);
 begin
-  with tbPreview.Appearance.Popup do
+  with tbPreview.RibbonAppearance.Popup do
     GutterGradientType := TBackgroundKind(SafeComboIndex(Sender as TComboBox));
 end;
 
 procedure TfrmLazRibbonAppearanceEditWindow.cbPopupHotSelectionShapeChange(
   Sender: TObject);
 begin
-  with tbPreview.Appearance.Popup do
+  with tbPreview.RibbonAppearance.Popup do
     SelectionShape := TLazRibbonPopupSelectionShape(SafeComboIndex(Sender as TComboBox));
 end;
 
 procedure TfrmLazRibbonAppearanceEditWindow.cbPopupStyleChange(Sender: TObject);
 begin
-  with tbPreview.Appearance.Popup do
+  with tbPreview.RibbonAppearance.Popup do
     Style := TLazRibbonPopupStyle(SafeComboIndex(Sender as TComboBox));
   tbPreview.Invalidate;
 end;
@@ -1778,14 +1778,14 @@ end;
 procedure TfrmLazRibbonAppearanceEditWindow.cbPopupHotTrackGradientKindChange(
   Sender: TObject);
 begin
-  with tbPreview.Appearance.Popup do
+  with tbPreview.RibbonAppearance.Popup do
     HotTrackGradientType := TBackgroundKind(SafeComboIndex(Sender as TComboBox));
 end;
 
 procedure TfrmLazRibbonAppearanceEditWindow.cbPopupIdleGradientKindChange(
   Sender: TObject);
 begin
-  with tbPreview.Appearance.Popup do
+  with tbPreview.RibbonAppearance.Popup do
     IdleGradientType := TBackgroundKind(SafeComboIndex(Sender as TComboBox));
 end;
 
@@ -1793,7 +1793,7 @@ procedure TfrmLazRibbonAppearanceEditWindow.pPaneGradientToClick(Sender: TObject
 begin
   if ChangeColor(Sender as TPanel) then
   begin
-    tbPreview.Appearance.Pane.GradientToColor:=(Sender as TPanel).Color;
+    tbPreview.RibbonAppearance.Pane.GradientToColor:=(Sender as TPanel).Color;
     if cbLinkPane.Checked then
       SetLinkedGradientToColor((Sender as TPanel).Color);
   end;
@@ -1803,7 +1803,7 @@ procedure TfrmLazRibbonAppearanceEditWindow.pTabFrameClick(Sender: TObject);
 begin
   if ChangeColor(Sender as TPanel) then
   begin
-    tbPreview.Appearance.Tab.BorderColor:=(Sender as TPanel).Color;
+    tbPreview.RibbonAppearance.Tab.BorderColor:=(Sender as TPanel).Color;
     if cbLinkTab.checked then
       SetLinkedFrameColor((Sender as TPanel).Color);
   end;
@@ -1813,7 +1813,7 @@ procedure TfrmLazRibbonAppearanceEditWindow.pTabGradientFromClick(Sender: TObjec
 begin
   if ChangeColor(Sender as TPanel) then
   begin
-    tbPreview.Appearance.Tab.GradientFromColor := (Sender as TPanel).Color;
+    tbPreview.RibbonAppearance.Tab.GradientFromColor := (Sender as TPanel).Color;
     if cbLinkTab.Checked then
       SetLinkedGradientFromColor((Sender as TPanel).Color);
   end;
@@ -1823,7 +1823,7 @@ procedure TfrmLazRibbonAppearanceEditWindow.pTabGradientToClick(Sender: TObject)
 begin
   if ChangeColor(Sender as TPanel) then
   begin
-    tbPreview.Appearance.Tab.GradientToColor := (Sender as TPanel).Color;
+    tbPreview.RibbonAppearance.Tab.GradientToColor := (Sender as TPanel).Color;
     if cbLinkTab.Checked then
       SetLinkedGradientToColor((Sender as TPanel).Color);
   end;
@@ -1832,7 +1832,7 @@ end;
 procedure TfrmLazRibbonAppearanceEditWindow.pTabHeaderFontClick(Sender: TObject);
 begin
   if ChangeFont(Sender as TPanel) then begin
-    tbPreview.Appearance.Tab.TabHeaderFont.Assign((Sender as TPanel).Font);
+    tbPreview.RibbonAppearance.Tab.TabHeaderFont.Assign((Sender as TPanel).Font);
     tbPreview.ForceRepaint;
   end;
 end;
@@ -1841,7 +1841,7 @@ procedure TfrmLazRibbonAppearanceEditWindow.pActiveTabHeaderFontClick(Sender: TO
 begin
   if ChangeColor(Sender as TPanel) then
   begin
-    tbPreview.Appearance.Tab.TabHeaderFont.Color := (Sender as TPanel).Color;
+    tbPreview.RibbonAppearance.Tab.TabHeaderFont.Color := (Sender as TPanel).Color;
     pTabHeaderFont.Font.Color := (Sender as TPanel).Color;
     tbPreview.ForceRepaint;
   end;
@@ -1851,7 +1851,7 @@ procedure TfrmLazRibbonAppearanceEditWindow.pInactiveTabHeaderFontClick(Sender: 
 begin
   if ChangeColor(Sender as TPanel) then
   begin
-    tbPreview.Appearance.Tab.InactiveTabHeaderFontColor := (Sender as TPanel).Color;
+    tbPreview.RibbonAppearance.Tab.InactiveTabHeaderFontColor := (Sender as TPanel).Color;
     tbPreview.ForceRepaint;
   end;
 end;
@@ -1860,7 +1860,7 @@ procedure TfrmLazRibbonAppearanceEditWindow.pItemActiveKnobColorClick(Sender: TO
 begin
   if ChangeColor(Sender as TPanel) then
   begin
-    tbPreview.Appearance.Element.ActiveKnobColor := (Sender as TPanel).Color;
+    tbPreview.RibbonAppearance.Element.ActiveKnobColor := (Sender as TPanel).Color;
     tbPreview.ForceRepaint;
   end;
 end;
@@ -1869,7 +1869,7 @@ procedure TfrmLazRibbonAppearanceEditWindow.pItemActiveTrackColorClick(Sender: T
 begin
   if ChangeColor(Sender as TPanel) then
   begin
-    tbPreview.Appearance.Element.ActiveTrackColor := (Sender as TPanel).Color;
+    tbPreview.RibbonAppearance.Element.ActiveTrackColor := (Sender as TPanel).Color;
     tbPreview.ForceRepaint;
   end;
 end;
@@ -1878,7 +1878,7 @@ procedure TfrmLazRibbonAppearanceEditWindow.pItemHotTrackTrackColorClick(Sender:
 begin
   if ChangeColor(Sender as TPanel) then
   begin
-    tbPreview.Appearance.Element.HotTrackTrackColor := (Sender as TPanel).Color;
+    tbPreview.RibbonAppearance.Element.HotTrackTrackColor := (Sender as TPanel).Color;
     tbPreview.ForceRepaint;
   end;
 end;
@@ -1887,7 +1887,7 @@ procedure TfrmLazRibbonAppearanceEditWindow.pItemIdleKnobColorClick(Sender: TObj
 begin
   if ChangeColor(Sender as TPanel) then
   begin
-    tbPreview.Appearance.Element.IdleKnobColor := (Sender as TPanel).Color;
+    tbPreview.RibbonAppearance.Element.IdleKnobColor := (Sender as TPanel).Color;
     tbPreview.ForceRepaint;
   end;
 end;
@@ -1896,103 +1896,103 @@ procedure TfrmLazRibbonAppearanceEditWindow.pPopupCheckedFrameColorClick(
   Sender: TObject);
 begin
   if ChangeColor(Sender as TPanel) then
-    tbPreview.Appearance.Popup.CheckedFrameColor := (Sender as TPanel).Color;
+    tbPreview.RibbonAppearance.Popup.CheckedFrameColor := (Sender as TPanel).Color;
 end;
 
 procedure TfrmLazRibbonAppearanceEditWindow.pPopupCheckedGradientFromColorClick(
   Sender: TObject);
 begin
   if ChangeColor(Sender as TPanel) then
-    tbPreview.Appearance.Popup.CheckedGradientFromColor := (Sender as TPanel).Color;
+    tbPreview.RibbonAppearance.Popup.CheckedGradientFromColor := (Sender as TPanel).Color;
 end;
 
 procedure TfrmLazRibbonAppearanceEditWindow.pPopupCheckedGradientToColorClick(
   Sender: TObject);
 begin
   if ChangeColor(Sender as TPanel) then
-    tbPreview.Appearance.Popup.CheckedGradientToColor := (Sender as TPanel).Color;
+    tbPreview.RibbonAppearance.Popup.CheckedGradientToColor := (Sender as TPanel).Color;
 end;
 
 procedure TfrmLazRibbonAppearanceEditWindow.pPopupFontClick(Sender: TObject);
 begin
   if ChangeFont(Sender as TPanel) then
-    tbPreview.Appearance.Popup.CaptionFont.Assign((Sender as TPanel).Font);
+    tbPreview.RibbonAppearance.Popup.CaptionFont.Assign((Sender as TPanel).Font);
   tbPreview.ForceRepaint;
 end;
 
 procedure TfrmLazRibbonAppearanceEditWindow.pPopupGutterFrameColorClick(Sender: TObject);
 begin
   if ChangeColor(Sender as TPanel) then
-    tbPreview.Appearance.Popup.GutterFrameColor := (Sender as TPanel).Color;
+    tbPreview.RibbonAppearance.Popup.GutterFrameColor := (Sender as TPanel).Color;
 end;
 
 procedure TfrmLazRibbonAppearanceEditWindow.pPopupGutterGradientFromColorClick(
   Sender: TObject);
 begin
   if ChangeColor(Sender as TPanel) then
-    tbPreview.Appearance.Popup.GutterGradientFromColor := (Sender as TPanel).Color;
+    tbPreview.RibbonAppearance.Popup.GutterGradientFromColor := (Sender as TPanel).Color;
 end;
 
 procedure TfrmLazRibbonAppearanceEditWindow.pPopupGutterGradientToColorClick(
   Sender: TObject);
 begin
   if ChangeColor(Sender as TPanel) then
-    tbPreview.Appearance.Popup.GutterGradientToColor := (Sender as TPanel).Color;
+    tbPreview.RibbonAppearance.Popup.GutterGradientToColor := (Sender as TPanel).Color;
 end;
 
 procedure TfrmLazRibbonAppearanceEditWindow.pPopupHotTrackFrameColorClick(Sender: TObject);
 begin
   if ChangeColor(Sender as TPanel) then
-    tbPreview.Appearance.Popup.HotTrackFrameColor := (Sender as TPanel).Color;
+    tbPreview.RibbonAppearance.Popup.HotTrackFrameColor := (Sender as TPanel).Color;
 end;
 
 procedure TfrmLazRibbonAppearanceEditWindow.pPopupHotTrackGradientFromColorClick(
   Sender: TObject);
 begin
   if ChangeColor(Sender as TPanel) then
-    tbPreview.Appearance.Popup.HotTrackGradientFromColor := (Sender as TPanel).Color;
+    tbPreview.RibbonAppearance.Popup.HotTrackGradientFromColor := (Sender as TPanel).Color;
 end;
 
 procedure TfrmLazRibbonAppearanceEditWindow.pPopupHotTrackGradientToColorClick(Sender: TObject);
 begin
   if ChangeColor(Sender as TPanel) then
-    tbPreview.Appearance.Popup.HotTrackGradientToColor := (Sender as TPanel).Color;
+    tbPreview.RibbonAppearance.Popup.HotTrackGradientToColor := (Sender as TPanel).Color;
 end;
 
 procedure TfrmLazRibbonAppearanceEditWindow.pPopupIdleCaptionColorClick(Sender: TObject);
 begin
   if ChangeColor(Sender as TPanel) then
-    tbPreview.Appearance.Popup.IdleCaptionColor := (Sender as TPanel).Color;
+    tbPreview.RibbonAppearance.Popup.IdleCaptionColor := (Sender as TPanel).Color;
 end;
 
 procedure TfrmLazRibbonAppearanceEditWindow.pPopupDisabledCaptionColorClick(Sender: TObject);
 begin
   if ChangeColor(Sender as TPanel) then
-    tbPreview.Appearance.Popup.DisabledCaptionColor := (Sender as TPanel).Color;
+    tbPreview.RibbonAppearance.Popup.DisabledCaptionColor := (Sender as TPanel).Color;
 end;
 
 procedure TfrmLazRibbonAppearanceEditWindow.pPopupDividerLineColorClick(Sender: TObject);
 begin
   if ChangeColor(Sender as TPanel) then
-    tbPreview.Appearance.Popup.DividerLineColor := (Sender as TPanel).Color;
+    tbPreview.RibbonAppearance.Popup.DividerLineColor := (Sender as TPanel).Color;
 end;
 
 procedure TfrmLazRibbonAppearanceEditWindow.pPopupIdleGradientFromColorClick(Sender: TObject);
 begin
   if ChangeColor(Sender as TPanel) then
-    tbPreview.Appearance.Popup.IdleGradientFromColor := (Sender as TPanel).Color;
+    tbPreview.RibbonAppearance.Popup.IdleGradientFromColor := (Sender as TPanel).Color;
 end;
 
 procedure TfrmLazRibbonAppearanceEditWindow.pPopupIdleGradientToColorClick(Sender: TObject);
 begin
   if ChangeColor(Sender as TPanel) then
-    tbPreview.Appearance.Popup.IdleGradientToColor := (Sender as TPanel).Color;
+    tbPreview.RibbonAppearance.Popup.IdleGradientToColor := (Sender as TPanel).Color;
 end;
 
 procedure TfrmLazRibbonAppearanceEditWindow.pPopupHotTrackCaptionColorClick(Sender: TObject);
 begin
   if ChangeColor(Sender as TPanel) then
-    tbPreview.Appearance.Popup.HotTrackCaptionColor := (Sender as TPanel).Color;
+    tbPreview.RibbonAppearance.Popup.HotTrackCaptionColor := (Sender as TPanel).Color;
 end;
 
 function TfrmLazRibbonAppearanceEditWindow.PickColor(APanel: TPanel): Boolean;
@@ -2226,7 +2226,7 @@ procedure TfrmLazRibbonAppearanceEditWindow.bMenuButtonIdleFrameColorClick(Sende
 begin
   (Sender as TSpeedButton).Down := true;
   if PickColor(pMenuButtonIdleFrame) then
-    tbPreview.Appearance.MenuButton.IdleFrameColor := pMenuButtonIdleFrame.Color;
+    tbPreview.RibbonAppearance.MenuButton.IdleFrameColor := pMenuButtonIdleFrame.Color;
   (Sender as TSpeedButton).Down := false;
 end;
 
@@ -2234,7 +2234,7 @@ procedure TfrmLazRibbonAppearanceEditWindow.bMenuButtonIdleGradientFromColorClic
 begin
   (Sender as TSpeedButton).Down := true;
   if PickColor(pMenuButtonIdleGradientFrom) then
-    tbPreview.Appearance.MenuButton.IdleGradientFromColor := pMenuButtonIdleGradientFrom.Color;
+    tbPreview.RibbonAppearance.MenuButton.IdleGradientFromColor := pMenuButtonIdleGradientFrom.Color;
   (Sender as TSpeedButton).Down := false;
 end;
 
@@ -2242,7 +2242,7 @@ procedure TfrmLazRibbonAppearanceEditWindow.bMenuButtonIdleGradientToColorClick(
 begin
   (Sender as TSpeedButton).Down := true;
   if PickColor(pMenuButtonIdleGradientTo) then
-    tbPreview.Appearance.MenuButton.IdleGradientToColor := pMenuButtonIdleGradientTo.Color;
+    tbPreview.RibbonAppearance.MenuButton.IdleGradientToColor := pMenuButtonIdleGradientTo.Color;
   (Sender as TSpeedButton).Down := false;
 end;
 
@@ -2250,7 +2250,7 @@ procedure TfrmLazRibbonAppearanceEditWindow.bMenuButtonIdleCaptionColorClick(Sen
 begin
   (Sender as TSpeedButton).Down := true;
   if PickColor(pMenuButtonIdleCaptionColor) then
-    tbPreview.Appearance.MenuButton.IdleCaptionColor := pMenuButtonIdleCaptionColor.Color;
+    tbPreview.RibbonAppearance.MenuButton.IdleCaptionColor := pMenuButtonIdleCaptionColor.Color;
   (Sender as TSpeedButton).Down := false;
 end;
 
@@ -2258,7 +2258,7 @@ procedure TfrmLazRibbonAppearanceEditWindow.bMenuButtonHotTrackFrameColorClick(S
 begin
   (Sender as TSpeedButton).Down := true;
   if PickColor(pMenuButtonHotTrackFrame) then
-    tbPreview.Appearance.MenuButton.HotTrackFrameColor := pMenuButtonHotTrackFrame.Color;
+    tbPreview.RibbonAppearance.MenuButton.HotTrackFrameColor := pMenuButtonHotTrackFrame.Color;
   (Sender as TSpeedButton).Down := false;
 end;
 
@@ -2266,7 +2266,7 @@ procedure TfrmLazRibbonAppearanceEditWindow.bMenuButtonHotTrackGradientFromColor
 begin
   (Sender as TSpeedButton).Down := true;
   if PickColor(pMenuButtonHotTrackGradientFrom) then
-    tbPreview.Appearance.MenuButton.HotTrackGradientFromColor := pMenuButtonHotTrackGradientFrom.Color;
+    tbPreview.RibbonAppearance.MenuButton.HotTrackGradientFromColor := pMenuButtonHotTrackGradientFrom.Color;
   (Sender as TSpeedButton).Down := false;
 end;
 
@@ -2274,7 +2274,7 @@ procedure TfrmLazRibbonAppearanceEditWindow.bMenuButtonHotTrackGradientToColorCl
 begin
   (Sender as TSpeedButton).Down := true;
   if PickColor(pMenuButtonHotTrackGradientTo) then
-    tbPreview.Appearance.MenuButton.HotTrackGradientToColor := pMenuButtonHotTrackGradientTo.Color;
+    tbPreview.RibbonAppearance.MenuButton.HotTrackGradientToColor := pMenuButtonHotTrackGradientTo.Color;
   (Sender as TSpeedButton).Down := false;
 end;
 
@@ -2282,7 +2282,7 @@ procedure TfrmLazRibbonAppearanceEditWindow.bMenuButtonHotTrackCaptionColorClick
 begin
   (Sender as TSpeedButton).Down := true;
   if PickColor(pMenuButtonHotTrackCaptionColor) then
-    tbPreview.Appearance.MenuButton.HotTrackCaptionColor := pMenuButtonHotTrackCaptionColor.Color;
+    tbPreview.RibbonAppearance.MenuButton.HotTrackCaptionColor := pMenuButtonHotTrackCaptionColor.Color;
   (Sender as TSpeedButton).Down := false;
 end;
 
@@ -2290,7 +2290,7 @@ procedure TfrmLazRibbonAppearanceEditWindow.bMenuButtonActiveFrameColorClick(Sen
 begin
   (Sender as TSpeedButton).Down := true;
   if PickColor(pMenuButtonActiveFrame) then
-    tbPreview.Appearance.MenuButton.ActiveFrameColor := pMenuButtonActiveFrame.Color;
+    tbPreview.RibbonAppearance.MenuButton.ActiveFrameColor := pMenuButtonActiveFrame.Color;
   (Sender as TSpeedButton).Down := false;
 end;
 
@@ -2298,7 +2298,7 @@ procedure TfrmLazRibbonAppearanceEditWindow.bMenuButtonActiveGradientFromColorCl
 begin
   (Sender as TSpeedButton).Down := true;
   if PickColor(pMenuButtonActiveGradientFrom) then
-    tbPreview.Appearance.MenuButton.ActiveGradientFromColor := pMenuButtonActiveGradientFrom.Color;
+    tbPreview.RibbonAppearance.MenuButton.ActiveGradientFromColor := pMenuButtonActiveGradientFrom.Color;
   (Sender as TSpeedButton).Down := false;
 end;
 
@@ -2306,7 +2306,7 @@ procedure TfrmLazRibbonAppearanceEditWindow.bMenuButtonActiveGradientToColorClic
 begin
   (Sender as TSpeedButton).Down := true;
   if PickColor(pMenuButtonActiveGradientTo) then
-    tbPreview.Appearance.MenuButton.ActiveGradientToColor := pMenuButtonActiveGradientTo.Color;
+    tbPreview.RibbonAppearance.MenuButton.ActiveGradientToColor := pMenuButtonActiveGradientTo.Color;
   (Sender as TSpeedButton).Down := false;
 end;
 
@@ -2315,31 +2315,31 @@ procedure TfrmLazRibbonAppearanceEditWindow.bMenuButtonActiveCaptionColorClick(S
 begin
   (Sender as TSpeedButton).Down := true;
   if PickColor(pMenuButtonActiveCaptionColor) then
-    tbPreview.Appearance.MenuButton.ActiveCaptionColor := pMenuButtonActiveCaptionColor.Color;
+    tbPreview.RibbonAppearance.MenuButton.ActiveCaptionColor := pMenuButtonActiveCaptionColor.Color;
   (Sender as TSpeedButton).Down := false;
 end;
 
 procedure TfrmLazRibbonAppearanceEditWindow.pMenuButtonIdleFrameClick(Sender: TObject);
 begin
   if ChangeColor(Sender as TPanel) then
-    tbPreview.Appearance.MenuButton.IdleFrameColor := (Sender as TPanel).Color;
+    tbPreview.RibbonAppearance.MenuButton.IdleFrameColor := (Sender as TPanel).Color;
 end;
 
 procedure TfrmLazRibbonAppearanceEditWindow.pMenuButtonIdleGradientFromClick(Sender: TObject);
 begin
   if ChangeColor(Sender as TPanel) then
-    tbPreview.Appearance.MenuButton.IdleGradientFromColor := (Sender as TPanel).Color;
+    tbPreview.RibbonAppearance.MenuButton.IdleGradientFromColor := (Sender as TPanel).Color;
 end;
 
 procedure TfrmLazRibbonAppearanceEditWindow.pMenuButtonIdleGradientToClick(Sender: TObject);
 begin
   if ChangeColor(Sender as TPanel) then
-    tbPreview.Appearance.MenuButton.IdleGradientToColor := (Sender as TPanel).Color;
+    tbPreview.RibbonAppearance.MenuButton.IdleGradientToColor := (Sender as TPanel).Color;
 end;
 
 procedure TfrmLazRibbonAppearanceEditWindow.cbMenuButtonIdleGradientKindChange(Sender: TObject);
 begin
-  with tbPreview.Appearance.MenuButton do
+  with tbPreview.RibbonAppearance.MenuButton do
     IdleGradientType := TBackgroundKind(SafeComboIndex(Sender as TComboBox));
 end;
 
@@ -2347,7 +2347,7 @@ procedure TfrmLazRibbonAppearanceEditWindow.pMenuButtonIdleCaptionColorClick(Sen
 begin
   if ChangeColor(Sender as TPanel) then
   begin
-    tbPreview.Appearance.MenuButton.IdleCaptionColor := (Sender as TPanel).Color;
+    tbPreview.RibbonAppearance.MenuButton.IdleCaptionColor := (Sender as TPanel).Color;
     tbPreview.ForceRepaint;
   end;
 end;
@@ -2355,24 +2355,24 @@ end;
 procedure TfrmLazRibbonAppearanceEditWindow.pMenuButtonHottrackFrameClick(Sender: TObject);
 begin
   if ChangeColor(Sender as TPanel) then
-    tbPreview.Appearance.MenuButton.HotTrackFrameColor := (Sender as TPanel).Color;
+    tbPreview.RibbonAppearance.MenuButton.HotTrackFrameColor := (Sender as TPanel).Color;
 end;
 
 procedure TfrmLazRibbonAppearanceEditWindow.pMenuButtonHottrackGradientFromClick(Sender: TObject);
 begin
   if ChangeColor(Sender as TPanel) then
-    tbPreview.Appearance.MenuButton.HotTrackGradientFromColor := (Sender as TPanel).Color;
+    tbPreview.RibbonAppearance.MenuButton.HotTrackGradientFromColor := (Sender as TPanel).Color;
 end;
 
 procedure TfrmLazRibbonAppearanceEditWindow.pMenuButtonHottrackGradientToClick(Sender: TObject);
 begin
   if ChangeColor(Sender as TPanel) then
-    tbPreview.Appearance.MenuButton.HotTrackGradientToColor := (Sender as TPanel).Color;
+    tbPreview.RibbonAppearance.MenuButton.HotTrackGradientToColor := (Sender as TPanel).Color;
 end;
 
 procedure TfrmLazRibbonAppearanceEditWindow.cbMenuButtonHottrackGradientKindChange(Sender: TObject);
 begin
-  with tbPreview.Appearance.MenuButton do
+  with tbPreview.RibbonAppearance.MenuButton do
     HotTrackGradientType := TBackgroundKind(SafeComboIndex(Sender as TComboBox));
 end;
 
@@ -2380,7 +2380,7 @@ procedure TfrmLazRibbonAppearanceEditWindow.pMenuButtonHottrackCaptionColorClick
 begin
   if ChangeColor(Sender as TPanel) then
   begin
-    tbPreview.Appearance.MenuButton.HotTrackCaptionColor := (Sender as TPanel).Color;
+    tbPreview.RibbonAppearance.MenuButton.HotTrackCaptionColor := (Sender as TPanel).Color;
     tbPreview.ForceRepaint;
   end;
 end;
@@ -2388,31 +2388,31 @@ end;
 procedure TfrmLazRibbonAppearanceEditWindow.pMenuButtonActiveFrameClick(Sender: TObject);
 begin
   if ChangeColor(Sender as TPanel) then
-    tbPreview.Appearance.MenuButton.ActiveFrameColor:=(Sender as TPanel).Color;
+    tbPreview.RibbonAppearance.MenuButton.ActiveFrameColor:=(Sender as TPanel).Color;
 end;
 
 procedure TfrmLazRibbonAppearanceEditWindow.pMenuButtonActiveGradientFromClick(Sender: TObject);
 begin
   if ChangeColor(Sender as TPanel) then
-    tbPreview.Appearance.MenuButton.ActiveGradientFromColor:=(Sender as TPanel).Color;
+    tbPreview.RibbonAppearance.MenuButton.ActiveGradientFromColor:=(Sender as TPanel).Color;
 end;
 
 procedure TfrmLazRibbonAppearanceEditWindow.pMenuButtonActiveGradientToClick(Sender: TObject);
 begin
   if ChangeColor(Sender as TPanel) then
-    tbPreview.Appearance.MenuButton.ActiveGradientToColor := (Sender as TPanel).Color;
+    tbPreview.RibbonAppearance.MenuButton.ActiveGradientToColor := (Sender as TPanel).Color;
 end;
 
 procedure TfrmLazRibbonAppearanceEditWindow.cbMenuButtonActiveGradientKindChange(Sender: TObject);
 begin
-  with tbPreview.Appearance.MenuButton do
+  with tbPreview.RibbonAppearance.MenuButton do
     ActiveGradientType := TBackgroundKind(SafeComboIndex(Sender as TComboBox));
 end;
 
 procedure TfrmLazRibbonAppearanceEditWindow.pMenuButtonActiveCaptionColorClick(Sender: TObject);
 begin
   if ChangeColor(Sender as TPanel) then begin
-    tbPreview.Appearance.MenuButton.ActiveCaptionColor:=(Sender as TPanel).Color;
+    tbPreview.RibbonAppearance.MenuButton.ActiveCaptionColor:=(Sender as TPanel).Color;
     tbPreview.ForceRepaint;
   end;
 end;
@@ -2420,20 +2420,20 @@ end;
 procedure TfrmLazRibbonAppearanceEditWindow.pMenuButtonFontClick(Sender: TObject);
 begin
   if ChangeFont(Sender as TPanel) then
-    tbPreview.Appearance.MenuButton.CaptionFont.Assign((Sender as TPanel).Font);
+    tbPreview.RibbonAppearance.MenuButton.CaptionFont.Assign((Sender as TPanel).Font);
   tbPreview.ForceRepaint;
 end;
 
 procedure TfrmLazRibbonAppearanceEditWindow.cbMenuButtonShapeStyleChange(Sender: TObject);
 begin
-  with tbPreview.Appearance.MenuButton do
+  with tbPreview.RibbonAppearance.MenuButton do
     ShapeStyle := TLazRibbonMenuButtonShapeStyle(SafeComboIndex(Sender as TComboBox));
 end;
 
 procedure TfrmLazRibbonAppearanceEditWindow.edMenuButtonHotTrackBrightnessChangeChange(
   Sender: TObject);
 begin
-  with tbPreview.Appearance.MenuButton do
+  with tbPreview.RibbonAppearance.MenuButton do
     HotTrackBrightnessChange := (Sender as TSpinEdit).Value;
   tbPreview.Invalidate;
 end;

@@ -1,6 +1,8 @@
 # LazRibbon Status
 
-`1.2.12 - SkinManager LFM streaming fix` is the current stabilization build.
+`1.2.13 - TLazRibbon Appearance alias removal` is the current stabilization build.
+
+The 1.2.13 build removes the published `TLazRibbon.Appearance` legacy alias so the Ribbon exposes only the Office-like `RibbonAppearance` styling property in new projects. `TLazRibbonSkinManager.Appearance` remains unchanged because the skin manager owns the skin appearance model and still streams `Appearance.*`.
 
 The 1.2.12 build fixes the over-broad 1.2.11 `.lfm` migration. `TLazRibbon` resources continue to stream the Office-like `RibbonAppearance.*` name, while `TLazRibbonSkinManager` resources correctly stream `Appearance.*`; the consistency audit now checks both sides so the Skin Editor and ribbon form demo keep loading.
 

@@ -1,3 +1,10 @@
+## 1.2.13 check
+
+- Package metadata updated to 1.2.13.
+- `TLazRibbon` publishes `RibbonAppearance` as its only public low-level visual styling property.
+- `TLazRibbonSkinManager.Appearance` remains available and continues to stream skin appearance data.
+- The consistency audit still rejects legacy `TLazRibbon.Appearance.*` streaming and invalid non-Ribbon `RibbonAppearance.*` streaming.
+
 ## 1.2.12 check
 
 - Package metadata updated to 1.2.12.

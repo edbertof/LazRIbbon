@@ -716,7 +716,7 @@ type
     // *** Getters and setters ***
     // ***************************
 
-    { Setter for property RibbonAppearance and legacy Appearance alias }
+    { Setter for property RibbonAppearance }
     procedure SetAppearance(const Value: TLazRibbonToolbarAppearance);
 
     { Getter for property Color }
@@ -983,10 +983,6 @@ type
 
     { Object containing low-level Ribbon visual attributes. }
     property RibbonAppearance: TLazRibbonToolbarAppearance read FAppearance write SetAppearance;
-
-    { Legacy alias accepted for older projects. New forms are streamed through
-      RibbonAppearance so the Object Inspector exposes the Office-like name. }
-    property Appearance: TLazRibbonToolbarAppearance read FAppearance write SetAppearance stored False;
 
     { Index of active tab }
     property TabIndex: integer read FTabIndex write SetTabIndex;
@@ -6893,7 +6889,7 @@ begin
   LazInitLayoutConsts(96, Screen.PixelsPerInch);
 
   if ToolbartabCaptionsHeight > 0 then
-    Appearance.Tab.CaptionHeight := ToolbarTabCaptionsHeight;
+    FAppearance.Tab.CaptionHeight := ToolbarTabCaptionsHeight;
 end;
 
 {$IF lcl_fullversion < 1080100}

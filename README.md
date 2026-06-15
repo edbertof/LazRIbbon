@@ -50,9 +50,9 @@ tools/LazRibbonSkinEditor/
 
 ## Current version
 
-This distribution is **LazRibbon 1.2.12 SkinManager LFM streaming fix**.
+This distribution is **LazRibbon 1.2.13 TLazRibbon Appearance alias removal**.
 
-The stable 1.0.0 line remains the conservative baseline for production use. The 1.1 line is a controlled stabilization line now validated with Lazarus 4.8, with the 1.1.70 runtime behavior preserved and the 1.1.72 packaging/design-time polish applied on top. The 1.2.12 build corrects the 1.2.11 LFM migration by keeping `RibbonAppearance.*` only on `TLazRibbon` controls and restoring `TLazRibbonSkinManager.Appearance.*` streaming in the affected Skin Editor and ribbon form demo resources. It keeps the 1.2.10 compact Skin Editor layout, the 1.2.9 `TLazRibbon.RibbonAppearance` design-time API, the 1.2.8 design-time refresh fix, the 1.2.7 buffer-height fix, the 1.2.6 pane caption text rendering fix, the 1.2.5 preview height and Dialog Launcher glyph fixes, the 1.2.4 pane caption paint order fix, the 1.2.3 Appearance difference markers and filtering, the 1.2.2 per-property restore from base, the 1.2.1 base comparison report, the 1.2.0 validation report, the 1.1.78 high-DPI palette icons, the 1.1.77 tab spacing controls, the 1.1.76 Dialog Launcher rename and the 1.1.75 Skin Editor Appearance inspector work.
+The stable 1.0.0 line remains the conservative baseline for production use. The 1.1 line is a controlled stabilization line now validated with Lazarus 4.8, with the 1.1.70 runtime behavior preserved and the 1.1.72 packaging/design-time polish applied on top. The 1.2.13 build removes the published `TLazRibbon.Appearance` legacy alias and keeps `TLazRibbon.RibbonAppearance` as the single public Ribbon visual styling property, while leaving `TLazRibbonSkinManager.Appearance` unchanged for skin manager resources. It keeps the 1.2.12 SkinManager LFM streaming fix, the 1.2.10 compact Skin Editor layout, the 1.2.9 `TLazRibbon.RibbonAppearance` design-time API, the 1.2.8 design-time refresh fix, the 1.2.7 buffer-height fix, the 1.2.6 pane caption text rendering fix, the 1.2.5 preview height and Dialog Launcher glyph fixes, the 1.2.4 pane caption paint order fix, the 1.2.3 Appearance difference markers and filtering, the 1.2.2 per-property restore from base, the 1.2.1 base comparison report, the 1.2.0 validation report, the 1.1.78 high-DPI palette icons, the 1.1.77 tab spacing controls, the 1.1.76 Dialog Launcher rename and the 1.1.75 Skin Editor Appearance inspector work.
 
 Highlights in the current 1.2 line:
 
@@ -62,7 +62,7 @@ Highlights in the current 1.2 line:
 - The Skin Editor live Ribbon preview keeps enough height for pane captions and the Dialog Launcher across DPI/font changes.
 - The Dialog Launcher glyph is drawn by canvas lines instead of depending on private-use font characters.
 - Design-time edits to Ribbon captions and structure force the parent Ribbon preview to rebuild and repaint.
-- `TLazRibbon.RibbonAppearance` is the Office-like design-time property for detailed Ribbon visual styling; the old `Appearance` name is retained only for older `.lfm` files.
+- `TLazRibbon.RibbonAppearance` is the Office-like design-time property for detailed Ribbon visual styling; the old `TLazRibbon.Appearance` alias is no longer published.
 - Demos and tools stream `RibbonAppearance.*` for `TLazRibbon` controls and keep `Appearance.*` for `TLazRibbonSkinManager`, with a consistency audit covering both cases.
 - Office-style BackStage overlay modes, including full-client-area coverage.
 - Quick Access Toolbar support, including title-bar hosting in `TLazRibbonForm`.

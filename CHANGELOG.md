@@ -1,3 +1,10 @@
+## 1.2.13 - TLazRibbon Appearance alias removal
+
+- Removes the published `TLazRibbon.Appearance` legacy alias from the runtime component API.
+- Keeps `TLazRibbon.RibbonAppearance` as the only public Object Inspector property for Ribbon visual styling.
+- Keeps `TLazRibbonSkinManager.Appearance` unchanged, because the skin manager owns and streams a skin appearance model.
+- Updates runtime and design-time package versions to 1.2.13.
+
 ## 1.2.12 - SkinManager LFM streaming fix
 
 - Restores `TLazRibbonSkinManager.Appearance.*` streaming in the standalone Skin Editor and `demos/ribbon_form`, fixing the 1.2.11 `Unknown property: "RibbonAppearance"` load error.
