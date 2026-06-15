@@ -80,6 +80,20 @@ type
     property BorderColor: TColor read GetBorderColor write SetBorderColor;
   end;
 
+  TLazRibbonSkinAccentColors = class(TLazRibbonSkinColorGroup)
+  private
+    function GetNavigationColor: TColor;
+    function GetActiveColor: TColor;
+    function GetHotColor: TColor;
+    procedure SetNavigationColor(AValue: TColor);
+    procedure SetActiveColor(AValue: TColor);
+    procedure SetHotColor(AValue: TColor);
+  published
+    property NavigationColor: TColor read GetNavigationColor write SetNavigationColor;
+    property ActiveColor: TColor read GetActiveColor write SetActiveColor;
+    property HotColor: TColor read GetHotColor write SetHotColor;
+  end;
+
   TLazRibbonSkinBackstageColors = class(TLazRibbonSkinColorGroup)
   private
     function GetNavigationColor: TColor;
@@ -107,10 +121,6 @@ type
     property SelectedColor: TColor read GetSelectedColor write SetSelectedColor;
     property SelectedTextColor: TColor read GetSelectedTextColor write SetSelectedTextColor;
     property SelectedFrameColor: TColor read GetSelectedFrameColor write SetSelectedFrameColor;
-
-    { Compatibility aliases kept for code that used the old grouped names. }
-    property ActiveColor: TColor read GetSelectedColor write SetSelectedColor;
-    property FrameColor: TColor read GetSelectedFrameColor write SetSelectedFrameColor;
   end;
 
   TLazRibbonSkinRecentListColors = class(TLazRibbonSkinColorGroup)
@@ -169,6 +179,7 @@ type
     FAppearanceDispatch: TLazRibbonSkinAppearanceDispatch;
     FAppearance: TLazRibbonToolbarAppearance;
     FGeneral: TLazRibbonSkinGeneralColors;
+    FAccent: TLazRibbonSkinAccentColors;
     FBackstage: TLazRibbonSkinBackstageColors;
     FRecentList: TLazRibbonSkinRecentListColors;
     FRibbon: TLazRibbonSkinRibbonColors;
@@ -239,25 +250,12 @@ type
     { Full LazRibbon_Core appearance model; exposes the original LazRibbon_Appearance structure. }
     property Appearance: TLazRibbonToolbarAppearance read FAppearance write SetAppearance;
 
-    { Recommended grouped model }
+    { Grouped skin palette model }
     property General: TLazRibbonSkinGeneralColors read FGeneral;
+    property Accent: TLazRibbonSkinAccentColors read FAccent;
     property Backstage: TLazRibbonSkinBackstageColors read FBackstage;
     property RecentList: TLazRibbonSkinRecentListColors read FRecentList;
     property Ribbon: TLazRibbonSkinRibbonColors read FRibbon;
-
-    { Legacy flat properties kept for .lfm/source compatibility }
-    property BackColor: TColor read GetBackColor write SetBackColor;
-    property NavigationColor: TColor read GetNavigationColor write SetNavigationColor;
-    property ActiveColor: TColor read GetActiveColor write SetActiveColor;
-    property HotColor: TColor read GetHotColor write SetHotColor;
-    property FrameColor: TColor read GetFrameColor write SetFrameColor;
-    property TextColor: TColor read GetTextColor write SetTextColor;
-    property MutedTextColor: TColor read GetMutedTextColor write SetMutedTextColor;
-    property RecentOddColor: TColor read GetRecentOddColor write SetRecentOddColor;
-    property RecentHoverColor: TColor read GetRecentHoverColor write SetRecentHoverColor;
-    property RecentSelectedColor: TColor read GetRecentSelectedColor write SetRecentSelectedColor;
-    property RecentSelectedFrameColor: TColor read GetRecentSelectedFrameColor write SetRecentSelectedFrameColor;
-    property RecentTitleColor: TColor read GetRecentTitleColor write SetRecentTitleColor;
 
     property OnChange: TNotifyEvent read FOnChange write FOnChange;
   end;
@@ -568,6 +566,38 @@ end;
 procedure TLazRibbonSkinGeneralColors.SetBorderColor(AValue: TColor);
 begin
   FManager.SetFrameColor(AValue);
+end;
+
+{ TLazRibbonSkinAccentColors }
+
+function TLazRibbonSkinAccentColors.GetNavigationColor: TColor;
+begin
+  Result := FManager.GetNavigationColor;
+end;
+
+function TLazRibbonSkinAccentColors.GetActiveColor: TColor;
+begin
+  Result := FManager.GetActiveColor;
+end;
+
+function TLazRibbonSkinAccentColors.GetHotColor: TColor;
+begin
+  Result := FManager.GetHotColor;
+end;
+
+procedure TLazRibbonSkinAccentColors.SetNavigationColor(AValue: TColor);
+begin
+  FManager.SetNavigationColor(AValue);
+end;
+
+procedure TLazRibbonSkinAccentColors.SetActiveColor(AValue: TColor);
+begin
+  FManager.SetActiveColor(AValue);
+end;
+
+procedure TLazRibbonSkinAccentColors.SetHotColor(AValue: TColor);
+begin
+  FManager.SetHotColor(AValue);
 end;
 
 { TLazRibbonSkinBackstageColors }
@@ -938,6 +968,7 @@ begin
   FAppearanceDispatch := TLazRibbonSkinAppearanceDispatch.Create(Self);
   FAppearance := TLazRibbonToolbarAppearance.Create(FAppearanceDispatch);
   FGeneral := TLazRibbonSkinGeneralColors.Create(Self);
+  FAccent := TLazRibbonSkinAccentColors.Create(Self);
   FBackstage := TLazRibbonSkinBackstageColors.Create(Self);
   FRecentList := TLazRibbonSkinRecentListColors.Create(Self);
   FRibbon := TLazRibbonSkinRibbonColors.Create(Self);
@@ -962,6 +993,7 @@ begin
   FRibbon.Free;
   FRecentList.Free;
   FBackstage.Free;
+  FAccent.Free;
   FGeneral.Free;
   inherited Destroy;
 end;

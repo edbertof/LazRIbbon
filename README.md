@@ -50,9 +50,9 @@ tools/LazRibbonSkinEditor/
 
 ## Current version
 
-This distribution is **LazRibbon 1.2.14 ApplicationButton API consolidation**.
+This distribution is **LazRibbon 1.2.15 SkinManager palette API consolidation**.
 
-The stable 1.0.0 line remains the conservative baseline for production use. The 1.1 line is a controlled stabilization line now validated with Lazarus 4.8, with the 1.1.70 runtime behavior preserved and the 1.1.72 packaging/design-time polish applied on top. The 1.2.14 build consolidates the Office Application Button API on `TLazRibbon.ApplicationButton.*`, including `Caption`, `Visible`, `Mode`, `Menu`, `Style` and `OnClick`, and removes the published flattened Application/Menu Button aliases. It keeps the 1.2.13 `TLazRibbon.Appearance` alias removal, the 1.2.12 SkinManager LFM streaming fix, the 1.2.10 compact Skin Editor layout, the 1.2.9 `TLazRibbon.RibbonAppearance` design-time API, the 1.2.8 design-time refresh fix, the 1.2.7 buffer-height fix, the 1.2.6 pane caption text rendering fix, the 1.2.5 preview height and Dialog Launcher glyph fixes, the 1.2.4 pane caption paint order fix, the 1.2.3 Appearance difference markers and filtering, the 1.2.2 per-property restore from base, the 1.2.1 base comparison report, the 1.2.0 validation report, the 1.1.78 high-DPI palette icons, the 1.1.77 tab spacing controls, the 1.1.76 Dialog Launcher rename and the 1.1.75 Skin Editor Appearance inspector work.
+The stable 1.0.0 line remains the conservative baseline for production use. The 1.1 line is a controlled stabilization line now validated with Lazarus 4.8, with the 1.1.70 runtime behavior preserved and the 1.1.72 packaging/design-time polish applied on top. The 1.2.15 build consolidates the SkinManager color API into `General`, `Accent`, `Backstage`, `RecentList` and `Ribbon` groups, while keeping `TLazRibbonSkinManager.Appearance` as the complete skin appearance model. It keeps the 1.2.14 Application Button API consolidation, the 1.2.13 `TLazRibbon.Appearance` alias removal, the 1.2.12 SkinManager LFM streaming fix, the 1.2.10 compact Skin Editor layout, the 1.2.9 `TLazRibbon.RibbonAppearance` design-time API, the 1.2.8 design-time refresh fix, the 1.2.7 buffer-height fix, the 1.2.6 pane caption text rendering fix, the 1.2.5 preview height and Dialog Launcher glyph fixes, the 1.2.4 pane caption paint order fix, the 1.2.3 Appearance difference markers and filtering, the 1.2.2 per-property restore from base, the 1.2.1 base comparison report, the 1.2.0 validation report, the 1.1.78 high-DPI palette icons, the 1.1.77 tab spacing controls, the 1.1.76 Dialog Launcher rename and the 1.1.75 Skin Editor Appearance inspector work.
 
 Highlights in the current 1.2 line:
 
@@ -65,6 +65,7 @@ Highlights in the current 1.2 line:
 - `TLazRibbon.RibbonAppearance` is the Office-like design-time property for detailed Ribbon visual styling; the old `TLazRibbon.Appearance` alias is no longer published.
 - Demos and tools stream `RibbonAppearance.*` for `TLazRibbon` controls and keep `Appearance.*` for `TLazRibbonSkinManager`, with a consistency audit covering both cases.
 - `TLazRibbon.ApplicationButton` is the single public API for the Office Application Button, including caption, visibility, behavior mode, popup menu, caption/dropdown style and click event.
+- `TLazRibbonSkinManager` exposes skin palette colors through grouped properties: `General`, `Accent`, `Backstage`, `RecentList` and `Ribbon`.
 - Office-style BackStage overlay modes, including full-client-area coverage.
 - Quick Access Toolbar support, including title-bar hosting in `TLazRibbonForm`.
 - ScreenTips, staged KeyTips, multi-character KeyTips and a design-time KeyTip validator.

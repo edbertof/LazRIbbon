@@ -1,6 +1,8 @@
 # LazRibbon Status
 
-`1.2.14 - ApplicationButton API consolidation` is the current stabilization build.
+`1.2.15 - SkinManager palette API consolidation` is the current stabilization build.
+
+The 1.2.15 build consolidates the SkinManager color API into grouped palette objects. New projects should use `General.*`, `Accent.*`, `Backstage.*`, `RecentList.*` and `Ribbon.*` for palette colors, while `TLazRibbonSkinManager.Appearance` remains the complete skin appearance model. The published flat SkinManager palette aliases were removed as part of the pre-2.0 API cleanup.
 
 The 1.2.14 build consolidates the Office Application Button API on `TLazRibbon.ApplicationButton.*`. New projects should use `ApplicationButton.Caption`, `ApplicationButton.Visible`, `ApplicationButton.Mode`, `ApplicationButton.Menu`, `ApplicationButton.Style` and `ApplicationButton.OnClick`; the published flattened Application/Menu Button aliases were removed as part of the pre-2.0 API cleanup.
 

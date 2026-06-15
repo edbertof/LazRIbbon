@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
   [string]$SourceRoot = '',
-  [string]$ExpectedVersion = '1.2.14'
+  [string]$ExpectedVersion = '1.2.15'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -166,6 +166,14 @@ function Test-RibbonAppearanceStreaming {
 
       if (($line -match '^\s*(ApplicationButtonCaption|ApplicationButtonVisible|ApplicationButtonMode|ApplicationMenu|OnApplicationButtonClick|MenuButtonCaption|MenuButtonDropdownMenu|MenuButtonStyle|ShowMenuButton|OnMenuButtonClick)\s*=') -and ($currentType -eq 'TLazRibbon')) {
         Add-Failure "Legacy TLazRibbon Application/Menu Button streaming found in ${relative}:${lineNumber}; use ApplicationButton.*."
+      }
+
+      if (($line -match '^\s*(BackColor|NavigationColor|ActiveColor|HotColor|FrameColor|TextColor|MutedTextColor|RecentOddColor|RecentHoverColor|RecentSelectedColor|RecentSelectedFrameColor|RecentTitleColor)\s*=') -and ($currentType -eq 'TLazRibbonSkinManager')) {
+        Add-Failure "Legacy TLazRibbonSkinManager flat palette streaming found in ${relative}:${lineNumber}; use General.*, Accent.* or RecentList.*."
+      }
+
+      if (($line -match '^\s*Backstage\.(ActiveColor|FrameColor)\s*=') -and ($currentType -eq 'TLazRibbonSkinManager')) {
+        Add-Failure "Legacy TLazRibbonSkinManager Backstage color alias found in ${relative}:${lineNumber}; use Backstage.SelectedColor or Backstage.SelectedFrameColor."
       }
 
       if (($line -match '^\s*RibbonAppearance\.') -and ($currentType -ne 'TLazRibbon')) {

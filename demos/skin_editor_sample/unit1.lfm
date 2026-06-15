@@ -316,18 +316,18 @@ object Form1: TForm1
     ShowCaptions = False
   end
   object LazSkinManager1: TLazRibbonSkinManager
-    BackColor = clWhite
-    NavigationColor = 16577256
-    ActiveColor = 16444380
-    HotColor = 16577514
-    FrameColor = 13809300
-    TextColor = 5978398
-    MutedTextColor = 8351583
-    RecentOddColor = 16644856
-    RecentHoverColor = 16643308
-    RecentSelectedColor = 16575451
-    RecentSelectedFrameColor = 14395774
-    RecentTitleColor = 8535040
+    General.BackColor = clWhite
+    Accent.NavigationColor = 16577256
+    Accent.ActiveColor = 16444380
+    Accent.HotColor = 16577514
+    General.BorderColor = 13809300
+    General.TextColor = 5978398
+    General.MutedTextColor = 8351583
+    RecentList.OddColor = 16644856
+    RecentList.HoverColor = 16643308
+    RecentList.SelectedColor = 16575451
+    RecentList.SelectedFrameColor = 14395774
+    RecentList.TitleColor = 8535040
     Left = 448
     Top = 144
   end

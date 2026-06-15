@@ -1,3 +1,11 @@
+## 1.2.15 check
+
+- Package metadata updated to 1.2.15.
+- `TLazRibbonSkinManager` publishes grouped palette color properties: `General`, `Accent`, `Backstage`, `RecentList` and `Ribbon`.
+- Flat SkinManager palette aliases such as `BackColor`, `NavigationColor`, `RecentOddColor` and `RecentSelectedColor` are no longer published.
+- Package demos and tools stream grouped SkinManager palette properties instead of flat aliases.
+- The consistency audit rejects legacy flat SkinManager palette streaming.
+
 ## 1.2.14 check
 
 - Package metadata updated to 1.2.14.

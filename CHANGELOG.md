@@ -1,3 +1,12 @@
+## 1.2.15 - SkinManager palette API consolidation
+
+- Adds `TLazRibbonSkinManager.Accent` for the generic navigation/active/hot palette colors used by command, popup and highlight surfaces.
+- Keeps `TLazRibbonSkinManager.Appearance` as the complete skin appearance model, but removes the published flat palette aliases from `TLazRibbonSkinManager`.
+- Removes the `TLazRibbonSkinManager.Backstage.ActiveColor` and `Backstage.FrameColor` aliases; use `Backstage.SelectedColor` and `Backstage.SelectedFrameColor`.
+- Migrates package demos and tools to stream `General.*`, `Accent.*` and `RecentList.*` palette groups.
+- Updates the consistency audit to reject legacy flat SkinManager palette streaming.
+- Updates runtime and design-time package versions to 1.2.15.
+
 ## 1.2.14 - ApplicationButton API consolidation
 
 - Adds `TLazRibbon.ApplicationButton.Style` so the Application Button caption/dropdown style lives on the Office-like persistent subobject.
