@@ -1,3 +1,10 @@
+## 1.2.12 - SkinManager LFM streaming fix
+
+- Restores `TLazRibbonSkinManager.Appearance.*` streaming in the standalone Skin Editor and `demos/ribbon_form`, fixing the 1.2.11 `Unknown property: "RibbonAppearance"` load error.
+- Keeps `TLazRibbon.RibbonAppearance.*` streaming for actual Ribbon controls.
+- Tightens the project consistency audit so it rejects `RibbonAppearance.*` on non-`TLazRibbon` resources and legacy `Appearance.*` on `TLazRibbon`.
+- Updates runtime and design-time package versions to 1.2.12.
+
 ## 1.2.11 - LFM RibbonAppearance migration
 
 - Migrates the package's own Lazarus form resources from the legacy `Appearance.*` streaming name to `RibbonAppearance.*`.

@@ -1,8 +1,10 @@
 # LazRibbon Status
 
-`1.2.11 - LFM RibbonAppearance migration` is the current stabilization build.
+`1.2.12 - SkinManager LFM streaming fix` is the current stabilization build.
 
-The 1.2.11 build continues the path toward the 2.0 API shape by migrating the package's own `.lfm` resources from legacy `Appearance.*` streaming to the Office-like `RibbonAppearance.*` property name. The project consistency audit now rejects new `.lfm` resources that reintroduce legacy TLazRibbon Appearance streaming.
+The 1.2.12 build fixes the over-broad 1.2.11 `.lfm` migration. `TLazRibbon` resources continue to stream the Office-like `RibbonAppearance.*` name, while `TLazRibbonSkinManager` resources correctly stream `Appearance.*`; the consistency audit now checks both sides so the Skin Editor and ribbon form demo keep loading.
+
+The 1.2.11 build continued the path toward the 2.0 API shape by migrating the package's own `.lfm` resources from legacy `Appearance.*` streaming to the Office-like `RibbonAppearance.*` property name.
 
 The 1.2.10 build tightens the standalone `LazRibbonSkinEditor` layout and reduces its default window size to 1060x700. The Identity, Ribbon Colors, BackStage, Validation and Advanced pages use closer control spacing while preserving the 150 px live Ribbon preview height needed to inspect pane captions and Dialog Launchers.
 

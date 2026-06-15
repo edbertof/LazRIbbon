@@ -1,3 +1,10 @@
+## 1.2.12 check
+
+- Package metadata updated to 1.2.12.
+- `TLazRibbon` resources stream `RibbonAppearance.*`; `TLazRibbonSkinManager` resources stream `Appearance.*`.
+- The standalone Skin Editor and `demos/ribbon_form` no longer contain invalid `TLazRibbonSkinManager.RibbonAppearance.*` entries.
+- `tools/check_project_consistency.ps1` rejects both legacy `TLazRibbon.Appearance.*` and invalid non-Ribbon `RibbonAppearance.*` streaming.
+
 ## 1.2.11 check
 
 - Package metadata updated to 1.2.11.

@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
-  [string]$SourceRoot = (Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path)),
-  [string]$ExpectedVersion = '1.2.11'
+  [string]$SourceRoot = '',
+  [string]$ExpectedVersion = '1.2.12'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -132,14 +132,56 @@ function Test-ForbiddenFiles {
   }
 }
 
-function Test-LegacyRibbonAppearanceLfm {
+function Test-RibbonAppearanceStreaming {
   Get-ChildItem -LiteralPath $SourceRoot -Recurse -File -Filter '*.lfm' | ForEach-Object {
     $relative = Get-RelativePath -Path $_.FullName
-    $content = Get-Content -LiteralPath $_.FullName -Raw
-    if ($content -match '(?m)^\s*Appearance\.') {
-      Add-Failure "Legacy TLazRibbon Appearance streaming found in ${relative}; use RibbonAppearance.* in LFM files."
+    $objectStack = New-Object System.Collections.Generic.List[object]
+    $lineNumber = 0
+
+    Get-Content -LiteralPath $_.FullName | ForEach-Object {
+      $lineNumber++
+      $line = $_
+
+      if ($line -match '^(\s*)(object|inherited|inline)\s+([^:]+):\s*(\S+)') {
+        $objectStack.Add([pscustomobject]@{
+          Indent = $matches[1].Length
+          Name = $matches[3].Trim()
+          Type = $matches[4]
+        }) | Out-Null
+      }
+      elseif ($line -match '^(\s*)end\s*$') {
+        $indent = $matches[1].Length
+        if (($objectStack.Count -gt 0) -and ($objectStack[$objectStack.Count - 1].Indent -eq $indent)) {
+          $objectStack.RemoveAt($objectStack.Count - 1)
+        }
+      }
+
+      $currentObject = if ($objectStack.Count -gt 0) { $objectStack[$objectStack.Count - 1] } else { $null }
+      $currentType = if ($null -ne $currentObject) { $currentObject.Type } else { '<none>' }
+      $currentName = if ($null -ne $currentObject) { $currentObject.Name } else { '<none>' }
+
+      if (($line -match '^\s*Appearance\.') -and ($currentType -eq 'TLazRibbon')) {
+        Add-Failure "Legacy TLazRibbon Appearance streaming found in ${relative}:${lineNumber}; use RibbonAppearance.*."
+      }
+
+      if (($line -match '^\s*RibbonAppearance\.') -and ($currentType -ne 'TLazRibbon')) {
+        Add-Failure "RibbonAppearance streaming found in ${relative}:${lineNumber} on ${currentType} ${currentName}; only TLazRibbon supports RibbonAppearance.*."
+      }
     }
   }
+}
+
+if ([string]::IsNullOrWhiteSpace($SourceRoot)) {
+  $scriptPath = if (-not [string]::IsNullOrWhiteSpace($PSCommandPath)) {
+    $PSCommandPath
+  }
+  elseif (-not [string]::IsNullOrWhiteSpace($MyInvocation.MyCommand.Path)) {
+    $MyInvocation.MyCommand.Path
+  }
+  else {
+    Join-Path (Get-Location).Path 'tools\check_project_consistency.ps1'
+  }
+  $SourceRoot = Split-Path -Parent (Split-Path -Parent $scriptPath)
 }
 
 if (-not (Test-Path -LiteralPath $SourceRoot)) {
@@ -153,7 +195,7 @@ Test-PackageVersion -RelativePath 'packages/LazRibbonRuntime.lpk' -ExpectedVersi
 Test-PackageVersion -RelativePath 'packages/LazRibbonDesign.lpk' -ExpectedVersion $ExpectedVersion
 Test-DemoGraphicApplication
 Test-LocalEnvironmentArtifacts
-Test-LegacyRibbonAppearanceLfm
+Test-RibbonAppearanceStreaming
 Test-ForbiddenFiles
 
 if ($failures.Count -eq 0) {
