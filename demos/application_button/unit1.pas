@@ -57,15 +57,15 @@ implementation
 
 procedure TForm1.ApplicationButtonEvent(Sender: TObject);
 begin
-  ShowMessage('ApplicationButtonMode = abmEvent: evento executado.');
+  ShowMessage('ApplicationButton.Mode = abmEvent: evento executado.');
 end;
 
 procedure TForm1.PopupItemClick(Sender: TObject);
 begin
   if Sender is TMenuItem then
-    ShowMessage('ApplicationMenu: ' + TMenuItem(Sender).Caption)
+    ShowMessage('ApplicationButton.Menu: ' + TMenuItem(Sender).Caption)
   else
-    ShowMessage('ApplicationMenu.');
+    ShowMessage('ApplicationButton.Menu.');
 end;
 
 procedure TForm1.SetModeBackstage(Sender: TObject);
@@ -83,7 +83,7 @@ end;
 procedure TForm1.SetModeEvent(Sender: TObject);
 begin
   LazRibbon1.ApplicationButton.Mode := abmEvent;
-  LabelInfo.Caption := 'Modo atual: abmEvent. Clique em Arquivo para disparar OnApplicationButtonClick.';
+  LabelInfo.Caption := 'Modo atual: abmEvent. Clique em Arquivo para disparar ApplicationButton.OnClick.';
 end;
 
 end.

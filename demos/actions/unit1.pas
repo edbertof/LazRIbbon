@@ -278,20 +278,20 @@ end;
 
 procedure TForm1.btnToggleMenuButtonClick(Sender: TObject);
 begin
-  LazToolbar1.ShowMenuButton := not LazToolbar1.ShowMenuButton;
+  LazToolbar1.ApplicationButton.Visible := not LazToolbar1.ApplicationButton.Visible;
 end;
 
 procedure TForm1.BtnToggleMenuButtonDropdownArrowClick(Sender: TObject);
 begin
-  if LazToolbar1.MenuButtonStyle = mbsCaption then
-    LazToolbar1.MenuButtonStyle := mbsCaptionDropdown
+  if LazToolbar1.ApplicationButton.Style = mbsCaption then
+    LazToolbar1.ApplicationButton.Style := mbsCaptionDropdown
   else
-    LazToolbar1.MenuButtonStyle := mbsCaption;
+    LazToolbar1.ApplicationButton.Style := mbsCaption;
 end;
 
 procedure TForm1.edMenuButtonCaptionEditingDone(Sender: TObject);
 begin
-  LazToolbar1.MenuButtonCaption := edMenuButtonCaption.Text;
+  LazToolbar1.ApplicationButton.Caption := edMenuButtonCaption.Text;
 end;
 
 procedure TForm1.FormCloseQuery(Sender: TObject; var CanClose: boolean);
@@ -311,7 +311,7 @@ begin
   SetUserInterface(true);
   Label1.Caption := '';
   LoadFromIni;
-  edMenuButtonCaption.Text := LazToolbar1.MenuButtonCaption;
+  edMenuButtonCaption.Text := LazToolbar1.ApplicationButton.Caption;
 end;
 
 procedure TForm1.ShowDialogLauncherCheckboxClick(Sender: TObject);
@@ -346,9 +346,9 @@ begin
     SetStyle(LazToolbar1.Style);
     ShowDialogLauncherCheckbox.Checked := ini.ReadBool('MainForm', 'ShowDialogLauncher', false);
     ShowDialogLauncherCheckboxClick(nil);
-    LazToolbar1.ShowMenuButton := ini.ReadBool('MainForm', 'ShowMenuButton', false);
-    LazToolbar1.MenuButtonStyle := TLazRibbonMenubuttonStyle(ini.ReadInteger('MainForm', 'MenuButtonStyle', 0));
-    LazToolbar1.MenuButtonCaption := ini.ReadString('MainForm', 'MenuButtonCaption', 'Menu');
+    LazToolbar1.ApplicationButton.Visible := ini.ReadBool('MainForm', 'ShowMenuButton', false);
+    LazToolbar1.ApplicationButton.Style := TLazRibbonMenubuttonStyle(ini.ReadInteger('MainForm', 'MenuButtonStyle', 0));
+    LazToolbar1.ApplicationButton.Caption := ini.ReadString('MainForm', 'MenuButtonCaption', 'Menu');
   finally
     ini.Free;
   end;
@@ -389,9 +389,9 @@ begin
     ini.WriteBool('MainForm', 'RibbonInterface', AcRibbonGUI.Checked);
     ini.WriteInteger('MainForm', 'RibbonStyle', ord(LazToolbar1.Style));
     ini.WriteBool('MainForm', 'ShowDialogLauncher', ShowDialogLauncherCheckbox.Checked);
-    ini.WriteBool('MainForm', 'ShowMenuButton', LazToolbar1.ShowMenuButton);
-    ini.WriteInteger('MainForm', 'MenuButtonStyle', ord(LazToolbar1.MenuButtonStyle));
-    ini.WriteString('MainForm', 'MenuButtonCaption', LazToolbar1.MenuButtonCaption);
+    ini.WriteBool('MainForm', 'ShowMenuButton', LazToolbar1.ApplicationButton.Visible);
+    ini.WriteInteger('MainForm', 'MenuButtonStyle', ord(LazToolbar1.ApplicationButton.Style));
+    ini.WriteString('MainForm', 'MenuButtonCaption', LazToolbar1.ApplicationButton.Caption);
   finally
     ini.Free;
   end;
@@ -413,4 +413,3 @@ begin
 end;
 
 end.
-

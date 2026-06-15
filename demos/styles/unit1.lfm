@@ -106,8 +106,8 @@ object Form1: TForm1
       TabIndex = 0
       Images = SmallImages
       LargeImages = LargeImages
-      MenuButtonCaption = 'Menu'
-      ShowMenuButton = True
+      ApplicationButton.Caption = 'Menu'
+      ApplicationButton.Visible = True
       Tabs = (
         'LazTab1'
       )
@@ -442,8 +442,8 @@ object Form1: TForm1
       TabIndex = 0
       Images = SmallImages
       LargeImages = LargeImages
-      MenuButtonCaption = 'Menu'
-      ShowMenuButton = True
+      ApplicationButton.Caption = 'Menu'
+      ApplicationButton.Visible = True
       Tabs = (
         'LazTab2'
       )
@@ -777,8 +777,8 @@ object Form1: TForm1
       TabIndex = 0
       Images = SmallImages
       LargeImages = LargeImages
-      MenuButtonCaption = 'Menu'
-      ShowMenuButton = True
+      ApplicationButton.Caption = 'Menu'
+      ApplicationButton.Visible = True
       Tabs = (
         'LazTab4'
       )
@@ -1142,8 +1142,8 @@ object Form1: TForm1
       TabIndex = 0
       Images = SmallImages
       LargeImages = LargeImages
-      MenuButtonCaption = 'Menu'
-      ShowMenuButton = True
+      ApplicationButton.Caption = 'Menu'
+      ApplicationButton.Visible = True
       Tabs = (
         'LazTab5'
       )
@@ -1492,8 +1492,8 @@ object Form1: TForm1
       TabIndex = 0
       Images = SmallImages
       LargeImages = LargeImages
-      MenuButtonCaption = 'Menu'
-      ShowMenuButton = True
+      ApplicationButton.Caption = 'Menu'
+      ApplicationButton.Visible = True
       Tabs = (
         'LazTab6'
       )

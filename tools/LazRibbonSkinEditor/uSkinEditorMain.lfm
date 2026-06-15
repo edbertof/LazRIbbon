@@ -51,9 +51,6 @@ object frmLazRibbonSkinEditor: TfrmLazRibbonSkinEditor
       QuickAccessToolBar.MinimizeRibbonCaption = 'Minimizar a Faixa de Opções'
       QuickAccessToolBar.RestoreRibbonCaption = 'Restaurar a Faixa de Opções'
       QuickAccessToolBar.ResetToDefaultsCaption = 'Restaurar Barra de Acesso Rápido'
-      ApplicationButtonCaption = 'Arquivo'
-      ApplicationButtonVisible = True
-      ApplicationButtonMode = abmBackstage
       CollapseRibbonHint = 'Minimizar a Faixa de Opções'
       ExpandRibbonHint = 'Restaurar a Faixa de Opções'
       HelpButtonHint = 'Ajuda'
@@ -146,8 +143,6 @@ object frmLazRibbonSkinEditor: TfrmLazRibbonSkinEditor
       RibbonAppearance.Popup.SelectionShape = ssRectangle
       RibbonAppearance.Popup.Style = psGutter
       TabIndex = 0
-      MenuButtonCaption = 'Arquivo'
-      ShowMenuButton = True
       Align = alClient
       Tabs = (
         'EditorTabSkin'

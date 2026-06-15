@@ -208,7 +208,7 @@ object Form1: TForm1
     TabIndex = 0
     Images = HiResImages
     LargeImages = HiResImages
-    MenuButtonCaption = 'Menu'
+    ApplicationButton.Caption = 'Menu'
     Tabs = (
       'LazTab1'
       'LazTab2'

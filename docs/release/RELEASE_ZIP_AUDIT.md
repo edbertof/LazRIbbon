@@ -1,3 +1,11 @@
+## 1.2.14 check
+
+- Package metadata updated to 1.2.14.
+- `TLazRibbon.ApplicationButton.*` is the single public Object Inspector API for the Office Application Button.
+- `TLazRibbon.ApplicationButton.Style` replaces the old published `MenuButtonStyle` alias for caption/dropdown rendering.
+- Package demos, tools and design resources stream `ApplicationButton.*` instead of flattened Application/Menu Button aliases.
+- The consistency audit rejects legacy Application/Menu Button streaming in `TLazRibbon` resources.
+
 ## 1.2.13 check
 
 - Package metadata updated to 1.2.13.

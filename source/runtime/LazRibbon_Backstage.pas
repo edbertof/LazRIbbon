@@ -2199,8 +2199,8 @@ begin
   LinkedToolbar := AToolbar;
   if FLinkedToolbar <> nil then
   begin
-    FLinkedToolbar.ShowMenuButton := True;
-    FLinkedToolbar.MenuButtonCaption := AMenuCaption;
+    FLinkedToolbar.ApplicationButton.Visible := True;
+    FLinkedToolbar.ApplicationButton.Caption := AMenuCaption;
     FStyle := FLinkedToolbar.Style;
     HookToolbarEvents;
     Invalidate;
@@ -3863,7 +3863,7 @@ begin
   if FBackstageTabCaption = AValue then Exit;
   FBackstageTabCaption := AValue;
   if FLinkedToolbar <> nil then
-    FLinkedToolbar.MenuButtonCaption := AValue;
+    FLinkedToolbar.ApplicationButton.Caption := AValue;
 end;
 
 procedure TLazRibbonBackstageView.SetBackButtonHint(const AValue: String);
@@ -4110,12 +4110,10 @@ end;
 
 procedure TLazRibbonBackstageView.ToolbarMenuButtonClick(Sender: TObject);
 begin
-  { The BackStage hooks the Ribbon Application/Menu button for compatibility
-    with the original MenuButton integration. In 0.1.27+ the Ribbon can switch
-    the same button to PopupMenu or Event mode; in those modes the BackStage
-    must not toggle itself. }
+  { The BackStage hooks the Ribbon Application Button. When the same button is
+    switched to PopupMenu or Event mode, the BackStage must not toggle itself. }
   if (FLinkedToolbar <> nil) and
-     (FLinkedToolbar.ApplicationButtonMode <> abmBackstage) then
+     (FLinkedToolbar.ApplicationButton.Mode <> abmBackstage) then
   begin
     if Assigned(FOldToolbarMenuButtonClick) then
       FOldToolbarMenuButtonClick(Sender);
@@ -4123,9 +4121,8 @@ begin
   end;
 
   { In BackStage mode the Application Button action is the BackStage toggle
-    itself. Do not also fire the old Application/Menu button event, otherwise
-    the same click can execute an unrelated command before opening the
-    BackStage. }
+    itself. Do not also fire a previous Application Button event, otherwise the
+    same click can execute an unrelated command before opening the BackStage. }
   if Visible then
     HideBackstage
   else
@@ -4204,12 +4201,12 @@ begin
 
   if not FToolbarEventsHooked then
   begin
-    FOldToolbarMenuButtonClick := FLinkedToolbar.OnMenuButtonClick;
+    FOldToolbarMenuButtonClick := FLinkedToolbar.ApplicationButton.OnClick;
     FOldToolbarTabChanging := FLinkedToolbar.OnTabChanging;
     FToolbarEventsHooked := True;
   end;
 
-  FLinkedToolbar.OnMenuButtonClick := ToolbarMenuButtonClick;
+  FLinkedToolbar.ApplicationButton.OnClick := ToolbarMenuButtonClick;
   if FOpenOnTabCaption then
     FLinkedToolbar.OnTabChanging := ToolbarTabChanging
   else
@@ -4220,7 +4217,7 @@ procedure TLazRibbonBackstageView.UnhookToolbarEvents;
 begin
   if (FLinkedToolbar = nil) or not FToolbarEventsHooked then Exit;
 
-  FLinkedToolbar.OnMenuButtonClick := FOldToolbarMenuButtonClick;
+  FLinkedToolbar.ApplicationButton.OnClick := FOldToolbarMenuButtonClick;
   FLinkedToolbar.OnTabChanging := FOldToolbarTabChanging;
 
   FOldToolbarMenuButtonClick := nil;

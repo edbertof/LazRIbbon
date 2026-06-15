@@ -1949,8 +1949,6 @@ begin
   PreviewToolbar.ApplicationButton.Mode := abmBackstage;
   PreviewToolbar.ApplicationButton.BackstageView := EditorBackstage;
   PreviewToolbar.BackstageView := EditorBackstage;
-  PreviewToolbar.ShowMenuButton := True;
-  PreviewToolbar.MenuButtonCaption := 'Arquivo';
 
   if Assigned(EditorTabSkin) then EditorTabSkin.Caption := 'Página inicial';
   if Assigned(EditorTabPreview) then EditorTabPreview.Caption := 'Exibir';
@@ -2004,11 +2002,10 @@ begin
 
   if Assigned(EditorBackstage) then
   begin
-    { Keep the Application/Menu button visible at runtime. The BackStage
-      command surface is opened from this button; hiding ShowMenuButton after
-      streaming makes the design-time 'Arquivo' entry disappear when the
-      editor runs. }
-    PreviewToolbar.ShowMenuButton := True;
+    { Keep the Application Button visible at runtime. The BackStage command
+      surface is opened from this button; hiding it after streaming makes the
+      design-time 'Arquivo' entry disappear when the editor runs. }
+    PreviewToolbar.ApplicationButton.Visible := True;
     { EditorBackstage is streamed with safe design-time bounds.  At runtime it
       is aligned to the client area only after all children/pages are loaded.
       This avoids Lazarus designer errors such as negative page width while

@@ -92,7 +92,7 @@ object Form1: TForm1
     TabIndex = 0
     Images = ImageList1
     LargeImages = ImageList1
-    MenuButtonCaption = 'Menu'
+    ApplicationButton.Caption = 'Menu'
     Tabs = (
       'LazTab1'
     )

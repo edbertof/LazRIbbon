@@ -117,7 +117,7 @@ The custom XML layer is technical debt, but it touches `.lazskin` persistence. R
 
 ## 1.1.14 stabilization note
 
-1.1.14 fixes the SkinEditor BackStage command entry point. The editor intentionally uses the Ribbon `Arquivo` Application/Menu button as the access point for create/open/save/export commands, so `ShowMenuButton` must remain enabled at runtime. Regular Ribbon tabs remain dedicated to live skin preview.
+1.1.14 fixes the SkinEditor BackStage command entry point. The editor intentionally uses the Ribbon `Arquivo` Application Button as the access point for create/open/save/export commands, so `ApplicationButton.Visible` must remain enabled at runtime. Regular Ribbon tabs remain dedicated to live skin preview.
 
 
 ## 1.1.19 stabilization note

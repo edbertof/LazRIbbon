@@ -125,9 +125,9 @@ object frmLazRibbonAppearanceEditWindow: TfrmLazRibbonAppearanceEditWindow
       RibbonAppearance.Popup.Style = psGutter
       Images = SmallImages
       LargeImages = LargeImages
-      MenuButtonCaption = 'Arquivo'
-      MenuButtonStyle = mbsCaptionDropdown
-      ShowMenuButton = True
+      ApplicationButton.Caption = 'Arquivo'
+      ApplicationButton.Style = mbsCaptionDropdown
+      ApplicationButton.Visible = True
       Tabs = (
         'LazTab1'
         'LazTab2'

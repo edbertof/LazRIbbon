@@ -145,8 +145,8 @@ end;
 
 procedure TForm2.FormShow(Sender: TObject);
 begin
-  LazCheckbox1.Checked := LazToolbar1.ShowMenuButton;
-  if (LazToolbar1.MenuButtonStyle = mbsCaption) then
+  LazCheckbox1.Checked := LazToolbar1.ApplicationButton.Visible;
+  if (LazToolbar1.ApplicationButton.Style = mbsCaption) then
     LazCheckbox2.Checked := false
   else
     LazCheckbox2.Checked := true;
@@ -154,18 +154,18 @@ end;
 
 procedure TForm2.LazCheckbox1Click(Sender: TObject);
 begin
-  LazToolbar1.ShowMenuButton := not LazToolbar1.ShowMenuButton;
-  LazCheckbox1.Checked := LazToolbar1.ShowMenuButton;
+  LazToolbar1.ApplicationButton.Visible := not LazToolbar1.ApplicationButton.Visible;
+  LazCheckbox1.Checked := LazToolbar1.ApplicationButton.Visible;
 end;
 
 procedure TForm2.LazCheckbox2Click(Sender: TObject);
 begin
-  if (LazToolbar1.MenuButtonStyle = mbsCaption) then
-    LazToolbar1.MenuButtonStyle := mbsCaptionDropdown
+  if (LazToolbar1.ApplicationButton.Style = mbsCaption) then
+    LazToolbar1.ApplicationButton.Style := mbsCaptionDropdown
   else
-    LazToolbar1.MenuButtonStyle := mbsCaption;
+    LazToolbar1.ApplicationButton.Style := mbsCaption;
 
-  if (LazToolbar1.MenuButtonStyle = mbsCaption) then
+  if (LazToolbar1.ApplicationButton.Style = mbsCaption) then
     LazCheckbox2.Checked := false
   else
     LazCheckbox2.Checked := true;

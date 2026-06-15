@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
   [string]$SourceRoot = '',
-  [string]$ExpectedVersion = '1.2.13'
+  [string]$ExpectedVersion = '1.2.14'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -162,6 +162,10 @@ function Test-RibbonAppearanceStreaming {
 
       if (($line -match '^\s*Appearance\.') -and ($currentType -eq 'TLazRibbon')) {
         Add-Failure "Legacy TLazRibbon Appearance streaming found in ${relative}:${lineNumber}; use RibbonAppearance.*."
+      }
+
+      if (($line -match '^\s*(ApplicationButtonCaption|ApplicationButtonVisible|ApplicationButtonMode|ApplicationMenu|OnApplicationButtonClick|MenuButtonCaption|MenuButtonDropdownMenu|MenuButtonStyle|ShowMenuButton|OnMenuButtonClick)\s*=') -and ($currentType -eq 'TLazRibbon')) {
+        Add-Failure "Legacy TLazRibbon Application/Menu Button streaming found in ${relative}:${lineNumber}; use ApplicationButton.*."
       }
 
       if (($line -match '^\s*RibbonAppearance\.') -and ($currentType -ne 'TLazRibbon')) {

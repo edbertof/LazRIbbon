@@ -18,10 +18,7 @@ object Form1: TForm1
     ApplicationButton.Visible = True
     ApplicationButton.Mode = abmPopupMenu
     ApplicationButton.Menu = LazRibbonPopupMenu1
-    MenuButtonCaption = 'Arquivo'
-    MenuButtonStyle = mbsCaptionDropdown
-    MenuButtonDropdownMenu = LazRibbonPopupMenu1
-    ShowMenuButton = True
+    ApplicationButton.Style = mbsCaptionDropdown
     Tabs = (
       'LazRibbonTabHome'
     )

@@ -47,7 +47,7 @@ type
 
   { Defines how the Office-like Application Button behaves when clicked.
     abmEvent keeps the legacy event-driven behavior.
-    abmPopupMenu shows ApplicationMenu/MenuButtonDropdownMenu.
+    abmPopupMenu shows ApplicationButton.Menu.
     abmBackstage delegates the click to the linked BackstageView. }
   TLazRibbonApplicationButtonMode = (abmEvent, abmPopupMenu, abmBackstage);
 
@@ -68,9 +68,8 @@ type
   TLazRibbon = class;
 
   { Persistent subobject that exposes the Office-like Application Button in the
-    Object Inspector.  It deliberately delegates the operational properties to
-    TLazRibbon so the older MenuButton*/ApplicationButton* properties keep
-    working with existing projects. }
+    Object Inspector. It delegates operational state to TLazRibbon internals so
+    the public API stays grouped on ApplicationButton. }
   TLazRibbonApplicationButton = class(TPersistent)
   private
     FOwner: TLazRibbon;
@@ -87,12 +86,14 @@ type
     function GetCaption: String;
     function GetVisible: Boolean;
     function GetMode: TLazRibbonApplicationButtonMode;
+    function GetStyle: TLazRibbonMenuButtonStyle;
     function GetMenu: TPopupMenu;
     function GetBackstageView: TLazRibbonCustomBackstageView;
     function GetOnClick: TNotifyEvent;
     procedure SetCaption(const AValue: String);
     procedure SetVisible(AValue: Boolean);
     procedure SetMode(AValue: TLazRibbonApplicationButtonMode);
+    procedure SetStyle(AValue: TLazRibbonMenuButtonStyle);
     procedure SetMenu(AValue: TPopupMenu);
     procedure SetBackstageView(AValue: TLazRibbonCustomBackstageView);
     procedure SetOnClick(AValue: TNotifyEvent);
@@ -115,6 +116,7 @@ type
     property Caption: String read GetCaption write SetCaption;
     property Visible: Boolean read GetVisible write SetVisible default False;
     property Mode: TLazRibbonApplicationButtonMode read GetMode write SetMode default abmEvent;
+    property Style: TLazRibbonMenuButtonStyle read GetStyle write SetStyle default mbsCaption;
     property BackstageView: TLazRibbonCustomBackstageView read GetBackstageView write SetBackstageView;
     property Menu: TPopupMenu read GetMenu write SetMenu;
     property Glyph: TPicture read FGlyph write SetGlyph;
@@ -931,16 +933,9 @@ type
 
   published
 
-    { Office-like Application Button. New code should prefer the persistent
-      subobject below. The flattened properties are kept for compatibility and
-      delegate to the same internal state. }
+    { Office-like Application Button. }
     property ApplicationButton: TLazRibbonApplicationButton read FApplicationButton write SetApplicationButton;
     property QuickAccessToolBar: TLazRibbonQuickAccessToolBar read FQuickAccessToolBar write SetQuickAccessToolBar;
-    property ApplicationButtonCaption: String read FMenuButtonCaption write SetMenuButtonCaption;
-    property ApplicationButtonVisible: Boolean read FShowMenuButton write SetShowMenuButton default False;
-    property ApplicationButtonMode: TLazRibbonApplicationButtonMode read FApplicationButtonMode write SetApplicationButtonMode default abmEvent;
-    property ApplicationMenu: TPopupMenu read FMenuButtonDropdownMenu write SetMenuButtonDropdownMenu;
-    property OnApplicationButtonClick: TNotifyEvent read FOnMenuButtonClick write FOnMenuButtonClick;
 
     { Collapses the Ribbon so only the tab strip and optional Quick Access
       Toolbar remain visible. This is the Office-like "Minimize Ribbon" state. }
@@ -1006,22 +1001,6 @@ type
     { Unscaled size of the large images }
     property LargeImagesWidth: Integer read FLargeImagesWidth write SetLargeImagesWidth default 32;
 
-    { Menu Button caption }
-    property MenuButtonCaption: String read FMenuButtonCaption write SetMenuButtonCaption;
-
-    { Menu Button dropdown menu }
-    property MenuButtonDropdownMenu: TPopupMenu read FMenuButtonDropdownMenu write SetMenuButtonDropdownMenu;
-
-    { Menu Button style }
-    property MenuButtonStyle: TLazRibbonMenuButtonStyle read FMenuButtonStyle write SetMenuButtonStyle default mbsCaption;
-
-    { Show Menu Button flag }
-    property ShowMenuButton: Boolean read FShowMenuButton write SetShowMenuButton default False;
-
-    { Event called on Menu Button clik }
-    property OnMenuButtonClick: TNotifyEvent
-      read FOnMenuButtonClick write FOnMenuButtonClick;
-
     { Events called before and after another tab is selected }
     property OnTabChanging: TLazRibbonTabChangingEvent
       read FOnTabChanging write FOnTabChanging;
@@ -1079,6 +1058,7 @@ begin
     Caption := TLazRibbonApplicationButton(Source).Caption;
     Visible := TLazRibbonApplicationButton(Source).Visible;
     Mode := TLazRibbonApplicationButton(Source).Mode;
+    Style := TLazRibbonApplicationButton(Source).Style;
     BackstageView := TLazRibbonApplicationButton(Source).BackstageView;
     Menu := TLazRibbonApplicationButton(Source).Menu;
     Glyph := TLazRibbonApplicationButton(Source).Glyph;
@@ -1128,6 +1108,14 @@ begin
     Result := abmEvent;
 end;
 
+function TLazRibbonApplicationButton.GetStyle: TLazRibbonMenuButtonStyle;
+begin
+  if FOwner <> nil then
+    Result := FOwner.FMenuButtonStyle
+  else
+    Result := mbsCaption;
+end;
+
 function TLazRibbonApplicationButton.GetMenu: TPopupMenu;
 begin
   if FOwner <> nil then
@@ -1168,6 +1156,12 @@ procedure TLazRibbonApplicationButton.SetMode(AValue: TLazRibbonApplicationButto
 begin
   if FOwner <> nil then
     FOwner.SetApplicationButtonMode(AValue);
+end;
+
+procedure TLazRibbonApplicationButton.SetStyle(AValue: TLazRibbonMenuButtonStyle);
+begin
+  if FOwner <> nil then
+    FOwner.SetMenuButtonStyle(AValue);
 end;
 
 procedure TLazRibbonApplicationButton.SetMenu(AValue: TPopupMenu);
@@ -6961,9 +6955,8 @@ begin
   if (FMenuButtonDropdownMenu is TLazRibbonPopupMenu) then
     TLazRibbonPopupMenu(FMenuButtonDropdownMenu).Appearance := Self.RibbonAppearance;
 
-  { Backwards compatibility: older projects used MenuButtonDropdownMenu as the
-    signal that the menu button should open a popup. Keep that behavior, but
-    expose the clearer ApplicationButtonMode/ApplicationMenu API for new code. }
+  { Assigning a menu switches the Application Button to popup mode unless the
+    application already selected another explicit mode. }
   if (FMenuButtonDropdownMenu <> nil) and (FApplicationButtonMode = abmEvent) then
     FApplicationButtonMode := abmPopupMenu
   else if (FMenuButtonDropdownMenu = nil) and (FApplicationButtonMode = abmPopupMenu) then
@@ -7071,7 +7064,7 @@ begin
 
     abmBackstage:
       begin
-        { The BackStage view hooks OnMenuButtonClick when attached.  Calling
+        { The BackStage view hooks ApplicationButton.OnClick when attached. Calling
           DoMenuButtonClick here preserves the previous integration and avoids
           a direct dependency on LazRibbon_Backstage in this unit. }
         DoMenuButtonClick;

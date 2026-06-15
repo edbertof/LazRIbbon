@@ -248,10 +248,10 @@ object Form1: TForm1
     TabIndex = 1
     Images = ImageList
     LargeImages = LargeImageList
-    MenuButtonCaption = 'Menu'
-    MenuButtonDropdownMenu = StyleMenu
-    ShowMenuButton = True
-    OnMenuButtonClick = LazToolbar1MenuButtonClick
+    ApplicationButton.Caption = 'Menu'
+    ApplicationButton.Menu = StyleMenu
+    ApplicationButton.Visible = True
+    ApplicationButton.OnClick = LazToolbar1MenuButtonClick
     Tabs = (
       'LazTab1'
       'LazTab2'

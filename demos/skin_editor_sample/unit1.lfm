@@ -101,8 +101,8 @@ object Form1: TForm1
     RibbonAppearance.Popup.SelectionShape = ssRectangle
     RibbonAppearance.Popup.Style = psGutter
     TabIndex = 0
-    MenuButtonCaption = 'Arquivo'
-    ShowMenuButton = True
+    ApplicationButton.Caption = 'Arquivo'
+    ApplicationButton.Visible = True
     Tabs = (
       'LazTab1'
     )

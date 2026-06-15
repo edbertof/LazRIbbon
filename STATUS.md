@@ -1,6 +1,8 @@
 # LazRibbon Status
 
-`1.2.13 - TLazRibbon Appearance alias removal` is the current stabilization build.
+`1.2.14 - ApplicationButton API consolidation` is the current stabilization build.
+
+The 1.2.14 build consolidates the Office Application Button API on `TLazRibbon.ApplicationButton.*`. New projects should use `ApplicationButton.Caption`, `ApplicationButton.Visible`, `ApplicationButton.Mode`, `ApplicationButton.Menu`, `ApplicationButton.Style` and `ApplicationButton.OnClick`; the published flattened Application/Menu Button aliases were removed as part of the pre-2.0 API cleanup.
 
 The 1.2.13 build removes the published `TLazRibbon.Appearance` legacy alias so the Ribbon exposes only the Office-like `RibbonAppearance` styling property in new projects. `TLazRibbonSkinManager.Appearance` remains unchanged because the skin manager owns the skin appearance model and still streams `Appearance.*`.
 

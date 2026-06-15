@@ -1,3 +1,11 @@
+## 1.2.14 - ApplicationButton API consolidation
+
+- Adds `TLazRibbon.ApplicationButton.Style` so the Application Button caption/dropdown style lives on the Office-like persistent subobject.
+- Removes the published flattened `TLazRibbon` Application/Menu Button aliases: `ApplicationButtonCaption`, `ApplicationButtonVisible`, `ApplicationButtonMode`, `ApplicationMenu`, `OnApplicationButtonClick`, `MenuButtonCaption`, `MenuButtonDropdownMenu`, `MenuButtonStyle`, `ShowMenuButton` and `OnMenuButtonClick`.
+- Migrates package demos, tools and design resources to stream and use `ApplicationButton.*`.
+- Updates the consistency audit to reject legacy Application/Menu Button streaming in `TLazRibbon` resources.
+- Updates runtime and design-time package versions to 1.2.14.
+
 ## 1.2.13 - TLazRibbon Appearance alias removal
 
 - Removes the published `TLazRibbon.Appearance` legacy alias from the runtime component API.

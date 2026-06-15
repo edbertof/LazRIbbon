@@ -40,7 +40,7 @@ Lazarus/Free Pascal component package for Office-like Ribbon interfaces, includi
 Use a title such as:
 
 ```text
-LazRibbon 1.2.13 - TLazRibbon Appearance alias removal
+LazRibbon 1.2.14 - ApplicationButton API consolidation
 ```
 
 ## Release notes format
