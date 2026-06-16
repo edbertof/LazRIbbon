@@ -279,7 +279,7 @@ object Form1: TForm1
     Font.Name = 'Segoe UI'
     LinkedToolbar = LazToolbar1
     ParentFont = False
-    ShowCloseButton = True
+    BackButtonVisible = True
     SkinManager = LazSkinManager1
     Style = lazOffice2007Silver
     UseToolbarAppearance = False

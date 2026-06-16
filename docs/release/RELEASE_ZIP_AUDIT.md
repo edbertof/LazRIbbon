@@ -1,3 +1,10 @@
+## 1.2.22 check
+
+- Package metadata updated to 1.2.22.
+- `TLazRibbonBackstageView` publishes `BackButtonVisible` as the single BackStage return-button visibility property.
+- Package `.lfm` resources use the canonical BackStage back-button property name.
+- The consistency audit rejects the legacy `ShowCloseButton` BackStage API name in package sources/resources.
+
 ## 1.2.21 check
 
 - Package metadata updated to 1.2.21.

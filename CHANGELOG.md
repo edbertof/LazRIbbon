@@ -1,3 +1,12 @@
+## 1.2.22 - BackStage BackButtonVisible API consolidation
+
+- Removes the duplicated published `TLazRibbonBackstageView.ShowCloseButton` API.
+- Keeps `TLazRibbonBackstageView.BackButtonVisible` as the single Office-like property for the BackStage return button.
+- Migrates package `.lfm` resources to the canonical BackStage back-button property name.
+- Updates the 2.0 public API audit and roadmap to mark the BackStage naming pass as complete.
+- Extends the consistency audit to reject the old `ShowCloseButton` BackStage API name in package sources/resources.
+- Updates runtime and design-time package versions to 1.2.22.
+
 ## 1.2.21 - Office-like Ribbon minimize API names
 
 - Renames the public `TLazRibbon` minimize button API to Office-like names: `ShowMinimizeRibbonButton`, `MinimizeRibbonHint` and `RestoreRibbonHint`.

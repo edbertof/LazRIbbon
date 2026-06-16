@@ -1,6 +1,8 @@
 # LazRibbon Status
 
-`1.2.21 - Office-like Ribbon minimize API names` is the current stabilization build.
+`1.2.22 - BackStage BackButtonVisible API consolidation` is the current stabilization build.
+
+The 1.2.22 build completes the BackStage back-button naming cleanup from the 2.0 audit. `TLazRibbonBackstageView.BackButtonVisible` is now the single published Office-like property for the BackStage return button, and the consistency audit rejects the older `ShowCloseButton` name in package sources and resources.
 
 The 1.2.21 build completes the first public API cleanup from the 2.0 audit. The Ribbon minimize button and hints now use the Office-like `ShowMinimizeRibbonButton`, `MinimizeRibbonHint` and `RestoreRibbonHint` names, and the consistency audit rejects the older collapse/expand names in package sources and resources.
 

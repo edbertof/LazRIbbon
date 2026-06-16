@@ -45,6 +45,7 @@ candidates:
 - `TLazRibbonPane.DialogLauncherStyle`
 - `TLazRibbonPane.OnDialogLauncherClick`
 - `TLazRibbonBackstageView.OverlayMode`
+- `TLazRibbonBackstageView.BackButtonVisible`
 - `TLazRibbonBackstageView.NavigationStyle`
 - `TLazRibbonBackstageView.PageButtonVisualMode`
 - `TLazRibbonSkinManager.General`
@@ -61,7 +62,6 @@ These names work today, but should be reviewed before the 2.0 API freeze.
 
 | Current API | Proposed 2.0 direction | Reason |
 | --- | --- | --- |
-| `TLazRibbonBackstageView.BackButtonVisible` and `ShowCloseButton` | Keep one canonical property, preferably `BackButtonVisible` | Both map to the same field. In Office-style BackStage, the visible element behaves as a back button rather than a close button. |
 | `TLazRibbonBackstageView.UseToolbarAppearance` and `UseSkinManager` | Consider replacing with `AppearanceSource`-only behavior | `AppearanceSource`, `LinkedToolbar`, and `SkinManager` already describe the same source decision more clearly. |
 | `TLazRibbonGalleryItem.ItemWidth`/`ItemHeight` and `IconWidth`/`IconHeight` | Keep `ItemWidth`/`ItemHeight` canonical unless icon drawing becomes independent | The current aliases point to the same fields, which is confusing in the Object Inspector. |
 | `TLazRibbonSkinGalleryItem.SelectedSkin` | Keep as built-in convenience, but document `SelectedSkinName` as canonical | External skins cannot be represented by the built-in enum. |
@@ -96,17 +96,21 @@ Before 2.0, every visible property should satisfy one of these conditions:
 - `TLazRibbon.ShowMinimizeRibbonButton`, `MinimizeRibbonHint` and
   `RestoreRibbonHint` are now the canonical Office-like names for the Ribbon
   minimize/restore control.
+- `TLazRibbonBackstageView.BackButtonVisible` is now the single published
+  Office-like property for the BackStage return button. The older
+  `ShowCloseButton` duplicate was removed from the package API and resources.
 
 ## Recommended Next API Pass
 
-The next code pass should start with the BackStage duplicate button naming:
+The next code pass should start with the gallery size aliases:
 
-1. Keep `BackButtonVisible` as the canonical property name.
-2. Remove or hide `ShowCloseButton` before 2.0, because it describes the older
-   implementation rather than the Office-style BackStage action.
+1. Decide whether `TLazRibbonGalleryItem.IconWidth` and `IconHeight` remain
+   visible aliases or become hidden compatibility properties.
+2. Keep `ItemWidth` and `ItemHeight` as the preferred Object Inspector names
+   unless icon drawing becomes a truly independent metric.
 3. Migrate package `.lfm` files if needed.
-4. Extend `tools/check_project_consistency.ps1` to reject old streamed names.
+4. Extend `tools/check_project_consistency.ps1` to reject legacy streamed names
+   once the final direction is chosen.
 
-This affects fewer demos than the Ribbon minimize naming pass, but it can still
-confuse developers in the Object Inspector because both properties currently map
-to the same field.
+This is another small Object Inspector cleanup, but it removes ambiguity for
+developers before the 2.0 API freeze.

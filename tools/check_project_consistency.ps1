@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
   [string]$SourceRoot = '',
-  [string]$ExpectedVersion = '1.2.21'
+  [string]$ExpectedVersion = '1.2.22'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -172,6 +172,10 @@ function Test-RibbonAppearanceStreaming {
         Add-Failure "Legacy TLazRibbon minimize-button streaming found in ${relative}:${lineNumber}; use ShowMinimizeRibbonButton, MinimizeRibbonHint or RestoreRibbonHint."
       }
 
+      if (($line -match '^\s*ShowCloseButton\s*=') -and ($currentType -eq 'TLazRibbonBackstageView')) {
+        Add-Failure "Legacy TLazRibbonBackstageView back-button streaming found in ${relative}:${lineNumber}; use BackButtonVisible."
+      }
+
       if (($line -match '^\s*(BackColor|NavigationColor|ActiveColor|HotColor|FrameColor|TextColor|MutedTextColor|RecentOddColor|RecentHoverColor|RecentSelectedColor|RecentSelectedFrameColor|RecentTitleColor)\s*=') -and ($currentType -eq 'TLazRibbonSkinManager')) {
         Add-Failure "Legacy TLazRibbonSkinManager flat palette streaming found in ${relative}:${lineNumber}; use General.*, Accent.* or RecentList.*."
       }
@@ -200,6 +204,44 @@ function Test-BackstageOverlayDefault {
   }
   if ($content -notmatch 'FOverlayMode\s*:=\s*bomCoverClientArea;') {
     Add-Failure 'TLazRibbonBackstageView constructor must initialize FOverlayMode to bomCoverClientArea.'
+  }
+}
+
+function Test-BackstageBackButtonOfficeApi {
+  $path = Join-Path $SourceRoot 'source/runtime/LazRibbon_Backstage.pas'
+  if (-not (Test-Path -LiteralPath $path)) {
+    Add-Failure 'Missing BackStage runtime unit.'
+    return
+  }
+
+  $content = Get-Content -LiteralPath $path -Raw
+  foreach ($required in @(
+    'property BackButtonVisible: Boolean read FBackButtonVisible write SetBackButtonVisible default True;',
+    'procedure TLazRibbonBackstageView.SetBackButtonVisible'
+  )) {
+    if ($content -notmatch [regex]::Escape($required)) {
+      Add-Failure "TLazRibbonBackstageView back-button API must include $required."
+    }
+  }
+
+  $legacyPattern = '\b(ShowCloseButton|FShowCloseButton|SetShowCloseButton)\b'
+  $scanRoots = @('source', 'tools', 'demos', 'packages') | ForEach-Object {
+    Join-Path $SourceRoot $_
+  }
+  foreach ($root in $scanRoots) {
+    if (-not (Test-Path -LiteralPath $root)) {
+      continue
+    }
+
+    Get-ChildItem -LiteralPath $root -Recurse -File |
+      Where-Object { $_.Extension -in @('.pas', '.lfm', '.lpk', '.lpr') } |
+      ForEach-Object {
+        $content = Get-Content -LiteralPath $_.FullName -Raw
+        if ($content -match $legacyPattern) {
+          $relative = Get-RelativePath -Path $_.FullName
+          Add-Failure "Legacy TLazRibbonBackstageView back-button API name found in ${relative}; use BackButtonVisible."
+        }
+      }
   }
 }
 
@@ -382,6 +424,7 @@ Test-DemoGraphicApplication
 Test-LocalEnvironmentArtifacts
 Test-RibbonAppearanceStreaming
 Test-BackstageOverlayDefault
+Test-BackstageBackButtonOfficeApi
 Test-RibbonMinimizedHeightAdjustment
 Test-RibbonMinimizeOfficeApi
 Test-SkinEditorPreviewMinimizeSync

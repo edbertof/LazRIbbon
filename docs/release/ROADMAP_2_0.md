@@ -38,7 +38,7 @@ The following gates must be complete before `2.0.0`:
 - Keep the Ribbon minimize button properties on the Office-like
   `ShowMinimizeRibbonButton`, `MinimizeRibbonHint` and `RestoreRibbonHint`
   names.
-- Consolidate BackStage back/close button naming.
+- Keep the BackStage return button on the Office-like `BackButtonVisible` name.
 - Decide whether gallery `IconWidth`/`IconHeight` should remain aliases or become
   hidden/real independent icon metrics.
 - Document `SelectedSkinName` as the canonical skin-gallery selection property

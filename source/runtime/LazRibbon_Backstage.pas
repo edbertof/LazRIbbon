@@ -319,7 +319,7 @@ type
     FSavedAlign: TAlign;
     FSavedAnchors: TAnchors;
     FSavedBounds: TRect;
-    FShowCloseButton: Boolean;
+    FBackButtonVisible: Boolean;
     FSkinManager: TLazRibbonSkinManager;
     FStyle: TLazRibbonStyle;
     FTitle: TCaption;
@@ -348,7 +348,7 @@ type
     procedure SetNavigationWidth(AValue: Integer);
     procedure SetOpenOnTabCaption(AValue: Boolean);
     procedure SetOverlayMode(AValue: TLazRibbonBackstageOverlayMode);
-    procedure SetShowCloseButton(AValue: Boolean);
+    procedure SetBackButtonVisible(AValue: Boolean);
     procedure SetSkinManager(AValue: TLazRibbonSkinManager);
     procedure SetStyle(AValue: TLazRibbonStyle);
     procedure SetTitle(const AValue: TCaption);
@@ -420,7 +420,7 @@ type
     property BackstageTabCaption: TCaption read FBackstageTabCaption write SetBackstageTabCaption;
     property BackButtonHint: String read FBackButtonHint write SetBackButtonHint;
     property BackButtonStyle: TLazRibbonBackstageBackButtonStyle read FBackButtonStyle write SetBackButtonStyle default bbsCircleChevron;
-    property BackButtonVisible: Boolean read FShowCloseButton write SetShowCloseButton default True;
+    property BackButtonVisible: Boolean read FBackButtonVisible write SetBackButtonVisible default True;
     property Buttons: TLazRibbonBackstageButtons read FButtons write SetButtons;
     property Align default alClient;
     property Anchors;
@@ -445,7 +445,6 @@ type
     property ParentFont;
     property ParentShowHint;
     property PopupMenu;
-    property ShowCloseButton: Boolean read FShowCloseButton write SetShowCloseButton default True;
     property ShowHint;
     property SkinManager: TLazRibbonSkinManager read FSkinManager write SetSkinManager;
     property Style: TLazRibbonStyle read FStyle write SetStyle default lazOffice2007Blue;
@@ -2159,7 +2158,7 @@ begin
   FSavedAlign := alNone;
   FSavedAnchors := [];
   FSavedBounds := Rect(0, 0, 0, 0);
-  FShowCloseButton := True;
+  FBackButtonVisible := True;
   FSkinManager := nil;
   FStyle := lazOffice2007Blue;
   FTitle := '';
@@ -2196,7 +2195,7 @@ begin
   { A BackStage opened from a Ribbon must always have an obvious way back.
     Without this, the view covers the tab contents and the user is trapped in
     the BackStage unless the application provides its own close command. }
-  FShowCloseButton := True;
+  FBackButtonVisible := True;
   LinkedToolbar := AToolbar;
   if FLinkedToolbar <> nil then
   begin
@@ -2557,7 +2556,7 @@ var
 begin
   { Do not apply HeaderHeight blindly. BackStage can have three distinct
     states: no header, compact return-button header, or full title header.
-    The previous implementation used 56 pixels whenever ShowCloseButton was
+    The previous implementation used 56 pixels whenever BackButtonVisible was
     True, leaving too much space between the return arrow and the first item. }
   TopInset := GetClientOverlayTopInset;
   if FTitle <> '' then
@@ -2567,7 +2566,7 @@ begin
     else
       Result := 56;
   end
-  else if FShowCloseButton then
+  else if FBackButtonVisible then
   begin
     Result := FCloseButtonAreaHeight;
     if Result < 32 then
@@ -2882,7 +2881,7 @@ end;
 
 function TLazRibbonBackstageView.IsCloseButtonAt(X, Y: Integer): Boolean;
 begin
-  Result := FShowCloseButton and PtInRect(GetCloseButtonRect, Point(X, Y));
+  Result := FBackButtonVisible and PtInRect(GetCloseButtonRect, Point(X, Y));
 end;
 
 function TLazRibbonBackstageView.GetOverlayTop: Integer;
@@ -3530,7 +3529,7 @@ begin
   Canvas.Pen.Color := FrameColor;
   Canvas.Line(FNavigationWidth - 1, 0, FNavigationWidth - 1, ClientHeight);
 
-  if FShowCloseButton then
+  if FBackButtonVisible then
   begin
     CloseR := GetCloseButtonRect;
     DrawBackButton(Canvas, CloseR, NavColor, FrameColor, TextColor,
@@ -3552,7 +3551,7 @@ begin
     else
       Canvas.Font.Color := TextColor;
     Canvas.Brush.Style := bsClear;
-    if FShowCloseButton then
+    if FBackButtonVisible then
       Canvas.TextOut(GetCloseButtonRect.Right + 10, 17, FTitle)
     else
       Canvas.TextOut(18, 17, FTitle);
@@ -4010,10 +4009,10 @@ begin
   end;
 end;
 
-procedure TLazRibbonBackstageView.SetShowCloseButton(AValue: Boolean);
+procedure TLazRibbonBackstageView.SetBackButtonVisible(AValue: Boolean);
 begin
-  if FShowCloseButton = AValue then Exit;
-  FShowCloseButton := AValue;
+  if FBackButtonVisible = AValue then Exit;
+  FBackButtonVisible := AValue;
   Invalidate;
 end;
 
