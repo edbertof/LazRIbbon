@@ -1,3 +1,11 @@
+## 1.2.18 - Skin Editor minimized preview height fix
+
+- Fixes the standalone `LazRibbonSkinEditor` live preview so the collapse/expand button changes the preview panel height.
+- Changes the Skin Editor `PreviewToolbar` to `Align = alTop`, preventing `pnlLivePreview` from stretching a minimized Ribbon back to the expanded preview height.
+- Hooks `PreviewToolbar.OnRibbonMinimizedChanged` so `pnlLivePreview` follows the minimized/restored Ribbon height immediately.
+- Updates the consistency audit to protect the Skin Editor preview minimize behavior.
+- Updates runtime and design-time package versions to 1.2.18.
+
 ## 1.2.17 - Ribbon minimize height fix
 
 - Fixes the collapse/expand button so `TLazRibbon.RibbonMinimized` reduces the Ribbon control height instead of only hiding panes.

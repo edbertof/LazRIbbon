@@ -225,6 +225,7 @@ type
     procedure RefreshValidationReport;
     procedure SetupPreviewToolbar;
     procedure SyncLivePreviewHeight;
+    procedure PreviewToolbarRibbonMinimizedChanged(Sender: TObject);
     procedure ApplyCurrentSkinToPreview;
     procedure RefreshSkinList;
     procedure RefreshBaseCombo;
@@ -1949,6 +1950,8 @@ begin
   PreviewToolbar.ApplicationButton.Mode := abmBackstage;
   PreviewToolbar.ApplicationButton.BackstageView := EditorBackstage;
   PreviewToolbar.BackstageView := EditorBackstage;
+  PreviewToolbar.Align := alTop;
+  PreviewToolbar.OnRibbonMinimizedChanged := @PreviewToolbarRibbonMinimizedChanged;
 
   if Assigned(EditorTabSkin) then EditorTabSkin.Caption := 'Página inicial';
   if Assigned(EditorTabPreview) then EditorTabPreview.Caption := 'Exibir';
@@ -2033,11 +2036,21 @@ begin
     Exit;
 
   RequiredHeight := PreviewToolbar.Height;
-  if RequiredHeight < SkinEditorLivePreviewMinHeight then
+  if (not PreviewToolbar.RibbonMinimized) and
+     (RequiredHeight < SkinEditorLivePreviewMinHeight) then
+  begin
     RequiredHeight := SkinEditorLivePreviewMinHeight;
+    if PreviewToolbar.Height <> RequiredHeight then
+      PreviewToolbar.Height := RequiredHeight;
+  end;
 
   if pnlLivePreview.Height <> RequiredHeight then
     pnlLivePreview.Height := RequiredHeight;
+end;
+
+procedure TfrmLazRibbonSkinEditor.PreviewToolbarRibbonMinimizedChanged(Sender: TObject);
+begin
+  SyncLivePreviewHeight;
 end;
 
 procedure TfrmLazRibbonSkinEditor.ApplyCurrentSkinToPreview;

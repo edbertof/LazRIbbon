@@ -143,7 +143,7 @@ object frmLazRibbonSkinEditor: TfrmLazRibbonSkinEditor
       RibbonAppearance.Popup.SelectionShape = ssRectangle
       RibbonAppearance.Popup.Style = psGutter
       TabIndex = 0
-      Align = alClient
+      Align = alTop
       Tabs = (
         'EditorTabSkin'
         'EditorTabPreview'

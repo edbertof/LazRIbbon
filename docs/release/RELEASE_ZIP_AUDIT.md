@@ -1,3 +1,10 @@
+## 1.2.18 check
+
+- Package metadata updated to 1.2.18.
+- The Skin Editor live preview toolbar streams and sets `Align = alTop`.
+- The Skin Editor live preview panel synchronizes after `OnRibbonMinimizedChanged`.
+- The consistency audit protects the Skin Editor preview minimize behavior.
+
 ## 1.2.17 check
 
 - Package metadata updated to 1.2.17.

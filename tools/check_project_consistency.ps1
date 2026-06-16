@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
   [string]$SourceRoot = '',
-  [string]$ExpectedVersion = '1.2.17'
+  [string]$ExpectedVersion = '1.2.18'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -215,6 +215,34 @@ function Test-RibbonMinimizedHeightAdjustment {
   }
 }
 
+function Test-SkinEditorPreviewMinimizeSync {
+  $pasPath = Join-Path $SourceRoot 'tools/LazRibbonSkinEditor/uSkinEditorMain.pas'
+  $lfmPath = Join-Path $SourceRoot 'tools/LazRibbonSkinEditor/uSkinEditorMain.lfm'
+  if (-not (Test-Path -LiteralPath $pasPath)) {
+    Add-Failure 'Missing Skin Editor main unit.'
+    return
+  }
+  if (-not (Test-Path -LiteralPath $lfmPath)) {
+    Add-Failure 'Missing Skin Editor form resource.'
+    return
+  }
+
+  $pas = Get-Content -LiteralPath $pasPath -Raw
+  $lfm = Get-Content -LiteralPath $lfmPath -Raw
+  if ($pas -notmatch 'PreviewToolbar\.Align\s*:=\s*alTop;') {
+    Add-Failure 'Skin Editor PreviewToolbar must use alTop so minimized height is not stretched by pnlLivePreview.'
+  }
+  if ($pas -notmatch 'PreviewToolbar\.OnRibbonMinimizedChanged\s*:=\s*@PreviewToolbarRibbonMinimizedChanged;') {
+    Add-Failure 'Skin Editor must sync pnlLivePreview when PreviewToolbar is minimized/restored.'
+  }
+  if ($pas -notmatch 'not\s+PreviewToolbar\.RibbonMinimized') {
+    Add-Failure 'Skin Editor live preview height sync must not enforce the expanded minimum while Ribbon is minimized.'
+  }
+  if ($lfm -notmatch 'object\s+PreviewToolbar:\s+TLazRibbon[\s\S]*?Align\s*=\s*alTop') {
+    Add-Failure 'Skin Editor PreviewToolbar must stream Align = alTop.'
+  }
+}
+
 if ([string]::IsNullOrWhiteSpace($SourceRoot)) {
   $scriptPath = if (-not [string]::IsNullOrWhiteSpace($PSCommandPath)) {
     $PSCommandPath
@@ -242,6 +270,7 @@ Test-LocalEnvironmentArtifacts
 Test-RibbonAppearanceStreaming
 Test-BackstageOverlayDefault
 Test-RibbonMinimizedHeightAdjustment
+Test-SkinEditorPreviewMinimizeSync
 Test-ForbiddenFiles
 
 if ($failures.Count -eq 0) {

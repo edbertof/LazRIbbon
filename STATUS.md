@@ -1,6 +1,8 @@
 # LazRibbon Status
 
-`1.2.17 - Ribbon minimize height fix` is the current stabilization build.
+`1.2.18 - Skin Editor minimized preview height fix` is the current stabilization build.
+
+The 1.2.18 build completes the Ribbon minimize fix inside the standalone Skin Editor. The live preview toolbar now uses `Align = alTop` and synchronizes `pnlLivePreview` when `RibbonMinimized` changes, so the preview panel no longer keeps the expanded empty area after panes are hidden.
 
 The 1.2.17 build fixes the right-side collapse/expand button so `RibbonMinimized` changes the actual `TLazRibbon` height. The minimized state now occupies only the tab strip/QAT area, while expanding restores the prior taller preview height when one was in use.
 

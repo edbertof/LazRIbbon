@@ -40,7 +40,7 @@ Lazarus/Free Pascal component package for Office-like Ribbon interfaces, includi
 Use a title such as:
 
 ```text
-LazRibbon 1.2.17 - Ribbon minimize height fix
+LazRibbon 1.2.18 - Skin Editor minimized preview height fix
 ```
 
 ## Release notes format
