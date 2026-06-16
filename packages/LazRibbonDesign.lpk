@@ -15,7 +15,7 @@
     </CompilerOptions>
     <Description Value="LazRibbon Lazarus IDE design-time package"/>
     <License Value="Modified LGPL / same license terms preserved from LazToolbar where applicable"/>
-    <Version Major="1" Minor="2" Release="19"/>
+    <Version Major="1" Minor="2" Release="20"/>
     <Files Count="5">
       <Item1>
         <Filename Value="..\source\design\LazRibbon_Register.pas"/>

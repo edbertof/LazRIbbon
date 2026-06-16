@@ -1,3 +1,11 @@
+## 1.2.20 - LazRibbon 2.0 API audit and roadmap
+
+- Adds `docs/quality/PUBLIC_API_AUDIT_2_0.md` with the current public Object Inspector/API review for the 2.0 freeze.
+- Adds `docs/release/ROADMAP_2_0.md` with the release gates, planned work and definition of done for LazRibbon 2.0.
+- Identifies the first post-audit API cleanup candidates, including Office-like Ribbon minimize naming and BackStage back/close button consolidation.
+- Updates the consistency audit to require the 2.0 planning documents and key API decisions.
+- Updates runtime and design-time package versions to 1.2.20.
+
 ## 1.2.19 - Skin Editor Appearance mode detection
 
 - Improves `LazRibbonSkinEditor` new/open skin workflow so the editor detects whether the stored `Appearance` still matches the simple palette.

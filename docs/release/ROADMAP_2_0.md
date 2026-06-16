@@ -1,0 +1,73 @@
+# LazRibbon 2.0 Roadmap
+
+The 2.0 release should mark the first API-freeze line for the package. The
+current 1.2.x series remains the stabilization and pre-freeze cleanup line.
+
+## Release Goal
+
+Deliver a Lazarus 4.8 package that can be installed from a public repository and
+used to build Office-like applications with:
+
+- Ribbon tabs, panes and command items;
+- Office Application Button and BackStage;
+- Quick Access Toolbar;
+- Ribbon-aware form chrome;
+- skin manager and standalone Skin Editor;
+- design-time creation/editing tools;
+- examples and installation documentation.
+
+## Pre-2.0 Gates
+
+The following gates must be complete before `2.0.0`:
+
+- Public API names reviewed against `docs/quality/PUBLIC_API_AUDIT_2_0.md`.
+- Remaining confusing or duplicate Object Inspector names either renamed, hidden
+  or documented as compatibility-only.
+- `tools/check_project_consistency.ps1` rejects known pre-2.0 legacy streaming
+  names.
+- `README.md`, `INSTALL.md` and demos describe the final 2.0 names.
+- `LazRibbonRuntime.lpk` and `LazRibbonDesign.lpk` compile with Lazarus 4.8.
+- `tools/LazRibbonSkinEditor/LazRibbonSkinEditor.lpi` compiles and opens.
+- `demos/ribbon_form/project1.lpi` compiles and demonstrates the main workflow.
+- Release ZIP audit passes with no generated build artifacts.
+
+## Planned Work
+
+### 1. API Freeze Pass
+
+- Rename the Ribbon minimize button properties to Office-like names.
+- Consolidate BackStage back/close button naming.
+- Decide whether gallery `IconWidth`/`IconHeight` should remain aliases or become
+  hidden/real independent icon metrics.
+- Document `SelectedSkinName` as the canonical skin-gallery selection property
+  for external skins.
+
+### 2. Skin Editor Finish Pass
+
+- Keep the simple palette flow and detailed `Appearance` flow visually distinct.
+- Make validation messages more actionable before saving.
+- Keep the live Ribbon preview as the primary proof that pane captions, Dialog
+  Launchers and minimize/restore behavior work.
+- Ensure exported `.skin` files are self-contained when icons are selected.
+
+### 3. Documentation And Demos
+
+- Add a short "first Ribbon form" example to `README.md` or `INSTALL.md`.
+- Add a demo matrix that states what each demo validates.
+- Add screenshots for the main Ribbon, BackStage, Skin Gallery and Skin Editor.
+- Review docs for outdated names after the API freeze pass.
+
+### 4. Release Candidate
+
+- Publish `2.0.0-rc1` after the API freeze pass.
+- Run the Lazarus 4.8 validation checklist from a clean checkout.
+- Install the design-time package in Lazarus and verify component palette icons.
+- Compile and run the Skin Editor and the main Ribbon form demo.
+- Generate a source ZIP and verify its SHA256.
+
+## Definition Of Done For 2.0.0
+
+`2.0.0` is ready when the public Object Inspector surface is stable, the core
+demos run without manual fixes, the Skin Editor can create and save a usable
+skin, and a developer can install the package from GitHub using only the
+repository documentation.

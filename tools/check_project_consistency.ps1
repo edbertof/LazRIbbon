@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
   [string]$SourceRoot = '',
-  [string]$ExpectedVersion = '1.2.19'
+  [string]$ExpectedVersion = '1.2.20'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -271,6 +271,45 @@ function Test-SkinEditorAppearanceModeDetection {
   }
 }
 
+function Test-TwoPointZeroPlanningDocs {
+  $auditPath = Join-Path $SourceRoot 'docs/quality/PUBLIC_API_AUDIT_2_0.md'
+  $roadmapPath = Join-Path $SourceRoot 'docs/release/ROADMAP_2_0.md'
+
+  if (-not (Test-Path -LiteralPath $auditPath)) {
+    Add-Failure 'Missing public API audit for the 2.0 freeze.'
+  }
+  else {
+    $audit = Get-Content -LiteralPath $auditPath -Raw
+    foreach ($required in @(
+      'ShowMinimizeRibbonButton',
+      'BackButtonVisible',
+      'SelectedSkinName',
+      'Icon16Data'
+    )) {
+      if ($audit -notmatch [regex]::Escape($required)) {
+        Add-Failure "Public API audit must mention $required."
+      }
+    }
+  }
+
+  if (-not (Test-Path -LiteralPath $roadmapPath)) {
+    Add-Failure 'Missing LazRibbon 2.0 roadmap.'
+  }
+  else {
+    $roadmap = Get-Content -LiteralPath $roadmapPath -Raw
+    foreach ($required in @(
+      'API Freeze Pass',
+      'Skin Editor Finish Pass',
+      'Release Candidate',
+      'Definition Of Done'
+    )) {
+      if ($roadmap -notmatch [regex]::Escape($required)) {
+        Add-Failure "LazRibbon 2.0 roadmap must include $required."
+      }
+    }
+  }
+}
+
 if ([string]::IsNullOrWhiteSpace($SourceRoot)) {
   $scriptPath = if (-not [string]::IsNullOrWhiteSpace($PSCommandPath)) {
     $PSCommandPath
@@ -300,6 +339,7 @@ Test-BackstageOverlayDefault
 Test-RibbonMinimizedHeightAdjustment
 Test-SkinEditorPreviewMinimizeSync
 Test-SkinEditorAppearanceModeDetection
+Test-TwoPointZeroPlanningDocs
 Test-ForbiddenFiles
 
 if ($failures.Count -eq 0) {

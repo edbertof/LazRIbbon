@@ -1,3 +1,10 @@
+## 1.2.20 check
+
+- Package metadata updated to 1.2.20.
+- `docs/quality/PUBLIC_API_AUDIT_2_0.md` documents the public API freeze candidates and cleanup targets.
+- `docs/release/ROADMAP_2_0.md` defines pre-2.0 gates and the 2.0 definition of done.
+- The consistency audit protects the presence and key content of the 2.0 planning documents.
+
 ## 1.2.19 check
 
 - Package metadata updated to 1.2.19.

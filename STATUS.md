@@ -1,6 +1,8 @@
 # LazRibbon Status
 
-`1.2.19 - Skin Editor Appearance mode detection` is the current stabilization build.
+`1.2.20 - LazRibbon 2.0 API audit and roadmap` is the current stabilization build.
+
+The 1.2.20 build starts the formal 2.0 API-freeze pass. It adds `docs/quality/PUBLIC_API_AUDIT_2_0.md` and `docs/release/ROADMAP_2_0.md`, identifying stable API candidates and the next cleanup targets before `2.0.0`, including Office-like Ribbon minimize naming and BackStage back/close button consolidation.
 
 The 1.2.19 build improves the standalone Skin Editor workflow when creating a new skin from a base or opening an external skin file. The editor now compares the stored `Appearance` with the model derived from the simple palette, so palette-derived skins remain palette-driven while skins with real detailed Appearance changes continue to preserve those changes.
 
