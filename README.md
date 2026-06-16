@@ -50,9 +50,9 @@ tools/LazRibbonSkinEditor/
 
 ## Current version
 
-This distribution is **LazRibbon 1.2.15 SkinManager palette API consolidation**.
+This distribution is **LazRibbon 1.2.16 Office-style BackStage default**.
 
-The stable 1.0.0 line remains the conservative baseline for production use. The 1.1 line is a controlled stabilization line now validated with Lazarus 4.8, with the 1.1.70 runtime behavior preserved and the 1.1.72 packaging/design-time polish applied on top. The 1.2.15 build consolidates the SkinManager color API into `General`, `Accent`, `Backstage`, `RecentList` and `Ribbon` groups, while keeping `TLazRibbonSkinManager.Appearance` as the complete skin appearance model. It keeps the 1.2.14 Application Button API consolidation, the 1.2.13 `TLazRibbon.Appearance` alias removal, the 1.2.12 SkinManager LFM streaming fix, the 1.2.10 compact Skin Editor layout, the 1.2.9 `TLazRibbon.RibbonAppearance` design-time API, the 1.2.8 design-time refresh fix, the 1.2.7 buffer-height fix, the 1.2.6 pane caption text rendering fix, the 1.2.5 preview height and Dialog Launcher glyph fixes, the 1.2.4 pane caption paint order fix, the 1.2.3 Appearance difference markers and filtering, the 1.2.2 per-property restore from base, the 1.2.1 base comparison report, the 1.2.0 validation report, the 1.1.78 high-DPI palette icons, the 1.1.77 tab spacing controls, the 1.1.76 Dialog Launcher rename and the 1.1.75 Skin Editor Appearance inspector work.
+The stable 1.0.0 line remains the conservative baseline for production use. The 1.1 line is a controlled stabilization line now validated with Lazarus 4.8, with the 1.1.70 runtime behavior preserved and the 1.1.72 packaging/design-time polish applied on top. The 1.2.16 build makes the newer Office-style `bomCoverClientArea` BackStage overlay the default. It keeps the 1.2.15 SkinManager color API consolidation into `General`, `Accent`, `Backstage`, `RecentList` and `Ribbon` groups, while keeping `TLazRibbonSkinManager.Appearance` as the complete skin appearance model. It also keeps the 1.2.14 Application Button API consolidation, the 1.2.13 `TLazRibbon.Appearance` alias removal, the 1.2.12 SkinManager LFM streaming fix, the 1.2.10 compact Skin Editor layout, the 1.2.9 `TLazRibbon.RibbonAppearance` design-time API, the 1.2.8 design-time refresh fix, the 1.2.7 buffer-height fix, the 1.2.6 pane caption text rendering fix, the 1.2.5 preview height and Dialog Launcher glyph fixes, the 1.2.4 pane caption paint order fix, the 1.2.3 Appearance difference markers and filtering, the 1.2.2 per-property restore from base, the 1.2.1 base comparison report, the 1.2.0 validation report, the 1.1.78 high-DPI palette icons, the 1.1.77 tab spacing controls, the 1.1.76 Dialog Launcher rename and the 1.1.75 Skin Editor Appearance inspector work.
 
 Highlights in the current 1.2 line:
 
@@ -66,7 +66,7 @@ Highlights in the current 1.2 line:
 - Demos and tools stream `RibbonAppearance.*` for `TLazRibbon` controls and keep `Appearance.*` for `TLazRibbonSkinManager`, with a consistency audit covering both cases.
 - `TLazRibbon.ApplicationButton` is the single public API for the Office Application Button, including caption, visibility, behavior mode, popup menu, caption/dropdown style and click event.
 - `TLazRibbonSkinManager` exposes skin palette colors through grouped properties: `General`, `Accent`, `Backstage`, `RecentList` and `Ribbon`.
-- Office-style BackStage overlay modes, including full-client-area coverage.
+- Office-style BackStage overlay modes, with full-client-area coverage as the default.
 - Quick Access Toolbar support, including title-bar hosting in `TLazRibbonForm`.
 - ScreenTips, staged KeyTips, multi-character KeyTips and a design-time KeyTip validator.
 - Contextual tabs with optional contextual group headers.
@@ -106,10 +106,10 @@ When all ScreenTip fields are empty, LazRibbon uses the regular `Hint` exactly a
 
 `TLazRibbonBackstageView.OverlayMode` controls how the BackStage is positioned when opened from a linked `TLazRibbon`:
 
-- `bomCoverRibbonArea`: default compatibility mode; keeps Ribbon tab captions visible.
-- `bomCoverClientArea`: covers the full parent client area, matching newer Office BackStage behavior.
+- `bomCoverClientArea`: default mode; covers the full parent client area, matching newer Office BackStage behavior.
+- `bomCoverRibbonArea`: keeps Ribbon tab captions visible for applications that want the older tab-preserving layout.
 
-For the newer Office-style behavior, set:
+The default is already the newer Office-style behavior. Set it explicitly when you want the form to document that choice:
 
 ```pascal
 LazRibbonBackstageView1.OverlayMode := bomCoverClientArea;

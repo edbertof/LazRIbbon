@@ -1,3 +1,10 @@
+## 1.2.16 check
+
+- Package metadata updated to 1.2.16.
+- `TLazRibbonBackstageView.OverlayMode` now defaults to `bomCoverClientArea`.
+- `bomCoverRibbonArea` remains available only as an explicit older tab-preserving layout choice.
+- The consistency audit protects the Office-style BackStage default.
+
 ## 1.2.15 check
 
 - Package metadata updated to 1.2.15.

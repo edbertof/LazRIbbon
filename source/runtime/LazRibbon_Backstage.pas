@@ -29,9 +29,10 @@ type
   { Defines how BackStage is positioned when it is opened at runtime.
     bomNone keeps the component in its normal design-time position.
     bomCoverRibbonArea keeps the tab captions visible and covers the ribbon body
-    plus the client area, like Office BackStage.
-    bomCoverClientArea covers the full parent client area, matching newer
-    Office BackStage behavior. }
+    plus the client area for applications that want the older tab-preserving
+    layout.
+    bomCoverClientArea covers the full parent client area and is the default
+    newer Office-style BackStage behavior. }
   TLazRibbonBackstageOverlayMode = (bomNone, bomCoverRibbonArea,
     bomCoverClientArea);
 
@@ -440,7 +441,7 @@ type
     property PageButtonVisualMode: TLazRibbonBackstagePageButtonVisualMode read FPageButtonVisualMode write SetPageButtonVisualMode default bpvmSelectable;
     property NavigationWidth: Integer read FNavigationWidth write SetNavigationWidth default 180;
     property OpenOnTabCaption: Boolean read FOpenOnTabCaption write SetOpenOnTabCaption default True;
-    property OverlayMode: TLazRibbonBackstageOverlayMode read FOverlayMode write SetOverlayMode default bomCoverRibbonArea;
+    property OverlayMode: TLazRibbonBackstageOverlayMode read FOverlayMode write SetOverlayMode default bomCoverClientArea;
     property ParentFont;
     property ParentShowHint;
     property PopupMenu;
@@ -2153,7 +2154,7 @@ begin
   FOldToolbarTabChanging := nil;
   FOpenOnTabCaption := True;
   FOverlayActive := False;
-  FOverlayMode := bomCoverRibbonArea;
+  FOverlayMode := bomCoverClientArea;
   FPressedPageIndex := -1;
   FSavedAlign := alNone;
   FSavedAnchors := [];

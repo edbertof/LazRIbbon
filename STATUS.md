@@ -1,6 +1,8 @@
 # LazRibbon Status
 
-`1.2.15 - SkinManager palette API consolidation` is the current stabilization build.
+`1.2.16 - Office-style BackStage default` is the current stabilization build.
+
+The 1.2.16 build changes `TLazRibbonBackstageView.OverlayMode` to default to `bomCoverClientArea`, so a BackStage opened from a linked Ribbon follows the newer Office-style full client-area behavior by default. Applications that want the older tab-preserving layout can still set `OverlayMode := bomCoverRibbonArea` explicitly.
 
 The 1.2.15 build consolidates the SkinManager color API into grouped palette objects. New projects should use `General.*`, `Accent.*`, `Backstage.*`, `RecentList.*` and `Ribbon.*` for palette colors, while `TLazRibbonSkinManager.Appearance` remains the complete skin appearance model. The published flat SkinManager palette aliases were removed as part of the pre-2.0 API cleanup.
 

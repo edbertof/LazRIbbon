@@ -1,3 +1,10 @@
+## 1.2.16 - Office-style BackStage default
+
+- Changes `TLazRibbonBackstageView.OverlayMode` default from `bomCoverRibbonArea` to `bomCoverClientArea`.
+- Keeps `bomCoverRibbonArea` available for applications that explicitly want the older tab-preserving BackStage layout.
+- Updates the project consistency audit to protect the new Office-style BackStage default.
+- Updates runtime and design-time package versions to 1.2.16.
+
 ## 1.2.15 - SkinManager palette API consolidation
 
 - Adds `TLazRibbonSkinManager.Accent` for the generic navigation/active/hot palette colors used by command, popup and highlight surfaces.

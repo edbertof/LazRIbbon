@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
   [string]$SourceRoot = '',
-  [string]$ExpectedVersion = '1.2.15'
+  [string]$ExpectedVersion = '1.2.16'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -183,6 +183,22 @@ function Test-RibbonAppearanceStreaming {
   }
 }
 
+function Test-BackstageOverlayDefault {
+  $path = Join-Path $SourceRoot 'source/runtime/LazRibbon_Backstage.pas'
+  if (-not (Test-Path -LiteralPath $path)) {
+    Add-Failure 'Missing BackStage runtime unit.'
+    return
+  }
+
+  $content = Get-Content -LiteralPath $path -Raw
+  if ($content -notmatch 'property\s+OverlayMode:\s+TLazRibbonBackstageOverlayMode\s+read\s+FOverlayMode\s+write\s+SetOverlayMode\s+default\s+bomCoverClientArea;') {
+    Add-Failure 'TLazRibbonBackstageView.OverlayMode must default to bomCoverClientArea.'
+  }
+  if ($content -notmatch 'FOverlayMode\s*:=\s*bomCoverClientArea;') {
+    Add-Failure 'TLazRibbonBackstageView constructor must initialize FOverlayMode to bomCoverClientArea.'
+  }
+}
+
 if ([string]::IsNullOrWhiteSpace($SourceRoot)) {
   $scriptPath = if (-not [string]::IsNullOrWhiteSpace($PSCommandPath)) {
     $PSCommandPath
@@ -208,6 +224,7 @@ Test-PackageVersion -RelativePath 'packages/LazRibbonDesign.lpk' -ExpectedVersio
 Test-DemoGraphicApplication
 Test-LocalEnvironmentArtifacts
 Test-RibbonAppearanceStreaming
+Test-BackstageOverlayDefault
 Test-ForbiddenFiles
 
 if ($failures.Count -eq 0) {
