@@ -15,7 +15,7 @@
     </CompilerOptions>
     <Description Value="LazRibbon runtime components - independent fork of LazToolbar"/>
     <License Value="Modified LGPL / same license terms preserved from LazToolbar where applicable"/>
-    <Version Major="1" Minor="2" Release="20"/>
+    <Version Major="1" Minor="2" Release="21"/>
     <Files Count="29">
       <Item1>
         <Filename Value="..\source\runtime\LazRibbon_Core.pas"/>

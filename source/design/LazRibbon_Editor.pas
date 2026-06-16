@@ -514,7 +514,7 @@ begin
     Ribbon.ApplicationButton.ScreenTipTitle := 'Arquivo';
     Ribbon.ApplicationButton.ScreenTipText := 'Abre comandos globais da aplicação, como abrir, salvar, imprimir e opções.';
     Ribbon.ShowKeyTips := True;
-    Ribbon.ShowCollapseButton := True;
+    Ribbon.ShowMinimizeRibbonButton := True;
     Ribbon.ShowHelpButton := True;
 
     Ribbon.QuickAccessToolBar.Visible := True;

@@ -40,7 +40,7 @@ Lazarus/Free Pascal component package for Office-like Ribbon interfaces, includi
 Use a title such as:
 
 ```text
-LazRibbon 1.2.20 - LazRibbon 2.0 API audit and roadmap
+LazRibbon 1.2.21 - Office-like Ribbon minimize API names
 ```
 
 ## Release notes format

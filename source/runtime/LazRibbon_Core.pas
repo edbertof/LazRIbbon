@@ -514,12 +514,12 @@ type
     FExpandedRibbonHeight: Integer;
     FOnRibbonMinimizedChanged: TNotifyEvent;
 
-    { Office-like collapse/expand button at the right side of the tab strip }
-    FShowCollapseButton: Boolean;
+    { Office-like minimize/restore button at the right side of the tab strip }
+    FShowMinimizeRibbonButton: Boolean;
     FCollapseButtonRect: TRect;
     FCollapseButtonState: TLazRibbonMenuButtonState;
-    FCollapseRibbonHint: String;
-    FExpandRibbonHint: String;
+    FMinimizeRibbonHint: String;
+    FRestoreRibbonHint: String;
 
     { Office-like help button at the right side of the tab strip }
     FShowHelpButton: Boolean;
@@ -755,9 +755,9 @@ type
     procedure SetApplicationButtonMode(AValue: TLazRibbonApplicationButtonMode);
     procedure SetQuickAccessToolBar(AValue: TLazRibbonQuickAccessToolBar);
     procedure SetRibbonMinimized(AValue: Boolean);
-    procedure SetShowCollapseButton(AValue: Boolean);
-    procedure SetCollapseRibbonHint(const AValue: String);
-    procedure SetExpandRibbonHint(const AValue: String);
+    procedure SetShowMinimizeRibbonButton(AValue: Boolean);
+    procedure SetMinimizeRibbonHint(const AValue: String);
+    procedure SetRestoreRibbonHint(const AValue: String);
     function CollapseButtonHitTest(X, Y: Integer): Boolean;
     procedure CollapseButtonMouseLeave;
     procedure CollapseButtonMouseMove({%H-}Shift: TShiftState; {%H-}X, {%H-}Y: Integer);
@@ -941,9 +941,9 @@ type
     { Collapses the Ribbon so only the tab strip and optional Quick Access
       Toolbar remain visible. This is the Office-like "Minimize Ribbon" state. }
     property RibbonMinimized: Boolean read FRibbonMinimized write SetRibbonMinimized default False;
-    property ShowCollapseButton: Boolean read FShowCollapseButton write SetShowCollapseButton default True;
-    property CollapseRibbonHint: String read FCollapseRibbonHint write SetCollapseRibbonHint;
-    property ExpandRibbonHint: String read FExpandRibbonHint write SetExpandRibbonHint;
+    property ShowMinimizeRibbonButton: Boolean read FShowMinimizeRibbonButton write SetShowMinimizeRibbonButton default True;
+    property MinimizeRibbonHint: String read FMinimizeRibbonHint write SetMinimizeRibbonHint;
+    property RestoreRibbonHint: String read FRestoreRibbonHint write SetRestoreRibbonHint;
     property ShowHelpButton: Boolean read FShowHelpButton write SetShowHelpButton default True;
     property ShowKeyTips: Boolean read FShowKeyTips write SetShowKeyTips default True;
     property ShowContextualGroupHeaders: Boolean read FShowContextualGroupHeaders write SetShowContextualGroupHeaders default True;
@@ -2486,9 +2486,9 @@ begin
     with TCMHintShow(Message).HintInfo^ do
     begin
       if FRibbonMinimized then
-        HintStr := FExpandRibbonHint
+        HintStr := FRestoreRibbonHint
       else
-        HintStr := FCollapseRibbonHint;
+        HintStr := FMinimizeRibbonHint;
       CursorRect := FCollapseButtonRect;
       ReshowTimeout := 40;
       HideTimeout := 3000;
@@ -2602,11 +2602,11 @@ begin
   FRibbonMinimized := False;
   FExpandedRibbonHeight := 0;
   FOnRibbonMinimizedChanged := nil;
-  FShowCollapseButton := True;
+  FShowMinimizeRibbonButton := True;
   FCollapseButtonState := mbtIdle;
   FCollapseButtonRect := Rect(-1, -1, -1, -1);
-  FCollapseRibbonHint := 'Minimizar a Faixa de Opções';
-  FExpandRibbonHint := 'Restaurar a Faixa de Opções';
+  FMinimizeRibbonHint := 'Minimizar a Faixa de Opções';
+  FRestoreRibbonHint := 'Restaurar a Faixa de Opções';
   FShowHelpButton := True;
   FHelpButtonState := mbtIdle;
   FHelpButtonRect := Rect(-1, -1, -1, -1);
@@ -3805,31 +3805,31 @@ begin
     FOnRibbonMinimizedChanged(Self);
 end;
 
-procedure TLazRibbon.SetShowCollapseButton(AValue: Boolean);
+procedure TLazRibbon.SetShowMinimizeRibbonButton(AValue: Boolean);
 begin
-  if FShowCollapseButton = AValue then Exit;
-  FShowCollapseButton := AValue;
+  if FShowMinimizeRibbonButton = AValue then Exit;
+  FShowMinimizeRibbonButton := AValue;
   FCollapseButtonState := mbtIdle;
   SetMetricsInvalid;
   SetBufferInvalid;
   Invalidate;
 end;
 
-procedure TLazRibbon.SetCollapseRibbonHint(const AValue: String);
+procedure TLazRibbon.SetMinimizeRibbonHint(const AValue: String);
 begin
-  if FCollapseRibbonHint = AValue then Exit;
-  FCollapseRibbonHint := AValue;
+  if FMinimizeRibbonHint = AValue then Exit;
+  FMinimizeRibbonHint := AValue;
 end;
 
-procedure TLazRibbon.SetExpandRibbonHint(const AValue: String);
+procedure TLazRibbon.SetRestoreRibbonHint(const AValue: String);
 begin
-  if FExpandRibbonHint = AValue then Exit;
-  FExpandRibbonHint := AValue;
+  if FRestoreRibbonHint = AValue then Exit;
+  FRestoreRibbonHint := AValue;
 end;
 
 function TLazRibbon.CollapseButtonHitTest(X, Y: Integer): Boolean;
 begin
-  Result := FShowCollapseButton and
+  Result := FShowMinimizeRibbonButton and
     (FCollapseButtonRect.Right > FCollapseButtonRect.Left) and
     (FCollapseButtonRect.Bottom > FCollapseButtonRect.Top) and
     PtInRect(FCollapseButtonRect, Point(X, Y));
@@ -6173,7 +6173,7 @@ procedure TLazRibbon.ValidateBuffer;
     CX, CY: Integer;
     P: array[0..2] of TPoint;
   begin
-    if (not FShowCollapseButton) or
+    if (not FShowMinimizeRibbonButton) or
        (FCollapseButtonRect.Right <= FCollapseButtonRect.Left) then
       Exit;
 
@@ -6561,7 +6561,7 @@ begin
   CollapseButtonSize := Max(18, TabAppearance.Tab.CalcCaptionHeight - 6);
   FCollapseButtonRect := Rect(-1, -1, -1, -1);
   FHelpButtonRect := Rect(-1, -1, -1, -1);
-  if FShowCollapseButton then
+  if FShowMinimizeRibbonButton then
     Inc(CollapseButtonReserve, CollapseButtonSize + 4);
   if FShowHelpButton then
     Inc(CollapseButtonReserve, CollapseButtonSize + 4);
@@ -6576,7 +6576,7 @@ begin
       FHelpButtonRect := Rect(RightButtonLeft, ContextHeaderHeight + 3, RightButtonLeft + CollapseButtonSize, ContextHeaderHeight + 3 + CollapseButtonSize);
       Inc(RightButtonLeft, CollapseButtonSize + 4);
     end;
-    if FShowCollapseButton then
+    if FShowMinimizeRibbonButton then
       FCollapseButtonRect := Rect(RightButtonLeft, ContextHeaderHeight + 3, RightButtonLeft + CollapseButtonSize, ContextHeaderHeight + 3 + CollapseButtonSize);
   end
   else
@@ -6587,7 +6587,7 @@ begin
       FHelpButtonRect := Rect(RightButtonRight - CollapseButtonSize, ContextHeaderHeight + 3, RightButtonRight, ContextHeaderHeight + 3 + CollapseButtonSize);
       Dec(RightButtonRight, CollapseButtonSize + 4);
     end;
-    if FShowCollapseButton then
+    if FShowMinimizeRibbonButton then
       FCollapseButtonRect := Rect(RightButtonRight - CollapseButtonSize, ContextHeaderHeight + 3, RightButtonRight, ContextHeaderHeight + 3 + CollapseButtonSize);
   end;
 

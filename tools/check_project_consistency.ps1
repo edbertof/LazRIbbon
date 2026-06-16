@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
   [string]$SourceRoot = '',
-  [string]$ExpectedVersion = '1.2.20'
+  [string]$ExpectedVersion = '1.2.21'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -168,6 +168,10 @@ function Test-RibbonAppearanceStreaming {
         Add-Failure "Legacy TLazRibbon Application/Menu Button streaming found in ${relative}:${lineNumber}; use ApplicationButton.*."
       }
 
+      if (($line -match '^\s*(ShowCollapseButton|CollapseRibbonHint|ExpandRibbonHint)\s*=') -and ($currentType -eq 'TLazRibbon')) {
+        Add-Failure "Legacy TLazRibbon minimize-button streaming found in ${relative}:${lineNumber}; use ShowMinimizeRibbonButton, MinimizeRibbonHint or RestoreRibbonHint."
+      }
+
       if (($line -match '^\s*(BackColor|NavigationColor|ActiveColor|HotColor|FrameColor|TextColor|MutedTextColor|RecentOddColor|RecentHoverColor|RecentSelectedColor|RecentSelectedFrameColor|RecentTitleColor)\s*=') -and ($currentType -eq 'TLazRibbonSkinManager')) {
         Add-Failure "Legacy TLazRibbonSkinManager flat palette streaming found in ${relative}:${lineNumber}; use General.*, Accent.* or RecentList.*."
       }
@@ -212,6 +216,48 @@ function Test-RibbonMinimizedHeightAdjustment {
   }
   if ($content -notmatch 'if\s+\(TargetHeight\s+>\s+0\)\s+and\s+\(Height\s+<>\s+TargetHeight\)\s+then\s+Height\s*:=\s*TargetHeight;') {
     Add-Failure 'TLazRibbon.SetRibbonMinimized must resize the control to the minimized/expanded height.'
+  }
+}
+
+function Test-RibbonMinimizeOfficeApi {
+  $corePath = Join-Path $SourceRoot 'source/runtime/LazRibbon_Core.pas'
+  if (-not (Test-Path -LiteralPath $corePath)) {
+    Add-Failure 'Missing Ribbon runtime unit.'
+    return
+  }
+
+  $core = Get-Content -LiteralPath $corePath -Raw
+  foreach ($required in @(
+    'property ShowMinimizeRibbonButton',
+    'property MinimizeRibbonHint',
+    'property RestoreRibbonHint',
+    'SetShowMinimizeRibbonButton',
+    'SetMinimizeRibbonHint',
+    'SetRestoreRibbonHint'
+  )) {
+    if ($core -notmatch [regex]::Escape($required)) {
+      Add-Failure "TLazRibbon minimize API must include $required."
+    }
+  }
+
+  $legacyPattern = '\b(ShowCollapseButton|CollapseRibbonHint|ExpandRibbonHint|FShowCollapseButton|FCollapseRibbonHint|FExpandRibbonHint|SetShowCollapseButton|SetCollapseRibbonHint|SetExpandRibbonHint)\b'
+  $scanRoots = @('source', 'tools', 'demos', 'packages') | ForEach-Object {
+    Join-Path $SourceRoot $_
+  }
+  foreach ($root in $scanRoots) {
+    if (-not (Test-Path -LiteralPath $root)) {
+      continue
+    }
+
+    Get-ChildItem -LiteralPath $root -Recurse -File |
+      Where-Object { $_.Extension -in @('.pas', '.lfm', '.lpk', '.lpr') } |
+      ForEach-Object {
+      $content = Get-Content -LiteralPath $_.FullName -Raw
+      if ($content -match $legacyPattern) {
+        $relative = Get-RelativePath -Path $_.FullName
+        Add-Failure "Legacy TLazRibbon minimize API name found in ${relative}; use Office-like minimize/restore names."
+      }
+    }
   }
 }
 
@@ -337,6 +383,7 @@ Test-LocalEnvironmentArtifacts
 Test-RibbonAppearanceStreaming
 Test-BackstageOverlayDefault
 Test-RibbonMinimizedHeightAdjustment
+Test-RibbonMinimizeOfficeApi
 Test-SkinEditorPreviewMinimizeSync
 Test-SkinEditorAppearanceModeDetection
 Test-TwoPointZeroPlanningDocs

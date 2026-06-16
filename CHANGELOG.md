@@ -1,3 +1,12 @@
+## 1.2.21 - Office-like Ribbon minimize API names
+
+- Renames the public `TLazRibbon` minimize button API to Office-like names: `ShowMinimizeRibbonButton`, `MinimizeRibbonHint` and `RestoreRibbonHint`.
+- Migrates package demos and the standalone Skin Editor `.lfm` resources to the new streamed property names.
+- Updates the design-time quick creation helper to use `ShowMinimizeRibbonButton`.
+- Updates the 2.0 public API audit and roadmap to mark the Ribbon minimize naming pass as complete.
+- Extends the consistency audit to reject the old `ShowCollapseButton`, `CollapseRibbonHint` and `ExpandRibbonHint` names in package sources/resources.
+- Updates runtime and design-time package versions to 1.2.21.
+
 ## 1.2.20 - LazRibbon 2.0 API audit and roadmap
 
 - Adds `docs/quality/PUBLIC_API_AUDIT_2_0.md` with the current public Object Inspector/API review for the 2.0 freeze.

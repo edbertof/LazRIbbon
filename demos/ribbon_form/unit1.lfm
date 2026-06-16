@@ -132,8 +132,8 @@ object Form1: TForm1
     QuickAccessToolBar.MinimizeRibbonCaption = 'Minimizar a Faixa de Opções'
     QuickAccessToolBar.RestoreRibbonCaption = 'Restaurar a Faixa de Opções'
     QuickAccessToolBar.ResetToDefaultsCaption = 'Restaurar Barra de Acesso Rápido'
-    CollapseRibbonHint = 'Minimizar a Faixa de Opções'
-    ExpandRibbonHint = 'Restaurar a Faixa de Opções'
+    MinimizeRibbonHint = 'Minimizar a Faixa de Opções'
+    RestoreRibbonHint = 'Restaurar a Faixa de Opções'
     HelpButtonHint = 'Ajuda'
     OnHelpButtonClick = LazRibbon1HelpButtonClick
     Color = 15850175

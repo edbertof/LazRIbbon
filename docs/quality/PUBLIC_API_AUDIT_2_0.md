@@ -30,6 +30,9 @@ candidates:
 - `TLazRibbon.AppearanceSource`
 - `TLazRibbon.SkinManager`
 - `TLazRibbon.RibbonMinimized`
+- `TLazRibbon.ShowMinimizeRibbonButton`
+- `TLazRibbon.MinimizeRibbonHint`
+- `TLazRibbon.RestoreRibbonHint`
 - `TLazRibbon.ShowKeyTips`
 - `TLazRibbon.ShowContextualGroupHeaders`
 - `TLazRibbon.TabCaptionHorizontalPadding`
@@ -58,9 +61,6 @@ These names work today, but should be reviewed before the 2.0 API freeze.
 
 | Current API | Proposed 2.0 direction | Reason |
 | --- | --- | --- |
-| `TLazRibbon.ShowCollapseButton` | Prefer `ShowMinimizeRibbonButton` | Office UI calls this command "Minimize the Ribbon"; "collapse" describes implementation, not the user-facing action. |
-| `TLazRibbon.CollapseRibbonHint` | Prefer `MinimizeRibbonHint` | Aligns with `RibbonMinimized` and the Office command name. |
-| `TLazRibbon.ExpandRibbonHint` | Prefer `RestoreRibbonHint` | "Restore Ribbon" pairs better with "Minimize Ribbon" and avoids the vague "expand". |
 | `TLazRibbonBackstageView.BackButtonVisible` and `ShowCloseButton` | Keep one canonical property, preferably `BackButtonVisible` | Both map to the same field. In Office-style BackStage, the visible element behaves as a back button rather than a close button. |
 | `TLazRibbonBackstageView.UseToolbarAppearance` and `UseSkinManager` | Consider replacing with `AppearanceSource`-only behavior | `AppearanceSource`, `LinkedToolbar`, and `SkinManager` already describe the same source decision more clearly. |
 | `TLazRibbonGalleryItem.ItemWidth`/`ItemHeight` and `IconWidth`/`IconHeight` | Keep `ItemWidth`/`ItemHeight` canonical unless icon drawing becomes independent | The current aliases point to the same fields, which is confusing in the Object Inspector. |
@@ -91,16 +91,22 @@ Before 2.0, every visible property should satisfy one of these conditions:
 - It is intentionally hidden by the design-time package when a narrower
   component needs a simpler surface.
 
+## Completed API Cleanup
+
+- `TLazRibbon.ShowMinimizeRibbonButton`, `MinimizeRibbonHint` and
+  `RestoreRibbonHint` are now the canonical Office-like names for the Ribbon
+  minimize/restore control.
+
 ## Recommended Next API Pass
 
-The next code pass should start with the low-risk Ribbon minimize naming cleanup:
+The next code pass should start with the BackStage duplicate button naming:
 
-1. Add Office-like property names for the minimize button and hints.
-2. Migrate package `.lfm` files to the new names.
-3. Remove or hide the old names before 2.0, because the package is still
-   pre-adoption in this project.
-4. Extend `tools/check_project_consistency.ps1` to reject the old streamed names.
+1. Keep `BackButtonVisible` as the canonical property name.
+2. Remove or hide `ShowCloseButton` before 2.0, because it describes the older
+   implementation rather than the Office-style BackStage action.
+3. Migrate package `.lfm` files if needed.
+4. Extend `tools/check_project_consistency.ps1` to reject old streamed names.
 
-The BackStage duplicate `BackButtonVisible`/`ShowCloseButton` should be the
-second pass, because it affects fewer demos but can confuse developers in the
-Object Inspector.
+This affects fewer demos than the Ribbon minimize naming pass, but it can still
+confuse developers in the Object Inspector because both properties currently map
+to the same field.

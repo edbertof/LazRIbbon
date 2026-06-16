@@ -35,7 +35,9 @@ The following gates must be complete before `2.0.0`:
 
 ### 1. API Freeze Pass
 
-- Rename the Ribbon minimize button properties to Office-like names.
+- Keep the Ribbon minimize button properties on the Office-like
+  `ShowMinimizeRibbonButton`, `MinimizeRibbonHint` and `RestoreRibbonHint`
+  names.
 - Consolidate BackStage back/close button naming.
 - Decide whether gallery `IconWidth`/`IconHeight` should remain aliases or become
   hidden/real independent icon metrics.

@@ -1,3 +1,10 @@
+## 1.2.21 check
+
+- Package metadata updated to 1.2.21.
+- `TLazRibbon` publishes `ShowMinimizeRibbonButton`, `MinimizeRibbonHint` and `RestoreRibbonHint`.
+- Package `.lfm` resources use the new Ribbon minimize/restore property names.
+- The consistency audit rejects legacy `ShowCollapseButton`, `CollapseRibbonHint` and `ExpandRibbonHint` names in package sources/resources.
+
 ## 1.2.20 check
 
 - Package metadata updated to 1.2.20.

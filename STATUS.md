@@ -1,6 +1,8 @@
 # LazRibbon Status
 
-`1.2.20 - LazRibbon 2.0 API audit and roadmap` is the current stabilization build.
+`1.2.21 - Office-like Ribbon minimize API names` is the current stabilization build.
+
+The 1.2.21 build completes the first public API cleanup from the 2.0 audit. The Ribbon minimize button and hints now use the Office-like `ShowMinimizeRibbonButton`, `MinimizeRibbonHint` and `RestoreRibbonHint` names, and the consistency audit rejects the older collapse/expand names in package sources and resources.
 
 The 1.2.20 build starts the formal 2.0 API-freeze pass. It adds `docs/quality/PUBLIC_API_AUDIT_2_0.md` and `docs/release/ROADMAP_2_0.md`, identifying stable API candidates and the next cleanup targets before `2.0.0`, including Office-like Ribbon minimize naming and BackStage back/close button consolidation.
 
