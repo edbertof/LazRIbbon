@@ -1,3 +1,11 @@
+## 1.2.17 - Ribbon minimize height fix
+
+- Fixes the collapse/expand button so `TLazRibbon.RibbonMinimized` reduces the Ribbon control height instead of only hiding panes.
+- Restores the previous expanded height when the Ribbon is expanded again, preserving taller hosted previews such as the Skin Editor preview.
+- Normalizes minimized height after `.lfm` loading when a Ribbon is persisted with `RibbonMinimized = True`.
+- Updates the consistency audit to protect the minimize-height behavior.
+- Updates runtime and design-time package versions to 1.2.17.
+
 ## 1.2.16 - Office-style BackStage default
 
 - Changes `TLazRibbonBackstageView.OverlayMode` default from `bomCoverRibbonArea` to `bomCoverClientArea`.

@@ -511,6 +511,7 @@ type
     { Ribbon collapse/minimize state. When True only the tab strip and optional
       Quick Access Toolbar rows remain visible; pane contents are hidden. }
     FRibbonMinimized: Boolean;
+    FExpandedRibbonHeight: Integer;
     FOnRibbonMinimizedChanged: TNotifyEvent;
 
     { Office-like collapse/expand button at the right side of the tab strip }
@@ -2599,6 +2600,7 @@ begin
   FBackstageView := nil;
   FApplicationButtonMode := abmEvent;
   FRibbonMinimized := False;
+  FExpandedRibbonHeight := 0;
   FOnRibbonMinimizedChanged := nil;
   FShowCollapseButton := True;
   FCollapseButtonState := mbtIdle;
@@ -2886,6 +2888,8 @@ const
   SM_REMOTESESSION = $1000;
   // is defined only after Lazarus r57304
 {$ENDIF}
+var
+  TargetHeight: Integer;
 begin
   inherited;
 
@@ -2905,6 +2909,15 @@ begin
     FQuickAccessToolBar.CaptureDefaultItems;
 
   InternalEndUpdate;
+
+  if FRibbonMinimized then
+  begin
+    TargetHeight := CalcToolbarHeight;
+    if Height > TargetHeight then
+      FExpandedRibbonHeight := Height;
+    if (TargetHeight > 0) and (Height <> TargetHeight) then
+      Height := TargetHeight;
+  end;
 
   //The process of internal update always refreshes metrics and buffer at the end
   //and draws component
@@ -3765,14 +3778,28 @@ begin
 end;
 
 procedure TLazRibbon.SetRibbonMinimized(AValue: Boolean);
+var
+  TargetHeight: Integer;
 begin
   if FRibbonMinimized = AValue then Exit;
+
+  if AValue and (Height > CalcToolbarHeight) then
+    FExpandedRibbonHeight := Height;
+
   FRibbonMinimized := AValue;
 
   { The BackStage remains controlled by its own close logic.  RibbonMinimized
     only affects the visibility/layout of the normal Ribbon pane area. }
+  TargetHeight := CalcToolbarHeight;
+  if (not FRibbonMinimized) and (FExpandedRibbonHeight > TargetHeight) then
+    TargetHeight := FExpandedRibbonHeight;
+  if not FRibbonMinimized then
+    FExpandedRibbonHeight := 0;
+
   SetMetricsInvalid;
   SetBufferInvalid;
+  if (TargetHeight > 0) and (Height <> TargetHeight) then
+    Height := TargetHeight;
   Invalidate;
   if Assigned(FOnRibbonMinimizedChanged) then
     FOnRibbonMinimizedChanged(Self);

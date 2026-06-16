@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
   [string]$SourceRoot = '',
-  [string]$ExpectedVersion = '1.2.16'
+  [string]$ExpectedVersion = '1.2.17'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -199,6 +199,22 @@ function Test-BackstageOverlayDefault {
   }
 }
 
+function Test-RibbonMinimizedHeightAdjustment {
+  $path = Join-Path $SourceRoot 'source/runtime/LazRibbon_Core.pas'
+  if (-not (Test-Path -LiteralPath $path)) {
+    Add-Failure 'Missing Ribbon runtime unit.'
+    return
+  }
+
+  $content = Get-Content -LiteralPath $path -Raw
+  if ($content -notmatch 'FExpandedRibbonHeight:\s+Integer;') {
+    Add-Failure 'TLazRibbon must remember expanded height while minimized.'
+  }
+  if ($content -notmatch 'if\s+\(TargetHeight\s+>\s+0\)\s+and\s+\(Height\s+<>\s+TargetHeight\)\s+then\s+Height\s*:=\s*TargetHeight;') {
+    Add-Failure 'TLazRibbon.SetRibbonMinimized must resize the control to the minimized/expanded height.'
+  }
+}
+
 if ([string]::IsNullOrWhiteSpace($SourceRoot)) {
   $scriptPath = if (-not [string]::IsNullOrWhiteSpace($PSCommandPath)) {
     $PSCommandPath
@@ -225,6 +241,7 @@ Test-DemoGraphicApplication
 Test-LocalEnvironmentArtifacts
 Test-RibbonAppearanceStreaming
 Test-BackstageOverlayDefault
+Test-RibbonMinimizedHeightAdjustment
 Test-ForbiddenFiles
 
 if ($failures.Count -eq 0) {

@@ -1,6 +1,8 @@
 # LazRibbon Status
 
-`1.2.16 - Office-style BackStage default` is the current stabilization build.
+`1.2.17 - Ribbon minimize height fix` is the current stabilization build.
+
+The 1.2.17 build fixes the right-side collapse/expand button so `RibbonMinimized` changes the actual `TLazRibbon` height. The minimized state now occupies only the tab strip/QAT area, while expanding restores the prior taller preview height when one was in use.
 
 The 1.2.16 build changes `TLazRibbonBackstageView.OverlayMode` to default to `bomCoverClientArea`, so a BackStage opened from a linked Ribbon follows the newer Office-style full client-area behavior by default. Applications that want the older tab-preserving layout can still set `OverlayMode := bomCoverRibbonArea` explicitly.
 

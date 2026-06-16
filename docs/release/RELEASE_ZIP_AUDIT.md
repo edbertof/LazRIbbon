@@ -1,3 +1,10 @@
+## 1.2.17 check
+
+- Package metadata updated to 1.2.17.
+- `TLazRibbon.RibbonMinimized` now resizes the control to the minimized tab/QAT height.
+- Expanding restores a previously taller Ribbon height when hosted previews need it.
+- The consistency audit protects the minimize-height behavior.
+
 ## 1.2.16 check
 
 - Package metadata updated to 1.2.16.
