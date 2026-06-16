@@ -1,3 +1,10 @@
+## 1.2.19 check
+
+- Package metadata updated to 1.2.19.
+- The Skin Editor detects whether `Appearance` still matches the simple palette.
+- New-from-base and open-file workflows refresh the full-Appearance edit state from the skin contents.
+- The consistency audit protects the Skin Editor Appearance mode detection.
+
 ## 1.2.18 check
 
 - Package metadata updated to 1.2.18.

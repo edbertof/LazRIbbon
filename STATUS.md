@@ -1,6 +1,8 @@
 # LazRibbon Status
 
-`1.2.18 - Skin Editor minimized preview height fix` is the current stabilization build.
+`1.2.19 - Skin Editor Appearance mode detection` is the current stabilization build.
+
+The 1.2.19 build improves the standalone Skin Editor workflow when creating a new skin from a base or opening an external skin file. The editor now compares the stored `Appearance` with the model derived from the simple palette, so palette-derived skins remain palette-driven while skins with real detailed Appearance changes continue to preserve those changes.
 
 The 1.2.18 build completes the Ribbon minimize fix inside the standalone Skin Editor. The live preview toolbar now uses `Align = alTop` and synchronizes `pnlLivePreview` when `RibbonMinimized` changes, so the preview panel no longer keeps the expanded empty area after panes are hidden.
 

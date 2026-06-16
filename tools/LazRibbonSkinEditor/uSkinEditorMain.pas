@@ -250,6 +250,8 @@ type
     function AppearancePropertyDisplay(ABinding: TLazRibbonAppearancePropertyBinding): String;
     function AppearancePropertyMatchesFilter(ASection: TLazRibbonSkinAppearanceSection;
       AObject: TPersistent; APropInfo: PPropInfo; const AFilter: String): Boolean;
+    function SkinAppearanceMatchesPalette(ASkin: TLazRibbonSkinDefinition): Boolean;
+    procedure RefreshFullAppearanceEditedFromCurrentSkin;
     procedure AddAppearanceSectionProperties(ASection: TLazRibbonSkinAppearanceSection);
     procedure EditAppearanceProperty(ABinding: TLazRibbonAppearancePropertyBinding);
     procedure ResetAppearancePropertyFromBase(ABinding: TLazRibbonAppearancePropertyBinding);
@@ -937,6 +939,81 @@ begin
     FormatAppearancePropertyValue(AObject, APropInfo));
 
   Result := Pos(FilterText, Haystack) > 0;
+end;
+
+function TfrmLazRibbonSkinEditor.SkinAppearanceMatchesPalette(
+  ASkin: TLazRibbonSkinDefinition): Boolean;
+const
+  Sections: array[0..4] of TLazRibbonSkinAppearanceSection = (
+    asecTab,
+    asecMenuButton,
+    asecPane,
+    asecElement,
+    asecPopup
+  );
+var
+  Probe: TLazRibbonSkinDefinition;
+  Obj, ProbeObj: TPersistent;
+  PropList: PPropList;
+  PropCount, I, S: Integer;
+  PropInfo, ProbePropInfo: PPropInfo;
+begin
+  Result := False;
+  if ASkin = nil then
+    Exit;
+
+  Probe := TLazRibbonSkinDefinition.Create;
+  try
+    Probe.Assign(ASkin);
+    Probe.ApplyPaletteToAppearance;
+
+    Result := True;
+    for S := Low(Sections) to High(Sections) do
+    begin
+      Obj := AppearanceSectionObjectForSkin(ASkin, Sections[S]);
+      ProbeObj := AppearanceSectionObjectForSkin(Probe, Sections[S]);
+      if (Obj = nil) or (ProbeObj = nil) then
+      begin
+        Result := False;
+        Exit;
+      end;
+
+      PropList := nil;
+      PropCount := GetPropList(Obj, PropList);
+      try
+        for I := 0 to PropCount - 1 do
+        begin
+          PropInfo := PropList^[I];
+          if PropInfo = nil then
+            Continue;
+
+          ProbePropInfo := GetPropInfo(ProbeObj, String(PropInfo^.Name));
+          if ProbePropInfo = nil then
+          begin
+            Result := False;
+            Exit;
+          end;
+
+          if FormatAppearancePropertyValue(Obj, PropInfo) <>
+             FormatAppearancePropertyValue(ProbeObj, ProbePropInfo) then
+          begin
+            Result := False;
+            Exit;
+          end;
+        end;
+      finally
+        if PropList <> nil then
+          FreeMem(PropList);
+      end;
+    end;
+  finally
+    Probe.Free;
+  end;
+end;
+
+procedure TfrmLazRibbonSkinEditor.RefreshFullAppearanceEditedFromCurrentSkin;
+begin
+  FFullAppearanceEdited := not SkinAppearanceMatchesPalette(FCurrentSkin);
 end;
 
 procedure TfrmLazRibbonSkinEditor.AddAppearanceSectionProperties(
@@ -2603,11 +2680,14 @@ begin
   FCurrentSkin.Author := '';
   FCurrentSkin.Description := 'Based on ' + BaseDisplayName + '.';
   FCurrentSkin.Notes := FCurrentSkin.Description;
-  FFullAppearanceEdited := True;
+  RefreshFullAppearanceEditedFromCurrentSkin;
   UpdateEditorFromSkin;
   lblBaseHint.Caption := 'Editando nova skin baseada em: ' + BaseDisplayName + '.';
   RefreshValidationReport;
-  lblStatus.Caption := 'Nova skin criada como copia completa de ' + BaseDisplayName + '. Palette e Appearance foram preservados.';
+  if FFullAppearanceEdited then
+    lblStatus.Caption := 'Nova skin criada como copia completa de ' + BaseDisplayName + '. O Appearance detalhado da base sera preservado ate uma sincronizacao explicita.'
+  else
+    lblStatus.Caption := 'Nova skin criada com a paleta simples controlando o Appearance.';
 end;
 
 procedure TfrmLazRibbonSkinEditor.btnOpenClick(Sender: TObject);
@@ -2615,7 +2695,7 @@ begin
   if OpenDialog.Execute then
   begin
     FCurrentSkin.LoadFromFile(OpenDialog.FileName);
-    FFullAppearanceEdited := True;
+    RefreshFullAppearanceEditedFromCurrentSkin;
     UpdateEditorFromSkin;
     lblBaseHint.Caption := 'Editando arquivo: ' + ExtractFileName(OpenDialog.FileName);
     RefreshValidationReport;

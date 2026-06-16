@@ -1,3 +1,11 @@
+## 1.2.19 - Skin Editor Appearance mode detection
+
+- Improves `LazRibbonSkinEditor` new/open skin workflow so the editor detects whether the stored `Appearance` still matches the simple palette.
+- Changes `Arquivo > Nova skin pela base` to avoid blindly marking every copied skin as manually edited; palette-derived skins remain in palette-driven mode.
+- Changes skin file opening to detect the same mode from file contents, preserving detailed `Appearance` only when it really differs from the palette-derived model.
+- Updates the consistency audit to protect the Skin Editor Appearance mode detection.
+- Updates runtime and design-time package versions to 1.2.19.
+
 ## 1.2.18 - Skin Editor minimized preview height fix
 
 - Fixes the standalone `LazRibbonSkinEditor` live preview so the collapse/expand button changes the preview panel height.

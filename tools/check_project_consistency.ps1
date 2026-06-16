@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
   [string]$SourceRoot = '',
-  [string]$ExpectedVersion = '1.2.18'
+  [string]$ExpectedVersion = '1.2.19'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -243,6 +243,34 @@ function Test-SkinEditorPreviewMinimizeSync {
   }
 }
 
+function Test-SkinEditorAppearanceModeDetection {
+  $pasPath = Join-Path $SourceRoot 'tools/LazRibbonSkinEditor/uSkinEditorMain.pas'
+  if (-not (Test-Path -LiteralPath $pasPath)) {
+    Add-Failure 'Missing Skin Editor main unit.'
+    return
+  }
+
+  $pas = Get-Content -LiteralPath $pasPath -Raw
+  if ($pas -notmatch 'function\s+TfrmLazRibbonSkinEditor\.SkinAppearanceMatchesPalette') {
+    Add-Failure 'Skin Editor must detect whether a skin Appearance still matches the simple palette.'
+  }
+  if ($pas -notmatch 'procedure\s+TfrmLazRibbonSkinEditor\.RefreshFullAppearanceEditedFromCurrentSkin') {
+    Add-Failure 'Skin Editor must centralize the full-Appearance edit state detection.'
+  }
+  if ($pas -match 'procedure\s+TfrmLazRibbonSkinEditor\.btnNewFromBaseClick[\s\S]*?FFullAppearanceEdited\s*:=\s*True;[\s\S]*?procedure\s+TfrmLazRibbonSkinEditor\.btnOpenClick') {
+    Add-Failure 'New-from-base must not blindly mark Appearance as manually edited.'
+  }
+  if ($pas -match 'procedure\s+TfrmLazRibbonSkinEditor\.btnOpenClick[\s\S]*?FFullAppearanceEdited\s*:=\s*True;[\s\S]*?procedure\s+TfrmLazRibbonSkinEditor\.btnRefreshValidationClick') {
+    Add-Failure 'Opening a skin must detect Appearance mode instead of blindly marking it manually edited.'
+  }
+  if ($pas -notmatch 'procedure\s+TfrmLazRibbonSkinEditor\.btnNewFromBaseClick[\s\S]*?RefreshFullAppearanceEditedFromCurrentSkin;') {
+    Add-Failure 'New-from-base must refresh the Appearance edit state from the copied skin.'
+  }
+  if ($pas -notmatch 'procedure\s+TfrmLazRibbonSkinEditor\.btnOpenClick[\s\S]*?RefreshFullAppearanceEditedFromCurrentSkin;') {
+    Add-Failure 'Opening a skin must refresh the Appearance edit state from file contents.'
+  }
+}
+
 if ([string]::IsNullOrWhiteSpace($SourceRoot)) {
   $scriptPath = if (-not [string]::IsNullOrWhiteSpace($PSCommandPath)) {
     $PSCommandPath
@@ -271,6 +299,7 @@ Test-RibbonAppearanceStreaming
 Test-BackstageOverlayDefault
 Test-RibbonMinimizedHeightAdjustment
 Test-SkinEditorPreviewMinimizeSync
+Test-SkinEditorAppearanceModeDetection
 Test-ForbiddenFiles
 
 if ($failures.Count -eq 0) {
