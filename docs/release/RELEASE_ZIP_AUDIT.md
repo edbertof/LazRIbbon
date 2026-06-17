@@ -1,3 +1,11 @@
+## 1.2.24 check
+
+- Package metadata updated to 1.2.24.
+- `TLazRibbonSkinGalleryItem` and `TLazRibbonSkinSelector` publish `SelectedSkinName` as the canonical skin selection property.
+- `SelectedSkin` remains available as a public built-in-skin convenience and legacy streaming reader.
+- Package `.lfm` resources use `SelectedSkinName` instead of the enum-only `SelectedSkin`.
+- The consistency audit rejects `SelectedSkin` streaming in package resources.
+
 ## 1.2.23 check
 
 - Package metadata updated to 1.2.23.

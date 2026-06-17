@@ -41,8 +41,10 @@ The following gates must be complete before `2.0.0`:
 - Keep the BackStage return button on the Office-like `BackButtonVisible` name.
 - Keep generic gallery cell metrics on `ItemWidth`/`ItemHeight` and skin-gallery
   icon metrics on `IconWidth`/`IconHeight`.
-- Document `SelectedSkinName` as the canonical skin-gallery selection property
-  for external skins.
+- Keep `SelectedSkinName` as the canonical skin selection property for visual
+  skin selector controls, including external skins.
+- Decide whether skin identity icon file-name properties should remain visible
+  compatibility fields or be hidden in favor of embedded icon data.
 
 ### 2. Skin Editor Finish Pass
 

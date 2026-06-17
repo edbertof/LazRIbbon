@@ -51,6 +51,7 @@ type
     procedure SetSkinManager(AValue: TLazRibbonSkinManager);
     function GetSelectedSkin: TLazRibbonBuiltInSkin;
     function GetSelectedSkinName: String;
+    procedure ReadLegacySelectedSkin(Reader: TReader);
   protected
     function SkinCount: Integer; virtual;
     function SkinNameAtIndex(AIndex: Integer): String; virtual;
@@ -67,13 +68,13 @@ type
     procedure DefineProperties(Filer: TFiler); override;
   public
     constructor Create(AOwner: TComponent); override;
+    property SelectedSkin: TLazRibbonBuiltInSkin read GetSelectedSkin write SetSelectedSkin default sbsOfficeBlue;
   published
     property SkinManager: TLazRibbonSkinManager read FSkinManager write SetSkinManager;
     property Columns: Integer read FColumns write SetColumns default 2;
     property IconWidth: Integer read FItemWidth write SetItemWidth default 96;
     property IconHeight: Integer read FItemHeight write SetItemHeight default 34;
     property ShowCaptions: Boolean read FShowCaptions write SetShowCaptions default True;
-    property SelectedSkin: TLazRibbonBuiltInSkin read GetSelectedSkin write SetSelectedSkin default sbsOfficeBlue;
     property SelectedSkinName: String read GetSelectedSkinName write SetSelectedSkinName;
 
     property Align;
@@ -144,6 +145,7 @@ begin
   inherited DefineProperties(Filer);
   Filer.DefineProperty('ItemWidth', ReadLegacyItemWidth, nil, False);
   Filer.DefineProperty('ItemHeight', ReadLegacyItemHeight, nil, False);
+  Filer.DefineProperty('SelectedSkin', ReadLegacySelectedSkin, nil, False);
 end;
 
 procedure TLazRibbonSkinSelector.ReadLegacyItemHeight(Reader: TReader);
@@ -154,6 +156,18 @@ end;
 procedure TLazRibbonSkinSelector.ReadLegacyItemWidth(Reader: TReader);
 begin
   SetItemWidth(Reader.ReadInteger);
+end;
+
+procedure TLazRibbonSkinSelector.ReadLegacySelectedSkin(Reader: TReader);
+var
+  SkinName: String;
+  BuiltIn: TLazRibbonBuiltInSkin;
+begin
+  SkinName := Reader.ReadIdent;
+  if (Length(SkinName) > 3) and SameText(Copy(SkinName, 1, 3), 'sbs') then
+    Delete(SkinName, 1, 3);
+  if LazRibbon_SkinDefinition.LazBuiltInSkinFromString(SkinName, BuiltIn) then
+    SetSelectedSkin(BuiltIn);
 end;
 
 function TLazRibbonSkinSelector.GetSelectedSkin: TLazRibbonBuiltInSkin;

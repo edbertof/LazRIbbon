@@ -1,6 +1,8 @@
 # LazRibbon Status
 
-`1.2.23 - Gallery size API consolidation` is the current stabilization build.
+`1.2.24 - Skin selection API consolidation` is the current stabilization build.
+
+The 1.2.24 build completes the skin selection naming cleanup from the 2.0 audit. `TLazRibbonSkinGalleryItem` and `TLazRibbonSkinSelector` now expose `SelectedSkinName` as the canonical Object Inspector property, while `SelectedSkin` remains as a public built-in-skin convenience and legacy `.lfm` reader.
 
 The 1.2.23 build completes the gallery size naming cleanup from the 2.0 audit. Generic `TLazRibbonGalleryItem` controls now expose `ItemWidth` and `ItemHeight` as the cell-size API, while `TLazRibbonSkinGalleryItem` exposes `IconWidth` and `IconHeight` for skin swatches and keeps legacy readers for old resources.
 

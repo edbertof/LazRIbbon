@@ -141,6 +141,7 @@ type
     procedure SetSelectedSkinName(const AValue: String);
     procedure SetSkinManager(AValue: TLazRibbonSkinManager);
     procedure SetShowHints(AValue: Boolean);
+    procedure ReadLegacySelectedSkin(Reader: TReader);
     procedure ReadObsoleteShowCaptions(Reader: TReader);
     procedure SetMaxVisibleItems(AValue: Integer);
     procedure SetVisibleStartIndex(AValue: Integer);
@@ -174,9 +175,9 @@ type
     procedure MouseUp(Button: TMouseButton; Shift: TShiftState; X, Y: Integer); override;
     procedure Notify(Item: TComponent; Operation: TOperation); override;
     function GetWidth: integer; override;
+    property SelectedSkin: TLazRibbonBuiltInSkin read GetSelectedSkin write SetSelectedSkin default sbsOfficeBlue;
   published
     property SkinManager: TLazRibbonSkinManager read FSkinManager write SetSkinManager;
-    property SelectedSkin: TLazRibbonBuiltInSkin read GetSelectedSkin write SetSelectedSkin default sbsOfficeBlue;
     property SelectedSkinName: String read GetSelectedSkinName write SetSelectedSkinName;
     property ShowHints: Boolean read FShowHints write SetShowHints default True;
     { IconWidth/IconHeight are the public design-time size controls for this
@@ -563,6 +564,7 @@ begin
   inherited DefineProperties(Filer);
   { Compatibility with older .lfm files. ShowCaptions was removed from the
     public design-time API because the Ribbon gallery must stay compact. }
+  Filer.DefineProperty('SelectedSkin', ReadLegacySelectedSkin, nil, False);
   Filer.DefineProperty('ShowCaptions', ReadObsoleteShowCaptions, nil, False);
 end;
 
@@ -1004,6 +1006,18 @@ begin
   else if FHoverSkinIndex >= 0 then
     Hint := SkinCaptionAtIndex(FHoverSkinIndex);
   ChangedVisuals;
+end;
+
+procedure TLazRibbonSkinGalleryItem.ReadLegacySelectedSkin(Reader: TReader);
+var
+  SkinName: String;
+  BuiltIn: TLazRibbonBuiltInSkin;
+begin
+  SkinName := Reader.ReadIdent;
+  if (Length(SkinName) > 3) and SameText(Copy(SkinName, 1, 3), 'sbs') then
+    Delete(SkinName, 1, 3);
+  if LazRibbon_SkinDefinition.LazBuiltInSkinFromString(SkinName, BuiltIn) then
+    SetSelectedSkin(BuiltIn);
 end;
 
 procedure TLazRibbonSkinGalleryItem.ReadObsoleteShowCaptions(Reader: TReader);

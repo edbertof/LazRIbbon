@@ -68,6 +68,8 @@ begin
     'Hint is generated dynamically from ShowHints and the skin under the mouse.', '');
   RegisterPropertyToSkip(TLazRibbonSkinGalleryItem, 'ShowCaptions',
     'ShowCaptions was removed. Use ShowHints to show skin names as tooltips.', '');
+  RegisterPropertyToSkip(TLazRibbonSkinGalleryItem, 'SelectedSkin',
+    'SelectedSkin is a built-in-skin compatibility shortcut. Use SelectedSkinName instead.', '');
   RegisterPropertyToSkip(TLazRibbonSkinGalleryItem, 'ItemWidth',
     'ItemWidth is internal for skin galleries. Use IconWidth instead.', '');
   RegisterPropertyToSkip(TLazRibbonSkinGalleryItem, 'ItemHeight',
@@ -89,6 +91,8 @@ begin
     'ItemHeight was removed. Use IconHeight instead.', '');
   RegisterPropertyEditor(TypeInfo(Integer), TLazRibbonSkinSelector, 'ItemWidth', nil);
   RegisterPropertyEditor(TypeInfo(Integer), TLazRibbonSkinSelector, 'ItemHeight', nil);
+  RegisterPropertyToSkip(TLazRibbonSkinSelector, 'SelectedSkin',
+    'SelectedSkin is a built-in-skin compatibility shortcut. Use SelectedSkinName instead.', '');
 
 end;
 

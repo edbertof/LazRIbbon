@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
   [string]$SourceRoot = '',
-  [string]$ExpectedVersion = '1.2.23'
+  [string]$ExpectedVersion = '1.2.24'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -178,6 +178,10 @@ function Test-RibbonAppearanceStreaming {
 
       if (($line -match '^\s*(ItemWidth|ItemHeight|ShowCaptions)\s*=') -and ($currentType -eq 'TLazRibbonSkinGalleryItem')) {
         Add-Failure "Legacy TLazRibbonSkinGalleryItem streaming found in ${relative}:${lineNumber}; use IconWidth, IconHeight and ShowHints."
+      }
+
+      if (($line -match '^\s*SelectedSkin\s*=') -and ($currentType -in @('TLazRibbonSkinGalleryItem', 'TLazRibbonSkinSelector'))) {
+        Add-Failure "Legacy skin selection streaming found in ${relative}:${lineNumber}; use SelectedSkinName."
       }
 
       if (($line -match '^\s*ShowCloseButton\s*=') -and ($currentType -eq 'TLazRibbonBackstageView')) {
@@ -365,6 +369,55 @@ function Test-GallerySizeOfficeApi {
   }
 }
 
+function Test-SkinSelectionNameApi {
+  $targets = @(
+    @{
+      Path = 'source/runtime/LazRibbon_RibbonExtItems.pas'
+      ClassName = 'TLazRibbonSkinGalleryItem'
+      EndPattern = '\{\s*TLazRibbonSkinGalleryItem\s*\}'
+    },
+    @{
+      Path = 'source/runtime/LazRibbon_SkinSelector.pas'
+      ClassName = 'TLazRibbonSkinSelector'
+      EndPattern = 'implementation'
+    }
+  )
+
+  foreach ($target in $targets) {
+    $path = Join-Path $SourceRoot $target.Path
+    if (-not (Test-Path -LiteralPath $path)) {
+      Add-Failure "Missing skin selection unit: $($target.Path)"
+      continue
+    }
+
+    $content = Get-Content -LiteralPath $path -Raw
+    $className = $target.ClassName
+    $match = [regex]::Match($content, "$className\s*=\s*class[\s\S]*?$($target.EndPattern)")
+    if (-not $match.Success) {
+      Add-Failure "Could not inspect $className declaration."
+      continue
+    }
+
+    $block = $match.Value
+    if ($block -notmatch 'property\s+SelectedSkinName:\s+String\s+read\s+GetSelectedSkinName\s+write\s+SetSelectedSkinName;') {
+      Add-Failure "$className must publish SelectedSkinName as the canonical skin selection API."
+    }
+
+    $publishedMatch = [regex]::Match($block, 'published[\s\S]*$')
+    if ($publishedMatch.Success -and ($publishedMatch.Value -match 'property\s+SelectedSkin\s*:')) {
+      Add-Failure "$className must not publish SelectedSkin; keep SelectedSkinName in the Object Inspector."
+    }
+
+    if ($content -notmatch [regex]::Escape("Filer.DefineProperty('SelectedSkin', ReadLegacySelectedSkin, nil, False);")) {
+      Add-Failure "$className must keep legacy SelectedSkin streaming support."
+    }
+    $readerPattern = 'procedure\s+' + [regex]::Escape($className) + '\.ReadLegacySelectedSkin'
+    if ($content -notmatch $readerPattern) {
+      Add-Failure "$className must implement ReadLegacySelectedSkin."
+    }
+  }
+}
+
 function Test-SkinEditorPreviewMinimizeSync {
   $pasPath = Join-Path $SourceRoot 'tools/LazRibbonSkinEditor/uSkinEditorMain.pas'
   $lfmPath = Join-Path $SourceRoot 'tools/LazRibbonSkinEditor/uSkinEditorMain.lfm'
@@ -490,6 +543,7 @@ Test-BackstageBackButtonOfficeApi
 Test-RibbonMinimizedHeightAdjustment
 Test-RibbonMinimizeOfficeApi
 Test-GallerySizeOfficeApi
+Test-SkinSelectionNameApi
 Test-SkinEditorPreviewMinimizeSync
 Test-SkinEditorAppearanceModeDetection
 Test-TwoPointZeroPlanningDocs

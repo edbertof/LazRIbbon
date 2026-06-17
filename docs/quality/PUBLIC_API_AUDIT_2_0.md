@@ -48,6 +48,8 @@ candidates:
 - `TLazRibbonGalleryItem.ItemHeight`
 - `TLazRibbonSkinGalleryItem.IconWidth`
 - `TLazRibbonSkinGalleryItem.IconHeight`
+- `TLazRibbonSkinGalleryItem.SelectedSkinName`
+- `TLazRibbonSkinSelector.SelectedSkinName`
 - `TLazRibbonBackstageView.OverlayMode`
 - `TLazRibbonBackstageView.BackButtonVisible`
 - `TLazRibbonBackstageView.NavigationStyle`
@@ -67,7 +69,6 @@ These names work today, but should be reviewed before the 2.0 API freeze.
 | Current API | Proposed 2.0 direction | Reason |
 | --- | --- | --- |
 | `TLazRibbonBackstageView.UseToolbarAppearance` and `UseSkinManager` | Consider replacing with `AppearanceSource`-only behavior | `AppearanceSource`, `LinkedToolbar`, and `SkinManager` already describe the same source decision more clearly. |
-| `TLazRibbonSkinGalleryItem.SelectedSkin` | Keep as built-in convenience, but document `SelectedSkinName` as canonical | External skins cannot be represented by the built-in enum. |
 | `TLazRibbonSkinDefinition.Icon16FileName`, `Icon24FileName`, `Icon32FileName` | Keep for compatibility, document `Icon16Data`, `Icon24Data`, `Icon32Data` as preferred | Embedded icon data is the practical distribution model for shared skin files. |
 
 ## Accepted Legacy Names
@@ -106,19 +107,23 @@ Before 2.0, every visible property should satisfy one of these conditions:
   gallery cells. `TLazRibbonSkinGalleryItem` publishes `IconWidth` and
   `IconHeight` for skin icons while hiding the inherited generic names at
   design time and keeping legacy streaming readers.
+- `TLazRibbonSkinGalleryItem.SelectedSkinName` and
+  `TLazRibbonSkinSelector.SelectedSkinName` are now the canonical Object
+  Inspector properties for skin selection. `SelectedSkin` remains available as a
+  public built-in-skin convenience and legacy `.lfm` reader.
 
 ## Recommended Next API Pass
 
-The next code pass should start with the skin-gallery selection names:
+The next code pass should start with skin identity icon fields:
 
-1. Document `SelectedSkinName` as the canonical value for external and built-in
-   skins.
-2. Keep `SelectedSkin` as a built-in convenience only, or hide it from the
-   Object Inspector before 2.0 if it causes confusion.
-3. Ensure demos use `SelectedSkinName` whenever the skin can come from an
-   external `.skin` file.
-4. Extend `tools/check_project_consistency.ps1` if the final decision hides or
-   de-emphasizes `SelectedSkin`.
+1. Document `Icon16Data`, `Icon24Data` and `Icon32Data` as the preferred
+   distribution fields for shared `.skin` files.
+2. Decide whether `Icon16FileName`, `Icon24FileName` and `Icon32FileName`
+   should remain visible compatibility properties or be hidden before 2.0.
+3. Ensure the Skin Editor UI leads users toward embedded icon data while still
+   allowing files to be chosen for import.
+4. Extend `tools/check_project_consistency.ps1` if old file-name fields are
+   hidden from the Object Inspector.
 
-This keeps the SkinGallery usable with external skins instead of implying that
-only the built-in enum can be selected.
+This keeps distributed skins self-contained and avoids implying that extra icon
+files must travel beside the `.skin` file.

@@ -1,3 +1,13 @@
+## 1.2.24 - Skin selection API consolidation
+
+- Keeps `SelectedSkinName` as the canonical Object Inspector property for `TLazRibbonSkinGalleryItem` and `TLazRibbonSkinSelector`.
+- Moves `SelectedSkin` out of the published design-time surface while keeping it as a public built-in-skin convenience property.
+- Adds legacy `SelectedSkin` streaming readers so old `.lfm` files can still be opened and saved with `SelectedSkinName`.
+- Updates the design-time registration to hide/de-emphasize `SelectedSkin` on skin selection controls.
+- Updates the 2.0 public API audit and roadmap to mark the skin selection naming pass as complete.
+- Extends the consistency audit to reject `SelectedSkin` streaming in package resources.
+- Updates runtime and design-time package versions to 1.2.24.
+
 ## 1.2.23 - Gallery size API consolidation
 
 - Keeps `TLazRibbonGalleryItem.ItemWidth` and `ItemHeight` as the canonical generic gallery cell-size properties.
