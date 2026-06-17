@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
   [string]$SourceRoot = '',
-  [string]$ExpectedVersion = '1.2.22'
+  [string]$ExpectedVersion = '1.2.23'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -172,6 +172,14 @@ function Test-RibbonAppearanceStreaming {
         Add-Failure "Legacy TLazRibbon minimize-button streaming found in ${relative}:${lineNumber}; use ShowMinimizeRibbonButton, MinimizeRibbonHint or RestoreRibbonHint."
       }
 
+      if (($line -match '^\s*(IconWidth|IconHeight)\s*=') -and ($currentType -eq 'TLazRibbonGalleryItem')) {
+        Add-Failure "Legacy TLazRibbonGalleryItem icon-size streaming found in ${relative}:${lineNumber}; use ItemWidth or ItemHeight for generic galleries."
+      }
+
+      if (($line -match '^\s*(ItemWidth|ItemHeight|ShowCaptions)\s*=') -and ($currentType -eq 'TLazRibbonSkinGalleryItem')) {
+        Add-Failure "Legacy TLazRibbonSkinGalleryItem streaming found in ${relative}:${lineNumber}; use IconWidth, IconHeight and ShowHints."
+      }
+
       if (($line -match '^\s*ShowCloseButton\s*=') -and ($currentType -eq 'TLazRibbonBackstageView')) {
         Add-Failure "Legacy TLazRibbonBackstageView back-button streaming found in ${relative}:${lineNumber}; use BackButtonVisible."
       }
@@ -303,6 +311,60 @@ function Test-RibbonMinimizeOfficeApi {
   }
 }
 
+function Test-GallerySizeOfficeApi {
+  $path = Join-Path $SourceRoot 'source/runtime/LazRibbon_RibbonExtItems.pas'
+  if (-not (Test-Path -LiteralPath $path)) {
+    Add-Failure 'Missing Ribbon extended items unit.'
+    return
+  }
+
+  $content = Get-Content -LiteralPath $path -Raw
+  $baseMatch = [regex]::Match($content, 'TLazRibbonGalleryItem\s*=\s*class[\s\S]*?\{\s*TLazRibbonSkinGalleryItem\s*\}')
+  if (-not $baseMatch.Success) {
+    Add-Failure 'Could not inspect TLazRibbonGalleryItem declaration.'
+  }
+  else {
+    $baseBlock = $baseMatch.Value
+    foreach ($required in @(
+      'property ItemWidth: Integer read FItemWidth write SetItemWidth default 22;',
+      'property ItemHeight: Integer read FItemHeight write SetItemHeight default 22;'
+    )) {
+      if ($baseBlock -notmatch [regex]::Escape($required)) {
+        Add-Failure "TLazRibbonGalleryItem must publish $required"
+      }
+    }
+    if ($baseBlock -match 'property\s+Icon(Width|Height)\b') {
+      Add-Failure 'TLazRibbonGalleryItem must not publish IconWidth/IconHeight aliases; use ItemWidth/ItemHeight.'
+    }
+  }
+
+  $skinMatch = [regex]::Match($content, 'TLazRibbonSkinGalleryItem\s*=\s*class[\s\S]*?implementation')
+  if (-not $skinMatch.Success) {
+    Add-Failure 'Could not inspect TLazRibbonSkinGalleryItem declaration.'
+  }
+  else {
+    $skinBlock = $skinMatch.Value
+    foreach ($required in @(
+      'property IconWidth: Integer read FItemWidth write SetItemWidth default 22;',
+      'property IconHeight: Integer read FItemHeight write SetItemHeight default 22;'
+    )) {
+      if ($skinBlock -notmatch [regex]::Escape($required)) {
+        Add-Failure "TLazRibbonSkinGalleryItem must publish $required"
+      }
+    }
+  }
+
+  foreach ($required in @(
+    'procedure TLazRibbonGalleryItem.DefineProperties',
+    'ReadLegacyIconWidth',
+    'ReadLegacyIconHeight'
+  )) {
+    if ($content -notmatch [regex]::Escape($required)) {
+      Add-Failure "TLazRibbonGalleryItem must keep legacy streaming support through $required."
+    }
+  }
+}
+
 function Test-SkinEditorPreviewMinimizeSync {
   $pasPath = Join-Path $SourceRoot 'tools/LazRibbonSkinEditor/uSkinEditorMain.pas'
   $lfmPath = Join-Path $SourceRoot 'tools/LazRibbonSkinEditor/uSkinEditorMain.lfm'
@@ -427,6 +489,7 @@ Test-BackstageOverlayDefault
 Test-BackstageBackButtonOfficeApi
 Test-RibbonMinimizedHeightAdjustment
 Test-RibbonMinimizeOfficeApi
+Test-GallerySizeOfficeApi
 Test-SkinEditorPreviewMinimizeSync
 Test-SkinEditorAppearanceModeDetection
 Test-TwoPointZeroPlanningDocs

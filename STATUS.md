@@ -1,6 +1,8 @@
 # LazRibbon Status
 
-`1.2.22 - BackStage BackButtonVisible API consolidation` is the current stabilization build.
+`1.2.23 - Gallery size API consolidation` is the current stabilization build.
+
+The 1.2.23 build completes the gallery size naming cleanup from the 2.0 audit. Generic `TLazRibbonGalleryItem` controls now expose `ItemWidth` and `ItemHeight` as the cell-size API, while `TLazRibbonSkinGalleryItem` exposes `IconWidth` and `IconHeight` for skin swatches and keeps legacy readers for old resources.
 
 The 1.2.22 build completes the BackStage back-button naming cleanup from the 2.0 audit. `TLazRibbonBackstageView.BackButtonVisible` is now the single published Office-like property for the BackStage return button, and the consistency audit rejects the older `ShowCloseButton` name in package sources and resources.
 

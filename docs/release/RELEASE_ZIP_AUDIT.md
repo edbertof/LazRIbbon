@@ -1,3 +1,11 @@
+## 1.2.23 check
+
+- Package metadata updated to 1.2.23.
+- Generic `TLazRibbonGalleryItem` controls publish `ItemWidth` and `ItemHeight` without the duplicated `IconWidth`/`IconHeight` aliases.
+- `TLazRibbonSkinGalleryItem` publishes `IconWidth` and `IconHeight` for skin swatches and keeps legacy readers where needed.
+- Package `.lfm` resources use the canonical gallery size property names.
+- The consistency audit rejects mixed generic-gallery and skin-gallery size names in package resources.
+
 ## 1.2.22 check
 
 - Package metadata updated to 1.2.22.

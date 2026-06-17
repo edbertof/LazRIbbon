@@ -1,3 +1,13 @@
+## 1.2.23 - Gallery size API consolidation
+
+- Keeps `TLazRibbonGalleryItem.ItemWidth` and `ItemHeight` as the canonical generic gallery cell-size properties.
+- Moves `IconWidth` and `IconHeight` to `TLazRibbonSkinGalleryItem`, where they describe the visible skin icon/swatch size.
+- Keeps legacy `IconWidth`/`IconHeight` streaming readers for exact generic gallery items.
+- Migrates package `.lfm` resources so SkinGallery items stream `IconWidth`/`IconHeight` and no longer stream obsolete `ShowCaptions`.
+- Updates the 2.0 public API audit and roadmap to mark the gallery size naming pass as complete.
+- Extends the consistency audit to reject mixed generic-gallery and skin-gallery size names in package resources.
+- Updates runtime and design-time package versions to 1.2.23.
+
 ## 1.2.22 - BackStage BackButtonVisible API consolidation
 
 - Removes the duplicated published `TLazRibbonBackstageView.ShowCloseButton` API.

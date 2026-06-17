@@ -44,6 +44,10 @@ candidates:
 - `TLazRibbonPane.ShowDialogLauncher`
 - `TLazRibbonPane.DialogLauncherStyle`
 - `TLazRibbonPane.OnDialogLauncherClick`
+- `TLazRibbonGalleryItem.ItemWidth`
+- `TLazRibbonGalleryItem.ItemHeight`
+- `TLazRibbonSkinGalleryItem.IconWidth`
+- `TLazRibbonSkinGalleryItem.IconHeight`
 - `TLazRibbonBackstageView.OverlayMode`
 - `TLazRibbonBackstageView.BackButtonVisible`
 - `TLazRibbonBackstageView.NavigationStyle`
@@ -63,7 +67,6 @@ These names work today, but should be reviewed before the 2.0 API freeze.
 | Current API | Proposed 2.0 direction | Reason |
 | --- | --- | --- |
 | `TLazRibbonBackstageView.UseToolbarAppearance` and `UseSkinManager` | Consider replacing with `AppearanceSource`-only behavior | `AppearanceSource`, `LinkedToolbar`, and `SkinManager` already describe the same source decision more clearly. |
-| `TLazRibbonGalleryItem.ItemWidth`/`ItemHeight` and `IconWidth`/`IconHeight` | Keep `ItemWidth`/`ItemHeight` canonical unless icon drawing becomes independent | The current aliases point to the same fields, which is confusing in the Object Inspector. |
 | `TLazRibbonSkinGalleryItem.SelectedSkin` | Keep as built-in convenience, but document `SelectedSkinName` as canonical | External skins cannot be represented by the built-in enum. |
 | `TLazRibbonSkinDefinition.Icon16FileName`, `Icon24FileName`, `Icon32FileName` | Keep for compatibility, document `Icon16Data`, `Icon24Data`, `Icon32Data` as preferred | Embedded icon data is the practical distribution model for shared skin files. |
 
@@ -99,18 +102,23 @@ Before 2.0, every visible property should satisfy one of these conditions:
 - `TLazRibbonBackstageView.BackButtonVisible` is now the single published
   Office-like property for the BackStage return button. The older
   `ShowCloseButton` duplicate was removed from the package API and resources.
+- `TLazRibbonGalleryItem` now uses only `ItemWidth` and `ItemHeight` for generic
+  gallery cells. `TLazRibbonSkinGalleryItem` publishes `IconWidth` and
+  `IconHeight` for skin icons while hiding the inherited generic names at
+  design time and keeping legacy streaming readers.
 
 ## Recommended Next API Pass
 
-The next code pass should start with the gallery size aliases:
+The next code pass should start with the skin-gallery selection names:
 
-1. Decide whether `TLazRibbonGalleryItem.IconWidth` and `IconHeight` remain
-   visible aliases or become hidden compatibility properties.
-2. Keep `ItemWidth` and `ItemHeight` as the preferred Object Inspector names
-   unless icon drawing becomes a truly independent metric.
-3. Migrate package `.lfm` files if needed.
-4. Extend `tools/check_project_consistency.ps1` to reject legacy streamed names
-   once the final direction is chosen.
+1. Document `SelectedSkinName` as the canonical value for external and built-in
+   skins.
+2. Keep `SelectedSkin` as a built-in convenience only, or hide it from the
+   Object Inspector before 2.0 if it causes confusion.
+3. Ensure demos use `SelectedSkinName` whenever the skin can come from an
+   external `.skin` file.
+4. Extend `tools/check_project_consistency.ps1` if the final decision hides or
+   de-emphasizes `SelectedSkin`.
 
-This is another small Object Inspector cleanup, but it removes ambiguity for
-developers before the 2.0 API freeze.
+This keeps the SkinGallery usable with external skins instead of implying that
+only the built-in enum can be selected.

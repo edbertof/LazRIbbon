@@ -76,7 +76,7 @@ begin
   { RegisterPropertyToSkip protects streaming, but in some Lazarus versions it
     does not remove inherited published properties from the Object Inspector.
     Registering a nil property editor is the reliable design-time way to hide
-    these two inherited aliases only for TLazRibbonSkinGalleryItem. }
+    these inherited generic size properties only for TLazRibbonSkinGalleryItem. }
   RegisterPropertyEditor(TypeInfo(Integer), TLazRibbonSkinGalleryItem, 'ItemWidth', nil);
   RegisterPropertyEditor(TypeInfo(Integer), TLazRibbonSkinGalleryItem, 'ItemHeight', nil);
 

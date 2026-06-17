@@ -39,8 +39,8 @@ The following gates must be complete before `2.0.0`:
   `ShowMinimizeRibbonButton`, `MinimizeRibbonHint` and `RestoreRibbonHint`
   names.
 - Keep the BackStage return button on the Office-like `BackButtonVisible` name.
-- Decide whether gallery `IconWidth`/`IconHeight` should remain aliases or become
-  hidden/real independent icon metrics.
+- Keep generic gallery cell metrics on `ItemWidth`/`ItemHeight` and skin-gallery
+  icon metrics on `IconWidth`/`IconHeight`.
 - Document `SelectedSkinName` as the canonical skin-gallery selection property
   for external skins.
 

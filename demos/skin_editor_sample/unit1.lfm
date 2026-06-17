@@ -223,10 +223,9 @@ object Form1: TForm1
           Caption = 'Skins'
           DisplayMode = rimLarge
           Width = 100
-          ItemWidth = 18
-          ItemHeight = 18
+          IconWidth = 18
+          IconHeight = 18
           SkinManager = LazSkinManager1
-          ShowCaptions = True
         end
         object LazSmallButton1: TLazRibbonSmallButton
           Caption = 'Button'

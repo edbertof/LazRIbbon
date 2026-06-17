@@ -99,6 +99,8 @@ type
     FPopupMode: TLazRibbonGalleryPopupMode;
     FPopupWidth: Integer;
     FPopupHeight: Integer;
+    procedure ReadLegacyIconHeight(Reader: TReader);
+    procedure ReadLegacyIconWidth(Reader: TReader);
     procedure SetColumns(AValue: Integer);
     procedure SetItemHeight(AValue: Integer);
     procedure SetItemWidth(AValue: Integer);
@@ -106,6 +108,7 @@ type
     procedure SetPopupMode(AValue: TLazRibbonGalleryPopupMode);
     procedure SetPopupWidth(AValue: Integer);
   protected
+    procedure DefineProperties(Filer: TFiler); override;
     procedure DrawItemContent(ABuffer: TBitmap; const R: TRect); override;
   public
     constructor Create(AOwner: TComponent); override;
@@ -113,8 +116,6 @@ type
     property Columns: Integer read FColumns write SetColumns default 4;
     property ItemWidth: Integer read FItemWidth write SetItemWidth default 22;
     property ItemHeight: Integer read FItemHeight write SetItemHeight default 22;
-    property IconWidth: Integer read FItemWidth write SetItemWidth default 22;
-    property IconHeight: Integer read FItemHeight write SetItemHeight default 22;
     property PopupMode: TLazRibbonGalleryPopupMode read FPopupMode write SetPopupMode default gpmDropDown;
     property PopupWidth: Integer read FPopupWidth write SetPopupWidth default 220;
     property PopupHeight: Integer read FPopupHeight write SetPopupHeight default 180;
@@ -178,10 +179,12 @@ type
     property SelectedSkin: TLazRibbonBuiltInSkin read GetSelectedSkin write SetSelectedSkin default sbsOfficeBlue;
     property SelectedSkinName: String read GetSelectedSkinName write SetSelectedSkinName;
     property ShowHints: Boolean read FShowHints write SetShowHints default True;
-    { IconWidth/IconHeight are inherited from TLazRibbonGalleryItem and are
-      the public design-time size controls for this compact skin gallery.
-      ItemWidth/ItemHeight are deliberately hidden at design time for
-      TLazRibbonSkinGalleryItem by registerlaztoolbar.pas. }
+    { IconWidth/IconHeight are the public design-time size controls for this
+      compact skin gallery. ItemWidth/ItemHeight are inherited from the generic
+      gallery item and are deliberately hidden at design time for
+      TLazRibbonSkinGalleryItem by LazRibbon_Register.pas. }
+    property IconWidth: Integer read FItemWidth write SetItemWidth default 22;
+    property IconHeight: Integer read FItemHeight write SetItemHeight default 22;
     property MaxVisibleItems: Integer read FMaxVisibleItems write SetMaxVisibleItems default 12;
     property VisibleStartIndex: Integer read FVisibleStartIndex write SetVisibleStartIndex default 0;
     property OverflowMode: TLazRibbonGalleryOverflowMode read FOverflowMode write SetOverflowMode default gomScrollButtons;
@@ -443,6 +446,20 @@ begin
   FPopupHeight := 180;
 end;
 
+procedure TLazRibbonGalleryItem.DefineProperties(Filer: TFiler);
+begin
+  inherited DefineProperties(Filer);
+  { TLazRibbonGalleryItem used to publish IconWidth/IconHeight as aliases for
+    ItemWidth/ItemHeight. Keep read-only streaming compatibility for exact
+    generic gallery items, while TLazRibbonSkinGalleryItem publishes its own
+    IconWidth/IconHeight properties. }
+  if Self.ClassType = TLazRibbonGalleryItem then
+  begin
+    Filer.DefineProperty('IconWidth', ReadLegacyIconWidth, nil, False);
+    Filer.DefineProperty('IconHeight', ReadLegacyIconHeight, nil, False);
+  end;
+end;
+
 procedure TLazRibbonGalleryItem.DrawItemContent(ABuffer: TBitmap; const R: TRect);
 var
   I, Col, Row, X, Y: Integer;
@@ -466,6 +483,16 @@ begin
     ABuffer.Canvas.Pen.Color := clBtnShadow;
     ABuffer.Canvas.Rectangle(Cell);
   end;
+end;
+
+procedure TLazRibbonGalleryItem.ReadLegacyIconHeight(Reader: TReader);
+begin
+  SetItemHeight(Reader.ReadInteger);
+end;
+
+procedure TLazRibbonGalleryItem.ReadLegacyIconWidth(Reader: TReader);
+begin
+  SetItemWidth(Reader.ReadInteger);
 end;
 
 procedure TLazRibbonGalleryItem.SetColumns(AValue: Integer);
@@ -518,8 +545,8 @@ begin
   DisplayMode := rimLarge;
   Width := 166;
   Columns := 4;
-  ItemWidth := 22;
-  ItemHeight := 22;
+  IconWidth := 22;
+  IconHeight := 22;
   FShowHints := True;
   FSelectedSkin := sbsOfficeBlue;
   FSelectedSkinName := LazBuiltInSkinToString(sbsOfficeBlue);
