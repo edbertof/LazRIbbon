@@ -1,3 +1,15 @@
+## 1.2.25 check
+
+- Package metadata updated to 1.2.25.
+- `TLazRibbonSkinDefinition` publishes `Icon16Data`, `Icon24Data` and
+  `Icon32Data` as the canonical embedded skin identity icon fields.
+- `Icon16FileName`, `Icon24FileName` and `Icon32FileName` remain public
+  import/source compatibility fields but are no longer published.
+- New `.skin` XML writes legacy icon file-name tags only when the matching
+  embedded icon data field is empty.
+- The consistency audit protects the embedded icon identity API and XML-writing
+  behavior.
+
 ## 1.2.24 check
 
 - Package metadata updated to 1.2.24.

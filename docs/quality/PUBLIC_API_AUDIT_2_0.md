@@ -50,6 +50,9 @@ candidates:
 - `TLazRibbonSkinGalleryItem.IconHeight`
 - `TLazRibbonSkinGalleryItem.SelectedSkinName`
 - `TLazRibbonSkinSelector.SelectedSkinName`
+- `TLazRibbonSkinDefinition.Icon16Data`
+- `TLazRibbonSkinDefinition.Icon24Data`
+- `TLazRibbonSkinDefinition.Icon32Data`
 - `TLazRibbonBackstageView.OverlayMode`
 - `TLazRibbonBackstageView.BackButtonVisible`
 - `TLazRibbonBackstageView.NavigationStyle`
@@ -69,7 +72,6 @@ These names work today, but should be reviewed before the 2.0 API freeze.
 | Current API | Proposed 2.0 direction | Reason |
 | --- | --- | --- |
 | `TLazRibbonBackstageView.UseToolbarAppearance` and `UseSkinManager` | Consider replacing with `AppearanceSource`-only behavior | `AppearanceSource`, `LinkedToolbar`, and `SkinManager` already describe the same source decision more clearly. |
-| `TLazRibbonSkinDefinition.Icon16FileName`, `Icon24FileName`, `Icon32FileName` | Keep for compatibility, document `Icon16Data`, `Icon24Data`, `Icon32Data` as preferred | Embedded icon data is the practical distribution model for shared skin files. |
 
 ## Accepted Legacy Names
 
@@ -111,19 +113,25 @@ Before 2.0, every visible property should satisfy one of these conditions:
   `TLazRibbonSkinSelector.SelectedSkinName` are now the canonical Object
   Inspector properties for skin selection. `SelectedSkin` remains available as a
   public built-in-skin convenience and legacy `.lfm` reader.
+- `TLazRibbonSkinDefinition.Icon16Data`, `Icon24Data` and `Icon32Data` are now
+  the canonical published skin identity icon fields. `Icon16FileName`,
+  `Icon24FileName` and `Icon32FileName` remain public for editor import/source
+  compatibility, and new `.skin` XML writes those legacy tags only when embedded
+  icon data is absent.
 
 ## Recommended Next API Pass
 
-The next code pass should start with skin identity icon fields:
+The next code pass should review BackStage appearance-source configuration:
 
-1. Document `Icon16Data`, `Icon24Data` and `Icon32Data` as the preferred
-   distribution fields for shared `.skin` files.
-2. Decide whether `Icon16FileName`, `Icon24FileName` and `Icon32FileName`
-   should remain visible compatibility properties or be hidden before 2.0.
-3. Ensure the Skin Editor UI leads users toward embedded icon data while still
-   allowing files to be chosen for import.
-4. Extend `tools/check_project_consistency.ps1` if old file-name fields are
-   hidden from the Object Inspector.
+1. Decide whether `TLazRibbonBackstageView.UseToolbarAppearance` and
+   `UseSkinManager` should remain public compatibility switches or give way to
+   `AppearanceSource`.
+2. Keep `AppearanceSource`, `LinkedToolbar` and `SkinManager` as the readable
+   Office-like configuration path for new projects.
+3. Ensure existing demos and the Skin Editor stream the final BackStage
+   appearance-source names.
+4. Extend `tools/check_project_consistency.ps1` if legacy BackStage
+   appearance-source properties are hidden or removed.
 
-This keeps distributed skins self-contained and avoids implying that extra icon
-files must travel beside the `.skin` file.
+This keeps the BackStage visual-source API from exposing multiple switches for
+the same decision before the 2.0 Object Inspector surface is frozen.

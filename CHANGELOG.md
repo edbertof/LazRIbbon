@@ -1,3 +1,13 @@
+## 1.2.25 - Skin identity embedded icon API
+
+- Keeps `Icon16Data`, `Icon24Data` and `Icon32Data` as the canonical published skin identity icon fields.
+- Moves `Icon16FileName`, `Icon24FileName` and `Icon32FileName` out of the published RTTI surface while keeping them public for editor import/source compatibility.
+- Changes new `.skin` XML output to write legacy `Icon*FileName` tags only when the matching embedded `Icon*Data` field is empty.
+- Bumps saved skin XML `FormatVersion` and root `Version` to 6 for the self-contained icon identity format.
+- Updates the 2.0 public API audit and roadmap to mark the embedded icon identity pass as complete.
+- Extends the consistency audit to protect the embedded icon API and XML-writing behavior.
+- Updates runtime and design-time package versions to 1.2.25.
+
 ## 1.2.24 - Skin selection API consolidation
 
 - Keeps `SelectedSkinName` as the canonical Object Inspector property for `TLazRibbonSkinGalleryItem` and `TLazRibbonSkinSelector`.

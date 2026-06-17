@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
   [string]$SourceRoot = '',
-  [string]$ExpectedVersion = '1.2.24'
+  [string]$ExpectedVersion = '1.2.25'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -418,6 +418,63 @@ function Test-SkinSelectionNameApi {
   }
 }
 
+function Test-SkinIdentityIconDataApi {
+  $path = Join-Path $SourceRoot 'source/runtime/LazRibbon_SkinDefinition.pas'
+  if (-not (Test-Path -LiteralPath $path)) {
+    Add-Failure 'Missing skin definition unit.'
+    return
+  }
+
+  $content = Get-Content -LiteralPath $path -Raw
+  $match = [regex]::Match($content, 'TLazRibbonSkinDefinition\s*=\s*class[\s\S]*?function\s+LazBuiltInSkinCount')
+  if (-not $match.Success) {
+    Add-Failure 'Could not inspect TLazRibbonSkinDefinition declaration.'
+    return
+  }
+
+  $block = $match.Value
+  $publishedMatch = [regex]::Match($block, 'published[\s\S]*$')
+  if (-not $publishedMatch.Success) {
+    Add-Failure 'TLazRibbonSkinDefinition must expose published skin identity data fields.'
+    return
+  }
+
+  foreach ($required in @('Icon16Data', 'Icon24Data', 'Icon32Data')) {
+    if ($publishedMatch.Value -notmatch "property\s+$required\s*:\s+String") {
+      Add-Failure "TLazRibbonSkinDefinition must publish $required as the canonical embedded icon field."
+    }
+  }
+
+  foreach ($legacy in @('Icon16FileName', 'Icon24FileName', 'Icon32FileName')) {
+    if ($publishedMatch.Value -match "property\s+$legacy\s*:") {
+      Add-Failure "TLazRibbonSkinDefinition must not publish $legacy; use embedded Icon*Data in the Object Inspector/RTTI surface."
+    }
+    if ($block -notmatch "property\s+$legacy\s*:\s+String") {
+      Add-Failure "TLazRibbonSkinDefinition must keep public $legacy for import/source compatibility."
+    }
+  }
+
+  foreach ($required in @(
+    'WriteLegacyIconFileNameIfNeeded',
+    "Root.Parameters['Version', True].Value := '6';",
+    "FFormatVersion := '6';"
+  )) {
+    if ($content -notmatch [regex]::Escape($required)) {
+      Add-Failure "TLazRibbonSkinDefinition SaveToFile must include $required."
+    }
+  }
+
+  foreach ($legacyWrite in @(
+    "Info['Icon16FileName', True].Text := FIcon16FileName;",
+    "Info['Icon24FileName', True].Text := FIcon24FileName;",
+    "Info['Icon32FileName', True].Text := FIcon32FileName;"
+  )) {
+    if ($content -match [regex]::Escape($legacyWrite)) {
+      Add-Failure "TLazRibbonSkinDefinition must not unconditionally write legacy icon file-name tags."
+    }
+  }
+}
+
 function Test-SkinEditorPreviewMinimizeSync {
   $pasPath = Join-Path $SourceRoot 'tools/LazRibbonSkinEditor/uSkinEditorMain.pas'
   $lfmPath = Join-Path $SourceRoot 'tools/LazRibbonSkinEditor/uSkinEditorMain.lfm'
@@ -544,6 +601,7 @@ Test-RibbonMinimizedHeightAdjustment
 Test-RibbonMinimizeOfficeApi
 Test-GallerySizeOfficeApi
 Test-SkinSelectionNameApi
+Test-SkinIdentityIconDataApi
 Test-SkinEditorPreviewMinimizeSync
 Test-SkinEditorAppearanceModeDetection
 Test-TwoPointZeroPlanningDocs

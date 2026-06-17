@@ -1,6 +1,8 @@
 # LazRibbon Status
 
-`1.2.24 - Skin selection API consolidation` is the current stabilization build.
+`1.2.25 - Skin identity embedded icon API` is the current stabilization build.
+
+The 1.2.25 build completes the skin identity icon cleanup from the 2.0 audit. `TLazRibbonSkinDefinition` now keeps `Icon16Data`, `Icon24Data` and `Icon32Data` as the canonical published icon fields; file-name fields remain public for import/source compatibility, and new `.skin` XML writes file-name tags only when embedded data is absent.
 
 The 1.2.24 build completes the skin selection naming cleanup from the 2.0 audit. `TLazRibbonSkinGalleryItem` and `TLazRibbonSkinSelector` now expose `SelectedSkinName` as the canonical Object Inspector property, while `SelectedSkin` remains as a public built-in-skin convenience and legacy `.lfm` reader.
 

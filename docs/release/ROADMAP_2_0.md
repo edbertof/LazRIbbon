@@ -43,8 +43,10 @@ The following gates must be complete before `2.0.0`:
   icon metrics on `IconWidth`/`IconHeight`.
 - Keep `SelectedSkinName` as the canonical skin selection property for visual
   skin selector controls, including external skins.
-- Decide whether skin identity icon file-name properties should remain visible
-  compatibility fields or be hidden in favor of embedded icon data.
+- Keep skin identity icons on embedded `Icon16Data`, `Icon24Data` and
+  `Icon32Data`; file-name fields remain public import/source compatibility only.
+- Review BackStage appearance-source switches so `AppearanceSource`,
+  `LinkedToolbar` and `SkinManager` become the clear path for new projects.
 
 ### 2. Skin Editor Finish Pass
 
@@ -53,6 +55,8 @@ The following gates must be complete before `2.0.0`:
 - Keep the live Ribbon preview as the primary proof that pane captions, Dialog
   Launchers and minimize/restore behavior work.
 - Ensure exported `.skin` files are self-contained when icons are selected.
+- Keep icon file pickers as import helpers while saving embedded icon data as
+  the distributable skin identity.
 
 ### 3. Documentation And Demos
 

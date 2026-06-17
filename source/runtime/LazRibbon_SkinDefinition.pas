@@ -113,6 +113,12 @@ type
     function ResolveAssetFileName(const AFileName: String): String;
     property Palette: TLazRibbonSkinPalette read FPalette;
     property FileName: String read FFileName write FFileName;
+    { File-name fields are kept for code compatibility and for editors that
+      import icon files. New distributable .skin files should rely on the
+      embedded Icon*Data fields instead. }
+    property Icon16FileName: String read FIcon16FileName write FIcon16FileName;
+    property Icon24FileName: String read FIcon24FileName write FIcon24FileName;
+    property Icon32FileName: String read FIcon32FileName write FIcon32FileName;
   published
     property Name: String read FName write FName;
     property DisplayName: String read FDisplayName write FDisplayName;
@@ -121,9 +127,6 @@ type
     property Description: String read FDescription write FDescription;
     property Notes: String read FNotes write FNotes;
     property FormatVersion: String read FFormatVersion write FFormatVersion;
-    property Icon16FileName: String read FIcon16FileName write FIcon16FileName;
-    property Icon24FileName: String read FIcon24FileName write FIcon24FileName;
-    property Icon32FileName: String read FIcon32FileName write FIcon32FileName;
     property Icon16Data: String read FIcon16Data write FIcon16Data;
     property Icon24Data: String read FIcon24Data write FIcon24Data;
     property Icon32Data: String read FIcon32Data write FIcon32Data;
@@ -1231,15 +1234,22 @@ procedure TLazRibbonSkinDefinition.SaveToFile(const AFileName: String);
 var
   Parser: TLazRibbonXMLParser;
   Root, Info, Node: TLazRibbonXMLNode;
+
+  procedure WriteLegacyIconFileNameIfNeeded(const ANodeName, AFileName, AData: String);
+  begin
+    if (Trim(AFileName) <> '') and (Trim(AData) = '') then
+      Info[ANodeName, True].Text := AFileName;
+  end;
+
 begin
-  FFormatVersion := '5';
+  FFormatVersion := '6';
   UpdateEmbeddedIconDataFromFiles;
 
   Parser := TLazRibbonXMLParser.Create;
   try
     Root := TLazRibbonXMLNode.Create('LazSkin', xntNormal);
     Parser.Add(Root);
-    Root.Parameters['Version', True].Value := '5';
+    Root.Parameters['Version', True].Value := '6';
 
     Info := Root['Info', True];
     Info['Name', True].Text := FName;
@@ -1249,12 +1259,12 @@ begin
     Info['Description', True].Text := FDescription;
     Info['Notes', True].Text := FNotes;
     Info['FormatVersion', True].Text := FFormatVersion;
-    Info['Icon16FileName', True].Text := FIcon16FileName;
-    Info['Icon24FileName', True].Text := FIcon24FileName;
-    Info['Icon32FileName', True].Text := FIcon32FileName;
     Info['Icon16Data', True].Text := FIcon16Data;
     Info['Icon24Data', True].Text := FIcon24Data;
     Info['Icon32Data', True].Text := FIcon32Data;
+    WriteLegacyIconFileNameIfNeeded('Icon16FileName', FIcon16FileName, FIcon16Data);
+    WriteLegacyIconFileNameIfNeeded('Icon24FileName', FIcon24FileName, FIcon24Data);
+    WriteLegacyIconFileNameIfNeeded('Icon32FileName', FIcon32FileName, FIcon32Data);
     Info['PreviewImageFileName', True].Text := FPreviewImageFileName;
 
     Node := Root['Palette', True];
