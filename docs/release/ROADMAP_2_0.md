@@ -45,8 +45,8 @@ The following gates must be complete before `2.0.0`:
   skin selector controls, including external skins.
 - Keep skin identity icons on embedded `Icon16Data`, `Icon24Data` and
   `Icon32Data`; file-name fields remain public import/source compatibility only.
-- Review BackStage appearance-source switches so `AppearanceSource`,
-  `LinkedToolbar` and `SkinManager` become the clear path for new projects.
+- Keep BackStage visual-source selection on `AppearanceSource`, with
+  `LinkedToolbar` and `SkinManager` as the source objects for new projects.
 
 ### 2. Skin Editor Finish Pass
 
@@ -64,6 +64,7 @@ The following gates must be complete before `2.0.0`:
 - Add a demo matrix that states what each demo validates.
 - Add screenshots for the main Ribbon, BackStage, Skin Gallery and Skin Editor.
 - Review docs for outdated names after the API freeze pass.
+- Prepare public release notes for the first `2.0.0-rc1`.
 
 ### 4. Release Candidate
 

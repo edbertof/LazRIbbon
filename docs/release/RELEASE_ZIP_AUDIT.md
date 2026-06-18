@@ -1,3 +1,15 @@
+## 1.2.26 check
+
+- Package metadata updated to 1.2.26.
+- `TLazRibbonBackstageView` and `TLazRibbonBackstageRecentList` use
+  `AppearanceSource` as the canonical published visual-source decision.
+- Legacy BackStage appearance-source booleans `UseToolbarAppearance` and
+  `UseSkinManager` are removed from package API/resources.
+- Assigning a BackStage `SkinManager` still selects `AppearanceSource =
+  asSkinManager` automatically.
+- The consistency audit rejects legacy BackStage appearance-source API names and
+  streaming.
+
 ## 1.2.25 check
 
 - Package metadata updated to 1.2.25.

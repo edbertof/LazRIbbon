@@ -1,6 +1,8 @@
 # LazRibbon Status
 
-`1.2.25 - Skin identity embedded icon API` is the current stabilization build.
+`1.2.26 - BackStage AppearanceSource consolidation` is the current stabilization build.
+
+The 1.2.26 build completes the BackStage appearance-source cleanup from the 2.0 audit. `TLazRibbonBackstageView` and `TLazRibbonBackstageRecentList` now use `AppearanceSource` as the single published decision for internal, linked-toolbar or SkinManager visuals; the duplicated `UseToolbarAppearance` and `UseSkinManager` switches were removed from package API/resources.
 
 The 1.2.25 build completes the skin identity icon cleanup from the 2.0 audit. `TLazRibbonSkinDefinition` now keeps `Icon16Data`, `Icon24Data` and `Icon32Data` as the canonical published icon fields; file-name fields remain public for import/source compatibility, and new `.skin` XML writes file-name tags only when embedded data is absent.
 

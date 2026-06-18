@@ -664,7 +664,6 @@ object Form1: TForm1
         ParentFont = False
         SelectedIndex = 0
         SkinManager = LazRibbonSkinManager1
-        UseSkinManager = True
         OnItemClick = RecentItemClick
       end
     end

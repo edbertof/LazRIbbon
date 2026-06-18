@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
   [string]$SourceRoot = '',
-  [string]$ExpectedVersion = '1.2.25'
+  [string]$ExpectedVersion = '1.2.26'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -188,6 +188,10 @@ function Test-RibbonAppearanceStreaming {
         Add-Failure "Legacy TLazRibbonBackstageView back-button streaming found in ${relative}:${lineNumber}; use BackButtonVisible."
       }
 
+      if (($line -match '^\s*(UseToolbarAppearance|UseSkinManager)\s*=') -and ($currentType -in @('TLazRibbonBackstageView', 'TLazRibbonBackstageRecentList'))) {
+        Add-Failure "Legacy BackStage appearance-source streaming found in ${relative}:${lineNumber}; use AppearanceSource."
+      }
+
       if (($line -match '^\s*(BackColor|NavigationColor|ActiveColor|HotColor|FrameColor|TextColor|MutedTextColor|RecentOddColor|RecentHoverColor|RecentSelectedColor|RecentSelectedFrameColor|RecentTitleColor)\s*=') -and ($currentType -eq 'TLazRibbonSkinManager')) {
         Add-Failure "Legacy TLazRibbonSkinManager flat palette streaming found in ${relative}:${lineNumber}; use General.*, Accent.* or RecentList.*."
       }
@@ -252,6 +256,46 @@ function Test-BackstageBackButtonOfficeApi {
         if ($content -match $legacyPattern) {
           $relative = Get-RelativePath -Path $_.FullName
           Add-Failure "Legacy TLazRibbonBackstageView back-button API name found in ${relative}; use BackButtonVisible."
+        }
+      }
+  }
+}
+
+function Test-BackstageAppearanceSourceApi {
+  $path = Join-Path $SourceRoot 'source/runtime/LazRibbon_Backstage.pas'
+  if (-not (Test-Path -LiteralPath $path)) {
+    Add-Failure 'Missing BackStage runtime unit.'
+    return
+  }
+
+  $content = Get-Content -LiteralPath $path -Raw
+  foreach ($required in @(
+    'property AppearanceSource: TLazRibbonAppearanceSource read FAppearanceSource write SetAppearanceSource default asLinkedToolbar;',
+    'property AppearanceSource: TLazRibbonAppearanceSource read FAppearanceSource write SetAppearanceSource default asInternalStyle;',
+    'property LinkedToolbar: TLazRibbon read FLinkedToolbar write SetLinkedToolbar;',
+    'property SkinManager: TLazRibbonSkinManager read FSkinManager write SetSkinManager;'
+  )) {
+    if ($content -notmatch [regex]::Escape($required)) {
+      Add-Failure "BackStage appearance-source API must include $required."
+    }
+  }
+
+  $legacyPattern = '\b(UseToolbarAppearance|UseSkinManager|FUseToolbarAppearance|FUseSkinManager|SetUseToolbarAppearance|SetUseSkinManager)\b'
+  $scanRoots = @('source', 'tools', 'demos', 'packages') | ForEach-Object {
+    Join-Path $SourceRoot $_
+  }
+  foreach ($root in $scanRoots) {
+    if (-not (Test-Path -LiteralPath $root)) {
+      continue
+    }
+
+    Get-ChildItem -LiteralPath $root -Recurse -File |
+      Where-Object { $_.Extension -in @('.pas', '.lfm', '.lpk', '.lpr') } |
+      ForEach-Object {
+        $fileContent = Get-Content -LiteralPath $_.FullName -Raw
+        if ($fileContent -match $legacyPattern) {
+          $relative = Get-RelativePath -Path $_.FullName
+          Add-Failure "Legacy BackStage appearance-source API name found in ${relative}; use AppearanceSource."
         }
       }
   }
@@ -597,6 +641,7 @@ Test-LocalEnvironmentArtifacts
 Test-RibbonAppearanceStreaming
 Test-BackstageOverlayDefault
 Test-BackstageBackButtonOfficeApi
+Test-BackstageAppearanceSourceApi
 Test-RibbonMinimizedHeightAdjustment
 Test-RibbonMinimizeOfficeApi
 Test-GallerySizeOfficeApi

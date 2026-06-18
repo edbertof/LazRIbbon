@@ -1129,8 +1129,6 @@ object frmLazRibbonSkinEditor: TfrmLazRibbonSkinEditor
     ParentShowHint = False
     ShowHint = True
     SkinManager = PreviewSkinManager
-    UseToolbarAppearance = False
-    UseSkinManager = True
     Visible = False
     object BackstagePageInfo: TLazRibbonBackstagePage
       Left = 232

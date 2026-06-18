@@ -46,7 +46,6 @@ object Form1: TForm1
     ParentShowHint = False
     ShowHint = True
     SkinManager = LazRibbonSkinManager1
-    UseSkinManager = True
     Visible = False
     object LazRibbonBackstagePageNovo: TLazRibbonBackstagePage
       Left = 192
@@ -95,7 +94,6 @@ object Form1: TForm1
         SelectedIndex = 0
         SkinManager = LazRibbonSkinManager1
         StorageSection = 'RecentFiles'
-        UseSkinManager = True
       end
     end
   end

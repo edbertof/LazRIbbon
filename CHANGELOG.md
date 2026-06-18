@@ -1,3 +1,12 @@
+## 1.2.26 - BackStage AppearanceSource consolidation
+
+- Removes the duplicated BackStage appearance-source booleans `UseToolbarAppearance` and `UseSkinManager` from the package API and resources.
+- Keeps `AppearanceSource`, `LinkedToolbar` and `SkinManager` as the single readable configuration path for BackStage visual source decisions.
+- Preserves automatic `AppearanceSource = asSkinManager` selection when a `SkinManager` is assigned.
+- Updates the 2.0 public API audit and roadmap to mark the BackStage appearance-source cleanup as complete.
+- Extends the consistency audit to reject legacy BackStage appearance-source API names and streaming.
+- Updates runtime and design-time package versions to 1.2.26.
+
 ## 1.2.25 - Skin identity embedded icon API
 
 - Keeps `Icon16Data`, `Icon24Data` and `Icon32Data` as the canonical published skin identity icon fields.

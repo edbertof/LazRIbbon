@@ -214,7 +214,6 @@ type
     FSelectedIndex: Integer;
     FSelectionStyle: TLazRibbonBackstageRecentSelectionStyle;
     FStorageSection: String;
-    FUseSkinManager: Boolean;
     FOnItemClick: TLazRibbonBackstageRecentItemClickEvent;
     procedure ItemsChanged(Sender: TObject);
     function GetItems: TStrings;
@@ -237,7 +236,6 @@ type
     procedure SetSelectionStyle(AValue: TLazRibbonBackstageRecentSelectionStyle);
     procedure SetSkinManager(AValue: TLazRibbonSkinManager);
     procedure SetStorageSection(const AValue: String);
-    procedure SetUseSkinManager(AValue: Boolean);
     procedure UpdateScrollBar;
   protected
     procedure MouseDown(Button: TMouseButton; Shift: TShiftState; X, Y: Integer); override;
@@ -282,7 +280,6 @@ type
     property SkinManager: TLazRibbonSkinManager read FSkinManager write SetSkinManager;
     property StorageSection: String read FStorageSection write SetStorageSection;
     property ShowHint;
-    property UseSkinManager: Boolean read FUseSkinManager write SetUseSkinManager default False;
     property Visible;
     property OnItemClick: TLazRibbonBackstageRecentItemClickEvent read FOnItemClick write FOnItemClick;
   end;
@@ -324,8 +321,6 @@ type
     FStyle: TLazRibbonStyle;
     FTitle: TCaption;
     FToolbarEventsHooked: Boolean;
-    FUseToolbarAppearance: Boolean;
-    FUseSkinManager: Boolean;
     FOnClose: TLazRibbonBackstageCloseEvent;
     FOnClosed: TNotifyEvent;
     FOnPageChanged: TLazRibbonBackstagePageChangedEvent;
@@ -352,8 +347,6 @@ type
     procedure SetSkinManager(AValue: TLazRibbonSkinManager);
     procedure SetStyle(AValue: TLazRibbonStyle);
     procedure SetTitle(const AValue: TCaption);
-    procedure SetUseToolbarAppearance(AValue: Boolean);
-    procedure SetUseSkinManager(AValue: Boolean);
     procedure ToolbarMenuButtonClick(Sender: TObject);
     procedure ToolbarTabChanging(Sender: TObject; OldIndex, NewIndex: integer; var Allowed: boolean);
     procedure HookToolbarEvents;
@@ -449,8 +442,6 @@ type
     property SkinManager: TLazRibbonSkinManager read FSkinManager write SetSkinManager;
     property Style: TLazRibbonStyle read FStyle write SetStyle default lazOffice2007Blue;
     property Title: TCaption read FTitle write SetTitle;
-    property UseToolbarAppearance: Boolean read FUseToolbarAppearance write SetUseToolbarAppearance default True;
-    property UseSkinManager: Boolean read FUseSkinManager write SetUseSkinManager default False;
     property Visible;
     property OnClick;
     property OnClose: TLazRibbonBackstageCloseEvent read FOnClose write FOnClose;
@@ -1466,7 +1457,6 @@ begin
   FSelectedIndex := -1;
   FSelectionStyle := brsSkin;
   FStorageSection := 'RecentFiles';
-  FUseSkinManager := False;
   FItems := TStringList.Create;
   FItems.OnChange := ItemsChanged;
 
@@ -1839,7 +1829,6 @@ procedure TLazRibbonBackstageRecentList.SetAppearanceSource(AValue: TLazRibbonAp
 begin
   if FAppearanceSource = AValue then Exit;
   FAppearanceSource := AValue;
-  FUseSkinManager := FAppearanceSource = asSkinManager;
   Invalidate;
 end;
 
@@ -2092,19 +2081,9 @@ begin
   if FSkinManager <> nil then
   begin
     FSkinManager.FreeNotification(Self);
-    FUseSkinManager := True;
     FAppearanceSource := asSkinManager;
   end;
-  Invalidate;
-end;
-
-procedure TLazRibbonBackstageRecentList.SetUseSkinManager(AValue: Boolean);
-begin
-  if FUseSkinManager = AValue then Exit;
-  FUseSkinManager := AValue;
-  if FUseSkinManager then
-    FAppearanceSource := asSkinManager
-  else if FAppearanceSource = asSkinManager then
+  if (FSkinManager = nil) and (FAppearanceSource = asSkinManager) then
     FAppearanceSource := asInternalStyle;
   Invalidate;
 end;
@@ -2163,8 +2142,6 @@ begin
   FStyle := lazOffice2007Blue;
   FTitle := '';
   FToolbarEventsHooked := False;
-  FUseToolbarAppearance := True;
-  FUseSkinManager := False;
   TabStop := True;
   ShowHint := True;
   Width := 700;
@@ -3852,8 +3829,6 @@ procedure TLazRibbonBackstageView.SetAppearanceSource(AValue: TLazRibbonAppearan
 begin
   if FAppearanceSource = AValue then Exit;
   FAppearanceSource := AValue;
-  FUseSkinManager := FAppearanceSource = asSkinManager;
-  FUseToolbarAppearance := FAppearanceSource = asLinkedToolbar;
   UpdatePages;
   Invalidate;
 end;
@@ -4025,20 +4000,10 @@ begin
   if FSkinManager <> nil then
   begin
     FSkinManager.FreeNotification(Self);
-    FUseSkinManager := True;
     FAppearanceSource := asSkinManager;
   end
-  else
-  begin
-    FUseSkinManager := False;
-    if FAppearanceSource = asSkinManager then
-    begin
-      if FUseToolbarAppearance then
-        FAppearanceSource := asLinkedToolbar
-      else
-        FAppearanceSource := asInternalStyle;
-    end;
-  end;
+  else if FAppearanceSource = asSkinManager then
+    FAppearanceSource := asLinkedToolbar;
   UpdatePages;
   Invalidate;
 end;
@@ -4054,35 +4019,6 @@ procedure TLazRibbonBackstageView.SetTitle(const AValue: TCaption);
 begin
   if FTitle = AValue then Exit;
   FTitle := AValue;
-  Invalidate;
-end;
-
-procedure TLazRibbonBackstageView.SetUseToolbarAppearance(AValue: Boolean);
-begin
-  if FUseToolbarAppearance = AValue then Exit;
-  FUseToolbarAppearance := AValue;
-  if FUseToolbarAppearance and not FUseSkinManager then
-    FAppearanceSource := asLinkedToolbar
-  else if (not FUseToolbarAppearance) and (FAppearanceSource = asLinkedToolbar) then
-    FAppearanceSource := asInternalStyle;
-  Invalidate;
-  UpdatePages;
-end;
-
-procedure TLazRibbonBackstageView.SetUseSkinManager(AValue: Boolean);
-begin
-  if FUseSkinManager = AValue then Exit;
-  FUseSkinManager := AValue;
-  if FUseSkinManager then
-    FAppearanceSource := asSkinManager
-  else if FAppearanceSource = asSkinManager then
-  begin
-    if FUseToolbarAppearance then
-      FAppearanceSource := asLinkedToolbar
-    else
-      FAppearanceSource := asInternalStyle;
-  end;
-  UpdatePages;
   Invalidate;
 end;
 

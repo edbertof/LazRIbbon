@@ -53,10 +53,15 @@ candidates:
 - `TLazRibbonSkinDefinition.Icon16Data`
 - `TLazRibbonSkinDefinition.Icon24Data`
 - `TLazRibbonSkinDefinition.Icon32Data`
+- `TLazRibbonBackstageView.AppearanceSource`
+- `TLazRibbonBackstageView.LinkedToolbar`
+- `TLazRibbonBackstageView.SkinManager`
 - `TLazRibbonBackstageView.OverlayMode`
 - `TLazRibbonBackstageView.BackButtonVisible`
 - `TLazRibbonBackstageView.NavigationStyle`
 - `TLazRibbonBackstageView.PageButtonVisualMode`
+- `TLazRibbonBackstageRecentList.AppearanceSource`
+- `TLazRibbonBackstageRecentList.SkinManager`
 - `TLazRibbonSkinManager.General`
 - `TLazRibbonSkinManager.Accent`
 - `TLazRibbonSkinManager.Backstage`
@@ -67,11 +72,7 @@ candidates:
 
 ## Rename Or Consolidation Candidates
 
-These names work today, but should be reviewed before the 2.0 API freeze.
-
-| Current API | Proposed 2.0 direction | Reason |
-| --- | --- | --- |
-| `TLazRibbonBackstageView.UseToolbarAppearance` and `UseSkinManager` | Consider replacing with `AppearanceSource`-only behavior | `AppearanceSource`, `LinkedToolbar`, and `SkinManager` already describe the same source decision more clearly. |
+No active duplicate public names remain from the current audit pass.
 
 ## Accepted Legacy Names
 
@@ -118,20 +119,20 @@ Before 2.0, every visible property should satisfy one of these conditions:
   `Icon24FileName` and `Icon32FileName` remain public for editor import/source
   compatibility, and new `.skin` XML writes those legacy tags only when embedded
   icon data is absent.
+- `TLazRibbonBackstageView` and `TLazRibbonBackstageRecentList` now use
+  `AppearanceSource` as the single published decision for internal,
+  linked-toolbar or SkinManager visuals. The old `UseToolbarAppearance` and
+  `UseSkinManager` switches were removed from package API/resources.
 
 ## Recommended Next API Pass
 
-The next code pass should review BackStage appearance-source configuration:
+The next pass should move from API cleanup into release-candidate readiness:
 
-1. Decide whether `TLazRibbonBackstageView.UseToolbarAppearance` and
-   `UseSkinManager` should remain public compatibility switches or give way to
-   `AppearanceSource`.
-2. Keep `AppearanceSource`, `LinkedToolbar` and `SkinManager` as the readable
-   Office-like configuration path for new projects.
-3. Ensure existing demos and the Skin Editor stream the final BackStage
-   appearance-source names.
-4. Extend `tools/check_project_consistency.ps1` if legacy BackStage
-   appearance-source properties are hidden or removed.
+1. Review `README.md` and `INSTALL.md` against the final Object Inspector names.
+2. Add a compact demo matrix that states what each demo validates.
+3. Prepare screenshot guidance/assets for the main Ribbon, BackStage, Skin
+   Gallery and Skin Editor.
+4. Run a clean checkout validation before tagging the first `2.0.0-rc1`.
 
-This keeps the BackStage visual-source API from exposing multiple switches for
-the same decision before the 2.0 Object Inspector surface is frozen.
+This keeps the public API surface quiet while shifting the remaining work toward
+shareable documentation and release proof.
