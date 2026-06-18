@@ -45,6 +45,10 @@ TLazRibbonBackstageView
   The Application Button exposes its caption, mode, menu, icon, ScreenTip and
   click behavior, but it is not the canonical place to stream the BackStage
   component reference.
+- BackStage navigation is composed through `TLazRibbonBackstageView.Buttons`.
+  Buttons can link to pages, execute commands or draw separators. BackStage
+  page components are content containers and should not be used as command or
+  separator entries in new forms.
 - A Ribbon receives a skin through `TLazRibbon.SkinManager` and
   `TLazRibbon.AppearanceSource`. Assigning a SkinManager automatically selects
   `AppearanceSource = asSkinManager` when the Ribbon is still in its default
@@ -80,6 +84,10 @@ Some property pairs look similar but describe different decisions:
 - `TLazRibbonSeparator` is a structural pane item. The design-time package hides
   inherited command and ScreenTip properties such as `Action`, `Caption`,
   `Enabled`, `Hint`, `KeyTip`, `ShowScreenTip`, `ScreenTip*` and `OnClick`.
+- `TLazRibbonBackstagePage` is a BackStage content container. The design-time
+  package hides page-level command/navigation properties `Action`, `Command`,
+  `CloseBackstageOnClick`, `ItemKind` and `OnExecute`; use
+  `TLazRibbonBackstageView.Buttons` for those entries.
 - Generic galleries use `ItemWidth` and `ItemHeight`; skin galleries and skin
   selectors use `IconWidth` and `IconHeight`.
 - Skin identity icons are embedded through `Icon16Data`, `Icon24Data` and
@@ -87,9 +95,6 @@ Some property pairs look similar but describe different decisions:
 
 ## Follow-up Candidates
 
-- Review whether `TLazRibbonBackstagePage.ItemKind`, `Action`, `Command` and
-  `OnExecute` should remain visible now that `TLazRibbonBackstageView.Buttons`
-  is the clearer navigation/command model.
 - Review whether `TLazRibbonControlHostItem.ControlName` and
   `ControlClassName` should evolve into a stronger component-reference API
   before 2.0.

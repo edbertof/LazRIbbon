@@ -1,6 +1,8 @@
 # LazRibbon Status
 
-`1.2.27 - Component composition API audit` is the current stabilization build.
+`1.2.28 - BackStage page composition cleanup` is the current stabilization build.
+
+The 1.2.28 build continues the component-composition cleanup for the 2.0 API freeze. `TLazRibbonBackstagePage` is treated as a BackStage content container at design time, while `TLazRibbonBackstageView.Buttons` is the public model for navigation entries, commands and separators. Page-level command/navigation properties such as `Action`, `Command`, `CloseBackstageOnClick`, `ItemKind` and `OnExecute` are hidden from the Object Inspector and protected by the consistency audit.
 
 The 1.2.27 build starts the component-composition cleanup pass for the 2.0 API freeze. It adds `docs/quality/COMPONENT_COMPOSITION_MODEL_2_0.md`, keeps `TLazRibbon.BackstageView` as the canonical published BackStage link, removes `ApplicationButton.BackstageView` from the Object Inspector surface, and hides inherited command/ScreenTip properties from `TLazRibbonSeparator` at design time.
 

@@ -1,3 +1,12 @@
+## 1.2.28 - BackStage page composition cleanup
+
+- Treats `TLazRibbonBackstagePage` as a BackStage content container in the design-time API.
+- Hides page-level command/navigation properties `Action`, `Command`, `CloseBackstageOnClick`, `ItemKind` and `OnExecute` from the Object Inspector.
+- Keeps `TLazRibbonBackstageView.Buttons` as the explicit public model for BackStage page links, commands and separators.
+- Extends the consistency audit to reject command/navigation streaming on `TLazRibbonBackstagePage` resources.
+- Updates the 2.0 composition model, public API audit, roadmap and release notes.
+- Updates runtime and design-time package versions to 1.2.28.
+
 ## 1.2.27 - Component composition API audit
 
 - Adds a 2.0 component composition model that documents how developers should connect Ribbon, BackStage, QAT, panes, items and skin components.

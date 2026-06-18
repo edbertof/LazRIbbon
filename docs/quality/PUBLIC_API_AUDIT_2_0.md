@@ -76,7 +76,6 @@ These names work today, but should be reviewed before the 2.0 API freeze.
 
 | Current API | Proposed 2.0 direction | Reason |
 | --- | --- | --- |
-| `TLazRibbonBackstagePage.ItemKind`, `Action`, `Command`, `OnExecute` | Prefer `TLazRibbonBackstageView.Buttons` for command/navigation entries | BackStage now has a clearer `Buttons` collection that describes page, command and separator navigation items in one place. |
 | `TLazRibbonControlHostItem.ControlName` and `ControlClassName` | Consider replacing with a stronger component-reference API | Host items should ideally connect to a control directly instead of relying on string metadata. |
 
 ## Accepted Legacy Names
@@ -136,19 +135,24 @@ Before 2.0, every visible property should satisfy one of these conditions:
   design package hides inherited command and ScreenTip properties such as
   `Action`, `Caption`, `Enabled`, `Hint`, `KeyTip`, `ShowScreenTip`,
   `ScreenTip*` and `OnClick`.
+- `TLazRibbonBackstagePage` is treated as a BackStage content container at
+  design time; page-level command/navigation properties `Action`, `Command`,
+  `CloseBackstageOnClick`, `ItemKind` and `OnExecute` are hidden from the
+  Object Inspector. `TLazRibbonBackstageView.Buttons` is the preferred public
+  model for BackStage page links, commands and separators.
 
 ## Recommended Next API Pass
 
-The next API pass should review BackStage command/page modeling:
+The next API pass should review hosted-control composition:
 
-1. Decide whether `TLazRibbonBackstagePage.ItemKind`, `Action`, `Command` and
-   `OnExecute` should remain visible or become compatibility internals.
-2. Keep `TLazRibbonBackstageView.Buttons` as the preferred public model for
-   BackStage navigation commands, pages and separators.
-3. Update demos so page components are mostly content containers, while command
-   behavior lives in `Buttons`.
-4. Extend `tools/check_project_consistency.ps1` if BackStage page command
-   properties are hidden or removed.
+1. Decide whether `TLazRibbonControlHostItem.ControlName` and
+   `ControlClassName` should remain visible.
+2. Prefer a component-reference model when a hosted control can be connected
+   directly.
+3. Keep string metadata only if it is needed for serialization or diagnostics.
+4. Extend `tools/check_project_consistency.ps1` if the host-item API is
+   consolidated.
 
-This keeps BackStage composition readable: pages hold content; buttons describe
-navigation and commands.
+This keeps Ribbon composition readable: containers and items should point at
+real components instead of asking the developer to synchronize duplicated text
+metadata.

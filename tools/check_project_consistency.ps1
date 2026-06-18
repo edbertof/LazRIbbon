@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
   [string]$SourceRoot = '',
-  [string]$ExpectedVersion = '1.2.27'
+  [string]$ExpectedVersion = '1.2.28'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -200,6 +200,10 @@ function Test-RibbonAppearanceStreaming {
         Add-Failure "Command or ScreenTip streaming found on TLazRibbonSeparator in ${relative}:${lineNumber}; separators are structural items."
       }
 
+      if (($line -match '^\s*(Action|Command|CloseBackstageOnClick|ItemKind|OnExecute)\s*=') -and ($currentType -eq 'TLazRibbonBackstagePage')) {
+        Add-Failure "BackStage command/navigation streaming found on TLazRibbonBackstagePage in ${relative}:${lineNumber}; use TLazRibbonBackstageView.Buttons."
+      }
+
       if (($line -match '^\s*(BackColor|NavigationColor|ActiveColor|HotColor|FrameColor|TextColor|MutedTextColor|RecentOddColor|RecentHoverColor|RecentSelectedColor|RecentSelectedFrameColor|RecentTitleColor)\s*=') -and ($currentType -eq 'TLazRibbonSkinManager')) {
         Add-Failure "Legacy TLazRibbonSkinManager flat palette streaming found in ${relative}:${lineNumber}; use General.*, Accent.* or RecentList.*."
       }
@@ -361,6 +365,19 @@ function Test-ComponentCompositionApi {
     }
   }
 
+  foreach ($backstagePageProperty in @(
+    'Action',
+    'Command',
+    'CloseBackstageOnClick',
+    'ItemKind',
+    'OnExecute'
+  )) {
+    $pattern = "RegisterPropertyToSkip\(TLazRibbonBackstagePage,\s+'$backstagePageProperty'"
+    if ($register -notmatch $pattern) {
+      Add-Failure "TLazRibbonBackstagePage design-time API should hide command/navigation property $backstagePageProperty."
+    }
+  }
+
   $scanRoots = @('source/design', 'tools', 'demos') | ForEach-Object {
     Join-Path $SourceRoot $_
   }
@@ -404,7 +421,9 @@ function Test-ComponentCompositionApi {
     'Canonical Connections',
     'Current Cleanup Decisions',
     'TLazRibbon.BackstageView',
-    'TLazRibbonSeparator'
+    'TLazRibbonSeparator',
+    'TLazRibbonBackstageView.Buttons',
+    'TLazRibbonBackstagePage'
   )) {
     if ($compositionDoc -notmatch [regex]::Escape($required)) {
       Add-Failure "Component composition model must include $required."

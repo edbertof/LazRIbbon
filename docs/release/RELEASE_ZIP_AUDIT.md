@@ -1,3 +1,11 @@
+## 1.2.28 check
+
+- Package metadata updated to 1.2.28.
+- `TLazRibbonBackstagePage` is treated as a content container in the design-time API.
+- `TLazRibbonBackstageView.Buttons` remains the explicit public model for BackStage page links, commands and separators.
+- Page-level command/navigation properties `Action`, `Command`, `CloseBackstageOnClick`, `ItemKind` and `OnExecute` are hidden from the Object Inspector.
+- The consistency audit rejects command/navigation streaming on `TLazRibbonBackstagePage` resources.
+
 ## 1.2.27 check
 
 - Package metadata updated to 1.2.27.

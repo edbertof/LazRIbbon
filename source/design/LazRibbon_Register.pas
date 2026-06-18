@@ -88,6 +88,20 @@ begin
   RegisterPropertyToSkip(TLazRibbonSeparator, 'OnClick',
     'Separators are structural items and do not execute click handlers.', '');
 
+  { TLazRibbonBackstagePage is a content container. The navigation column is
+    composed through TLazRibbonBackstageView.Buttons, where page, command and
+    separator entries share one explicit model. }
+  RegisterPropertyToSkip(TLazRibbonBackstagePage, 'Action',
+    'BackStage pages are content containers. Use BackstageView.Buttons for commands.', '');
+  RegisterPropertyToSkip(TLazRibbonBackstagePage, 'Command',
+    'BackStage pages are content containers. Use BackstageView.Buttons for commands.', '');
+  RegisterPropertyToSkip(TLazRibbonBackstagePage, 'CloseBackstageOnClick',
+    'BackStage pages are content containers. Use BackstageView.Buttons for command close behavior.', '');
+  RegisterPropertyToSkip(TLazRibbonBackstagePage, 'ItemKind',
+    'BackStage pages are content containers. Use BackstageView.Buttons to create page, command and separator navigation items.', '');
+  RegisterPropertyToSkip(TLazRibbonBackstagePage, 'OnExecute',
+    'BackStage pages are content containers. Use BackstageView.Buttons.OnExecute for commands.', '');
+
   { TLazRibbonSkinGalleryItem is a compact Ribbon item. It should expose
     ShowHints, not a manually edited Hint nor the obsolete ShowCaptions. }
   RegisterPropertyToSkip(TLazRibbonSkinGalleryItem, 'Hint',

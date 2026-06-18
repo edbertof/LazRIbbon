@@ -51,8 +51,12 @@ The following gates must be complete before `2.0.0`:
   Application Button configures the button/menu behavior itself.
 - Keep structural pane items, such as `TLazRibbonSeparator`, free of command and
   ScreenTip noise in the design-time surface.
-- Review BackStage page command properties against the clearer
+- Keep BackStage page components as content containers. Navigation entries,
+  commands and separators belong to the clearer
   `TLazRibbonBackstageView.Buttons` collection.
+- Review hosted-control composition so `TLazRibbonControlHostItem` does not
+  require duplicated string metadata when a direct component reference is
+  possible.
 
 ### 2. Skin Editor Finish Pass
 
