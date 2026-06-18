@@ -172,12 +172,16 @@ type
     function EffectiveImageIndex: Integer; virtual;
     function EffectiveVisible: Boolean; virtual;
     procedure Execute; virtual;
-  published
-    property Caption: TCaption read FCaption write SetCaption;
+    { Source-level compatibility for the older page-as-command model. New forms
+      should compose BackStage navigation and commands through
+      TLazRibbonBackstageView.Buttons. }
     property Action;
     property Command: TLazRibbonCommand read FCommand write SetCommand;
     property CloseBackstageOnClick: Boolean read FCloseBackstageOnClick write FCloseBackstageOnClick default True;
     property ItemKind: TLazRibbonBackstagePageKind read FItemKind write SetItemKind default bpkPage;
+    property OnExecute: TNotifyEvent read FOnExecute write FOnExecute;
+  published
+    property Caption: TCaption read FCaption write SetCaption;
     property Align;
     property Anchors;
     property BorderSpacing;
@@ -191,7 +195,6 @@ type
     property PopupMenu;
     property ShowHint;
     property Visible;
-    property OnExecute: TNotifyEvent read FOnExecute write FOnExecute;
   end;
 
 

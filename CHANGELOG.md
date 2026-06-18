@@ -1,3 +1,11 @@
+## 1.2.31 - BackStage page Object Inspector cleanup
+
+- Moves `TLazRibbonBackstagePage` command/navigation properties out of the published Object Inspector surface while keeping them public for source-level compatibility.
+- Keeps `TLazRibbonBackstageView.Buttons` as the canonical model for BackStage navigation entries, commands and separators.
+- Adds `docs/quality/OBJECT_INSPECTOR_PROPERTY_AUDIT_2_0.md` to track redundant/repeated property decisions for the 2.0 freeze.
+- Extends the consistency audit to reject a published BackStage page command surface and require the new Object Inspector audit.
+- Updates runtime and design-time package versions to 1.2.31.
+
 ## 1.2.30 - Component property matrix
 
 - Adds `docs/quality/COMPONENT_PROPERTY_MATRIX_2_0.md` as the practical Object Inspector map for component roles, canonical properties and compatibility-only names.

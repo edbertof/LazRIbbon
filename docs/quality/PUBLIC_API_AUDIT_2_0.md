@@ -135,10 +135,14 @@ Before 2.0, every visible property should satisfy one of these conditions:
   `Action`, `Caption`, `Enabled`, `Hint`, `KeyTip`, `ShowScreenTip`,
   `ScreenTip*` and `OnClick`.
 - `TLazRibbonBackstagePage` is treated as a BackStage content container at
-  design time; page-level command/navigation properties `Action`, `Command`,
-  `CloseBackstageOnClick`, `ItemKind` and `OnExecute` are hidden from the
-  Object Inspector. `TLazRibbonBackstageView.Buttons` is the preferred public
-  model for BackStage page links, commands and separators.
+  design time and at runtime RTTI level; page-level command/navigation
+  properties `Action`, `Command`, `CloseBackstageOnClick`, `ItemKind` and
+  `OnExecute` are public source-level compatibility only and are no longer
+  published. `TLazRibbonBackstageView.Buttons` is the preferred public model for
+  BackStage page links, commands and separators.
+- `docs/quality/OBJECT_INSPECTOR_PROPERTY_AUDIT_2_0.md` records the current
+  duplicate/redundant property decisions for visible palette components and
+  design-time item classes.
 - `TLazRibbonControlHostItem.Caption` is the visible placeholder text for hosted
   control items. Legacy `ControlName` and `ControlClassName` strings are hidden
   from the Object Inspector, retained publicly for source compatibility, and

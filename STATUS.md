@@ -1,6 +1,8 @@
 # LazRibbon Status
 
-`1.2.30 - Component property matrix` is the current stabilization build.
+`1.2.31 - BackStage page Object Inspector cleanup` is the current stabilization build.
+
+The 1.2.31 build tightens the component-property model by moving `TLazRibbonBackstagePage` command/navigation properties out of the published Object Inspector surface. They remain public for source-level compatibility, but new forms are guided to `TLazRibbonBackstageView.Buttons` for BackStage navigation entries, commands and separators. The new `docs/quality/OBJECT_INSPECTOR_PROPERTY_AUDIT_2_0.md` records redundant/repeated property decisions for the 2.0 freeze.
 
 The 1.2.30 build turns the component-property cleanup rule into a documented and audited release gate. `docs/quality/COMPONENT_PROPERTY_MATRIX_2_0.md` now maps each main component role to the properties a developer should use in the Object Inspector, records intentional similar pairs and marks compatibility-only names that should not guide new projects.
 

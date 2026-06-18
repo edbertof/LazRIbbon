@@ -1,3 +1,12 @@
+## 1.2.31 check
+
+- Package metadata updated to 1.2.31.
+- `TLazRibbonBackstagePage` no longer publishes command/navigation properties in the Object Inspector surface.
+- Page-level `Action`, `Command`, `CloseBackstageOnClick`, `ItemKind` and `OnExecute` remain public source-level compatibility only.
+- `TLazRibbonBackstageView.Buttons` remains the canonical model for BackStage navigation entries, commands and separators.
+- `docs/quality/OBJECT_INSPECTOR_PROPERTY_AUDIT_2_0.md` records redundant/repeated property decisions for the 2.0 freeze.
+- The consistency audit rejects a published BackStage page command surface.
+
 ## 1.2.30 check
 
 - Package metadata updated to 1.2.30.

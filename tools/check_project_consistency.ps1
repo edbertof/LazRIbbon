@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
   [string]$SourceRoot = '',
-  [string]$ExpectedVersion = '1.2.30'
+  [string]$ExpectedVersion = '1.2.31'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -319,11 +319,12 @@ function Test-BackstageAppearanceSourceApi {
 
 function Test-ComponentCompositionApi {
   $corePath = Join-Path $SourceRoot 'source/runtime/LazRibbon_Core.pas'
+  $backstagePath = Join-Path $SourceRoot 'source/runtime/LazRibbon_Backstage.pas'
   $extItemsPath = Join-Path $SourceRoot 'source/runtime/LazRibbon_RibbonExtItems.pas'
   $registerPath = Join-Path $SourceRoot 'source/design/LazRibbon_Register.pas'
   $compositionDocPath = Join-Path $SourceRoot 'docs/quality/COMPONENT_COMPOSITION_MODEL_2_0.md'
 
-  foreach ($path in @($corePath, $extItemsPath, $registerPath, $compositionDocPath)) {
+  foreach ($path in @($corePath, $backstagePath, $extItemsPath, $registerPath, $compositionDocPath)) {
     if (-not (Test-Path -LiteralPath $path)) {
       Add-Failure "Missing component composition audit input: $(Get-RelativePath -Path $path)"
       return
@@ -380,6 +381,30 @@ function Test-ComponentCompositionApi {
     $pattern = "RegisterPropertyToSkip\(TLazRibbonBackstagePage,\s+'$backstagePageProperty'"
     if ($register -notmatch $pattern) {
       Add-Failure "TLazRibbonBackstagePage design-time API should hide command/navigation property $backstagePageProperty."
+    }
+  }
+
+  $backstage = Get-Content -LiteralPath $backstagePath -Raw
+  $backstagePageMatch = [regex]::Match($backstage, 'TLazRibbonBackstagePage\s*=\s*class\(TCustomControl\)([\s\S]*?)\bend;')
+  if (-not $backstagePageMatch.Success) {
+    Add-Failure 'Could not inspect TLazRibbonBackstagePage declaration.'
+  }
+  else {
+    $backstagePageBlock = $backstagePageMatch.Value
+    $published = [regex]::Match($backstagePageBlock, 'published[\s\S]*$')
+    if ($published.Success -and ($published.Value -match 'property\s+(Action|Command|CloseBackstageOnClick|ItemKind|OnExecute)\b')) {
+      Add-Failure 'TLazRibbonBackstagePage must not publish command/navigation properties; use TLazRibbonBackstageView.Buttons.'
+    }
+    foreach ($required in @(
+      'property Action;',
+      'property Command: TLazRibbonCommand read FCommand write SetCommand;',
+      'property CloseBackstageOnClick: Boolean read FCloseBackstageOnClick write FCloseBackstageOnClick default True;',
+      'property ItemKind: TLazRibbonBackstagePageKind read FItemKind write SetItemKind default bpkPage;',
+      'property OnExecute: TNotifyEvent read FOnExecute write FOnExecute;'
+    )) {
+      if ($backstagePageBlock -notmatch [regex]::Escape($required)) {
+        Add-Failure "TLazRibbonBackstagePage should keep source compatibility member $required."
+      }
     }
   }
 
@@ -751,6 +776,7 @@ function Test-SkinEditorAppearanceModeDetection {
 function Test-TwoPointZeroPlanningDocs {
   $auditPath = Join-Path $SourceRoot 'docs/quality/PUBLIC_API_AUDIT_2_0.md'
   $matrixPath = Join-Path $SourceRoot 'docs/quality/COMPONENT_PROPERTY_MATRIX_2_0.md'
+  $objectInspectorAuditPath = Join-Path $SourceRoot 'docs/quality/OBJECT_INSPECTOR_PROPERTY_AUDIT_2_0.md'
   $roadmapPath = Join-Path $SourceRoot 'docs/release/ROADMAP_2_0.md'
 
   if (-not (Test-Path -LiteralPath $auditPath)) {
@@ -764,7 +790,8 @@ function Test-TwoPointZeroPlanningDocs {
       'SelectedSkinName',
       'Icon16Data',
       'No active duplicate public Object Inspector names remain',
-      'COMPONENT_PROPERTY_MATRIX_2_0.md'
+      'COMPONENT_PROPERTY_MATRIX_2_0.md',
+      'OBJECT_INSPECTOR_PROPERTY_AUDIT_2_0.md'
     )) {
       if ($audit -notmatch [regex]::Escape($required)) {
         Add-Failure "Public API audit must mention $required."
@@ -798,6 +825,31 @@ function Test-TwoPointZeroPlanningDocs {
     )) {
       if ($matrix -notmatch [regex]::Escape($required)) {
         Add-Failure "Component property matrix must mention $required."
+      }
+    }
+  }
+
+  if (-not (Test-Path -LiteralPath $objectInspectorAuditPath)) {
+    Add-Failure 'Missing Object Inspector property audit for the 2.0 freeze.'
+  }
+  else {
+    $objectInspectorAudit = Get-Content -LiteralPath $objectInspectorAuditPath -Raw
+    foreach ($required in @(
+      'Object Inspector Property Audit',
+      'Palette Components Reviewed',
+      'Current Object Inspector Rules',
+      'Cleaned Published Properties',
+      'BackStage Page Decision',
+      'Intentional Shared Names',
+      'Remaining Watch List',
+      'TLazRibbonBackstagePage',
+      'TLazRibbonBackstageView.Buttons',
+      'Action',
+      'SelectedSkinName',
+      'Icon16Data'
+    )) {
+      if ($objectInspectorAudit -notmatch [regex]::Escape($required)) {
+        Add-Failure "Object Inspector property audit must mention $required."
       }
     }
   }

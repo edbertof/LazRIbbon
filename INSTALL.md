@@ -48,9 +48,11 @@ When testing a new ZIP version:
 ## Object Inspector property map
 
 For new forms, use `docs/quality/COMPONENT_PROPERTY_MATRIX_2_0.md` as the quick
-guide to the intended component/property model. It shows which component owns
-each composition link, which properties are canonical, and which names are kept
-only for compatibility.
+guide to the intended component/property model. Use
+`docs/quality/OBJECT_INSPECTOR_PROPERTY_AUDIT_2_0.md` to review which repeated
+or inherited property names are intentional, hidden or compatibility-only. These
+documents show which component owns each composition link, which properties are
+canonical, and which names are kept only for compatibility.
 
 ## Build outputs
 

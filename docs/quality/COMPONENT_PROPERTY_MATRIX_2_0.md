@@ -86,6 +86,10 @@ These pairs are not duplicates; each side answers a different design question.
 
 - `TLazRibbonApplicationButton.BackstageView` remains public as a source-level
   delegate, but new forms should use `TLazRibbon.BackstageView`.
+- `TLazRibbonBackstagePage.Action`, `Command`, `CloseBackstageOnClick`,
+  `ItemKind` and `OnExecute` remain public source-level compatibility for the
+  older page-as-command model, but are no longer published. New forms should use
+  `TLazRibbonBackstageView.Buttons`.
 - `TLazRibbonControlHostItem.ControlName` and `ControlClassName` remain public
   and readable from legacy `.lfm` resources, but `Caption` is the new visible
   placeholder text.

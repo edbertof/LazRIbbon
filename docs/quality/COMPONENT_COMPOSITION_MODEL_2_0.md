@@ -91,9 +91,10 @@ Some property pairs look similar but describe different decisions:
 - `TLazRibbonSeparator` is a structural pane item. The design-time package hides
   inherited command and ScreenTip properties such as `Action`, `Caption`,
   `Enabled`, `Hint`, `KeyTip`, `ShowScreenTip`, `ScreenTip*` and `OnClick`.
-- `TLazRibbonBackstagePage` is a BackStage content container. The design-time
-  package hides page-level command/navigation properties `Action`, `Command`,
-  `CloseBackstageOnClick`, `ItemKind` and `OnExecute`; use
+- `TLazRibbonBackstagePage` is a BackStage content container. Page-level
+  command/navigation properties `Action`, `Command`, `CloseBackstageOnClick`,
+  `ItemKind` and `OnExecute` are public source-level compatibility only, not
+  part of the published Object Inspector surface. Use
   `TLazRibbonBackstageView.Buttons` for those entries.
 - `TLazRibbonControlHostItem` uses `Caption` as its public placeholder text.
   `ControlName` and `ControlClassName` are retained as public compatibility

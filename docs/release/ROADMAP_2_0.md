@@ -23,6 +23,8 @@ The following gates must be complete before `2.0.0`:
 - Public API names reviewed against `docs/quality/PUBLIC_API_AUDIT_2_0.md`.
 - Component property roles reviewed against
   `docs/quality/COMPONENT_PROPERTY_MATRIX_2_0.md`.
+- Object Inspector redundancies reviewed against
+  `docs/quality/OBJECT_INSPECTOR_PROPERTY_AUDIT_2_0.md`.
 - Remaining confusing or duplicate Object Inspector names either renamed, hidden
   or documented as compatibility-only.
 - `tools/check_project_consistency.ps1` rejects known pre-2.0 legacy streaming
@@ -55,7 +57,8 @@ The following gates must be complete before `2.0.0`:
   ScreenTip noise in the design-time surface.
 - Keep BackStage page components as content containers. Navigation entries,
   commands and separators belong to the clearer
-  `TLazRibbonBackstageView.Buttons` collection.
+  `TLazRibbonBackstageView.Buttons` collection; page-level command properties
+  are source compatibility only, not published Object Inspector API.
 - Keep hosted-control placeholder text on `TLazRibbonControlHostItem.Caption`;
   legacy `ControlName` and `ControlClassName` metadata stays compatibility-only.
 - Keep the component property matrix synchronized with new published properties
