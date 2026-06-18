@@ -124,7 +124,6 @@ procedure TForm1.FormCreate(Sender: TObject);
 begin
   LazRibbon1.SkinManager := LazRibbonSkinManager1;
   LazRibbon1.BackstageView := LazRibbonBackstageView1;
-  LazRibbon1.ApplicationButton.BackstageView := LazRibbonBackstageView1;
   LazRibbonBackstageView1.LinkedToolbar := LazRibbon1;
   LazRibbonBackstageView1.SkinManager := LazRibbonSkinManager1;
   LazRibbonBackstageRecentList1.SkinManager := LazRibbonSkinManager1;

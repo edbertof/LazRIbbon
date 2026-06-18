@@ -105,7 +105,6 @@ object Form1: TForm1
     ApplicationButton.Caption = 'Arquivo'
     ApplicationButton.Visible = True
     ApplicationButton.Mode = abmBackstage
-    ApplicationButton.BackstageView = LazRibbonBackstageView1
     QuickAccessToolBar.Visible = True
     QuickAccessToolBar.Position = qapTitleBar
     QuickAccessToolBar.Items = <    

@@ -1,6 +1,8 @@
 # LazRibbon Status
 
-`1.2.26 - BackStage AppearanceSource consolidation` is the current stabilization build.
+`1.2.27 - Component composition API audit` is the current stabilization build.
+
+The 1.2.27 build starts the component-composition cleanup pass for the 2.0 API freeze. It adds `docs/quality/COMPONENT_COMPOSITION_MODEL_2_0.md`, keeps `TLazRibbon.BackstageView` as the canonical published BackStage link, removes `ApplicationButton.BackstageView` from the Object Inspector surface, and hides inherited command/ScreenTip properties from `TLazRibbonSeparator` at design time.
 
 The 1.2.26 build completes the BackStage appearance-source cleanup from the 2.0 audit. `TLazRibbonBackstageView` and `TLazRibbonBackstageRecentList` now use `AppearanceSource` as the single published decision for internal, linked-toolbar or SkinManager visuals; the duplicated `UseToolbarAppearance` and `UseSkinManager` switches were removed from package API/resources.
 

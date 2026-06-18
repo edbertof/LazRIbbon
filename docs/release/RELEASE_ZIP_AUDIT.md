@@ -1,3 +1,16 @@
+## 1.2.27 check
+
+- Package metadata updated to 1.2.27.
+- `docs/quality/COMPONENT_COMPOSITION_MODEL_2_0.md` documents the intended
+  Ribbon, BackStage, QAT, pane/item and skin-component composition model.
+- `TLazRibbon.BackstageView` is the canonical published BackStage composition
+  property; package sources/resources no longer stream
+  `ApplicationButton.BackstageView`.
+- `TLazRibbonSeparator` hides inherited command and ScreenTip properties at
+  design time so it behaves as a structural item.
+- The consistency audit protects BackStage composition streaming, separator
+  design-time cleanup and the composition model document.
+
 ## 1.2.26 check
 
 - Package metadata updated to 1.2.26.

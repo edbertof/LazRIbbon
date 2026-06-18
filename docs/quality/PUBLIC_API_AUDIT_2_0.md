@@ -72,7 +72,12 @@ candidates:
 
 ## Rename Or Consolidation Candidates
 
-No active duplicate public names remain from the current audit pass.
+These names work today, but should be reviewed before the 2.0 API freeze.
+
+| Current API | Proposed 2.0 direction | Reason |
+| --- | --- | --- |
+| `TLazRibbonBackstagePage.ItemKind`, `Action`, `Command`, `OnExecute` | Prefer `TLazRibbonBackstageView.Buttons` for command/navigation entries | BackStage now has a clearer `Buttons` collection that describes page, command and separator navigation items in one place. |
+| `TLazRibbonControlHostItem.ControlName` and `ControlClassName` | Consider replacing with a stronger component-reference API | Host items should ideally connect to a control directly instead of relying on string metadata. |
 
 ## Accepted Legacy Names
 
@@ -123,16 +128,27 @@ Before 2.0, every visible property should satisfy one of these conditions:
   `AppearanceSource` as the single published decision for internal,
   linked-toolbar or SkinManager visuals. The old `UseToolbarAppearance` and
   `UseSkinManager` switches were removed from package API/resources.
+- `TLazRibbon.BackstageView` is now the canonical published BackStage
+  composition property. `TLazRibbonApplicationButton.BackstageView` remains only
+  as a public source-compatibility delegate and is no longer streamed by package
+  resources.
+- `TLazRibbonSeparator` is treated as a structural pane item at design time; the
+  design package hides inherited command and ScreenTip properties such as
+  `Action`, `Caption`, `Enabled`, `Hint`, `KeyTip`, `ShowScreenTip`,
+  `ScreenTip*` and `OnClick`.
 
 ## Recommended Next API Pass
 
-The next pass should move from API cleanup into release-candidate readiness:
+The next API pass should review BackStage command/page modeling:
 
-1. Review `README.md` and `INSTALL.md` against the final Object Inspector names.
-2. Add a compact demo matrix that states what each demo validates.
-3. Prepare screenshot guidance/assets for the main Ribbon, BackStage, Skin
-   Gallery and Skin Editor.
-4. Run a clean checkout validation before tagging the first `2.0.0-rc1`.
+1. Decide whether `TLazRibbonBackstagePage.ItemKind`, `Action`, `Command` and
+   `OnExecute` should remain visible or become compatibility internals.
+2. Keep `TLazRibbonBackstageView.Buttons` as the preferred public model for
+   BackStage navigation commands, pages and separators.
+3. Update demos so page components are mostly content containers, while command
+   behavior lives in `Buttons`.
+4. Extend `tools/check_project_consistency.ps1` if BackStage page command
+   properties are hidden or removed.
 
-This keeps the public API surface quiet while shifting the remaining work toward
-shareable documentation and release proof.
+This keeps BackStage composition readable: pages hold content; buttons describe
+navigation and commands.

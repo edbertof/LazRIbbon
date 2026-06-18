@@ -2025,7 +2025,6 @@ begin
   PreviewToolbar.ApplicationButton.Caption := 'Arquivo';
   PreviewToolbar.ApplicationButton.Visible := True;
   PreviewToolbar.ApplicationButton.Mode := abmBackstage;
-  PreviewToolbar.ApplicationButton.BackstageView := EditorBackstage;
   PreviewToolbar.BackstageView := EditorBackstage;
   PreviewToolbar.Align := alTop;
   PreviewToolbar.OnRibbonMinimizedChanged := @PreviewToolbarRibbonMinimizedChanged;

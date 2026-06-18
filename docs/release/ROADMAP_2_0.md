@@ -47,6 +47,12 @@ The following gates must be complete before `2.0.0`:
   `Icon32Data`; file-name fields remain public import/source compatibility only.
 - Keep BackStage visual-source selection on `AppearanceSource`, with
   `LinkedToolbar` and `SkinManager` as the source objects for new projects.
+- Keep BackStage component composition on `TLazRibbon.BackstageView`; the
+  Application Button configures the button/menu behavior itself.
+- Keep structural pane items, such as `TLazRibbonSeparator`, free of command and
+  ScreenTip noise in the design-time surface.
+- Review BackStage page command properties against the clearer
+  `TLazRibbonBackstageView.Buttons` collection.
 
 ### 2. Skin Editor Finish Pass
 

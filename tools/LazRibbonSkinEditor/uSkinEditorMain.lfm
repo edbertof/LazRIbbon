@@ -41,7 +41,6 @@ object frmLazRibbonSkinEditor: TfrmLazRibbonSkinEditor
       ApplicationButton.Caption = 'Arquivo'
       ApplicationButton.Visible = True
       ApplicationButton.Mode = abmBackstage
-      ApplicationButton.BackstageView = EditorBackstage
       QuickAccessToolBar.Items = <>
       QuickAccessToolBar.CustomizeMenuTitle = 'Personalizar Barra de Ferramentas de Acesso Rápido'
       QuickAccessToolBar.MoreCommandsCaption = 'Mais Comandos...'

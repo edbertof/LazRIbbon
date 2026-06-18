@@ -62,6 +62,32 @@ begin
   RegisterPropertyToSkip(TLazRibbonCheckbox, 'Groupbehaviour', GROUPBEHAVIOUR_NOTE, '');
   RegisterPropertyToSkip(TLazRibbonRadioButton, 'GroupBehaviour', GROUPBEHAVIOUR_NOTE, '');
 
+  { TLazRibbonSeparator is structural. It participates in layout, but it is not
+    a command surface and should not advertise command/screentip properties in
+    the Object Inspector. }
+  RegisterPropertyToSkip(TLazRibbonSeparator, 'Action',
+    'Separators are structural items and do not execute actions.', '');
+  RegisterPropertyToSkip(TLazRibbonSeparator, 'Caption',
+    'Separators are structural items and do not display captions.', '');
+  RegisterPropertyToSkip(TLazRibbonSeparator, 'Enabled',
+    'Separators are structural items. Use Visible to include or hide them.', '');
+  RegisterPropertyToSkip(TLazRibbonSeparator, 'Hint',
+    'Separators are structural items and do not show hints.', '');
+  RegisterPropertyToSkip(TLazRibbonSeparator, 'KeyTip',
+    'Separators are structural items and do not participate in KeyTips.', '');
+  RegisterPropertyToSkip(TLazRibbonSeparator, 'ShowScreenTip',
+    'Separators are structural items and do not show ScreenTips.', '');
+  RegisterPropertyToSkip(TLazRibbonSeparator, 'ScreenTipTitle',
+    'Separators are structural items and do not show ScreenTips.', '');
+  RegisterPropertyToSkip(TLazRibbonSeparator, 'ScreenTipText',
+    'Separators are structural items and do not show ScreenTips.', '');
+  RegisterPropertyToSkip(TLazRibbonSeparator, 'ScreenTipShortcut',
+    'Separators are structural items and do not show ScreenTips.', '');
+  RegisterPropertyToSkip(TLazRibbonSeparator, 'ScreenTipFooter',
+    'Separators are structural items and do not show ScreenTips.', '');
+  RegisterPropertyToSkip(TLazRibbonSeparator, 'OnClick',
+    'Separators are structural items and do not execute click handlers.', '');
+
   { TLazRibbonSkinGalleryItem is a compact Ribbon item. It should expose
     ShowHints, not a manually edited Hint nor the obsolete ShowCaptions. }
   RegisterPropertyToSkip(TLazRibbonSkinGalleryItem, 'Hint',

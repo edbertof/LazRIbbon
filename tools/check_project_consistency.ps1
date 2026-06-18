@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
   [string]$SourceRoot = '',
-  [string]$ExpectedVersion = '1.2.26'
+  [string]$ExpectedVersion = '1.2.27'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -188,8 +188,16 @@ function Test-RibbonAppearanceStreaming {
         Add-Failure "Legacy TLazRibbonBackstageView back-button streaming found in ${relative}:${lineNumber}; use BackButtonVisible."
       }
 
+      if (($line -match '^\s*ApplicationButton\.BackstageView\s*=') -and ($currentType -eq 'TLazRibbon')) {
+        Add-Failure "Duplicate BackStage composition streaming found in ${relative}:${lineNumber}; use TLazRibbon.BackstageView."
+      }
+
       if (($line -match '^\s*(UseToolbarAppearance|UseSkinManager)\s*=') -and ($currentType -in @('TLazRibbonBackstageView', 'TLazRibbonBackstageRecentList'))) {
         Add-Failure "Legacy BackStage appearance-source streaming found in ${relative}:${lineNumber}; use AppearanceSource."
+      }
+
+      if (($line -match '^\s*(Action|Caption|Enabled|Hint|KeyTip|ShowScreenTip|ScreenTipTitle|ScreenTipText|ScreenTipShortcut|ScreenTipFooter|OnClick)\s*=') -and ($currentType -eq 'TLazRibbonSeparator')) {
+        Add-Failure "Command or ScreenTip streaming found on TLazRibbonSeparator in ${relative}:${lineNumber}; separators are structural items."
       }
 
       if (($line -match '^\s*(BackColor|NavigationColor|ActiveColor|HotColor|FrameColor|TextColor|MutedTextColor|RecentOddColor|RecentHoverColor|RecentSelectedColor|RecentSelectedFrameColor|RecentTitleColor)\s*=') -and ($currentType -eq 'TLazRibbonSkinManager')) {
@@ -298,6 +306,109 @@ function Test-BackstageAppearanceSourceApi {
           Add-Failure "Legacy BackStage appearance-source API name found in ${relative}; use AppearanceSource."
         }
       }
+  }
+}
+
+function Test-ComponentCompositionApi {
+  $corePath = Join-Path $SourceRoot 'source/runtime/LazRibbon_Core.pas'
+  $registerPath = Join-Path $SourceRoot 'source/design/LazRibbon_Register.pas'
+  $compositionDocPath = Join-Path $SourceRoot 'docs/quality/COMPONENT_COMPOSITION_MODEL_2_0.md'
+
+  foreach ($path in @($corePath, $registerPath, $compositionDocPath)) {
+    if (-not (Test-Path -LiteralPath $path)) {
+      Add-Failure "Missing component composition audit input: $(Get-RelativePath -Path $path)"
+      return
+    }
+  }
+
+  $core = Get-Content -LiteralPath $corePath -Raw
+  $appButtonMatch = [regex]::Match($core, 'TLazRibbonApplicationButton\s*=\s*class\(TPersistent\)([\s\S]*?)\bend;')
+  if (-not $appButtonMatch.Success) {
+    Add-Failure 'Could not inspect TLazRibbonApplicationButton declaration.'
+  }
+  else {
+    $appButtonBlock = $appButtonMatch.Value
+    $published = [regex]::Match($appButtonBlock, 'published[\s\S]*$')
+    if ($published.Success -and ($published.Value -match 'property\s+BackstageView\s*:')) {
+      Add-Failure 'TLazRibbonApplicationButton must not publish BackstageView; use TLazRibbon.BackstageView for composition.'
+    }
+    if ($appButtonBlock -notmatch 'property\s+BackstageView:\s+TLazRibbonCustomBackstageView\s+read\s+GetBackstageView\s+write\s+SetBackstageView;') {
+      Add-Failure 'TLazRibbonApplicationButton should keep public BackstageView only as a source compatibility delegate.'
+    }
+  }
+
+  if ($core -notmatch 'property\s+BackstageView:\s+TLazRibbonCustomBackstageView\s+read\s+FBackstageView\s+write\s+SetBackstageView;') {
+    Add-Failure 'TLazRibbon must publish BackstageView as the canonical BackStage composition property.'
+  }
+
+  $register = Get-Content -LiteralPath $registerPath -Raw
+  foreach ($separatorProperty in @(
+    'Action',
+    'Caption',
+    'Enabled',
+    'Hint',
+    'KeyTip',
+    'ShowScreenTip',
+    'ScreenTipTitle',
+    'ScreenTipText',
+    'ScreenTipShortcut',
+    'ScreenTipFooter',
+    'OnClick'
+  )) {
+    $pattern = "RegisterPropertyToSkip\(TLazRibbonSeparator,\s+'$separatorProperty'"
+    if ($register -notmatch $pattern) {
+      Add-Failure "TLazRibbonSeparator design-time API should hide inherited $separatorProperty."
+    }
+  }
+
+  $scanRoots = @('source/design', 'tools', 'demos') | ForEach-Object {
+    Join-Path $SourceRoot $_
+  }
+  foreach ($root in $scanRoots) {
+    if (-not (Test-Path -LiteralPath $root)) {
+      continue
+    }
+    Get-ChildItem -LiteralPath $root -Recurse -File |
+      Where-Object { $_.Extension -in @('.pas', '.lfm') } |
+      ForEach-Object {
+        $content = Get-Content -LiteralPath $_.FullName -Raw
+        if ($content -match '\bApplicationButton\.BackstageView\b') {
+          $relative = Get-RelativePath -Path $_.FullName
+          Add-Failure "Package sources/resources must use TLazRibbon.BackstageView instead of ApplicationButton.BackstageView in ${relative}."
+        }
+        if ($_.Extension -eq '.pas') {
+          $previousAssignment = $null
+          $lineNumber = 0
+          foreach ($line in (Get-Content -LiteralPath $_.FullName)) {
+            $lineNumber++
+            $trimmed = $line.Trim()
+            if ($trimmed -match '\.BackstageView\s*:=') {
+              if ($trimmed -eq $previousAssignment) {
+                $relative = Get-RelativePath -Path $_.FullName
+                Add-Failure "Duplicate consecutive BackStage assignment found in ${relative}:${lineNumber}; keep one TLazRibbon.BackstageView link."
+              }
+              $previousAssignment = $trimmed
+            }
+            elseif ($trimmed -ne '') {
+              $previousAssignment = $null
+            }
+          }
+        }
+      }
+  }
+
+  $compositionDoc = Get-Content -LiteralPath $compositionDocPath -Raw
+  foreach ($required in @(
+    'Composition Rules',
+    'Primary Object Graph',
+    'Canonical Connections',
+    'Current Cleanup Decisions',
+    'TLazRibbon.BackstageView',
+    'TLazRibbonSeparator'
+  )) {
+    if ($compositionDoc -notmatch [regex]::Escape($required)) {
+      Add-Failure "Component composition model must include $required."
+    }
   }
 }
 
@@ -642,6 +753,7 @@ Test-RibbonAppearanceStreaming
 Test-BackstageOverlayDefault
 Test-BackstageBackButtonOfficeApi
 Test-BackstageAppearanceSourceApi
+Test-ComponentCompositionApi
 Test-RibbonMinimizedHeightAdjustment
 Test-RibbonMinimizeOfficeApi
 Test-GallerySizeOfficeApi

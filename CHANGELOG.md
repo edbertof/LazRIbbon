@@ -1,3 +1,12 @@
+## 1.2.27 - Component composition API audit
+
+- Adds a 2.0 component composition model that documents how developers should connect Ribbon, BackStage, QAT, panes, items and skin components.
+- Makes `TLazRibbon.BackstageView` the canonical published BackStage composition property and moves `ApplicationButton.BackstageView` out of the Object Inspector surface.
+- Updates package demos and the Skin Editor to stream/use `TLazRibbon.BackstageView` instead of `ApplicationButton.BackstageView`.
+- Hides inherited command and ScreenTip properties from `TLazRibbonSeparator` at design time, keeping separators as structural pane items.
+- Extends the consistency audit to protect the component composition model, BackStage composition streaming and separator design-time cleanup.
+- Updates runtime and design-time package versions to 1.2.27.
+
 ## 1.2.26 - BackStage AppearanceSource consolidation
 
 - Removes the duplicated BackStage appearance-source booleans `UseToolbarAppearance` and `UseSkinManager` from the package API and resources.

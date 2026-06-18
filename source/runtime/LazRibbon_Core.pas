@@ -112,12 +112,15 @@ type
     destructor Destroy; override;
     procedure Assign(Source: TPersistent); override;
     function EffectiveHint: String;
+    { BackStage composition belongs to TLazRibbon.BackstageView. This public
+      compatibility property delegates to the owner but is not part of the
+      Object Inspector surface. }
+    property BackstageView: TLazRibbonCustomBackstageView read GetBackstageView write SetBackstageView;
   published
     property Caption: String read GetCaption write SetCaption;
     property Visible: Boolean read GetVisible write SetVisible default False;
     property Mode: TLazRibbonApplicationButtonMode read GetMode write SetMode default abmEvent;
     property Style: TLazRibbonMenuButtonStyle read GetStyle write SetStyle default mbsCaption;
-    property BackstageView: TLazRibbonCustomBackstageView read GetBackstageView write SetBackstageView;
     property Menu: TPopupMenu read GetMenu write SetMenu;
     property Glyph: TPicture read FGlyph write SetGlyph;
     property ImageIndex: Integer read FImageIndex write SetImageIndex default -1;
