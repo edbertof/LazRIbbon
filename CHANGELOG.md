@@ -1,3 +1,11 @@
+## 1.2.30 - Component property matrix
+
+- Adds `docs/quality/COMPONENT_PROPERTY_MATRIX_2_0.md` as the practical Object Inspector map for component roles, canonical properties and compatibility-only names.
+- Documents intentional similar property pairs, including QAT allow/show pairs and gallery item/icon sizing.
+- Links the public API audit and component composition model to the property matrix for the 2.0 freeze.
+- Extends the consistency audit to require the property matrix and key canonical API names.
+- Updates runtime and design-time package versions to 1.2.30.
+
 ## 1.2.29 - ControlHost metadata cleanup
 
 - Keeps `TLazRibbonControlHostItem.Caption` as the visible placeholder text for hosted-control items.

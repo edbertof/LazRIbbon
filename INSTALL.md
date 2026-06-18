@@ -45,6 +45,13 @@ When testing a new ZIP version:
 3. Compile `LazRibbonRuntime.lpk` first.
 4. Compile/install `LazRibbonDesign.lpk` second.
 
+## Object Inspector property map
+
+For new forms, use `docs/quality/COMPONENT_PROPERTY_MATRIX_2_0.md` as the quick
+guide to the intended component/property model. It shows which component owns
+each composition link, which properties are canonical, and which names are kept
+only for compatibility.
+
 ## Build outputs
 
 The package writes compiled units to:

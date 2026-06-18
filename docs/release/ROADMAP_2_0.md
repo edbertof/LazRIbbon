@@ -21,6 +21,8 @@ used to build Office-like applications with:
 The following gates must be complete before `2.0.0`:
 
 - Public API names reviewed against `docs/quality/PUBLIC_API_AUDIT_2_0.md`.
+- Component property roles reviewed against
+  `docs/quality/COMPONENT_PROPERTY_MATRIX_2_0.md`.
 - Remaining confusing or duplicate Object Inspector names either renamed, hidden
   or documented as compatibility-only.
 - `tools/check_project_consistency.ps1` rejects known pre-2.0 legacy streaming
@@ -56,6 +58,8 @@ The following gates must be complete before `2.0.0`:
   `TLazRibbonBackstageView.Buttons` collection.
 - Keep hosted-control placeholder text on `TLazRibbonControlHostItem.Caption`;
   legacy `ControlName` and `ControlClassName` metadata stays compatibility-only.
+- Keep the component property matrix synchronized with new published properties
+  so the Object Inspector remains easy to understand.
 
 ### 2. Skin Editor Finish Pass
 
@@ -70,6 +74,8 @@ The following gates must be complete before `2.0.0`:
 ### 3. Documentation And Demos
 
 - Add a short "first Ribbon form" example to `README.md` or `INSTALL.md`.
+- Keep the component property matrix as the quick Object Inspector guide for
+  developers.
 - Add a demo matrix that states what each demo validates.
 - Add screenshots for the main Ribbon, BackStage, Skin Gallery and Skin Editor.
 - Review docs for outdated names after the API freeze pass.

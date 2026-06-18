@@ -73,7 +73,9 @@ candidates:
 ## Rename Or Consolidation Candidates
 
 No active duplicate public Object Inspector names remain from the current audit
-pass.
+pass. The companion `COMPONENT_PROPERTY_MATRIX_2_0.md` document records the
+expected role of each visible component group so future properties can be judged
+against the same model.
 
 ## Accepted Legacy Names
 
@@ -148,10 +150,12 @@ The next API pass should move from visible duplicate cleanup to release-candidat
 readiness:
 
 1. Review `README.md` and `INSTALL.md` against the final Object Inspector names.
-2. Add a compact demo matrix that states what each demo validates.
-3. Prepare screenshot guidance/assets for the main Ribbon, BackStage, Skin
+2. Keep `COMPONENT_PROPERTY_MATRIX_2_0.md` synchronized with any new published
+   component property.
+3. Add a compact demo matrix that states what each demo validates.
+4. Prepare screenshot guidance/assets for the main Ribbon, BackStage, Skin
    Gallery and Skin Editor.
-4. Run a clean checkout validation before tagging the first `2.0.0-rc1`.
+5. Run a clean checkout validation before tagging the first `2.0.0-rc1`.
 
 This keeps the public API surface quiet while shifting the remaining work toward
 shareable documentation and release proof.

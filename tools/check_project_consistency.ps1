@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
   [string]$SourceRoot = '',
-  [string]$ExpectedVersion = '1.2.29'
+  [string]$ExpectedVersion = '1.2.30'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -750,6 +750,7 @@ function Test-SkinEditorAppearanceModeDetection {
 
 function Test-TwoPointZeroPlanningDocs {
   $auditPath = Join-Path $SourceRoot 'docs/quality/PUBLIC_API_AUDIT_2_0.md'
+  $matrixPath = Join-Path $SourceRoot 'docs/quality/COMPONENT_PROPERTY_MATRIX_2_0.md'
   $roadmapPath = Join-Path $SourceRoot 'docs/release/ROADMAP_2_0.md'
 
   if (-not (Test-Path -LiteralPath $auditPath)) {
@@ -761,10 +762,42 @@ function Test-TwoPointZeroPlanningDocs {
       'ShowMinimizeRibbonButton',
       'BackButtonVisible',
       'SelectedSkinName',
-      'Icon16Data'
+      'Icon16Data',
+      'No active duplicate public Object Inspector names remain',
+      'COMPONENT_PROPERTY_MATRIX_2_0.md'
     )) {
       if ($audit -notmatch [regex]::Escape($required)) {
         Add-Failure "Public API audit must mention $required."
+      }
+    }
+  }
+
+  if (-not (Test-Path -LiteralPath $matrixPath)) {
+    Add-Failure 'Missing component property matrix for the 2.0 freeze.'
+  }
+  else {
+    $matrix = Get-Content -LiteralPath $matrixPath -Raw
+    foreach ($required in @(
+      'Component Property Matrix',
+      'Top-Level Shell',
+      'Ribbon Structure',
+      'Command Surfaces',
+      'BackStage',
+      'Skin Components',
+      'Visual Appearance',
+      'Intentional Similar Pairs',
+      'Compatibility-Only Names',
+      'TLazRibbon.BackstageView',
+      'TLazRibbonBackstageView.Buttons',
+      'TLazRibbonQuickAccessToolBar',
+      'TLazRibbonControlHostItem',
+      'SelectedSkinName',
+      'Icon16Data',
+      'ControlName',
+      'Release Gate'
+    )) {
+      if ($matrix -notmatch [regex]::Escape($required)) {
+        Add-Failure "Component property matrix must mention $required."
       }
     }
   }

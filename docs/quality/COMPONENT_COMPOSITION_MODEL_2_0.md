@@ -3,7 +3,8 @@
 This document defines the intended public property model for composing a
 LazRibbon interface. It complements the public API audit by describing where a
 developer should connect components and where repeated-looking properties are
-intentional.
+intentional. The practical Object Inspector map for these decisions lives in
+`COMPONENT_PROPERTY_MATRIX_2_0.md`.
 
 ## Composition Rules
 
@@ -14,6 +15,8 @@ intentional.
 4. Skin selection is always name-based for public Object Inspector use.
 5. Low-level appearance objects remain available for detailed styling, but the
    first-level component API should prefer Office-like concepts.
+6. New published properties must fit the component property matrix before they
+   are considered ready for the 2.0 API freeze.
 
 ## Primary Object Graph
 

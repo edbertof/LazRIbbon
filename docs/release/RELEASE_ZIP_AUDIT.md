@@ -1,3 +1,11 @@
+## 1.2.30 check
+
+- Package metadata updated to 1.2.30.
+- `docs/quality/COMPONENT_PROPERTY_MATRIX_2_0.md` documents the Object Inspector property model for the main components.
+- The matrix records canonical composition links, visual settings, skin properties and compatibility-only names.
+- Intentional similar pairs are documented so QAT allow/show properties and gallery item/icon sizes are not treated as duplicates.
+- The consistency audit requires the property matrix and key canonical API names.
+
 ## 1.2.29 check
 
 - Package metadata updated to 1.2.29.

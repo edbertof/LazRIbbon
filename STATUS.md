@@ -1,6 +1,8 @@
 # LazRibbon Status
 
-`1.2.29 - ControlHost metadata cleanup` is the current stabilization build.
+`1.2.30 - Component property matrix` is the current stabilization build.
+
+The 1.2.30 build turns the component-property cleanup rule into a documented and audited release gate. `docs/quality/COMPONENT_PROPERTY_MATRIX_2_0.md` now maps each main component role to the properties a developer should use in the Object Inspector, records intentional similar pairs and marks compatibility-only names that should not guide new projects.
 
 The 1.2.29 build continues the component-composition cleanup for the 2.0 API freeze. `TLazRibbonControlHostItem` now keeps `Caption` as the visible placeholder text for hosted-control items, while the legacy string metadata `ControlName` and `ControlClassName` is hidden from the Object Inspector, retained publicly for source compatibility, and accepted through legacy `.lfm` readers.
 
