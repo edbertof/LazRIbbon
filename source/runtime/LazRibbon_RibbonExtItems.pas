@@ -80,11 +80,17 @@ type
   private
     FControlName: String;
     FControlClassName: String;
+    procedure ReadLegacyControlClassName(Reader: TReader);
+    procedure ReadLegacyControlName(Reader: TReader);
     procedure SetControlName(const AValue: String);
     procedure SetControlClassName(const AValue: String);
   protected
+    procedure DefineProperties(Filer: TFiler); override;
     procedure DrawItemContent(ABuffer: TBitmap; const R: TRect); override;
-  published
+  public
+    { Legacy placeholder metadata retained for source compatibility and old
+      .lfm reading. New projects should use Caption for the visible placeholder
+      text until a direct hosted-control reference API is introduced. }
     property ControlName: String read FControlName write SetControlName;
     property ControlClassName: String read FControlClassName write SetControlClassName;
   end;
@@ -399,13 +405,20 @@ end;
 
 { TLazRibbonControlHostItem }
 
+procedure TLazRibbonControlHostItem.DefineProperties(Filer: TFiler);
+begin
+  inherited DefineProperties(Filer);
+  Filer.DefineProperty('ControlName', ReadLegacyControlName, nil, False);
+  Filer.DefineProperty('ControlClassName', ReadLegacyControlClassName, nil, False);
+end;
+
 procedure TLazRibbonControlHostItem.DrawItemContent(ABuffer: TBitmap; const R: TRect);
 var
   TR: TRect;
   S: String;
 begin
   inherited DrawItemContent(ABuffer, R);
-  if FControlName <> '' then
+  if (FCaption = '') and (FControlName <> '') then
   begin
     S := FControlName;
     TR := R;
@@ -416,6 +429,16 @@ begin
     ABuffer.Canvas.TextRect(TR, TR.Left + 2, TR.Top, S);
     ABuffer.Canvas.Brush.Style := bsSolid;
   end;
+end;
+
+procedure TLazRibbonControlHostItem.ReadLegacyControlClassName(Reader: TReader);
+begin
+  SetControlClassName(Reader.ReadString);
+end;
+
+procedure TLazRibbonControlHostItem.ReadLegacyControlName(Reader: TReader);
+begin
+  SetControlName(Reader.ReadString);
 end;
 
 procedure TLazRibbonControlHostItem.SetControlClassName(const AValue: String);
@@ -429,6 +452,8 @@ procedure TLazRibbonControlHostItem.SetControlName(const AValue: String);
 begin
   if FControlName = AValue then Exit;
   FControlName := AValue;
+  if (FControlName <> '') and ((FCaption = '') or (FCaption = 'Ribbon Item')) then
+    Caption := FControlName;
   ChangedVisuals;
 end;
 

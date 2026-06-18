@@ -1,6 +1,8 @@
 # LazRibbon Status
 
-`1.2.28 - BackStage page composition cleanup` is the current stabilization build.
+`1.2.29 - ControlHost metadata cleanup` is the current stabilization build.
+
+The 1.2.29 build continues the component-composition cleanup for the 2.0 API freeze. `TLazRibbonControlHostItem` now keeps `Caption` as the visible placeholder text for hosted-control items, while the legacy string metadata `ControlName` and `ControlClassName` is hidden from the Object Inspector, retained publicly for source compatibility, and accepted through legacy `.lfm` readers.
 
 The 1.2.28 build continues the component-composition cleanup for the 2.0 API freeze. `TLazRibbonBackstagePage` is treated as a BackStage content container at design time, while `TLazRibbonBackstageView.Buttons` is the public model for navigation entries, commands and separators. Page-level command/navigation properties such as `Action`, `Command`, `CloseBackstageOnClick`, `ItemKind` and `OnExecute` are hidden from the Object Inspector and protected by the consistency audit.
 

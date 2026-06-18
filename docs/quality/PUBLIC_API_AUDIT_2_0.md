@@ -72,11 +72,8 @@ candidates:
 
 ## Rename Or Consolidation Candidates
 
-These names work today, but should be reviewed before the 2.0 API freeze.
-
-| Current API | Proposed 2.0 direction | Reason |
-| --- | --- | --- |
-| `TLazRibbonControlHostItem.ControlName` and `ControlClassName` | Consider replacing with a stronger component-reference API | Host items should ideally connect to a control directly instead of relying on string metadata. |
+No active duplicate public Object Inspector names remain from the current audit
+pass.
 
 ## Accepted Legacy Names
 
@@ -140,19 +137,21 @@ Before 2.0, every visible property should satisfy one of these conditions:
   `CloseBackstageOnClick`, `ItemKind` and `OnExecute` are hidden from the
   Object Inspector. `TLazRibbonBackstageView.Buttons` is the preferred public
   model for BackStage page links, commands and separators.
+- `TLazRibbonControlHostItem.Caption` is the visible placeholder text for hosted
+  control items. Legacy `ControlName` and `ControlClassName` strings are hidden
+  from the Object Inspector, retained publicly for source compatibility, and
+  accepted through legacy `.lfm` readers.
 
 ## Recommended Next API Pass
 
-The next API pass should review hosted-control composition:
+The next API pass should move from visible duplicate cleanup to release-candidate
+readiness:
 
-1. Decide whether `TLazRibbonControlHostItem.ControlName` and
-   `ControlClassName` should remain visible.
-2. Prefer a component-reference model when a hosted control can be connected
-   directly.
-3. Keep string metadata only if it is needed for serialization or diagnostics.
-4. Extend `tools/check_project_consistency.ps1` if the host-item API is
-   consolidated.
+1. Review `README.md` and `INSTALL.md` against the final Object Inspector names.
+2. Add a compact demo matrix that states what each demo validates.
+3. Prepare screenshot guidance/assets for the main Ribbon, BackStage, Skin
+   Gallery and Skin Editor.
+4. Run a clean checkout validation before tagging the first `2.0.0-rc1`.
 
-This keeps Ribbon composition readable: containers and items should point at
-real components instead of asking the developer to synchronize duplicated text
-metadata.
+This keeps the public API surface quiet while shifting the remaining work toward
+shareable documentation and release proof.

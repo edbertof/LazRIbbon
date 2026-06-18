@@ -54,9 +54,8 @@ The following gates must be complete before `2.0.0`:
 - Keep BackStage page components as content containers. Navigation entries,
   commands and separators belong to the clearer
   `TLazRibbonBackstageView.Buttons` collection.
-- Review hosted-control composition so `TLazRibbonControlHostItem` does not
-  require duplicated string metadata when a direct component reference is
-  possible.
+- Keep hosted-control placeholder text on `TLazRibbonControlHostItem.Caption`;
+  legacy `ControlName` and `ControlClassName` metadata stays compatibility-only.
 
 ### 2. Skin Editor Finish Pass
 

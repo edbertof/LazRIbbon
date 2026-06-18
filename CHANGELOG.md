@@ -1,3 +1,12 @@
+## 1.2.29 - ControlHost metadata cleanup
+
+- Keeps `TLazRibbonControlHostItem.Caption` as the visible placeholder text for hosted-control items.
+- Moves legacy `ControlName` and `ControlClassName` metadata out of the Object Inspector surface while keeping them public for source compatibility.
+- Adds legacy `.lfm` readers for `ControlName` and `ControlClassName` so old forms can still open and migrate to `Caption`.
+- Extends the consistency audit to reject new `ControlName` and `ControlClassName` streaming on `TLazRibbonControlHostItem`.
+- Updates the 2.0 component composition model, public API audit, roadmap and release notes.
+- Updates runtime and design-time package versions to 1.2.29.
+
 ## 1.2.28 - BackStage page composition cleanup
 
 - Treats `TLazRibbonBackstagePage` as a BackStage content container in the design-time API.

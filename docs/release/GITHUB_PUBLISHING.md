@@ -40,7 +40,7 @@ Lazarus/Free Pascal component package for Office-like Ribbon interfaces, includi
 Use a title such as:
 
 ```text
-LazRibbon 1.2.28 - BackStage page composition cleanup
+LazRibbon 1.2.29 - ControlHost metadata cleanup
 ```
 
 ## Release notes format

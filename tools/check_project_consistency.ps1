@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
   [string]$SourceRoot = '',
-  [string]$ExpectedVersion = '1.2.28'
+  [string]$ExpectedVersion = '1.2.29'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -204,6 +204,10 @@ function Test-RibbonAppearanceStreaming {
         Add-Failure "BackStage command/navigation streaming found on TLazRibbonBackstagePage in ${relative}:${lineNumber}; use TLazRibbonBackstageView.Buttons."
       }
 
+      if (($line -match '^\s*(ControlName|ControlClassName)\s*=') -and ($currentType -eq 'TLazRibbonControlHostItem')) {
+        Add-Failure "Legacy hosted-control metadata streaming found on TLazRibbonControlHostItem in ${relative}:${lineNumber}; use Caption for placeholder text."
+      }
+
       if (($line -match '^\s*(BackColor|NavigationColor|ActiveColor|HotColor|FrameColor|TextColor|MutedTextColor|RecentOddColor|RecentHoverColor|RecentSelectedColor|RecentSelectedFrameColor|RecentTitleColor)\s*=') -and ($currentType -eq 'TLazRibbonSkinManager')) {
         Add-Failure "Legacy TLazRibbonSkinManager flat palette streaming found in ${relative}:${lineNumber}; use General.*, Accent.* or RecentList.*."
       }
@@ -315,10 +319,11 @@ function Test-BackstageAppearanceSourceApi {
 
 function Test-ComponentCompositionApi {
   $corePath = Join-Path $SourceRoot 'source/runtime/LazRibbon_Core.pas'
+  $extItemsPath = Join-Path $SourceRoot 'source/runtime/LazRibbon_RibbonExtItems.pas'
   $registerPath = Join-Path $SourceRoot 'source/design/LazRibbon_Register.pas'
   $compositionDocPath = Join-Path $SourceRoot 'docs/quality/COMPONENT_COMPOSITION_MODEL_2_0.md'
 
-  foreach ($path in @($corePath, $registerPath, $compositionDocPath)) {
+  foreach ($path in @($corePath, $extItemsPath, $registerPath, $compositionDocPath)) {
     if (-not (Test-Path -LiteralPath $path)) {
       Add-Failure "Missing component composition audit input: $(Get-RelativePath -Path $path)"
       return
@@ -378,6 +383,43 @@ function Test-ComponentCompositionApi {
     }
   }
 
+  foreach ($controlHostProperty in @('ControlName', 'ControlClassName')) {
+    $pattern = "RegisterPropertyToSkip\(TLazRibbonControlHostItem,\s+'$controlHostProperty'"
+    if ($register -notmatch $pattern) {
+      Add-Failure "TLazRibbonControlHostItem design-time API should hide legacy metadata property $controlHostProperty."
+    }
+  }
+
+  $extItems = Get-Content -LiteralPath $extItemsPath -Raw
+  $controlHostMatch = [regex]::Match($extItems, 'TLazRibbonControlHostItem\s*=\s*class\(TLazRibbonCustomRibbonExtItem\)([\s\S]*?)\bend;')
+  if (-not $controlHostMatch.Success) {
+    Add-Failure 'Could not inspect TLazRibbonControlHostItem declaration.'
+  }
+  else {
+    $controlHostBlock = $controlHostMatch.Value
+    $published = [regex]::Match($controlHostBlock, 'published[\s\S]*$')
+    if ($published.Success -and ($published.Value -match 'property\s+(ControlName|ControlClassName)\s*:')) {
+      Add-Failure 'TLazRibbonControlHostItem must not publish legacy ControlName/ControlClassName metadata.'
+    }
+    foreach ($required in @(
+      'property ControlName: String read FControlName write SetControlName;',
+      'property ControlClassName: String read FControlClassName write SetControlClassName;',
+      'procedure DefineProperties(Filer: TFiler); override;',
+      'procedure ReadLegacyControlName(Reader: TReader);',
+      'procedure ReadLegacyControlClassName(Reader: TReader);'
+    )) {
+      if ($controlHostBlock -notmatch [regex]::Escape($required)) {
+        Add-Failure "TLazRibbonControlHostItem should keep compatibility member $required."
+      }
+    }
+  }
+  if ($extItems -notmatch "Filer\.DefineProperty\('ControlName',\s*ReadLegacyControlName,\s*nil,\s*False\);") {
+    Add-Failure 'TLazRibbonControlHostItem must read legacy ControlName streaming via DefineProperties.'
+  }
+  if ($extItems -notmatch "Filer\.DefineProperty\('ControlClassName',\s*ReadLegacyControlClassName,\s*nil,\s*False\);") {
+    Add-Failure 'TLazRibbonControlHostItem must read legacy ControlClassName streaming via DefineProperties.'
+  }
+
   $scanRoots = @('source/design', 'tools', 'demos') | ForEach-Object {
     Join-Path $SourceRoot $_
   }
@@ -423,7 +465,8 @@ function Test-ComponentCompositionApi {
     'TLazRibbon.BackstageView',
     'TLazRibbonSeparator',
     'TLazRibbonBackstageView.Buttons',
-    'TLazRibbonBackstagePage'
+    'TLazRibbonBackstagePage',
+    'TLazRibbonControlHostItem'
   )) {
     if ($compositionDoc -notmatch [regex]::Escape($required)) {
       Add-Failure "Component composition model must include $required."

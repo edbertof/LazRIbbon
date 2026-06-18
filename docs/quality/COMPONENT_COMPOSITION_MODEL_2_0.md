@@ -61,6 +61,10 @@ TLazRibbonBackstageView
 - Quick Access Toolbar commands are represented by
   `QuickAccessToolBar.Items`. Each item can link to a standard `Action`, to a
   Ribbon item through `LinkedItem`, or define its own caption/image fallback.
+- A `TLazRibbonControlHostItem` uses `Caption` as the visible placeholder text.
+  Legacy `ControlName` and `ControlClassName` strings are compatibility
+  metadata only; new projects should not require developers to synchronize
+  those names manually.
 
 ## Intentional Pairs
 
@@ -88,6 +92,10 @@ Some property pairs look similar but describe different decisions:
   package hides page-level command/navigation properties `Action`, `Command`,
   `CloseBackstageOnClick`, `ItemKind` and `OnExecute`; use
   `TLazRibbonBackstageView.Buttons` for those entries.
+- `TLazRibbonControlHostItem` uses `Caption` as its public placeholder text.
+  `ControlName` and `ControlClassName` are retained as public compatibility
+  properties and legacy `.lfm` readers, but are hidden from the Object
+  Inspector.
 - Generic galleries use `ItemWidth` and `ItemHeight`; skin galleries and skin
   selectors use `IconWidth` and `IconHeight`.
 - Skin identity icons are embedded through `Icon16Data`, `Icon24Data` and
@@ -95,6 +103,6 @@ Some property pairs look similar but describe different decisions:
 
 ## Follow-up Candidates
 
-- Review whether `TLazRibbonControlHostItem.ControlName` and
-  `ControlClassName` should evolve into a stronger component-reference API
-  before 2.0.
+- Review whether `TLazRibbonControlHostItem` should gain a direct hosted-control
+  reference API before 2.0. The legacy string metadata is now hidden, but the
+  component still represents a placeholder rather than embedding a control.

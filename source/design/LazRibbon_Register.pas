@@ -102,6 +102,15 @@ begin
   RegisterPropertyToSkip(TLazRibbonBackstagePage, 'OnExecute',
     'BackStage pages are content containers. Use BackstageView.Buttons.OnExecute for commands.', '');
 
+  { TLazRibbonControlHostItem currently represents a Ribbon placeholder for
+    hosted controls. Caption is the visible placeholder text; legacy
+    ControlName/ControlClassName strings are kept only for old .lfm reading and
+    source compatibility. }
+  RegisterPropertyToSkip(TLazRibbonControlHostItem, 'ControlName',
+    'Use Caption for the visible placeholder text. ControlName is legacy metadata.', '');
+  RegisterPropertyToSkip(TLazRibbonControlHostItem, 'ControlClassName',
+    'ControlClassName is legacy metadata and is not needed in new forms.', '');
+
   { TLazRibbonSkinGalleryItem is a compact Ribbon item. It should expose
     ShowHints, not a manually edited Hint nor the obsolete ShowCaptions. }
   RegisterPropertyToSkip(TLazRibbonSkinGalleryItem, 'Hint',

@@ -1,3 +1,11 @@
+## 1.2.29 check
+
+- Package metadata updated to 1.2.29.
+- `TLazRibbonControlHostItem.Caption` is the visible placeholder text for hosted-control items.
+- Legacy `ControlName` and `ControlClassName` metadata is hidden from the Object Inspector and retained only for source/streaming compatibility.
+- Legacy `.lfm` readers accept `ControlName` and `ControlClassName`; new package resources must not stream them.
+- The consistency audit rejects new `ControlName` and `ControlClassName` streaming on `TLazRibbonControlHostItem`.
+
 ## 1.2.28 check
 
 - Package metadata updated to 1.2.28.
