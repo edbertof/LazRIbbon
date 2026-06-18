@@ -117,6 +117,9 @@ Before 2.0, every visible property should satisfy one of these conditions:
   `TLazRibbonSkinSelector.SelectedSkinName` are now the canonical Object
   Inspector properties for skin selection. `SelectedSkin` remains available as a
   public built-in-skin convenience and legacy `.lfm` reader.
+- `TLazRibbonSkinManager.ActiveSkinName` is now the canonical Object Inspector
+  property for the active skin. `ActiveSkin` remains available as a public
+  built-in-skin convenience and legacy `.lfm` reader.
 - `TLazRibbonSkinDefinition.Icon16Data`, `Icon24Data` and `Icon32Data` are now
   the canonical published skin identity icon fields. `Icon16FileName`,
   `Icon24FileName` and `Icon32FileName` remain public for editor import/source

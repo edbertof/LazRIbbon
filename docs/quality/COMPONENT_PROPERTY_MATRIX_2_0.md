@@ -96,6 +96,9 @@ These pairs are not duplicates; each side answers a different design question.
 - `TLazRibbonSkinGalleryItem.SelectedSkin` and
   `TLazRibbonSkinSelector.SelectedSkin` remain public built-in-skin helpers;
   new Object Inspector work should use `SelectedSkinName`.
+- `TLazRibbonSkinManager.ActiveSkin` remains a public built-in-skin helper and
+  is readable from legacy `.lfm` resources, but new Object Inspector work should
+  use `ActiveSkinName`.
 - `TLazRibbonSkinDefinition.Icon16FileName`, `Icon24FileName` and
   `Icon32FileName` remain import/source compatibility fields; distributable
   skins should use embedded icon data.

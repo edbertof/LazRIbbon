@@ -627,7 +627,7 @@ begin
   if FManager = nil then Exit;
   Temp := TLazRibbonSkinManager.Create(nil);
   try
-    Temp.ActiveSkin := FManager.ActiveSkin;
+    Temp.ActiveSkinName := FManager.ActiveSkinName;
     Temp.ResetToBuiltInSkin;
     FPalette := Temp.Palette;
     FAppearance.Assign(Temp.Appearance);

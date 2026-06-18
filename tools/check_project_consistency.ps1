@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
   [string]$SourceRoot = '',
-  [string]$ExpectedVersion = '1.2.31'
+  [string]$ExpectedVersion = '1.2.32'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -182,6 +182,10 @@ function Test-RibbonAppearanceStreaming {
 
       if (($line -match '^\s*SelectedSkin\s*=') -and ($currentType -in @('TLazRibbonSkinGalleryItem', 'TLazRibbonSkinSelector'))) {
         Add-Failure "Legacy skin selection streaming found in ${relative}:${lineNumber}; use SelectedSkinName."
+      }
+
+      if (($line -match '^\s*ActiveSkin\s*=') -and ($currentType -eq 'TLazRibbonSkinManager')) {
+        Add-Failure "Legacy TLazRibbonSkinManager ActiveSkin streaming found in ${relative}:${lineNumber}; use ActiveSkinName."
       }
 
       if (($line -match '^\s*ShowCloseButton\s*=') -and ($currentType -eq 'TLazRibbonBackstageView')) {
@@ -660,6 +664,53 @@ function Test-SkinSelectionNameApi {
   }
 }
 
+function Test-SkinManagerActiveSkinNameApi {
+  $path = Join-Path $SourceRoot 'source/runtime/LazRibbon_SkinManager.pas'
+  $registerPath = Join-Path $SourceRoot 'source/design/LazRibbon_Register.pas'
+  if (-not (Test-Path -LiteralPath $path)) {
+    Add-Failure 'Missing skin manager unit.'
+    return
+  }
+  if (-not (Test-Path -LiteralPath $registerPath)) {
+    Add-Failure 'Missing LazRibbon design registration unit.'
+    return
+  }
+
+  $content = Get-Content -LiteralPath $path -Raw
+  $match = [regex]::Match($content, 'TLazRibbonSkinManager\s*=\s*class\(TComponent\)([\s\S]*?)\bend;')
+  if (-not $match.Success) {
+    Add-Failure 'Could not inspect TLazRibbonSkinManager declaration.'
+    return
+  }
+
+  $block = $match.Value
+  if ($block -notmatch 'property\s+ActiveSkinName:\s+String\s+read\s+FActiveSkinName\s+write\s+SetActiveSkinName;') {
+    Add-Failure 'TLazRibbonSkinManager must publish ActiveSkinName as the canonical active skin API.'
+  }
+
+  $publishedMatch = [regex]::Match($block, 'published[\s\S]*$')
+  if ($publishedMatch.Success -and ($publishedMatch.Value -match 'property\s+ActiveSkin\s*:')) {
+    Add-Failure 'TLazRibbonSkinManager must not publish ActiveSkin; keep ActiveSkinName in the Object Inspector.'
+  }
+
+  foreach ($required in @(
+    'property ActiveSkin: TLazRibbonBuiltInSkin read FActiveSkin write SetActiveSkin default sbsOfficeBlue;',
+    'procedure DefineProperties(Filer: TFiler); override;',
+    'procedure ReadLegacyActiveSkin(Reader: TReader);',
+    "Filer.DefineProperty('ActiveSkin', ReadLegacyActiveSkin, nil, False);",
+    'procedure TLazRibbonSkinManager.ReadLegacyActiveSkin'
+  )) {
+    if ($content -notmatch [regex]::Escape($required)) {
+      Add-Failure "TLazRibbonSkinManager should keep compatibility member $required."
+    }
+  }
+
+  $register = Get-Content -LiteralPath $registerPath -Raw
+  if ($register -notmatch "RegisterPropertyToSkip\(TLazRibbonSkinManager,\s+'ActiveSkin'") {
+    Add-Failure 'TLazRibbonSkinManager design-time API should hide ActiveSkin in favor of ActiveSkinName.'
+  }
+}
+
 function Test-SkinIdentityIconDataApi {
   $path = Join-Path $SourceRoot 'source/runtime/LazRibbon_SkinDefinition.pas'
   if (-not (Test-Path -LiteralPath $path)) {
@@ -788,6 +839,7 @@ function Test-TwoPointZeroPlanningDocs {
       'ShowMinimizeRibbonButton',
       'BackButtonVisible',
       'SelectedSkinName',
+      'ActiveSkinName',
       'Icon16Data',
       'No active duplicate public Object Inspector names remain',
       'COMPONENT_PROPERTY_MATRIX_2_0.md',
@@ -819,6 +871,7 @@ function Test-TwoPointZeroPlanningDocs {
       'TLazRibbonQuickAccessToolBar',
       'TLazRibbonControlHostItem',
       'SelectedSkinName',
+      'ActiveSkinName',
       'Icon16Data',
       'ControlName',
       'Release Gate'
@@ -846,6 +899,7 @@ function Test-TwoPointZeroPlanningDocs {
       'TLazRibbonBackstageView.Buttons',
       'Action',
       'SelectedSkinName',
+      'ActiveSkinName',
       'Icon16Data'
     )) {
       if ($objectInspectorAudit -notmatch [regex]::Escape($required)) {
@@ -905,6 +959,7 @@ Test-RibbonMinimizedHeightAdjustment
 Test-RibbonMinimizeOfficeApi
 Test-GallerySizeOfficeApi
 Test-SkinSelectionNameApi
+Test-SkinManagerActiveSkinNameApi
 Test-SkinIdentityIconDataApi
 Test-SkinEditorPreviewMinimizeSync
 Test-SkinEditorAppearanceModeDetection

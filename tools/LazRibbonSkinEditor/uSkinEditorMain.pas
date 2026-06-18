@@ -446,7 +446,7 @@ begin
   if Assigned(PreviewBaseGallery) then
   begin
     PreviewBaseGallery.SkinManager := PreviewSkinManager;
-    PreviewBaseGallery.SelectedSkin := PreviewSkinManager.ActiveSkin;
+    PreviewBaseGallery.SelectedSkinName := PreviewSkinManager.ActiveSkinName;
   end;
 
   if PreviewSkinManager.SkinCount > 0 then

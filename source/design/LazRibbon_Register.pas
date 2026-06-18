@@ -143,6 +143,12 @@ begin
   RegisterPropertyToSkip(TLazRibbonSkinSelector, 'SelectedSkin',
     'SelectedSkin is a built-in-skin compatibility shortcut. Use SelectedSkinName instead.', '');
 
+  { TLazRibbonSkinManager now exposes ActiveSkinName as the single Object
+    Inspector selector because it can address both built-in and external skins.
+    ActiveSkin remains public only for source compatibility with built-in skins. }
+  RegisterPropertyToSkip(TLazRibbonSkinManager, 'ActiveSkin',
+    'ActiveSkin is a built-in-skin compatibility shortcut. Use ActiveSkinName instead.', '');
+
 end;
 
 procedure Register;

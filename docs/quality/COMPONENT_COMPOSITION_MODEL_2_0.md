@@ -59,8 +59,9 @@ TLazRibbonBackstageView
 - A BackStage view and BackStage recent list use `AppearanceSource` plus
   `SkinManager` or `LinkedToolbar` to decide where their visual palette comes
   from.
-- A skin selector or skin gallery changes `SelectedSkinName`; the older enum
-  shortcuts remain compatibility conveniences only outside the Object Inspector.
+- A skin manager exposes the active skin through `ActiveSkinName`, and a skin
+  selector or skin gallery changes `SelectedSkinName`; the older enum shortcuts
+  remain compatibility conveniences only outside the Object Inspector.
 - Quick Access Toolbar commands are represented by
   `QuickAccessToolBar.Items`. Each item can link to a standard `Action`, to a
   Ribbon item through `LinkedItem`, or define its own caption/image fallback.
@@ -102,6 +103,9 @@ Some property pairs look similar but describe different decisions:
   Inspector.
 - Generic galleries use `ItemWidth` and `ItemHeight`; skin galleries and skin
   selectors use `IconWidth` and `IconHeight`.
+- `TLazRibbonSkinManager.ActiveSkinName` is the canonical active-skin property.
+  The older `ActiveSkin` enum remains public only for source and legacy `.lfm`
+  compatibility with built-in skins.
 - Skin identity icons are embedded through `Icon16Data`, `Icon24Data` and
   `Icon32Data`.
 

@@ -1,6 +1,8 @@
 # LazRibbon Status
 
-`1.2.31 - BackStage page Object Inspector cleanup` is the current stabilization build.
+`1.2.32 - SkinManager ActiveSkinName cleanup` is the current stabilization build.
+
+The 1.2.32 build makes `TLazRibbonSkinManager.ActiveSkinName` the only published Object Inspector property for selecting the active skin. `ActiveSkin` remains public for source compatibility with built-in skins and old `.lfm` files that stream `ActiveSkin = sbs...` are still accepted through a legacy reader. The demos now stream `ActiveSkinName`, so new projects see the same name-based API used by skin selectors and galleries.
 
 The 1.2.31 build tightens the component-property model by moving `TLazRibbonBackstagePage` command/navigation properties out of the published Object Inspector surface. They remain public for source-level compatibility, but new forms are guided to `TLazRibbonBackstageView.Buttons` for BackStage navigation entries, commands and separators. The new `docs/quality/OBJECT_INSPECTOR_PROPERTY_AUDIT_2_0.md` records redundant/repeated property decisions for the 2.0 freeze.
 

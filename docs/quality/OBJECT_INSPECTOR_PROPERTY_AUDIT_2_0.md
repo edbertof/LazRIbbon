@@ -55,6 +55,7 @@ The design package also registers item classes without palette icons:
 | `TLazRibbonControlHostItem` | Published `ControlName`, `ControlClassName` metadata | `Caption` as placeholder text |
 | `TLazRibbonGalleryItem` / `TLazRibbonSkinGalleryItem` | Mixed `ItemWidth`/`IconWidth` meanings | Generic gallery uses `ItemWidth`/`ItemHeight`; skin gallery uses `IconWidth`/`IconHeight` |
 | `TLazRibbonSkinSelector` / `TLazRibbonSkinGalleryItem` | Built-in enum as the visible selector | `SelectedSkinName` |
+| `TLazRibbonSkinManager` | `ActiveSkin` enum beside `ActiveSkinName` | `ActiveSkinName` |
 | `TLazRibbonSkinDefinition` | Icon file-name fields as distributable identity | Embedded `Icon16Data`, `Icon24Data`, `Icon32Data` |
 
 ## BackStage Page Decision
@@ -101,6 +102,3 @@ the property matrix.
   original SpkToolBar model. They remain acceptable because they live inside
   `RibbonAppearance` or `SkinManager.Appearance`, not as first-level component
   decisions.
-- `TLazRibbonSkinManager.ActiveSkin` remains a built-in-skin convenience, while
-  `ActiveSkinName` is the canonical public selector for built-in and external
-  skins.

@@ -1,3 +1,11 @@
+## 1.2.32 - SkinManager ActiveSkinName cleanup
+
+- Makes `TLazRibbonSkinManager.ActiveSkinName` the only published Object Inspector property for choosing the active skin.
+- Keeps `TLazRibbonSkinManager.ActiveSkin` as a public built-in-skin compatibility shortcut and adds a legacy `.lfm` reader for old `ActiveSkin = sbs...` resources.
+- Updates demos and Skin Editor code to use the name-based skin API for built-in and external skins.
+- Extends the consistency audit to reject new `TLazRibbonSkinManager.ActiveSkin` streaming and require the compatibility reader.
+- Updates runtime and design-time package versions to 1.2.32.
+
 ## 1.2.31 - BackStage page Object Inspector cleanup
 
 - Moves `TLazRibbonBackstagePage` command/navigation properties out of the published Object Inspector surface while keeping them public for source-level compatibility.

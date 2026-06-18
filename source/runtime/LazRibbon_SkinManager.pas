@@ -222,6 +222,9 @@ type
     procedure SetRecentSelectedColor(AValue: TColor);
     procedure SetRecentSelectedFrameColor(AValue: TColor);
     procedure SetRecentTitleColor(AValue: TColor);
+    procedure ReadLegacyActiveSkin(Reader: TReader);
+  protected
+    procedure DefineProperties(Filer: TFiler); override;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -241,8 +244,8 @@ type
     procedure SaveToFile(const AFileName: String);
     property Palette: TLazRibbonSkinPalette read FPalette;
     property Skins[AIndex: Integer]: TLazRibbonSkinDefinition read SkinByIndex;
-  published
     property ActiveSkin: TLazRibbonBuiltInSkin read FActiveSkin write SetActiveSkin default sbsOfficeBlue;
+  published
     property ActiveSkinName: String read FActiveSkinName write SetActiveSkinName;
     property SkinFolder: String read FSkinFolder write SetSkinFolder;
     property AutoRefreshControls: Boolean read FAutoRefreshControls write SetAutoRefreshControls default True;
@@ -843,6 +846,51 @@ end;
 function LazStyleFromBuiltInSkin(ASkin: TLazRibbonBuiltInSkin): TLazRibbonStyle;
 begin
   Result := LazRibbon_SkinDefinition.LazStyleFromBuiltInSkin(ASkin);
+end;
+
+function LazBuiltInSkinFromLegacyIdent(const AValue: String;
+  out ASkin: TLazRibbonBuiltInSkin): Boolean;
+begin
+  Result := LazRibbon_SkinDefinition.LazBuiltInSkinFromString(AValue, ASkin);
+  if Result then
+    Exit;
+
+  if SameText(AValue, 'sbsOfficeBlue') then
+    ASkin := sbsOfficeBlue
+  else if SameText(AValue, 'sbsOfficeSilver') then
+    ASkin := sbsOfficeSilver
+  else if SameText(AValue, 'sbsOfficeBlack') then
+    ASkin := sbsOfficeBlack
+  else if SameText(AValue, 'sbsCaramel') then
+    ASkin := sbsCaramel
+  else if SameText(AValue, 'sbsMetroLight') then
+    ASkin := sbsMetroLight
+  else if SameText(AValue, 'sbsMetroDark') then
+    ASkin := sbsMetroDark
+  else if SameText(AValue, 'sbsOlive') then
+    ASkin := sbsOlive
+  else if SameText(AValue, 'sbsPurple') then
+    ASkin := sbsPurple
+  else if SameText(AValue, 'sbsModernLight') then
+    ASkin := sbsModernLight
+  else
+    Exit(False);
+
+  Result := True;
+end;
+
+procedure TLazRibbonSkinManager.DefineProperties(Filer: TFiler);
+begin
+  inherited DefineProperties(Filer);
+  Filer.DefineProperty('ActiveSkin', ReadLegacyActiveSkin, nil, False);
+end;
+
+procedure TLazRibbonSkinManager.ReadLegacyActiveSkin(Reader: TReader);
+var
+  Skin: TLazRibbonBuiltInSkin;
+begin
+  if LazBuiltInSkinFromLegacyIdent(Reader.ReadIdent, Skin) then
+    SetActiveSkin(Skin);
 end;
 
 procedure TLazRibbonSkinManager.ApplyBuiltInSkin;

@@ -47,6 +47,9 @@ The following gates must be complete before `2.0.0`:
   icon metrics on `IconWidth`/`IconHeight`.
 - Keep `SelectedSkinName` as the canonical skin selection property for visual
   skin selector controls, including external skins.
+- Keep `TLazRibbonSkinManager.ActiveSkinName` as the canonical active-skin
+  selector for built-in and external skins; `ActiveSkin` remains compatibility
+  only for built-in-skin source code and legacy `.lfm` files.
 - Keep skin identity icons on embedded `Icon16Data`, `Icon24Data` and
   `Icon32Data`; file-name fields remain public import/source compatibility only.
 - Keep BackStage visual-source selection on `AppearanceSource`, with

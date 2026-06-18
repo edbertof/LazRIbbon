@@ -1,3 +1,11 @@
+## 1.2.32 check
+
+- Package metadata updated to 1.2.32.
+- `TLazRibbonSkinManager.ActiveSkinName` is the only published Object Inspector active-skin selector.
+- `TLazRibbonSkinManager.ActiveSkin` remains public source compatibility only and is accepted through a legacy `.lfm` reader.
+- Demos and tools stream `ActiveSkinName` instead of `ActiveSkin`.
+- The consistency audit rejects new `TLazRibbonSkinManager.ActiveSkin` streaming.
+
 ## 1.2.31 check
 
 - Package metadata updated to 1.2.31.
