@@ -1,3 +1,11 @@
+## 1.2.36 check
+
+- Package metadata updated to 1.2.36.
+- `tools/verify_release_candidate.ps1` runs the release-candidate preflight in one command.
+- The preflight runs consistency before build, full build matrix with cleanup, consistency after cleanup and release ZIP audit.
+- `README.md`, `INSTALL.md` and the 2.0 roadmap document the preflight command.
+- The consistency audit requires the preflight script to keep the 2.0 release path explicit.
+
 ## 1.2.35 check
 
 - Package metadata updated to 1.2.35.

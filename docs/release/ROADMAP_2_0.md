@@ -37,6 +37,8 @@ The following gates must be complete before `2.0.0`:
 - `demos/ribbon_form/project1.lpi` compiles and demonstrates the main workflow.
 - `tools/build_all_projects.ps1 -CleanArtifacts` compiles the packages, Skin
   Editor and every demo listed in `docs/release/DEMO_VALIDATION_MATRIX.md`.
+- `tools/verify_release_candidate.ps1` runs the full release-candidate
+  preflight before a 2.0 RC is tagged.
 - Release ZIP audit passes with no generated build artifacts.
 
 ## Planned Work
@@ -100,6 +102,8 @@ The following gates must be complete before `2.0.0`:
 
 - Publish `2.0.0-rc1` after the API freeze pass.
 - Run the Lazarus 4.8 validation checklist from a clean checkout.
+- Run `tools/verify_release_candidate.ps1` with the target version and release
+  ZIP output directory.
 - Install the design-time package in Lazarus and verify component palette icons.
 - Compile and run the Skin Editor and the main Ribbon form demo.
 - Generate a source ZIP and verify its SHA256.

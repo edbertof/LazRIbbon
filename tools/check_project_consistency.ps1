@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
   [string]$SourceRoot = '',
-  [string]$ExpectedVersion = '1.2.35'
+  [string]$ExpectedVersion = '1.2.36'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -867,6 +867,7 @@ function Test-TwoPointZeroPlanningDocs {
   $roadmapPath = Join-Path $SourceRoot 'docs/release/ROADMAP_2_0.md'
   $demoMatrixPath = Join-Path $SourceRoot 'docs/release/DEMO_VALIDATION_MATRIX.md'
   $buildAllPath = Join-Path $SourceRoot 'tools/build_all_projects.ps1'
+  $preflightPath = Join-Path $SourceRoot 'tools/verify_release_candidate.ps1'
   $snapshotScriptPath = Join-Path $SourceRoot 'tools/export_object_inspector_snapshot.ps1'
   $readmePath = Join-Path $SourceRoot 'README.md'
 
@@ -917,6 +918,26 @@ function Test-TwoPointZeroPlanningDocs {
       $docTarget = $target -replace '\\', '/'
       if ($demoMatrix -notmatch [regex]::Escape($docTarget)) {
         Add-Failure "Demo validation matrix must include $target."
+      }
+    }
+  }
+
+  if (-not (Test-Path -LiteralPath $preflightPath)) {
+    Add-Failure 'Missing release-candidate preflight script for the 2.0 release workflow.'
+  }
+  else {
+    $preflight = Get-Content -LiteralPath $preflightPath -Raw
+    foreach ($required in @(
+      'check_project_consistency.ps1',
+      'build_all_projects.ps1',
+      'build_release_zip.ps1',
+      'SkipBuild',
+      'SkipZip',
+      'CleanArtifacts',
+      'Release ZIP and ZIP audit'
+    )) {
+      if ($preflight -notmatch [regex]::Escape($required)) {
+        Add-Failure "Release-candidate preflight script must include $required."
       }
     }
   }
@@ -989,7 +1010,7 @@ function Test-TwoPointZeroPlanningDocs {
   }
   else {
     $readme = Get-Content -LiteralPath $readmePath -Raw
-    foreach ($required in @('First Ribbon Form', 'TLazRibbonForm', 'TLazRibbon.BackstageView', 'tools/build_all_projects.ps1')) {
+    foreach ($required in @('First Ribbon Form', 'TLazRibbonForm', 'TLazRibbon.BackstageView', 'tools/build_all_projects.ps1', 'tools/verify_release_candidate.ps1')) {
       if ($readme -notmatch [regex]::Escape($required)) {
         Add-Failure "README must include $required for the 2.0 onboarding workflow."
       }
@@ -1086,6 +1107,7 @@ function Test-TwoPointZeroPlanningDocs {
     foreach ($required in @(
       'API Freeze Pass',
       'OBJECT_INSPECTOR_SURFACE_SNAPSHOT_2_0.md',
+      'tools/verify_release_candidate.ps1',
       'Skin Editor Finish Pass',
       'Release Candidate',
       'Definition Of Done'

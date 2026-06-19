@@ -1,6 +1,8 @@
 # LazRibbon Status
 
-`1.2.35 - Object Inspector surface snapshot` is the current stabilization build.
+`1.2.36 - Release candidate preflight workflow` is the current stabilization build.
+
+The 1.2.36 build adds `tools/verify_release_candidate.ps1`, a single preflight command for the 2.0 release path. It runs the consistency audit, full package/tool/demo build matrix, post-cleanup audit and release ZIP audit in order, with `-SkipBuild` and `-SkipZip` switches for faster local iteration.
 
 The 1.2.35 build adds a generated Object Inspector surface snapshot for the final 2.0 API freeze. `tools/export_object_inspector_snapshot.ps1` extracts direct `published` properties from the main package-facing classes and writes `docs/quality/OBJECT_INSPECTOR_SURFACE_SNAPSHOT_2_0.md`; the consistency audit regenerates and compares it so visible property changes cannot drift away from the documented model.
 

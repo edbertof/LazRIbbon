@@ -1,3 +1,10 @@
+## 1.2.36 - Release candidate preflight workflow
+
+- Adds `tools/verify_release_candidate.ps1` as a single release-candidate preflight that runs consistency audits, the full build matrix and the release ZIP audit.
+- Documents the preflight workflow in `README.md`, `INSTALL.md`, the 2.0 roadmap and release audit notes.
+- Extends the consistency audit to require the preflight script so the 2.0 release path stays explicit.
+- Updates runtime and design-time package versions to 1.2.36.
+
 ## 1.2.35 - Object Inspector surface snapshot
 
 - Adds `tools/export_object_inspector_snapshot.ps1` to extract direct `published` properties from the main package-facing classes.
