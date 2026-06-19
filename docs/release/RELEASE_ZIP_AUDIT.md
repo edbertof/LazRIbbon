@@ -1,3 +1,12 @@
+## 1.2.34 check
+
+- Package metadata updated to 1.2.34.
+- `tools/build_all_projects.ps1` compiles runtime, design-time, Skin Editor and every demo in one command.
+- `docs/release/DEMO_VALIDATION_MATRIX.md` documents what each demo validates for the 2.0 release path.
+- `README.md` includes a compact first Ribbon form guide using current API names.
+- `INSTALL.md` points release validation to the full build script before creating the source ZIP.
+- The consistency audit requires the full-build script, demo matrix and first Ribbon form documentation.
+
 ## 1.2.33 check
 
 - Package metadata updated to 1.2.33.

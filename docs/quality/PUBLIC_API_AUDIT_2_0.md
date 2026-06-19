@@ -158,10 +158,12 @@ Before 2.0, every visible property should satisfy one of these conditions:
 The next API pass should move from visible duplicate cleanup to release-candidate
 readiness:
 
-1. Review `README.md` and `INSTALL.md` against the final Object Inspector names.
+1. Keep `README.md`, `INSTALL.md` and the first Ribbon form example synchronized
+   with the final Object Inspector names.
 2. Keep `COMPONENT_PROPERTY_MATRIX_2_0.md` synchronized with any new published
    component property.
-3. Add a compact demo matrix that states what each demo validates.
+3. Keep `docs/release/DEMO_VALIDATION_MATRIX.md` synchronized with the demos
+   and `tools/build_all_projects.ps1`.
 4. Prepare screenshot guidance/assets for the main Ribbon, BackStage, Skin
    Gallery and Skin Editor.
 5. Run a clean checkout validation before tagging the first `2.0.0-rc1`.

@@ -50,9 +50,9 @@ tools/LazRibbonSkinEditor/
 
 ## Current version
 
-This distribution is **LazRibbon 1.2.33 ControlHost direct control API**.
+This distribution is **LazRibbon 1.2.34 accelerated 2.0 validation workflow**.
 
-The stable 1.0.0 line remains the conservative baseline for production use. The 1.1 line is a controlled stabilization line now validated with Lazarus 4.8, with the 1.1.70 runtime behavior preserved and the 1.1.72 packaging/design-time polish applied on top. The 1.2.33 build makes `TLazRibbonControlHostItem.Control` the canonical hosted-control reference, keeps `Caption` as fallback placeholder text and keeps `ControlName`/`ControlClassName` only as source/legacy streaming compatibility. It keeps the 1.2.32 `TLazRibbonSkinManager.ActiveSkinName` cleanup, the 1.2.31 BackStage page Object Inspector cleanup, the 1.2.30 component property matrix, the 1.2.29 ControlHost metadata cleanup, the 1.2.28 BackStage page composition cleanup, the 1.2.27 component composition model, the canonical `TLazRibbon.BackstageView` link and the structural separator cleanup, the 1.2.26 BackStage `AppearanceSource` consolidation, the 1.2.25 skin identity embedded icon API, the 1.2.24 skin selection naming consolidation, the 1.2.23 gallery size naming consolidation, the 1.2.22 BackStage `BackButtonVisible` consolidation, the 1.2.21 Ribbon minimize API names, the 1.2.20 public API audit and roadmap, the 1.2.19 Skin Editor Appearance mode detection, the 1.2.18 Skin Editor minimize preview fix, the 1.2.17 Ribbon collapse/expand height fix, the 1.2.16 Office-style `bomCoverClientArea` BackStage default and the 1.2.15 SkinManager color API consolidation into `General`, `Accent`, `Backstage`, `RecentList` and `Ribbon` groups, while keeping `TLazRibbonSkinManager.Appearance` as the complete skin appearance model. It also keeps the 1.2.14 Application Button API consolidation, the 1.2.13 `TLazRibbon.Appearance` alias removal, the 1.2.12 SkinManager LFM streaming fix, the 1.2.10 compact Skin Editor layout, the 1.2.9 `TLazRibbon.RibbonAppearance` design-time API, the 1.2.8 design-time refresh fix, the 1.2.7 buffer-height fix, the 1.2.6 pane caption text rendering fix, the 1.2.5 preview height and Dialog Launcher glyph fixes, the 1.2.4 pane caption paint order fix, the 1.2.3 Appearance difference markers and filtering, the 1.2.2 per-property restore from base, the 1.2.1 base comparison report, the 1.2.0 validation report, the 1.1.78 high-DPI palette icons, the 1.1.77 tab spacing controls, the 1.1.76 Dialog Launcher rename and the 1.1.75 Skin Editor Appearance inspector work.
+The stable 1.0.0 line remains the conservative baseline for production use. The 1.1 line is a controlled stabilization line now validated with Lazarus 4.8, with the 1.1.70 runtime behavior preserved and the 1.1.72 packaging/design-time polish applied on top. The 1.2.34 build adds an accelerated validation workflow for the 2.0 path: `tools/build_all_projects.ps1` builds the packages, Skin Editor and every demo, while `docs/release/DEMO_VALIDATION_MATRIX.md` states what each project validates. It keeps the 1.2.33 `TLazRibbonControlHostItem.Control` hosted-control API, the 1.2.32 `TLazRibbonSkinManager.ActiveSkinName` cleanup, the 1.2.31 BackStage page Object Inspector cleanup, the 1.2.30 component property matrix, the 1.2.29 ControlHost metadata cleanup, the 1.2.28 BackStage page composition cleanup, the 1.2.27 component composition model, the canonical `TLazRibbon.BackstageView` link and the structural separator cleanup, the 1.2.26 BackStage `AppearanceSource` consolidation, the 1.2.25 skin identity embedded icon API, the 1.2.24 skin selection naming consolidation, the 1.2.23 gallery size naming consolidation, the 1.2.22 BackStage `BackButtonVisible` consolidation, the 1.2.21 Ribbon minimize API names, the 1.2.20 public API audit and roadmap, the 1.2.19 Skin Editor Appearance mode detection, the 1.2.18 Skin Editor minimize preview fix, the 1.2.17 Ribbon collapse/expand height fix, the 1.2.16 Office-style `bomCoverClientArea` BackStage default and the 1.2.15 SkinManager color API consolidation into `General`, `Accent`, `Backstage`, `RecentList` and `Ribbon` groups, while keeping `TLazRibbonSkinManager.Appearance` as the complete skin appearance model. It also keeps the 1.2.14 Application Button API consolidation, the 1.2.13 `TLazRibbon.Appearance` alias removal, the 1.2.12 SkinManager LFM streaming fix, the 1.2.10 compact Skin Editor layout, the 1.2.9 `TLazRibbon.RibbonAppearance` design-time API, the 1.2.8 design-time refresh fix, the 1.2.7 buffer-height fix, the 1.2.6 pane caption text rendering fix, the 1.2.5 preview height and Dialog Launcher glyph fixes, the 1.2.4 pane caption paint order fix, the 1.2.3 Appearance difference markers and filtering, the 1.2.2 per-property restore from base, the 1.2.1 base comparison report, the 1.2.0 validation report, the 1.1.78 high-DPI palette icons, the 1.1.77 tab spacing controls, the 1.1.76 Dialog Launcher rename and the 1.1.75 Skin Editor Appearance inspector work.
 
 Highlights in the current 1.2 line:
 
@@ -98,10 +98,61 @@ Highlights in the current 1.2 line:
 - Unified 24/36/48 px component palette icons for the visible LazRibbon design-time components.
 - A showcase demo that combines Ribbon form chrome, QAT, BackStage, recent files, skins, ScreenTips, KeyTips and contextual tabs.
 - Release scripts that audit package versions, demo GUI mode and generated artifacts before creating a source ZIP.
+- A full build script and demo validation matrix for accelerated 2.0 release checks.
 - Public API audit and 2.0 roadmap in `docs/quality/PUBLIC_API_AUDIT_2_0.md` and `docs/release/ROADMAP_2_0.md`.
 - GitHub-oriented contribution, validation and publishing documentation.
 
 Detailed version history lives in `CHANGELOG.md`; current stability notes and recommended next steps live in `STATUS.md`.
+
+## First Ribbon Form
+
+After installing the runtime and design-time packages, the shortest useful
+structure is:
+
+```text
+TLazRibbonForm
+  -> Ribbon: TLazRibbon
+       -> ApplicationButton
+       -> Tabs
+            -> Panes
+                 -> Items
+```
+
+At design time:
+
+1. Create a new Lazarus application.
+2. Change the main form class to `TLazRibbonForm` or drop a `TLazRibbon` aligned
+   to the top of a normal form.
+3. Set the Ribbon `ApplicationButton.Caption` to `Arquivo`.
+4. Add one tab to `Tabs`, for example `Pagina inicial`.
+5. Add one pane to the tab, for example `Documento`.
+6. Add large or small button items to the pane.
+7. Use `TLazRibbon.BackstageView` when the File/Application button should open a
+   BackStage view.
+
+The same structure can be created at runtime with the current API names:
+
+```pascal
+var
+  Tab: TLazRibbonTab;
+  Pane: TLazRibbonPane;
+  Button: TLazRibbonLargeButton;
+begin
+  LazRibbon1.ApplicationButton.Caption := 'Arquivo';
+
+  Tab := LazRibbon1.Tabs.Add;
+  Tab.Caption := 'Pagina inicial';
+
+  Pane := Tab.Panes.Add;
+  Pane.Caption := 'Documento';
+
+  Button := Pane.Items.AddLargeButton;
+  Button.Caption := 'Novo';
+  Button.ScreenTipTitle := 'Novo';
+  Button.ScreenTipText := 'Cria um novo documento.';
+  Button.OnClick := @NewDocumentClick;
+end;
+```
 
 ## ScreenTips
 
@@ -178,6 +229,15 @@ After installation, test at least:
 - `demos/basic/project1.lpi`
 - `demos/skins_gallery/project1.lpi`
 - `demos/backstage/project1.lpi`
+
+For release validation, build the complete matrix:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File tools/build_all_projects.ps1 -CleanArtifacts
+```
+
+The purpose of each demo is documented in
+`docs/release/DEMO_VALIDATION_MATRIX.md`.
 - `demos/backstage_recent_files/project1.lpi`
 - `demos/ribbon_form/project1.lpi`
 - `demos/skin_editor_sample/project1.lpi`

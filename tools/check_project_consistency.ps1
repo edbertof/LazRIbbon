@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
   [string]$SourceRoot = '',
-  [string]$ExpectedVersion = '1.2.33'
+  [string]$ExpectedVersion = '1.2.34'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -864,6 +864,72 @@ function Test-TwoPointZeroPlanningDocs {
   $matrixPath = Join-Path $SourceRoot 'docs/quality/COMPONENT_PROPERTY_MATRIX_2_0.md'
   $objectInspectorAuditPath = Join-Path $SourceRoot 'docs/quality/OBJECT_INSPECTOR_PROPERTY_AUDIT_2_0.md'
   $roadmapPath = Join-Path $SourceRoot 'docs/release/ROADMAP_2_0.md'
+  $demoMatrixPath = Join-Path $SourceRoot 'docs/release/DEMO_VALIDATION_MATRIX.md'
+  $buildAllPath = Join-Path $SourceRoot 'tools/build_all_projects.ps1'
+  $readmePath = Join-Path $SourceRoot 'README.md'
+
+  $buildTargets = @(
+    'packages\LazRibbonRuntime.lpk',
+    'packages\LazRibbonDesign.lpk',
+    'tools\LazRibbonSkinEditor\LazRibbonSkinEditor.lpi',
+    'demos\showcase\project1.lpi',
+    'demos\ribbon_form\project1.lpi',
+    'demos\basic\Project1.lpi',
+    'demos\runtime\project1.lpi',
+    'demos\application_button\project1.lpi',
+    'demos\quick_access_toolbar\project1.lpi',
+    'demos\backstage\project1.lpi',
+    'demos\backstage_recent_files\project1.lpi',
+    'demos\skins_gallery\project1.lpi',
+    'demos\skin_editor_sample\project1.lpi',
+    'demos\actions\project1.lpi',
+    'demos\actions_hidpi\project1.lpi',
+    'demos\styles\project1.lpi',
+    'demos\lclscaling\project1.lpi',
+    'demos\popup_menu\project1.lpi'
+  )
+
+  if (-not (Test-Path -LiteralPath $buildAllPath)) {
+    Add-Failure 'Missing full project build script for the 2.0 validation workflow.'
+  }
+  else {
+    $buildAll = Get-Content -LiteralPath $buildAllPath -Raw
+    foreach ($target in $buildTargets) {
+      if ($buildAll -notmatch [regex]::Escape($target)) {
+        Add-Failure "Full project build script must include $target."
+      }
+    }
+    foreach ($required in @('CleanArtifacts', 'Invoke-LazBuild', 'Remove-GeneratedArtifacts', 'packagefiles.xml')) {
+      if ($buildAll -notmatch [regex]::Escape($required)) {
+        Add-Failure "Full project build script must include $required."
+      }
+    }
+  }
+
+  if (-not (Test-Path -LiteralPath $demoMatrixPath)) {
+    Add-Failure 'Missing demo validation matrix for the 2.0 release workflow.'
+  }
+  else {
+    $demoMatrix = Get-Content -LiteralPath $demoMatrixPath -Raw
+    foreach ($target in $buildTargets) {
+      $docTarget = $target -replace '\\', '/'
+      if ($demoMatrix -notmatch [regex]::Escape($docTarget)) {
+        Add-Failure "Demo validation matrix must include $target."
+      }
+    }
+  }
+
+  if (-not (Test-Path -LiteralPath $readmePath)) {
+    Add-Failure 'Missing README.md.'
+  }
+  else {
+    $readme = Get-Content -LiteralPath $readmePath -Raw
+    foreach ($required in @('First Ribbon Form', 'TLazRibbonForm', 'TLazRibbon.BackstageView', 'tools/build_all_projects.ps1')) {
+      if ($readme -notmatch [regex]::Escape($required)) {
+        Add-Failure "README must include $required for the 2.0 onboarding workflow."
+      }
+    }
+  }
 
   if (-not (Test-Path -LiteralPath $auditPath)) {
     Add-Failure 'Missing public API audit for the 2.0 freeze.'

@@ -1,6 +1,8 @@
 # LazRibbon Status
 
-`1.2.33 - ControlHost direct control API` is the current stabilization build.
+`1.2.34 - Accelerated 2.0 validation workflow` is the current stabilization build.
+
+The 1.2.34 build adds the accelerated validation workflow for the final 2.0 path. `tools/build_all_projects.ps1` compiles the runtime package, design-time package, Skin Editor and every demo in one command, optionally cleaning generated artifacts afterwards. `docs/release/DEMO_VALIDATION_MATRIX.md` explains what each demo validates, and `README.md` now includes a compact first Ribbon form guide.
 
 The 1.2.33 build makes `TLazRibbonControlHostItem.Control` the canonical published Object Inspector property for hosting a real Lazarus control inside a Ribbon pane. `Caption` remains the fallback placeholder text when no control is assigned, and legacy `ControlName`/`ControlClassName` metadata remains public/source compatibility plus legacy `.lfm` reading only.
 

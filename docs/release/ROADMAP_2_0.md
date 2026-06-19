@@ -33,6 +33,8 @@ The following gates must be complete before `2.0.0`:
 - `LazRibbonRuntime.lpk` and `LazRibbonDesign.lpk` compile with Lazarus 4.8.
 - `tools/LazRibbonSkinEditor/LazRibbonSkinEditor.lpi` compiles and opens.
 - `demos/ribbon_form/project1.lpi` compiles and demonstrates the main workflow.
+- `tools/build_all_projects.ps1 -CleanArtifacts` compiles the packages, Skin
+  Editor and every demo listed in `docs/release/DEMO_VALIDATION_MATRIX.md`.
 - Release ZIP audit passes with no generated build artifacts.
 
 ## Planned Work
@@ -80,10 +82,12 @@ The following gates must be complete before `2.0.0`:
 
 ### 3. Documentation And Demos
 
-- Add a short "first Ribbon form" example to `README.md` or `INSTALL.md`.
+- Keep the short first Ribbon form example in `README.md` synchronized with the
+  final Object Inspector names.
 - Keep the component property matrix as the quick Object Inspector guide for
   developers.
-- Add a demo matrix that states what each demo validates.
+- Keep `docs/release/DEMO_VALIDATION_MATRIX.md` synchronized with the demos and
+  release validation script.
 - Add screenshots for the main Ribbon, BackStage, Skin Gallery and Skin Editor.
 - Review docs for outdated names after the API freeze pass.
 - Prepare public release notes for the first `2.0.0-rc1`.

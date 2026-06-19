@@ -40,7 +40,7 @@ Lazarus/Free Pascal component package for Office-like Ribbon interfaces, includi
 Use a title such as:
 
 ```text
-LazRibbon 1.2.33 - ControlHost direct control API
+LazRibbon 1.2.34 - Accelerated 2.0 validation workflow
 ```
 
 ## Release notes format

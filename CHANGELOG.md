@@ -1,3 +1,12 @@
+## 1.2.34 - Accelerated 2.0 validation workflow
+
+- Adds `tools/build_all_projects.ps1` to compile runtime, design-time, Skin Editor and every demo in one release-check command.
+- Adds `docs/release/DEMO_VALIDATION_MATRIX.md` so each demo has a clear validation purpose before the 2.0 release candidate.
+- Adds a compact first Ribbon form guide to `README.md`.
+- Updates installation docs to run the full build matrix before creating a release ZIP.
+- Extends the consistency audit to require the full-build script and demo validation matrix.
+- Updates runtime and design-time package versions to 1.2.34.
+
 ## 1.2.33 - ControlHost direct control API
 
 - Adds `TLazRibbonControlHostItem.Control` as the canonical published hosted-control reference for new forms.
