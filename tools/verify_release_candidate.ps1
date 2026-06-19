@@ -1,6 +1,6 @@
 [CmdletBinding()]
 param(
-  [string]$Version = '1.2.37',
+  [string]$Version = '1.2.38',
   [string]$SourceRoot = '',
   [string]$OutputDirectory = '',
   [string]$LazarusDir = 'C:\lazarus',

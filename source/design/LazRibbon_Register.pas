@@ -59,7 +59,7 @@ procedure SkipObsoleteProperties;
 const
   GROUPBEHAVIOUR_NOTE = 'GroupBehaviour is not needed.';
 begin
-  RegisterPropertyToSkip(TLazRibbonCheckbox, 'Groupbehaviour', GROUPBEHAVIOUR_NOTE, '');
+  RegisterPropertyToSkip(TLazRibbonCheckbox, 'GroupBehaviour', GROUPBEHAVIOUR_NOTE, '');
   RegisterPropertyToSkip(TLazRibbonRadioButton, 'GroupBehaviour', GROUPBEHAVIOUR_NOTE, '');
 
   { TLazRibbonSeparator is structural. It participates in layout, but it is not

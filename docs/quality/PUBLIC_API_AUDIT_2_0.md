@@ -15,6 +15,12 @@ The generated repeated-name audit lives in
 published property names so normal Lazarus vocabulary and command vocabulary are
 not confused with real API redundancy.
 
+The generated design-time hide audit lives in
+`docs/quality/DESIGN_TIME_PROPERTY_SKIP_AUDIT_2_0.md` and is produced by
+`tools/export_design_time_property_skip_audit.ps1`. It records the
+`RegisterPropertyToSkip` and nil property-editor rules that keep obsolete,
+compatibility-only or role-inappropriate properties out of the Object Inspector.
+
 ## Scope
 
 Reviewed runtime units:
@@ -160,6 +166,9 @@ Before 2.0, every visible property should satisfy one of these conditions:
   design-time item classes.
 - `docs/quality/OBJECT_INSPECTOR_REDUNDANCY_AUDIT_2_0.md` classifies repeated
   published property names and currently reports no unclassified redundancies.
+- `docs/quality/DESIGN_TIME_PROPERTY_SKIP_AUDIT_2_0.md` records the current
+  design-time property hiding rules for compatibility-only, obsolete and
+  role-inappropriate inherited properties.
 - `TLazRibbonControlHostItem.Control` is the canonical hosted-control reference
   for new forms. `Caption` is the fallback placeholder text when no control is
   assigned. Legacy `ControlName` and `ControlClassName` strings are hidden from
@@ -175,15 +184,17 @@ readiness:
    package-facing `published` property changes.
 2. Keep `OBJECT_INSPECTOR_REDUNDANCY_AUDIT_2_0.md` regenerated after the
    snapshot and require every repeated published name to be classified.
-3. Keep `README.md`, `INSTALL.md` and the first Ribbon form example synchronized
+3. Keep `DESIGN_TIME_PROPERTY_SKIP_AUDIT_2_0.md` regenerated when design-time
+   property hiding changes.
+4. Keep `README.md`, `INSTALL.md` and the first Ribbon form example synchronized
    with the final Object Inspector names.
-4. Keep `COMPONENT_PROPERTY_MATRIX_2_0.md` synchronized with any new published
+5. Keep `COMPONENT_PROPERTY_MATRIX_2_0.md` synchronized with any new published
    component property.
-5. Keep `docs/release/DEMO_VALIDATION_MATRIX.md` synchronized with the demos
+6. Keep `docs/release/DEMO_VALIDATION_MATRIX.md` synchronized with the demos
    and `tools/build_all_projects.ps1`.
-6. Prepare screenshot guidance/assets for the main Ribbon, BackStage, Skin
+7. Prepare screenshot guidance/assets for the main Ribbon, BackStage, Skin
    Gallery and Skin Editor.
-7. Run `tools/verify_release_candidate.ps1` before tagging the first
+8. Run `tools/verify_release_candidate.ps1` before tagging the first
    `2.0.0-rc1`.
 
 This keeps the public API surface quiet while shifting the remaining work toward

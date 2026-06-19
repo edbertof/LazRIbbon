@@ -29,6 +29,8 @@ The following gates must be complete before `2.0.0`:
   `docs/quality/OBJECT_INSPECTOR_SURFACE_SNAPSHOT_2_0.md`.
 - Generated Object Inspector redundancy audit kept current in
   `docs/quality/OBJECT_INSPECTOR_REDUNDANCY_AUDIT_2_0.md`.
+- Generated design-time property skip audit kept current in
+  `docs/quality/DESIGN_TIME_PROPERTY_SKIP_AUDIT_2_0.md`.
 - Remaining confusing or duplicate Object Inspector names either renamed, hidden
   or documented as compatibility-only.
 - `tools/check_project_consistency.ps1` rejects known pre-2.0 legacy streaming
@@ -79,6 +81,8 @@ The following gates must be complete before `2.0.0`:
   package-facing `published` property changes.
 - Regenerate `docs/quality/OBJECT_INSPECTOR_REDUNDANCY_AUDIT_2_0.md` after the
   snapshot and keep repeated published property names classified.
+- Regenerate `docs/quality/DESIGN_TIME_PROPERTY_SKIP_AUDIT_2_0.md` after
+  changing design-time property hiding rules.
 
 ### 2. Skin Editor Finish Pass
 

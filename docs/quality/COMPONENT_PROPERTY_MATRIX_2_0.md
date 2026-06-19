@@ -119,3 +119,5 @@ of these roles:
   generated snapshot is refreshed.
 - If its name is repeated on more than one package-facing class, it is
   classified in `OBJECT_INSPECTOR_REDUNDANCY_AUDIT_2_0.md`.
+- If it is hidden by the design package, the hide rule is documented in
+  `DESIGN_TIME_PROPERTY_SKIP_AUDIT_2_0.md`.

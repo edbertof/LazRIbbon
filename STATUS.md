@@ -1,6 +1,8 @@
 # LazRibbon Status
 
-`1.2.37 - Object Inspector redundancy audit` is the current stabilization build.
+`1.2.38 - Design-time property skip audit` is the current stabilization build.
+
+The 1.2.38 build adds `tools/export_design_time_property_skip_audit.ps1` and `docs/quality/DESIGN_TIME_PROPERTY_SKIP_AUDIT_2_0.md`. The new generated audit documents the properties hidden from the Lazarus Object Inspector by the design-time package: 29 `RegisterPropertyToSkip` rules, 4 nil property-editor hide rules and 8 affected component classes. It also normalizes the checkbox `GroupBehaviour` skip spelling to match the radio button rule.
 
 The 1.2.37 build adds `tools/export_object_inspector_redundancy_audit.ps1` and `docs/quality/OBJECT_INSPECTOR_REDUNDANCY_AUDIT_2_0.md`. The new generated audit classifies repeated direct published property names from the Object Inspector surface snapshot, currently reviewing 48 shared names with zero unclassified redundancies. The consistency audit regenerates and compares this report so new repeated names must be intentional before the 2.0 API freeze.
 

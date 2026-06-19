@@ -94,6 +94,16 @@ groups repeated direct `published` property names and requires each shared name
 to fit a documented category. The current report reviews 48 repeated names and
 reports zero unclassified redundancies.
 
+## Generated Design-Time Skip Audit
+
+`docs/quality/DESIGN_TIME_PROPERTY_SKIP_AUDIT_2_0.md` is generated from
+`source/design/LazRibbon_Register.pas` by
+`tools/export_design_time_property_skip_audit.ps1`. It records the
+`RegisterPropertyToSkip` and nil property-editor rules that hide obsolete,
+compatibility-only or role-inappropriate properties from the Lazarus Object
+Inspector. The current report documents 29 skip rules, 4 nil property-editor
+hide rules and 8 affected component classes.
+
 ## Intentional Shared Names
 
 These names are intentionally shared because they are normal Lazarus or

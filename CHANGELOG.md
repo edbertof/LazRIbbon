@@ -1,3 +1,11 @@
+## 1.2.38 - Design-time property skip audit
+
+- Adds `tools/export_design_time_property_skip_audit.ps1` to generate a report from `LazRibbon_Register.pas` design-time Object Inspector hiding rules.
+- Adds `docs/quality/DESIGN_TIME_PROPERTY_SKIP_AUDIT_2_0.md`, currently documenting 29 `RegisterPropertyToSkip` rules, 4 nil property-editor hide rules and 8 affected component classes.
+- Normalizes the checkbox `GroupBehaviour` property-skip spelling to match the radio button rule.
+- Extends the consistency audit to regenerate and compare the design-time skip audit so hidden compatibility/obsolete properties stay documented.
+- Updates runtime and design-time package versions to 1.2.38.
+
 ## 1.2.37 - Object Inspector redundancy audit
 
 - Adds `tools/export_object_inspector_redundancy_audit.ps1` to classify repeated direct published property names from the generated Object Inspector snapshot.

@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
   [string]$SourceRoot = '',
-  [string]$ExpectedVersion = '1.2.37'
+  [string]$ExpectedVersion = '1.2.38'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -865,12 +865,14 @@ function Test-TwoPointZeroPlanningDocs {
   $objectInspectorAuditPath = Join-Path $SourceRoot 'docs/quality/OBJECT_INSPECTOR_PROPERTY_AUDIT_2_0.md'
   $objectInspectorSnapshotPath = Join-Path $SourceRoot 'docs/quality/OBJECT_INSPECTOR_SURFACE_SNAPSHOT_2_0.md'
   $objectInspectorRedundancyAuditPath = Join-Path $SourceRoot 'docs/quality/OBJECT_INSPECTOR_REDUNDANCY_AUDIT_2_0.md'
+  $designTimeSkipAuditPath = Join-Path $SourceRoot 'docs/quality/DESIGN_TIME_PROPERTY_SKIP_AUDIT_2_0.md'
   $roadmapPath = Join-Path $SourceRoot 'docs/release/ROADMAP_2_0.md'
   $demoMatrixPath = Join-Path $SourceRoot 'docs/release/DEMO_VALIDATION_MATRIX.md'
   $buildAllPath = Join-Path $SourceRoot 'tools/build_all_projects.ps1'
   $preflightPath = Join-Path $SourceRoot 'tools/verify_release_candidate.ps1'
   $snapshotScriptPath = Join-Path $SourceRoot 'tools/export_object_inspector_snapshot.ps1'
   $redundancyScriptPath = Join-Path $SourceRoot 'tools/export_object_inspector_redundancy_audit.ps1'
+  $designTimeSkipScriptPath = Join-Path $SourceRoot 'tools/export_design_time_property_skip_audit.ps1'
   $readmePath = Join-Path $SourceRoot 'README.md'
 
   $buildTargets = @(
@@ -982,6 +984,24 @@ function Test-TwoPointZeroPlanningDocs {
     }
   }
 
+  if (-not (Test-Path -LiteralPath $designTimeSkipScriptPath)) {
+    Add-Failure 'Missing design-time property skip audit export script for the 2.0 API freeze.'
+  }
+  else {
+    $designTimeSkipScript = Get-Content -LiteralPath $designTimeSkipScriptPath -Raw
+    foreach ($required in @(
+      'LazRibbon_Register.pas',
+      'RegisterPropertyToSkip',
+      'RegisterPropertyEditor',
+      'Nil property editor',
+      'DESIGN_TIME_PROPERTY_SKIP_AUDIT_2_0.md'
+    )) {
+      if ($designTimeSkipScript -notmatch [regex]::Escape($required)) {
+        Add-Failure "Design-time property skip audit script must include $required."
+      }
+    }
+  }
+
   if (-not (Test-Path -LiteralPath $objectInspectorSnapshotPath)) {
     Add-Failure 'Missing generated Object Inspector surface snapshot for the 2.0 API freeze.'
   }
@@ -1063,12 +1083,51 @@ function Test-TwoPointZeroPlanningDocs {
     }
   }
 
+  if (-not (Test-Path -LiteralPath $designTimeSkipAuditPath)) {
+    Add-Failure 'Missing generated design-time property skip audit for the 2.0 API freeze.'
+  }
+  elseif (Test-Path -LiteralPath $designTimeSkipScriptPath) {
+    $designTimeSkipAudit = Get-Content -LiteralPath $designTimeSkipAuditPath -Raw
+    foreach ($required in @(
+      'Design-Time Property Skip Audit',
+      'RegisterPropertyToSkip rules: 29',
+      'Nil property-editor hide rules: 4',
+      'Components with hidden design-time properties: 8',
+      'TLazRibbonSeparator',
+      'TLazRibbonBackstagePage',
+      'TLazRibbonControlHostItem',
+      'TLazRibbonSkinGalleryItem',
+      'TLazRibbonSkinSelector',
+      'TLazRibbonSkinManager',
+      'GroupBehaviour',
+      'Release Gate'
+    )) {
+      if ($designTimeSkipAudit -notmatch [regex]::Escape($required)) {
+        Add-Failure "Design-time property skip audit must mention $required."
+      }
+    }
+
+    try {
+      $generatedDesignTimeSkipAudit = (& $designTimeSkipScriptPath -SourceRoot $SourceRoot) -join [Environment]::NewLine
+      $normalizeDesignTimeSkipAudit = {
+        param([string]$Value)
+        (($Value -replace "`r`n", "`n") -replace "`r", "`n").TrimEnd()
+      }
+      if ((& $normalizeDesignTimeSkipAudit $designTimeSkipAudit) -ne (& $normalizeDesignTimeSkipAudit $generatedDesignTimeSkipAudit)) {
+        Add-Failure 'Design-time property skip audit is out of date; regenerate it with tools/export_design_time_property_skip_audit.ps1.'
+      }
+    }
+    catch {
+      Add-Failure "Design-time property skip audit could not be regenerated: $($_.Exception.Message)"
+    }
+  }
+
   if (-not (Test-Path -LiteralPath $readmePath)) {
     Add-Failure 'Missing README.md.'
   }
   else {
     $readme = Get-Content -LiteralPath $readmePath -Raw
-    foreach ($required in @('First Ribbon Form', 'TLazRibbonForm', 'TLazRibbon.BackstageView', 'tools/build_all_projects.ps1', 'tools/verify_release_candidate.ps1', 'OBJECT_INSPECTOR_REDUNDANCY_AUDIT_2_0.md')) {
+    foreach ($required in @('First Ribbon Form', 'TLazRibbonForm', 'TLazRibbon.BackstageView', 'tools/build_all_projects.ps1', 'tools/verify_release_candidate.ps1', 'OBJECT_INSPECTOR_REDUNDANCY_AUDIT_2_0.md', 'DESIGN_TIME_PROPERTY_SKIP_AUDIT_2_0.md')) {
       if ($readme -notmatch [regex]::Escape($required)) {
         Add-Failure "README must include $required for the 2.0 onboarding workflow."
       }
@@ -1090,7 +1149,8 @@ function Test-TwoPointZeroPlanningDocs {
       'COMPONENT_PROPERTY_MATRIX_2_0.md',
       'OBJECT_INSPECTOR_PROPERTY_AUDIT_2_0.md',
       'OBJECT_INSPECTOR_SURFACE_SNAPSHOT_2_0.md',
-      'OBJECT_INSPECTOR_REDUNDANCY_AUDIT_2_0.md'
+      'OBJECT_INSPECTOR_REDUNDANCY_AUDIT_2_0.md',
+      'DESIGN_TIME_PROPERTY_SKIP_AUDIT_2_0.md'
     )) {
       if ($audit -notmatch [regex]::Escape($required)) {
         Add-Failure "Public API audit must mention $required."
@@ -1123,6 +1183,7 @@ function Test-TwoPointZeroPlanningDocs {
       'Icon16Data',
       'ControlName',
       'OBJECT_INSPECTOR_REDUNDANCY_AUDIT_2_0.md',
+      'DESIGN_TIME_PROPERTY_SKIP_AUDIT_2_0.md',
       'Release Gate'
     )) {
       if ($matrix -notmatch [regex]::Escape($required)) {
@@ -1146,6 +1207,7 @@ function Test-TwoPointZeroPlanningDocs {
       'Remaining Watch List',
       'Generated Surface Snapshot',
       'Generated Redundancy Audit',
+      'Generated Design-Time Skip Audit',
       'TLazRibbonBackstagePage',
       'TLazRibbonBackstageView.Buttons',
       'TLazRibbonControlHostItem.Control',
@@ -1153,7 +1215,8 @@ function Test-TwoPointZeroPlanningDocs {
       'SelectedSkinName',
       'ActiveSkinName',
       'Icon16Data',
-      'OBJECT_INSPECTOR_REDUNDANCY_AUDIT_2_0.md'
+      'OBJECT_INSPECTOR_REDUNDANCY_AUDIT_2_0.md',
+      'DESIGN_TIME_PROPERTY_SKIP_AUDIT_2_0.md'
     )) {
       if ($objectInspectorAudit -notmatch [regex]::Escape($required)) {
         Add-Failure "Object Inspector property audit must mention $required."
@@ -1170,6 +1233,7 @@ function Test-TwoPointZeroPlanningDocs {
       'API Freeze Pass',
       'OBJECT_INSPECTOR_SURFACE_SNAPSHOT_2_0.md',
       'OBJECT_INSPECTOR_REDUNDANCY_AUDIT_2_0.md',
+      'DESIGN_TIME_PROPERTY_SKIP_AUDIT_2_0.md',
       'tools/verify_release_candidate.ps1',
       'Skin Editor Finish Pass',
       'Release Candidate',
