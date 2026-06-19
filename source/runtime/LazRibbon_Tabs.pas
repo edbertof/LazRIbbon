@@ -272,6 +272,17 @@ begin
   isRTL := IsRightToLeft;
 
   FRect := ARect;
+  if (ARect.Width <= 0) or (ARect.Height <= 0) then
+  begin
+    for i := 0 to FPanes.Count - 1 do
+      {$IFDEF EnhancedRecordSupport}
+      FPanes[i].Rect := T2DIntRect.Create(-1, -1, -2, -2);
+      {$ELSE}
+      FPanes[i].Rect := Create2DIntRect(-1, -1, -2, -2);
+      {$ENDIF}
+    Exit;
+  end;
+
   if AtLeastOnePaneVisible then
   begin
     x := IfThen(isRTL, ARect.Right, ARect.Left);

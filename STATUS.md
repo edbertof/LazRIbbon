@@ -1,6 +1,8 @@
 # LazRibbon Status
 
-`1.2.32 - SkinManager ActiveSkinName cleanup` is the current stabilization build.
+`1.2.33 - ControlHost direct control API` is the current stabilization build.
+
+The 1.2.33 build makes `TLazRibbonControlHostItem.Control` the canonical published Object Inspector property for hosting a real Lazarus control inside a Ribbon pane. `Caption` remains the fallback placeholder text when no control is assigned, and legacy `ControlName`/`ControlClassName` metadata remains public/source compatibility plus legacy `.lfm` reading only.
 
 The 1.2.32 build makes `TLazRibbonSkinManager.ActiveSkinName` the only published Object Inspector property for selecting the active skin. `ActiveSkin` remains public for source compatibility with built-in skins and old `.lfm` files that stream `ActiveSkin = sbs...` are still accepted through a legacy reader. The demos now stream `ActiveSkinName`, so new projects see the same name-based API used by skin selectors and galleries.
 

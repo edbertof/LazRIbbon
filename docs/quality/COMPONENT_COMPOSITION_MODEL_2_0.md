@@ -65,7 +65,8 @@ TLazRibbonBackstageView
 - Quick Access Toolbar commands are represented by
   `QuickAccessToolBar.Items`. Each item can link to a standard `Action`, to a
   Ribbon item through `LinkedItem`, or define its own caption/image fallback.
-- A `TLazRibbonControlHostItem` uses `Caption` as the visible placeholder text.
+- A `TLazRibbonControlHostItem` hosts a real Lazarus control through `Control`.
+  `Caption` is only fallback placeholder text when no control is assigned.
   Legacy `ControlName` and `ControlClassName` strings are compatibility
   metadata only; new projects should not require developers to synchronize
   those names manually.
@@ -97,10 +98,10 @@ Some property pairs look similar but describe different decisions:
   `ItemKind` and `OnExecute` are public source-level compatibility only, not
   part of the published Object Inspector surface. Use
   `TLazRibbonBackstageView.Buttons` for those entries.
-- `TLazRibbonControlHostItem` uses `Caption` as its public placeholder text.
-  `ControlName` and `ControlClassName` are retained as public compatibility
-  properties and legacy `.lfm` readers, but are hidden from the Object
-  Inspector.
+- `TLazRibbonControlHostItem` uses `Control` as its public hosted-control
+  reference. `Caption` remains the fallback placeholder text, and `ControlName`
+  and `ControlClassName` are retained as public compatibility properties and
+  legacy `.lfm` readers, but are hidden from the Object Inspector.
 - Generic galleries use `ItemWidth` and `ItemHeight`; skin galleries and skin
   selectors use `IconWidth` and `IconHeight`.
 - `TLazRibbonSkinManager.ActiveSkinName` is the canonical active-skin property.
@@ -111,6 +112,5 @@ Some property pairs look similar but describe different decisions:
 
 ## Follow-up Candidates
 
-- Review whether `TLazRibbonControlHostItem` should gain a direct hosted-control
-  reference API before 2.0. The legacy string metadata is now hidden, but the
-  component still represents a placeholder rather than embedding a control.
+- Keep validating new published properties against the component property
+  matrix before the 2.0 API freeze.

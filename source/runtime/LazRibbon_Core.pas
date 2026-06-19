@@ -6870,6 +6870,16 @@ begin
 
   // *** Panes ***
 
+  for i := 0 to FTabs.Count - 1 do
+    if i <> FTabIndex then
+    begin
+      {$IFDEF EnhancedRecordSupport}
+      FTabs[i].Rect := T2DIntRect.Create(-1, -1, -2, -2);
+      {$ELSE}
+      FTabs[i].Rect := Create2DIntRect(-1, -1, -2, -2);
+      {$ENDIF}
+    end;
+
   if (FTabIndex <> -1) and (not FRibbonMinimized) then
   begin
     // Rect of tab region

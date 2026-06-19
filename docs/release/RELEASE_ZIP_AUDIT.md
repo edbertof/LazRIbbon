@@ -1,3 +1,12 @@
+## 1.2.33 check
+
+- Package metadata updated to 1.2.33.
+- `TLazRibbonControlHostItem.Control` is the canonical published hosted-control reference.
+- `Caption` remains fallback placeholder text when no hosted control is assigned.
+- Legacy `ControlName` and `ControlClassName` metadata remains hidden from the Object Inspector and readable from old `.lfm` resources.
+- Inactive tab rectangles are cleared during Ribbon metric validation so hosted controls from inactive tabs are hidden.
+- The consistency audit requires the direct ControlHost API and rejects legacy hosted-control metadata streaming.
+
 ## 1.2.32 check
 
 - Package metadata updated to 1.2.32.

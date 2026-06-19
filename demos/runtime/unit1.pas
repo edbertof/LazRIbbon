@@ -289,7 +289,7 @@ begin
 
   with Ribbon do begin
     Parent := self;
-    Appearance.Pane.CaptionFont.Style := [fsBold, fsItalic];
+    RibbonAppearance.Pane.CaptionFont.Style := [fsBold, fsItalic];
     Color := clSkyBlue;
     Images := ImageList;
     LargeImages := LargeImageList;
@@ -612,4 +612,3 @@ end;
 
 
 end.
-

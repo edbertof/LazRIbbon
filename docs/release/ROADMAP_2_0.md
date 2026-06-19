@@ -62,8 +62,9 @@ The following gates must be complete before `2.0.0`:
   commands and separators belong to the clearer
   `TLazRibbonBackstageView.Buttons` collection; page-level command properties
   are source compatibility only, not published Object Inspector API.
-- Keep hosted-control placeholder text on `TLazRibbonControlHostItem.Caption`;
-  legacy `ControlName` and `ControlClassName` metadata stays compatibility-only.
+- Keep hosted controls on `TLazRibbonControlHostItem.Control`; `Caption` is the
+  fallback placeholder text and legacy `ControlName`/`ControlClassName`
+  metadata stays compatibility-only.
 - Keep the component property matrix synchronized with new published properties
   so the Object Inspector remains easy to understand.
 

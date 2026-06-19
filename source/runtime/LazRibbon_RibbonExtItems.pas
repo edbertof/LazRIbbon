@@ -78,21 +78,32 @@ type
 
   TLazRibbonControlHostItem = class(TLazRibbonCustomRibbonExtItem)
   private
+    FControl: TControl;
     FControlName: String;
     FControlClassName: String;
     procedure ReadLegacyControlClassName(Reader: TReader);
     procedure ReadLegacyControlName(Reader: TReader);
+    procedure SetControl(AValue: TControl);
     procedure SetControlName(const AValue: String);
     procedure SetControlClassName(const AValue: String);
+    function HostedControlParent: TWinControl;
+    procedure UpdateHostedControlBounds;
   protected
     procedure DefineProperties(Filer: TFiler); override;
     procedure DrawItemContent(ABuffer: TBitmap; const R: TRect); override;
+    procedure Notification(AComponent: TComponent; Operation: TOperation); override;
+    procedure SetEnabled(const Value: boolean); override;
+    procedure SetRect(const Value: T2DIntRect); override;
+    procedure SetVisible(const Value: boolean); override;
   public
-    { Legacy placeholder metadata retained for source compatibility and old
-      .lfm reading. New projects should use Caption for the visible placeholder
-      text until a direct hosted-control reference API is introduced. }
+    destructor Destroy; override;
+    { Legacy hosted-control metadata retained for source compatibility and old
+      .lfm reading. New projects should use Control for a real hosted control
+      or Caption for placeholder text. }
     property ControlName: String read FControlName write SetControlName;
     property ControlClassName: String read FControlClassName write SetControlClassName;
+  published
+    property Control: TControl read FControl write SetControl;
   end;
 
   { TLazRibbonGalleryItem }
@@ -417,6 +428,12 @@ var
   TR: TRect;
   S: String;
 begin
+  if FControl <> nil then
+  begin
+    UpdateHostedControlBounds;
+    Exit;
+  end;
+
   inherited DrawItemContent(ABuffer, R);
   if (FCaption = '') and (FControlName <> '') then
   begin
@@ -431,6 +448,38 @@ begin
   end;
 end;
 
+destructor TLazRibbonControlHostItem.Destroy;
+begin
+  if FControl <> nil then
+    FControl.RemoveFreeNotification(Self);
+  FControl := nil;
+  inherited Destroy;
+end;
+
+function TLazRibbonControlHostItem.HostedControlParent: TWinControl;
+var
+  Current: TComponent;
+begin
+  Result := nil;
+  Current := Parent;
+  while Current <> nil do
+  begin
+    if Current is TWinControl then
+      Exit(TWinControl(Current));
+    if Current is TLazRibbonComponent then
+      Current := TLazRibbonComponent(Current).Parent
+    else
+      Current := Current.Owner;
+  end;
+end;
+
+procedure TLazRibbonControlHostItem.Notification(AComponent: TComponent; Operation: TOperation);
+begin
+  inherited Notification(AComponent, Operation);
+  if (Operation = opRemove) and (AComponent = FControl) then
+    FControl := nil;
+end;
+
 procedure TLazRibbonControlHostItem.ReadLegacyControlClassName(Reader: TReader);
 begin
   SetControlClassName(Reader.ReadString);
@@ -439,6 +488,18 @@ end;
 procedure TLazRibbonControlHostItem.ReadLegacyControlName(Reader: TReader);
 begin
   SetControlName(Reader.ReadString);
+end;
+
+procedure TLazRibbonControlHostItem.SetControl(AValue: TControl);
+begin
+  if FControl = AValue then Exit;
+  if FControl <> nil then
+    FControl.RemoveFreeNotification(Self);
+  FControl := AValue;
+  if FControl <> nil then
+    FControl.FreeNotification(Self);
+  UpdateHostedControlBounds;
+  ChangedVisuals;
 end;
 
 procedure TLazRibbonControlHostItem.SetControlClassName(const AValue: String);
@@ -455,6 +516,49 @@ begin
   if (FControlName <> '') and ((FCaption = '') or (FCaption = 'Ribbon Item')) then
     Caption := FControlName;
   ChangedVisuals;
+end;
+
+procedure TLazRibbonControlHostItem.SetEnabled(const Value: boolean);
+begin
+  inherited SetEnabled(Value);
+  UpdateHostedControlBounds;
+end;
+
+procedure TLazRibbonControlHostItem.SetRect(const Value: T2DIntRect);
+begin
+  inherited SetRect(Value);
+  UpdateHostedControlBounds;
+end;
+
+procedure TLazRibbonControlHostItem.SetVisible(const Value: boolean);
+begin
+  inherited SetVisible(Value);
+  UpdateHostedControlBounds;
+end;
+
+procedure TLazRibbonControlHostItem.UpdateHostedControlBounds;
+var
+  HostParent: TWinControl;
+  R: TRect;
+begin
+  if FControl = nil then
+    Exit;
+
+  HostParent := HostedControlParent;
+  if HostParent <> nil then
+    FControl.Parent := HostParent;
+
+  R := FRect.ForWinAPI;
+  InflateRect(R, -4, -4);
+  if (HostParent = nil) or (R.Right <= R.Left) or (R.Bottom <= R.Top) or not FVisible then
+  begin
+    FControl.Visible := False;
+    Exit;
+  end;
+
+  FControl.SetBounds(R.Left, R.Top, R.Right - R.Left, R.Bottom - R.Top);
+  FControl.Enabled := FEnabled;
+  FControl.Visible := True;
 end;
 
 { TLazRibbonGalleryItem }

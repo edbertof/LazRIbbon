@@ -102,12 +102,12 @@ begin
   RegisterPropertyToSkip(TLazRibbonBackstagePage, 'OnExecute',
     'BackStage pages are content containers. Use BackstageView.Buttons.OnExecute for commands.', '');
 
-  { TLazRibbonControlHostItem currently represents a Ribbon placeholder for
-    hosted controls. Caption is the visible placeholder text; legacy
+  { TLazRibbonControlHostItem hosts a real control through Control. Caption is
+    only the fallback placeholder text when no control is assigned; legacy
     ControlName/ControlClassName strings are kept only for old .lfm reading and
     source compatibility. }
   RegisterPropertyToSkip(TLazRibbonControlHostItem, 'ControlName',
-    'Use Caption for the visible placeholder text. ControlName is legacy metadata.', '');
+    'Use Control to assign the hosted control. ControlName is legacy metadata.', '');
   RegisterPropertyToSkip(TLazRibbonControlHostItem, 'ControlClassName',
     'ControlClassName is legacy metadata and is not needed in new forms.', '');
 

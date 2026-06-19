@@ -44,6 +44,7 @@ candidates:
 - `TLazRibbonPane.ShowDialogLauncher`
 - `TLazRibbonPane.DialogLauncherStyle`
 - `TLazRibbonPane.OnDialogLauncherClick`
+- `TLazRibbonControlHostItem.Control`
 - `TLazRibbonGalleryItem.ItemWidth`
 - `TLazRibbonGalleryItem.ItemHeight`
 - `TLazRibbonSkinGalleryItem.IconWidth`
@@ -146,10 +147,11 @@ Before 2.0, every visible property should satisfy one of these conditions:
 - `docs/quality/OBJECT_INSPECTOR_PROPERTY_AUDIT_2_0.md` records the current
   duplicate/redundant property decisions for visible palette components and
   design-time item classes.
-- `TLazRibbonControlHostItem.Caption` is the visible placeholder text for hosted
-  control items. Legacy `ControlName` and `ControlClassName` strings are hidden
-  from the Object Inspector, retained publicly for source compatibility, and
-  accepted through legacy `.lfm` readers.
+- `TLazRibbonControlHostItem.Control` is the canonical hosted-control reference
+  for new forms. `Caption` is the fallback placeholder text when no control is
+  assigned. Legacy `ControlName` and `ControlClassName` strings are hidden from
+  the Object Inspector, retained publicly for source compatibility, and accepted
+  through legacy `.lfm` readers.
 
 ## Recommended Next API Pass
 

@@ -30,7 +30,7 @@ a clear mental model.
 | `TLazRibbonTab` | A Ribbon page/tab. | `Panes` | `Caption`, `Visible`, `Enabled`, `KeyTip`, `Contextual`, `ContextualGroup`, `ContextualColor` |
 | `TLazRibbonPane` | A group inside a tab. | `Items` | `Caption`, `ShowDialogLauncher`, `DialogLauncherStyle`, `OnDialogLauncherClick` |
 | `TLazRibbonSeparator` | Structural separator between pane items. | None | No command properties in new forms; inherited command and ScreenTip properties are hidden at design time. |
-| `TLazRibbonControlHostItem` | Placeholder item for a future hosted control. | None | `Caption` is the visible placeholder text. |
+| `TLazRibbonControlHostItem` | Hosted-control item inside a pane. | `Control` | `Control`, `Caption` as fallback placeholder text. |
 
 ## Command Surfaces
 
@@ -90,9 +90,11 @@ These pairs are not duplicates; each side answers a different design question.
   `ItemKind` and `OnExecute` remain public source-level compatibility for the
   older page-as-command model, but are no longer published. New forms should use
   `TLazRibbonBackstageView.Buttons`.
-- `TLazRibbonControlHostItem.ControlName` and `ControlClassName` remain public
-  and readable from legacy `.lfm` resources, but `Caption` is the new visible
-  placeholder text.
+- `TLazRibbonControlHostItem.Control` is the canonical hosted-control reference.
+  `TLazRibbonControlHostItem.ControlName` and `ControlClassName` remain public
+  and readable from legacy `.lfm` resources, but new forms should assign the
+  hosted Lazarus control through `Control`. `Caption` is only fallback
+  placeholder text when no control is assigned.
 - `TLazRibbonSkinGalleryItem.SelectedSkin` and
   `TLazRibbonSkinSelector.SelectedSkin` remain public built-in-skin helpers;
   new Object Inspector work should use `SelectedSkinName`.

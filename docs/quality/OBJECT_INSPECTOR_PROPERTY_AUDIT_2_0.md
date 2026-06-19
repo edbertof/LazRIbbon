@@ -52,7 +52,7 @@ The design package also registers item classes without palette icons:
 | `TLazRibbonBackstageView` | `ShowCloseButton`, `UseToolbarAppearance`, `UseSkinManager` | `BackButtonVisible`, `AppearanceSource`, `LinkedToolbar`, `SkinManager` |
 | `TLazRibbonBackstagePage` | Published `Action`, `Command`, `CloseBackstageOnClick`, `ItemKind`, `OnExecute` | Content page only; use `TLazRibbonBackstageView.Buttons` for navigation/commands |
 | `TLazRibbonSeparator` | Inherited command and ScreenTip properties visible at design time | Structural separator only |
-| `TLazRibbonControlHostItem` | Published `ControlName`, `ControlClassName` metadata | `Caption` as placeholder text |
+| `TLazRibbonControlHostItem` | Published `ControlName`, `ControlClassName` metadata and placeholder-only workflow | `Control` hosted-control reference, with `Caption` as fallback placeholder text |
 | `TLazRibbonGalleryItem` / `TLazRibbonSkinGalleryItem` | Mixed `ItemWidth`/`IconWidth` meanings | Generic gallery uses `ItemWidth`/`ItemHeight`; skin gallery uses `IconWidth`/`IconHeight` |
 | `TLazRibbonSkinSelector` / `TLazRibbonSkinGalleryItem` | Built-in enum as the visible selector | `SelectedSkinName` |
 | `TLazRibbonSkinManager` | `ActiveSkin` enum beside `ActiveSkinName` | `ActiveSkinName` |
@@ -72,6 +72,12 @@ TLazRibbonBackstageView
 ```
 
 The consistency audit now rejects a published BackStage page command surface.
+
+## ControlHost Decision
+
+`TLazRibbonControlHostItem.Control` is the direct hosted-control reference for
+new forms. Legacy `ControlName` and `ControlClassName` metadata stays
+compatibility-only and hidden from the Object Inspector.
 
 ## Intentional Shared Names
 
@@ -95,9 +101,6 @@ the property matrix.
 
 ## Remaining Watch List
 
-- `TLazRibbonControlHostItem` still represents a placeholder rather than a true
-  hosted-control reference. A future direct `Control` reference API would be
-  cleaner than string metadata.
 - Appearance subobjects still use many low-level color names inherited from the
   original SpkToolBar model. They remain acceptable because they live inside
   `RibbonAppearance` or `SkinManager.Appearance`, not as first-level component

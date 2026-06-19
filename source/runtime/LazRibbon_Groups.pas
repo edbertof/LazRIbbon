@@ -245,6 +245,17 @@ var
   Layout: TLazRibbonPaneItemsLayout;
 begin
   FRect := ARect;
+  if (ARect.Width <= 0) or (ARect.Height <= 0) then
+  begin
+    for i := 0 to FItems.Count - 1 do
+      {$IFDEF EnhancedRecordSupport}
+      FItems[i].Rect := T2DIntRect.Create(-1, -1, -2, -2);
+      {$ELSE}
+      FItems[i].Rect := Create2DIntRect(-1, -1, -2, -2);
+      {$ENDIF}
+    Exit;
+  end;
+
   CaptionBandHeight := Max(PaneCaptionHeight, PANE_CAPTION_HEIGHT);
 
   // Set 'Dialog launcher' button rect

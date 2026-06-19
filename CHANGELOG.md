@@ -1,3 +1,12 @@
+## 1.2.33 - ControlHost direct control API
+
+- Adds `TLazRibbonControlHostItem.Control` as the canonical published hosted-control reference for new forms.
+- Keeps `Caption` as fallback placeholder text when no hosted control is assigned.
+- Keeps legacy `ControlName` and `ControlClassName` public/source compatibility and legacy `.lfm` readers, but hidden from the Object Inspector.
+- Hides hosted controls from inactive tabs by clearing inactive tab item rectangles during Ribbon metric validation.
+- Updates the 2.0 component matrix, composition model, Object Inspector audit and consistency checks for the direct hosted-control API.
+- Updates runtime and design-time package versions to 1.2.33.
+
 ## 1.2.32 - SkinManager ActiveSkinName cleanup
 
 - Makes `TLazRibbonSkinManager.ActiveSkinName` the only published Object Inspector property for choosing the active skin.

@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
   [string]$SourceRoot = '',
-  [string]$ExpectedVersion = '1.2.32'
+  [string]$ExpectedVersion = '1.2.33'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -209,7 +209,7 @@ function Test-RibbonAppearanceStreaming {
       }
 
       if (($line -match '^\s*(ControlName|ControlClassName)\s*=') -and ($currentType -eq 'TLazRibbonControlHostItem')) {
-        Add-Failure "Legacy hosted-control metadata streaming found on TLazRibbonControlHostItem in ${relative}:${lineNumber}; use Caption for placeholder text."
+        Add-Failure "Legacy hosted-control metadata streaming found on TLazRibbonControlHostItem in ${relative}:${lineNumber}; use Control for the hosted control or Caption for fallback placeholder text."
       }
 
       if (($line -match '^\s*(BackColor|NavigationColor|ActiveColor|HotColor|FrameColor|TextColor|MutedTextColor|RecentOddColor|RecentHoverColor|RecentSelectedColor|RecentSelectedFrameColor|RecentTitleColor)\s*=') -and ($currentType -eq 'TLazRibbonSkinManager')) {
@@ -430,9 +430,22 @@ function Test-ComponentCompositionApi {
     if ($published.Success -and ($published.Value -match 'property\s+(ControlName|ControlClassName)\s*:')) {
       Add-Failure 'TLazRibbonControlHostItem must not publish legacy ControlName/ControlClassName metadata.'
     }
+    if (-not $published.Success -or ($published.Value -notmatch [regex]::Escape('property Control: TControl read FControl write SetControl;'))) {
+      Add-Failure 'TLazRibbonControlHostItem must publish Control as the canonical hosted-control reference.'
+    }
     foreach ($required in @(
+      'FControl: TControl;',
+      'procedure SetControl(AValue: TControl);',
+      'function HostedControlParent: TWinControl;',
+      'procedure UpdateHostedControlBounds;',
+      'procedure Notification(AComponent: TComponent; Operation: TOperation); override;',
+      'procedure SetEnabled(const Value: boolean); override;',
+      'procedure SetRect(const Value: T2DIntRect); override;',
+      'procedure SetVisible(const Value: boolean); override;',
+      'destructor Destroy; override;',
       'property ControlName: String read FControlName write SetControlName;',
       'property ControlClassName: String read FControlClassName write SetControlClassName;',
+      'property Control: TControl read FControl write SetControl;',
       'procedure DefineProperties(Filer: TFiler); override;',
       'procedure ReadLegacyControlName(Reader: TReader);',
       'procedure ReadLegacyControlClassName(Reader: TReader);'
@@ -447,6 +460,28 @@ function Test-ComponentCompositionApi {
   }
   if ($extItems -notmatch "Filer\.DefineProperty\('ControlClassName',\s*ReadLegacyControlClassName,\s*nil,\s*False\);") {
     Add-Failure 'TLazRibbonControlHostItem must read legacy ControlClassName streaming via DefineProperties.'
+  }
+  if ($extItems -notmatch 'procedure\s+TLazRibbonControlHostItem\.UpdateHostedControlBounds;') {
+    Add-Failure 'TLazRibbonControlHostItem must synchronize the hosted control during layout updates.'
+  }
+  if ($extItems -notmatch 'FControl\.SetBounds\(R\.Left,\s*R\.Top,\s*R\.Right - R\.Left,\s*R\.Bottom - R\.Top\);') {
+    Add-Failure 'TLazRibbonControlHostItem.Control must be positioned from the item rectangle.'
+  }
+
+  $corePath = Join-Path $SourceRoot 'source/runtime/LazRibbon_Core.pas'
+  $core = Get-Content -LiteralPath $corePath -Raw
+  if ($core -notmatch 'for i := 0 to FTabs\.Count - 1 do\s+if i <> FTabIndex then\s+begin[\s\S]*FTabs\[i\]\.Rect := (T2DIntRect\.Create|Create2DIntRect)\(-1, -1, -2, -2\);') {
+    Add-Failure 'TLazRibbon.ValidateMetrics must clear inactive tab rectangles so hosted controls on inactive tabs are hidden.'
+  }
+  $tabsPath = Join-Path $SourceRoot 'source/runtime/LazRibbon_Tabs.pas'
+  $tabs = Get-Content -LiteralPath $tabsPath -Raw
+  if ($tabs -notmatch 'if \(ARect\.Width <= 0\) or \(ARect\.Height <= 0\) then[\s\S]*FPanes\[i\]\.Rect := (T2DIntRect\.Create|Create2DIntRect)\(-1, -1, -2, -2\);') {
+    Add-Failure 'TLazRibbonTab.SetRect must propagate empty rectangles to all panes.'
+  }
+  $groupsPath = Join-Path $SourceRoot 'source/runtime/LazRibbon_Groups.pas'
+  $groups = Get-Content -LiteralPath $groupsPath -Raw
+  if ($groups -notmatch 'if \(ARect\.Width <= 0\) or \(ARect\.Height <= 0\) then[\s\S]*FItems\[i\]\.Rect := (T2DIntRect\.Create|Create2DIntRect)\(-1, -1, -2, -2\);') {
+    Add-Failure 'TLazRibbonPane.SetRect must propagate empty rectangles to all items.'
   }
 
   $scanRoots = @('source/design', 'tools', 'demos') | ForEach-Object {
@@ -870,6 +905,7 @@ function Test-TwoPointZeroPlanningDocs {
       'TLazRibbonBackstageView.Buttons',
       'TLazRibbonQuickAccessToolBar',
       'TLazRibbonControlHostItem',
+      'TLazRibbonControlHostItem.Control',
       'SelectedSkinName',
       'ActiveSkinName',
       'Icon16Data',
@@ -897,6 +933,7 @@ function Test-TwoPointZeroPlanningDocs {
       'Remaining Watch List',
       'TLazRibbonBackstagePage',
       'TLazRibbonBackstageView.Buttons',
+      'TLazRibbonControlHostItem.Control',
       'Action',
       'SelectedSkinName',
       'ActiveSkinName',
