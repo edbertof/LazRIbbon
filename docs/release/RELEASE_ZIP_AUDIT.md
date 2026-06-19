@@ -1,3 +1,11 @@
+## 1.2.37 check
+
+- Package metadata updated to 1.2.37.
+- `tools/export_object_inspector_redundancy_audit.ps1` classifies repeated direct published property names from the generated Object Inspector snapshot.
+- `docs/quality/OBJECT_INSPECTOR_REDUNDANCY_AUDIT_2_0.md` records the current repeated-name classification and reports zero unclassified redundancies.
+- The consistency audit regenerates the redundancy audit and fails if it drifts from source or introduces unclassified repeated names.
+- README, INSTALL, roadmap and API/property docs include the redundancy audit in the 2.0 freeze workflow.
+
 ## 1.2.36 check
 
 - Package metadata updated to 1.2.36.

@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
   [string]$SourceRoot = '',
-  [string]$ExpectedVersion = '1.2.36'
+  [string]$ExpectedVersion = '1.2.37'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -864,11 +864,13 @@ function Test-TwoPointZeroPlanningDocs {
   $matrixPath = Join-Path $SourceRoot 'docs/quality/COMPONENT_PROPERTY_MATRIX_2_0.md'
   $objectInspectorAuditPath = Join-Path $SourceRoot 'docs/quality/OBJECT_INSPECTOR_PROPERTY_AUDIT_2_0.md'
   $objectInspectorSnapshotPath = Join-Path $SourceRoot 'docs/quality/OBJECT_INSPECTOR_SURFACE_SNAPSHOT_2_0.md'
+  $objectInspectorRedundancyAuditPath = Join-Path $SourceRoot 'docs/quality/OBJECT_INSPECTOR_REDUNDANCY_AUDIT_2_0.md'
   $roadmapPath = Join-Path $SourceRoot 'docs/release/ROADMAP_2_0.md'
   $demoMatrixPath = Join-Path $SourceRoot 'docs/release/DEMO_VALIDATION_MATRIX.md'
   $buildAllPath = Join-Path $SourceRoot 'tools/build_all_projects.ps1'
   $preflightPath = Join-Path $SourceRoot 'tools/verify_release_candidate.ps1'
   $snapshotScriptPath = Join-Path $SourceRoot 'tools/export_object_inspector_snapshot.ps1'
+  $redundancyScriptPath = Join-Path $SourceRoot 'tools/export_object_inspector_redundancy_audit.ps1'
   $readmePath = Join-Path $SourceRoot 'README.md'
 
   $buildTargets = @(
@@ -962,6 +964,24 @@ function Test-TwoPointZeroPlanningDocs {
     }
   }
 
+  if (-not (Test-Path -LiteralPath $redundancyScriptPath)) {
+    Add-Failure 'Missing Object Inspector redundancy audit export script for the 2.0 API freeze.'
+  }
+  else {
+    $redundancyScript = Get-Content -LiteralPath $redundancyScriptPath -Raw
+    foreach ($required in @(
+      'OBJECT_INSPECTOR_SURFACE_SNAPSHOT_2_0.md',
+      'OBJECT_INSPECTOR_REDUNDANCY_AUDIT_2_0.md',
+      'No unclassified repeated property names were found',
+      'Watch List For Future Changes',
+      'Release Gate'
+    )) {
+      if ($redundancyScript -notmatch [regex]::Escape($required)) {
+        Add-Failure "Object Inspector redundancy audit script must include $required."
+      }
+    }
+  }
+
   if (-not (Test-Path -LiteralPath $objectInspectorSnapshotPath)) {
     Add-Failure 'Missing generated Object Inspector surface snapshot for the 2.0 API freeze.'
   }
@@ -1005,12 +1025,50 @@ function Test-TwoPointZeroPlanningDocs {
     }
   }
 
+  if (-not (Test-Path -LiteralPath $objectInspectorRedundancyAuditPath)) {
+    Add-Failure 'Missing generated Object Inspector redundancy audit for the 2.0 API freeze.'
+  }
+  elseif (Test-Path -LiteralPath $redundancyScriptPath) {
+    $objectInspectorRedundancyAudit = Get-Content -LiteralPath $objectInspectorRedundancyAuditPath -Raw
+    foreach ($required in @(
+      'Object Inspector Redundancy Audit',
+      'Repeated published property names reviewed',
+      'Unclassified repeated property names: 0',
+      'No unclassified repeated property names were found',
+      'Shared Property Names',
+      'Watch List For Future Changes',
+      'Release Gate',
+      'Appearance',
+      'Caption',
+      'Items',
+      'SkinManager'
+    )) {
+      if ($objectInspectorRedundancyAudit -notmatch [regex]::Escape($required)) {
+        Add-Failure "Object Inspector redundancy audit must mention $required."
+      }
+    }
+
+    try {
+      $generatedRedundancyAudit = (& $redundancyScriptPath -SourceRoot $SourceRoot) -join [Environment]::NewLine
+      $normalizeRedundancyAudit = {
+        param([string]$Value)
+        (($Value -replace "`r`n", "`n") -replace "`r", "`n").TrimEnd()
+      }
+      if ((& $normalizeRedundancyAudit $objectInspectorRedundancyAudit) -ne (& $normalizeRedundancyAudit $generatedRedundancyAudit)) {
+        Add-Failure 'Object Inspector redundancy audit is out of date; regenerate it with tools/export_object_inspector_redundancy_audit.ps1.'
+      }
+    }
+    catch {
+      Add-Failure "Object Inspector redundancy audit could not be regenerated: $($_.Exception.Message)"
+    }
+  }
+
   if (-not (Test-Path -LiteralPath $readmePath)) {
     Add-Failure 'Missing README.md.'
   }
   else {
     $readme = Get-Content -LiteralPath $readmePath -Raw
-    foreach ($required in @('First Ribbon Form', 'TLazRibbonForm', 'TLazRibbon.BackstageView', 'tools/build_all_projects.ps1', 'tools/verify_release_candidate.ps1')) {
+    foreach ($required in @('First Ribbon Form', 'TLazRibbonForm', 'TLazRibbon.BackstageView', 'tools/build_all_projects.ps1', 'tools/verify_release_candidate.ps1', 'OBJECT_INSPECTOR_REDUNDANCY_AUDIT_2_0.md')) {
       if ($readme -notmatch [regex]::Escape($required)) {
         Add-Failure "README must include $required for the 2.0 onboarding workflow."
       }
@@ -1031,7 +1089,8 @@ function Test-TwoPointZeroPlanningDocs {
       'No active duplicate public Object Inspector names remain',
       'COMPONENT_PROPERTY_MATRIX_2_0.md',
       'OBJECT_INSPECTOR_PROPERTY_AUDIT_2_0.md',
-      'OBJECT_INSPECTOR_SURFACE_SNAPSHOT_2_0.md'
+      'OBJECT_INSPECTOR_SURFACE_SNAPSHOT_2_0.md',
+      'OBJECT_INSPECTOR_REDUNDANCY_AUDIT_2_0.md'
     )) {
       if ($audit -notmatch [regex]::Escape($required)) {
         Add-Failure "Public API audit must mention $required."
@@ -1063,6 +1122,7 @@ function Test-TwoPointZeroPlanningDocs {
       'ActiveSkinName',
       'Icon16Data',
       'ControlName',
+      'OBJECT_INSPECTOR_REDUNDANCY_AUDIT_2_0.md',
       'Release Gate'
     )) {
       if ($matrix -notmatch [regex]::Escape($required)) {
@@ -1085,13 +1145,15 @@ function Test-TwoPointZeroPlanningDocs {
       'Intentional Shared Names',
       'Remaining Watch List',
       'Generated Surface Snapshot',
+      'Generated Redundancy Audit',
       'TLazRibbonBackstagePage',
       'TLazRibbonBackstageView.Buttons',
       'TLazRibbonControlHostItem.Control',
       'Action',
       'SelectedSkinName',
       'ActiveSkinName',
-      'Icon16Data'
+      'Icon16Data',
+      'OBJECT_INSPECTOR_REDUNDANCY_AUDIT_2_0.md'
     )) {
       if ($objectInspectorAudit -notmatch [regex]::Escape($required)) {
         Add-Failure "Object Inspector property audit must mention $required."
@@ -1107,6 +1169,7 @@ function Test-TwoPointZeroPlanningDocs {
     foreach ($required in @(
       'API Freeze Pass',
       'OBJECT_INSPECTOR_SURFACE_SNAPSHOT_2_0.md',
+      'OBJECT_INSPECTOR_REDUNDANCY_AUDIT_2_0.md',
       'tools/verify_release_candidate.ps1',
       'Skin Editor Finish Pass',
       'Release Candidate',

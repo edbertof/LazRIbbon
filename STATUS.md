@@ -1,6 +1,8 @@
 # LazRibbon Status
 
-`1.2.36 - Release candidate preflight workflow` is the current stabilization build.
+`1.2.37 - Object Inspector redundancy audit` is the current stabilization build.
+
+The 1.2.37 build adds `tools/export_object_inspector_redundancy_audit.ps1` and `docs/quality/OBJECT_INSPECTOR_REDUNDANCY_AUDIT_2_0.md`. The new generated audit classifies repeated direct published property names from the Object Inspector surface snapshot, currently reviewing 48 shared names with zero unclassified redundancies. The consistency audit regenerates and compares this report so new repeated names must be intentional before the 2.0 API freeze.
 
 The 1.2.36 build adds `tools/verify_release_candidate.ps1`, a single preflight command for the 2.0 release path. It runs the consistency audit, full package/tool/demo build matrix, post-cleanup audit and release ZIP audit in order, with `-SkipBuild` and `-SkipZip` switches for faster local iteration.
 

@@ -117,3 +117,5 @@ of these roles:
   when it would confuse new projects.
 - It is reflected in `OBJECT_INSPECTOR_SURFACE_SNAPSHOT_2_0.md` after the
   generated snapshot is refreshed.
+- If its name is repeated on more than one package-facing class, it is
+  classified in `OBJECT_INSPECTOR_REDUNDANCY_AUDIT_2_0.md`.

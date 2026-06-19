@@ -9,6 +9,12 @@ The generated direct `published` property snapshot lives in
 `tools/export_object_inspector_snapshot.ps1`. The consistency audit regenerates
 that snapshot and fails when it drifts from source.
 
+The generated repeated-name audit lives in
+`docs/quality/OBJECT_INSPECTOR_REDUNDANCY_AUDIT_2_0.md` and is produced by
+`tools/export_object_inspector_redundancy_audit.ps1`. It classifies shared
+published property names so normal Lazarus vocabulary and command vocabulary are
+not confused with real API redundancy.
+
 ## Scope
 
 Reviewed runtime units:
@@ -152,6 +158,8 @@ Before 2.0, every visible property should satisfy one of these conditions:
 - `docs/quality/OBJECT_INSPECTOR_PROPERTY_AUDIT_2_0.md` records the current
   duplicate/redundant property decisions for visible palette components and
   design-time item classes.
+- `docs/quality/OBJECT_INSPECTOR_REDUNDANCY_AUDIT_2_0.md` classifies repeated
+  published property names and currently reports no unclassified redundancies.
 - `TLazRibbonControlHostItem.Control` is the canonical hosted-control reference
   for new forms. `Caption` is the fallback placeholder text when no control is
   assigned. Legacy `ControlName` and `ControlClassName` strings are hidden from
@@ -165,15 +173,17 @@ readiness:
 
 1. Keep `OBJECT_INSPECTOR_SURFACE_SNAPSHOT_2_0.md` regenerated whenever a
    package-facing `published` property changes.
-2. Keep `README.md`, `INSTALL.md` and the first Ribbon form example synchronized
+2. Keep `OBJECT_INSPECTOR_REDUNDANCY_AUDIT_2_0.md` regenerated after the
+   snapshot and require every repeated published name to be classified.
+3. Keep `README.md`, `INSTALL.md` and the first Ribbon form example synchronized
    with the final Object Inspector names.
-3. Keep `COMPONENT_PROPERTY_MATRIX_2_0.md` synchronized with any new published
+4. Keep `COMPONENT_PROPERTY_MATRIX_2_0.md` synchronized with any new published
    component property.
-4. Keep `docs/release/DEMO_VALIDATION_MATRIX.md` synchronized with the demos
+5. Keep `docs/release/DEMO_VALIDATION_MATRIX.md` synchronized with the demos
    and `tools/build_all_projects.ps1`.
-5. Prepare screenshot guidance/assets for the main Ribbon, BackStage, Skin
+6. Prepare screenshot guidance/assets for the main Ribbon, BackStage, Skin
    Gallery and Skin Editor.
-6. Run `tools/verify_release_candidate.ps1` before tagging the first
+7. Run `tools/verify_release_candidate.ps1` before tagging the first
    `2.0.0-rc1`.
 
 This keeps the public API surface quiet while shifting the remaining work toward

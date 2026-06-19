@@ -1,3 +1,11 @@
+## 1.2.37 - Object Inspector redundancy audit
+
+- Adds `tools/export_object_inspector_redundancy_audit.ps1` to classify repeated direct published property names from the generated Object Inspector snapshot.
+- Adds `docs/quality/OBJECT_INSPECTOR_REDUNDANCY_AUDIT_2_0.md`, currently reviewing 48 repeated property names with no unclassified redundancy.
+- Extends the consistency audit to regenerate and compare the redundancy audit so new repeated Object Inspector names must be justified before 2.0.
+- Updates README, INSTALL, the 2.0 roadmap and API/property docs to make the redundancy audit part of the 2.0 API-freeze workflow.
+- Updates runtime and design-time package versions to 1.2.37.
+
 ## 1.2.36 - Release candidate preflight workflow
 
 - Adds `tools/verify_release_candidate.ps1` as a single release-candidate preflight that runs consistency audits, the full build matrix and the release ZIP audit.

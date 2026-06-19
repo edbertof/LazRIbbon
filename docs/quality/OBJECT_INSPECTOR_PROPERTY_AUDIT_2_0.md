@@ -86,6 +86,14 @@ of direct `published` property declarations for the package-facing classes. It i
 created by `tools/export_object_inspector_snapshot.ps1` and compared by the
 consistency audit so the 2.0 property model cannot silently drift from source.
 
+## Generated Redundancy Audit
+
+`docs/quality/OBJECT_INSPECTOR_REDUNDANCY_AUDIT_2_0.md` is generated from the
+surface snapshot by `tools/export_object_inspector_redundancy_audit.ps1`. It
+groups repeated direct `published` property names and requires each shared name
+to fit a documented category. The current report reviews 48 repeated names and
+reports zero unclassified redundancies.
+
 ## Intentional Shared Names
 
 These names are intentionally shared because they are normal Lazarus or
@@ -104,7 +112,7 @@ command-surface vocabulary:
 
 When one of these names appears on a non-command or non-visual-source component,
 it must either be hidden, moved out of `published`, or explicitly justified in
-the property matrix.
+the property matrix and the generated redundancy audit.
 
 ## Remaining Watch List
 
