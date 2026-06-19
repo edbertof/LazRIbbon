@@ -40,7 +40,7 @@ Lazarus/Free Pascal component package for Office-like Ribbon interfaces, includi
 Use a title such as:
 
 ```text
-LazRibbon 1.2.38 - Design-time property skip audit
+LazRibbon 1.2.39 - 2.0 API freeze readiness report
 ```
 
 ## Release notes format

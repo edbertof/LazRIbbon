@@ -1,3 +1,11 @@
+## 1.2.39 check
+
+- Package metadata updated to 1.2.39.
+- `tools/export_2_0_api_freeze_readiness.ps1` generates the compact 2.0 API freeze readiness report.
+- `docs/release/API_FREEZE_READINESS_2_0.md` consolidates package versions, API audits, Object Inspector reports and release workflow gates.
+- The readiness report currently shows 10 ready gates, 2 manual release-candidate validation gates and 0 gates needing review.
+- The consistency audit regenerates the readiness report and fails if it drifts from source documents.
+
 ## 1.2.38 check
 
 - Package metadata updated to 1.2.38.

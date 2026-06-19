@@ -1,3 +1,11 @@
+## 1.2.39 - 2.0 API freeze readiness report
+
+- Adds `tools/export_2_0_api_freeze_readiness.ps1` to generate a compact readiness view from the current API, Object Inspector and release validation documents.
+- Adds `docs/release/API_FREEZE_READINESS_2_0.md`, currently reporting 10 ready gates, 2 manual release-candidate validation gates and 0 gates needing review.
+- Extends the consistency audit to regenerate and compare the 2.0 API freeze readiness report.
+- Updates README, INSTALL, roadmap, release notes and publishing guidance to make the readiness report part of the 2.0 release path.
+- Updates runtime and design-time package versions to 1.2.39.
+
 ## 1.2.38 - Design-time property skip audit
 
 - Adds `tools/export_design_time_property_skip_audit.ps1` to generate a report from `LazRibbon_Register.pas` design-time Object Inspector hiding rules.

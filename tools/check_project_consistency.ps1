@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
   [string]$SourceRoot = '',
-  [string]$ExpectedVersion = '1.2.38'
+  [string]$ExpectedVersion = '1.2.39'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -866,6 +866,7 @@ function Test-TwoPointZeroPlanningDocs {
   $objectInspectorSnapshotPath = Join-Path $SourceRoot 'docs/quality/OBJECT_INSPECTOR_SURFACE_SNAPSHOT_2_0.md'
   $objectInspectorRedundancyAuditPath = Join-Path $SourceRoot 'docs/quality/OBJECT_INSPECTOR_REDUNDANCY_AUDIT_2_0.md'
   $designTimeSkipAuditPath = Join-Path $SourceRoot 'docs/quality/DESIGN_TIME_PROPERTY_SKIP_AUDIT_2_0.md'
+  $apiFreezeReadinessPath = Join-Path $SourceRoot 'docs/release/API_FREEZE_READINESS_2_0.md'
   $roadmapPath = Join-Path $SourceRoot 'docs/release/ROADMAP_2_0.md'
   $demoMatrixPath = Join-Path $SourceRoot 'docs/release/DEMO_VALIDATION_MATRIX.md'
   $buildAllPath = Join-Path $SourceRoot 'tools/build_all_projects.ps1'
@@ -873,6 +874,7 @@ function Test-TwoPointZeroPlanningDocs {
   $snapshotScriptPath = Join-Path $SourceRoot 'tools/export_object_inspector_snapshot.ps1'
   $redundancyScriptPath = Join-Path $SourceRoot 'tools/export_object_inspector_redundancy_audit.ps1'
   $designTimeSkipScriptPath = Join-Path $SourceRoot 'tools/export_design_time_property_skip_audit.ps1'
+  $apiFreezeReadinessScriptPath = Join-Path $SourceRoot 'tools/export_2_0_api_freeze_readiness.ps1'
   $readmePath = Join-Path $SourceRoot 'README.md'
 
   $buildTargets = @(
@@ -1002,6 +1004,25 @@ function Test-TwoPointZeroPlanningDocs {
     }
   }
 
+  if (-not (Test-Path -LiteralPath $apiFreezeReadinessScriptPath)) {
+    Add-Failure 'Missing API freeze readiness export script for the 2.0 release workflow.'
+  }
+  else {
+    $apiFreezeReadinessScript = Get-Content -LiteralPath $apiFreezeReadinessScriptPath -Raw
+    foreach ($required in @(
+      'API_FREEZE_READINESS_2_0.md',
+      'OBJECT_INSPECTOR_SURFACE_SNAPSHOT_2_0.md',
+      'OBJECT_INSPECTOR_REDUNDANCY_AUDIT_2_0.md',
+      'DESIGN_TIME_PROPERTY_SKIP_AUDIT_2_0.md',
+      'DEMO_VALIDATION_MATRIX.md',
+      'Gates needing review'
+    )) {
+      if ($apiFreezeReadinessScript -notmatch [regex]::Escape($required)) {
+        Add-Failure "API freeze readiness script must include $required."
+      }
+    }
+  }
+
   if (-not (Test-Path -LiteralPath $objectInspectorSnapshotPath)) {
     Add-Failure 'Missing generated Object Inspector surface snapshot for the 2.0 API freeze.'
   }
@@ -1122,12 +1143,51 @@ function Test-TwoPointZeroPlanningDocs {
     }
   }
 
+  if (-not (Test-Path -LiteralPath $apiFreezeReadinessPath)) {
+    Add-Failure 'Missing generated API freeze readiness report for the 2.0 release workflow.'
+  }
+  elseif (Test-Path -LiteralPath $apiFreezeReadinessScriptPath) {
+    $apiFreezeReadiness = Get-Content -LiteralPath $apiFreezeReadinessPath -Raw
+    foreach ($required in @(
+      'LazRibbon 2.0 API Freeze Readiness',
+      'Stable API candidates listed: 47',
+      'Direct published property declarations listed: 307',
+      'Repeated published property names reviewed: 48',
+      'Unclassified repeated property names: 0',
+      'Design-time property skip rules: 29',
+      'Package/tool/demo build targets listed: 18',
+      'Gates ready: 10',
+      'Gates requiring manual RC validation: 2',
+      'Gates needing review: 0',
+      'Screenshot assets for public release',
+      'Clean checkout install validation'
+    )) {
+      if ($apiFreezeReadiness -notmatch [regex]::Escape($required)) {
+        Add-Failure "API freeze readiness report must mention $required."
+      }
+    }
+
+    try {
+      $generatedApiFreezeReadiness = (& $apiFreezeReadinessScriptPath -SourceRoot $SourceRoot) -join [Environment]::NewLine
+      $normalizeApiFreezeReadiness = {
+        param([string]$Value)
+        (($Value -replace "`r`n", "`n") -replace "`r", "`n").TrimEnd()
+      }
+      if ((& $normalizeApiFreezeReadiness $apiFreezeReadiness) -ne (& $normalizeApiFreezeReadiness $generatedApiFreezeReadiness)) {
+        Add-Failure 'API freeze readiness report is out of date; regenerate it with tools/export_2_0_api_freeze_readiness.ps1.'
+      }
+    }
+    catch {
+      Add-Failure "API freeze readiness report could not be regenerated: $($_.Exception.Message)"
+    }
+  }
+
   if (-not (Test-Path -LiteralPath $readmePath)) {
     Add-Failure 'Missing README.md.'
   }
   else {
     $readme = Get-Content -LiteralPath $readmePath -Raw
-    foreach ($required in @('First Ribbon Form', 'TLazRibbonForm', 'TLazRibbon.BackstageView', 'tools/build_all_projects.ps1', 'tools/verify_release_candidate.ps1', 'OBJECT_INSPECTOR_REDUNDANCY_AUDIT_2_0.md', 'DESIGN_TIME_PROPERTY_SKIP_AUDIT_2_0.md')) {
+    foreach ($required in @('First Ribbon Form', 'TLazRibbonForm', 'TLazRibbon.BackstageView', 'tools/build_all_projects.ps1', 'tools/verify_release_candidate.ps1', 'OBJECT_INSPECTOR_REDUNDANCY_AUDIT_2_0.md', 'DESIGN_TIME_PROPERTY_SKIP_AUDIT_2_0.md', 'API_FREEZE_READINESS_2_0.md')) {
       if ($readme -notmatch [regex]::Escape($required)) {
         Add-Failure "README must include $required for the 2.0 onboarding workflow."
       }
@@ -1150,7 +1210,8 @@ function Test-TwoPointZeroPlanningDocs {
       'OBJECT_INSPECTOR_PROPERTY_AUDIT_2_0.md',
       'OBJECT_INSPECTOR_SURFACE_SNAPSHOT_2_0.md',
       'OBJECT_INSPECTOR_REDUNDANCY_AUDIT_2_0.md',
-      'DESIGN_TIME_PROPERTY_SKIP_AUDIT_2_0.md'
+      'DESIGN_TIME_PROPERTY_SKIP_AUDIT_2_0.md',
+      'API_FREEZE_READINESS_2_0.md'
     )) {
       if ($audit -notmatch [regex]::Escape($required)) {
         Add-Failure "Public API audit must mention $required."
@@ -1234,6 +1295,7 @@ function Test-TwoPointZeroPlanningDocs {
       'OBJECT_INSPECTOR_SURFACE_SNAPSHOT_2_0.md',
       'OBJECT_INSPECTOR_REDUNDANCY_AUDIT_2_0.md',
       'DESIGN_TIME_PROPERTY_SKIP_AUDIT_2_0.md',
+      'API_FREEZE_READINESS_2_0.md',
       'tools/verify_release_candidate.ps1',
       'Skin Editor Finish Pass',
       'Release Candidate',
