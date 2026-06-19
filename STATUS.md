@@ -1,6 +1,8 @@
 # LazRibbon Status
 
-`1.2.34 - Accelerated 2.0 validation workflow` is the current stabilization build.
+`1.2.35 - Object Inspector surface snapshot` is the current stabilization build.
+
+The 1.2.35 build adds a generated Object Inspector surface snapshot for the final 2.0 API freeze. `tools/export_object_inspector_snapshot.ps1` extracts direct `published` properties from the main package-facing classes and writes `docs/quality/OBJECT_INSPECTOR_SURFACE_SNAPSHOT_2_0.md`; the consistency audit regenerates and compares it so visible property changes cannot drift away from the documented model.
 
 The 1.2.34 build adds the accelerated validation workflow for the final 2.0 path. `tools/build_all_projects.ps1` compiles the runtime package, design-time package, Skin Editor and every demo in one command, optionally cleaning generated artifacts afterwards. `docs/release/DEMO_VALIDATION_MATRIX.md` explains what each demo validates, and `README.md` now includes a compact first Ribbon form guide.
 

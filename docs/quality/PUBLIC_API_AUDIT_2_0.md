@@ -4,6 +4,11 @@ This audit records the current public Object Inspector/API surface that should b
 stabilized before the 2.0 release. It focuses on names visible to Lazarus
 developers, not on private implementation details.
 
+The generated direct `published` property snapshot lives in
+`docs/quality/OBJECT_INSPECTOR_SURFACE_SNAPSHOT_2_0.md` and is produced by
+`tools/export_object_inspector_snapshot.ps1`. The consistency audit regenerates
+that snapshot and fails when it drifts from source.
+
 ## Scope
 
 Reviewed runtime units:
@@ -158,15 +163,17 @@ Before 2.0, every visible property should satisfy one of these conditions:
 The next API pass should move from visible duplicate cleanup to release-candidate
 readiness:
 
-1. Keep `README.md`, `INSTALL.md` and the first Ribbon form example synchronized
+1. Keep `OBJECT_INSPECTOR_SURFACE_SNAPSHOT_2_0.md` regenerated whenever a
+   package-facing `published` property changes.
+2. Keep `README.md`, `INSTALL.md` and the first Ribbon form example synchronized
    with the final Object Inspector names.
-2. Keep `COMPONENT_PROPERTY_MATRIX_2_0.md` synchronized with any new published
+3. Keep `COMPONENT_PROPERTY_MATRIX_2_0.md` synchronized with any new published
    component property.
-3. Keep `docs/release/DEMO_VALIDATION_MATRIX.md` synchronized with the demos
+4. Keep `docs/release/DEMO_VALIDATION_MATRIX.md` synchronized with the demos
    and `tools/build_all_projects.ps1`.
-4. Prepare screenshot guidance/assets for the main Ribbon, BackStage, Skin
+5. Prepare screenshot guidance/assets for the main Ribbon, BackStage, Skin
    Gallery and Skin Editor.
-5. Run a clean checkout validation before tagging the first `2.0.0-rc1`.
+6. Run a clean checkout validation before tagging the first `2.0.0-rc1`.
 
 This keeps the public API surface quiet while shifting the remaining work toward
 shareable documentation and release proof.

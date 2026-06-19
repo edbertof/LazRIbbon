@@ -115,3 +115,5 @@ of these roles:
 - It is a standard inherited Lazarus property that remains meaningful.
 - It is documented as compatibility-only and hidden from the Object Inspector
   when it would confuse new projects.
+- It is reflected in `OBJECT_INSPECTOR_SURFACE_SNAPSHOT_2_0.md` after the
+  generated snapshot is refreshed.

@@ -79,6 +79,13 @@ The consistency audit now rejects a published BackStage page command surface.
 new forms. Legacy `ControlName` and `ControlClassName` metadata stays
 compatibility-only and hidden from the Object Inspector.
 
+## Generated Surface Snapshot
+
+`docs/quality/OBJECT_INSPECTOR_SURFACE_SNAPSHOT_2_0.md` is the generated record
+of direct `published` property declarations for the package-facing classes. It is
+created by `tools/export_object_inspector_snapshot.ps1` and compared by the
+consistency audit so the 2.0 property model cannot silently drift from source.
+
 ## Intentional Shared Names
 
 These names are intentionally shared because they are normal Lazarus or

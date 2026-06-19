@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
   [string]$SourceRoot = '',
-  [string]$ExpectedVersion = '1.2.34'
+  [string]$ExpectedVersion = '1.2.35'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -863,9 +863,11 @@ function Test-TwoPointZeroPlanningDocs {
   $auditPath = Join-Path $SourceRoot 'docs/quality/PUBLIC_API_AUDIT_2_0.md'
   $matrixPath = Join-Path $SourceRoot 'docs/quality/COMPONENT_PROPERTY_MATRIX_2_0.md'
   $objectInspectorAuditPath = Join-Path $SourceRoot 'docs/quality/OBJECT_INSPECTOR_PROPERTY_AUDIT_2_0.md'
+  $objectInspectorSnapshotPath = Join-Path $SourceRoot 'docs/quality/OBJECT_INSPECTOR_SURFACE_SNAPSHOT_2_0.md'
   $roadmapPath = Join-Path $SourceRoot 'docs/release/ROADMAP_2_0.md'
   $demoMatrixPath = Join-Path $SourceRoot 'docs/release/DEMO_VALIDATION_MATRIX.md'
   $buildAllPath = Join-Path $SourceRoot 'tools/build_all_projects.ps1'
+  $snapshotScriptPath = Join-Path $SourceRoot 'tools/export_object_inspector_snapshot.ps1'
   $readmePath = Join-Path $SourceRoot 'README.md'
 
   $buildTargets = @(
@@ -919,6 +921,69 @@ function Test-TwoPointZeroPlanningDocs {
     }
   }
 
+  if (-not (Test-Path -LiteralPath $snapshotScriptPath)) {
+    Add-Failure 'Missing Object Inspector snapshot export script for the 2.0 API freeze.'
+  }
+  else {
+    $snapshotScript = Get-Content -LiteralPath $snapshotScriptPath -Raw
+    foreach ($required in @(
+      'TLazRibbon',
+      'TLazRibbonForm',
+      'TLazRibbonPane',
+      'TLazRibbonBackstageView',
+      'TLazRibbonSkinManager',
+      'TLazRibbonSkinDefinition',
+      'Get-PublishedPropertyDeclarations'
+    )) {
+      if ($snapshotScript -notmatch [regex]::Escape($required)) {
+        Add-Failure "Object Inspector snapshot script must include $required."
+      }
+    }
+  }
+
+  if (-not (Test-Path -LiteralPath $objectInspectorSnapshotPath)) {
+    Add-Failure 'Missing generated Object Inspector surface snapshot for the 2.0 API freeze.'
+  }
+  elseif (Test-Path -LiteralPath $snapshotScriptPath) {
+    $objectInspectorSnapshot = Get-Content -LiteralPath $objectInspectorSnapshotPath -Raw
+    foreach ($required in @(
+      'Object Inspector Surface Snapshot',
+      'TLazRibbon',
+      'ApplicationButton',
+      'RibbonAppearance',
+      'TLazRibbonPane',
+      'ShowDialogLauncher',
+      'TLazRibbonControlHostItem',
+      'Control',
+      'TLazRibbonBackstageView',
+      'AppearanceSource',
+      'TLazRibbonSkinManager',
+      'ActiveSkinName',
+      'TLazRibbonSkinDefinition',
+      'Icon16Data',
+      'TLazRibbonSkinSelector',
+      'SelectedSkinName'
+    )) {
+      if ($objectInspectorSnapshot -notmatch [regex]::Escape($required)) {
+        Add-Failure "Object Inspector surface snapshot must mention $required."
+      }
+    }
+
+    try {
+      $generatedSnapshot = (& $snapshotScriptPath -SourceRoot $SourceRoot) -join [Environment]::NewLine
+      $normalizeSnapshot = {
+        param([string]$Value)
+        (($Value -replace "`r`n", "`n") -replace "`r", "`n").TrimEnd()
+      }
+      if ((& $normalizeSnapshot $objectInspectorSnapshot) -ne (& $normalizeSnapshot $generatedSnapshot)) {
+        Add-Failure 'Object Inspector surface snapshot is out of date; regenerate it with tools/export_object_inspector_snapshot.ps1.'
+      }
+    }
+    catch {
+      Add-Failure "Object Inspector surface snapshot could not be regenerated: $($_.Exception.Message)"
+    }
+  }
+
   if (-not (Test-Path -LiteralPath $readmePath)) {
     Add-Failure 'Missing README.md.'
   }
@@ -944,7 +1009,8 @@ function Test-TwoPointZeroPlanningDocs {
       'Icon16Data',
       'No active duplicate public Object Inspector names remain',
       'COMPONENT_PROPERTY_MATRIX_2_0.md',
-      'OBJECT_INSPECTOR_PROPERTY_AUDIT_2_0.md'
+      'OBJECT_INSPECTOR_PROPERTY_AUDIT_2_0.md',
+      'OBJECT_INSPECTOR_SURFACE_SNAPSHOT_2_0.md'
     )) {
       if ($audit -notmatch [regex]::Escape($required)) {
         Add-Failure "Public API audit must mention $required."
@@ -997,6 +1063,7 @@ function Test-TwoPointZeroPlanningDocs {
       'BackStage Page Decision',
       'Intentional Shared Names',
       'Remaining Watch List',
+      'Generated Surface Snapshot',
       'TLazRibbonBackstagePage',
       'TLazRibbonBackstageView.Buttons',
       'TLazRibbonControlHostItem.Control',
@@ -1018,6 +1085,7 @@ function Test-TwoPointZeroPlanningDocs {
     $roadmap = Get-Content -LiteralPath $roadmapPath -Raw
     foreach ($required in @(
       'API Freeze Pass',
+      'OBJECT_INSPECTOR_SURFACE_SNAPSHOT_2_0.md',
       'Skin Editor Finish Pass',
       'Release Candidate',
       'Definition Of Done'

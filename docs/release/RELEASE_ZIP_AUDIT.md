@@ -1,3 +1,11 @@
+## 1.2.35 check
+
+- Package metadata updated to 1.2.35.
+- `tools/export_object_inspector_snapshot.ps1` generates the current direct published-property snapshot.
+- `docs/quality/OBJECT_INSPECTOR_SURFACE_SNAPSHOT_2_0.md` records the current package-facing Object Inspector/runtime RTTI surface.
+- The consistency audit regenerates the snapshot and fails when it drifts from source.
+- The 2.0 roadmap and API/property audit docs include the snapshot in the pre-freeze workflow.
+
 ## 1.2.34 check
 
 - Package metadata updated to 1.2.34.

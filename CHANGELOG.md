@@ -1,3 +1,11 @@
+## 1.2.35 - Object Inspector surface snapshot
+
+- Adds `tools/export_object_inspector_snapshot.ps1` to extract direct `published` properties from the main package-facing classes.
+- Adds `docs/quality/OBJECT_INSPECTOR_SURFACE_SNAPSHOT_2_0.md` as the current generated snapshot of the Object Inspector/runtime RTTI surface.
+- Extends the consistency audit to regenerate and compare the snapshot so published-property changes cannot silently drift from the 2.0 docs.
+- Updates the 2.0 roadmap and API/property audits to make the snapshot part of the pre-freeze workflow.
+- Updates runtime and design-time package versions to 1.2.35.
+
 ## 1.2.34 - Accelerated 2.0 validation workflow
 
 - Adds `tools/build_all_projects.ps1` to compile runtime, design-time, Skin Editor and every demo in one release-check command.

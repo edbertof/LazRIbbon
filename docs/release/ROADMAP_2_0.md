@@ -25,6 +25,8 @@ The following gates must be complete before `2.0.0`:
   `docs/quality/COMPONENT_PROPERTY_MATRIX_2_0.md`.
 - Object Inspector redundancies reviewed against
   `docs/quality/OBJECT_INSPECTOR_PROPERTY_AUDIT_2_0.md`.
+- Generated Object Inspector surface snapshot kept current in
+  `docs/quality/OBJECT_INSPECTOR_SURFACE_SNAPSHOT_2_0.md`.
 - Remaining confusing or duplicate Object Inspector names either renamed, hidden
   or documented as compatibility-only.
 - `tools/check_project_consistency.ps1` rejects known pre-2.0 legacy streaming
@@ -69,6 +71,8 @@ The following gates must be complete before `2.0.0`:
   metadata stays compatibility-only.
 - Keep the component property matrix synchronized with new published properties
   so the Object Inspector remains easy to understand.
+- Regenerate `docs/quality/OBJECT_INSPECTOR_SURFACE_SNAPSHOT_2_0.md` after any
+  package-facing `published` property changes.
 
 ### 2. Skin Editor Finish Pass
 
