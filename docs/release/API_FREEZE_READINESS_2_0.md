@@ -9,7 +9,7 @@ Regenerate after changing package metadata, API audits, Object Inspector reports
 
 ## Summary
 
-- Package version: 1.2.40
+- Package version: 1.2.41
 - Stable API candidates listed: 47
 - Direct published property declarations listed: 307
 - Repeated published property names reviewed: 48
@@ -17,15 +17,15 @@ Regenerate after changing package metadata, API audits, Object Inspector reports
 - Design-time property skip rules: 29
 - Nil property-editor hide rules: 4
 - Package/tool/demo build targets listed: 18
-- Gates ready: 11
-- Gates requiring manual RC validation: 1
+- Gates ready: 12
+- Gates requiring manual RC validation: 0
 - Gates needing review: 0
 
 ## Gate Status
 
 | Gate | Status | Evidence |
 | --- | --- | --- |
-| Package metadata aligned | Ready | Runtime 1.2.40; design 1.2.40. |
+| Package metadata aligned | Ready | Runtime 1.2.41; design 1.2.41. |
 | Public API audit exists | Ready | 47 stable API candidates listed. |
 | Component property matrix exists | Ready | Release gate section is present. |
 | Object Inspector surface snapshot exists | Ready | 307 direct published property declarations listed. |
@@ -36,11 +36,11 @@ Regenerate after changing package metadata, API audits, Object Inspector reports
 | Release ZIP hygiene script exists | Ready | ZIP audit script is present. |
 | GitHub publishing guide exists | Ready | Public repository/release guidance is present. |
 | Clean checkout install validation | Ready | Clean checkout validation script and guide are present. |
-| Screenshot assets for public release | Manual | Roadmap still keeps screenshots as a release-candidate task. |
+| Screenshot assets for public release | Ready | 4 public screenshot PNG assets and the capture script are present. |
 
 ## Current Conclusion
 
-The API freeze artifacts are ready for continued release-candidate work. Remaining manual release-candidate gates: Screenshot assets for public release.
+The API freeze artifacts are ready for release-candidate work, and no tracked gate currently needs review or manual validation.
 
 ## Source Documents
 
@@ -53,3 +53,4 @@ The API freeze artifacts are ready for continued release-candidate work. Remaini
 - `docs/release/DEMO_VALIDATION_MATRIX.md`
 - `docs/release/CLEAN_CHECKOUT_VALIDATION.md`
 - `docs/release/ROADMAP_2_0.md`
+- `docs/assets/screenshots/README.md`

@@ -33,7 +33,7 @@ Lazarus/Free Pascal component package for Office-like Ribbon interfaces, includi
 5. Generate a source ZIP with `tools/build_release_zip.ps1`; by default it is saved in `D:\Ribbon4Lazarus`.
 6. Run `tools/verify_clean_checkout.ps1` to validate a fresh extracted source tree.
 7. Confirm the generated ZIP passes `tools/check_release_zip.ps1`.
-8. Add showcase screenshots under `docs/assets/screenshots/`.
+8. Regenerate and review public screenshots with `tools/capture_release_screenshots.ps1`.
 9. Create a GitHub release using the same version as the packages.
 
 ## Release title format
@@ -41,7 +41,7 @@ Lazarus/Free Pascal component package for Office-like Ribbon interfaces, includi
 Use a title such as:
 
 ```text
-LazRibbon 1.2.40 - Clean checkout validation
+LazRibbon 1.2.41 - Public screenshot assets
 ```
 
 ## Release notes format
@@ -65,10 +65,10 @@ Recommended sections:
 
 Use screenshots that show real application state:
 
-- main showcase Ribbon;
-- BackStage covering the client area;
-- Skin Gallery or Skin Selector;
-- Skin Editor;
+- `docs/assets/screenshots/showcase-main.png` for the main showcase Ribbon;
+- `docs/assets/screenshots/showcase-backstage.png` for BackStage covering the client area;
+- `docs/assets/screenshots/showcase-skins.png` for Skin Gallery or Skin Selector;
+- `docs/assets/screenshots/skin-editor.png` for the Skin Editor;
 - component palette icons after installation.
 
 Avoid screenshots that expose local private paths or unrelated project data.

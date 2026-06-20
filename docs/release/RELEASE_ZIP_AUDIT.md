@@ -1,3 +1,11 @@
+## 1.2.41 check
+
+- Package metadata updated to 1.2.41.
+- `tools/capture_release_screenshots.ps1` generates the public README screenshot set from the Showcase, BackStage, Skin Gallery and Skin Editor.
+- `docs/assets/screenshots/showcase-main.png`, `showcase-backstage.png`, `showcase-skins.png` and `skin-editor.png` are included as public-facing assets.
+- The generated API freeze readiness report now tracks screenshot assets as a ready gate when the PNG files and capture script are present.
+- README, installation and publishing docs reference the screenshot workflow.
+
 ## 1.2.40 check
 
 - Package metadata updated to 1.2.40.

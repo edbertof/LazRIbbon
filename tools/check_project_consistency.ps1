@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
   [string]$SourceRoot = '',
-  [string]$ExpectedVersion = '1.2.40'
+  [string]$ExpectedVersion = '1.2.41'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -877,7 +877,15 @@ function Test-TwoPointZeroPlanningDocs {
   $redundancyScriptPath = Join-Path $SourceRoot 'tools/export_object_inspector_redundancy_audit.ps1'
   $designTimeSkipScriptPath = Join-Path $SourceRoot 'tools/export_design_time_property_skip_audit.ps1'
   $apiFreezeReadinessScriptPath = Join-Path $SourceRoot 'tools/export_2_0_api_freeze_readiness.ps1'
+  $screenshotCaptureScriptPath = Join-Path $SourceRoot 'tools/capture_release_screenshots.ps1'
+  $screenshotAssetsReadmePath = Join-Path $SourceRoot 'docs/assets/screenshots/README.md'
   $readmePath = Join-Path $SourceRoot 'README.md'
+  $screenshotAssetPaths = @(
+    'docs/assets/screenshots/showcase-main.png',
+    'docs/assets/screenshots/showcase-backstage.png',
+    'docs/assets/screenshots/showcase-skins.png',
+    'docs/assets/screenshots/skin-editor.png'
+  )
 
   $buildTargets = @(
     'packages\LazRibbonRuntime.lpk',
@@ -1053,10 +1061,57 @@ function Test-TwoPointZeroPlanningDocs {
       'DEMO_VALIDATION_MATRIX.md',
       'CLEAN_CHECKOUT_VALIDATION.md',
       'verify_clean_checkout.ps1',
+      'capture_release_screenshots.ps1',
       'Gates needing review'
     )) {
       if ($apiFreezeReadinessScript -notmatch [regex]::Escape($required)) {
         Add-Failure "API freeze readiness script must include $required."
+      }
+    }
+  }
+
+  if (-not (Test-Path -LiteralPath $screenshotCaptureScriptPath)) {
+    Add-Failure 'Missing release screenshot capture script.'
+  }
+  else {
+    $screenshotCaptureScript = Get-Content -LiteralPath $screenshotCaptureScriptPath -Raw
+    foreach ($required in @(
+      'showcase-main.png',
+      'showcase-backstage.png',
+      'showcase-skins.png',
+      'skin-editor.png',
+      'CopyFromScreen',
+      'FindMainWindowForProcess',
+      'DwmGetWindowAttribute',
+      'Register-LocalPackages',
+      '--add-package-link',
+      'PrimaryConfigPath',
+      'Remove-GeneratedArtifacts'
+    )) {
+      if ($screenshotCaptureScript -notmatch [regex]::Escape($required)) {
+        Add-Failure "Screenshot capture script must include $required."
+      }
+    }
+  }
+
+  foreach ($screenshotAssetPath in $screenshotAssetPaths) {
+    $screenshotFullPath = Join-Path $SourceRoot $screenshotAssetPath
+    if (-not (Test-Path -LiteralPath $screenshotFullPath)) {
+      Add-Failure "Missing public screenshot asset $screenshotAssetPath."
+    }
+    elseif ((Get-Item -LiteralPath $screenshotFullPath).Length -lt 5000) {
+      Add-Failure "Public screenshot asset $screenshotAssetPath is unexpectedly small."
+    }
+  }
+
+  if (-not (Test-Path -LiteralPath $screenshotAssetsReadmePath)) {
+    Add-Failure 'Missing screenshots asset README.'
+  }
+  else {
+    $screenshotAssetsReadme = Get-Content -LiteralPath $screenshotAssetsReadmePath -Raw
+    foreach ($required in @('capture_release_screenshots.ps1', 'showcase-main.png', 'showcase-backstage.png', 'showcase-skins.png', 'skin-editor.png')) {
+      if ($screenshotAssetsReadme -notmatch [regex]::Escape($required)) {
+        Add-Failure "Screenshots README must mention $required."
       }
     }
   }
@@ -1194,11 +1249,12 @@ function Test-TwoPointZeroPlanningDocs {
       'Unclassified repeated property names: 0',
       'Design-time property skip rules: 29',
       'Package/tool/demo build targets listed: 18',
-      'Gates ready: 11',
-      'Gates requiring manual RC validation: 1',
+      'Gates ready: 12',
+      'Gates requiring manual RC validation: 0',
       'Gates needing review: 0',
       'Clean checkout install validation',
       'Screenshot assets for public release',
+      '4 public screenshot PNG assets',
       'CLEAN_CHECKOUT_VALIDATION.md'
     )) {
       if ($apiFreezeReadiness -notmatch [regex]::Escape($required)) {
@@ -1226,7 +1282,7 @@ function Test-TwoPointZeroPlanningDocs {
   }
   else {
     $readme = Get-Content -LiteralPath $readmePath -Raw
-    foreach ($required in @('First Ribbon Form', 'TLazRibbonForm', 'TLazRibbon.BackstageView', 'tools/build_all_projects.ps1', 'tools/verify_release_candidate.ps1', 'tools/verify_clean_checkout.ps1', 'OBJECT_INSPECTOR_REDUNDANCY_AUDIT_2_0.md', 'DESIGN_TIME_PROPERTY_SKIP_AUDIT_2_0.md', 'API_FREEZE_READINESS_2_0.md', 'CLEAN_CHECKOUT_VALIDATION.md')) {
+    foreach ($required in @('Screenshots', 'docs/assets/screenshots/showcase-main.png', 'tools/capture_release_screenshots.ps1', 'First Ribbon Form', 'TLazRibbonForm', 'TLazRibbon.BackstageView', 'tools/build_all_projects.ps1', 'tools/verify_release_candidate.ps1', 'tools/verify_clean_checkout.ps1', 'OBJECT_INSPECTOR_REDUNDANCY_AUDIT_2_0.md', 'DESIGN_TIME_PROPERTY_SKIP_AUDIT_2_0.md', 'API_FREEZE_READINESS_2_0.md', 'CLEAN_CHECKOUT_VALIDATION.md')) {
       if ($readme -notmatch [regex]::Escape($required)) {
         Add-Failure "README must include $required for the 2.0 onboarding workflow."
       }
@@ -1339,6 +1395,7 @@ function Test-TwoPointZeroPlanningDocs {
       'CLEAN_CHECKOUT_VALIDATION.md',
       'tools/verify_clean_checkout.ps1',
       'tools/verify_release_candidate.ps1',
+      'tools/capture_release_screenshots.ps1',
       'Skin Editor Finish Pass',
       'Release Candidate',
       'Definition Of Done'

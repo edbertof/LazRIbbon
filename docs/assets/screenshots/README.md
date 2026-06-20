@@ -1,19 +1,20 @@
 # Screenshots
 
-Place public-facing screenshots in this folder before publishing the repository.
+Public-facing LazRibbon screenshots live in this folder and are referenced from the top section of `README.md`.
 
-Recommended files:
+Current release assets:
 
 - `showcase-main.png`
 - `showcase-backstage.png`
 - `showcase-skins.png`
 - `skin-editor.png`
-- `component-palette.png`
 
-Recommended capture size:
+Regenerate the set from a Lazarus 4.8 environment with:
 
-- 1280x720 or wider for README images;
-- PNG format;
-- no private paths, customer data or unrelated applications visible.
+```powershell
+powershell -ExecutionPolicy Bypass -File tools/capture_release_screenshots.ps1
+```
 
-When screenshots are available, reference them from the top section of `README.md`.
+The capture script builds the package/demo/tool targets in a temporary Lazarus primary config path, opens the GUI targets, captures PNG files, and removes generated build artifacts when it finishes.
+
+Screenshots should show real LazRibbon application state and must not expose private paths, customer data or unrelated applications.

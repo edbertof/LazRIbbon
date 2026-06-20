@@ -47,6 +47,9 @@ The following gates must be complete before `2.0.0`:
   preflight before a 2.0 RC is tagged.
 - `tools/verify_clean_checkout.ps1` validates an extracted clean source tree
   before a 2.0 RC is tagged.
+- Public screenshots for Showcase, BackStage, Skin Gallery and Skin Editor are
+  present under `docs/assets/screenshots/` and can be regenerated with
+  `tools/capture_release_screenshots.ps1`.
 - Release ZIP audit passes with no generated build artifacts.
 
 ## Planned Work
@@ -112,7 +115,8 @@ The following gates must be complete before `2.0.0`:
   release validation script.
 - Keep `docs/release/CLEAN_CHECKOUT_VALIDATION.md` synchronized with the clean
   checkout script and release-candidate preflight.
-- Add screenshots for the main Ribbon, BackStage, Skin Gallery and Skin Editor.
+- Keep screenshots for the main Ribbon, BackStage, Skin Gallery and Skin Editor
+  current in `docs/assets/screenshots/`.
 - Review docs for outdated names after the API freeze pass.
 - Prepare public release notes for the first `2.0.0-rc1`.
 
@@ -123,6 +127,7 @@ The following gates must be complete before `2.0.0`:
 - Run `tools/verify_clean_checkout.ps1` with the target version.
 - Run `tools/verify_release_candidate.ps1` with the target version and release
   ZIP output directory.
+- Run `tools/capture_release_screenshots.ps1` and review the public PNG assets.
 - Install the design-time package in Lazarus and verify component palette icons.
 - Compile and run the Skin Editor and the main Ribbon form demo.
 - Generate a source ZIP and verify its SHA256.

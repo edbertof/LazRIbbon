@@ -129,6 +129,29 @@ $nilHideRules = Get-Metric -Text $designSkipAudit -Label 'Nil property-editor hi
 $skipComponents = Get-Metric -Text $designSkipAudit -Label 'Components with hidden design-time properties'
 $buildTargetPattern = [regex]::Escape($tick) + '(packages|tools|demos)/[^' + [regex]::Escape($tick) + ']+\.lp[ki]' + [regex]::Escape($tick)
 $buildTargetCount = ([regex]::Matches($demoMatrix, $buildTargetPattern)).Count
+$screenshotPaths = @(
+  'docs/assets/screenshots/showcase-main.png',
+  'docs/assets/screenshots/showcase-backstage.png',
+  'docs/assets/screenshots/showcase-skins.png',
+  'docs/assets/screenshots/skin-editor.png'
+)
+$screenshotFilesReady = $true
+foreach ($screenshotPath in $screenshotPaths) {
+  $fullScreenshotPath = Join-SourcePath $screenshotPath
+  if (-not (Test-Path -LiteralPath $fullScreenshotPath)) {
+    $screenshotFilesReady = $false
+  }
+  elseif ((Get-Item -LiteralPath $fullScreenshotPath).Length -lt 5000) {
+    $screenshotFilesReady = $false
+  }
+}
+$screenshotCaptureScriptReady = Test-SourcePath 'tools/capture_release_screenshots.ps1'
+$screenshotEvidence = if ($screenshotFilesReady -and $screenshotCaptureScriptReady) {
+  '4 public screenshot PNG assets and the capture script are present.'
+}
+else {
+  'One or more public screenshot assets or the capture script is missing.'
+}
 
 $script:gates = New-Object System.Collections.Generic.List[object]
 Add-Gate 'Package metadata aligned' ($(if ($runtimeVersion -eq $designVersion -and $runtimeVersion -notmatch '<missing>') { 'Ready' } else { 'Review' })) "Runtime $runtimeVersion; design $designVersion."
@@ -142,7 +165,7 @@ Add-Gate 'Release-candidate preflight script exists' ($(if (Test-SourcePath 'too
 Add-Gate 'Release ZIP hygiene script exists' ($(if (Test-SourcePath 'tools/check_release_zip.ps1') { 'Ready' } else { 'Review' })) 'ZIP audit script is present.'
 Add-Gate 'GitHub publishing guide exists' ($(if (Test-SourcePath 'docs/release/GITHUB_PUBLISHING.md') { 'Ready' } else { 'Review' })) 'Public repository/release guidance is present.'
 Add-Gate 'Clean checkout install validation' ($(if ((Test-SourcePath 'tools/verify_clean_checkout.ps1') -and (Test-SourcePath 'docs/release/CLEAN_CHECKOUT_VALIDATION.md')) { 'Ready' } else { 'Manual' })) 'Clean checkout validation script and guide are present.'
-Add-Gate 'Screenshot assets for public release' ($(if ($roadmap -match 'Add screenshots') { 'Manual' } else { 'Review' })) 'Roadmap still keeps screenshots as a release-candidate task.'
+Add-Gate 'Screenshot assets for public release' ($(if ($screenshotFilesReady -and $screenshotCaptureScriptReady) { 'Ready' } else { 'Review' })) $screenshotEvidence
 
 $readyCount = @($gates | Where-Object { $_.Status -eq 'Ready' }).Count
 $manualCount = @($gates | Where-Object { $_.Status -eq 'Manual' }).Count
@@ -206,7 +229,8 @@ foreach ($path in @(
   'docs/quality/DESIGN_TIME_PROPERTY_SKIP_AUDIT_2_0.md',
   'docs/release/DEMO_VALIDATION_MATRIX.md',
   'docs/release/CLEAN_CHECKOUT_VALIDATION.md',
-  'docs/release/ROADMAP_2_0.md'
+  'docs/release/ROADMAP_2_0.md',
+  'docs/assets/screenshots/README.md'
 )) {
   $out.Add('- ' + (ConvertTo-InlineCode $path))
 }

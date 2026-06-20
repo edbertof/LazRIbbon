@@ -1,3 +1,11 @@
+## 1.2.41 - Public screenshot assets
+
+- Adds `tools/capture_release_screenshots.ps1` to build the screenshot targets, open the GUI applications, capture release PNGs and clean generated artifacts.
+- Adds public screenshots under `docs/assets/screenshots/` for the Showcase, BackStage, Skin Gallery and Skin Editor.
+- Updates `README.md` with a screenshot section for GitHub-facing project presentation.
+- Updates the generated 2.0 API freeze readiness report so screenshot assets are a ready gate when the PNGs and capture script are present.
+- Updates runtime and design-time package versions to 1.2.41.
+
 ## 1.2.40 - Clean checkout validation
 
 - Adds `tools/verify_clean_checkout.ps1` to create a release-style source ZIP, extract it into a temporary clean tree, run consistency checks, register the local packages in a temporary Lazarus profile and build the package/tool/demo matrix there.
