@@ -141,8 +141,8 @@ Add-Gate 'Build matrix documented' ($(if ($buildTargetCount -ge 18) { 'Ready' } 
 Add-Gate 'Release-candidate preflight script exists' ($(if (Test-SourcePath 'tools/verify_release_candidate.ps1') { 'Ready' } else { 'Review' })) 'One-command preflight script is present.'
 Add-Gate 'Release ZIP hygiene script exists' ($(if (Test-SourcePath 'tools/check_release_zip.ps1') { 'Ready' } else { 'Review' })) 'ZIP audit script is present.'
 Add-Gate 'GitHub publishing guide exists' ($(if (Test-SourcePath 'docs/release/GITHUB_PUBLISHING.md') { 'Ready' } else { 'Review' })) 'Public repository/release guidance is present.'
+Add-Gate 'Clean checkout install validation' ($(if ((Test-SourcePath 'tools/verify_clean_checkout.ps1') -and (Test-SourcePath 'docs/release/CLEAN_CHECKOUT_VALIDATION.md')) { 'Ready' } else { 'Manual' })) 'Clean checkout validation script and guide are present.'
 Add-Gate 'Screenshot assets for public release' ($(if ($roadmap -match 'Add screenshots') { 'Manual' } else { 'Review' })) 'Roadmap still keeps screenshots as a release-candidate task.'
-Add-Gate 'Clean checkout install validation' 'Manual' 'Must be performed before tagging a 2.0 release candidate.'
 
 $readyCount = @($gates | Where-Object { $_.Status -eq 'Ready' }).Count
 $manualCount = @($gates | Where-Object { $_.Status -eq 'Manual' }).Count
@@ -183,7 +183,13 @@ $out.Add('')
 $out.Add('## Current Conclusion')
 $out.Add('')
 if ($reviewCount -eq 0) {
-  $out.Add('The API freeze artifacts are ready for continued release-candidate work. The remaining gates are manual release-candidate tasks: screenshot assets and clean-checkout installation validation.')
+  $manualGateNames = @($gates | Where-Object { $_.Status -eq 'Manual' } | ForEach-Object { $_.Gate })
+  if ($manualGateNames.Count -eq 0) {
+    $out.Add('The API freeze artifacts are ready for release-candidate work, and no tracked gate currently needs review or manual validation.')
+  }
+  else {
+    $out.Add('The API freeze artifacts are ready for continued release-candidate work. Remaining manual release-candidate gates: ' + ($manualGateNames -join '; ') + '.')
+  }
 }
 else {
   $out.Add('Some generated or documented API freeze gates still need review before release-candidate work continues.')
@@ -199,12 +205,13 @@ foreach ($path in @(
   'docs/quality/OBJECT_INSPECTOR_REDUNDANCY_AUDIT_2_0.md',
   'docs/quality/DESIGN_TIME_PROPERTY_SKIP_AUDIT_2_0.md',
   'docs/release/DEMO_VALIDATION_MATRIX.md',
+  'docs/release/CLEAN_CHECKOUT_VALIDATION.md',
   'docs/release/ROADMAP_2_0.md'
 )) {
   $out.Add('- ' + (ConvertTo-InlineCode $path))
 }
 
-$text = $out -join [Environment]::NewLine
+$text = $out -join "`n"
 
 if ([string]::IsNullOrWhiteSpace($OutputPath)) {
   Write-Output $text
@@ -220,6 +227,7 @@ else {
   if (-not (Test-Path -LiteralPath $outputDir)) {
     New-Item -ItemType Directory -Path $outputDir | Out-Null
   }
-  Set-Content -LiteralPath $resolvedOutput -Value $text -Encoding UTF8
+  $utf8NoBom = New-Object System.Text.UTF8Encoding($false)
+  [System.IO.File]::WriteAllText($resolvedOutput, $text + "`n", $utf8NoBom)
   Write-Host "2.0 API freeze readiness report written to $resolvedOutput"
 }

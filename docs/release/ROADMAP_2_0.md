@@ -45,6 +45,8 @@ The following gates must be complete before `2.0.0`:
   Editor and every demo listed in `docs/release/DEMO_VALIDATION_MATRIX.md`.
 - `tools/verify_release_candidate.ps1` runs the full release-candidate
   preflight before a 2.0 RC is tagged.
+- `tools/verify_clean_checkout.ps1` validates an extracted clean source tree
+  before a 2.0 RC is tagged.
 - Release ZIP audit passes with no generated build artifacts.
 
 ## Planned Work
@@ -87,6 +89,8 @@ The following gates must be complete before `2.0.0`:
   changing design-time property hiding rules.
 - Regenerate `docs/release/API_FREEZE_READINESS_2_0.md` after changing API
   freeze gates, generated audits or release validation docs.
+- Keep `docs/release/CLEAN_CHECKOUT_VALIDATION.md` synchronized with the clean
+  source tree validation workflow.
 
 ### 2. Skin Editor Finish Pass
 
@@ -106,6 +110,8 @@ The following gates must be complete before `2.0.0`:
   developers.
 - Keep `docs/release/DEMO_VALIDATION_MATRIX.md` synchronized with the demos and
   release validation script.
+- Keep `docs/release/CLEAN_CHECKOUT_VALIDATION.md` synchronized with the clean
+  checkout script and release-candidate preflight.
 - Add screenshots for the main Ribbon, BackStage, Skin Gallery and Skin Editor.
 - Review docs for outdated names after the API freeze pass.
 - Prepare public release notes for the first `2.0.0-rc1`.
@@ -114,6 +120,7 @@ The following gates must be complete before `2.0.0`:
 
 - Publish `2.0.0-rc1` after the API freeze pass.
 - Run the Lazarus 4.8 validation checklist from a clean checkout.
+- Run `tools/verify_clean_checkout.ps1` with the target version.
 - Run `tools/verify_release_candidate.ps1` with the target version and release
   ZIP output directory.
 - Install the design-time package in Lazarus and verify component palette icons.

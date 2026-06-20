@@ -3,6 +3,7 @@ param(
   [string]$SourceRoot = '',
   [string]$LazarusDir = 'C:\lazarus',
   [string]$LazBuild = '',
+  [string]$PrimaryConfigPath = '',
   [switch]$CleanArtifacts
 )
 
@@ -65,7 +66,14 @@ function Invoke-LazBuild {
   }
 
   Write-Host "BUILD $RelativePath"
-  & $LazBuild --lazarusdir=$LazarusDir --build-all $fullPath
+  $arguments = @()
+  if (-not [string]::IsNullOrWhiteSpace($PrimaryConfigPath)) {
+    $arguments += "--pcp=$PrimaryConfigPath"
+  }
+  $arguments += "--lazarusdir=$LazarusDir"
+  $arguments += '--build-all'
+  $arguments += $fullPath
+  & $LazBuild @arguments
   if ($LASTEXITCODE -ne 0) {
     exit $LASTEXITCODE
   }

@@ -1,8 +1,10 @@
 # LazRibbon Status
 
-`1.2.39 - 2.0 API freeze readiness report` is the current stabilization build.
+`1.2.40 - Clean checkout validation` is the current stabilization build.
 
-The 1.2.39 build adds `tools/export_2_0_api_freeze_readiness.ps1` and `docs/release/API_FREEZE_READINESS_2_0.md`. The generated report consolidates package metadata, public API audits, Object Inspector snapshots, redundancy checks, design-time hide checks and release workflow gates. It currently reports 10 ready gates, 2 manual release-candidate validation gates and 0 gates needing review.
+The 1.2.40 build adds `tools/verify_clean_checkout.ps1` and `docs/release/CLEAN_CHECKOUT_VALIDATION.md`. The script creates a release-style source ZIP, extracts it into a temporary clean tree, registers the extracted packages in a temporary Lazarus profile, builds the complete package/tool/demo matrix there and then verifies that generated artifacts were cleaned. `tools/verify_release_candidate.ps1` now also uses a temporary Lazarus profile for its main build matrix and includes the clean checkout gate by default, with `-SkipCleanCheckout` available for fast local iteration.
+
+The 1.2.39 build adds `tools/export_2_0_api_freeze_readiness.ps1` and `docs/release/API_FREEZE_READINESS_2_0.md`. The generated report consolidates package metadata, public API audits, Object Inspector snapshots, redundancy checks, design-time hide checks and release workflow gates. In the 1.2.40 state it reports 11 ready gates, 1 manual release-candidate validation gate and 0 gates needing review.
 
 The 1.2.38 build adds `tools/export_design_time_property_skip_audit.ps1` and `docs/quality/DESIGN_TIME_PROPERTY_SKIP_AUDIT_2_0.md`. The new generated audit documents the properties hidden from the Lazarus Object Inspector by the design-time package: 29 `RegisterPropertyToSkip` rules, 4 nil property-editor hide rules and 8 affected component classes. It also normalizes the checkbox `GroupBehaviour` skip spelling to match the radio button rule.
 

@@ -31,16 +31,17 @@ Lazarus/Free Pascal component package for Office-like Ribbon interfaces, includi
 3. Compile `LazRibbonDesign.lpk` with Lazarus 4.8.
 4. Run the manual checklist in `docs/quality/VALIDATION_LAZARUS_4_8.md`.
 5. Generate a source ZIP with `tools/build_release_zip.ps1`; by default it is saved in `D:\Ribbon4Lazarus`.
-6. Confirm the generated ZIP passes `tools/check_release_zip.ps1`.
-7. Add showcase screenshots under `docs/assets/screenshots/`.
-8. Create a GitHub release using the same version as the packages.
+6. Run `tools/verify_clean_checkout.ps1` to validate a fresh extracted source tree.
+7. Confirm the generated ZIP passes `tools/check_release_zip.ps1`.
+8. Add showcase screenshots under `docs/assets/screenshots/`.
+9. Create a GitHub release using the same version as the packages.
 
 ## Release title format
 
 Use a title such as:
 
 ```text
-LazRibbon 1.2.39 - 2.0 API freeze readiness report
+LazRibbon 1.2.40 - Clean checkout validation
 ```
 
 ## Release notes format

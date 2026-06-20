@@ -1,3 +1,11 @@
+## 1.2.40 check
+
+- Package metadata updated to 1.2.40.
+- `tools/verify_clean_checkout.ps1` validates the package from an extracted release-style source tree with a temporary Lazarus profile.
+- `docs/release/CLEAN_CHECKOUT_VALIDATION.md` documents the clean checkout release gate.
+- `tools/verify_release_candidate.ps1` includes clean checkout installation validation by default, uses a temporary Lazarus profile for the main build matrix and exposes `-SkipCleanCheckout` for fast local iteration.
+- The generated API freeze readiness report now tracks clean checkout validation as a ready gate when the script and guide are present.
+
 ## 1.2.39 check
 
 - Package metadata updated to 1.2.39.

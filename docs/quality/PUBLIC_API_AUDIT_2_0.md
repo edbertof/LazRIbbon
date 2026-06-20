@@ -27,6 +27,12 @@ The generated freeze readiness report lives in
 API audit coverage, generated Object Inspector reports and release workflow
 gates before the first 2.0 release candidate.
 
+The clean checkout validation guide lives in
+`docs/release/CLEAN_CHECKOUT_VALIDATION.md` and is executed by
+`tools/verify_clean_checkout.ps1`. It proves the package can be built from an
+extracted release-style source tree rather than from the developer working
+directory.
+
 ## Scope
 
 Reviewed runtime units:

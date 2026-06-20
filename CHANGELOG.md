@@ -1,3 +1,11 @@
+## 1.2.40 - Clean checkout validation
+
+- Adds `tools/verify_clean_checkout.ps1` to create a release-style source ZIP, extract it into a temporary clean tree, run consistency checks, register the local packages in a temporary Lazarus profile and build the package/tool/demo matrix there.
+- Adds `docs/release/CLEAN_CHECKOUT_VALIDATION.md` to document the clean source tree gate for the 2.0 release path.
+- Extends `tools/verify_release_candidate.ps1` with a clean checkout installation validation step, a temporary Lazarus profile for the main build matrix and `-SkipCleanCheckout` for fast local iteration.
+- Updates the generated 2.0 API freeze readiness report so clean checkout validation is tracked as a ready gate when the script and guide are present.
+- Updates runtime and design-time package versions to 1.2.40.
+
 ## 1.2.39 - 2.0 API freeze readiness report
 
 - Adds `tools/export_2_0_api_freeze_readiness.ps1` to generate a compact readiness view from the current API, Object Inspector and release validation documents.

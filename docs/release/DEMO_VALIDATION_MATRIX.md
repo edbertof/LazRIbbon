@@ -3,6 +3,8 @@
 This matrix turns the examples into release checks. It complements
 `tools/build_all_projects.ps1`, which compiles every listed project plus the
 runtime and design-time packages.
+The same build matrix is also exercised from a temporary clean source tree by
+`tools/verify_clean_checkout.ps1`.
 
 ## Build Command
 
@@ -46,3 +48,6 @@ Use `-CleanArtifacts` for release validation so generated `bin`, `lib`, `obj`,
 Before publishing a stabilization build or `2.0.0-rc1`, the full build matrix
 should pass with Lazarus 4.8. A demo may still emit Lazarus CodeTools hints, but
 the FPC compile/link result must be successful.
+For release-candidate validation, the matrix should also pass through
+`tools/verify_clean_checkout.ps1` so the package is proven from an extracted
+release-style source tree.
