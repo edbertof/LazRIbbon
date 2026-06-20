@@ -50,9 +50,9 @@ tools/LazRibbonSkinEditor/
 
 ## Current version
 
-This distribution is **LazRibbon 1.2.41 public screenshot assets**.
+This distribution is **LazRibbon 1.2.42 release label support**.
 
-The stable 1.0.0 line remains the conservative baseline for production use. The 1.1 line is a controlled stabilization line now validated with Lazarus 4.8, with the 1.1.70 runtime behavior preserved and the 1.1.72 packaging/design-time polish applied on top. The 1.2.41 build adds `tools/capture_release_screenshots.ps1` and public PNG screenshots under `docs/assets/screenshots/` for the Showcase, BackStage, Skin Gallery and Skin Editor. The generated 2.0 API freeze readiness report now treats screenshot assets as a ready gate when those PNGs and the capture script are present. It keeps the 1.2.40 clean checkout validation workflow, the 1.2.39 generated 2.0 API freeze readiness report, the 1.2.38 generated design-time property skip audit, the 1.2.37 generated Object Inspector redundancy audit, the 1.2.36 single release-candidate preflight, the 1.2.35 generated Object Inspector surface snapshot, the 1.2.34 accelerated validation workflow, the 1.2.33 `TLazRibbonControlHostItem.Control` hosted-control API, the 1.2.32 `TLazRibbonSkinManager.ActiveSkinName` cleanup, the 1.2.31 BackStage page Object Inspector cleanup, the 1.2.30 component property matrix, the 1.2.29 ControlHost metadata cleanup, the 1.2.28 BackStage page composition cleanup, the 1.2.27 component composition model, the canonical `TLazRibbon.BackstageView` link and the structural separator cleanup, the 1.2.26 BackStage `AppearanceSource` consolidation, the 1.2.25 skin identity embedded icon API, the 1.2.24 skin selection naming consolidation, the 1.2.23 gallery size naming consolidation, the 1.2.22 BackStage `BackButtonVisible` consolidation, the 1.2.21 Ribbon minimize API names, the 1.2.20 public API audit and roadmap, the 1.2.19 Skin Editor Appearance mode detection, the 1.2.18 Skin Editor minimize preview fix, the 1.2.17 Ribbon collapse/expand height fix, the 1.2.16 Office-style `bomCoverClientArea` BackStage default and the 1.2.15 SkinManager color API consolidation into `General`, `Accent`, `Backstage`, `RecentList` and `Ribbon` groups, while keeping `TLazRibbonSkinManager.Appearance` as the complete skin appearance model. It also keeps the 1.2.14 Application Button API consolidation, the 1.2.13 `TLazRibbon.Appearance` alias removal, the 1.2.12 SkinManager LFM streaming fix, the 1.2.10 compact Skin Editor layout, the 1.2.9 `TLazRibbon.RibbonAppearance` design-time API, the 1.2.8 design-time refresh fix, the 1.2.7 buffer-height fix, the 1.2.6 pane caption text rendering fix, the 1.2.5 preview height and Dialog Launcher glyph fixes, the 1.2.4 pane caption paint order fix, the 1.2.3 Appearance difference markers and filtering, the 1.2.2 per-property restore from base, the 1.2.1 base comparison report, the 1.2.0 validation report, the 1.1.78 high-DPI palette icons, the 1.1.77 tab spacing controls, the 1.1.76 Dialog Launcher rename and the 1.1.75 Skin Editor Appearance inspector work.
+The stable 1.0.0 line remains the conservative baseline for production use. The 1.1 line is a controlled stabilization line now validated with Lazarus 4.8, with the 1.1.70 runtime behavior preserved and the 1.1.72 packaging/design-time polish applied on top. The 1.2.42 build separates numeric Lazarus package versions from public release labels in the release scripts, so a future `2.0.0-rc1` ZIP/tag can be generated while package metadata stays numeric. It also adds the `docs/release/RELEASE_2_0_0_RC1.md` draft release notes and updates release-candidate preparation docs for the 2.0 path. It keeps the 1.2.41 public screenshot assets, the 1.2.40 clean checkout validation workflow, the 1.2.39 generated 2.0 API freeze readiness report, the 1.2.38 generated design-time property skip audit, the 1.2.37 generated Object Inspector redundancy audit, the 1.2.36 single release-candidate preflight, the 1.2.35 generated Object Inspector surface snapshot, the 1.2.34 accelerated validation workflow, the 1.2.33 `TLazRibbonControlHostItem.Control` hosted-control API, the 1.2.32 `TLazRibbonSkinManager.ActiveSkinName` cleanup, the 1.2.31 BackStage page Object Inspector cleanup, the 1.2.30 component property matrix, the 1.2.29 ControlHost metadata cleanup, the 1.2.28 BackStage page composition cleanup, the 1.2.27 component composition model, the canonical `TLazRibbon.BackstageView` link and the structural separator cleanup, the 1.2.26 BackStage `AppearanceSource` consolidation, the 1.2.25 skin identity embedded icon API, the 1.2.24 skin selection naming consolidation, the 1.2.23 gallery size naming consolidation, the 1.2.22 BackStage `BackButtonVisible` consolidation, the 1.2.21 Ribbon minimize API names, the 1.2.20 public API audit and roadmap, the 1.2.19 Skin Editor Appearance mode detection, the 1.2.18 Skin Editor minimize preview fix, the 1.2.17 Ribbon collapse/expand height fix, the 1.2.16 Office-style `bomCoverClientArea` BackStage default and the 1.2.15 SkinManager color API consolidation into `General`, `Accent`, `Backstage`, `RecentList` and `Ribbon` groups, while keeping `TLazRibbonSkinManager.Appearance` as the complete skin appearance model. It also keeps the 1.2.14 Application Button API consolidation, the 1.2.13 `TLazRibbon.Appearance` alias removal, the 1.2.12 SkinManager LFM streaming fix, the 1.2.10 compact Skin Editor layout, the 1.2.9 `TLazRibbon.RibbonAppearance` design-time API, the 1.2.8 design-time refresh fix, the 1.2.7 buffer-height fix, the 1.2.6 pane caption text rendering fix, the 1.2.5 preview height and Dialog Launcher glyph fixes, the 1.2.4 pane caption paint order fix, the 1.2.3 Appearance difference markers and filtering, the 1.2.2 per-property restore from base, the 1.2.1 base comparison report, the 1.2.0 validation report, the 1.1.78 high-DPI palette icons, the 1.1.77 tab spacing controls, the 1.1.76 Dialog Launcher rename and the 1.1.75 Skin Editor Appearance inspector work.
 
 ## Screenshots
 
@@ -68,6 +68,7 @@ The public screenshot set is generated with `tools/capture_release_screenshots.p
 
 Highlights in the current 1.2 line:
 
+- Release scripts now support separate package and public release labels through `-Version` and `-ReleaseVersion`, preparing the path for `2.0.0-rc1`.
 - Public screenshots for Showcase, BackStage, Skin Gallery and Skin Editor are checked into `docs/assets/screenshots/` and can be regenerated with `tools/capture_release_screenshots.ps1`.
 - Pane captions are drawn above pane items so Skin Editor Ribbon group names remain visible across skins.
 - The collapse/expand button minimizes the actual Ribbon height, including inside the Skin Editor live preview.
@@ -262,14 +263,20 @@ powershell -ExecutionPolicy Bypass -File tools/build_all_projects.ps1 -CleanArti
 To validate the package from an extracted clean source tree:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File tools/verify_clean_checkout.ps1 -Version 1.2.41
+powershell -ExecutionPolicy Bypass -File tools/verify_clean_checkout.ps1 -Version 1.2.42
 ```
 
 For a complete release-candidate preflight, including consistency checks and ZIP
 audit:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File tools/verify_release_candidate.ps1 -Version 1.2.41 -OutputDirectory D:\Ribbon4Lazarus
+powershell -ExecutionPolicy Bypass -File tools/verify_release_candidate.ps1 -Version 1.2.42 -OutputDirectory D:\Ribbon4Lazarus
+```
+
+When preparing the first 2.0 RC after package metadata is updated to `2.0.0`, use a separate public release label:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File tools/verify_release_candidate.ps1 -Version 2.0.0 -ReleaseVersion 2.0.0-rc1 -OutputDirectory D:\Ribbon4Lazarus
 ```
 
 The purpose of each demo is documented in

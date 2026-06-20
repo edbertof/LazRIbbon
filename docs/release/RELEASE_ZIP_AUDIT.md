@@ -1,3 +1,11 @@
+## 1.2.42 check
+
+- Package metadata updated to 1.2.42.
+- `tools/build_release_zip.ps1`, `tools/verify_clean_checkout.ps1` and `tools/verify_release_candidate.ps1` support `-ReleaseVersion` so public ZIP/tag labels can differ from numeric Lazarus package metadata.
+- `docs/release/RELEASE_2_0_0_RC1.md` stages the first 2.0 release-candidate notes.
+- `docs/release/RELEASE_CANDIDATE_PREP.md` documents the current `2.0.0-rc1` flow and the `-Version`/`-ReleaseVersion` split.
+- The generated API freeze readiness report now tracks the 2.0 RC1 release notes draft as a ready gate.
+
 ## 1.2.41 check
 
 - Package metadata updated to 1.2.41.

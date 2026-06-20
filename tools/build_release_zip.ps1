@@ -1,6 +1,7 @@
 [CmdletBinding()]
 param(
-  [string]$Version = '1.2.41',
+  [string]$Version = '1.2.42',
+  [string]$ReleaseVersion = '',
   [string]$SourceRoot,
   [string]$OutputDirectory,
   [switch]$Force
@@ -22,13 +23,16 @@ if (-not $sourceItem.PSIsContainer) {
 if (-not $OutputDirectory) {
   $OutputDirectory = 'D:\Ribbon4Lazarus'
 }
+if ([string]::IsNullOrWhiteSpace($ReleaseVersion)) {
+  $ReleaseVersion = $Version
+}
 
 if (-not (Test-Path -LiteralPath $OutputDirectory)) {
   New-Item -ItemType Directory -Path $OutputDirectory | Out-Null
 }
 
 $stamp = Get-Date -Format 'yyyyMMdd_HHmmss'
-$zipPath = Join-Path $OutputDirectory ("LazRibbon_{0}_source_{1}.zip" -f $Version, $stamp)
+$zipPath = Join-Path $OutputDirectory ("LazRibbon_{0}_source_{1}.zip" -f $ReleaseVersion, $stamp)
 
 if ((Test-Path -LiteralPath $zipPath) -and (-not $Force)) {
   Write-Error "Output already exists: $zipPath. Use -Force to replace it."

@@ -1,3 +1,11 @@
+## 1.2.42 - Release label support
+
+- Adds `-ReleaseVersion` support to the release ZIP, clean checkout and release-candidate preflight scripts, separating numeric Lazarus package metadata from public ZIP/tag labels such as `2.0.0-rc1`.
+- Adds `docs/release/RELEASE_2_0_0_RC1.md` as the draft release notes for the first 2.0 release candidate.
+- Refreshes `docs/release/RELEASE_CANDIDATE_PREP.md` for the current 2.0 RC workflow and marks older RC notes as historical.
+- Updates the generated 2.0 API freeze readiness report so the 2.0 RC1 notes draft is tracked as a ready gate.
+- Updates runtime and design-time package versions to 1.2.42.
+
 ## 1.2.41 - Public screenshot assets
 
 - Adds `tools/capture_release_screenshots.ps1` to build the screenshot targets, open the GUI applications, capture release PNGs and clean generated artifacts.

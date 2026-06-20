@@ -1,66 +1,63 @@
-# LazRibbon release-candidate preparation
+# LazRibbon Release-Candidate Preparation
 
-Version: 0.3.64
-Target: Lazarus 4.6 / LCL / Windows primary validation
+Target: `2.0.0-rc1`
 
 ## Purpose
 
-This document defines the stabilization gate for moving LazRibbon toward a future 1.0 release. The goal of 1.0 is a stable and installable Ribbon component suite for Lazarus 4.6, not feature parity with commercial Ribbon suites.
+This document defines the current release-candidate gate for moving LazRibbon from the 1.2.x pre-freeze line to the first 2.0 API-freeze candidate.
 
-## Feature-freeze rule
+The 1.2.x line remains the stabilization line. The first 2.0 release candidate should be created only after the package metadata is intentionally updated to `2.0.0` and the public release label is set to `2.0.0-rc1`.
 
-From 0.3.64 onward, new features should be deferred unless they fix a release blocker. Accepted changes should be limited to:
+## Version Fields
 
-- package installation failures;
-- design-time registration failures;
-- demo compilation failures;
-- BackStage regressions;
-- SkinManager / SkinSelector / SkinGallery regressions;
-- Quick Access Toolbar regressions;
-- `TLazRibbonForm` regressions;
-- documentation needed for installation or first use.
+The release scripts intentionally separate two concepts:
 
-Large refactorings are explicitly deferred until after 1.0.
+- `-Version`: numeric Lazarus package version expected in `LazRibbonRuntime.lpk` and `LazRibbonDesign.lpk`.
+- `-ReleaseVersion`: public ZIP/tag/release label, which may include a suffix such as `2.0.0-rc1`.
 
-## 1.0 minimum gate
+For current 1.2.x stabilization releases, these values are usually the same:
 
-Before declaring a 1.0 release candidate, verify:
+```powershell
+powershell -ExecutionPolicy Bypass -File tools/verify_release_candidate.ps1 -Version 1.2.42 -OutputDirectory D:\Ribbon4Lazarus
+```
 
-1. `packages/LazRibbonRuntime.lpk` compiles in Lazarus 4.6.
-2. `packages/LazRibbonDesign.lpk` compiles and installs in Lazarus 4.6.
-3. The IDE rebuilds/restarts and shows the LazRibbon palette.
-4. The following demos open and compile:
-   - `demos/basic/project1.lpi`
-   - `demos/actions/project1.lpi`
-   - `demos/application_button/project1.lpi`
-   - `demos/backstage/project1.lpi`
-   - `demos/backstage_recent_files/project1.lpi`
-   - `demos/quick_access_toolbar/project1.lpi`
-   - `demos/ribbon_form/project1.lpi`
-   - `demos/skins_gallery/project1.lpi`
-   - `demos/skin_editor_sample/project1.lpi`
-5. `tools/LazRibbonSkinEditor/LazRibbonSkinEditor.lpi` opens and compiles.
-6. The BackStage selected-item hover behavior remains stable.
-7. Built-in skins can be switched at runtime.
-8. A `.lazskin` file can be loaded and saved.
-9. No generated `.exe`, `.ppu`, `.o`, `.obj`, `.compiled`, `.rsj`, `.lps`, `bin/` or `lib/` artifacts are included in the release ZIP.
+For the first 2.0 RC, use a numeric package version and an RC release label:
 
-## Known deferred work
+```powershell
+powershell -ExecutionPolicy Bypass -File tools/verify_release_candidate.ps1 -Version 2.0.0 -ReleaseVersion 2.0.0-rc1 -OutputDirectory D:\Ribbon4Lazarus
+```
 
-The following items should not block 1.0 unless they cause runtime failure:
+## Required Gates
 
-- splitting `LazRibbon_Core.pas`;
-- splitting `LazRibbon_Backstage.pas`;
+Before tagging `v2.0.0-rc1`, verify:
+
+- `docs/release/API_FREEZE_READINESS_2_0.md` reports zero review gates and zero manual gates.
+- `tools/verify_release_candidate.ps1` passes with the target package version and release label.
+- `tools/verify_clean_checkout.ps1` validates an extracted source ZIP without using local generated files.
+- `tools/capture_release_screenshots.ps1` regenerates the public README screenshots.
+- `docs/release/RELEASE_2_0_0_RC1.md` is reviewed as the GitHub release note draft.
+- The generated ZIP is stored in `D:\Ribbon4Lazarus` and its SHA256 is recorded.
+
+## Allowed Changes After RC1
+
+After `2.0.0-rc1`, changes should be limited to:
+
+- package compilation or installation blockers;
+- IDE registration problems;
+- demo compilation or startup failures;
+- Skin Editor save/load blockers;
+- BackStage, Quick Access Toolbar, KeyTip or Ribbon form regressions;
+- release ZIP hygiene problems;
+- documentation needed for installation, validation or first use.
+
+New features and broad API changes should move to the next 2.x line unless they fix a release blocker.
+
+## Deferred Work
+
+The following should not block `2.0.0-rc1` unless they cause runtime or installation failure:
+
+- splitting very large runtime units;
 - replacing the custom XML parser;
-- converting all units to a single compiler mode;
-- full feature parity with DevExpress or Microsoft Office;
-- advanced Ribbon item gallery infrastructure;
-- full multiplatform implementation of custom window chrome.
-
-## Release-candidate naming
-
-Recommended sequence:
-
-- `0.3.x`: stabilization builds;
-- `0.9.0`: first feature-frozen release-candidate branch;
-- `1.0.0`: first stable release after the manual regression checklist passes.
+- complete commercial Ribbon feature parity;
+- full multiplatform custom window chrome;
+- broader Skin Editor workflows beyond the current skin identity and Appearance model.

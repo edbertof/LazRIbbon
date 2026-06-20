@@ -8,13 +8,19 @@ the developer's working tree.
 ## Command
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File tools/verify_clean_checkout.ps1 -Version 1.2.41
+powershell -ExecutionPolicy Bypass -File tools/verify_clean_checkout.ps1 -Version 1.2.42
 ```
 
 For a full release-candidate pass, use:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File tools/verify_release_candidate.ps1 -Version 1.2.41 -OutputDirectory D:\Ribbon4Lazarus
+powershell -ExecutionPolicy Bypass -File tools/verify_release_candidate.ps1 -Version 1.2.42 -OutputDirectory D:\Ribbon4Lazarus
+```
+
+For the first 2.0 release candidate, use `-Version` for numeric package metadata and `-ReleaseVersion` for the public ZIP/tag label:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File tools/verify_release_candidate.ps1 -Version 2.0.0 -ReleaseVersion 2.0.0-rc1 -OutputDirectory D:\Ribbon4Lazarus
 ```
 
 ## What The Script Does

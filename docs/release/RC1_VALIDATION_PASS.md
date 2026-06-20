@@ -1,40 +1,10 @@
-# LazRibbon 0.3.67 — RC1 Validation Pass
+# Historical RC1 Validation Pass
 
-## Purpose
+This document replaces the old 0.3.67 pre-1.0 validation note. It is kept only as a historical marker.
 
-This version records that the 0.3.66 RC1 candidate package was compiled successfully in the official target environment.
+The current 2.0 release-candidate workflow is documented in:
 
-## Official target environment
+- `docs/release/RELEASE_CANDIDATE_PREP.md`
+- `docs/release/RELEASE_2_0_0_RC1.md`
 
-- Lazarus 4.6
-- LCL
-- Windows as primary validation platform
-
-## Validation status
-
-The following package compilation path is considered passed for this stage:
-
-1. `packages/LazRibbonRuntime.lpk`
-2. `packages/LazRibbonDesign.lpk`
-3. IDE rebuild after installing the design-time package
-
-## Scope
-
-No runtime, design-time, demo, skin, editor or component logic changed in this version.
-
-## Release policy
-
-From this point forward, changes should be limited to:
-
-- compilation blockers;
-- installation blockers;
-- design-time registration problems;
-- regressions found by the manual checklist;
-- documentation required for installation or first use;
-- release packaging issues.
-
-Avoid new features before the 1.0 release unless they address a blocking issue.
-
-## Next recommended step
-
-Prepare a `1.0.0-rc1` package after one more manual pass through the documented demos and installation steps.
+Use the current Lazarus 4.8 validation flow and release scripts instead of the old 0.3.x/1.0 RC notes.

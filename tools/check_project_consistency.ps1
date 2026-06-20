@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
   [string]$SourceRoot = '',
-  [string]$ExpectedVersion = '1.2.41'
+  [string]$ExpectedVersion = '1.2.42'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -871,6 +871,7 @@ function Test-TwoPointZeroPlanningDocs {
   $roadmapPath = Join-Path $SourceRoot 'docs/release/ROADMAP_2_0.md'
   $demoMatrixPath = Join-Path $SourceRoot 'docs/release/DEMO_VALIDATION_MATRIX.md'
   $buildAllPath = Join-Path $SourceRoot 'tools/build_all_projects.ps1'
+  $releaseZipScriptPath = Join-Path $SourceRoot 'tools/build_release_zip.ps1'
   $preflightPath = Join-Path $SourceRoot 'tools/verify_release_candidate.ps1'
   $cleanCheckoutPath = Join-Path $SourceRoot 'tools/verify_clean_checkout.ps1'
   $snapshotScriptPath = Join-Path $SourceRoot 'tools/export_object_inspector_snapshot.ps1'
@@ -954,6 +955,7 @@ function Test-TwoPointZeroPlanningDocs {
       'SkipCleanCheckout',
       'SkipZip',
       'KeepPrimaryConfigPath',
+      'ReleaseVersion',
       'CleanArtifacts',
       'verify_clean_checkout.ps1',
       '--add-package-link',
@@ -982,12 +984,32 @@ function Test-TwoPointZeroPlanningDocs {
       'PrimaryConfigPath',
       'Register local packages in temporary Lazarus profile',
       'CleanArtifacts',
+      'ReleaseVersion',
       'SkipBuild',
       'KeepWorkspace',
       'Clean checkout validation passed'
     )) {
       if ($cleanCheckout -notmatch [regex]::Escape($required)) {
         Add-Failure "Clean checkout validation script must include $required."
+      }
+    }
+  }
+
+  if (-not (Test-Path -LiteralPath $releaseZipScriptPath)) {
+    Add-Failure 'Missing release ZIP build script for the 2.0 release workflow.'
+  }
+  else {
+    $releaseZipScript = Get-Content -LiteralPath $releaseZipScriptPath -Raw
+    foreach ($required in @(
+      'ReleaseVersion',
+      'check_project_consistency.ps1',
+      'check_release_zip.ps1',
+      'ExpectedVersion',
+      'LazRibbon_{0}_source_{1}.zip',
+      'SHA256'
+    )) {
+      if ($releaseZipScript -notmatch [regex]::Escape($required)) {
+        Add-Failure "Release ZIP build script must include $required."
       }
     }
   }
@@ -1060,6 +1082,7 @@ function Test-TwoPointZeroPlanningDocs {
       'DESIGN_TIME_PROPERTY_SKIP_AUDIT_2_0.md',
       'DEMO_VALIDATION_MATRIX.md',
       'CLEAN_CHECKOUT_VALIDATION.md',
+      'RELEASE_2_0_0_RC1.md',
       'verify_clean_checkout.ps1',
       'capture_release_screenshots.ps1',
       'Gates needing review'
@@ -1249,11 +1272,12 @@ function Test-TwoPointZeroPlanningDocs {
       'Unclassified repeated property names: 0',
       'Design-time property skip rules: 29',
       'Package/tool/demo build targets listed: 18',
-      'Gates ready: 12',
+      'Gates ready: 13',
       'Gates requiring manual RC validation: 0',
       'Gates needing review: 0',
       'Clean checkout install validation',
       'Screenshot assets for public release',
+      '2.0 RC1 release notes draft exists',
       '4 public screenshot PNG assets',
       'CLEAN_CHECKOUT_VALIDATION.md'
     )) {
@@ -1282,7 +1306,7 @@ function Test-TwoPointZeroPlanningDocs {
   }
   else {
     $readme = Get-Content -LiteralPath $readmePath -Raw
-    foreach ($required in @('Screenshots', 'docs/assets/screenshots/showcase-main.png', 'tools/capture_release_screenshots.ps1', 'First Ribbon Form', 'TLazRibbonForm', 'TLazRibbon.BackstageView', 'tools/build_all_projects.ps1', 'tools/verify_release_candidate.ps1', 'tools/verify_clean_checkout.ps1', 'OBJECT_INSPECTOR_REDUNDANCY_AUDIT_2_0.md', 'DESIGN_TIME_PROPERTY_SKIP_AUDIT_2_0.md', 'API_FREEZE_READINESS_2_0.md', 'CLEAN_CHECKOUT_VALIDATION.md')) {
+    foreach ($required in @('Screenshots', 'docs/assets/screenshots/showcase-main.png', 'tools/capture_release_screenshots.ps1', 'ReleaseVersion', 'RELEASE_2_0_0_RC1.md', 'First Ribbon Form', 'TLazRibbonForm', 'TLazRibbon.BackstageView', 'tools/build_all_projects.ps1', 'tools/verify_release_candidate.ps1', 'tools/verify_clean_checkout.ps1', 'OBJECT_INSPECTOR_REDUNDANCY_AUDIT_2_0.md', 'DESIGN_TIME_PROPERTY_SKIP_AUDIT_2_0.md', 'API_FREEZE_READINESS_2_0.md', 'CLEAN_CHECKOUT_VALIDATION.md')) {
       if ($readme -notmatch [regex]::Escape($required)) {
         Add-Failure "README must include $required for the 2.0 onboarding workflow."
       }
@@ -1393,9 +1417,11 @@ function Test-TwoPointZeroPlanningDocs {
       'DESIGN_TIME_PROPERTY_SKIP_AUDIT_2_0.md',
       'API_FREEZE_READINESS_2_0.md',
       'CLEAN_CHECKOUT_VALIDATION.md',
+      'RELEASE_2_0_0_RC1.md',
       'tools/verify_clean_checkout.ps1',
       'tools/verify_release_candidate.ps1',
       'tools/capture_release_screenshots.ps1',
+      'ReleaseVersion',
       'Skin Editor Finish Pass',
       'Release Candidate',
       'Definition Of Done'
@@ -1415,6 +1441,7 @@ function Test-TwoPointZeroPlanningDocs {
       'Clean Checkout Validation',
       'tools/verify_clean_checkout.ps1',
       'tools/verify_release_candidate.ps1',
+      'ReleaseVersion',
       'Release-style source ZIP',
       'Register local packages in temporary Lazarus profile',
       'Full build in clean checkout',

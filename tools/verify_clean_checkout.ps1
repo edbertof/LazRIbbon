@@ -1,6 +1,7 @@
 [CmdletBinding()]
 param(
-  [string]$Version = '1.2.41',
+  [string]$Version = '1.2.42',
+  [string]$ReleaseVersion = '',
   [string]$SourceRoot = '',
   [string]$WorkRoot = '',
   [string]$LazarusDir = 'C:\lazarus',
@@ -26,11 +27,14 @@ $root = $sourceItem.FullName
 if ([string]::IsNullOrWhiteSpace($WorkRoot)) {
   $WorkRoot = [System.IO.Path]::GetTempPath()
 }
+if ([string]::IsNullOrWhiteSpace($ReleaseVersion)) {
+  $ReleaseVersion = $Version
+}
 
 $workBase = (Get-Item -LiteralPath $WorkRoot).FullName
-$safeVersion = $Version -replace '[^0-9A-Za-z_.-]', '_'
+$safeReleaseVersion = $ReleaseVersion -replace '[^0-9A-Za-z_.-]', '_'
 $stamp = Get-Date -Format 'yyyyMMdd_HHmmss'
-$sessionRoot = Join-Path $workBase ("LazRibbon_clean_checkout_{0}_{1}" -f $safeVersion, $stamp)
+$sessionRoot = Join-Path $workBase ("LazRibbon_clean_checkout_{0}_{1}" -f $safeReleaseVersion, $stamp)
 $zipDirectory = Join-Path $sessionRoot 'zip'
 $extractRoot = Join-Path $sessionRoot 'extract'
 $primaryConfigPath = Join-Path $sessionRoot 'lazarus-pcp'
@@ -96,16 +100,17 @@ try {
   Invoke-CleanCheckoutStep -Name 'Release-style source ZIP from current tree' -Action {
     Invoke-PowerShellScript -ScriptPath $zipScript -Arguments @(
       '-Version', $Version,
+      '-ReleaseVersion', $ReleaseVersion,
       '-SourceRoot', $root,
       '-OutputDirectory', $zipDirectory
     )
   }
 
-  $zipPath = Get-ChildItem -LiteralPath $zipDirectory -Filter ("LazRibbon_{0}_source_*.zip" -f $Version) |
+  $zipPath = Get-ChildItem -LiteralPath $zipDirectory -Filter ("LazRibbon_{0}_source_*.zip" -f $ReleaseVersion) |
     Sort-Object LastWriteTime -Descending |
     Select-Object -First 1
   if ($null -eq $zipPath) {
-    Write-Error "Clean checkout source ZIP was not created for LazRibbon $Version."
+    Write-Error "Clean checkout source ZIP was not created for LazRibbon $ReleaseVersion."
     exit 2
   }
 
@@ -176,7 +181,7 @@ try {
   }
 
   Write-Host ''
-  Write-Host "Clean checkout validation passed for LazRibbon $Version."
+  Write-Host "Clean checkout validation passed for LazRibbon $ReleaseVersion."
   Write-Host "Validated source ZIP:"
   Write-Host "  $($zipPath.FullName)"
   if ($KeepWorkspace) {

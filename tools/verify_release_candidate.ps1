@@ -1,6 +1,7 @@
 [CmdletBinding()]
 param(
-  [string]$Version = '1.2.41',
+  [string]$Version = '1.2.42',
+  [string]$ReleaseVersion = '',
   [string]$SourceRoot = '',
   [string]$OutputDirectory = '',
   [string]$LazarusDir = 'C:\lazarus',
@@ -29,8 +30,11 @@ $consistencyScript = Join-Path $scriptRoot 'check_project_consistency.ps1'
 $buildAllScript = Join-Path $scriptRoot 'build_all_projects.ps1'
 $cleanCheckoutScript = Join-Path $scriptRoot 'verify_clean_checkout.ps1'
 $zipScript = Join-Path $scriptRoot 'build_release_zip.ps1'
-$safeVersion = $Version -replace '[^0-9A-Za-z_.-]', '_'
-$primaryConfigPath = Join-Path ([System.IO.Path]::GetTempPath()) ("LazRibbon_preflight_pcp_{0}_{1}" -f $safeVersion, (Get-Date -Format 'yyyyMMdd_HHmmss'))
+if ([string]::IsNullOrWhiteSpace($ReleaseVersion)) {
+  $ReleaseVersion = $Version
+}
+$safeReleaseVersion = $ReleaseVersion -replace '[^0-9A-Za-z_.-]', '_'
+$primaryConfigPath = Join-Path ([System.IO.Path]::GetTempPath()) ("LazRibbon_preflight_pcp_{0}_{1}" -f $safeReleaseVersion, (Get-Date -Format 'yyyyMMdd_HHmmss'))
 
 function Invoke-PreflightStep {
   param(
@@ -144,6 +148,7 @@ try {
     Invoke-PreflightStep -Name 'Clean checkout installation validation' -Action {
       $cleanArgs = @(
         '-Version', $Version,
+        '-ReleaseVersion', $ReleaseVersion,
         '-SourceRoot', $root,
         '-LazarusDir', $LazarusDir
       )
@@ -166,6 +171,7 @@ try {
     Invoke-PreflightStep -Name 'Release ZIP and ZIP audit' -Action {
       $zipArgs = @(
         '-Version', $Version,
+        '-ReleaseVersion', $ReleaseVersion,
         '-SourceRoot', $root
       )
       if (-not [string]::IsNullOrWhiteSpace($OutputDirectory)) {
@@ -181,7 +187,7 @@ try {
   }
 
   Write-Host ''
-  Write-Host "LazRibbon $Version release-candidate preflight passed."
+  Write-Host "LazRibbon $ReleaseVersion release-candidate preflight passed."
 }
 finally {
   Remove-PrimaryConfigPath
