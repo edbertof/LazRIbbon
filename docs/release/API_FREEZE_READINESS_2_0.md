@@ -9,7 +9,7 @@ Regenerate after changing package metadata, API audits, Object Inspector reports
 
 ## Summary
 
-- Package version: 1.2.42
+- Package version: 2.0.0
 - Stable API candidates listed: 47
 - Direct published property declarations listed: 307
 - Repeated published property names reviewed: 48
@@ -25,7 +25,7 @@ Regenerate after changing package metadata, API audits, Object Inspector reports
 
 | Gate | Status | Evidence |
 | --- | --- | --- |
-| Package metadata aligned | Ready | Runtime 1.2.42; design 1.2.42. |
+| Package metadata aligned | Ready | Runtime 2.0.0; design 2.0.0. |
 | Public API audit exists | Ready | 47 stable API candidates listed. |
 | Component property matrix exists | Ready | Release gate section is present. |
 | Object Inspector surface snapshot exists | Ready | 307 direct published property declarations listed. |

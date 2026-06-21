@@ -1,3 +1,10 @@
+## 2.0.0-rc1 - API freeze candidate
+
+- Promotes runtime and design-time package metadata to 2.0.0 for the first 2.0 release candidate.
+- Uses `2.0.0-rc1` as the public release/ZIP/tag label through the `-ReleaseVersion` workflow introduced in 1.2.42.
+- Refreshes the 2.0 API freeze readiness report against the RC package metadata.
+- Updates release, install and publishing documentation so the RC command path is the primary validation flow.
+
 ## 1.2.42 - Release label support
 
 - Adds `-ReleaseVersion` support to the release ZIP, clean checkout and release-candidate preflight scripts, separating numeric Lazarus package metadata from public ZIP/tag labels such as `2.0.0-rc1`.

@@ -1,3 +1,11 @@
+## 2.0.0-rc1 check
+
+- Package metadata updated to 2.0.0 for the runtime and design-time packages.
+- Public release ZIP/tag label is `2.0.0-rc1` through the `-ReleaseVersion` workflow.
+- `docs/release/API_FREEZE_READINESS_2_0.md` reports all tracked gates ready for the RC.
+- The release-candidate preflight validates the full build matrix, clean checkout install path and release ZIP hygiene before publishing.
+- Public ZIP created as `LazRibbon_2.0.0-rc1_source_20260621_071121.zip` with SHA256 `414C63EFE52D141AA13DA8ECA41D49B1AB83CD7D2B87C5F0FA2C83BD07D2101E`.
+
 ## 1.2.42 check
 
 - Package metadata updated to 1.2.42.

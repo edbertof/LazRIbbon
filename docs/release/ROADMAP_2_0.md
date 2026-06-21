@@ -52,7 +52,7 @@ The following gates must be complete before `2.0.0`:
   `tools/capture_release_screenshots.ps1`.
 - Release scripts separate numeric package metadata from public release labels
   through `-Version` and `-ReleaseVersion`.
-- Draft release notes for `2.0.0-rc1` are present in
+- Release notes for `2.0.0-rc1` are present in
   `docs/release/RELEASE_2_0_0_RC1.md`.
 - Release ZIP audit passes with no generated build artifacts.
 
@@ -123,11 +123,11 @@ The following gates must be complete before `2.0.0`:
   current in `docs/assets/screenshots/`.
 - Review docs for outdated names after the API freeze pass.
 - Keep `docs/release/RELEASE_2_0_0_RC1.md` current as the public release notes
-  draft for the first RC.
+  for the first RC.
 
 ### 4. Release Candidate
 
-- Publish `2.0.0-rc1` after the API freeze pass.
+- Publish `2.0.0-rc1` from the API freeze pass.
 - Run the Lazarus 4.8 validation checklist from a clean checkout.
 - Run `tools/verify_clean_checkout.ps1` with the target version.
 - Run `tools/verify_release_candidate.ps1` with the target version and release

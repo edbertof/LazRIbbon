@@ -4,9 +4,9 @@ Target: `2.0.0-rc1`
 
 ## Purpose
 
-This document defines the current release-candidate gate for moving LazRibbon from the 1.2.x pre-freeze line to the first 2.0 API-freeze candidate.
+This document defines the current release-candidate gate for LazRibbon `2.0.0-rc1`, the first 2.0 API-freeze candidate.
 
-The 1.2.x line remains the stabilization line. The first 2.0 release candidate should be created only after the package metadata is intentionally updated to `2.0.0` and the public release label is set to `2.0.0-rc1`.
+The package metadata is intentionally set to `2.0.0`, while the public release label is `2.0.0-rc1`.
 
 ## Version Fields
 
@@ -15,13 +15,7 @@ The release scripts intentionally separate two concepts:
 - `-Version`: numeric Lazarus package version expected in `LazRibbonRuntime.lpk` and `LazRibbonDesign.lpk`.
 - `-ReleaseVersion`: public ZIP/tag/release label, which may include a suffix such as `2.0.0-rc1`.
 
-For current 1.2.x stabilization releases, these values are usually the same:
-
-```powershell
-powershell -ExecutionPolicy Bypass -File tools/verify_release_candidate.ps1 -Version 1.2.42 -OutputDirectory D:\Ribbon4Lazarus
-```
-
-For the first 2.0 RC, use a numeric package version and an RC release label:
+For the first 2.0 RC, use the numeric package version and the RC release label:
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File tools/verify_release_candidate.ps1 -Version 2.0.0 -ReleaseVersion 2.0.0-rc1 -OutputDirectory D:\Ribbon4Lazarus
@@ -29,7 +23,7 @@ powershell -ExecutionPolicy Bypass -File tools/verify_release_candidate.ps1 -Ver
 
 ## Required Gates
 
-Before tagging `v2.0.0-rc1`, verify:
+Before tagging or publishing `v2.0.0-rc1`, verify:
 
 - `docs/release/API_FREEZE_READINESS_2_0.md` reports zero review gates and zero manual gates.
 - `tools/verify_release_candidate.ps1` passes with the target package version and release label.

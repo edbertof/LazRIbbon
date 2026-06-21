@@ -1,6 +1,6 @@
-# LazRibbon 2.0.0-rc1 Draft Release Notes
+# LazRibbon 2.0.0-rc1 Release Notes
 
-Status: draft for the first 2.0 release candidate.
+Status: first 2.0 API-freeze release candidate.
 
 ## Target Environment
 
@@ -13,7 +13,7 @@ Status: draft for the first 2.0 release candidate.
 
 `2.0.0-rc1` is the first API-freeze candidate for the LazRibbon package. It is intended to validate the public Object Inspector surface, package installation flow, design-time registration, demos, Skin Editor and release ZIP hygiene before the final `2.0.0`.
 
-The package metadata should be set to `2.0.0` when this RC is tagged. The release/ZIP/tag label should be `2.0.0-rc1`.
+The package metadata is set to `2.0.0`. The release/ZIP/tag label is `2.0.0-rc1`.
 
 ## Highlights
 
@@ -28,7 +28,7 @@ The package metadata should be set to `2.0.0` when this RC is tagged. The releas
 
 ## API Freeze Evidence
 
-Before tagging `v2.0.0-rc1`, verify:
+Before tagging or publishing `v2.0.0-rc1`, verify:
 
 - `docs/release/API_FREEZE_READINESS_2_0.md` reports no review or manual gates.
 - `docs/quality/OBJECT_INSPECTOR_SURFACE_SNAPSHOT_2_0.md` is regenerated and current.
@@ -38,13 +38,20 @@ Before tagging `v2.0.0-rc1`, verify:
 
 ## Validation Command
 
-After package metadata is updated to `2.0.0`, run:
+Run:
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File tools/verify_release_candidate.ps1 -Version 2.0.0 -ReleaseVersion 2.0.0-rc1 -OutputDirectory D:\Ribbon4Lazarus
 ```
 
 This validates the package version, builds the package/tool/demo matrix, validates a clean extracted source tree and creates a ZIP named with the RC label.
+
+## Validation Performed
+
+The `2.0.0-rc1` preflight passed on 2026-06-21 with Lazarus 4.8.
+
+- ZIP: `LazRibbon_2.0.0-rc1_source_20260621_071121.zip`
+- SHA256: `414C63EFE52D141AA13DA8ECA41D49B1AB83CD7D2B87C5F0FA2C83BD07D2101E`
 
 ## Screenshot Command
 

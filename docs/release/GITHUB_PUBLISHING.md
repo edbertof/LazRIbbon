@@ -41,7 +41,7 @@ Lazarus/Free Pascal component package for Office-like Ribbon interfaces, includi
 Use a title such as:
 
 ```text
-LazRibbon 1.2.42 - Release label support
+LazRibbon 2.0.0-rc1 - API freeze candidate
 ```
 
 ## Release notes format

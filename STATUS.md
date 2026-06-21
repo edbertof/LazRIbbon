@@ -1,14 +1,16 @@
 # LazRibbon Status
 
-`1.2.42 - Release label support` is the current stabilization build.
+`2.0.0-rc1 - API freeze candidate` is the current release-candidate build.
 
-The 1.2.42 build prepares the final path to `2.0.0-rc1` by separating the numeric Lazarus package version from the public release label in the release scripts. `tools/build_release_zip.ps1`, `tools/verify_clean_checkout.ps1` and `tools/verify_release_candidate.ps1` now accept `-ReleaseVersion`, so a future RC can validate package metadata as `2.0.0` while generating a ZIP/tag label such as `2.0.0-rc1`. It also adds `docs/release/RELEASE_2_0_0_RC1.md` and refreshes the release-candidate preparation docs for the current 2.0 workflow.
+The 2.0.0-rc1 build promotes runtime and design-time package metadata to `2.0.0` and uses `2.0.0-rc1` as the public ZIP/tag label. It is the first API-freeze candidate for the package, validating the documented Object Inspector surface, clean checkout install path, full build matrix, Skin Editor, demos, screenshots and release ZIP hygiene.
+
+The 1.2.42 build prepared the final path to `2.0.0-rc1` by separating the numeric Lazarus package version from the public release label in the release scripts. `tools/build_release_zip.ps1`, `tools/verify_clean_checkout.ps1` and `tools/verify_release_candidate.ps1` accept `-ReleaseVersion`, allowing package metadata such as `2.0.0` to generate a ZIP/tag label such as `2.0.0-rc1`.
 
 The 1.2.41 build adds `tools/capture_release_screenshots.ps1` and checked-in PNG screenshots for the Showcase, BackStage, Skin Gallery and Skin Editor under `docs/assets/screenshots/`. The README now references those assets directly, and the generated 2.0 API freeze readiness report treats screenshots as a ready gate when the four PNG files and capture script are present.
 
 The 1.2.40 build adds `tools/verify_clean_checkout.ps1` and `docs/release/CLEAN_CHECKOUT_VALIDATION.md`. The script creates a release-style source ZIP, extracts it into a temporary clean tree, registers the extracted packages in a temporary Lazarus profile, builds the complete package/tool/demo matrix there and then verifies that generated artifacts were cleaned. `tools/verify_release_candidate.ps1` now also uses a temporary Lazarus profile for its main build matrix and includes the clean checkout gate by default, with `-SkipCleanCheckout` available for fast local iteration.
 
-The 1.2.39 build adds `tools/export_2_0_api_freeze_readiness.ps1` and `docs/release/API_FREEZE_READINESS_2_0.md`. The generated report consolidates package metadata, public API audits, Object Inspector snapshots, redundancy checks, design-time hide checks and release workflow gates. In the 1.2.42 state it reports 13 ready gates, 0 manual release-candidate validation gates and 0 gates needing review.
+The 1.2.39 build adds `tools/export_2_0_api_freeze_readiness.ps1` and `docs/release/API_FREEZE_READINESS_2_0.md`. The generated report consolidates package metadata, public API audits, Object Inspector snapshots, redundancy checks, design-time hide checks and release workflow gates. In the 2.0.0-rc1 state it reports 13 ready gates, 0 manual release-candidate validation gates and 0 gates needing review.
 
 The 1.2.38 build adds `tools/export_design_time_property_skip_audit.ps1` and `docs/quality/DESIGN_TIME_PROPERTY_SKIP_AUDIT_2_0.md`. The new generated audit documents the properties hidden from the Lazarus Object Inspector by the design-time package: 29 `RegisterPropertyToSkip` rules, 4 nil property-editor hide rules and 8 affected component classes. It also normalizes the checkbox `GroupBehaviour` skip spelling to match the radio button rule.
 
