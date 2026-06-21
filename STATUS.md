@@ -2,6 +2,8 @@
 
 `2.0.0-rc1 - API freeze candidate` is the current release-candidate build.
 
+After `2.0.0-rc1`, the repository now includes `docs/manual/LAZRIBBON_MANUAL.md`, a first installation and component usage manual covering the package component model, published properties and events. This documentation change is currently tracked for the next tag.
+
 The 2.0.0-rc1 build promotes runtime and design-time package metadata to `2.0.0` and uses `2.0.0-rc1` as the public ZIP/tag label. It is the first API-freeze candidate for the package, validating the documented Object Inspector surface, clean checkout install path, full build matrix, Skin Editor, demos, screenshots and release ZIP hygiene.
 
 The 1.2.42 build prepared the final path to `2.0.0-rc1` by separating the numeric Lazarus package version from the public release label in the release scripts. `tools/build_release_zip.ps1`, `tools/verify_clean_checkout.ps1` and `tools/verify_release_candidate.ps1` accept `-ReleaseVersion`, allowing package metadata such as `2.0.0` to generate a ZIP/tag label such as `2.0.0-rc1`.

@@ -1,3 +1,7 @@
+## Unreleased
+
+- Adds `docs/manual/LAZRIBBON_MANUAL.md`, a first installation and component usage manual covering the package component model, published properties and events.
+
 ## 2.0.0-rc1 - API freeze candidate
 
 - Promotes runtime and design-time package metadata to 2.0.0 for the first 2.0 release candidate.
