@@ -310,6 +310,8 @@ See `STATUS.md` for the current technical status, known limitations, and recomme
 - `CONTRIBUTING.md`: contribution and validation expectations.
 - `docs/manual/LAZRIBBON_MANUAL.md`: illustrated installation and component usage manual.
 - `docs/manual/LAZRIBBON_COMPONENT_REFERENCE.md`: property-by-property and event-by-event component reference.
+- `docs/manual/LAZRIBBON_MANUAL.docx`: Word version of the illustrated manual.
+- `docs/manual/LAZRIBBON_COMPONENT_REFERENCE.docx`: Word version of the component reference.
 - `docs/quality/VALIDATION_LAZARUS_4_8.md`: Lazarus 4.8 release validation checklist.
 - `docs/release/GITHUB_PUBLISHING.md`: public repository and GitHub release checklist.
 - `docs/assets/screenshots/`: recommended location for public README screenshots.

@@ -2,7 +2,7 @@
 
 `2.0.0-rc1 - API freeze candidate` is the current release-candidate build.
 
-After `2.0.0-rc1`, the repository now includes `docs/manual/LAZRIBBON_MANUAL.md`, an illustrated installation and component usage manual, plus `docs/manual/LAZRIBBON_COMPONENT_REFERENCE.md`, a property-by-property and event-by-event reference. This documentation change is currently tracked for the next tag.
+After `2.0.0-rc1`, the repository now includes `docs/manual/LAZRIBBON_MANUAL.md`, an illustrated installation and component usage manual, plus `docs/manual/LAZRIBBON_COMPONENT_REFERENCE.md`, a property-by-property and event-by-event reference. DOCX versions are also generated beside the Markdown files for direct reading in Word or LibreOffice Writer. This documentation change is currently tracked for the next tag.
 
 The 2.0.0-rc1 build promotes runtime and design-time package metadata to `2.0.0` and uses `2.0.0-rc1` as the public ZIP/tag label. It is the first API-freeze candidate for the package, validating the documented Object Inspector surface, clean checkout install path, full build matrix, Skin Editor, demos, screenshots and release ZIP hygiene.
 
