@@ -8,6 +8,27 @@ surface. The exact generated Object Inspector source of truth remains
 `docs/quality/OBJECT_INSPECTOR_SURFACE_SNAPSHOT_2_0.md`; this manual turns that
 surface into a usage guide.
 
+For property-by-property and event-by-event explanations, use
+`docs/manual/LAZRIBBON_COMPONENT_REFERENCE.md`.
+
+## Figures
+
+Main Ribbon showcase:
+
+![LazRibbon Showcase](../assets/screenshots/showcase-main.png)
+
+BackStage covering the application client area:
+
+![LazRibbon BackStage](../assets/screenshots/showcase-backstage.png)
+
+Skin Gallery / skin selection workflow:
+
+![LazRibbon Skin Gallery](../assets/screenshots/showcase-skins.png)
+
+Standalone Skin Editor:
+
+![LazRibbon Skin Editor](../assets/screenshots/skin-editor.png)
+
 ## 1. Installation
 
 1. Extract the release ZIP into a normal project folder.
@@ -104,10 +125,9 @@ If no custom ScreenTip is set, the normal `Hint` can still be used.
 
 ## 7. Component Reference
 
-The lists below focus on the published API that a developer configures in the
-Object Inspector or through code. Standard inherited LCL properties such as
-`Align`, `Anchors`, `Font`, `PopupMenu`, `Visible` and `OnClick` are listed when
-the component publishes them directly.
+The summary below focuses on the published API that a developer configures in
+the Object Inspector or through code. The complete property/event explanations
+are in `docs/manual/LAZRIBBON_COMPONENT_REFERENCE.md`.
 
 ### TLazRibbonForm
 

@@ -1,6 +1,7 @@
 ## Unreleased
 
-- Adds `docs/manual/LAZRIBBON_MANUAL.md`, a first installation and component usage manual covering the package component model, published properties and events.
+- Expands `docs/manual/LAZRIBBON_MANUAL.md` into an illustrated installation and usage guide using the checked-in release screenshots.
+- Adds `docs/manual/LAZRIBBON_COMPONENT_REFERENCE.md`, a property-by-property and event-by-event reference for the package components.
 
 ## 2.0.0-rc1 - API freeze candidate
 
