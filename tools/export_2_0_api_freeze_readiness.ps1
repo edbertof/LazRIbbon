@@ -166,7 +166,7 @@ Add-Gate 'Release ZIP hygiene script exists' ($(if (Test-SourcePath 'tools/check
 Add-Gate 'GitHub publishing guide exists' ($(if (Test-SourcePath 'docs/release/GITHUB_PUBLISHING.md') { 'Ready' } else { 'Review' })) 'Public repository/release guidance is present.'
 Add-Gate 'Clean checkout install validation' ($(if ((Test-SourcePath 'tools/verify_clean_checkout.ps1') -and (Test-SourcePath 'docs/release/CLEAN_CHECKOUT_VALIDATION.md')) { 'Ready' } else { 'Manual' })) 'Clean checkout validation script and guide are present.'
 Add-Gate 'Screenshot assets for public release' ($(if ($screenshotFilesReady -and $screenshotCaptureScriptReady) { 'Ready' } else { 'Review' })) $screenshotEvidence
-Add-Gate '2.0 RC2 release notes draft exists' ($(if (Test-SourcePath 'docs/release/RELEASE_2_0_0_RC2.md') { 'Ready' } else { 'Review' })) 'Release-candidate notes are staged for the current 2.0 RC.'
+Add-Gate '2.0 RC3 release notes draft exists' ($(if (Test-SourcePath 'docs/release/RELEASE_2_0_0_RC3.md') { 'Ready' } else { 'Review' })) 'Release-candidate notes are staged for the current 2.0 RC.'
 
 $readyCount = @($gates | Where-Object { $_.Status -eq 'Ready' }).Count
 $manualCount = @($gates | Where-Object { $_.Status -eq 'Manual' }).Count
@@ -231,7 +231,7 @@ foreach ($path in @(
   'docs/release/DEMO_VALIDATION_MATRIX.md',
   'docs/release/CLEAN_CHECKOUT_VALIDATION.md',
   'docs/release/ROADMAP_2_0.md',
-  'docs/release/RELEASE_2_0_0_RC2.md',
+  'docs/release/RELEASE_2_0_0_RC3.md',
   'docs/assets/screenshots/README.md'
 )) {
   $out.Add('- ' + (ConvertTo-InlineCode $path))

@@ -1,40 +1,40 @@
 # LazRibbon Release-Candidate Preparation
 
-Target: `2.0.0-rc2`
+Target: `2.0.0-rc3`
 
 ## Purpose
 
-This document defines the current release-candidate gate for LazRibbon `2.0.0-rc2`, the second 2.0 release candidate.
+This document defines the current release-candidate gate for LazRibbon `2.0.0-rc3`, the third 2.0 release candidate.
 
-The package metadata is intentionally set to `2.0.0`, while the public release label is `2.0.0-rc2`.
+The package metadata is intentionally set to `2.0.0`, while the public release label is `2.0.0-rc3`.
 
 ## Version Fields
 
 The release scripts intentionally separate two concepts:
 
 - `-Version`: numeric Lazarus package version expected in `LazRibbonRuntime.lpk` and `LazRibbonDesign.lpk`.
-- `-ReleaseVersion`: public ZIP/tag/release label, which may include a suffix such as `2.0.0-rc2`.
+- `-ReleaseVersion`: public ZIP/tag/release label, which may include a suffix such as `2.0.0-rc3`.
 
 For this 2.0 RC, use the numeric package version and the RC release label:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File tools/verify_release_candidate.ps1 -Version 2.0.0 -ReleaseVersion 2.0.0-rc2 -OutputDirectory D:\Ribbon4Lazarus
+powershell -ExecutionPolicy Bypass -File tools/verify_release_candidate.ps1 -Version 2.0.0 -ReleaseVersion 2.0.0-rc3 -OutputDirectory D:\Ribbon4Lazarus
 ```
 
 ## Required Gates
 
-Before tagging or publishing `v2.0.0-rc2`, verify:
+Before tagging or publishing `v2.0.0-rc3`, verify:
 
 - `docs/release/API_FREEZE_READINESS_2_0.md` reports zero review gates and zero manual gates.
 - `tools/verify_release_candidate.ps1` passes with the target package version and release label.
 - `tools/verify_clean_checkout.ps1` validates an extracted source ZIP without using local generated files.
 - `tools/capture_release_screenshots.ps1` regenerates the public README screenshots.
-- `docs/release/RELEASE_2_0_0_RC2.md` is reviewed as the GitHub release note draft.
+- `docs/release/RELEASE_2_0_0_RC3.md` is reviewed as the GitHub release note draft.
 - The generated ZIP is stored in `D:\Ribbon4Lazarus` and its SHA256 is recorded.
 
-## Allowed Changes After RC2
+## Allowed Changes After RC3
 
-After `2.0.0-rc2`, changes should be limited to:
+After `2.0.0-rc3`, changes should be limited to:
 
 - package compilation or installation blockers;
 - IDE registration problems;
@@ -48,7 +48,7 @@ New features and broad API changes should move to the next 2.x line unless they 
 
 ## Deferred Work
 
-The following should not block `2.0.0-rc2` unless they cause runtime or installation failure:
+The following should not block `2.0.0-rc3` unless they cause runtime or installation failure:
 
 - splitting very large runtime units;
 - replacing the custom XML parser;

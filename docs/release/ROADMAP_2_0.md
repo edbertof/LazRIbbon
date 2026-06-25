@@ -52,8 +52,8 @@ The following gates must be complete before `2.0.0`:
   `tools/capture_release_screenshots.ps1`.
 - Release scripts separate numeric package metadata from public release labels
   through `-Version` and `-ReleaseVersion`.
-- Release notes for `2.0.0-rc2` are present in
-  `docs/release/RELEASE_2_0_0_RC2.md`.
+- Release notes for `2.0.0-rc3` are present in
+  `docs/release/RELEASE_2_0_0_RC3.md`.
 - Release ZIP audit passes with no generated build artifacts.
 
 ## Planned Work
@@ -122,17 +122,17 @@ The following gates must be complete before `2.0.0`:
 - Keep screenshots for the main Ribbon, BackStage, Skin Gallery and Skin Editor
   current in `docs/assets/screenshots/`.
 - Review docs for outdated names after the API freeze pass.
-- Keep `docs/release/RELEASE_2_0_0_RC2.md` current as the public release notes
+- Keep `docs/release/RELEASE_2_0_0_RC3.md` current as the public release notes
   for the current RC.
 
 ### 4. Release Candidate
 
-- Publish `2.0.0-rc2` from the documentation and API-freeze pass.
+- Publish `2.0.0-rc3` from the documentation and API-freeze pass.
 - Run the Lazarus 4.8 validation checklist from a clean checkout.
 - Run `tools/verify_clean_checkout.ps1` with the target version.
 - Run `tools/verify_release_candidate.ps1` with the target version and release
   ZIP output directory. For this RC, use `-Version 2.0.0` and
-  `-ReleaseVersion 2.0.0-rc2`.
+  `-ReleaseVersion 2.0.0-rc3`.
 - Run `tools/capture_release_screenshots.ps1` and review the public PNG assets.
 - Install the design-time package in Lazarus and verify component palette icons.
 - Compile and run the Skin Editor and the main Ribbon form demo.

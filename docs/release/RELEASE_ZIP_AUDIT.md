@@ -1,3 +1,11 @@
+## 2.0.0-rc3 check
+
+- Package metadata remains 2.0.0 for the runtime and design-time packages.
+- Public release ZIP/tag label is `2.0.0-rc3` through the `-ReleaseVersion` workflow.
+- `tools/check_release_zip.ps1` treats relative path parts as an array, so direct directory audits work for extracted release trees with single-segment relative paths.
+- The release-candidate preflight validates the full build matrix, clean checkout install path and release ZIP hygiene before publishing.
+- Public ZIP created as `LazRibbon_2.0.0-rc3_source_20260625_105750.zip` with SHA256 `906AFB9347BD39CA14C74695BD1F4203EF2D752F3A36FBEA4707D6EA0870DF71`.
+
 ## 2.0.0-rc2 check
 
 - Package metadata remains 2.0.0 for the runtime and design-time packages.

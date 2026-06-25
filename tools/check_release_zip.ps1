@@ -45,7 +45,7 @@ function Test-ArtifactPath {
     [string]$RelativePath
   )
 
-  $parts = $RelativePath -replace '\\', '/' -split '/' | Where-Object { $_ -ne '' }
+  $parts = @($RelativePath -replace '\\', '/' -split '/' | Where-Object { $_ -ne '' })
 
   foreach ($part in $parts) {
     if ($ignoredDirectories -contains $part) {

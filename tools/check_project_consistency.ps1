@@ -1082,7 +1082,7 @@ function Test-TwoPointZeroPlanningDocs {
       'DESIGN_TIME_PROPERTY_SKIP_AUDIT_2_0.md',
       'DEMO_VALIDATION_MATRIX.md',
       'CLEAN_CHECKOUT_VALIDATION.md',
-      'RELEASE_2_0_0_RC2.md',
+      'RELEASE_2_0_0_RC3.md',
       'verify_clean_checkout.ps1',
       'capture_release_screenshots.ps1',
       'Gates needing review'
@@ -1277,7 +1277,7 @@ function Test-TwoPointZeroPlanningDocs {
       'Gates needing review: 0',
       'Clean checkout install validation',
       'Screenshot assets for public release',
-      '2.0 RC2 release notes draft exists',
+      '2.0 RC3 release notes draft exists',
       '4 public screenshot PNG assets',
       'CLEAN_CHECKOUT_VALIDATION.md'
     )) {
@@ -1306,7 +1306,7 @@ function Test-TwoPointZeroPlanningDocs {
   }
   else {
     $readme = Get-Content -LiteralPath $readmePath -Raw
-    foreach ($required in @('Screenshots', 'docs/assets/screenshots/showcase-main.png', 'tools/capture_release_screenshots.ps1', 'ReleaseVersion', 'RELEASE_2_0_0_RC2.md', 'First Ribbon Form', 'TLazRibbonForm', 'TLazRibbon.BackstageView', 'tools/build_all_projects.ps1', 'tools/verify_release_candidate.ps1', 'tools/verify_clean_checkout.ps1', 'OBJECT_INSPECTOR_REDUNDANCY_AUDIT_2_0.md', 'DESIGN_TIME_PROPERTY_SKIP_AUDIT_2_0.md', 'API_FREEZE_READINESS_2_0.md', 'CLEAN_CHECKOUT_VALIDATION.md')) {
+    foreach ($required in @('Screenshots', 'docs/assets/screenshots/showcase-main.png', 'tools/capture_release_screenshots.ps1', 'ReleaseVersion', 'RELEASE_2_0_0_RC3.md', 'First Ribbon Form', 'TLazRibbonForm', 'TLazRibbon.BackstageView', 'tools/build_all_projects.ps1', 'tools/verify_release_candidate.ps1', 'tools/verify_clean_checkout.ps1', 'OBJECT_INSPECTOR_REDUNDANCY_AUDIT_2_0.md', 'DESIGN_TIME_PROPERTY_SKIP_AUDIT_2_0.md', 'API_FREEZE_READINESS_2_0.md', 'CLEAN_CHECKOUT_VALIDATION.md')) {
       if ($readme -notmatch [regex]::Escape($required)) {
         Add-Failure "README must include $required for the 2.0 onboarding workflow."
       }
@@ -1417,7 +1417,7 @@ function Test-TwoPointZeroPlanningDocs {
       'DESIGN_TIME_PROPERTY_SKIP_AUDIT_2_0.md',
       'API_FREEZE_READINESS_2_0.md',
       'CLEAN_CHECKOUT_VALIDATION.md',
-      'RELEASE_2_0_0_RC2.md',
+      'RELEASE_2_0_0_RC3.md',
       'tools/verify_clean_checkout.ps1',
       'tools/verify_release_candidate.ps1',
       'tools/capture_release_screenshots.ps1',

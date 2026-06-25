@@ -1,6 +1,8 @@
 # LazRibbon Status
 
-`2.0.0-rc2 - documentation and API-freeze candidate` is the current release-candidate build.
+`2.0.0-rc3 - release tooling and API-freeze candidate` is the current release-candidate build.
+
+The `2.0.0-rc3` build keeps the package metadata at `2.0.0` and fixes `tools/check_release_zip.ps1` when auditing extracted source folders that contain single-segment relative paths. It carries forward the post-RC1 documentation work promoted in `2.0.0-rc2`: `docs/manual/LAZRIBBON_MANUAL.md`, `docs/manual/LAZRIBBON_COMPONENT_REFERENCE.md` and generated DOCX versions beside the Markdown files.
 
 The `2.0.0-rc2` build keeps the package metadata at `2.0.0` and promotes the post-RC1 documentation work into a tagged release candidate. It includes `docs/manual/LAZRIBBON_MANUAL.md`, an illustrated installation and component usage manual, plus `docs/manual/LAZRIBBON_COMPONENT_REFERENCE.md`, a property-by-property and event-by-event reference. DOCX versions are generated beside the Markdown files for direct reading in Word or LibreOffice Writer.
 

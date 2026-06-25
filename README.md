@@ -50,9 +50,9 @@ tools/LazRibbonSkinEditor/
 
 ## Current version
 
-This distribution is **LazRibbon 2.0.0-rc2 documentation and API-freeze candidate**.
+This distribution is **LazRibbon 2.0.0-rc3 documentation and API-freeze candidate**.
 
-The `2.0.0-rc2` build keeps the package metadata at `2.0.0` and uses the public release label `2.0.0-rc2` for ZIPs and Git tags. It carries forward the validated API-freeze surface from `2.0.0-rc1` and adds the illustrated manual, complete component reference and DOCX documentation artifacts. The public RC notes are in `docs/release/RELEASE_2_0_0_RC2.md`.
+The `2.0.0-rc3` build keeps the package metadata at `2.0.0` and uses the public release label `2.0.0-rc3` for ZIPs and Git tags. It carries forward the validated API-freeze surface from `2.0.0-rc1`, the documentation package from `2.0.0-rc2`, and fixes the release ZIP audit when it is run directly against an extracted source folder. The public RC notes are in `docs/release/RELEASE_2_0_0_RC3.md`.
 
 ## Screenshots
 
@@ -68,8 +68,9 @@ The public screenshot set is generated with `tools/capture_release_screenshots.p
 
 Highlights in the current 2.0 RC:
 
-- Package metadata is set to `2.0.0`, while release ZIPs and tags can use the RC label through `-ReleaseVersion 2.0.0-rc2`.
+- Package metadata is set to `2.0.0`, while release ZIPs and tags can use the RC label through `-ReleaseVersion 2.0.0-rc3`.
 - Release scripts support separate package and public release labels through `-Version` and `-ReleaseVersion`.
+- Release ZIP directory audits correctly handle single-segment relative paths in extracted source trees.
 - Illustrated Markdown and DOCX manuals are available in `docs/manual/`.
 - Public screenshots for Showcase, BackStage, Skin Gallery and Skin Editor are checked into `docs/assets/screenshots/` and can be regenerated with `tools/capture_release_screenshots.ps1`.
 - Pane captions are drawn above pane items so Skin Editor Ribbon group names remain visible across skins.
@@ -265,14 +266,14 @@ powershell -ExecutionPolicy Bypass -File tools/build_all_projects.ps1 -CleanArti
 To validate the package from an extracted clean source tree:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File tools/verify_clean_checkout.ps1 -Version 2.0.0 -ReleaseVersion 2.0.0-rc2
+powershell -ExecutionPolicy Bypass -File tools/verify_clean_checkout.ps1 -Version 2.0.0 -ReleaseVersion 2.0.0-rc3
 ```
 
 For a complete release-candidate preflight, including consistency checks and ZIP
 audit:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File tools/verify_release_candidate.ps1 -Version 2.0.0 -ReleaseVersion 2.0.0-rc2 -OutputDirectory D:\Ribbon4Lazarus
+powershell -ExecutionPolicy Bypass -File tools/verify_release_candidate.ps1 -Version 2.0.0 -ReleaseVersion 2.0.0-rc3 -OutputDirectory D:\Ribbon4Lazarus
 ```
 
 The purpose of each demo is documented in

@@ -2,6 +2,11 @@
 
 - No unreleased changes.
 
+## 2.0.0-rc3 - Release tooling candidate
+
+- Fixes `tools/check_release_zip.ps1` when auditing extracted source folders that contain single-segment relative paths.
+- Updates current release-candidate documentation, readiness gates, manual targets and DOCX footers to `2.0.0-rc3`.
+
 ## 2.0.0-rc2 - Documentation and API-freeze candidate
 
 - Expands `docs/manual/LAZRIBBON_MANUAL.md` into an illustrated installation and usage guide using the checked-in release screenshots.
