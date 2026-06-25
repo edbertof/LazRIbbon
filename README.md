@@ -1,4 +1,4 @@
-﻿# LazRibbon
+# LazRibbon
 
 LazRibbon is a Lazarus/Free Pascal component package for building Office-like Ribbon interfaces in LCL applications.
 
@@ -50,9 +50,9 @@ tools/LazRibbonSkinEditor/
 
 ## Current version
 
-This distribution is **LazRibbon 2.0.0-rc1 API freeze candidate**.
+This distribution is **LazRibbon 2.0.0-rc2 documentation and API-freeze candidate**.
 
-The `2.0.0-rc1` build promotes the package metadata to `2.0.0` and uses the public release label `2.0.0-rc1` for ZIPs and Git tags. It is the first API-freeze candidate for the LazRibbon package, preserving the validated 1.2.x feature set while confirming the Object Inspector surface, package installation flow, Skin Editor, demos, screenshots and release ZIP hygiene. The public RC notes are in `docs/release/RELEASE_2_0_0_RC1.md`. The immediately previous 1.2.42 build added the `-Version`/`-ReleaseVersion` split that makes this RC label possible.
+The `2.0.0-rc2` build keeps the package metadata at `2.0.0` and uses the public release label `2.0.0-rc2` for ZIPs and Git tags. It carries forward the validated API-freeze surface from `2.0.0-rc1` and adds the illustrated manual, complete component reference and DOCX documentation artifacts. The public RC notes are in `docs/release/RELEASE_2_0_0_RC2.md`.
 
 ## Screenshots
 
@@ -68,8 +68,9 @@ The public screenshot set is generated with `tools/capture_release_screenshots.p
 
 Highlights in the current 2.0 RC:
 
-- Package metadata is set to `2.0.0`, while release ZIPs and tags can use the RC label through `-ReleaseVersion 2.0.0-rc1`.
+- Package metadata is set to `2.0.0`, while release ZIPs and tags can use the RC label through `-ReleaseVersion 2.0.0-rc2`.
 - Release scripts support separate package and public release labels through `-Version` and `-ReleaseVersion`.
+- Illustrated Markdown and DOCX manuals are available in `docs/manual/`.
 - Public screenshots for Showcase, BackStage, Skin Gallery and Skin Editor are checked into `docs/assets/screenshots/` and can be regenerated with `tools/capture_release_screenshots.ps1`.
 - Pane captions are drawn above pane items so Skin Editor Ribbon group names remain visible across skins.
 - The collapse/expand button minimizes the actual Ribbon height, including inside the Skin Editor live preview.
@@ -121,7 +122,7 @@ Highlights in the current 2.0 RC:
 - A generated Object Inspector surface snapshot for reviewing published properties before the 2.0 API freeze.
 - A generated Object Inspector redundancy audit for keeping repeated property names intentional and documented.
 - A generated design-time property skip audit for keeping hidden Object Inspector properties intentional and documented.
-- A generated 2.0 API freeze readiness report that summarizes release gates before the first release candidate.
+- A generated 2.0 API freeze readiness report that summarizes release gates for the current release candidate.
 - A clean checkout validation script that builds and audits the package from an extracted release-style source tree.
 - A one-command release-candidate preflight script for the final 2.0 validation path.
 - Public API audit and 2.0 roadmap in `docs/quality/PUBLIC_API_AUDIT_2_0.md` and `docs/release/ROADMAP_2_0.md`.
@@ -188,7 +189,7 @@ Use these properties on Ribbon items such as `TLazRibbonLargeButton` and `TLazRi
 ```pascal
 LazRibbonLargeButtonNew.Hint := 'Cria um novo documento.';
 LazRibbonLargeButtonNew.ScreenTipTitle := 'Novo';
-LazRibbonLargeButtonNew.ScreenTipText := 'Cria um novo documento usando o modelo padrÃ£o.';
+LazRibbonLargeButtonNew.ScreenTipText := 'Cria um novo documento usando o modelo padrão.';
 LazRibbonLargeButtonNew.ScreenTipShortcut := 'Ctrl+N';
 LazRibbonLargeButtonNew.ScreenTipFooter := 'Exemplo de ScreenTip enriquecido.';
 ```
@@ -264,14 +265,14 @@ powershell -ExecutionPolicy Bypass -File tools/build_all_projects.ps1 -CleanArti
 To validate the package from an extracted clean source tree:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File tools/verify_clean_checkout.ps1 -Version 2.0.0 -ReleaseVersion 2.0.0-rc1
+powershell -ExecutionPolicy Bypass -File tools/verify_clean_checkout.ps1 -Version 2.0.0 -ReleaseVersion 2.0.0-rc2
 ```
 
 For a complete release-candidate preflight, including consistency checks and ZIP
 audit:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File tools/verify_release_candidate.ps1 -Version 2.0.0 -ReleaseVersion 2.0.0-rc1 -OutputDirectory D:\Ribbon4Lazarus
+powershell -ExecutionPolicy Bypass -File tools/verify_release_candidate.ps1 -Version 2.0.0 -ReleaseVersion 2.0.0-rc2 -OutputDirectory D:\Ribbon4Lazarus
 ```
 
 The purpose of each demo is documented in

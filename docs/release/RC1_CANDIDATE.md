@@ -1,6 +1,6 @@
 # LazRibbon RC1 candidate
 
-Historical note: this document describes the old pre-1.0 RC path. The current 2.0 release-candidate workflow is documented in `docs/release/RELEASE_CANDIDATE_PREP.md` and `docs/release/RELEASE_2_0_0_RC1.md`.
+Historical note: this document describes the old pre-1.0 RC path. The current 2.0 release-candidate workflow is documented in `docs/release/RELEASE_CANDIDATE_PREP.md` and `docs/release/RELEASE_2_0_0_RC2.md`.
 
 Version: 0.3.66
 Target environment: Lazarus 4.6 / LCL / Windows primary validation

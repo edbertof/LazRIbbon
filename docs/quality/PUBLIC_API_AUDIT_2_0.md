@@ -210,8 +210,8 @@ readiness:
    and `tools/build_all_projects.ps1`.
 8. Prepare screenshot guidance/assets for the main Ribbon, BackStage, Skin
    Gallery and Skin Editor.
-9. Run `tools/verify_release_candidate.ps1` before tagging the first
-   `2.0.0-rc1`.
+9. Run `tools/verify_release_candidate.ps1` before tagging
+   `2.0.0-rc2`.
 
 This keeps the public API surface quiet while shifting the remaining work toward
 shareable documentation and release proof.

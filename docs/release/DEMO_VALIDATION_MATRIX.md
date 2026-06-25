@@ -45,7 +45,7 @@ Use `-CleanArtifacts` for release validation so generated `bin`, `lib`, `obj`,
 
 ## Release Rule
 
-Before publishing a stabilization build or `2.0.0-rc1`, the full build matrix
+Before publishing a stabilization build or `2.0.0-rc2`, the full build matrix
 should pass with Lazarus 4.8. A demo may still emit Lazarus CodeTools hints, but
 the FPC compile/link result must be successful.
 For release-candidate validation, the matrix should also pass through

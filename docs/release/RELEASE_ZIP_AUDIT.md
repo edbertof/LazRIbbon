@@ -1,3 +1,11 @@
+## 2.0.0-rc2 check
+
+- Package metadata remains 2.0.0 for the runtime and design-time packages.
+- Public release ZIP/tag label is `2.0.0-rc2` through the `-ReleaseVersion` workflow.
+- `docs/release/API_FREEZE_READINESS_2_0.md` reports all tracked gates ready for the RC.
+- The release-candidate preflight validates the full build matrix, clean checkout install path and release ZIP hygiene before publishing.
+- The generated ZIP path and SHA256 are emitted by `tools/verify_release_candidate.ps1` and should be recorded with the GitHub release asset.
+
 ## 2.0.0-rc1 check
 
 - Package metadata updated to 2.0.0 for the runtime and design-time packages.

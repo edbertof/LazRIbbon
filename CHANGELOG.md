@@ -1,8 +1,13 @@
 ## Unreleased
 
+- No unreleased changes.
+
+## 2.0.0-rc2 - Documentation and API-freeze candidate
+
 - Expands `docs/manual/LAZRIBBON_MANUAL.md` into an illustrated installation and usage guide using the checked-in release screenshots.
 - Adds `docs/manual/LAZRIBBON_COMPONENT_REFERENCE.md`, a property-by-property and event-by-event reference for the package components.
 - Adds DOCX versions of both manuals for direct reading in Microsoft Word or LibreOffice Writer.
+- Updates the 2.0 release-candidate guidance and readiness gates to use the `2.0.0-rc2` public release label.
 
 ## 2.0.0-rc1 - API freeze candidate
 
