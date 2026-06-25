@@ -34,14 +34,14 @@ Lazarus/Free Pascal component package for Office-like Ribbon interfaces, includi
 6. Run `tools/verify_clean_checkout.ps1` to validate a fresh extracted source tree.
 7. Confirm the generated ZIP passes `tools/check_release_zip.ps1`.
 8. Regenerate and review public screenshots with `tools/capture_release_screenshots.ps1`.
-9. Create a GitHub release using the same version as the packages, or use `-ReleaseVersion` when the public label includes an RC suffix such as `2.0.0-rc3`.
+9. Create a GitHub release using the same version as the packages, or use `-ReleaseVersion` when the public label includes an RC suffix.
 
 ## Release title format
 
 Use a title such as:
 
 ```text
-LazRibbon 2.0.0-rc3 - API freeze candidate
+LazRibbon 2.0.0 - Stable release
 ```
 
 ## Release notes format
@@ -54,7 +54,7 @@ Recommended sections:
 - Known limitations
 - Download
 
-For `2.0.0-rc3`, start from `docs/release/RELEASE_2_0_0_RC3.md`.
+For `2.0.0`, start from `docs/release/RELEASE_2_0_0.md`.
 
 ## Known limitations to mention
 

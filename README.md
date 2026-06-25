@@ -50,9 +50,9 @@ tools/LazRibbonSkinEditor/
 
 ## Current version
 
-This distribution is **LazRibbon 2.0.0-rc3 documentation and API-freeze candidate**.
+This distribution is **LazRibbon 2.0.0 stable release**.
 
-The `2.0.0-rc3` build keeps the package metadata at `2.0.0` and uses the public release label `2.0.0-rc3` for ZIPs and Git tags. It carries forward the validated API-freeze surface from `2.0.0-rc1`, the documentation package from `2.0.0-rc2`, and fixes the release ZIP audit when it is run directly against an extracted source folder. The public RC notes are in `docs/release/RELEASE_2_0_0_RC3.md`.
+The `2.0.0` build is the first stable LazRibbon release after the 2.0 release-candidate line. It keeps the package metadata and public release label aligned at `2.0.0`, preserves the validated API-freeze surface from `2.0.0-rc1`, includes the illustrated/manual documentation package from `2.0.0-rc2`, and includes the release ZIP audit fix validated in `2.0.0-rc3`. The public release notes are in `docs/release/RELEASE_2_0_0.md`.
 
 ## Screenshots
 
@@ -66,9 +66,9 @@ The public screenshot set is generated with `tools/capture_release_screenshots.p
 
 ![LazRibbon Skin Editor](docs/assets/screenshots/skin-editor.png)
 
-Highlights in the current 2.0 RC:
+Highlights in LazRibbon 2.0:
 
-- Package metadata is set to `2.0.0`, while release ZIPs and tags can use the RC label through `-ReleaseVersion 2.0.0-rc3`.
+- Package metadata, public ZIP label and Git tag are aligned on `2.0.0`.
 - Release scripts support separate package and public release labels through `-Version` and `-ReleaseVersion`.
 - Release ZIP directory audits correctly handle single-segment relative paths in extracted source trees.
 - Illustrated Markdown and DOCX manuals are available in `docs/manual/`.
@@ -86,7 +86,7 @@ Highlights in the current 2.0 RC:
 - `docs/quality/OBJECT_INSPECTOR_PROPERTY_AUDIT_2_0.md` tracks redundant/repeated property decisions for the 2.0 freeze.
 - `docs/quality/OBJECT_INSPECTOR_REDUNDANCY_AUDIT_2_0.md` classifies repeated published property names and currently reports zero unclassified redundancies.
 - `docs/quality/DESIGN_TIME_PROPERTY_SKIP_AUDIT_2_0.md` documents compatibility-only, obsolete or role-inappropriate properties hidden by the design-time package.
-- `docs/release/API_FREEZE_READINESS_2_0.md` consolidates the current 2.0 API freeze gates and separates automated readiness from manual RC validation tasks.
+- `docs/release/API_FREEZE_READINESS_2_0.md` consolidates the current 2.0 API freeze gates and release readiness evidence.
 - `docs/release/CLEAN_CHECKOUT_VALIDATION.md` documents the clean source tree validation performed by `tools/verify_clean_checkout.ps1`.
 - `TLazRibbonSeparator` is treated as a structural pane item, so inherited command and ScreenTip properties are hidden at design time.
 - Gallery size names are no longer duplicated: generic galleries use `ItemWidth`/`ItemHeight`, while SkinGallery uses `IconWidth`/`IconHeight`.
@@ -123,9 +123,9 @@ Highlights in the current 2.0 RC:
 - A generated Object Inspector surface snapshot for reviewing published properties before the 2.0 API freeze.
 - A generated Object Inspector redundancy audit for keeping repeated property names intentional and documented.
 - A generated design-time property skip audit for keeping hidden Object Inspector properties intentional and documented.
-- A generated 2.0 API freeze readiness report that summarizes release gates for the current release candidate.
+- A generated 2.0 API freeze readiness report that summarizes release gates for the stable release.
 - A clean checkout validation script that builds and audits the package from an extracted release-style source tree.
-- A one-command release-candidate preflight script for the final 2.0 validation path.
+- A one-command release preflight script for the final 2.0 validation path.
 - Public API audit and 2.0 roadmap in `docs/quality/PUBLIC_API_AUDIT_2_0.md` and `docs/release/ROADMAP_2_0.md`.
 - GitHub-oriented contribution, validation and publishing documentation.
 
@@ -266,14 +266,14 @@ powershell -ExecutionPolicy Bypass -File tools/build_all_projects.ps1 -CleanArti
 To validate the package from an extracted clean source tree:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File tools/verify_clean_checkout.ps1 -Version 2.0.0 -ReleaseVersion 2.0.0-rc3
+powershell -ExecutionPolicy Bypass -File tools/verify_clean_checkout.ps1 -Version 2.0.0 -ReleaseVersion 2.0.0
 ```
 
-For a complete release-candidate preflight, including consistency checks and ZIP
+For a complete release preflight, including consistency checks and ZIP
 audit:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File tools/verify_release_candidate.ps1 -Version 2.0.0 -ReleaseVersion 2.0.0-rc3 -OutputDirectory D:\Ribbon4Lazarus
+powershell -ExecutionPolicy Bypass -File tools/verify_release_candidate.ps1 -Version 2.0.0 -ReleaseVersion 2.0.0 -OutputDirectory D:\Ribbon4Lazarus\Releases
 ```
 
 The purpose of each demo is documented in

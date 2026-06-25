@@ -1,6 +1,8 @@
 # LazRibbon Status
 
-`2.0.0-rc3 - release tooling and API-freeze candidate` is the current release-candidate build.
+`2.0.0 - stable release` is the current build.
+
+The `2.0.0` build is the first stable LazRibbon release after the 2.0 release-candidate line. It keeps package metadata and the public release label aligned at `2.0.0`, preserves the validated API-freeze surface from `2.0.0-rc1`, includes the documentation package from `2.0.0-rc2`, and carries forward the release ZIP audit fix from `2.0.0-rc3`.
 
 The `2.0.0-rc3` build keeps the package metadata at `2.0.0` and fixes `tools/check_release_zip.ps1` when auditing extracted source folders that contain single-segment relative paths. It carries forward the post-RC1 documentation work promoted in `2.0.0-rc2`: `docs/manual/LAZRIBBON_MANUAL.md`, `docs/manual/LAZRIBBON_COMPONENT_REFERENCE.md` and generated DOCX versions beside the Markdown files.
 

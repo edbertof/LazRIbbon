@@ -25,7 +25,7 @@ The generated freeze readiness report lives in
 `docs/release/API_FREEZE_READINESS_2_0.md` and is produced by
 `tools/export_2_0_api_freeze_readiness.ps1`. It summarizes package metadata,
 API audit coverage, generated Object Inspector reports and release workflow
-gates before the first 2.0 release candidate.
+gates before the stable 2.0 release.
 
 The clean checkout validation guide lives in
 `docs/release/CLEAN_CHECKOUT_VALIDATION.md` and is executed by
@@ -189,9 +189,9 @@ Before 2.0, every visible property should satisfy one of these conditions:
   the Object Inspector, retained publicly for source compatibility, and accepted
   through legacy `.lfm` readers.
 
-## Recommended Next API Pass
+## Recommended Release Pass
 
-The next API pass should move from visible duplicate cleanup to release-candidate
+The final 2.0 pass should keep the visible API quiet and focus on release
 readiness:
 
 1. Keep `OBJECT_INSPECTOR_SURFACE_SNAPSHOT_2_0.md` regenerated whenever a
@@ -211,7 +211,7 @@ readiness:
 8. Prepare screenshot guidance/assets for the main Ribbon, BackStage, Skin
    Gallery and Skin Editor.
 9. Run `tools/verify_release_candidate.ps1` before tagging
-   `2.0.0-rc3`.
+   `2.0.0`.
 
 This keeps the public API surface quiet while shifting the remaining work toward
 shareable documentation and release proof.

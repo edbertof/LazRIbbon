@@ -2,6 +2,13 @@
 
 - No unreleased changes.
 
+## 2.0.0 - Stable release
+
+- Promotes the validated 2.0 API-freeze line to the first stable LazRibbon 2.0 release.
+- Keeps runtime and design-time package metadata aligned at `2.0.0`.
+- Includes the illustrated manual, complete component reference and generated DOCX manuals from the 2.0 release-candidate line.
+- Includes the release ZIP audit fix validated in `2.0.0-rc3`.
+
 ## 2.0.0-rc3 - Release tooling candidate
 
 - Fixes `tools/check_release_zip.ps1` when auditing extracted source folders that contain single-segment relative paths.

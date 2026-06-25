@@ -43,17 +43,17 @@ The following gates must be complete before `2.0.0`:
 - `demos/ribbon_form/project1.lpi` compiles and demonstrates the main workflow.
 - `tools/build_all_projects.ps1 -CleanArtifacts` compiles the packages, Skin
   Editor and every demo listed in `docs/release/DEMO_VALIDATION_MATRIX.md`.
-- `tools/verify_release_candidate.ps1` runs the full release-candidate
-  preflight before a 2.0 RC is tagged.
+- `tools/verify_release_candidate.ps1` runs the full release preflight before
+  the 2.0 stable tag is published.
 - `tools/verify_clean_checkout.ps1` validates an extracted clean source tree
-  before a 2.0 RC is tagged.
+  before the 2.0 stable tag is published.
 - Public screenshots for Showcase, BackStage, Skin Gallery and Skin Editor are
   present under `docs/assets/screenshots/` and can be regenerated with
   `tools/capture_release_screenshots.ps1`.
 - Release scripts separate numeric package metadata from public release labels
   through `-Version` and `-ReleaseVersion`.
-- Release notes for `2.0.0-rc3` are present in
-  `docs/release/RELEASE_2_0_0_RC3.md`.
+- Release notes for `2.0.0` are present in
+  `docs/release/RELEASE_2_0_0.md`.
 - Release ZIP audit passes with no generated build artifacts.
 
 ## Planned Work
@@ -118,21 +118,21 @@ The following gates must be complete before `2.0.0`:
 - Keep `docs/release/DEMO_VALIDATION_MATRIX.md` synchronized with the demos and
   release validation script.
 - Keep `docs/release/CLEAN_CHECKOUT_VALIDATION.md` synchronized with the clean
-  checkout script and release-candidate preflight.
+  checkout script and release preflight.
 - Keep screenshots for the main Ribbon, BackStage, Skin Gallery and Skin Editor
   current in `docs/assets/screenshots/`.
 - Review docs for outdated names after the API freeze pass.
-- Keep `docs/release/RELEASE_2_0_0_RC3.md` current as the public release notes
-  for the current RC.
+- Keep `docs/release/RELEASE_2_0_0.md` current as the public release notes
+  for the stable 2.0 release.
 
-### 4. Release Candidate
+### 4. Stable Release
 
-- Publish `2.0.0-rc3` from the documentation and API-freeze pass.
+- Publish `2.0.0` from the validated API-freeze and documentation pass.
 - Run the Lazarus 4.8 validation checklist from a clean checkout.
 - Run `tools/verify_clean_checkout.ps1` with the target version.
 - Run `tools/verify_release_candidate.ps1` with the target version and release
-  ZIP output directory. For this RC, use `-Version 2.0.0` and
-  `-ReleaseVersion 2.0.0-rc3`.
+  ZIP output directory. For the stable release, use `-Version 2.0.0` and
+  `-ReleaseVersion 2.0.0`.
 - Run `tools/capture_release_screenshots.ps1` and review the public PNG assets.
 - Install the design-time package in Lazarus and verify component palette icons.
 - Compile and run the Skin Editor and the main Ribbon form demo.

@@ -1,6 +1,6 @@
 # LazRibbon Manual
 
-Target: LazRibbon 2.0.0-rc3, Lazarus 4.8.
+Target: LazRibbon 2.0.0, Lazarus 4.8.
 
 This manual explains how to install the package, how the components connect to
 each other, and which published properties and events are part of the public
@@ -46,7 +46,7 @@ Standalone Skin Editor:
 Recommended validation command before distributing or reinstalling from source:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File tools\verify_release_candidate.ps1 -Version 2.0.0 -ReleaseVersion 2.0.0-rc3 -OutputDirectory D:\Ribbon4Lazarus
+powershell -ExecutionPolicy Bypass -File tools\verify_release_candidate.ps1 -Version 2.0.0 -ReleaseVersion 2.0.0 -OutputDirectory D:\Ribbon4Lazarus\Releases
 ```
 
 ## 2. Component Model
