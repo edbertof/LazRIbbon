@@ -54,6 +54,12 @@ This distribution is **LazRibbon 2.0.0 stable release**.
 
 The `2.0.0` build is the first stable LazRibbon release after the 2.0 release-candidate line. It keeps the package metadata and public release label aligned at `2.0.0`, preserves the validated API-freeze surface from `2.0.0-rc1`, includes the illustrated/manual documentation package from `2.0.0-rc2`, and includes the release ZIP audit fix validated in `2.0.0-rc3`. The public release notes are in `docs/release/RELEASE_2_0_0.md`.
 
+## Post-2.0 development
+
+The next development line is tracked in `docs/release/ROADMAP_2_1.md`. Its first focus is the standalone Skin Editor: improving the workflow around identity, icons, palette, full `Appearance` editing, base comparison, validation and live preview without destabilizing the 2.0 public API.
+
+`tools/export_skin_editor_2_1_coverage.ps1` generates `docs/quality/SKIN_EDITOR_APPEARANCE_COVERAGE_2_1.md`, a report that compares the published `Appearance` sections with the native visual appearance editor and the standalone Skin Editor.
+
 ## Screenshots
 
 The public screenshot set is generated with `tools/capture_release_screenshots.ps1`.
@@ -126,7 +132,8 @@ Highlights in LazRibbon 2.0:
 - A generated 2.0 API freeze readiness report that summarizes release gates for the stable release.
 - A clean checkout validation script that builds and audits the package from an extracted release-style source tree.
 - A one-command release preflight script for the final 2.0 validation path.
-- Public API audit and 2.0 roadmap in `docs/quality/PUBLIC_API_AUDIT_2_0.md` and `docs/release/ROADMAP_2_0.md`.
+- Public API audit, 2.0 roadmap and 2.1 roadmap in `docs/quality/PUBLIC_API_AUDIT_2_0.md`, `docs/release/ROADMAP_2_0.md` and `docs/release/ROADMAP_2_1.md`.
+- Generated Skin Editor 2.1 Appearance coverage report in `docs/quality/SKIN_EDITOR_APPEARANCE_COVERAGE_2_1.md`.
 - GitHub-oriented contribution, validation and publishing documentation.
 
 Detailed version history lives in `CHANGELOG.md`; current stability notes and recommended next steps live in `STATUS.md`.
