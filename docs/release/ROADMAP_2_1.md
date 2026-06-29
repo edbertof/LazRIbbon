@@ -46,7 +46,7 @@ Deliver a post-2.0 package that feels easier to adopt and maintain:
 
 ## 2.1 Gates
 
-- `tools/check_project_consistency.ps1 -ExpectedVersion 2.0.0` passes.
+- `tools/check_project_consistency.ps1 -ExpectedVersion 2.1.0` passes.
 - `tools/export_skin_editor_2_1_coverage.ps1` regenerates the Skin Editor coverage report.
 - The Skin Editor opens, previews built-in skins and saves a self-contained `.skin` file.
 - The main demos compile with Lazarus 4.8.
@@ -67,4 +67,4 @@ The first generated Skin Editor 2.1 coverage report finds 87 published `Appearan
 
 ## Definition Of Done For 2.1
 
-LazRibbon 2.1 is ready when a developer can install 2.0, open the 2.1 Skin Editor, create a custom skin from a base, understand which visual groups changed, preview the result in realistic Ribbon states, save a self-contained `.skin` file and apply it in a demo without manual file copying or code changes.
+LazRibbon 2.1 is ready when a developer can install 2.1, open the 2.1 Skin Editor, create a custom skin from a base, understand which visual groups changed, preview the result in realistic Ribbon states, save a self-contained `.skin` file and apply it in a demo without manual file copying or code changes.

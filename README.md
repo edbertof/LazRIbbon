@@ -50,9 +50,9 @@ tools/LazRibbonSkinEditor/
 
 ## Current version
 
-This distribution is **LazRibbon 2.0.0 stable release**.
+This distribution is **LazRibbon 2.1.0 development release candidate**.
 
-The `2.0.0` build is the first stable LazRibbon release after the 2.0 release-candidate line. It keeps the package metadata and public release label aligned at `2.0.0`, preserves the validated API-freeze surface from `2.0.0-rc1`, includes the illustrated/manual documentation package from `2.0.0-rc2`, and includes the release ZIP audit fix validated in `2.0.0-rc3`. The public release notes are in `docs/release/RELEASE_2_0_0.md`.
+The `2.1.0` build starts the post-2.0 Skin Editor workflow line. It keeps the 2.0 public API direction, advances runtime and design-time package metadata to `2.1.0`, and adds a grouped base-difference summary to the standalone Skin Editor validation report. The public release notes are in `docs/release/RELEASE_2_1_0.md`; the stable 2.0 baseline remains documented in `docs/release/RELEASE_2_0_0.md`.
 
 ## Post-2.0 development
 
@@ -72,9 +72,10 @@ The public screenshot set is generated with `tools/capture_release_screenshots.p
 
 ![LazRibbon Skin Editor](docs/assets/screenshots/skin-editor.png)
 
-Highlights in LazRibbon 2.0:
+Highlights in the current LazRibbon line:
 
-- Package metadata, public ZIP label and Git tag are aligned on `2.0.0`.
+- Runtime and design-time package metadata are aligned on `2.1.0`.
+- The Skin Editor validation report groups base differences by identity, icons/preview, palette and `Appearance` section before listing detailed changes.
 - Release scripts support separate package and public release labels through `-Version` and `-ReleaseVersion`.
 - Release ZIP directory audits correctly handle single-segment relative paths in extracted source trees.
 - Illustrated Markdown and DOCX manuals are available in `docs/manual/`.
@@ -273,14 +274,14 @@ powershell -ExecutionPolicy Bypass -File tools/build_all_projects.ps1 -CleanArti
 To validate the package from an extracted clean source tree:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File tools/verify_clean_checkout.ps1 -Version 2.0.0 -ReleaseVersion 2.0.0
+powershell -ExecutionPolicy Bypass -File tools/verify_clean_checkout.ps1 -Version 2.1.0 -ReleaseVersion 2.1.0
 ```
 
 For a complete release preflight, including consistency checks and ZIP
 audit:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File tools/verify_release_candidate.ps1 -Version 2.0.0 -ReleaseVersion 2.0.0 -OutputDirectory D:\Ribbon4Lazarus\Releases
+powershell -ExecutionPolicy Bypass -File tools/verify_release_candidate.ps1 -Version 2.1.0 -ReleaseVersion 2.1.0 -OutputDirectory D:\Ribbon4Lazarus\Releases
 ```
 
 The purpose of each demo is documented in

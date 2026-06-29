@@ -1,3 +1,10 @@
+## 2.1.0 check
+
+- Package metadata updated to 2.1.0 for the runtime and design-time packages.
+- Public release ZIP/tag label is `2.1.0` through the `-ReleaseVersion` workflow.
+- The final release preflight validates the full build matrix, clean checkout install path and release ZIP hygiene before publishing.
+- Public ZIP created as `LazRibbon_2.1.0_source_20260629_172528.zip` with SHA256 `4D5F82C7DC7DF232B57A4BC786A132EFFEE68F56C657E965CE6BA4C986BD9AAC`.
+
 ## 2.0.0 check
 
 - Package metadata remains 2.0.0 for the runtime and design-time packages.

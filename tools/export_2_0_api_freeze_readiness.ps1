@@ -209,7 +209,12 @@ $out.Add('')
 if ($reviewCount -eq 0) {
   $manualGateNames = @($gates | Where-Object { $_.Status -eq 'Manual' } | ForEach-Object { $_.Gate })
   if ($manualGateNames.Count -eq 0) {
-    $out.Add('The API freeze artifacts are ready for the stable 2.0 release, and no tracked gate currently needs review or manual validation.')
+    if ($runtimeVersion -eq '2.0.0') {
+      $out.Add('The API freeze artifacts are ready for the stable 2.0 release, and no tracked gate currently needs review or manual validation.')
+    }
+    else {
+      $out.Add('The 2.0 API freeze artifacts remain ready and are being used as the baseline for the current 2.x release work. No tracked gate currently needs review or manual validation.')
+    }
   }
   else {
     $out.Add('The API freeze artifacts are ready for continued release work. Remaining manual release gates: ' + ($manualGateNames -join '; ') + '.')

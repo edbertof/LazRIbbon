@@ -1,8 +1,13 @@
 ## Unreleased
 
+- No unreleased changes.
+
+## 2.1.0 - Skin Editor workflow start
+
 - Starts the post-2.0 development line with `docs/release/ROADMAP_2_1.md`.
 - Adds `tools/export_skin_editor_2_1_coverage.ps1` and the generated `docs/quality/SKIN_EDITOR_APPEARANCE_COVERAGE_2_1.md` report to guide the Skin Editor 2.1 pass.
-- Documents the first 2.1 focus: improve the standalone Skin Editor workflow around the existing complete `Appearance` model without destabilizing the 2.0 public API.
+- Adds a grouped base-difference summary to the standalone Skin Editor validation report, covering identity, icons/preview, palette and each `Appearance` section.
+- Updates runtime and design-time package metadata to `2.1.0`.
 
 ## 2.0.0 - Stable release
 

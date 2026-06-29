@@ -1653,6 +1653,7 @@ const
 var
   Lines: TStringList;
   DiffLines: TStringList;
+  DifferenceSummary: TStringList;
   ErrorCount, WarningCount, InfoCount, OkCount: Integer;
   DifferenceCount, DifferenceDetailCount: Integer;
   P: TLazRibbonSkinPalette;
@@ -1752,9 +1753,33 @@ var
       Result := 'sem dados';
   end;
 
-  procedure AddBaseDifference(const ACaption, ABaseValue, ACurrentValue: String);
+  procedure RegisterDifferenceGroup(const AGroup: String);
+  var
+    Key: String;
+    Index, Count: Integer;
+  begin
+    if DifferenceSummary = nil then
+      Exit;
+
+    Key := Trim(AGroup);
+    if Key = '' then
+      Key := 'Outros';
+
+    Index := DifferenceSummary.IndexOfName(Key);
+    if Index < 0 then
+      DifferenceSummary.Add(Key + '=1')
+    else
+    begin
+      Count := StrToIntDef(DifferenceSummary.ValueFromIndex[Index], 0) + 1;
+      DifferenceSummary[Index] := Key + '=' + IntToStr(Count);
+    end;
+  end;
+
+  procedure AddBaseDifference(const ACaption, ABaseValue, ACurrentValue,
+    AGroup: String);
   begin
     Inc(DifferenceCount);
+    RegisterDifferenceGroup(AGroup);
     if DifferenceDetailCount >= MaxBaseComparisonDetails then
       Exit;
 
@@ -1764,16 +1789,19 @@ var
       CompactReportValue(ACurrentValue));
   end;
 
-  procedure CompareTextField(const ACaption, ABaseValue, ACurrentValue: String);
+  procedure CompareTextField(const ACaption, ABaseValue, ACurrentValue,
+    AGroup: String);
   begin
     if ABaseValue <> ACurrentValue then
-      AddBaseDifference(ACaption, ABaseValue, ACurrentValue);
+      AddBaseDifference(ACaption, ABaseValue, ACurrentValue, AGroup);
   end;
 
-  procedure CompareColorField(const ACaption: String; ABaseValue, ACurrentValue: TColor);
+  procedure CompareColorField(const ACaption: String; ABaseValue,
+    ACurrentValue: TColor; const AGroup: String);
   begin
     if ABaseValue <> ACurrentValue then
-      AddBaseDifference(ACaption, ColorToString(ABaseValue), ColorToString(ACurrentValue));
+      AddBaseDifference(ACaption, ColorToString(ABaseValue),
+        ColorToString(ACurrentValue), AGroup);
   end;
 
   procedure CompareAppearanceSection(ABaseSkin: TLazRibbonSkinDefinition;
@@ -1783,13 +1811,14 @@ var
     PropList: PPropList;
     PropCount, I: Integer;
     BaseProp, CurrentProp: PPropInfo;
-    PropName, BaseValue, CurrentValue: String;
+    PropName, BaseValue, CurrentValue, SectionCaption: String;
   begin
     BaseObj := AppearanceSectionObjectForSkin(ABaseSkin, ASection);
     CurrentObj := AppearanceSectionObjectForSkin(FCurrentSkin, ASection);
     if (BaseObj = nil) or (CurrentObj = nil) then
       Exit;
 
+    SectionCaption := AppearanceSectionCaption(ASection);
     PropList := nil;
     PropCount := GetPropList(CurrentObj, PropList);
     try
@@ -1807,13 +1836,30 @@ var
         BaseValue := FormatAppearancePropertyValue(BaseObj, BaseProp);
         CurrentValue := FormatAppearancePropertyValue(CurrentObj, CurrentProp);
         if BaseValue <> CurrentValue then
-          AddBaseDifference('Appearance.' + AppearanceSectionCaption(ASection) +
-            '.' + PropName, BaseValue, CurrentValue);
+          AddBaseDifference('Appearance.' + SectionCaption + '.' + PropName,
+            BaseValue, CurrentValue, 'Appearance.' + SectionCaption);
       end;
     finally
       if PropList <> nil then
         FreeMem(PropList);
     end;
+  end;
+
+  procedure AddDifferenceSummary;
+  var
+    I: Integer;
+  begin
+    Lines.Add('Resumo de mudancas');
+    Lines.Add('-------------------');
+    if DifferenceSummary.Count = 0 then
+      Lines.Add('  Nenhuma mudanca auditada em relacao a base.')
+    else
+      for I := 0 to DifferenceSummary.Count - 1 do
+        Lines.Add(Format('  - %s: %s', [
+          DifferenceSummary.Names[I],
+          DifferenceSummary.ValueFromIndex[I]
+        ]));
+    Lines.Add('');
   end;
 
   procedure AddBaseComparison;
@@ -1844,43 +1890,44 @@ var
     DifferenceCount := 0;
     DifferenceDetailCount := 0;
     DiffLines.Clear;
+    DifferenceSummary.Clear;
 
-    CompareTextField('Nome interno', BaseSkin.Name, FCurrentSkin.Name);
-    CompareTextField('Nome exibido', BaseSkin.DisplayName, FCurrentSkin.DisplayName);
-    CompareTextField('Grupo', BaseSkin.GroupName, FCurrentSkin.GroupName);
-    CompareTextField('Autor', BaseSkin.Author, FCurrentSkin.Author);
-    CompareTextField('Descricao', BaseSkin.Description, FCurrentSkin.Description);
-    CompareTextField('Icone 16x16 arquivo', BaseSkin.Icon16FileName, FCurrentSkin.Icon16FileName);
-    CompareTextField('Icone 24x24 arquivo', BaseSkin.Icon24FileName, FCurrentSkin.Icon24FileName);
-    CompareTextField('Icone 32x32 arquivo', BaseSkin.Icon32FileName, FCurrentSkin.Icon32FileName);
-    CompareTextField('Icone 16x16 dados', EmbeddedDataState(BaseSkin.Icon16Data), EmbeddedDataState(FCurrentSkin.Icon16Data));
-    CompareTextField('Icone 24x24 dados', EmbeddedDataState(BaseSkin.Icon24Data), EmbeddedDataState(FCurrentSkin.Icon24Data));
-    CompareTextField('Icone 32x32 dados', EmbeddedDataState(BaseSkin.Icon32Data), EmbeddedDataState(FCurrentSkin.Icon32Data));
-    CompareTextField('Imagem de preview', BaseSkin.PreviewImageFileName, FCurrentSkin.PreviewImageFileName);
+    CompareTextField('Nome interno', BaseSkin.Name, FCurrentSkin.Name, 'Identidade');
+    CompareTextField('Nome exibido', BaseSkin.DisplayName, FCurrentSkin.DisplayName, 'Identidade');
+    CompareTextField('Grupo', BaseSkin.GroupName, FCurrentSkin.GroupName, 'Identidade');
+    CompareTextField('Autor', BaseSkin.Author, FCurrentSkin.Author, 'Identidade');
+    CompareTextField('Descricao', BaseSkin.Description, FCurrentSkin.Description, 'Identidade');
+    CompareTextField('Icone 16x16 arquivo', BaseSkin.Icon16FileName, FCurrentSkin.Icon16FileName, 'Icones e preview');
+    CompareTextField('Icone 24x24 arquivo', BaseSkin.Icon24FileName, FCurrentSkin.Icon24FileName, 'Icones e preview');
+    CompareTextField('Icone 32x32 arquivo', BaseSkin.Icon32FileName, FCurrentSkin.Icon32FileName, 'Icones e preview');
+    CompareTextField('Icone 16x16 dados', EmbeddedDataState(BaseSkin.Icon16Data), EmbeddedDataState(FCurrentSkin.Icon16Data), 'Icones e preview');
+    CompareTextField('Icone 24x24 dados', EmbeddedDataState(BaseSkin.Icon24Data), EmbeddedDataState(FCurrentSkin.Icon24Data), 'Icones e preview');
+    CompareTextField('Icone 32x32 dados', EmbeddedDataState(BaseSkin.Icon32Data), EmbeddedDataState(FCurrentSkin.Icon32Data), 'Icones e preview');
+    CompareTextField('Imagem de preview', BaseSkin.PreviewImageFileName, FCurrentSkin.PreviewImageFileName, 'Icones e preview');
 
     BasePalette := BaseSkin.Palette;
     CurrentPalette := FCurrentSkin.Palette;
-    CompareColorField('Palette.BackColor', BasePalette.BackColor, CurrentPalette.BackColor);
-    CompareColorField('Palette.TextColor', BasePalette.TextColor, CurrentPalette.TextColor);
-    CompareColorField('Palette.MutedTextColor', BasePalette.MutedTextColor, CurrentPalette.MutedTextColor);
-    CompareColorField('Palette.FrameColor', BasePalette.FrameColor, CurrentPalette.FrameColor);
-    CompareColorField('Palette.NavigationColor', BasePalette.NavigationColor, CurrentPalette.NavigationColor);
-    CompareColorField('Palette.ActiveColor', BasePalette.ActiveColor, CurrentPalette.ActiveColor);
-    CompareColorField('Palette.HotColor', BasePalette.HotColor, CurrentPalette.HotColor);
-    CompareColorField('Palette.RibbonTopColor', BasePalette.RibbonTopColor, CurrentPalette.RibbonTopColor);
-    CompareColorField('Palette.RibbonBottomColor', BasePalette.RibbonBottomColor, CurrentPalette.RibbonBottomColor);
-    CompareColorField('Palette.RibbonTabActiveColor', BasePalette.RibbonTabActiveColor, CurrentPalette.RibbonTabActiveColor);
-    CompareColorField('Palette.RibbonTabHotColor', BasePalette.RibbonTabHotColor, CurrentPalette.RibbonTabHotColor);
-    CompareColorField('Palette.RibbonGroupColor', BasePalette.RibbonGroupColor, CurrentPalette.RibbonGroupColor);
-    CompareColorField('Palette.RibbonGroupFrameColor', BasePalette.RibbonGroupFrameColor, CurrentPalette.RibbonGroupFrameColor);
-    CompareColorField('Palette.BackstageNavColor', BasePalette.BackstageNavColor, CurrentPalette.BackstageNavColor);
-    CompareColorField('Palette.BackstageNavTextColor', BasePalette.BackstageNavTextColor, CurrentPalette.BackstageNavTextColor);
-    CompareColorField('Palette.BackstageNavMutedTextColor', BasePalette.BackstageNavMutedTextColor, CurrentPalette.BackstageNavMutedTextColor);
-    CompareColorField('Palette.BackstageNavHoverColor', BasePalette.BackstageNavHoverColor, CurrentPalette.BackstageNavHoverColor);
-    CompareColorField('Palette.BackstageNavHoverTextColor', BasePalette.BackstageNavHoverTextColor, CurrentPalette.BackstageNavHoverTextColor);
-    CompareColorField('Palette.BackstageNavSelectedColor', BasePalette.BackstageNavSelectedColor, CurrentPalette.BackstageNavSelectedColor);
-    CompareColorField('Palette.BackstageNavSelectedTextColor', BasePalette.BackstageNavSelectedTextColor, CurrentPalette.BackstageNavSelectedTextColor);
-    CompareColorField('Palette.BackstageNavSelectedFrameColor', BasePalette.BackstageNavSelectedFrameColor, CurrentPalette.BackstageNavSelectedFrameColor);
+    CompareColorField('Palette.BackColor', BasePalette.BackColor, CurrentPalette.BackColor, 'Paleta');
+    CompareColorField('Palette.TextColor', BasePalette.TextColor, CurrentPalette.TextColor, 'Paleta');
+    CompareColorField('Palette.MutedTextColor', BasePalette.MutedTextColor, CurrentPalette.MutedTextColor, 'Paleta');
+    CompareColorField('Palette.FrameColor', BasePalette.FrameColor, CurrentPalette.FrameColor, 'Paleta');
+    CompareColorField('Palette.NavigationColor', BasePalette.NavigationColor, CurrentPalette.NavigationColor, 'Paleta');
+    CompareColorField('Palette.ActiveColor', BasePalette.ActiveColor, CurrentPalette.ActiveColor, 'Paleta');
+    CompareColorField('Palette.HotColor', BasePalette.HotColor, CurrentPalette.HotColor, 'Paleta');
+    CompareColorField('Palette.RibbonTopColor', BasePalette.RibbonTopColor, CurrentPalette.RibbonTopColor, 'Paleta');
+    CompareColorField('Palette.RibbonBottomColor', BasePalette.RibbonBottomColor, CurrentPalette.RibbonBottomColor, 'Paleta');
+    CompareColorField('Palette.RibbonTabActiveColor', BasePalette.RibbonTabActiveColor, CurrentPalette.RibbonTabActiveColor, 'Paleta');
+    CompareColorField('Palette.RibbonTabHotColor', BasePalette.RibbonTabHotColor, CurrentPalette.RibbonTabHotColor, 'Paleta');
+    CompareColorField('Palette.RibbonGroupColor', BasePalette.RibbonGroupColor, CurrentPalette.RibbonGroupColor, 'Paleta');
+    CompareColorField('Palette.RibbonGroupFrameColor', BasePalette.RibbonGroupFrameColor, CurrentPalette.RibbonGroupFrameColor, 'Paleta');
+    CompareColorField('Palette.BackstageNavColor', BasePalette.BackstageNavColor, CurrentPalette.BackstageNavColor, 'Paleta');
+    CompareColorField('Palette.BackstageNavTextColor', BasePalette.BackstageNavTextColor, CurrentPalette.BackstageNavTextColor, 'Paleta');
+    CompareColorField('Palette.BackstageNavMutedTextColor', BasePalette.BackstageNavMutedTextColor, CurrentPalette.BackstageNavMutedTextColor, 'Paleta');
+    CompareColorField('Palette.BackstageNavHoverColor', BasePalette.BackstageNavHoverColor, CurrentPalette.BackstageNavHoverColor, 'Paleta');
+    CompareColorField('Palette.BackstageNavHoverTextColor', BasePalette.BackstageNavHoverTextColor, CurrentPalette.BackstageNavHoverTextColor, 'Paleta');
+    CompareColorField('Palette.BackstageNavSelectedColor', BasePalette.BackstageNavSelectedColor, CurrentPalette.BackstageNavSelectedColor, 'Paleta');
+    CompareColorField('Palette.BackstageNavSelectedTextColor', BasePalette.BackstageNavSelectedTextColor, CurrentPalette.BackstageNavSelectedTextColor, 'Paleta');
+    CompareColorField('Palette.BackstageNavSelectedFrameColor', BasePalette.BackstageNavSelectedFrameColor, CurrentPalette.BackstageNavSelectedFrameColor, 'Paleta');
 
     for I := Low(Sections) to High(Sections) do
       CompareAppearanceSection(BaseSkin, Sections[I]);
@@ -1891,6 +1938,9 @@ var
     begin
       AddMessage('INFO', Format('Foram encontradas %d diferencas em relacao a base em foco.',
         [DifferenceCount]));
+      AddDifferenceSummary;
+      Lines.Add('Detalhes das mudancas');
+      Lines.Add('---------------------');
       Lines.AddStrings(DiffLines);
       if DifferenceCount > DifferenceDetailCount then
         Lines.Add(Format('  ... mais %d diferencas omitidas para manter o relatorio legivel.',
@@ -1904,6 +1954,7 @@ begin
 
   Lines := TStringList.Create;
   DiffLines := TStringList.Create;
+  DifferenceSummary := TStringList.Create;
   try
     ErrorCount := 0;
     WarningCount := 0;
@@ -1986,6 +2037,7 @@ begin
     else
       lblValidationSummary.Font.Color := clGreen;
   finally
+    DifferenceSummary.Free;
     DiffLines.Free;
     Lines.Free;
   end;

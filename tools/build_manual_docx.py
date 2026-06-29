@@ -215,7 +215,7 @@ def add_cover(doc: Document, title: str, subtitle: str) -> None:
     set_table_width(table, [6.5])
     cell = table.cell(0, 0)
     set_cell_shading(cell, "E8EEF5")
-    set_cell_text(cell, "Target: LazRibbon 2.0.0 | Lazarus 4.8 | Generated from repository documentation")
+    set_cell_text(cell, "Target: LazRibbon 2.1.0 | Lazarus 4.8 | Generated from repository documentation")
     doc.add_paragraph()
 
 
@@ -360,7 +360,7 @@ def build_docx(md_file: Path, out_file: Path, title: str, subtitle: str) -> None
 
     footer = doc.sections[0].footer.paragraphs[0]
     footer.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-    run = footer.add_run("LazRibbon 2.0.0")
+    run = footer.add_run("LazRibbon 2.1.0")
     run.font.size = Pt(9)
     run.font.color.rgb = RGBColor(85, 85, 85)
 
