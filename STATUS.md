@@ -1,6 +1,8 @@
 # LazRibbon Status
 
-`2.1.1 - Skin Editor preview states` is the current build.
+`2.1.2 - Skin Editor workflow UX` is the current build.
+
+The `2.1.2` build continues the post-2.0 Skin Editor workflow line. Runtime and design-time package metadata are now `2.1.2`, and the standalone Skin Editor has a clearer top workflow strip, visible quick actions for creating/opening/saving skins, numbered workflow pages, contextual guidance and safer base switching while a custom skin is being edited. No new published component API was added.
 
 The `2.1.1` build continues the post-2.0 Skin Editor workflow line. Runtime and design-time package metadata are now `2.1.1`, and the standalone Skin Editor live Ribbon preview now exercises disabled large/small commands, toggle and dropdown buttons, checked/disabled checkboxes and multiple Dialog Launcher samples. This makes skin validation more realistic without adding new published component API.
 

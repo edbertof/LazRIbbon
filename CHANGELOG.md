@@ -2,6 +2,13 @@
 
 - No unreleased changes.
 
+## 2.1.2 - Skin Editor workflow UX
+
+- Adds a compact workflow strip to the standalone Skin Editor with base selection, `Nova pela base`, `Abrir...` and `Salvar...` actions visible near the live preview.
+- Renames the main Skin Editor pages as numbered steps so the create/edit/validate path is easier to follow.
+- Adds contextual step guidance and safer base switching: changing the focused base no longer replaces a skin already being edited.
+- Updates runtime and design-time package metadata to `2.1.2`.
+
 ## 2.1.1 - Skin Editor preview states
 
 - Expands the standalone Skin Editor live Ribbon preview with disabled large/small commands, toggle and dropdown buttons, an additional disabled checkbox and multiple Dialog Launcher samples.

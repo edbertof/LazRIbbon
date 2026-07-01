@@ -88,6 +88,9 @@ type
     btnIcon32: TButton;
     btnPreviewImage: TButton;
     btnRefreshValidation: TButton;
+    btnTopNewFromBase: TButton;
+    btnTopOpen: TButton;
+    btnTopSave: TButton;
     imgSkinIcon: TImage;
     lblAuthor: TLabel;
     lblBaseSkin: TLabel;
@@ -192,12 +195,14 @@ type
     procedure btnRefreshValidationClick(Sender: TObject);
     procedure btnSaveAsClick(Sender: TObject);
     procedure BaseGallerySkinSelected(Sender: TObject);
+    procedure cbBaseSkinChange(Sender: TObject);
     procedure ColorPanelClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure IconFileButtonClick(Sender: TObject);
     procedure lstSkinsClick(Sender: TObject);
     procedure MetadataChanged(Sender: TObject);
+    procedure pcMainChange(Sender: TObject);
   private
     FManager: TLazRibbonSkinManager;
     FCurrentSkin: TLazRibbonSkinDefinition;
@@ -225,7 +230,9 @@ type
     procedure RefreshIconPreview;
     procedure RefreshValidationReport;
     procedure SetupPreviewToolbar;
+    procedure SetupWorkflowGuide;
     procedure SyncLivePreviewHeight;
+    procedure UpdateWorkflowGuide(const AStatusText: String = '');
     procedure PreviewToolbarRibbonMinimizedChanged(Sender: TObject);
     procedure ApplyCurrentSkinToPreview;
     procedure RefreshSkinList;
@@ -270,6 +277,7 @@ type
       ASection: TLazRibbonSkinAppearanceSection): TPersistent;
     function CopyAppearancePropertyValue(ABaseObj, ACurrentObj: TPersistent;
       const APropName: String; out AErrorMessage: String): Boolean;
+    function CurrentSkinIsEditable: Boolean;
     function SelectedBaseSkin: TLazRibbonSkinDefinition;
     function SafeSkinIdentifier(const AValue: String): String;
     function UniqueCustomSkinIdentifier(ABaseSkin: TLazRibbonSkinDefinition): String;
@@ -398,10 +406,10 @@ begin
   Constraints.MinHeight := 620;
 
   lblLivePreview.Caption := 'Pré-visualização da skin em tempo real';
-  lblStatus.Caption := 'Pronto. Use a galeria de bases no Ribbon para visualizar skins e o menu Arquivo para criar ou abrir uma skin editável.';
-  lblBaseSkin.Caption := 'Base em foco:';
-  lblBaseHint.Caption := 'Visualizando base. Para editar, use Arquivo > Nova skin pela base.';
-  cbBaseSkin.Enabled := False;
+  lblStatus.Caption := 'Escolha uma base, clique em Nova pela base, ajuste as cores, valide e salve a skin.';
+  lblBaseSkin.Caption := 'Base:';
+  lblBaseHint.Caption := 'Escolha uma base, crie uma skin editável, ajuste as cores, valide e salve.';
+  cbBaseSkin.Enabled := True;
   lblSkinListTitle.Caption := 'Bases disponíveis';
   { Runtime layout polish: keep the real Ribbon as the first visual element and
     place the compact base-context strip immediately below it. This also keeps
@@ -418,13 +426,14 @@ begin
     pnlTop.Visible := True;
   end;
   if Assigned(lblWorkflow) then
-    lblWorkflow.Visible := False;
+    lblWorkflow.Visible := True;
   FFullAppearanceEdited := False;
 
   BindColorPanels;
   CreateAdvancedColorPanels;
   CreateMetadataAssetControls;
   ApplyInternalTabLayout;
+  SetupWorkflowGuide;
 
   PreviewSkinManager.AutoRefreshControls := True;
   PreviewSkinManager.LoadBuiltInSkins;
@@ -454,7 +463,9 @@ begin
   begin
     LoadSkinToEditor(PreviewSkinManager.SkinByIndex(0));
     cbBaseSkin.ItemIndex := 0;
-    lblBaseHint.Caption := 'Visualizando base: ' + PreviewSkinManager.SkinByIndex(0).DisplayName + '. Para editar, use Arquivo > Nova skin pela base.';
+    UpdateWorkflowGuide('Base em foco: ' +
+      PreviewSkinManager.SkinByIndex(0).DisplayName +
+      '. Clique em Nova pela base para iniciar uma skin editável.');
   end;
 end;
 
@@ -1263,8 +1274,8 @@ begin
   RefreshAppearanceInspector;
   ApplyCurrentSkinToPreview;
   UpdateAppearanceModeLabel;
-  lblStatus.Caption := 'Appearance atualizado em ' +
-    AppearanceSectionCaption(ABinding.Section) + '.' + ABinding.PropName + '.';
+  UpdateWorkflowGuide('Appearance atualizado em ' +
+    AppearanceSectionCaption(ABinding.Section) + '.' + ABinding.PropName + '.');
   RefreshValidationReport;
 end;
 
@@ -1367,8 +1378,8 @@ begin
   ApplyCurrentSkinToPreview;
   UpdateAppearanceModeLabel;
   RefreshValidationReport;
-  lblStatus.Caption := 'Appearance restaurado da base em ' +
-    AppearanceSectionCaption(ABinding.Section) + '.' + ABinding.PropName + '.';
+  UpdateWorkflowGuide('Appearance restaurado da base em ' +
+    AppearanceSectionCaption(ABinding.Section) + '.' + ABinding.PropName + '.');
 end;
 
 procedure TfrmLazRibbonSkinEditor.cbAppearanceSectionChange(Sender: TObject);
@@ -2384,7 +2395,7 @@ begin
   if Assigned(lblAppearanceMode) then
   begin
     if FFullAppearanceEdited then
-      lblAppearanceMode.Caption := 'Modo atual: ajustes visuais detalhados preservados. Alteracoes nas cores simples atualizam a paleta salva, mas nao recalculam automaticamente o Appearance detalhado.'
+      lblAppearanceMode.Caption := 'Modo atual: ajustes visuais detalhados preservados. Alterações nas cores simples atualizam a paleta salva, mas não recalculam automaticamente o Appearance detalhado.'
     else
       lblAppearanceMode.Caption := 'Modo atual: paleta simples controla o Appearance. Este é o modo recomendado para criar skins de forma rápida e previsível.';
   end;
@@ -2392,9 +2403,146 @@ begin
   if Assigned(lblHintSimple) then
   begin
     if FFullAppearanceEdited then
-      lblHintSimple.Caption := 'Clique em uma amostra de cor. A paleta sera atualizada, mas os ajustes visuais detalhados do Appearance serao preservados ate voce usar "Sincronizar paleta -> Appearance".'
+      lblHintSimple.Caption := 'Clique em uma amostra de cor. A paleta será atualizada, mas os ajustes visuais detalhados do Appearance serão preservados até você usar "Sincronizar paleta -> Appearance".'
     else
       lblHintSimple.Caption := 'Clique em uma amostra de cor. O editor atualiza a paleta e aplica o resultado imediatamente no LazRibbon real acima.';
+  end;
+end;
+
+procedure TfrmLazRibbonSkinEditor.SetupWorkflowGuide;
+begin
+  if Assigned(tabMetadata) then tabMetadata.Caption := '1 Identidade';
+  if Assigned(tabSimpleColors) then tabSimpleColors.Caption := '2 Cores do Ribbon';
+  if Assigned(tabBackstage) then tabBackstage.Caption := '3 BackStage';
+  if Assigned(tabPreview) then tabPreview.Caption := '4 Validar e salvar';
+  if Assigned(tabAdvanced) then tabAdvanced.Caption := 'Avançado';
+
+  if Assigned(pnlTop) then
+  begin
+    pnlTop.Height := 30;
+    pnlTop.Visible := True;
+  end;
+
+  if Assigned(lblBaseSkin) then
+  begin
+    lblBaseSkin.Caption := 'Base:';
+    lblBaseSkin.SetBounds(10, 8, 32, 13);
+  end;
+
+  if Assigned(cbBaseSkin) then
+  begin
+    cbBaseSkin.Enabled := True;
+    cbBaseSkin.SetBounds(48, 4, 200, 21);
+    cbBaseSkin.OnChange := @cbBaseSkinChange;
+  end;
+
+  if Assigned(btnTopNewFromBase) then
+  begin
+    btnTopNewFromBase.SetBounds(258, 3, 112, 24);
+    btnTopNewFromBase.Caption := 'Nova pela base';
+    btnTopNewFromBase.OnClick := @btnNewFromBaseClick;
+  end;
+
+  if Assigned(btnTopOpen) then
+  begin
+    btnTopOpen.SetBounds(376, 3, 68, 24);
+    btnTopOpen.Caption := 'Abrir...';
+    btnTopOpen.OnClick := @btnOpenClick;
+  end;
+
+  if Assigned(btnTopSave) then
+  begin
+    btnTopSave.SetBounds(450, 3, 72, 24);
+    btnTopSave.Caption := 'Salvar...';
+    btnTopSave.OnClick := @btnSaveAsClick;
+  end;
+
+  if Assigned(lblWorkflow) then
+  begin
+    lblWorkflow.Caption := 'Etapa:';
+    lblWorkflow.Visible := True;
+    lblWorkflow.SetBounds(536, 8, 42, 13);
+  end;
+
+  if Assigned(lblBaseHint) then
+    lblBaseHint.SetBounds(582, 8, 390, 13);
+
+  if Assigned(pcMain) then
+    pcMain.OnChange := @pcMainChange;
+
+  if Assigned(btnRefreshValidation) then
+    btnRefreshValidation.Caption := 'Atualizar relatório';
+
+  UpdateWorkflowGuide;
+end;
+
+procedure TfrmLazRibbonSkinEditor.UpdateWorkflowGuide(const AStatusText: String);
+var
+  ShortHint, StatusHint, ContextText, SkinText: String;
+  BaseSkin: TLazRibbonSkinDefinition;
+begin
+  ShortHint := 'Escolha uma base';
+  StatusHint := 'Escolha uma base, clique em Nova pela base, ajuste as cores, valide e salve a skin.';
+
+  if Assigned(pcMain) then
+  begin
+    if pcMain.ActivePage = tabMetadata then
+    begin
+      ShortHint := 'identifique a skin';
+      StatusHint := 'Etapa 1: defina nome interno, nome exibido, autoria e ícones opcionais.';
+    end
+    else if pcMain.ActivePage = tabSimpleColors then
+    begin
+      ShortHint := 'ajuste cores principais';
+      StatusHint := 'Etapa 2: clique nas amostras de cor e acompanhe o resultado no Ribbon acima.';
+    end
+    else if pcMain.ActivePage = tabBackstage then
+    begin
+      ShortHint := 'ajuste o BackStage';
+      StatusHint := 'Etapa 3: ajuste as cores da área Arquivo/BackStage e verifique o contraste.';
+    end
+    else if pcMain.ActivePage = tabPreview then
+    begin
+      ShortHint := 'valide e salve';
+      StatusHint := 'Etapa 4: atualize o relatório, revise avisos e use Salvar para gerar o arquivo .skin.';
+    end
+    else if pcMain.ActivePage = tabAdvanced then
+    begin
+      ShortHint := 'ajuste fino opcional';
+      StatusHint := 'Avançado: use o editor visual ou o inspetor RTTI somente quando a paleta simples não for suficiente.';
+    end;
+  end;
+
+  ContextText := 'Base';
+  SkinText := '';
+  if FCurrentSkin <> nil then
+  begin
+    SkinText := Trim(FCurrentSkin.DisplayName);
+    if SkinText = '' then
+      SkinText := Trim(FCurrentSkin.Name);
+    if FCurrentSkin.Source in [sssCustom, sssExternal] then
+      ContextText := 'Editando';
+  end;
+
+  if SkinText = '' then
+  begin
+    BaseSkin := SelectedBaseSkin;
+    if BaseSkin <> nil then
+      SkinText := BaseSkin.DisplayName;
+  end;
+
+  if SkinText = '' then
+    SkinText := '(nenhuma skin)';
+
+  if Assigned(lblBaseHint) then
+    lblBaseHint.Caption := ContextText + ': ' + SkinText + ' | ' + ShortHint;
+
+  if Assigned(lblStatus) then
+  begin
+    if Trim(AStatusText) <> '' then
+      lblStatus.Caption := AStatusText
+    else
+      lblStatus.Caption := StatusHint;
   end;
 end;
 
@@ -2500,6 +2648,16 @@ begin
       AField := F;
       Exit(True);
     end;
+end;
+
+function TfrmLazRibbonSkinEditor.CurrentSkinIsEditable: Boolean;
+begin
+  Result := (FCurrentSkin <> nil) and
+    (FCurrentSkin.Source in [sssCustom, sssExternal]) and
+    ((Trim(FCurrentSkin.Name) <> '') or
+     (Trim(FCurrentSkin.DisplayName) <> '') or
+     (Trim(FCurrentSkin.Author) <> '') or
+     (Trim(FCurrentSkin.Description) <> ''));
 end;
 
 function TfrmLazRibbonSkinEditor.SelectedBaseSkin: TLazRibbonSkinDefinition;
@@ -2672,12 +2830,66 @@ begin
   if Skin = nil then Exit;
 
   if cbBaseSkin.Items.Count > 0 then
-    cbBaseSkin.ItemIndex := cbBaseSkin.Items.IndexOfObject(Skin);
+  begin
+    FUpdating := True;
+    try
+      cbBaseSkin.ItemIndex := cbBaseSkin.Items.IndexOfObject(Skin);
+    finally
+      FUpdating := False;
+    end;
+  end;
+
+  if CurrentSkinIsEditable then
+  begin
+    RefreshAppearanceInspector;
+    RefreshValidationReport;
+    UpdateWorkflowGuide('Base para comparação e novas skins: ' + Skin.DisplayName +
+      '. A skin em edição foi mantida.');
+    Exit;
+  end;
 
   FFullAppearanceEdited := False;
   LoadSkinToEditor(Skin);
-  lblBaseHint.Caption := 'Visualizando base: ' + Skin.DisplayName + '. Para editar, use Arquivo > Nova skin pela base.';
-  lblStatus.Caption := 'Base em foco: ' + Skin.DisplayName + '. Use Arquivo > Nova skin pela base para iniciar uma skin editável.';
+  UpdateWorkflowGuide('Base em foco: ' + Skin.DisplayName +
+    '. Clique em Nova pela base para iniciar uma skin editável.');
+end;
+
+procedure TfrmLazRibbonSkinEditor.cbBaseSkinChange(Sender: TObject);
+var
+  Skin: TLazRibbonSkinDefinition;
+  OldHandler: TNotifyEvent;
+begin
+  if FUpdating or (cbBaseSkin.ItemIndex < 0) then
+    Exit;
+
+  Skin := TLazRibbonSkinDefinition(cbBaseSkin.Items.Objects[cbBaseSkin.ItemIndex]);
+  if Skin = nil then
+    Exit;
+
+  if Assigned(PreviewBaseGallery) then
+  begin
+    OldHandler := PreviewBaseGallery.OnSkinSelected;
+    PreviewBaseGallery.OnSkinSelected := nil;
+    try
+      PreviewBaseGallery.SelectedSkinName := Skin.Name;
+    finally
+      PreviewBaseGallery.OnSkinSelected := OldHandler;
+    end;
+  end;
+
+  if CurrentSkinIsEditable then
+  begin
+    RefreshAppearanceInspector;
+    RefreshValidationReport;
+    UpdateWorkflowGuide('Base para comparação e novas skins: ' + Skin.DisplayName +
+      '. A skin em edição foi mantida.');
+    Exit;
+  end;
+
+  FFullAppearanceEdited := False;
+  LoadSkinToEditor(Skin);
+  UpdateWorkflowGuide('Base em foco: ' + Skin.DisplayName +
+    '. Clique em Nova pela base para iniciar uma skin editável.');
 end;
 
 procedure TfrmLazRibbonSkinEditor.lstSkinsClick(Sender: TObject);
@@ -2701,6 +2913,14 @@ begin
      (Sender = edtPreviewImage) then
     RefreshIconPreview;
   RefreshValidationReport;
+  UpdateWorkflowGuide(lblStatus.Caption);
+end;
+
+procedure TfrmLazRibbonSkinEditor.pcMainChange(Sender: TObject);
+begin
+  if Assigned(pcMain) and (pcMain.ActivePage = tabPreview) then
+    RefreshValidationReport;
+  UpdateWorkflowGuide;
 end;
 
 procedure TfrmLazRibbonSkinEditor.ColorPanelClick(Sender: TObject);
@@ -2718,9 +2938,9 @@ begin
     UpdateAppearanceModeLabel;
     RefreshValidationReport;
     if FFullAppearanceEdited then
-      lblStatus.Caption := 'Cor atualizada na paleta. Os ajustes visuais detalhados do Appearance foram preservados.'
+      UpdateWorkflowGuide('Cor atualizada na paleta. Os ajustes visuais detalhados do Appearance foram preservados.')
     else
-      lblStatus.Caption := 'Cor atualizada. O Ribbon acima mostra o resultado imediatamente.';
+      UpdateWorkflowGuide('Cor atualizada. O Ribbon acima mostra o resultado imediatamente.');
   end;
 end;
 
@@ -2735,7 +2955,7 @@ begin
   ApplyCurrentSkinToPreview;
   UpdateAppearanceModeLabel;
   RefreshValidationReport;
-  lblStatus.Caption := 'Paleta sincronizada com o Appearance. Ajustes visuais detalhados anteriores foram substituidos pela paleta.';
+  UpdateWorkflowGuide('Paleta sincronizada com o Appearance. Ajustes visuais detalhados anteriores foram substituídos pela paleta.');
 end;
 
 procedure TfrmLazRibbonSkinEditor.OpenFullAppearanceEditor(AInitialPageIndex: Integer);
@@ -2762,7 +2982,7 @@ begin
       ApplyCurrentSkinToPreview;
       UpdateAppearanceModeLabel;
       RefreshValidationReport;
-      lblStatus.Caption := 'Appearance atualizado pelo editor visual. Use sincronizacao explicita para substituir esses ajustes pela paleta.';
+      UpdateWorkflowGuide('Appearance atualizado pelo editor visual. Use sincronização explícita para substituir esses ajustes pela paleta.');
     end;
   finally
     AppearanceEditor.Free;
@@ -2802,12 +3022,11 @@ begin
   FCurrentSkin.Notes := FCurrentSkin.Description;
   RefreshFullAppearanceEditedFromCurrentSkin;
   UpdateEditorFromSkin;
-  lblBaseHint.Caption := 'Editando nova skin baseada em: ' + BaseDisplayName + '.';
   RefreshValidationReport;
   if FFullAppearanceEdited then
-    lblStatus.Caption := 'Nova skin criada como copia completa de ' + BaseDisplayName + '. O Appearance detalhado da base sera preservado ate uma sincronizacao explicita.'
+    UpdateWorkflowGuide('Nova skin criada como cópia completa de ' + BaseDisplayName + '. O Appearance detalhado da base será preservado até uma sincronização explícita.')
   else
-    lblStatus.Caption := 'Nova skin criada com a paleta simples controlando o Appearance.';
+    UpdateWorkflowGuide('Nova skin criada com a paleta simples controlando o Appearance.');
 end;
 
 procedure TfrmLazRibbonSkinEditor.btnOpenClick(Sender: TObject);
@@ -2817,9 +3036,8 @@ begin
     FCurrentSkin.LoadFromFile(OpenDialog.FileName);
     RefreshFullAppearanceEditedFromCurrentSkin;
     UpdateEditorFromSkin;
-    lblBaseHint.Caption := 'Editando arquivo: ' + ExtractFileName(OpenDialog.FileName);
     RefreshValidationReport;
-    lblStatus.Caption := 'Skin carregada: ' + OpenDialog.FileName;
+    UpdateWorkflowGuide('Skin carregada: ' + OpenDialog.FileName);
   end;
 end;
 
@@ -2827,7 +3045,7 @@ procedure TfrmLazRibbonSkinEditor.btnRefreshValidationClick(Sender: TObject);
 begin
   UpdateSkinFromEditor;
   RefreshValidationReport;
-  lblStatus.Caption := 'Validacao da skin atualizada.';
+  UpdateWorkflowGuide('Validação da skin atualizada.');
 end;
 
 procedure TfrmLazRibbonSkinEditor.btnSaveAsClick(Sender: TObject);
@@ -2842,14 +3060,14 @@ begin
 
     if not ValidateCurrentSkinForSave then
     begin
-      lblStatus.Caption := 'Salvamento cancelado: a identificação da skin precisa ser corrigida.';
+      UpdateWorkflowGuide('Salvamento cancelado: a identificação da skin precisa ser corrigida.');
       Exit;
     end;
 
     FCurrentSkin.Source := sssExternal;
     FCurrentSkin.SaveToFile(SaveDialog.FileName);
     RefreshValidationReport;
-    lblStatus.Caption := 'Skin salva: ' + SaveDialog.FileName;
+    UpdateWorkflowGuide('Skin salva: ' + SaveDialog.FileName);
   end;
 end;
 

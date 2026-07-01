@@ -470,35 +470,62 @@ object frmLazRibbonSkinEditor: TfrmLazRibbonSkinEditor
       Left = 10
       Height = 13
       Top = 8
-      Width = 68
-      Caption = 'Base em foco:'
+      Width = 32
+      Caption = 'Base:'
       Layout = tlCenter
     end
     object lblWorkflow: TLabel
-      Left = 10
-      Height = 1
-      Top = 8
-      Width = 1
-      Font.Style = [fsBold]
-      ParentFont = False
-      Visible = False
-    end
-    object lblBaseHint: TLabel
-      Left = 392
+      Left = 536
       Height = 13
       Top = 8
-      Width = 321
-      Caption = 'Visualizando base. Para editar, use Arquivo > Nova skin pela base.'
+      Width = 42
+      Caption = 'Etapa:'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object lblBaseHint: TLabel
+      Left = 582
+      Height = 13
+      Top = 8
+      Width = 390
+      Caption = 'Escolha uma base, crie uma skin editável, ajuste as cores, valide e salve.'
     end
     object cbBaseSkin: TComboBox
-      Left = 118
+      Left = 48
       Height = 21
       Top = 4
-      Width = 258
-      Enabled = False
+      Width = 200
       ItemHeight = 13
       Style = csDropDownList
       TabOrder = 0
+      OnChange = cbBaseSkinChange
+    end
+    object btnTopNewFromBase: TButton
+      Left = 258
+      Height = 24
+      Top = 3
+      Width = 112
+      Caption = 'Nova pela base'
+      OnClick = btnNewFromBaseClick
+      TabOrder = 1
+    end
+    object btnTopOpen: TButton
+      Left = 376
+      Height = 24
+      Top = 3
+      Width = 68
+      Caption = 'Abrir...'
+      OnClick = btnOpenClick
+      TabOrder = 2
+    end
+    object btnTopSave: TButton
+      Left = 450
+      Height = 24
+      Top = 3
+      Width = 72
+      Caption = 'Salvar...'
+      OnClick = btnSaveAsClick
+      TabOrder = 3
     end
   end
   object pnlLeft: TPanel
@@ -575,8 +602,9 @@ object frmLazRibbonSkinEditor: TfrmLazRibbonSkinEditor
     BorderSpacing.Bottom = 8
     TabIndex = 0
     TabOrder = 4
+    OnChange = pcMainChange
     object tabMetadata: TTabSheet
-      Caption = 'Identidade'
+      Caption = '1 Identidade'
       ClientHeight = 474
       ClientWidth = 1036
       object pnlMetadata: TPanel
@@ -776,7 +804,7 @@ object frmLazRibbonSkinEditor: TfrmLazRibbonSkinEditor
       end
     end
     object tabSimpleColors: TTabSheet
-      Caption = 'Cores do Ribbon'
+      Caption = '2 Cores do Ribbon'
       ClientHeight = 474
       ClientWidth = 1036
       object pnlSimpleColors: TPanel
@@ -1023,10 +1051,10 @@ object frmLazRibbonSkinEditor: TfrmLazRibbonSkinEditor
       end
     end
     object tabBackstage: TTabSheet
-      Caption = 'BackStage'
+      Caption = '3 BackStage'
     end
     object tabPreview: TTabSheet
-      Caption = 'Validação'
+      Caption = '4 Validar e salvar'
       ClientHeight = 474
       ClientWidth = 1036
       object pnlPreviewHost: TPanel
@@ -1054,7 +1082,7 @@ object frmLazRibbonSkinEditor: TfrmLazRibbonSkinEditor
           Height = 30
           Top = 66
           Width = 160
-          Caption = 'Atualizar validacao'
+          Caption = 'Atualizar relatório'
           OnClick = btnRefreshValidationClick
           TabOrder = 0
         end

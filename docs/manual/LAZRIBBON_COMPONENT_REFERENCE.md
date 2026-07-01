@@ -1,6 +1,6 @@
 # LazRibbon Component Reference
 
-Target: LazRibbon 2.1.1.
+Target: LazRibbon 2.1.2.
 
 This reference describes the purpose of each package component, published
 property and published event. It complements `LAZRIBBON_MANUAL.md` and the
