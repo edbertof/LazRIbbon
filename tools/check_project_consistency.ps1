@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
   [string]$SourceRoot = '',
-  [string]$ExpectedVersion = '2.1.0'
+  [string]$ExpectedVersion = '2.1.1'
 )
 
 $ErrorActionPreference = 'Stop'

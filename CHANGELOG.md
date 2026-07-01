@@ -2,6 +2,12 @@
 
 - No unreleased changes.
 
+## 2.1.1 - Skin Editor preview states
+
+- Expands the standalone Skin Editor live Ribbon preview with disabled large/small commands, toggle and dropdown buttons, an additional disabled checkbox and multiple Dialog Launcher samples.
+- Keeps the new preview controls in `uSkinEditorMain.lfm` so the preview structure remains visible at design time.
+- Updates runtime and design-time package metadata to `2.1.1`.
+
 ## 2.1.0 - Skin Editor workflow start
 
 - Starts the post-2.0 development line with `docs/release/ROADMAP_2_1.md`.

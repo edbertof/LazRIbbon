@@ -175,6 +175,7 @@ type
     PreviewSmallOpen: TLazRibbonSmallButton;
     PreviewSmallSave: TLazRibbonSmallButton;
     PreviewCheckAuto: TLazRibbonCheckbox;
+    PreviewCheckDisabled: TLazRibbonCheckbox;
     PreviewBaseGallery: TLazRibbonSkinGalleryItem;
     SaveDialog: TSaveDialog;
     SelectDirDialog: TSelectDirectoryDialog;
@@ -2100,8 +2101,20 @@ begin
   end;
   if Assigned(EditorPaneExport) then EditorPaneExport.Caption := 'Inserir';
   if Assigned(PreviewPaneFile) then PreviewPaneFile.Caption := 'Documento';
-  if Assigned(PreviewPaneView) then PreviewPaneView.Caption := 'Janela';
-  if Assigned(EditorPaneSampleEdit) then EditorPaneSampleEdit.Caption := 'Exemplos';
+  if Assigned(PreviewPaneView) then
+  begin
+    PreviewPaneView.Caption := 'Janela';
+    PreviewPaneView.ShowDialogLauncher := True;
+    PreviewPaneView.DialogLauncherStyle := dlsPlus;
+    PreviewPaneView.OnDialogLauncherClick := @EditorPaneAppearanceDialogLauncherClick;
+  end;
+  if Assigned(EditorPaneSampleEdit) then
+  begin
+    EditorPaneSampleEdit.Caption := 'Exemplos';
+    EditorPaneSampleEdit.ShowDialogLauncher := True;
+    EditorPaneSampleEdit.DialogLauncherStyle := dlsArrow;
+    EditorPaneSampleEdit.OnDialogLauncherClick := @EditorPaneAppearanceDialogLauncherClick;
+  end;
   if Assigned(EditorPaneSampleOptions) then EditorPaneSampleOptions.Caption := 'Opções';
   if Assigned(EditorLargeNewFromBase) then EditorLargeNewFromBase.Caption := 'Colar';
   if Assigned(EditorSmallOpen) then EditorSmallOpen.Caption := 'Copiar';
@@ -2109,14 +2122,56 @@ begin
   if Assigned(EditorLargeExportBuiltIns) then EditorLargeExportBuiltIns.Caption := 'Tabela';
   if Assigned(EditorLargeFullAppearance) then EditorLargeFullAppearance.Caption := 'Temas';
   if Assigned(EditorSmallApplyPaletteAppearance) then EditorSmallApplyPaletteAppearance.Caption := 'Realce';
-  if Assigned(PreviewLargePaste) then PreviewLargePaste.Caption := 'Colar';
-  if Assigned(PreviewSmallCopy) then PreviewSmallCopy.Caption := 'Copiar';
-  if Assigned(PreviewSmallCut) then PreviewSmallCut.Caption := 'Recortar';
-  if Assigned(PreviewLargeNew) then PreviewLargeNew.Caption := 'Novo';
-  if Assigned(PreviewSmallOpen) then PreviewSmallOpen.Caption := 'Abrir';
-  if Assigned(PreviewSmallSave) then PreviewSmallSave.Caption := 'Salvar';
-  if Assigned(PreviewLargeZoom) then PreviewLargeZoom.Caption := 'Zoom';
-  if Assigned(PreviewCheckAuto) then PreviewCheckAuto.Caption := 'Opção ativa';
+  if Assigned(PreviewLargePaste) then
+  begin
+    PreviewLargePaste.Caption := 'Colar';
+    PreviewLargePaste.ButtonKind := bkButtonDropdown;
+  end;
+  if Assigned(PreviewSmallCopy) then
+  begin
+    PreviewSmallCopy.Caption := 'Copiar';
+    PreviewSmallCopy.ButtonKind := bkToggle;
+    PreviewSmallCopy.Checked := True;
+  end;
+  if Assigned(PreviewSmallCut) then
+  begin
+    PreviewSmallCut.Caption := 'Recortar';
+    PreviewSmallCut.ButtonKind := bkDropdown;
+  end;
+  if Assigned(PreviewLargeNew) then
+  begin
+    PreviewLargeNew.Caption := 'Novo';
+    PreviewLargeNew.ButtonKind := bkButton;
+  end;
+  if Assigned(PreviewSmallOpen) then
+  begin
+    PreviewSmallOpen.Caption := 'Abrir';
+    PreviewSmallOpen.ButtonKind := bkButton;
+  end;
+  if Assigned(PreviewSmallSave) then
+  begin
+    PreviewSmallSave.Caption := 'Salvar';
+    PreviewSmallSave.ButtonKind := bkButton;
+    PreviewSmallSave.Enabled := False;
+  end;
+  if Assigned(PreviewLargeZoom) then
+  begin
+    PreviewLargeZoom.Caption := 'Zoom';
+    PreviewLargeZoom.Enabled := False;
+  end;
+  if Assigned(PreviewCheckAuto) then
+  begin
+    PreviewCheckAuto.Caption := 'Opção ativa';
+    PreviewCheckAuto.Checked := True;
+    PreviewCheckAuto.State := cbChecked;
+  end;
+  if Assigned(PreviewCheckDisabled) then
+  begin
+    PreviewCheckDisabled.Caption := 'Opção bloqueada';
+    PreviewCheckDisabled.Checked := False;
+    PreviewCheckDisabled.State := cbUnchecked;
+    PreviewCheckDisabled.Enabled := False;
+  end;
 
   if Assigned(EditorLargeNewFromBase) then
     EditorLargeNewFromBase.OnClick := nil;
@@ -2130,6 +2185,20 @@ begin
     EditorLargeFullAppearance.OnClick := nil;
   if Assigned(EditorSmallApplyPaletteAppearance) then
     EditorSmallApplyPaletteAppearance.OnClick := nil;
+  if Assigned(PreviewLargePaste) then
+    PreviewLargePaste.OnClick := nil;
+  if Assigned(PreviewSmallCopy) then
+    PreviewSmallCopy.OnClick := nil;
+  if Assigned(PreviewSmallCut) then
+    PreviewSmallCut.OnClick := nil;
+  if Assigned(PreviewLargeNew) then
+    PreviewLargeNew.OnClick := nil;
+  if Assigned(PreviewSmallOpen) then
+    PreviewSmallOpen.OnClick := nil;
+  if Assigned(PreviewSmallSave) then
+    PreviewSmallSave.OnClick := nil;
+  if Assigned(PreviewLargeZoom) then
+    PreviewLargeZoom.OnClick := nil;
 
   if Assigned(EditorBackstage) then
   begin

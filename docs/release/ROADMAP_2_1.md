@@ -46,7 +46,7 @@ Deliver a post-2.0 package that feels easier to adopt and maintain:
 
 ## 2.1 Gates
 
-- `tools/check_project_consistency.ps1 -ExpectedVersion 2.1.0` passes.
+- `tools/check_project_consistency.ps1 -ExpectedVersion 2.1.1` passes.
 - `tools/export_skin_editor_2_1_coverage.ps1` regenerates the Skin Editor coverage report.
 - The Skin Editor opens, previews built-in skins and saves a self-contained `.skin` file.
 - The main demos compile with Lazarus 4.8.
@@ -60,6 +60,10 @@ Deliver a post-2.0 package that feels easier to adopt and maintain:
 3. Move high-value static workflow controls into `.lfm` when they should be visible at design time.
 4. Add richer preview states for panes, elements, popup/menu buttons and minimized Ribbon.
 5. Add a compact demo that shows a practical form using Ribbon, BackStage, SkinManager and a normal client area together.
+
+## 2.1.1 Snapshot
+
+The Skin Editor live Ribbon preview now includes disabled commands, checked/toggle buttons, dropdown/button-dropdown samples, checked and disabled checkboxes, and multiple Dialog Launcher panes. These controls remain in `uSkinEditorMain.lfm`, preserving design-time visibility while giving skin authors a more realistic visual test surface.
 
 ## Initial Coverage Snapshot
 

@@ -1,8 +1,10 @@
 # LazRibbon Status
 
-`2.1.0 - Skin Editor workflow start` is the current build.
+`2.1.1 - Skin Editor preview states` is the current build.
 
-The `2.1.0` build starts the post-2.0 Skin Editor workflow line. Runtime and design-time package metadata are now `2.1.0`, `docs/release/ROADMAP_2_1.md` defines the work direction, and `docs/quality/SKIN_EDITOR_APPEARANCE_COVERAGE_2_1.md` tracks the complete published `Appearance` model. The standalone Skin Editor validation report now summarizes base differences by identity, icons/preview, palette and `Appearance` section before showing detailed changes.
+The `2.1.1` build continues the post-2.0 Skin Editor workflow line. Runtime and design-time package metadata are now `2.1.1`, and the standalone Skin Editor live Ribbon preview now exercises disabled large/small commands, toggle and dropdown buttons, checked/disabled checkboxes and multiple Dialog Launcher samples. This makes skin validation more realistic without adding new published component API.
+
+The `2.1.0` build started the post-2.0 Skin Editor workflow line. Runtime and design-time package metadata were advanced to `2.1.0`, `docs/release/ROADMAP_2_1.md` defined the work direction, and `docs/quality/SKIN_EDITOR_APPEARANCE_COVERAGE_2_1.md` tracked the complete published `Appearance` model. The standalone Skin Editor validation report summarizes base differences by identity, icons/preview, palette and `Appearance` section before showing detailed changes.
 
 The `2.0.0` build is the first stable LazRibbon release after the 2.0 release-candidate line. It keeps package metadata and the public release label aligned at `2.0.0`, preserves the validated API-freeze surface from `2.0.0-rc1`, includes the documentation package from `2.0.0-rc2`, and carries forward the release ZIP audit fix from `2.0.0-rc3`.
 

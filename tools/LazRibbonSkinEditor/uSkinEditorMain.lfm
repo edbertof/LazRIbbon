@@ -397,19 +397,25 @@ object frmLazRibbonSkinEditor: TfrmLazRibbonSkinEditor
           end
           object PreviewSmallSave: TLazRibbonSmallButton
             Caption = 'Salvar'
+            Enabled = False
           end
         end
         object PreviewPaneView: TLazRibbonPane
           Caption = 'Janela'
+          DialogLauncherStyle = dlsPlus
+          ShowDialogLauncher = True
           Items = (
             'PreviewLargeZoom'
           )
           object PreviewLargeZoom: TLazRibbonLargeButton
             Caption = 'Zoom'
+            Enabled = False
           end
         end
         object EditorPaneSampleEdit: TLazRibbonPane
           Caption = 'Exemplos'
+          DialogLauncherStyle = dlsArrow
+          ShowDialogLauncher = True
           Items = (
             'PreviewLargePaste'
             'PreviewSmallCopy'
@@ -417,23 +423,33 @@ object frmLazRibbonSkinEditor: TfrmLazRibbonSkinEditor
           )
           object PreviewLargePaste: TLazRibbonLargeButton
             Caption = 'Colar'
+            ButtonKind = bkButtonDropdown
           end
           object PreviewSmallCopy: TLazRibbonSmallButton
             Caption = 'Copiar'
+            ButtonKind = bkToggle
+            Checked = True
           end
           object PreviewSmallCut: TLazRibbonSmallButton
             Caption = 'Recortar'
+            ButtonKind = bkDropdown
           end
         end
         object EditorPaneSampleOptions: TLazRibbonPane
           Caption = 'Opções'
           Items = (
             'PreviewCheckAuto'
+            'PreviewCheckDisabled'
           )
           object PreviewCheckAuto: TLazRibbonCheckbox
             Caption = 'Opção ativa'
             Checked = True
             State = cbChecked
+          end
+          object PreviewCheckDisabled: TLazRibbonCheckbox
+            Caption = 'Opção bloqueada'
+            Enabled = False
+            TableBehaviour = tbBeginsRow
           end
         end
       end
@@ -1030,7 +1046,7 @@ object frmLazRibbonSkinEditor: TfrmLazRibbonSkinEditor
           Top = 18
           Width = 950
           AutoSize = False
-          Caption = 'Use o Ribbon acima para validar a skin: abas, grupos, botões grandes, botões pequenos, checkbox e contraste de texto.'
+          Caption = 'Use o Ribbon acima para validar a skin: abas, grupos, botões grandes, pequenos, dropdowns, alternados, desabilitados, checkboxes, launchers e contraste de texto.'
           WordWrap = True
         end
         object btnRefreshValidation: TButton
