@@ -45,8 +45,8 @@ powershell -ExecutionPolicy Bypass -File tools/verify_release_candidate.ps1 -Ver
 ## Validation Performed
 
 - Full release preflight completed for package version `2.1.3` and public release label `2.1.3`.
-- Release ZIP created as `LazRibbon_2.1.3_source_20260702_110045.zip`.
-- SHA256: `0209DE20B7561BA49C70CD15EAE08B172305C7EA7E2EA50E1037D7E4D7F36A11`.
+- Release ZIP created as `LazRibbon_2.1.3_source_20260702_111530.zip`.
+- SHA256: `353E8B7EBA15597B6C82F1F2105C006743063CEC5CBD540C3821C4B953D5DD53`.
 - The generated ZIP must be re-downloaded from the GitHub Release and validated from an extracted source tree after publication.
 
 ## Promotion Rule
