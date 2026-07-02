@@ -46,7 +46,7 @@ Deliver a post-2.0 package that feels easier to adopt and maintain:
 
 ## 2.1 Gates
 
-- `tools/check_project_consistency.ps1 -ExpectedVersion 2.1.2` passes.
+- `tools/check_project_consistency.ps1 -ExpectedVersion 2.1.3` passes.
 - `tools/export_skin_editor_2_1_coverage.ps1` regenerates the Skin Editor coverage report.
 - The Skin Editor opens, previews built-in skins and saves a self-contained `.skin` file.
 - The main demos compile with Lazarus 4.8.
@@ -68,6 +68,10 @@ The Skin Editor live Ribbon preview now includes disabled commands, checked/togg
 ## 2.1.2 Snapshot
 
 The Skin Editor now presents the normal authoring path directly in the window: choose a base, create a skin from that base, edit identity/colors/BackStage, validate and save. The base selector remains visible below the live Ribbon preview, quick actions are available without opening the File tab, main pages are numbered as workflow steps, and changing the focused base preserves a skin already being edited.
+
+## 2.1.3 Snapshot
+
+The Skin Editor now behaves more like a normal document editor: it tracks unsaved edits, marks the window caption with `*`, shows the edited/saved state in the workflow hint, separates `Salvar` from `Salvar como...`, and asks before a close/open/new operation would discard changes.
 
 ## Initial Coverage Snapshot
 

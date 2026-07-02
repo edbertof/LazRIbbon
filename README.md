@@ -50,9 +50,9 @@ tools/LazRibbonSkinEditor/
 
 ## Current version
 
-This distribution is **LazRibbon 2.1.2 development release candidate**.
+This distribution is **LazRibbon 2.1.3 development release candidate**.
 
-The `2.1.2` build continues the post-2.0 Skin Editor workflow line. It keeps the 2.0 public API direction, advances runtime and design-time package metadata to `2.1.2`, and makes the standalone Skin Editor easier to operate with visible create/open/save actions, numbered workflow pages, contextual status guidance and safer base switching while a custom skin is being edited. The public release notes are in `docs/release/RELEASE_2_1_2.md`; the stable 2.0 baseline remains documented in `docs/release/RELEASE_2_0_0.md`.
+The `2.1.3` build continues the post-2.0 Skin Editor workflow line. It keeps the 2.0 public API direction, advances runtime and design-time package metadata to `2.1.3`, and makes the standalone Skin Editor safer to operate with explicit modified-state tracking, separate `Salvar` / `Salvar como...` actions and confirmation before discarding unsaved edits. The public release notes are in `docs/release/RELEASE_2_1_3.md`; the stable 2.0 baseline remains documented in `docs/release/RELEASE_2_0_0.md`.
 
 ## Post-2.0 development
 
@@ -74,7 +74,9 @@ The public screenshot set is generated with `tools/capture_release_screenshots.p
 
 Highlights in the current LazRibbon line:
 
-- Runtime and design-time package metadata are aligned on `2.1.2`.
+- Runtime and design-time package metadata are aligned on `2.1.3`.
+- The Skin Editor tracks unsaved changes, marks the window title with `*` and asks before discarding edits.
+- The Skin Editor separates `Salvar` from `Salvar como...`, reusing the current `.skin` path when available.
 - The Skin Editor top workflow strip keeps base selection and create/open/save actions visible during the normal skin-authoring path.
 - The Skin Editor pages are numbered as workflow steps and update the status bar with contextual guidance.
 - The Skin Editor validation report groups base differences by identity, icons/preview, palette and `Appearance` section before listing detailed changes.
@@ -277,14 +279,14 @@ powershell -ExecutionPolicy Bypass -File tools/build_all_projects.ps1 -CleanArti
 To validate the package from an extracted clean source tree:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File tools/verify_clean_checkout.ps1 -Version 2.1.2 -ReleaseVersion 2.1.2
+powershell -ExecutionPolicy Bypass -File tools/verify_clean_checkout.ps1 -Version 2.1.3 -ReleaseVersion 2.1.3
 ```
 
 For a complete release preflight, including consistency checks and ZIP
 audit:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File tools/verify_release_candidate.ps1 -Version 2.1.2 -ReleaseVersion 2.1.2 -OutputDirectory D:\Ribbon4Lazarus\Releases
+powershell -ExecutionPolicy Bypass -File tools/verify_release_candidate.ps1 -Version 2.1.3 -ReleaseVersion 2.1.3 -OutputDirectory D:\Ribbon4Lazarus\Releases
 ```
 
 The purpose of each demo is documented in

@@ -2,6 +2,14 @@
 
 - No unreleased changes.
 
+## 2.1.3 - Skin Editor save workflow
+
+- Adds explicit modified-state tracking to the standalone Skin Editor, including a `*` in the window caption and an `alterada` state in the workflow hint.
+- Splits `Salvar` and `Salvar como...` in the top workflow strip and in the BackStage commands.
+- Reuses the current `.skin` file for `Salvar` and keeps `Salvar como...` for choosing a new destination.
+- Warns before closing, opening another file or creating a new skin from a base when the current skin has unsaved changes.
+- Updates runtime and design-time package metadata to `2.1.3`.
+
 ## 2.1.2 - Skin Editor workflow UX
 
 - Adds a compact workflow strip to the standalone Skin Editor with base selection, `Nova pela base`, `Abrir...` and `Salvar...` actions visible near the live preview.

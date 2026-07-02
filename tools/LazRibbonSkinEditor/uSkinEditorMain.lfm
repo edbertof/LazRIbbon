@@ -12,6 +12,7 @@ object frmLazRibbonSkinEditor: TfrmLazRibbonSkinEditor
   Font.Name = 'Tahoma'
   Position = poScreenCenter
   LCLVersion = '4.6.0.0'
+  OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   object pnlLivePreview: TPanel
@@ -475,7 +476,7 @@ object frmLazRibbonSkinEditor: TfrmLazRibbonSkinEditor
       Layout = tlCenter
     end
     object lblWorkflow: TLabel
-      Left = 536
+      Left = 604
       Height = 13
       Top = 8
       Width = 42
@@ -484,24 +485,25 @@ object frmLazRibbonSkinEditor: TfrmLazRibbonSkinEditor
       ParentFont = False
     end
     object lblBaseHint: TLabel
-      Left = 582
+      Left = 650
       Height = 13
       Top = 8
-      Width = 390
+      Width = 320
+      AutoSize = False
       Caption = 'Escolha uma base, crie uma skin editável, ajuste as cores, valide e salve.'
     end
     object cbBaseSkin: TComboBox
       Left = 48
       Height = 21
       Top = 4
-      Width = 200
+      Width = 180
       ItemHeight = 13
       Style = csDropDownList
       TabOrder = 0
       OnChange = cbBaseSkinChange
     end
     object btnTopNewFromBase: TButton
-      Left = 258
+      Left = 238
       Height = 24
       Top = 3
       Width = 112
@@ -510,7 +512,7 @@ object frmLazRibbonSkinEditor: TfrmLazRibbonSkinEditor
       TabOrder = 1
     end
     object btnTopOpen: TButton
-      Left = 376
+      Left = 356
       Height = 24
       Top = 3
       Width = 68
@@ -519,13 +521,22 @@ object frmLazRibbonSkinEditor: TfrmLazRibbonSkinEditor
       TabOrder = 2
     end
     object btnTopSave: TButton
-      Left = 450
+      Left = 430
       Height = 24
       Top = 3
-      Width = 72
-      Caption = 'Salvar...'
-      OnClick = btnSaveAsClick
+      Width = 64
+      Caption = 'Salvar'
+      OnClick = btnSaveClick
       TabOrder = 3
+    end
+    object btnTopSaveAs: TButton
+      Left = 500
+      Height = 24
+      Top = 3
+      Width = 92
+      Caption = 'Salvar como...'
+      OnClick = btnSaveAsClick
+      TabOrder = 4
     end
   end
   object pnlLeft: TPanel
@@ -1127,20 +1138,25 @@ object frmLazRibbonSkinEditor: TfrmLazRibbonSkinEditor
         Caption = 'Nova skin pela base...'
         Kind = bbkCommand
         OnExecute = btnNewFromBaseClick
-      end    
+      end
       item
         Caption = 'Abrir skin...'
         Kind = bbkCommand
         OnExecute = btnOpenClick
-      end    
+      end
+      item
+        Caption = 'Salvar'
+        Kind = bbkCommand
+        OnExecute = btnSaveClick
+      end
       item
         Caption = 'Salvar como...'
         Kind = bbkCommand
         OnExecute = btnSaveAsClick
-      end    
+      end
       item
         Kind = bbkSeparator
-      end    
+      end
       item
         Caption = 'Exportar skins internos...'
         Kind = bbkCommand

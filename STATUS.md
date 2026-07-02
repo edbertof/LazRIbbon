@@ -1,6 +1,8 @@
 # LazRibbon Status
 
-`2.1.2 - Skin Editor workflow UX` is the current build.
+`2.1.3 - Skin Editor save workflow` is the current build.
+
+The `2.1.3` build continues the post-2.0 Skin Editor workflow line. Runtime and design-time package metadata are now `2.1.3`, and the standalone Skin Editor tracks unsaved changes, separates `Salvar` from `Salvar como...`, reuses the current `.skin` path when possible and asks before discarding edits while closing, opening another skin or creating a new skin from a base. No new published component API was added.
 
 The `2.1.2` build continues the post-2.0 Skin Editor workflow line. Runtime and design-time package metadata are now `2.1.2`, and the standalone Skin Editor has a clearer top workflow strip, visible quick actions for creating/opening/saving skins, numbered workflow pages, contextual guidance and safer base switching while a custom skin is being edited. No new published component API was added.
 

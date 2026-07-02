@@ -91,6 +91,7 @@ type
     btnTopNewFromBase: TButton;
     btnTopOpen: TButton;
     btnTopSave: TButton;
+    btnTopSaveAs: TButton;
     imgSkinIcon: TImage;
     lblAuthor: TLabel;
     lblBaseSkin: TLabel;
@@ -193,11 +194,13 @@ type
     procedure btnNewFromBaseClick(Sender: TObject);
     procedure btnOpenClick(Sender: TObject);
     procedure btnRefreshValidationClick(Sender: TObject);
+    procedure btnSaveClick(Sender: TObject);
     procedure btnSaveAsClick(Sender: TObject);
     procedure BaseGallerySkinSelected(Sender: TObject);
     procedure cbBaseSkinChange(Sender: TObject);
     procedure ColorPanelClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure FormDestroy(Sender: TObject);
     procedure IconFileButtonClick(Sender: TObject);
     procedure lstSkinsClick(Sender: TObject);
@@ -208,6 +211,7 @@ type
     FCurrentSkin: TLazRibbonSkinDefinition;
     FUpdating: Boolean;
     FFullAppearanceEdited: Boolean;
+    FModified: Boolean;
     FColorPanels: array[TLazRibbonEditorPaletteField] of TPanel;
     btnApplyPaletteAppearance: TButton;
     lblAppearanceMode: TLabel;
@@ -284,6 +288,12 @@ type
     function CustomDisplayNameForBase(ABaseSkin: TLazRibbonSkinDefinition): String;
     function IsValidSkinIdentifier(const AValue: String): Boolean;
     function ValidateCurrentSkinForSave: Boolean;
+    procedure UpdateWindowCaption;
+    procedure MarkSkinModified;
+    procedure ClearSkinModified;
+    function SaveCurrentSkinToFile(const AFileName: String): Boolean;
+    function SaveCurrentSkinWithDialog: Boolean;
+    function ConfirmDiscardUnsavedChanges(const AActionCaption: String): Boolean;
   public
   end;
 
@@ -428,6 +438,7 @@ begin
   if Assigned(lblWorkflow) then
     lblWorkflow.Visible := True;
   FFullAppearanceEdited := False;
+  FModified := False;
 
   BindColorPanels;
   CreateAdvancedColorPanels;
@@ -467,6 +478,13 @@ begin
       PreviewSkinManager.SkinByIndex(0).DisplayName +
       '. Clique em Nova pela base para iniciar uma skin editável.');
   end;
+  UpdateWindowCaption;
+end;
+
+procedure TfrmLazRibbonSkinEditor.FormCloseQuery(Sender: TObject;
+  var CanClose: Boolean);
+begin
+  CanClose := ConfirmDiscardUnsavedChanges('fechar o editor');
 end;
 
 procedure TfrmLazRibbonSkinEditor.FormDestroy(Sender: TObject);
@@ -1274,6 +1292,7 @@ begin
   RefreshAppearanceInspector;
   ApplyCurrentSkinToPreview;
   UpdateAppearanceModeLabel;
+  MarkSkinModified;
   UpdateWorkflowGuide('Appearance atualizado em ' +
     AppearanceSectionCaption(ABinding.Section) + '.' + ABinding.PropName + '.');
   RefreshValidationReport;
@@ -1378,6 +1397,7 @@ begin
   ApplyCurrentSkinToPreview;
   UpdateAppearanceModeLabel;
   RefreshValidationReport;
+  MarkSkinModified;
   UpdateWorkflowGuide('Appearance restaurado da base em ' +
     AppearanceSectionCaption(ABinding.Section) + '.' + ABinding.PropName + '.');
 end;
@@ -2331,6 +2351,7 @@ begin
   if ASkin = nil then Exit;
   FCurrentSkin.Assign(ASkin);
   UpdateEditorFromSkin;
+  ClearSkinModified;
 end;
 
 procedure TfrmLazRibbonSkinEditor.UpdateEditorFromSkin;
@@ -2432,40 +2453,50 @@ begin
   if Assigned(cbBaseSkin) then
   begin
     cbBaseSkin.Enabled := True;
-    cbBaseSkin.SetBounds(48, 4, 200, 21);
+    cbBaseSkin.SetBounds(48, 4, 180, 21);
     cbBaseSkin.OnChange := @cbBaseSkinChange;
   end;
 
   if Assigned(btnTopNewFromBase) then
   begin
-    btnTopNewFromBase.SetBounds(258, 3, 112, 24);
+    btnTopNewFromBase.SetBounds(238, 3, 112, 24);
     btnTopNewFromBase.Caption := 'Nova pela base';
     btnTopNewFromBase.OnClick := @btnNewFromBaseClick;
   end;
 
   if Assigned(btnTopOpen) then
   begin
-    btnTopOpen.SetBounds(376, 3, 68, 24);
+    btnTopOpen.SetBounds(356, 3, 68, 24);
     btnTopOpen.Caption := 'Abrir...';
     btnTopOpen.OnClick := @btnOpenClick;
   end;
 
   if Assigned(btnTopSave) then
   begin
-    btnTopSave.SetBounds(450, 3, 72, 24);
-    btnTopSave.Caption := 'Salvar...';
-    btnTopSave.OnClick := @btnSaveAsClick;
+    btnTopSave.SetBounds(430, 3, 64, 24);
+    btnTopSave.Caption := 'Salvar';
+    btnTopSave.OnClick := @btnSaveClick;
+  end;
+
+  if Assigned(btnTopSaveAs) then
+  begin
+    btnTopSaveAs.SetBounds(500, 3, 92, 24);
+    btnTopSaveAs.Caption := 'Salvar como...';
+    btnTopSaveAs.OnClick := @btnSaveAsClick;
   end;
 
   if Assigned(lblWorkflow) then
   begin
     lblWorkflow.Caption := 'Etapa:';
     lblWorkflow.Visible := True;
-    lblWorkflow.SetBounds(536, 8, 42, 13);
+    lblWorkflow.SetBounds(604, 8, 42, 13);
   end;
 
   if Assigned(lblBaseHint) then
-    lblBaseHint.SetBounds(582, 8, 390, 13);
+  begin
+    lblBaseHint.AutoSize := False;
+    lblBaseHint.SetBounds(650, 8, 320, 13);
+  end;
 
   if Assigned(pcMain) then
     pcMain.OnChange := @pcMainChange;
@@ -2478,7 +2509,7 @@ end;
 
 procedure TfrmLazRibbonSkinEditor.UpdateWorkflowGuide(const AStatusText: String);
 var
-  ShortHint, StatusHint, ContextText, SkinText: String;
+  ShortHint, StatusHint, ContextText, SkinText, StateText: String;
   BaseSkin: TLazRibbonSkinDefinition;
 begin
   ShortHint := 'Escolha uma base';
@@ -2534,8 +2565,32 @@ begin
   if SkinText = '' then
     SkinText := '(nenhuma skin)';
 
+  StateText := '';
+  if FCurrentSkin <> nil then
+  begin
+    if FModified then
+      StateText := 'alterada'
+    else if FCurrentSkin.Source in [sssCustom, sssExternal] then
+    begin
+      if Trim(FCurrentSkin.FileName) <> '' then
+        StateText := 'salva'
+      else
+        StateText := 'ainda não salva';
+    end;
+  end;
+
   if Assigned(lblBaseHint) then
-    lblBaseHint.Caption := ContextText + ': ' + SkinText + ' | ' + ShortHint;
+  begin
+    if StateText <> '' then
+      lblBaseHint.Caption := ContextText + ': ' + SkinText + ' (' + StateText + ') | ' + ShortHint
+    else
+      lblBaseHint.Caption := ContextText + ': ' + SkinText + ' | ' + ShortHint;
+  end;
+
+  if Assigned(btnTopSave) then
+    btnTopSave.Enabled := CurrentSkinIsEditable;
+  if Assigned(btnTopSaveAs) then
+    btnTopSaveAs.Enabled := FCurrentSkin <> nil;
 
   if Assigned(lblStatus) then
   begin
@@ -2822,6 +2877,126 @@ begin
   Result := True;
 end;
 
+procedure TfrmLazRibbonSkinEditor.UpdateWindowCaption;
+var
+  SkinText: String;
+begin
+  Caption := 'LazRibbon Skin Editor';
+  if FCurrentSkin <> nil then
+  begin
+    SkinText := Trim(FCurrentSkin.DisplayName);
+    if SkinText = '' then
+      SkinText := Trim(FCurrentSkin.Name);
+    if SkinText <> '' then
+      Caption := Caption + ' - ' + SkinText;
+  end;
+  if FModified then
+    Caption := Caption + ' *';
+end;
+
+procedure TfrmLazRibbonSkinEditor.MarkSkinModified;
+begin
+  if FUpdating then
+    Exit;
+  if not FModified then
+    FModified := True;
+  UpdateWindowCaption;
+  if Assigned(lblStatus) then
+    UpdateWorkflowGuide(lblStatus.Caption)
+  else
+    UpdateWorkflowGuide;
+end;
+
+procedure TfrmLazRibbonSkinEditor.ClearSkinModified;
+begin
+  FModified := False;
+  UpdateWindowCaption;
+  if Assigned(lblStatus) then
+    UpdateWorkflowGuide(lblStatus.Caption)
+  else
+    UpdateWorkflowGuide;
+end;
+
+function TfrmLazRibbonSkinEditor.SaveCurrentSkinToFile(
+  const AFileName: String): Boolean;
+var
+  TargetFileName: String;
+begin
+  Result := False;
+  TargetFileName := Trim(AFileName);
+  if TargetFileName = '' then
+    Exit(SaveCurrentSkinWithDialog);
+
+  UpdateSkinFromEditor;
+  if not ValidateCurrentSkinForSave then
+  begin
+    UpdateWorkflowGuide('Salvamento cancelado: a identificação da skin precisa ser corrigida.');
+    Exit;
+  end;
+
+  FCurrentSkin.Source := sssExternal;
+  FCurrentSkin.SaveToFile(TargetFileName);
+  ClearSkinModified;
+  RefreshValidationReport;
+  UpdateWorkflowGuide('Skin salva: ' + TargetFileName);
+  Result := True;
+end;
+
+function TfrmLazRibbonSkinEditor.SaveCurrentSkinWithDialog: Boolean;
+var
+  SuggestedName: String;
+begin
+  Result := False;
+  UpdateSkinFromEditor;
+  if FCurrentSkin = nil then
+    Exit;
+
+  if Trim(FCurrentSkin.FileName) <> '' then
+    SaveDialog.FileName := FCurrentSkin.FileName
+  else
+  begin
+    SuggestedName := SafeSkinIdentifier(FCurrentSkin.Name);
+    if SuggestedName = 'Skin' then
+      SuggestedName := SafeSkinIdentifier(FCurrentSkin.DisplayName);
+    if SuggestedName = 'Skin' then
+      SuggestedName := 'MinhaSkin';
+    SaveDialog.FileName := ChangeFileExt(SuggestedName, '.skin');
+  end;
+
+  if SaveDialog.Execute then
+  begin
+    if Trim(FCurrentSkin.Name) = '' then
+      edtName.Text := SafeSkinIdentifier(ChangeFileExt(ExtractFileName(SaveDialog.FileName), ''));
+    if Trim(FCurrentSkin.DisplayName) = '' then
+      edtDisplayName.Text := Trim(edtName.Text);
+    Result := SaveCurrentSkinToFile(SaveDialog.FileName);
+  end;
+end;
+
+function TfrmLazRibbonSkinEditor.ConfirmDiscardUnsavedChanges(
+  const AActionCaption: String): Boolean;
+var
+  Response: Integer;
+begin
+  Result := True;
+  if FCurrentSkin = nil then
+    Exit;
+  if not FModified then
+    Exit;
+
+  Response := MessageDlg('Alterações não salvas',
+    'A skin atual tem alterações não salvas.' + LineEnding + LineEnding +
+    'Deseja salvar antes de ' + AActionCaption + '?',
+    mtConfirmation, [mbYes, mbNo, mbCancel], 0);
+
+  case Response of
+    mrYes: Result := SaveCurrentSkinToFile(FCurrentSkin.FileName);
+    mrNo: Result := True;
+  else
+    Result := False;
+  end;
+end;
+
 procedure TfrmLazRibbonSkinEditor.BaseGallerySkinSelected(Sender: TObject);
 var
   Skin: TLazRibbonSkinDefinition;
@@ -2913,6 +3088,7 @@ begin
      (Sender = edtPreviewImage) then
     RefreshIconPreview;
   RefreshValidationReport;
+  MarkSkinModified;
   UpdateWorkflowGuide(lblStatus.Caption);
 end;
 
@@ -2937,6 +3113,7 @@ begin
     ApplyCurrentSkinToPreview;
     UpdateAppearanceModeLabel;
     RefreshValidationReport;
+    MarkSkinModified;
     if FFullAppearanceEdited then
       UpdateWorkflowGuide('Cor atualizada na paleta. Os ajustes visuais detalhados do Appearance foram preservados.')
     else
@@ -2955,6 +3132,7 @@ begin
   ApplyCurrentSkinToPreview;
   UpdateAppearanceModeLabel;
   RefreshValidationReport;
+  MarkSkinModified;
   UpdateWorkflowGuide('Paleta sincronizada com o Appearance. Ajustes visuais detalhados anteriores foram substituídos pela paleta.');
 end;
 
@@ -2982,6 +3160,7 @@ begin
       ApplyCurrentSkinToPreview;
       UpdateAppearanceModeLabel;
       RefreshValidationReport;
+      MarkSkinModified;
       UpdateWorkflowGuide('Appearance atualizado pelo editor visual. Use sincronização explícita para substituir esses ajustes pela paleta.');
     end;
   finally
@@ -3006,11 +3185,14 @@ var
 begin
   Skin := SelectedBaseSkin;
   if Skin = nil then Exit;
+  if not ConfirmDiscardUnsavedChanges('criar uma nova skin pela base') then
+    Exit;
   BaseDisplayName := Skin.DisplayName;
   if Trim(BaseDisplayName) = '' then
     BaseDisplayName := Skin.Name;
   FCurrentSkin.Assign(Skin);
   FCurrentSkin.Source := sssCustom;
+  FCurrentSkin.FileName := '';
   FCurrentSkin.Name := UniqueCustomSkinIdentifier(Skin);
   FCurrentSkin.DisplayName := CustomDisplayNameForBase(Skin);
   if Trim(Skin.GroupName) <> '' then
@@ -3023,6 +3205,7 @@ begin
   RefreshFullAppearanceEditedFromCurrentSkin;
   UpdateEditorFromSkin;
   RefreshValidationReport;
+  MarkSkinModified;
   if FFullAppearanceEdited then
     UpdateWorkflowGuide('Nova skin criada como cópia completa de ' + BaseDisplayName + '. O Appearance detalhado da base será preservado até uma sincronização explícita.')
   else
@@ -3033,10 +3216,13 @@ procedure TfrmLazRibbonSkinEditor.btnOpenClick(Sender: TObject);
 begin
   if OpenDialog.Execute then
   begin
+    if not ConfirmDiscardUnsavedChanges('abrir outra skin') then
+      Exit;
     FCurrentSkin.LoadFromFile(OpenDialog.FileName);
     RefreshFullAppearanceEditedFromCurrentSkin;
     UpdateEditorFromSkin;
     RefreshValidationReport;
+    ClearSkinModified;
     UpdateWorkflowGuide('Skin carregada: ' + OpenDialog.FileName);
   end;
 end;
@@ -3048,27 +3234,19 @@ begin
   UpdateWorkflowGuide('Validação da skin atualizada.');
 end;
 
+procedure TfrmLazRibbonSkinEditor.btnSaveClick(Sender: TObject);
+begin
+  if FCurrentSkin = nil then
+    Exit;
+  if Trim(FCurrentSkin.FileName) <> '' then
+    SaveCurrentSkinToFile(FCurrentSkin.FileName)
+  else
+    SaveCurrentSkinWithDialog;
+end;
+
 procedure TfrmLazRibbonSkinEditor.btnSaveAsClick(Sender: TObject);
 begin
-  UpdateSkinFromEditor;
-  if SaveDialog.Execute then
-  begin
-    if Trim(FCurrentSkin.Name) = '' then
-      edtName.Text := SafeSkinIdentifier(ChangeFileExt(ExtractFileName(SaveDialog.FileName), ''));
-    if Trim(FCurrentSkin.DisplayName) = '' then
-      edtDisplayName.Text := Trim(FCurrentSkin.Name);
-
-    if not ValidateCurrentSkinForSave then
-    begin
-      UpdateWorkflowGuide('Salvamento cancelado: a identificação da skin precisa ser corrigida.');
-      Exit;
-    end;
-
-    FCurrentSkin.Source := sssExternal;
-    FCurrentSkin.SaveToFile(SaveDialog.FileName);
-    RefreshValidationReport;
-    UpdateWorkflowGuide('Skin salva: ' + SaveDialog.FileName);
-  end;
+  SaveCurrentSkinWithDialog;
 end;
 
 procedure TfrmLazRibbonSkinEditor.btnExportBuiltInsClick(Sender: TObject);
