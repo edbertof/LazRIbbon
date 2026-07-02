@@ -1,4 +1,4 @@
-﻿# LazRibbon Design-Time Property Skip Audit for 2.0
+# LazRibbon Design-Time Property Skip Audit for 2.0
 
 Generated from `source/design/LazRibbon_Register.pas` by `tools/export_design_time_property_skip_audit.ps1`.
 It records design-time Object Inspector hiding rules so compatibility-only, structural or obsolete properties stay out of the new-project workflow.
@@ -9,14 +9,16 @@ Regenerate after changing design-time property hiding:
 
 ## Summary
 
-- RegisterPropertyToSkip rules: 29
-- Nil property-editor hide rules: 4
-- Components with hidden design-time properties: 8
+- RegisterPropertyToSkip rules: 30
+- Nil property-editor hide rules: 5
+- Components with hidden design-time properties: 9
 
 ## Hidden Object Inspector Properties
 
 | Component | Property | Mechanism | Reason |
 | --- | --- | --- | --- |
+| `TLazRibbon` | `RibbonAppearance` | Nil property editor | Reliable hide path for inherited properties when RegisterPropertyToSkip alone is not enough in some Lazarus versions. |
+| `TLazRibbon` | `RibbonAppearance` | RegisterPropertyToSkip | RibbonAppearance is internal rendering state. Use SkinManager and TLazRibbonSkinManager skins instead. |
 | `TLazRibbonBackstagePage` | `Action` | RegisterPropertyToSkip | BackStage pages are content containers. Use BackstageView.Buttons for commands. |
 | `TLazRibbonBackstagePage` | `CloseBackstageOnClick` | RegisterPropertyToSkip | BackStage pages are content containers. Use BackstageView.Buttons for command close behavior. |
 | `TLazRibbonBackstagePage` | `Command` | RegisterPropertyToSkip | BackStage pages are content containers. Use BackstageView.Buttons for commands. |
@@ -55,6 +57,7 @@ Regenerate after changing design-time property hiding:
 
 | Component | Hidden properties |
 | --- | --- |
+| `TLazRibbon` | `RibbonAppearance` |
 | `TLazRibbonBackstagePage` | `Action`, `CloseBackstageOnClick`, `Command`, `ItemKind`, `OnExecute` |
 | `TLazRibbonCheckbox` | `GroupBehaviour` |
 | `TLazRibbonControlHostItem` | `ControlClassName`, `ControlName` |

@@ -1,6 +1,6 @@
 [CmdletBinding()]
 param(
-  [string]$Version = '2.1.3',
+  [string]$Version = '2.1.4',
   [string]$ReleaseVersion = '',
   [string]$SourceRoot,
   [string]$OutputDirectory,
@@ -53,7 +53,8 @@ $excludedDirectories = @(
 )
 
 $excludedFileNames = @(
-  'packagefiles.xml'
+  'packagefiles.xml',
+  'release_zip_audit.md'
 )
 
 $excludedExtensions = @(

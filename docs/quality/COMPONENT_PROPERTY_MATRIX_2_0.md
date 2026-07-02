@@ -19,7 +19,7 @@ a clear mental model.
 | Component | Role | Connect through | Configure with |
 | --- | --- | --- | --- |
 | `TLazRibbonForm` | Ribbon-aware form shell and optional custom title bar. | `Ribbon`, `SkinManager` | `UseCustomTitleBar`, `TitleBarHeight`, `ShowSystemButtons`, `ShowTitleIcon`, `TitleIcon`, `TitleAlignment` |
-| `TLazRibbon` | Main Ribbon root and owner of the top-level Office-like model. | `ApplicationButton`, `QuickAccessToolBar`, `BackstageView`, `Tabs`, `SkinManager` | `AppearanceSource`, `RibbonAppearance`, `RibbonMinimized`, `ShowMinimizeRibbonButton`, `MinimizeRibbonHint`, `RestoreRibbonHint`, `ShowKeyTips`, `ShowContextualGroupHeaders`, `TabCaptionHorizontalPadding`, `TabCaptionSpacing`, `MinTabCaptionWidth` |
+| `TLazRibbon` | Main Ribbon root and owner of the top-level Office-like model. | `ApplicationButton`, `QuickAccessToolBar`, `BackstageView`, `Tabs`, `SkinManager` | `AppearanceSource`, `SkinManager`, `RibbonMinimized`, `ShowMinimizeRibbonButton`, `MinimizeRibbonHint`, `RestoreRibbonHint`, `ShowKeyTips`, `ShowContextualGroupHeaders`, `TabCaptionHorizontalPadding`, `TabCaptionSpacing`, `MinTabCaptionWidth` |
 | `TLazRibbonApplicationButton` | Office File/Application button behavior. | `Menu` when the selected mode uses a popup menu; BackStage is linked through owner `TLazRibbon.BackstageView` | `Caption`, `Visible`, `Mode`, `Style`, `Glyph`, `ImageIndex`, `ScreenTip*`, `OnClick` |
 | `TLazRibbonQuickAccessToolBar` | Quick Access Toolbar command surface. | `Items`, `CustomizeActionList` | `Position`, `Visible`, `ButtonFrameStyle`, `AllowCustomizing`, `ShowCustomizeButton`, `AllowPositionChange`, `ShowPositionMenuItem`, `AllowMinimizeRibbon`, `ShowMinimizeRibbonMenuItem` |
 
@@ -61,8 +61,9 @@ a clear mental model.
 
 ## Visual Appearance
 
-- `TLazRibbon.RibbonAppearance` is the detailed local appearance model for a
-  Ribbon that is not taking its visuals from a skin manager.
+- `TLazRibbon.RibbonAppearance` remains internal/streaming-compatible rendering
+  state. It is hidden from the Object Inspector so new projects use
+  `TLazRibbonSkinManager.Appearance` instead of the inherited direct editor.
 - `TLazRibbonSkinManager.Appearance` is the complete appearance model owned by a
   skin. The grouped palette properties `General`, `Accent`, `Backstage`,
   `RecentList` and `Ribbon` are the higher-level color API.

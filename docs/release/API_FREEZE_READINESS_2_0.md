@@ -9,13 +9,13 @@ Regenerate after changing package metadata, API audits, Object Inspector reports
 
 ## Summary
 
-- Package version: 2.1.3
+- Package version: 2.1.4
 - Stable API candidates listed: 47
 - Direct published property declarations listed: 307
 - Repeated published property names reviewed: 48
 - Unclassified repeated property names: 0
-- Design-time property skip rules: 29
-- Nil property-editor hide rules: 4
+- Design-time property skip rules: 30
+- Nil property-editor hide rules: 5
 - Package/tool/demo build targets listed: 18
 - Gates ready: 13
 - Gates requiring manual RC validation: 0
@@ -25,12 +25,12 @@ Regenerate after changing package metadata, API audits, Object Inspector reports
 
 | Gate | Status | Evidence |
 | --- | --- | --- |
-| Package metadata aligned | Ready | Runtime 2.1.3; design 2.1.3. |
+| Package metadata aligned | Ready | Runtime 2.1.4; design 2.1.4. |
 | Public API audit exists | Ready | 47 stable API candidates listed. |
 | Component property matrix exists | Ready | Release gate section is present. |
 | Object Inspector surface snapshot exists | Ready | 307 direct published property declarations listed. |
 | Repeated property names classified | Ready | 48 repeated names; 0 unclassified. |
-| Design-time hidden properties documented | Ready | 29 skip rules; 4 nil property-editor hide rules; 8 component classes. |
+| Design-time hidden properties documented | Ready | 30 skip rules; 5 nil property-editor hide rules; 9 component classes. |
 | Build matrix documented | Ready | 18 package/tool/demo targets listed. |
 | Release preflight script exists | Ready | One-command preflight script is present. |
 | Release ZIP hygiene script exists | Ready | ZIP audit script is present. |

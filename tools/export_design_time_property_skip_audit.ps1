@@ -131,7 +131,7 @@ $out.Add('- It is compatibility-only for old source or old `.lfm` resources.')
 $out.Add('- It is inherited from a broader base class but does not match the narrower component role.')
 $out.Add('- It is documented in this generated audit and protected by the consistency audit.')
 
-$text = $out -join [Environment]::NewLine
+$text = $out -join "`n"
 
 if ([string]::IsNullOrWhiteSpace($OutputPath)) {
   Write-Output $text
@@ -147,6 +147,6 @@ else {
   if (-not (Test-Path -LiteralPath $outputDir)) {
     New-Item -ItemType Directory -Path $outputDir | Out-Null
   }
-  Set-Content -LiteralPath $resolvedOutput -Value $text -Encoding UTF8
+  [System.IO.File]::WriteAllText($resolvedOutput, $text + "`n", [System.Text.UTF8Encoding]::new($false))
   Write-Host "Design-time property skip audit written to $resolvedOutput"
 }

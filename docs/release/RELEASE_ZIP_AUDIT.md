@@ -1,3 +1,11 @@
+## 2.1.4 check
+
+- Package metadata updated to 2.1.4 for the runtime and design-time packages.
+- Public release ZIP/tag label is `2.1.4` through the `-ReleaseVersion` workflow.
+- The final release preflight validates the full build matrix, clean checkout install path and release ZIP hygiene before publishing.
+- `docs/release/RELEASE_ZIP_AUDIT.md` is excluded from release source archives, so the SHA256 can be recorded without a self-referential hash.
+- Public ZIP created as `LazRibbon_2.1.4_source_20260702_154807.zip` with SHA256 `6CEDF56120CA3EDEA1DC414A898C70FE0FFB58DFEE5D8DA62A3114522A4444F7`.
+
 ## 2.1.3 check
 
 - Package metadata updated to 2.1.3 for the runtime and design-time packages.

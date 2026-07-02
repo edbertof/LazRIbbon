@@ -1,6 +1,8 @@
 # LazRibbon Status
 
-`2.1.3 - Skin Editor save workflow` is the current build.
+`2.1.4 - SkinManager appearance workflow` is the current build.
+
+The `2.1.4` build continues the post-2.0 Skin Editor workflow line. Runtime and design-time package metadata are now `2.1.4`, `TLazRibbon.RibbonAppearance` is hidden from the Lazarus Object Inspector for new projects, and the complete Appearance editor is available through the `TLazRibbonSkinManager` design-time editor. The internal `RibbonAppearance` object remains available for rendering and old `.lfm` streaming compatibility.
 
 The `2.1.3` build continues the post-2.0 Skin Editor workflow line. Runtime and design-time package metadata are now `2.1.3`, and the standalone Skin Editor tracks unsaved changes, separates `Salvar` from `Salvar como...`, reuses the current `.skin` path when possible and asks before discarding edits while closing, opening another skin or creating a new skin from a base. No new published component API was added.
 

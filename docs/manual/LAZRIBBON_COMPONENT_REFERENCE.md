@@ -1,6 +1,6 @@
 # LazRibbon Component Reference
 
-Target: LazRibbon 2.1.3.
+Target: LazRibbon 2.1.4.
 
 This reference describes the purpose of each package component, published
 property and published event. It complements `LAZRIBBON_MANUAL.md` and the
@@ -126,7 +126,7 @@ Purpose: main Ribbon root and owner of tabs, panes, BackStage link and QAT.
 | `AppearanceSource` | Chooses internal style, local appearance or skin manager. |
 | `SkinManager` | Skin manager supplying the active skin. |
 | `BackstageView` | BackStage overlay associated with the Ribbon. |
-| `RibbonAppearance` | Detailed local appearance object for this Ribbon. |
+| `RibbonAppearance` | Internal/streaming-compatible rendering state. It is hidden from the Object Inspector; use `SkinManager.Appearance` for new projects. |
 | `TabIndex` | Active tab index. |
 | `Images` | Shared small image list for items. |
 | `DisabledImages` | Shared disabled small image list. |

@@ -2,6 +2,14 @@
 
 - No unreleased changes.
 
+## 2.1.4 - SkinManager appearance workflow
+
+- Hides `TLazRibbon.RibbonAppearance` from the Lazarus Object Inspector so new projects use the skin-based workflow instead of the inherited low-level editor.
+- Keeps `RibbonAppearance` available internally and for existing `.lfm` streaming compatibility.
+- Adds `Editar Appearance completo...` to the `TLazRibbonSkinManager` design-time editor and to its skin edit dialog, reusing the complete visual Appearance editor inside the SkinManager flow.
+- Regenerates the design-time property skip audit for the new hidden `RibbonAppearance` rule.
+- Updates runtime and design-time package metadata to `2.1.4`.
+
 ## 2.1.3 - Skin Editor save workflow
 
 - Adds explicit modified-state tracking to the standalone Skin Editor, including a `*` in the window caption and an `alterada` state in the workflow hint.

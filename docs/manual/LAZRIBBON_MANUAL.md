@@ -1,6 +1,6 @@
 # LazRibbon Manual
 
-Target: LazRibbon 2.1.3, Lazarus 4.8.
+Target: LazRibbon 2.1.4, Lazarus 4.8.
 
 This manual explains how to install the package, how the components connect to
 each other, and which published properties and events are part of the public
@@ -46,7 +46,7 @@ Standalone Skin Editor:
 Recommended validation command before distributing or reinstalling from source:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File tools\verify_release_candidate.ps1 -Version 2.1.3 -ReleaseVersion 2.1.3 -OutputDirectory D:\Ribbon4Lazarus\Releases
+powershell -ExecutionPolicy Bypass -File tools\verify_release_candidate.ps1 -Version 2.1.4 -ReleaseVersion 2.1.4 -OutputDirectory D:\Ribbon4Lazarus\Releases
 ```
 
 ## 2. Component Model
@@ -151,7 +151,7 @@ Behavior and visual properties: `RibbonMinimized`,
 `ShowHelpButton`, `ShowKeyTips`, `ShowContextualGroupHeaders`,
 `ContextualGroupHeaderHeight`, `TabCaptionHorizontalPadding`,
 `TabCaptionSpacing`, `MinTabCaptionWidth`, `HelpButtonHint`, `Color`, `Style`,
-`AppearanceSource`, `RibbonAppearance`, `TabIndex`, `ImagesWidth`,
+`AppearanceSource`, `SkinManager`, `TabIndex`, `ImagesWidth`,
 `LargeImagesWidth`, `Align`, `BiDiMode`, `BorderSpacing`, `Anchors`, `Hint`,
 `ParentShowHint`, `ShowHint`, `Visible`.
 
@@ -455,9 +455,9 @@ that wants a small command abstraction.
 - `TLazRibbonControlHostItem.Control` is the canonical hosted-control property.
 - `SelectedSkinName` and `ActiveSkinName` are preferred over enum-only built-in
   skin helpers.
-- `TLazRibbon.RibbonAppearance` configures the Ribbon directly; skin-based
-  projects usually configure `TLazRibbonSkinManager.Appearance` and set
-  `AppearanceSource = asSkinManager`.
+- `TLazRibbon.RibbonAppearance` remains internal/streaming-compatible rendering
+  state and is hidden from the Object Inspector. New projects should configure
+  `TLazRibbonSkinManager.Appearance` and set `AppearanceSource = asSkinManager`.
 
 ## 9. Validation And Regeneration
 
@@ -473,5 +473,5 @@ powershell -ExecutionPolicy Bypass -File tools\export_2_0_api_freeze_readiness.p
 Then run:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File tools\check_project_consistency.ps1 -ExpectedVersion 2.1.3
+powershell -ExecutionPolicy Bypass -File tools\check_project_consistency.ps1 -ExpectedVersion 2.1.4
 ```

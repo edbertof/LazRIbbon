@@ -149,6 +149,13 @@ begin
   RegisterPropertyToSkip(TLazRibbonSkinManager, 'ActiveSkin',
     'ActiveSkin is a built-in-skin compatibility shortcut. Use ActiveSkinName instead.', '');
 
+  { RibbonAppearance remains part of the internal rendering model and is still
+    streamed from old forms, but new design-time work should be skin based. }
+  RegisterPropertyToSkip(TLazRibbon, 'RibbonAppearance',
+    'RibbonAppearance is internal rendering state. Use SkinManager and TLazRibbonSkinManager skins instead.', '');
+  RegisterPropertyEditor(TypeInfo(TLazRibbonToolbarAppearance), TLazRibbon,
+    'RibbonAppearance', nil);
+
 end;
 
 procedure Register;
@@ -185,8 +192,6 @@ begin
     TLazRibbonCaptionEditor);
   RegisterPropertyEditor(TypeInfo(TCaption), TLazRibbonCustomRibbonExtItem,
     'Caption', TLazRibbonCaptionEditor);
-  RegisterPropertyEditor(TypeInfo(TLazRibbonToolbarAppearance), TLazRibbon,
-    'RibbonAppearance', TLazRibbonToolbarAppearanceEditor);
   RegisterPropertyEditor(TypeInfo(TImageIndex), TLazRibbonLargeButton, '',
     TLazRibbonImageIndexPropertyEditor);
   RegisterPropertyEditor(TypeInfo(TImageIndex), TLazRibbonSmallButton, '',

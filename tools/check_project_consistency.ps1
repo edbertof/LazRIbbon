@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
   [string]$SourceRoot = '',
-  [string]$ExpectedVersion = '2.1.3'
+  [string]$ExpectedVersion = '2.1.4'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -1227,9 +1227,10 @@ function Test-TwoPointZeroPlanningDocs {
     $designTimeSkipAudit = Get-Content -LiteralPath $designTimeSkipAuditPath -Raw
     foreach ($required in @(
       'Design-Time Property Skip Audit',
-      'RegisterPropertyToSkip rules: 29',
-      'Nil property-editor hide rules: 4',
-      'Components with hidden design-time properties: 8',
+      'RegisterPropertyToSkip rules: 30',
+      'Nil property-editor hide rules: 5',
+      'Components with hidden design-time properties: 9',
+      'RibbonAppearance',
       'TLazRibbonSeparator',
       'TLazRibbonBackstagePage',
       'TLazRibbonControlHostItem',
@@ -1270,7 +1271,7 @@ function Test-TwoPointZeroPlanningDocs {
       'Direct published property declarations listed: 307',
       'Repeated published property names reviewed: 48',
       'Unclassified repeated property names: 0',
-      'Design-time property skip rules: 29',
+      'Design-time property skip rules: 30',
       'Package/tool/demo build targets listed: 18',
       'Gates ready: 13',
       'Gates requiring manual RC validation: 0',

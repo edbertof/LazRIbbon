@@ -50,9 +50,9 @@ tools/LazRibbonSkinEditor/
 
 ## Current version
 
-This distribution is **LazRibbon 2.1.3 development release candidate**.
+This distribution is **LazRibbon 2.1.4 development release candidate**.
 
-The `2.1.3` build continues the post-2.0 Skin Editor workflow line. It keeps the 2.0 public API direction, advances runtime and design-time package metadata to `2.1.3`, and makes the standalone Skin Editor safer to operate with explicit modified-state tracking, separate `Salvar` / `Salvar como...` actions and confirmation before discarding unsaved edits. The public release notes are in `docs/release/RELEASE_2_1_3.md`; the stable 2.0 baseline remains documented in `docs/release/RELEASE_2_0_0.md`.
+The `2.1.4` build continues the post-2.0 Skin Editor workflow line. It keeps the 2.0 public API direction, advances runtime and design-time package metadata to `2.1.4`, hides `TLazRibbon.RibbonAppearance` from the Lazarus Object Inspector for new projects, and moves the complete visual Appearance editor into the `TLazRibbonSkinManager` design-time workflow. The public release notes are in `docs/release/RELEASE_2_1_4.md`; the stable 2.0 baseline remains documented in `docs/release/RELEASE_2_0_0.md`.
 
 ## Post-2.0 development
 
@@ -74,7 +74,9 @@ The public screenshot set is generated with `tools/capture_release_screenshots.p
 
 Highlights in the current LazRibbon line:
 
-- Runtime and design-time package metadata are aligned on `2.1.3`.
+- Runtime and design-time package metadata are aligned on `2.1.4`.
+- `TLazRibbon.RibbonAppearance` remains internal/streaming-compatible state and is hidden from the Object Inspector; new visual styling goes through `TLazRibbonSkinManager`.
+- The `TLazRibbonSkinManager` component editor exposes `Editar Appearance completo...` so the complete low-level visual editor is available inside the skin workflow.
 - The Skin Editor tracks unsaved changes, marks the window title with `*` and asks before discarding edits.
 - The Skin Editor separates `Salvar` from `Salvar como...`, reusing the current `.skin` path when available.
 - The Skin Editor top workflow strip keeps base selection and create/open/save actions visible during the normal skin-authoring path.
@@ -110,8 +112,8 @@ Highlights in the current LazRibbon line:
 - The Skin Editor live Ribbon preview keeps enough height for pane captions and the Dialog Launcher across DPI/font changes.
 - The Dialog Launcher glyph is drawn by canvas lines instead of depending on private-use font characters.
 - Design-time edits to Ribbon captions and structure force the parent Ribbon preview to rebuild and repaint.
-- `TLazRibbon.RibbonAppearance` is the Office-like design-time property for detailed Ribbon visual styling; the old `TLazRibbon.Appearance` alias is no longer published.
-- Demos and tools stream `RibbonAppearance.*` for `TLazRibbon` controls and keep `Appearance.*` for `TLazRibbonSkinManager`, with a consistency audit covering both cases.
+- `TLazRibbon.RibbonAppearance` is kept as internal/streaming-compatible rendering state. It is hidden from the Object Inspector; use `TLazRibbonSkinManager.Appearance` for detailed visual styling in new projects.
+- Existing demos and tools may still stream `RibbonAppearance.*` for `TLazRibbon` controls, while new skin authoring should keep detailed appearance data in `TLazRibbonSkinManager.Appearance`.
 - `TLazRibbon.ApplicationButton` is the single public API for the Office Application Button, including caption, visibility, behavior mode, popup menu, caption/dropdown style and click event.
 - `TLazRibbonSkinManager` exposes skin palette colors through grouped properties: `General`, `Accent`, `Backstage`, `RecentList` and `Ribbon`.
 - Office-style BackStage overlay modes, with full-client-area coverage as the default.
@@ -279,14 +281,14 @@ powershell -ExecutionPolicy Bypass -File tools/build_all_projects.ps1 -CleanArti
 To validate the package from an extracted clean source tree:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File tools/verify_clean_checkout.ps1 -Version 2.1.3 -ReleaseVersion 2.1.3
+powershell -ExecutionPolicy Bypass -File tools/verify_clean_checkout.ps1 -Version 2.1.4 -ReleaseVersion 2.1.4
 ```
 
 For a complete release preflight, including consistency checks and ZIP
 audit:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File tools/verify_release_candidate.ps1 -Version 2.1.3 -ReleaseVersion 2.1.3 -OutputDirectory D:\Ribbon4Lazarus\Releases
+powershell -ExecutionPolicy Bypass -File tools/verify_release_candidate.ps1 -Version 2.1.4 -ReleaseVersion 2.1.4 -OutputDirectory D:\Ribbon4Lazarus\Releases
 ```
 
 The purpose of each demo is documented in

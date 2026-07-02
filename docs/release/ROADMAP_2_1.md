@@ -46,7 +46,7 @@ Deliver a post-2.0 package that feels easier to adopt and maintain:
 
 ## 2.1 Gates
 
-- `tools/check_project_consistency.ps1 -ExpectedVersion 2.1.3` passes.
+- `tools/check_project_consistency.ps1 -ExpectedVersion 2.1.4` passes.
 - `tools/export_skin_editor_2_1_coverage.ps1` regenerates the Skin Editor coverage report.
 - The Skin Editor opens, previews built-in skins and saves a self-contained `.skin` file.
 - The main demos compile with Lazarus 4.8.
@@ -72,6 +72,10 @@ The Skin Editor now presents the normal authoring path directly in the window: c
 ## 2.1.3 Snapshot
 
 The Skin Editor now behaves more like a normal document editor: it tracks unsaved edits, marks the window caption with `*`, shows the edited/saved state in the workflow hint, separates `Salvar` from `Salvar como...`, and asks before a close/open/new operation would discard changes.
+
+## 2.1.4 Snapshot
+
+The SkinManager is now the preferred design-time path for detailed visual styling: `TLazRibbon.RibbonAppearance` is hidden from the Object Inspector, while the `TLazRibbonSkinManager` component editor exposes the complete Appearance editor through `Editar Appearance completo...`. This keeps old forms readable while guiding new projects toward distributable `.skin` files.
 
 ## Initial Coverage Snapshot
 

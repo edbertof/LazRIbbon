@@ -20,13 +20,15 @@ interface
 uses
   Classes, SysUtils, Graphics, Controls, Forms, StdCtrls, ExtCtrls, ComCtrls,
   Dialogs, ComponentEditors, TypInfo,
-  LazRibbon_GUITools, LazRibbon_Dispatch, LazRibbon_Appearance, LazRibbon_SkinManager;
+  LazRibbon_GUITools, LazRibbon_Dispatch, LazRibbon_Appearance,
+  LazRibbon_AppearanceEditor, LazRibbon_SkinManager;
 
 type
   TLazRibbonSkinManagerEditor = class(TComponentEditor)
   private
     function SkinManager: TLazRibbonSkinManager;
     procedure DoEditSkin;
+    procedure DoEditFullAppearance;
     procedure DoLoadSkin;
     procedure DoSaveSkin;
     procedure DoResetSkin;
@@ -92,6 +94,7 @@ type
     procedure DoApply(Sender: TObject);
     procedure DoCancel(Sender: TObject);
     procedure DoLoad(Sender: TObject);
+    procedure DoFullAppearance(Sender: TObject);
     procedure DoOK(Sender: TObject);
     procedure DoReset(Sender: TObject);
     procedure DoSave(Sender: TObject);
@@ -212,6 +215,12 @@ begin
   Btn.Caption := 'Resetar';
   Btn.SetBounds(192, 8, 86, 26);
   Btn.OnClick := DoReset;
+
+  Btn := TButton.Create(Self);
+  Btn.Parent := BtnPanel;
+  Btn.Caption := 'Appearance completo...';
+  Btn.SetBounds(284, 8, 146, 26);
+  Btn.OnClick := DoFullAppearance;
 
   Btn := TButton.Create(Self);
   Btn.Parent := BtnPanel;
@@ -614,6 +623,23 @@ begin
   end;
 end;
 
+procedure TLazRibbonSkinEditForm.DoFullAppearance(Sender: TObject);
+var
+  AppearanceEditor: TfrmLazRibbonAppearanceEditWindow;
+begin
+  AppearanceEditor := TfrmLazRibbonAppearanceEditWindow.Create(Self);
+  try
+    AppearanceEditor.Appearance.Assign(FAppearance);
+    if AppearanceEditor.ShowModal = mrOK then
+    begin
+      FAppearance.Assign(AppearanceEditor.Appearance);
+      UpdateAllAppearanceRows;
+    end;
+  finally
+    AppearanceEditor.Free;
+  end;
+end;
+
 procedure TLazRibbonSkinEditForm.DoOK(Sender: TObject);
 begin
   ApplyToManager;
@@ -783,6 +809,24 @@ begin
   end;
 end;
 
+procedure TLazRibbonSkinManagerEditor.DoEditFullAppearance;
+var
+  F: TfrmLazRibbonAppearanceEditWindow;
+begin
+  if SkinManager = nil then Exit;
+  F := TfrmLazRibbonAppearanceEditWindow.Create(nil);
+  try
+    F.Appearance.Assign(SkinManager.Appearance);
+    if F.ShowModal = mrOK then
+    begin
+      SkinManager.Appearance.Assign(F.Appearance);
+      Designer.Modified;
+    end;
+  finally
+    F.Free;
+  end;
+end;
+
 procedure TLazRibbonSkinManagerEditor.DoLoadSkin;
 var
   D: TOpenDialog;
@@ -833,9 +877,10 @@ procedure TLazRibbonSkinManagerEditor.ExecuteVerb(Index: Integer);
 begin
   case Index of
     0: DoEditSkin;
-    1: DoLoadSkin;
-    2: DoSaveSkin;
-    3: DoResetSkin;
+    1: DoEditFullAppearance;
+    2: DoLoadSkin;
+    3: DoSaveSkin;
+    4: DoResetSkin;
   end;
 end;
 
@@ -843,9 +888,10 @@ function TLazRibbonSkinManagerEditor.GetVerb(Index: Integer): string;
 begin
   case Index of
     0: Result := 'Editar skin...';
-    1: Result := 'Carregar skin...';
-    2: Result := 'Salvar skin...';
-    3: Result := 'Resetar skin';
+    1: Result := 'Editar Appearance completo...';
+    2: Result := 'Carregar skin...';
+    3: Result := 'Salvar skin...';
+    4: Result := 'Resetar skin';
   else
     Result := '';
   end;
@@ -853,7 +899,7 @@ end;
 
 function TLazRibbonSkinManagerEditor.GetVerbCount: Integer;
 begin
-  Result := 4;
+  Result := 5;
 end;
 
 end.

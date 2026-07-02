@@ -47,7 +47,7 @@ The design package also registers item classes without palette icons:
 
 | Component | Older/confusing surface | 2.0-facing surface |
 | --- | --- | --- |
-| `TLazRibbon` | `Appearance` alias | `RibbonAppearance` |
+| `TLazRibbon` | Direct `RibbonAppearance` editing in the Object Inspector | `SkinManager` plus `TLazRibbonSkinManager.Appearance` |
 | `TLazRibbonApplicationButton` | Published `BackstageView` delegate | Owner `TLazRibbon.BackstageView` |
 | `TLazRibbonBackstageView` | `ShowCloseButton`, `UseToolbarAppearance`, `UseSkinManager` | `BackButtonVisible`, `AppearanceSource`, `LinkedToolbar`, `SkinManager` |
 | `TLazRibbonBackstagePage` | Published `Action`, `Command`, `CloseBackstageOnClick`, `ItemKind`, `OnExecute` | Content page only; use `TLazRibbonBackstageView.Buttons` for navigation/commands |
@@ -101,8 +101,8 @@ reports zero unclassified redundancies.
 `tools/export_design_time_property_skip_audit.ps1`. It records the
 `RegisterPropertyToSkip` and nil property-editor rules that hide obsolete,
 compatibility-only or role-inappropriate properties from the Lazarus Object
-Inspector. The current report documents 29 skip rules, 4 nil property-editor
-hide rules and 8 affected component classes.
+Inspector. The current report documents 30 skip rules, 5 nil property-editor
+hide rules and 9 affected component classes.
 
 ## Intentional Shared Names
 
@@ -128,5 +128,5 @@ the property matrix and the generated redundancy audit.
 
 - Appearance subobjects still use many low-level color names inherited from the
   original SpkToolBar model. They remain acceptable because they live inside
-  `RibbonAppearance` or `SkinManager.Appearance`, not as first-level component
-  decisions.
+  `SkinManager.Appearance` for new projects, not as first-level component
+  decisions. `RibbonAppearance` remains internal/streaming-compatible state.
