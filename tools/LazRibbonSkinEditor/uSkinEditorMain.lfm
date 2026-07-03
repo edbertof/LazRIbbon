@@ -476,7 +476,7 @@ object frmLazRibbonSkinEditor: TfrmLazRibbonSkinEditor
       Layout = tlCenter
     end
     object lblWorkflow: TLabel
-      Left = 604
+      Left = 246
       Height = 13
       Top = 8
       Width = 42
@@ -485,10 +485,10 @@ object frmLazRibbonSkinEditor: TfrmLazRibbonSkinEditor
       ParentFont = False
     end
     object lblBaseHint: TLabel
-      Left = 650
+      Left = 294
       Height = 13
       Top = 8
-      Width = 320
+      Width = 720
       AutoSize = False
       Caption = 'Escolha uma base, crie uma skin editável, ajuste as cores, valide e salve.'
     end
@@ -501,42 +501,6 @@ object frmLazRibbonSkinEditor: TfrmLazRibbonSkinEditor
       Style = csDropDownList
       TabOrder = 0
       OnChange = cbBaseSkinChange
-    end
-    object btnTopNewFromBase: TButton
-      Left = 238
-      Height = 24
-      Top = 3
-      Width = 112
-      Caption = 'Nova skin...'
-      OnClick = btnNewFromBaseClick
-      TabOrder = 1
-    end
-    object btnTopOpen: TButton
-      Left = 356
-      Height = 24
-      Top = 3
-      Width = 68
-      Caption = 'Abrir...'
-      OnClick = btnOpenClick
-      TabOrder = 2
-    end
-    object btnTopSave: TButton
-      Left = 430
-      Height = 24
-      Top = 3
-      Width = 64
-      Caption = 'Salvar'
-      OnClick = btnSaveClick
-      TabOrder = 3
-    end
-    object btnTopSaveAs: TButton
-      Left = 500
-      Height = 24
-      Top = 3
-      Width = 92
-      Caption = 'Salvar como...'
-      OnClick = btnSaveAsClick
-      TabOrder = 4
     end
   end
   object pnlLeft: TPanel

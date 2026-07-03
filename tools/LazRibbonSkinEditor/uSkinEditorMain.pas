@@ -2712,43 +2712,39 @@ begin
 
   if Assigned(btnTopNewFromBase) then
   begin
-    btnTopNewFromBase.SetBounds(238, 3, 112, 24);
-    btnTopNewFromBase.Caption := 'Nova skin...';
-    btnTopNewFromBase.OnClick := @btnNewFromBaseClick;
+    btnTopNewFromBase.Visible := False;
+    btnTopNewFromBase.Enabled := False;
   end;
 
   if Assigned(btnTopOpen) then
   begin
-    btnTopOpen.SetBounds(356, 3, 68, 24);
-    btnTopOpen.Caption := 'Abrir...';
-    btnTopOpen.OnClick := @btnOpenClick;
+    btnTopOpen.Visible := False;
+    btnTopOpen.Enabled := False;
   end;
 
   if Assigned(btnTopSave) then
   begin
-    btnTopSave.SetBounds(430, 3, 64, 24);
-    btnTopSave.Caption := 'Salvar';
-    btnTopSave.OnClick := @btnSaveClick;
+    btnTopSave.Visible := False;
+    btnTopSave.Enabled := False;
   end;
 
   if Assigned(btnTopSaveAs) then
   begin
-    btnTopSaveAs.SetBounds(500, 3, 92, 24);
-    btnTopSaveAs.Caption := 'Salvar como...';
-    btnTopSaveAs.OnClick := @btnSaveAsClick;
+    btnTopSaveAs.Visible := False;
+    btnTopSaveAs.Enabled := False;
   end;
 
   if Assigned(lblWorkflow) then
   begin
     lblWorkflow.Caption := 'Etapa:';
     lblWorkflow.Visible := True;
-    lblWorkflow.SetBounds(604, 8, 42, 13);
+    lblWorkflow.SetBounds(246, 8, 42, 13);
   end;
 
   if Assigned(lblBaseHint) then
   begin
     lblBaseHint.AutoSize := False;
-    lblBaseHint.SetBounds(650, 8, 320, 13);
+    lblBaseHint.SetBounds(294, 8, 720, 13);
   end;
 
   if Assigned(pcMain) then
