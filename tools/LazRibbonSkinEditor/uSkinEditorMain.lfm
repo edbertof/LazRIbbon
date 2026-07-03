@@ -507,7 +507,7 @@ object frmLazRibbonSkinEditor: TfrmLazRibbonSkinEditor
       Height = 24
       Top = 3
       Width = 112
-      Caption = 'Nova pela base'
+      Caption = 'Nova skin...'
       OnClick = btnNewFromBaseClick
       TabOrder = 1
     end
@@ -1135,7 +1135,7 @@ object frmLazRibbonSkinEditor: TfrmLazRibbonSkinEditor
         Page = BackstagePageInfo
       end    
       item
-        Caption = 'Nova skin pela base...'
+        Caption = 'Nova skin...'
         Kind = bbkCommand
         OnExecute = btnNewFromBaseClick
       end

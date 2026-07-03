@@ -19,7 +19,7 @@ interface
 
 uses
   Classes, SysUtils, TypInfo, Forms, Controls, Graphics, Dialogs, StdCtrls, ExtCtrls,
-  Buttons, ComCtrls, Types,
+  Buttons, ComCtrls, Types, CheckLst,
   LazRibbon_Core, LazRibbon_Tabs, LazRibbon_Groups, LazRibbon_Buttons, LazRibbon_Checkboxes,
   LazRibbon_Appearance, LazRibbon_SkinDefinition, LazRibbon_SkinManager,
   LazRibbon_AppearanceEditor, LazRibbon_Backstage, LazRibbon_RibbonExtItems;
@@ -282,6 +282,10 @@ type
     function CopyAppearancePropertyValue(ABaseObj, ACurrentObj: TPersistent;
       const APropName: String; out AErrorMessage: String): Boolean;
     function CurrentSkinIsEditable: Boolean;
+    function PromptNewSkinFromBase(out ABaseSkin: TLazRibbonSkinDefinition;
+      out ASkinName, ADisplayName: String): Boolean;
+    procedure CreateSkinFromBase(ABaseSkin: TLazRibbonSkinDefinition;
+      const ASkinName, ADisplayName: String);
     function SelectedBaseSkin: TLazRibbonSkinDefinition;
     function SafeSkinIdentifier(const AValue: String): String;
     function UniqueCustomSkinIdentifier(ABaseSkin: TLazRibbonSkinDefinition): String;
@@ -304,7 +308,256 @@ implementation
 
 {$R *.lfm}
 
+type
+  { TLazRibbonNewSkinDialog }
+
+  TLazRibbonNewSkinDialog = class(TForm)
+  private
+    FEditor: TfrmLazRibbonSkinEditor;
+    FTemplates: TCheckListBox;
+    FEdtName: TEdit;
+    FEdtDisplayName: TEdit;
+    FStatus: TLabel;
+    FOkButton: TButton;
+    FUpdating: Boolean;
+    FUserEditedName: Boolean;
+    FUserEditedDisplayName: Boolean;
+    function GetDisplayName: String;
+    function GetSelectedBaseSkin: TLazRibbonSkinDefinition;
+    function GetSkinName: String;
+    procedure EditChange(Sender: TObject);
+    procedure SelectTemplateIndex(AIndex: Integer);
+    procedure TemplateClick(Sender: TObject);
+    procedure TemplateClickCheck(Sender: TObject);
+    procedure UpdateSuggestedNames(ASkin: TLazRibbonSkinDefinition);
+    procedure ValidateDialog;
+  public
+    constructor Create(AOwner: TComponent; AEditor: TfrmLazRibbonSkinEditor;
+      AInitialSkin: TLazRibbonSkinDefinition); reintroduce;
+    property DisplayName: String read GetDisplayName;
+    property SelectedBaseSkin: TLazRibbonSkinDefinition read GetSelectedBaseSkin;
+    property SkinName: String read GetSkinName;
+  end;
+
 { TfrmLazRibbonSkinEditor }
+
+constructor TLazRibbonNewSkinDialog.Create(AOwner: TComponent;
+  AEditor: TfrmLazRibbonSkinEditor; AInitialSkin: TLazRibbonSkinDefinition);
+var
+  L: TLabel;
+  Line: TBevel;
+  CancelButton: TButton;
+  I, InitialIndex: Integer;
+  Skin: TLazRibbonSkinDefinition;
+  CaptionText: String;
+begin
+  inherited CreateNew(AOwner, 1);
+  FEditor := AEditor;
+
+  Caption := 'Nova skin';
+  BorderStyle := bsDialog;
+  Position := poMainFormCenter;
+  ClientWidth := 470;
+  ClientHeight := 430;
+
+  L := TLabel.Create(Self);
+  L.Parent := Self;
+  L.SetBounds(12, 14, 92, 18);
+  L.Caption := 'Nome interno:';
+
+  FEdtName := TEdit.Create(Self);
+  FEdtName.Parent := Self;
+  FEdtName.SetBounds(112, 10, 340, 24);
+  FEdtName.OnChange := @EditChange;
+
+  L := TLabel.Create(Self);
+  L.Parent := Self;
+  L.SetBounds(12, 46, 92, 18);
+  L.Caption := 'Nome exibido:';
+
+  FEdtDisplayName := TEdit.Create(Self);
+  FEdtDisplayName.Parent := Self;
+  FEdtDisplayName.SetBounds(112, 42, 340, 24);
+  FEdtDisplayName.OnChange := @EditChange;
+
+  Line := TBevel.Create(Self);
+  Line.Parent := Self;
+  Line.Shape := bsTopLine;
+  Line.SetBounds(12, 78, 440, 8);
+
+  L := TLabel.Create(Self);
+  L.Parent := Self;
+  L.SetBounds(12, 88, 160, 18);
+  L.Caption := 'Bases disponiveis:';
+
+  FTemplates := TCheckListBox.Create(Self);
+  FTemplates.Parent := Self;
+  FTemplates.SetBounds(12, 110, 440, 230);
+  FTemplates.OnClick := @TemplateClick;
+  FTemplates.OnClickCheck := @TemplateClickCheck;
+
+  FStatus := TLabel.Create(Self);
+  FStatus.Parent := Self;
+  FStatus.AutoSize := False;
+  FStatus.SetBounds(12, 348, 440, 32);
+  FStatus.WordWrap := True;
+
+  Line := TBevel.Create(Self);
+  Line.Parent := Self;
+  Line.Shape := bsTopLine;
+  Line.SetBounds(12, 382, 440, 8);
+
+  FOkButton := TButton.Create(Self);
+  FOkButton.Parent := Self;
+  FOkButton.SetBounds(280, 394, 82, 26);
+  FOkButton.Caption := 'OK';
+  FOkButton.Default := True;
+  FOkButton.ModalResult := mrOK;
+
+  CancelButton := TButton.Create(Self);
+  CancelButton.Parent := Self;
+  CancelButton.SetBounds(370, 394, 82, 26);
+  CancelButton.Caption := 'Cancelar';
+  CancelButton.Cancel := True;
+  CancelButton.ModalResult := mrCancel;
+
+  InitialIndex := -1;
+  if (FEditor <> nil) and (FEditor.FManager <> nil) then
+  begin
+    for I := 0 to FEditor.FManager.SkinCount - 1 do
+    begin
+      Skin := FEditor.FManager.Skins[I];
+      if Skin = nil then
+        Continue;
+
+      CaptionText := Skin.DisplayName;
+      if Trim(CaptionText) = '' then
+        CaptionText := Skin.Name;
+      if Trim(CaptionText) = '' then
+        CaptionText := 'Skin ' + IntToStr(I + 1);
+
+      FTemplates.Items.AddObject(CaptionText, Skin);
+      if (Skin = AInitialSkin) or
+        ((AInitialSkin <> nil) and SameText(Skin.Name, AInitialSkin.Name)) then
+        InitialIndex := FTemplates.Items.Count - 1;
+    end;
+  end;
+
+  if (InitialIndex < 0) and (FTemplates.Items.Count > 0) then
+    InitialIndex := 0;
+  SelectTemplateIndex(InitialIndex);
+  ValidateDialog;
+end;
+
+function TLazRibbonNewSkinDialog.GetDisplayName: String;
+begin
+  Result := Trim(FEdtDisplayName.Text);
+end;
+
+function TLazRibbonNewSkinDialog.GetSelectedBaseSkin: TLazRibbonSkinDefinition;
+begin
+  Result := nil;
+  if (FTemplates <> nil) and (FTemplates.ItemIndex >= 0) then
+    Result := TLazRibbonSkinDefinition(FTemplates.Items.Objects[FTemplates.ItemIndex]);
+end;
+
+function TLazRibbonNewSkinDialog.GetSkinName: String;
+begin
+  Result := Trim(FEdtName.Text);
+end;
+
+procedure TLazRibbonNewSkinDialog.EditChange(Sender: TObject);
+begin
+  if FUpdating then
+    Exit;
+
+  if Sender = FEdtName then
+    FUserEditedName := True
+  else if Sender = FEdtDisplayName then
+    FUserEditedDisplayName := True;
+
+  ValidateDialog;
+end;
+
+procedure TLazRibbonNewSkinDialog.SelectTemplateIndex(AIndex: Integer);
+var
+  I: Integer;
+  Skin: TLazRibbonSkinDefinition;
+begin
+  if FTemplates = nil then
+    Exit;
+
+  FUpdating := True;
+  try
+    for I := 0 to FTemplates.Items.Count - 1 do
+      FTemplates.Checked[I] := I = AIndex;
+    FTemplates.ItemIndex := AIndex;
+  finally
+    FUpdating := False;
+  end;
+
+  Skin := GetSelectedBaseSkin;
+  UpdateSuggestedNames(Skin);
+  ValidateDialog;
+end;
+
+procedure TLazRibbonNewSkinDialog.TemplateClick(Sender: TObject);
+begin
+  if FUpdating then
+    Exit;
+  SelectTemplateIndex(FTemplates.ItemIndex);
+end;
+
+procedure TLazRibbonNewSkinDialog.TemplateClickCheck(Sender: TObject);
+begin
+  if FUpdating then
+    Exit;
+  SelectTemplateIndex(FTemplates.ItemIndex);
+end;
+
+procedure TLazRibbonNewSkinDialog.UpdateSuggestedNames(
+  ASkin: TLazRibbonSkinDefinition);
+begin
+  if (FEditor = nil) or (ASkin = nil) then
+    Exit;
+
+  FUpdating := True;
+  try
+    if not FUserEditedName then
+      FEdtName.Text := FEditor.UniqueCustomSkinIdentifier(ASkin);
+    if not FUserEditedDisplayName then
+      FEdtDisplayName.Text := FEditor.CustomDisplayNameForBase(ASkin);
+  finally
+    FUpdating := False;
+  end;
+end;
+
+procedure TLazRibbonNewSkinDialog.ValidateDialog;
+var
+  MessageText: String;
+begin
+  MessageText := '';
+
+  if SelectedBaseSkin = nil then
+    MessageText := 'Escolha uma base para criar a nova skin.'
+  else if (FEditor = nil) or not FEditor.IsValidSkinIdentifier(SkinName) then
+    MessageText := 'Informe um nome interno valido. Use letras, numeros, "_" ou "-".'
+  else if (FEditor.FManager <> nil) and (FEditor.FManager.FindSkin(SkinName) <> nil) then
+    MessageText := 'Ja existe uma skin com esse nome interno.'
+  else if DisplayName = '' then
+    MessageText := 'Informe o nome exibido da skin.';
+
+  if FOkButton <> nil then
+    FOkButton.Enabled := MessageText = '';
+
+  if FStatus <> nil then
+  begin
+    if MessageText = '' then
+      FStatus.Caption := 'A nova skin sera criada como copia completa da base selecionada.'
+    else
+      FStatus.Caption := MessageText;
+  end;
+end;
 
 function PaletteFieldCaption(AField: TLazRibbonEditorPaletteField): String;
 begin
@@ -416,7 +669,7 @@ begin
   Constraints.MinHeight := 620;
 
   lblLivePreview.Caption := 'Pré-visualização da skin em tempo real';
-  lblStatus.Caption := 'Escolha uma base, clique em Nova pela base, ajuste as cores, valide e salve a skin.';
+  lblStatus.Caption := 'Clique em Nova skin, escolha uma base, ajuste as cores, valide e salve a skin.';
   lblBaseSkin.Caption := 'Base:';
   lblBaseHint.Caption := 'Escolha uma base, crie uma skin editável, ajuste as cores, valide e salve.';
   cbBaseSkin.Enabled := True;
@@ -476,7 +729,7 @@ begin
     cbBaseSkin.ItemIndex := 0;
     UpdateWorkflowGuide('Base em foco: ' +
       PreviewSkinManager.SkinByIndex(0).DisplayName +
-      '. Clique em Nova pela base para iniciar uma skin editável.');
+      '. Clique em Nova skin para escolher uma base e iniciar uma skin editável.');
   end;
   UpdateWindowCaption;
 end;
@@ -2460,7 +2713,7 @@ begin
   if Assigned(btnTopNewFromBase) then
   begin
     btnTopNewFromBase.SetBounds(238, 3, 112, 24);
-    btnTopNewFromBase.Caption := 'Nova pela base';
+    btnTopNewFromBase.Caption := 'Nova skin...';
     btnTopNewFromBase.OnClick := @btnNewFromBaseClick;
   end;
 
@@ -2513,7 +2766,7 @@ var
   BaseSkin: TLazRibbonSkinDefinition;
 begin
   ShortHint := 'Escolha uma base';
-  StatusHint := 'Escolha uma base, clique em Nova pela base, ajuste as cores, valide e salve a skin.';
+  StatusHint := 'Clique em Nova skin, escolha uma base, ajuste as cores, valide e salve a skin.';
 
   if Assigned(pcMain) then
   begin
@@ -2713,6 +2966,65 @@ begin
      (Trim(FCurrentSkin.DisplayName) <> '') or
      (Trim(FCurrentSkin.Author) <> '') or
      (Trim(FCurrentSkin.Description) <> ''));
+end;
+
+function TfrmLazRibbonSkinEditor.PromptNewSkinFromBase(
+  out ABaseSkin: TLazRibbonSkinDefinition; out ASkinName,
+  ADisplayName: String): Boolean;
+var
+  Dlg: TLazRibbonNewSkinDialog;
+begin
+  ABaseSkin := nil;
+  ASkinName := '';
+  ADisplayName := '';
+
+  Dlg := TLazRibbonNewSkinDialog.Create(Self, Self, SelectedBaseSkin);
+  try
+    Result := Dlg.ShowModal = mrOK;
+    if Result then
+    begin
+      ABaseSkin := Dlg.SelectedBaseSkin;
+      ASkinName := Dlg.SkinName;
+      ADisplayName := Dlg.DisplayName;
+    end;
+  finally
+    Dlg.Free;
+  end;
+end;
+
+procedure TfrmLazRibbonSkinEditor.CreateSkinFromBase(
+  ABaseSkin: TLazRibbonSkinDefinition; const ASkinName, ADisplayName: String);
+var
+  BaseDisplayName: String;
+begin
+  if (ABaseSkin = nil) or (FCurrentSkin = nil) then
+    Exit;
+
+  BaseDisplayName := ABaseSkin.DisplayName;
+  if Trim(BaseDisplayName) = '' then
+    BaseDisplayName := ABaseSkin.Name;
+
+  FCurrentSkin.Assign(ABaseSkin);
+  FCurrentSkin.Source := sssCustom;
+  FCurrentSkin.FileName := '';
+  FCurrentSkin.Name := ASkinName;
+  FCurrentSkin.DisplayName := ADisplayName;
+  if Trim(ABaseSkin.GroupName) <> '' then
+    FCurrentSkin.GroupName := ABaseSkin.GroupName
+  else
+    FCurrentSkin.GroupName := 'Custom Skins';
+  FCurrentSkin.Author := '';
+  FCurrentSkin.Description := 'Based on ' + BaseDisplayName + '.';
+  FCurrentSkin.Notes := FCurrentSkin.Description;
+  RefreshFullAppearanceEditedFromCurrentSkin;
+  UpdateEditorFromSkin;
+  RefreshValidationReport;
+  MarkSkinModified;
+  if FFullAppearanceEdited then
+    UpdateWorkflowGuide('Nova skin criada como copia completa de ' + BaseDisplayName +
+      '. O Appearance detalhado da base sera preservado ate uma sincronizacao explicita.')
+  else
+    UpdateWorkflowGuide('Nova skin criada com a paleta simples controlando o Appearance.');
 end;
 
 function TfrmLazRibbonSkinEditor.SelectedBaseSkin: TLazRibbonSkinDefinition;
@@ -3026,7 +3338,7 @@ begin
   FFullAppearanceEdited := False;
   LoadSkinToEditor(Skin);
   UpdateWorkflowGuide('Base em foco: ' + Skin.DisplayName +
-    '. Clique em Nova pela base para iniciar uma skin editável.');
+    '. Clique em Nova skin para escolher uma base e iniciar uma skin editável.');
 end;
 
 procedure TfrmLazRibbonSkinEditor.cbBaseSkinChange(Sender: TObject);
@@ -3064,7 +3376,7 @@ begin
   FFullAppearanceEdited := False;
   LoadSkinToEditor(Skin);
   UpdateWorkflowGuide('Base em foco: ' + Skin.DisplayName +
-    '. Clique em Nova pela base para iniciar uma skin editável.');
+    '. Clique em Nova skin para escolher uma base e iniciar uma skin editável.');
 end;
 
 procedure TfrmLazRibbonSkinEditor.lstSkinsClick(Sender: TObject);
@@ -3181,35 +3493,17 @@ end;
 procedure TfrmLazRibbonSkinEditor.btnNewFromBaseClick(Sender: TObject);
 var
   Skin: TLazRibbonSkinDefinition;
-  BaseDisplayName: String;
+  NewSkinName, NewDisplayName: String;
 begin
-  Skin := SelectedBaseSkin;
-  if Skin = nil then Exit;
+  if not PromptNewSkinFromBase(Skin, NewSkinName, NewDisplayName) then
+    Exit;
+
+  if Skin = nil then
+    Exit;
   if not ConfirmDiscardUnsavedChanges('criar uma nova skin pela base') then
     Exit;
-  BaseDisplayName := Skin.DisplayName;
-  if Trim(BaseDisplayName) = '' then
-    BaseDisplayName := Skin.Name;
-  FCurrentSkin.Assign(Skin);
-  FCurrentSkin.Source := sssCustom;
-  FCurrentSkin.FileName := '';
-  FCurrentSkin.Name := UniqueCustomSkinIdentifier(Skin);
-  FCurrentSkin.DisplayName := CustomDisplayNameForBase(Skin);
-  if Trim(Skin.GroupName) <> '' then
-    FCurrentSkin.GroupName := Skin.GroupName
-  else
-    FCurrentSkin.GroupName := 'Custom Skins';
-  FCurrentSkin.Author := '';
-  FCurrentSkin.Description := 'Based on ' + BaseDisplayName + '.';
-  FCurrentSkin.Notes := FCurrentSkin.Description;
-  RefreshFullAppearanceEditedFromCurrentSkin;
-  UpdateEditorFromSkin;
-  RefreshValidationReport;
-  MarkSkinModified;
-  if FFullAppearanceEdited then
-    UpdateWorkflowGuide('Nova skin criada como cópia completa de ' + BaseDisplayName + '. O Appearance detalhado da base será preservado até uma sincronização explícita.')
-  else
-    UpdateWorkflowGuide('Nova skin criada com a paleta simples controlando o Appearance.');
+
+  CreateSkinFromBase(Skin, NewSkinName, NewDisplayName);
 end;
 
 procedure TfrmLazRibbonSkinEditor.btnOpenClick(Sender: TObject);
