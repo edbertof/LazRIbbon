@@ -253,43 +253,45 @@ object frmLazRibbonSkinEditor: TfrmLazRibbonSkinEditor
           end
         end
         object EditorPaneFile: TLazRibbonPane
-          Caption = 'Área de transferência'
+          Caption = 'Arquivo'
+          Visible = False
           Items = (
             'EditorLargeNewFromBase'
             'EditorSmallOpen'
             'EditorSmallSaveAs'
           )
           object EditorLargeNewFromBase: TLazRibbonLargeButton
-            Caption = 'Colar'
+            Caption = 'Nova skin'
           end
           object EditorSmallOpen: TLazRibbonSmallButton
-            Caption = 'Copiar'
+            Caption = 'Abrir'
           end
           object EditorSmallSaveAs: TLazRibbonSmallButton
-            Caption = 'Recortar'
+            Caption = 'Salvar como'
           end
         end
         object EditorPaneAppearance: TLazRibbonPane
-          Caption = 'Estilos'
+          Caption = 'Appearance'
           ShowDialogLauncher = True
           Items = (
             'EditorLargeFullAppearance'
             'EditorSmallApplyPaletteAppearance'
           )
           object EditorLargeFullAppearance: TLazRibbonLargeButton
-            Caption = 'Fonte'
+            Caption = 'Editor visual'
           end
           object EditorSmallApplyPaletteAppearance: TLazRibbonSmallButton
-            Caption = 'Realçar'
+            Caption = 'Sincronizar'
           end
         end
         object EditorPaneExport: TLazRibbonPane
-          Caption = 'Inserir'
+          Caption = 'Exportar'
+          Visible = False
           Items = (
             'EditorLargeExportBuiltIns'
           )
           object EditorLargeExportBuiltIns: TLazRibbonLargeButton
-            Caption = 'Tabela'
+            Caption = 'Exportar'
           end
         end
       end
@@ -376,7 +378,7 @@ object frmLazRibbonSkinEditor: TfrmLazRibbonSkinEditor
         CustomAppearance.Popup.IdleGradientType = bkSolid
         CustomAppearance.Popup.SelectionShape = ssRectangle
         CustomAppearance.Popup.Style = psGutter
-        Caption = 'Exibir'
+        Caption = 'Amostras'
         Panes = (
           'PreviewPaneFile'
           'PreviewPaneView'
@@ -384,7 +386,7 @@ object frmLazRibbonSkinEditor: TfrmLazRibbonSkinEditor
           'EditorPaneSampleOptions'
         )
         object PreviewPaneFile: TLazRibbonPane
-          Caption = 'Documento'
+          Caption = 'Arquivo'
           Items = (
             'PreviewLargeNew'
             'PreviewSmallOpen'
@@ -414,7 +416,7 @@ object frmLazRibbonSkinEditor: TfrmLazRibbonSkinEditor
           end
         end
         object EditorPaneSampleEdit: TLazRibbonPane
-          Caption = 'Exemplos'
+          Caption = 'Edição'
           DialogLauncherStyle = dlsArrow
           ShowDialogLauncher = True
           Items = (
@@ -1125,18 +1127,6 @@ object frmLazRibbonSkinEditor: TfrmLazRibbonSkinEditor
         Caption = 'Exportar skins internos...'
         Kind = bbkCommand
         OnExecute = btnExportBuiltInsClick
-      end    
-      item
-        Caption = 'Ajustes avançados do Appearance...'
-        Kind = bbkCommand
-        Section = bbsBottom
-        OnExecute = btnEditFullAppearanceClick
-      end    
-      item
-        Caption = 'Regerar Appearance pela paleta'
-        Kind = bbkCommand
-        Section = bbsBottom
-        OnExecute = btnApplyPaletteToAppearanceClick
       end>
     Align = alNone
     BorderSpacing.Left = 8

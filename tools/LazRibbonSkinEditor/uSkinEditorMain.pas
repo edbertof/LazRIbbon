@@ -237,6 +237,7 @@ type
     procedure SetupWorkflowGuide;
     procedure SyncLivePreviewHeight;
     procedure UpdateWorkflowGuide(const AStatusText: String = '');
+    procedure UpdateEditingState;
     procedure PreviewToolbarRibbonMinimizedChanged(Sender: TObject);
     procedure ApplyCurrentSkinToPreview;
     procedure RefreshSkinList;
@@ -865,7 +866,7 @@ begin
   btnApplyPaletteAppearance.Top := 148;
   btnApplyPaletteAppearance.Width := 246;
   btnApplyPaletteAppearance.Height := 28;
-  btnApplyPaletteAppearance.Caption := 'Regerar Appearance pela paleta';
+  btnApplyPaletteAppearance.Caption := 'Sincronizar paleta -> Appearance';
   btnApplyPaletteAppearance.OnClick := @btnApplyPaletteToAppearanceClick;
 
   lblAppearanceMode := TLabel.Create(Self);
@@ -2356,9 +2357,9 @@ end;
 
 procedure TfrmLazRibbonSkinEditor.SetupPreviewToolbar;
 begin
-  { The editor no longer uses the normal Ribbon tabs as a command surface.
-    File/editor commands live in the Application Button BackStage.  The visible
-    Ribbon remains a live visual sample of the skin being edited. }
+  { Keep command ownership clear: file/project operations live in BackStage,
+    while the visible Ribbon offers base selection, Appearance tools and a
+    realistic sample area for the skin being edited. }
   PreviewToolbar.ApplicationButton.Caption := 'Arquivo';
   PreviewToolbar.ApplicationButton.Visible := True;
   PreviewToolbar.ApplicationButton.Mode := abmBackstage;
@@ -2367,7 +2368,7 @@ begin
   PreviewToolbar.OnRibbonMinimizedChanged := @PreviewToolbarRibbonMinimizedChanged;
 
   if Assigned(EditorTabSkin) then EditorTabSkin.Caption := 'Página inicial';
-  if Assigned(EditorTabPreview) then EditorTabPreview.Caption := 'Exibir';
+  if Assigned(EditorTabPreview) then EditorTabPreview.Caption := 'Amostras';
   if Assigned(EditorPaneBases) then EditorPaneBases.Caption := 'Bases';
   if Assigned(PreviewBaseGallery) then
   begin
@@ -2376,15 +2377,23 @@ begin
     PreviewBaseGallery.Columns := 4;
     PreviewBaseGallery.MaxVisibleItems := 8;
   end;
-  if Assigned(EditorPaneFile) then EditorPaneFile.Caption := 'Área de transferência';
+  if Assigned(EditorPaneFile) then
+  begin
+    EditorPaneFile.Caption := 'Arquivo';
+    EditorPaneFile.Visible := False;
+  end;
   if Assigned(EditorPaneAppearance) then
   begin
-    EditorPaneAppearance.Caption := 'Estilos';
+    EditorPaneAppearance.Caption := 'Appearance';
     EditorPaneAppearance.ShowDialogLauncher := True;
     EditorPaneAppearance.OnDialogLauncherClick := @EditorPaneAppearanceDialogLauncherClick;
   end;
-  if Assigned(EditorPaneExport) then EditorPaneExport.Caption := 'Inserir';
-  if Assigned(PreviewPaneFile) then PreviewPaneFile.Caption := 'Documento';
+  if Assigned(EditorPaneExport) then
+  begin
+    EditorPaneExport.Caption := 'Exportar';
+    EditorPaneExport.Visible := False;
+  end;
+  if Assigned(PreviewPaneFile) then PreviewPaneFile.Caption := 'Arquivo';
   if Assigned(PreviewPaneView) then
   begin
     PreviewPaneView.Caption := 'Janela';
@@ -2394,18 +2403,20 @@ begin
   end;
   if Assigned(EditorPaneSampleEdit) then
   begin
-    EditorPaneSampleEdit.Caption := 'Exemplos';
+    EditorPaneSampleEdit.Caption := 'Edição';
     EditorPaneSampleEdit.ShowDialogLauncher := True;
     EditorPaneSampleEdit.DialogLauncherStyle := dlsArrow;
     EditorPaneSampleEdit.OnDialogLauncherClick := @EditorPaneAppearanceDialogLauncherClick;
   end;
   if Assigned(EditorPaneSampleOptions) then EditorPaneSampleOptions.Caption := 'Opções';
-  if Assigned(EditorLargeNewFromBase) then EditorLargeNewFromBase.Caption := 'Colar';
-  if Assigned(EditorSmallOpen) then EditorSmallOpen.Caption := 'Copiar';
-  if Assigned(EditorSmallSaveAs) then EditorSmallSaveAs.Caption := 'Recortar';
-  if Assigned(EditorLargeExportBuiltIns) then EditorLargeExportBuiltIns.Caption := 'Tabela';
-  if Assigned(EditorLargeFullAppearance) then EditorLargeFullAppearance.Caption := 'Temas';
-  if Assigned(EditorSmallApplyPaletteAppearance) then EditorSmallApplyPaletteAppearance.Caption := 'Realce';
+  if Assigned(EditorLargeNewFromBase) then EditorLargeNewFromBase.Caption := 'Nova skin';
+  if Assigned(EditorSmallOpen) then EditorSmallOpen.Caption := 'Abrir';
+  if Assigned(EditorSmallSaveAs) then EditorSmallSaveAs.Caption := 'Salvar como';
+  if Assigned(EditorLargeExportBuiltIns) then EditorLargeExportBuiltIns.Caption := 'Exportar';
+  if Assigned(EditorLargeFullAppearance) then
+    EditorLargeFullAppearance.Caption := 'Editor visual';
+  if Assigned(EditorSmallApplyPaletteAppearance) then
+    EditorSmallApplyPaletteAppearance.Caption := 'Sincronizar';
   if Assigned(PreviewLargePaste) then
   begin
     PreviewLargePaste.Caption := 'Colar';
@@ -2466,9 +2477,9 @@ begin
   if Assigned(EditorLargeExportBuiltIns) then
     EditorLargeExportBuiltIns.OnClick := nil;
   if Assigned(EditorLargeFullAppearance) then
-    EditorLargeFullAppearance.OnClick := nil;
+    EditorLargeFullAppearance.OnClick := @btnEditFullAppearanceClick;
   if Assigned(EditorSmallApplyPaletteAppearance) then
-    EditorSmallApplyPaletteAppearance.OnClick := nil;
+    EditorSmallApplyPaletteAppearance.OnClick := @btnApplyPaletteToAppearanceClick;
   if Assigned(PreviewLargePaste) then
     PreviewLargePaste.OnClick := nil;
   if Assigned(PreviewSmallCopy) then
@@ -2507,6 +2518,8 @@ begin
 
   if PreviewToolbar.Tabs.Count > 0 then
     PreviewToolbar.TabIndex := 0;
+
+  UpdateEditingState;
 end;
 
 procedure TfrmLazRibbonSkinEditor.SyncLivePreviewHeight;
@@ -2634,6 +2647,7 @@ end;
 procedure TfrmLazRibbonSkinEditor.UpdateSkinFromEditor;
 begin
   if FUpdating or (FCurrentSkin = nil) then Exit;
+  if not (FCurrentSkin.Source in [sssCustom, sssExternal]) then Exit;
   FCurrentSkin.Name := Trim(edtName.Text);
   FCurrentSkin.DisplayName := Trim(edtDisplayName.Text);
   if edtGroupName <> nil then
@@ -2841,6 +2855,8 @@ begin
   if Assigned(btnTopSaveAs) then
     btnTopSaveAs.Enabled := FCurrentSkin <> nil;
 
+  UpdateEditingState;
+
   if Assigned(lblStatus) then
   begin
     if Trim(AStatusText) <> '' then
@@ -2848,6 +2864,70 @@ begin
     else
       lblStatus.Caption := StatusHint;
   end;
+end;
+
+procedure TfrmLazRibbonSkinEditor.UpdateEditingState;
+var
+  CanEdit: Boolean;
+  F: TLazRibbonEditorPaletteField;
+
+  procedure EnableControl(AControl: TControl; AEnabled: Boolean);
+  begin
+    if AControl <> nil then
+      AControl.Enabled := AEnabled;
+  end;
+
+  procedure SetBackstageCommandEnabled(const ACaption: String; AEnabled: Boolean);
+  var
+    I: Integer;
+    Button: TLazRibbonBackstageButton;
+  begin
+    if EditorBackstage = nil then
+      Exit;
+
+    for I := 0 to EditorBackstage.Buttons.Count - 1 do
+    begin
+      Button := EditorBackstage.Buttons[I];
+      if SameText(Button.Caption, ACaption) then
+      begin
+        Button.Enabled := AEnabled;
+        Break;
+      end;
+    end;
+  end;
+
+begin
+  CanEdit := CurrentSkinIsEditable;
+
+  EnableControl(edtName, CanEdit);
+  EnableControl(edtDisplayName, CanEdit);
+  EnableControl(edtGroupName, CanEdit);
+  EnableControl(edtAuthor, CanEdit);
+  EnableControl(memDescription, CanEdit);
+  EnableControl(edtIcon16, CanEdit);
+  EnableControl(edtIcon24, CanEdit);
+  EnableControl(edtIcon32, CanEdit);
+  EnableControl(edtPreviewImage, CanEdit);
+  EnableControl(btnIcon16, CanEdit);
+  EnableControl(btnIcon24, CanEdit);
+  EnableControl(btnIcon32, CanEdit);
+  EnableControl(btnPreviewImage, CanEdit);
+
+  for F := Low(TLazRibbonEditorPaletteField) to High(TLazRibbonEditorPaletteField) do
+    EnableControl(FColorPanels[F], CanEdit);
+
+  EnableControl(btnRefreshValidation, FCurrentSkin <> nil);
+  EnableControl(btnApplyPaletteAppearance, CanEdit);
+  EnableControl(btnEditAppearanceProperty, CanEdit);
+  EnableControl(btnResetAppearancePropertyFromBase, CanEdit);
+
+  if Assigned(EditorLargeFullAppearance) then
+    EditorLargeFullAppearance.Enabled := CanEdit;
+  if Assigned(EditorSmallApplyPaletteAppearance) then
+    EditorSmallApplyPaletteAppearance.Enabled := CanEdit;
+
+  SetBackstageCommandEnabled('Salvar', CanEdit);
+  SetBackstageCommandEnabled('Salvar como...', CanEdit);
 end;
 
 procedure TfrmLazRibbonSkinEditor.SetPaletteColor(AField: TLazRibbonEditorPaletteField; AColor: TColor);
@@ -3391,6 +3471,12 @@ end;
 
 procedure TfrmLazRibbonSkinEditor.MetadataChanged(Sender: TObject);
 begin
+  if not CurrentSkinIsEditable then
+  begin
+    UpdateWorkflowGuide('Use Arquivo > Nova skin... para criar uma skin editável antes de alterar a base.');
+    Exit;
+  end;
+
   UpdateSkinFromEditor;
   if (Sender = edtIcon16) or (Sender = edtIcon24) or (Sender = edtIcon32) or
      (Sender = edtPreviewImage) then
@@ -3411,6 +3497,12 @@ procedure TfrmLazRibbonSkinEditor.ColorPanelClick(Sender: TObject);
 var
   F: TLazRibbonEditorPaletteField;
 begin
+  if not CurrentSkinIsEditable then
+  begin
+    UpdateWorkflowGuide('Use Arquivo > Nova skin... para criar uma skin editável antes de alterar cores.');
+    Exit;
+  end;
+
   if not FieldFromSender(Sender, F) then Exit;
   ColorDialog.Color := GetPaletteColor(F);
   if ColorDialog.Execute then
@@ -3431,8 +3523,11 @@ end;
 
 procedure TfrmLazRibbonSkinEditor.btnApplyPaletteToAppearanceClick(Sender: TObject);
 begin
-  if FCurrentSkin = nil then
+  if not CurrentSkinIsEditable then
+  begin
+    UpdateWorkflowGuide('Use Arquivo > Nova skin... para criar uma skin editável antes de sincronizar o Appearance.');
     Exit;
+  end;
   FCurrentSkin.ApplyPaletteToAppearance;
   FCurrentSkin.Source := sssCustom;
   FFullAppearanceEdited := False;
@@ -3448,8 +3543,11 @@ procedure TfrmLazRibbonSkinEditor.OpenFullAppearanceEditor(AInitialPageIndex: In
 var
   AppearanceEditor: TfrmLazRibbonAppearanceEditWindow;
 begin
-  if FCurrentSkin = nil then
+  if not CurrentSkinIsEditable then
+  begin
+    UpdateWorkflowGuide('Use Arquivo > Nova skin... para criar uma skin editável antes de abrir o editor visual.');
     Exit;
+  end;
 
   UpdateSkinFromEditor;
 
@@ -3526,8 +3624,11 @@ end;
 
 procedure TfrmLazRibbonSkinEditor.btnSaveClick(Sender: TObject);
 begin
-  if FCurrentSkin = nil then
+  if not CurrentSkinIsEditable then
+  begin
+    UpdateWorkflowGuide('Use Arquivo > Nova skin... para criar uma skin editável antes de salvar.');
     Exit;
+  end;
   if Trim(FCurrentSkin.FileName) <> '' then
     SaveCurrentSkinToFile(FCurrentSkin.FileName)
   else
@@ -3536,6 +3637,11 @@ end;
 
 procedure TfrmLazRibbonSkinEditor.btnSaveAsClick(Sender: TObject);
 begin
+  if not CurrentSkinIsEditable then
+  begin
+    UpdateWorkflowGuide('Use Arquivo > Nova skin... para criar uma skin editável antes de salvar.');
+    Exit;
+  end;
   SaveCurrentSkinWithDialog;
 end;
 
