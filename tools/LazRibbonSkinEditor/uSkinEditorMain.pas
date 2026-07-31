@@ -287,10 +287,11 @@ type
       const APropName: String; out AErrorMessage: String): Boolean;
     function CurrentSkinIsEditable: Boolean;
     function PromptNewSkinFromBase(out ABaseSkin: TLazRibbonSkinDefinition;
-      out ASkinName, ADisplayName: String): Boolean;
+      out ASkinName, ADisplayName, ASkinFileName: String): Boolean;
     procedure CreateSkinFromBase(ABaseSkin: TLazRibbonSkinDefinition;
-      const ASkinName, ADisplayName: String);
+      const ASkinName, ADisplayName, ASkinFileName: String);
     function SelectedBaseSkin: TLazRibbonSkinDefinition;
+    function DefaultSkinFileNameForIdentifier(const AIdentifier: String): String;
     function SafeSkinIdentifier(const AValue: String): String;
     function UniqueCustomSkinIdentifier(ABaseSkin: TLazRibbonSkinDefinition): String;
     function CustomDisplayNameForBase(ABaseSkin: TLazRibbonSkinDefinition): String;
@@ -321,24 +322,31 @@ type
     FTemplates: TCheckListBox;
     FEdtName: TEdit;
     FEdtDisplayName: TEdit;
+    FEdtFileName: TEdit;
+    FBtnBrowseFile: TButton;
     FStatus: TLabel;
     FOkButton: TButton;
     FUpdating: Boolean;
     FUserEditedName: Boolean;
     FUserEditedDisplayName: Boolean;
+    FUserEditedFileName: Boolean;
     function GetDisplayName: String;
+    function GetSkinFileName: String;
     function GetSelectedBaseSkin: TLazRibbonSkinDefinition;
     function GetSkinName: String;
+    procedure BrowseFileClick(Sender: TObject);
     procedure EditChange(Sender: TObject);
     procedure SelectTemplateIndex(AIndex: Integer);
     procedure TemplateClick(Sender: TObject);
     procedure TemplateClickCheck(Sender: TObject);
+    procedure UpdateSuggestedFileName(const ASkinName: String);
     procedure UpdateSuggestedNames(ASkin: TLazRibbonSkinDefinition);
     procedure ValidateDialog;
   public
     constructor Create(AOwner: TComponent; AEditor: TfrmLazRibbonSkinEditor;
       AInitialSkin: TLazRibbonSkinDefinition); reintroduce;
     property DisplayName: String read GetDisplayName;
+    property SkinFileName: String read GetSkinFileName;
     property SelectedBaseSkin: TLazRibbonSkinDefinition read GetSelectedBaseSkin;
     property SkinName: String read GetSkinName;
   end;
@@ -362,7 +370,7 @@ begin
   BorderStyle := bsDialog;
   Position := poMainFormCenter;
   ClientWidth := 470;
-  ClientHeight := 430;
+  ClientHeight := 462;
 
   L := TLabel.Create(Self);
   L.Parent := Self;
@@ -384,43 +392,59 @@ begin
   FEdtDisplayName.SetBounds(112, 42, 340, 24);
   FEdtDisplayName.OnChange := @EditChange;
 
+  L := TLabel.Create(Self);
+  L.Parent := Self;
+  L.SetBounds(12, 78, 92, 18);
+  L.Caption := 'Arquivo .skin:';
+
+  FEdtFileName := TEdit.Create(Self);
+  FEdtFileName.Parent := Self;
+  FEdtFileName.SetBounds(112, 74, 306, 24);
+  FEdtFileName.OnChange := @EditChange;
+
+  FBtnBrowseFile := TButton.Create(Self);
+  FBtnBrowseFile.Parent := Self;
+  FBtnBrowseFile.SetBounds(426, 73, 26, 26);
+  FBtnBrowseFile.Caption := '...';
+  FBtnBrowseFile.OnClick := @BrowseFileClick;
+
   Line := TBevel.Create(Self);
   Line.Parent := Self;
   Line.Shape := bsTopLine;
-  Line.SetBounds(12, 78, 440, 8);
+  Line.SetBounds(12, 110, 440, 8);
 
   L := TLabel.Create(Self);
   L.Parent := Self;
-  L.SetBounds(12, 88, 160, 18);
+  L.SetBounds(12, 120, 160, 18);
   L.Caption := 'Bases disponiveis:';
 
   FTemplates := TCheckListBox.Create(Self);
   FTemplates.Parent := Self;
-  FTemplates.SetBounds(12, 110, 440, 230);
+  FTemplates.SetBounds(12, 142, 440, 218);
   FTemplates.OnClick := @TemplateClick;
   FTemplates.OnClickCheck := @TemplateClickCheck;
 
   FStatus := TLabel.Create(Self);
   FStatus.Parent := Self;
   FStatus.AutoSize := False;
-  FStatus.SetBounds(12, 348, 440, 32);
+  FStatus.SetBounds(12, 368, 440, 38);
   FStatus.WordWrap := True;
 
   Line := TBevel.Create(Self);
   Line.Parent := Self;
   Line.Shape := bsTopLine;
-  Line.SetBounds(12, 382, 440, 8);
+  Line.SetBounds(12, 414, 440, 8);
 
   FOkButton := TButton.Create(Self);
   FOkButton.Parent := Self;
-  FOkButton.SetBounds(280, 394, 82, 26);
+  FOkButton.SetBounds(280, 426, 82, 26);
   FOkButton.Caption := 'OK';
   FOkButton.Default := True;
   FOkButton.ModalResult := mrOK;
 
   CancelButton := TButton.Create(Self);
   CancelButton.Parent := Self;
-  CancelButton.SetBounds(370, 394, 82, 26);
+  CancelButton.SetBounds(370, 426, 82, 26);
   CancelButton.Caption := 'Cancelar';
   CancelButton.Cancel := True;
   CancelButton.ModalResult := mrCancel;
@@ -458,6 +482,11 @@ begin
   Result := Trim(FEdtDisplayName.Text);
 end;
 
+function TLazRibbonNewSkinDialog.GetSkinFileName: String;
+begin
+  Result := Trim(FEdtFileName.Text);
+end;
+
 function TLazRibbonNewSkinDialog.GetSelectedBaseSkin: TLazRibbonSkinDefinition;
 begin
   Result := nil;
@@ -470,15 +499,52 @@ begin
   Result := Trim(FEdtName.Text);
 end;
 
+procedure TLazRibbonNewSkinDialog.BrowseFileClick(Sender: TObject);
+var
+  Dlg: TSaveDialog;
+  TargetFileName: String;
+begin
+  Dlg := TSaveDialog.Create(Self);
+  try
+    Dlg.Filter := 'Skins do LazRibbon (*.skin)|*.skin|Todos os arquivos (*.*)|*.*';
+    Dlg.DefaultExt := 'skin';
+    TargetFileName := GetSkinFileName;
+    if TargetFileName <> '' then
+    begin
+      Dlg.FileName := TargetFileName;
+      if ExtractFilePath(TargetFileName) <> '' then
+        Dlg.InitialDir := ExtractFilePath(TargetFileName);
+    end;
+
+    if Dlg.Execute then
+    begin
+      TargetFileName := Dlg.FileName;
+      if ExtractFileExt(TargetFileName) = '' then
+        TargetFileName := ChangeFileExt(TargetFileName, '.skin');
+      FUserEditedFileName := True;
+      FEdtFileName.Text := TargetFileName;
+      ValidateDialog;
+    end;
+  finally
+    Dlg.Free;
+  end;
+end;
+
 procedure TLazRibbonNewSkinDialog.EditChange(Sender: TObject);
 begin
   if FUpdating then
     Exit;
 
   if Sender = FEdtName then
-    FUserEditedName := True
+  begin
+    FUserEditedName := True;
+    if not FUserEditedFileName then
+      UpdateSuggestedFileName(GetSkinName);
+  end
   else if Sender = FEdtDisplayName then
-    FUserEditedDisplayName := True;
+    FUserEditedDisplayName := True
+  else if Sender = FEdtFileName then
+    FUserEditedFileName := True;
 
   ValidateDialog;
 end;
@@ -521,16 +587,37 @@ end;
 
 procedure TLazRibbonNewSkinDialog.UpdateSuggestedNames(
   ASkin: TLazRibbonSkinDefinition);
+var
+  SuggestedName: String;
 begin
   if (FEditor = nil) or (ASkin = nil) then
     Exit;
 
   FUpdating := True;
   try
+    SuggestedName := FEditor.UniqueCustomSkinIdentifier(ASkin);
     if not FUserEditedName then
-      FEdtName.Text := FEditor.UniqueCustomSkinIdentifier(ASkin);
+      FEdtName.Text := SuggestedName
+    else
+      SuggestedName := FEdtName.Text;
     if not FUserEditedDisplayName then
       FEdtDisplayName.Text := FEditor.CustomDisplayNameForBase(ASkin);
+    if not FUserEditedFileName then
+      FEdtFileName.Text := FEditor.DefaultSkinFileNameForIdentifier(SuggestedName);
+  finally
+    FUpdating := False;
+  end;
+end;
+
+procedure TLazRibbonNewSkinDialog.UpdateSuggestedFileName(
+  const ASkinName: String);
+begin
+  if (FEditor = nil) or (FEdtFileName = nil) then
+    Exit;
+
+  FUpdating := True;
+  try
+    FEdtFileName.Text := FEditor.DefaultSkinFileNameForIdentifier(ASkinName);
   finally
     FUpdating := False;
   end;
@@ -549,7 +636,13 @@ begin
   else if (FEditor.FManager <> nil) and (FEditor.FManager.FindSkin(SkinName) <> nil) then
     MessageText := 'Ja existe uma skin com esse nome interno.'
   else if DisplayName = '' then
-    MessageText := 'Informe o nome exibido da skin.';
+    MessageText := 'Informe o nome exibido da skin.'
+  else if SkinFileName = '' then
+    MessageText := 'Informe o arquivo .skin de destino.'
+  else if not SameText(ExtractFileExt(SkinFileName), '.skin') then
+    MessageText := 'Use um arquivo com extensao .skin.'
+  else if FileExists(SkinFileName) then
+    MessageText := 'Ja existe um arquivo com esse nome. Use outro destino ou abra a skin existente.';
 
   if FOkButton <> nil then
     FOkButton.Enabled := MessageText = '';
@@ -557,7 +650,7 @@ begin
   if FStatus <> nil then
   begin
     if MessageText = '' then
-      FStatus.Caption := 'A nova skin sera criada como copia completa da base selecionada.'
+      FStatus.Caption := 'A nova skin sera criada como copia completa da base selecionada. Use Salvar para gravar o arquivo .skin.'
     else
       FStatus.Caption := MessageText;
   end;
@@ -3198,13 +3291,14 @@ end;
 
 function TfrmLazRibbonSkinEditor.PromptNewSkinFromBase(
   out ABaseSkin: TLazRibbonSkinDefinition; out ASkinName,
-  ADisplayName: String): Boolean;
+  ADisplayName, ASkinFileName: String): Boolean;
 var
   Dlg: TLazRibbonNewSkinDialog;
 begin
   ABaseSkin := nil;
   ASkinName := '';
   ADisplayName := '';
+  ASkinFileName := '';
 
   Dlg := TLazRibbonNewSkinDialog.Create(Self, Self, SelectedBaseSkin);
   try
@@ -3214,6 +3308,7 @@ begin
       ABaseSkin := Dlg.SelectedBaseSkin;
       ASkinName := Dlg.SkinName;
       ADisplayName := Dlg.DisplayName;
+      ASkinFileName := Dlg.SkinFileName;
     end;
   finally
     Dlg.Free;
@@ -3221,9 +3316,10 @@ begin
 end;
 
 procedure TfrmLazRibbonSkinEditor.CreateSkinFromBase(
-  ABaseSkin: TLazRibbonSkinDefinition; const ASkinName, ADisplayName: String);
+  ABaseSkin: TLazRibbonSkinDefinition; const ASkinName, ADisplayName,
+  ASkinFileName: String);
 var
-  BaseDisplayName: String;
+  BaseDisplayName, WorkflowMessage: String;
 begin
   if (ABaseSkin = nil) or (FCurrentSkin = nil) then
     Exit;
@@ -3234,7 +3330,7 @@ begin
 
   FCurrentSkin.Assign(ABaseSkin);
   FCurrentSkin.Source := sssCustom;
-  FCurrentSkin.FileName := '';
+  FCurrentSkin.FileName := Trim(ASkinFileName);
   FCurrentSkin.Name := ASkinName;
   FCurrentSkin.DisplayName := ADisplayName;
   if Trim(ABaseSkin.GroupName) <> '' then
@@ -3249,10 +3345,16 @@ begin
   RefreshValidationReport;
   MarkSkinModified;
   if FFullAppearanceEdited then
-    UpdateWorkflowGuide('Nova skin criada como copia completa de ' + BaseDisplayName +
-      '. O Appearance detalhado da base sera preservado ate uma sincronizacao explicita.')
+    WorkflowMessage := 'Nova skin criada como copia completa de ' +
+      BaseDisplayName +
+      '. O Appearance detalhado da base sera preservado ate uma sincronizacao explicita.'
   else
-    UpdateWorkflowGuide('Nova skin criada com a paleta simples controlando o Appearance.');
+    WorkflowMessage := 'Nova skin criada com a paleta simples controlando o Appearance.';
+
+  if Trim(FCurrentSkin.FileName) <> '' then
+    WorkflowMessage := WorkflowMessage + ' Salvar gravara: ' +
+      FCurrentSkin.FileName;
+  UpdateWorkflowGuide(WorkflowMessage);
 end;
 
 function TfrmLazRibbonSkinEditor.SelectedBaseSkin: TLazRibbonSkinDefinition;
@@ -3263,6 +3365,38 @@ begin
 
   if (Result = nil) and (cbBaseSkin.ItemIndex >= 0) then
     Result := TLazRibbonSkinDefinition(cbBaseSkin.Items.Objects[cbBaseSkin.ItemIndex]);
+end;
+
+function TfrmLazRibbonSkinEditor.DefaultSkinFileNameForIdentifier(
+  const AIdentifier: String): String;
+var
+  BaseDir, FileStem: String;
+
+  function PathLooksAbsolute(const APath: String): Boolean;
+  begin
+    Result := (ExtractFileDrive(APath) <> '') or
+      ((APath <> '') and (APath[1] in ['/', '\']));
+  end;
+
+begin
+  FileStem := SafeSkinIdentifier(AIdentifier);
+  if FileStem = 'Skin' then
+    FileStem := 'MinhaSkin';
+
+  BaseDir := '';
+  if (FManager <> nil) and (Trim(FManager.SkinFolder) <> '') then
+  begin
+    BaseDir := Trim(FManager.SkinFolder);
+    if not PathLooksAbsolute(BaseDir) then
+      BaseDir := ExpandFileName(IncludeTrailingPathDelimiter(
+        ExtractFilePath(Application.ExeName)) + BaseDir);
+  end;
+
+  if (BaseDir = '') or not DirectoryExists(BaseDir) then
+    BaseDir := ExtractFilePath(Application.ExeName);
+
+  Result := IncludeTrailingPathDelimiter(BaseDir) +
+    ChangeFileExt(FileStem, '.skin');
 end;
 
 function TfrmLazRibbonSkinEditor.SafeSkinIdentifier(const AValue: String): String;
@@ -3460,7 +3594,7 @@ end;
 function TfrmLazRibbonSkinEditor.SaveCurrentSkinToFile(
   const AFileName: String): Boolean;
 var
-  TargetFileName: String;
+  TargetDir, TargetFileName: String;
 begin
   Result := False;
   TargetFileName := Trim(AFileName);
@@ -3475,6 +3609,9 @@ begin
   end;
 
   FCurrentSkin.Source := sssExternal;
+  TargetDir := ExtractFileDir(TargetFileName);
+  if (TargetDir <> '') and not DirectoryExists(TargetDir) then
+    ForceDirectories(TargetDir);
   FCurrentSkin.SaveToFile(TargetFileName);
   ClearSkinModified;
   RefreshValidationReport;
@@ -3739,9 +3876,10 @@ end;
 procedure TfrmLazRibbonSkinEditor.btnNewFromBaseClick(Sender: TObject);
 var
   Skin: TLazRibbonSkinDefinition;
-  NewSkinName, NewDisplayName: String;
+  NewSkinName, NewDisplayName, NewSkinFileName: String;
 begin
-  if not PromptNewSkinFromBase(Skin, NewSkinName, NewDisplayName) then
+  if not PromptNewSkinFromBase(Skin, NewSkinName, NewDisplayName,
+    NewSkinFileName) then
     Exit;
 
   if Skin = nil then
@@ -3749,7 +3887,7 @@ begin
   if not ConfirmDiscardUnsavedChanges('criar uma nova skin pela base') then
     Exit;
 
-  CreateSkinFromBase(Skin, NewSkinName, NewDisplayName);
+  CreateSkinFromBase(Skin, NewSkinName, NewDisplayName, NewSkinFileName);
 end;
 
 procedure TfrmLazRibbonSkinEditor.btnOpenClick(Sender: TObject);

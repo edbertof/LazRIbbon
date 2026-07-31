@@ -81,6 +81,8 @@ The SkinManager is now the preferred design-time path for detailed visual stylin
 
 The standalone Skin Editor Appearance inspector now treats base comparison as an editing workflow, not only a report. A skin author can restore the selected Appearance section, or all sections when `Todas as secoes` is selected, from the focused base skin while preserving the same typed property-copying path used by single-property restore.
 
+The Skin Editor authoring flow keeps file commands in BackStage instead of duplicating them in the top workflow strip. The `Nova skin` dialog now asks for the target `.skin` file up front, suggests a path from the selected base/name and lets `Salvar` behave as the normal document save command immediately after creation.
+
 ## Initial Coverage Snapshot
 
 The first generated Skin Editor 2.1 coverage report finds 87 published `Appearance` properties across `Tab`, `MenuButton`, `Pane`, `Element` and `Popup`. The native appearance editor mentions all of them, and the standalone Skin Editor has generic RTTI inspector coverage for the full model. The 2.1 work should therefore focus on workflow quality, preview states and high-value direct helpers rather than manually duplicating every property as a standalone control.

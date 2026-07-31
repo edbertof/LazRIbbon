@@ -851,6 +851,24 @@ function Test-SkinEditorAppearanceModeDetection {
   if ($pas -notmatch 'btnResetAppearanceSectionFromBaseClick') {
     Add-Failure 'Skin Editor Appearance inspector must expose a reset-section command.'
   }
+  if ($pas -notmatch 'FEdtFileName:\s*TEdit') {
+    Add-Failure 'Skin Editor new-skin workflow must collect a target .skin file name.'
+  }
+  if ($pas -notmatch 'property\s+SkinFileName:\s+String') {
+    Add-Failure 'Skin Editor new-skin dialog must expose the chosen target file as SkinFileName.'
+  }
+  if ($pas -notmatch 'function\s+TfrmLazRibbonSkinEditor\.DefaultSkinFileNameForIdentifier') {
+    Add-Failure 'Skin Editor must suggest a target .skin file from the new skin identifier.'
+  }
+  if ($pas -notmatch 'FCurrentSkin\.FileName\s*:=\s*Trim\(ASkinFileName\)') {
+    Add-Failure 'New-from-base must assign the chosen target file so Save has a document destination.'
+  }
+  if ($pas -notmatch 'ForceDirectories\(TargetDir\)') {
+    Add-Failure 'Skin Editor save must create the target folder when needed.'
+  }
+  if ($pas -notmatch 'btnTopNewFromBase\.Visible\s*:=\s*False') {
+    Add-Failure 'Skin Editor top workflow strip must not duplicate BackStage file commands.'
+  }
   if ($pas -match 'procedure\s+TfrmLazRibbonSkinEditor\.btnNewFromBaseClick[\s\S]*?FFullAppearanceEdited\s*:=\s*True;[\s\S]*?procedure\s+TfrmLazRibbonSkinEditor\.btnOpenClick') {
     Add-Failure 'New-from-base must not blindly mark Appearance as manually edited.'
   }
