@@ -157,7 +157,7 @@ $script:gates = New-Object System.Collections.Generic.List[object]
 Add-Gate 'Package metadata aligned' ($(if ($runtimeVersion -eq $designVersion -and $runtimeVersion -notmatch '<missing>') { 'Ready' } else { 'Review' })) "Runtime $runtimeVersion; design $designVersion."
 Add-Gate 'Public API audit exists' ($(if ($stableCandidateCount -gt 0) { 'Ready' } else { 'Review' })) "$stableCandidateCount stable API candidates listed."
 Add-Gate 'Component property matrix exists' ($(if ($propertyMatrix -match 'Release Gate') { 'Ready' } else { 'Review' })) 'Release gate section is present.'
-Add-Gate 'Object Inspector surface snapshot exists' ($(if ($snapshotPropertyCount -gt 0) { 'Ready' } else { 'Review' })) "$snapshotPropertyCount direct published property declarations listed."
+Add-Gate 'Object Inspector surface snapshot exists' ($(if ($snapshotPropertyCount -gt 0) { 'Ready' } else { 'Review' })) "$snapshotPropertyCount effective Object Inspector properties listed."
 Add-Gate 'Repeated property names classified' ($(if ($unclassifiedNames -eq 0 -and $repeatedNames -gt 0) { 'Ready' } else { 'Review' })) "$repeatedNames repeated names; $unclassifiedNames unclassified."
 Add-Gate 'Design-time hidden properties documented' ($(if ($skipRules -gt 0 -and $nilHideRules -gt 0 -and $skipComponents -gt 0) { 'Ready' } else { 'Review' })) "$skipRules skip rules; $nilHideRules nil property-editor hide rules; $skipComponents component classes."
 Add-Gate 'Build matrix documented' ($(if ($buildTargetCount -ge 18) { 'Ready' } else { 'Review' })) "$buildTargetCount package/tool/demo targets listed."
@@ -186,7 +186,7 @@ $out.Add('## Summary')
 $out.Add('')
 $out.Add(('- Package version: {0}' -f $runtimeVersion))
 $out.Add(('- Stable API candidates listed: {0}' -f $stableCandidateCount))
-$out.Add(('- Direct published property declarations listed: {0}' -f $snapshotPropertyCount))
+$out.Add(('- Effective Object Inspector properties listed: {0}' -f $snapshotPropertyCount))
 $out.Add(('- Repeated published property names reviewed: {0}' -f $repeatedNames))
 $out.Add(('- Unclassified repeated property names: {0}' -f $unclassifiedNames))
 $out.Add(('- Design-time property skip rules: {0}' -f $skipRules))

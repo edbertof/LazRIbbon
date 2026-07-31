@@ -9,7 +9,7 @@ Regenerate after refreshing the Object Inspector surface snapshot:
 
 ## Summary
 
-- Published properties scanned: 307
+- Effective Object Inspector properties scanned: 306
 - Repeated published property names reviewed: 48
 - Unclassified repeated property names: 0
 - No unclassified repeated property names were found.
@@ -89,7 +89,7 @@ Regenerate after refreshing the Object Inspector surface snapshot:
 | `Items` | Accept only for a single primary owned collection/list. If a component gains more than one list, prefer a specific name. |
 | `Style` | Accept only when the type is local and obvious. Prefer explicit names for new visual decisions. |
 | `Columns` | Accept only for gallery or selector grid layout. |
-| `Appearance` | Accept only where the component owns a complete appearance model. Top-level Ribbon uses `RibbonAppearance`. |
+| `Appearance` | Accept only where the component owns a complete appearance model. The top-level Ribbon uses `SkinManager` and `AppearanceSource` as the visible design-time workflow. |
 | `SkinManager` | Accept as a component link. Do not duplicate it beside another property that answers the same visual-source question. |
 
 ## Release Gate

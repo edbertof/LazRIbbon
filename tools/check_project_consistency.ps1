@@ -1196,7 +1196,6 @@ function Test-TwoPointZeroPlanningDocs {
       'Object Inspector Surface Snapshot',
       'TLazRibbon',
       'ApplicationButton',
-      'RibbonAppearance',
       'TLazRibbonPane',
       'ShowDialogLauncher',
       'TLazRibbonControlHostItem',
@@ -1213,6 +1212,9 @@ function Test-TwoPointZeroPlanningDocs {
       if ($objectInspectorSnapshot -notmatch [regex]::Escape($required)) {
         Add-Failure "Object Inspector surface snapshot must mention $required."
       }
+    }
+    if ($objectInspectorSnapshot -match '(?m)^- `RibbonAppearance`:') {
+      Add-Failure 'Object Inspector surface snapshot must not expose TLazRibbon.RibbonAppearance; it is hidden by design-time rules.'
     }
 
     try {
@@ -1316,7 +1318,7 @@ function Test-TwoPointZeroPlanningDocs {
     foreach ($required in @(
       'LazRibbon 2.0 API Freeze Readiness',
       'Stable API candidates listed: 47',
-      'Direct published property declarations listed: 307',
+      'Effective Object Inspector properties listed: 306',
       'Repeated published property names reviewed: 48',
       'Unclassified repeated property names: 0',
       'Design-time property skip rules: 30',

@@ -120,17 +120,63 @@ function Get-PublishedPropertyDeclarations {
   return $properties
 }
 
+function Get-DesignTimeHiddenProperties {
+  param(
+    [Parameter(Mandatory = $true)]
+    [string]$Root
+  )
+
+  $hidden = @{}
+  $registerPath = Join-Path $Root 'source/design/LazRibbon_Register.pas'
+  if (-not (Test-Path -LiteralPath $registerPath)) {
+    return $hidden
+  }
+
+  $content = Get-Content -LiteralPath $registerPath -Raw
+  $patterns = @(
+    "(?ms)RegisterPropertyToSkip\s*\(\s*(?<Component>[A-Za-z_][A-Za-z0-9_]*)\s*,\s*'(?<Property>[^']+)'",
+    "(?ms)RegisterPropertyEditor\s*\(\s*TypeInfo\([^)]+\)\s*,\s*(?<Component>[A-Za-z_][A-Za-z0-9_]*)\s*,\s*'(?<Property>[^']*)'\s*,\s*nil\s*\)"
+  )
+
+  foreach ($pattern in $patterns) {
+    [regex]::Matches($content, $pattern) | ForEach-Object {
+      $component = $_.Groups['Component'].Value
+      $property = $_.Groups['Property'].Value
+      if (-not ([string]::IsNullOrWhiteSpace($component) -or [string]::IsNullOrWhiteSpace($property))) {
+        if (-not $hidden.ContainsKey($component)) {
+          $hidden[$component] = New-Object 'System.Collections.Generic.HashSet[string]'
+        }
+        [void]$hidden[$component].Add($property)
+      }
+    }
+  }
+
+  return $hidden
+}
+
+function Test-DesignTimePropertyHidden {
+  param(
+    [hashtable]$HiddenProperties,
+    [string]$ClassName,
+    [string]$PropertyName
+  )
+
+  return $HiddenProperties.ContainsKey($ClassName) -and
+    $HiddenProperties[$ClassName].Contains($PropertyName)
+}
+
 $markdownCodeDelimiter = [char]96
 $markdownFence = $markdownCodeDelimiter.ToString() * 3
+$hiddenProperties = Get-DesignTimeHiddenProperties -Root $root
 
 $lines = New-Object System.Collections.Generic.List[string]
 $lines.Add('# LazRibbon Object Inspector Surface Snapshot for 2.0')
 $lines.Add('')
 $lines.Add('Generated from runtime source by ' + $markdownCodeDelimiter + 'tools/export_object_inspector_snapshot.ps1' + $markdownCodeDelimiter + '.')
-$lines.Add('It lists direct ' + $markdownCodeDelimiter + 'published' + $markdownCodeDelimiter + ' property declarations for the classes that define the package-facing Object Inspector surface.')
-$lines.Add('Design-time ' + $markdownCodeDelimiter + 'RegisterPropertyToSkip' + $markdownCodeDelimiter + ' rules may still hide inherited properties for narrower components; those decisions are documented in ' + $markdownCodeDelimiter + 'OBJECT_INSPECTOR_PROPERTY_AUDIT_2_0.md' + $markdownCodeDelimiter + '.')
+$lines.Add('It lists direct ' + $markdownCodeDelimiter + 'published' + $markdownCodeDelimiter + ' property declarations that remain visible in the effective package-facing Object Inspector surface.')
+$lines.Add('Compatibility-only, structural and obsolete properties hidden through design-time rules are excluded here and documented in ' + $markdownCodeDelimiter + 'DESIGN_TIME_PROPERTY_SKIP_AUDIT_2_0.md' + $markdownCodeDelimiter + '.')
 $lines.Add('')
-$lines.Add('Regenerate after changing published properties:')
+$lines.Add('Regenerate after changing published properties or design-time hiding rules:')
 $lines.Add('')
 $lines.Add($markdownFence + 'powershell')
 $lines.Add('powershell -ExecutionPolicy Bypass -File tools/export_object_inspector_snapshot.ps1 -OutputPath docs/quality/OBJECT_INSPECTOR_SURFACE_SNAPSHOT_2_0.md')
@@ -152,7 +198,8 @@ foreach ($target in $targets) {
 
   $content = Get-Content -LiteralPath $fullPath -Raw
   $block = Get-ClassDeclarationBlock -Content $content -ClassName $target.ClassName -RelativePath $target.UnitPath
-  $properties = Get-PublishedPropertyDeclarations -ClassBlock $block
+  $properties = @(Get-PublishedPropertyDeclarations -ClassBlock $block |
+    Where-Object { -not (Test-DesignTimePropertyHidden -HiddenProperties $hiddenProperties -ClassName $target.ClassName -PropertyName $_.Name) })
 
   $lines.Add("### $($target.ClassName)")
   $lines.Add('')

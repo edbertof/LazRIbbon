@@ -11,7 +11,7 @@ Regenerate after changing package metadata, API audits, Object Inspector reports
 
 - Package version: 2.1.4
 - Stable API candidates listed: 47
-- Direct published property declarations listed: 307
+- Effective Object Inspector properties listed: 306
 - Repeated published property names reviewed: 48
 - Unclassified repeated property names: 0
 - Design-time property skip rules: 30
@@ -28,7 +28,7 @@ Regenerate after changing package metadata, API audits, Object Inspector reports
 | Package metadata aligned | Ready | Runtime 2.1.4; design 2.1.4. |
 | Public API audit exists | Ready | 47 stable API candidates listed. |
 | Component property matrix exists | Ready | Release gate section is present. |
-| Object Inspector surface snapshot exists | Ready | 307 direct published property declarations listed. |
+| Object Inspector surface snapshot exists | Ready | 306 effective Object Inspector properties listed. |
 | Repeated property names classified | Ready | 48 repeated names; 0 unclassified. |
 | Design-time hidden properties documented | Ready | 30 skip rules; 5 nil property-editor hide rules; 9 component classes. |
 | Build matrix documented | Ready | 18 package/tool/demo targets listed. |

@@ -1,10 +1,10 @@
 ﻿# LazRibbon Object Inspector Surface Snapshot for 2.0
 
 Generated from runtime source by `tools/export_object_inspector_snapshot.ps1`.
-It lists direct `published` property declarations for the classes that define the package-facing Object Inspector surface.
-Design-time `RegisterPropertyToSkip` rules may still hide inherited properties for narrower components; those decisions are documented in `OBJECT_INSPECTOR_PROPERTY_AUDIT_2_0.md`.
+It lists direct `published` property declarations that remain visible in the effective package-facing Object Inspector surface.
+Compatibility-only, structural and obsolete properties hidden through design-time rules are excluded here and documented in `DESIGN_TIME_PROPERTY_SKIP_AUDIT_2_0.md`.
 
-Regenerate after changing published properties:
+Regenerate after changing published properties or design-time hiding rules:
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File tools/export_object_inspector_snapshot.ps1 -OutputPath docs/quality/OBJECT_INSPECTOR_SURFACE_SNAPSHOT_2_0.md
@@ -50,7 +50,6 @@ Source: `source/runtime/LazRibbon_Core.pas`
 - `AppearanceSource`: `property AppearanceSource: TLazRibbonAppearanceSource read FAppearanceSource write SetAppearanceSource default asInternalStyle;`
 - `SkinManager`: `property SkinManager: TLazRibbonSkinManager read FSkinManager write SetSkinManager;`
 - `BackstageView`: `property BackstageView: TLazRibbonCustomBackstageView read FBackstageView write SetBackstageView;`
-- `RibbonAppearance`: `property RibbonAppearance: TLazRibbonToolbarAppearance read FAppearance write SetAppearance;`
 - `TabIndex`: `property TabIndex: integer read FTabIndex write SetTabIndex;`
 - `Images`: `property Images: TImageList read FImages write SetImages;`
 - `DisabledImages`: `property DisabledImages: TImageList read FDisabledImages write SetDisabledImages;`
