@@ -42,6 +42,9 @@ The design package also registers item classes without palette icons:
   both built-in and external data.
 - Visual source decisions should be represented by one property and explicit
   source objects, not by several booleans.
+- A palette component with an inherited Lazarus role, such as
+  `TLazRibbonPopupMenu`, may have no direct LazRibbon-specific published
+  properties when its styling is supplied by the Ribbon/button that opens it.
 
 ## Cleaned Published Properties
 
@@ -57,6 +60,7 @@ The design package also registers item classes without palette icons:
 | `TLazRibbonSkinSelector` / `TLazRibbonSkinGalleryItem` | Built-in enum as the visible selector | `SelectedSkinName` |
 | `TLazRibbonSkinManager` | `ActiveSkin` enum beside `ActiveSkinName` | `ActiveSkinName` |
 | `TLazRibbonSkinDefinition` | Icon file-name fields as distributable identity | Embedded `Icon16Data`, `Icon24Data`, `Icon32Data` |
+| `TLazRibbonPopupMenu` | Ambiguous as a standalone style owner | Inherited `TPopupMenu` menu surface; appearance is propagated from `ApplicationButton.Menu` or button `DropdownMenu` |
 
 ## BackStage Page Decision
 
@@ -85,6 +89,9 @@ compatibility-only and hidden from the Object Inspector.
 of direct `published` property declarations for the package-facing classes. It is
 created by `tools/export_object_inspector_snapshot.ps1` and compared by the
 consistency audit so the 2.0 property model cannot silently drift from source.
+Palette components with no direct LazRibbon-specific published properties, such
+as `TLazRibbonPopupMenu`, are still listed so the reviewed palette surface stays
+complete.
 
 ## Generated Redundancy Audit
 

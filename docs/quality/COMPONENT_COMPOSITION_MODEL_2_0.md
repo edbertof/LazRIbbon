@@ -31,6 +31,9 @@ TLazRibbon
   -> BackstageView: TLazRibbonCustomBackstageView
   -> Tabs: TLazRibbonTabs
 
+TLazRibbonPopupMenu
+  -> assigned to ApplicationButton.Menu or a Ribbon button DropdownMenu
+
 TLazRibbonTab
   -> Panes: TLazRibbonPanes
 
@@ -48,6 +51,11 @@ TLazRibbonBackstageView
   The Application Button exposes its caption, mode, menu, icon, ScreenTip and
   click behavior, but it is not the canonical place to stream the BackStage
   component reference.
+- `TLazRibbonPopupMenu` is not a parallel Ribbon container. It is an owner-drawn
+  `TPopupMenu` used by `ApplicationButton.Menu` or a Ribbon button
+  `DropdownMenu`. Its `Appearance` is propagated by the connected Ribbon/button,
+  so normal form design should configure inherited menu items, images and
+  events rather than treat `Appearance` as a separate first-level style source.
 - BackStage navigation is composed through `TLazRibbonBackstageView.Buttons`.
   Buttons can link to pages, execute commands or draw separators. BackStage
   page components are content containers and should not be used as command or
@@ -102,6 +110,9 @@ Some property pairs look similar but describe different decisions:
   reference. `Caption` remains the fallback placeholder text, and `ControlName`
   and `ControlClassName` are retained as public compatibility properties and
   legacy `.lfm` readers, but are hidden from the Object Inspector.
+- `TLazRibbonPopupMenu` is a palette component with no direct LazRibbon-specific
+  published Object Inspector properties. It keeps inherited `TPopupMenu`
+  behavior and receives its Ribbon appearance from the component that opens it.
 - Generic galleries use `ItemWidth` and `ItemHeight`; skin galleries and skin
   selectors use `IconWidth` and `IconHeight`.
 - `TLazRibbonSkinManager.ActiveSkinName` is the canonical active-skin property.

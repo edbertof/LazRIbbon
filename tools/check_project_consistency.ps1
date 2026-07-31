@@ -859,6 +859,54 @@ function Test-SkinEditorAppearanceModeDetection {
   }
 }
 
+function Test-RegisteredPaletteComponentDocumentation {
+  $registerPath = Join-Path $SourceRoot 'source/design/LazRibbon_Register.pas'
+  if (-not (Test-Path -LiteralPath $registerPath)) {
+    Add-Failure 'Missing design-time registration unit.'
+    return
+  }
+
+  $register = Get-Content -LiteralPath $registerPath -Raw
+  $match = [regex]::Match($register, "RegisterComponents\('LazRibbon',\s*\[(?<Components>.*?)\]\);", [System.Text.RegularExpressions.RegexOptions]::Singleline)
+  if (-not $match.Success) {
+    Add-Failure 'Could not find LazRibbon palette component registration.'
+    return
+  }
+
+  $components = @(
+    $match.Groups['Components'].Value -split ',' |
+      ForEach-Object { $_.Trim() } |
+      Where-Object { $_ -match '^TLazRibbon' } |
+      Sort-Object -Unique
+  )
+
+  if ($components.Count -eq 0) {
+    Add-Failure 'No LazRibbon palette components were found in design-time registration.'
+    return
+  }
+
+  $docsToCheck = @(
+    [pscustomobject]@{ Label = 'component property matrix'; Path = 'docs/quality/COMPONENT_PROPERTY_MATRIX_2_0.md' },
+    [pscustomobject]@{ Label = 'Object Inspector property audit'; Path = 'docs/quality/OBJECT_INSPECTOR_PROPERTY_AUDIT_2_0.md' },
+    [pscustomobject]@{ Label = 'Object Inspector surface snapshot'; Path = 'docs/quality/OBJECT_INSPECTOR_SURFACE_SNAPSHOT_2_0.md' }
+  )
+
+  foreach ($doc in $docsToCheck) {
+    $path = Join-Path $SourceRoot $doc.Path
+    if (-not (Test-Path -LiteralPath $path)) {
+      Add-Failure "Missing $($doc.Label): $($doc.Path)"
+      continue
+    }
+
+    $content = Get-Content -LiteralPath $path -Raw
+    foreach ($component in $components) {
+      if ($content -notmatch [regex]::Escape($component)) {
+        Add-Failure "Registered palette component $component is missing from $($doc.Label)."
+      }
+    }
+  }
+}
+
 function Test-TwoPointZeroPlanningDocs {
   $auditPath = Join-Path $SourceRoot 'docs/quality/PUBLIC_API_AUDIT_2_0.md'
   $matrixPath = Join-Path $SourceRoot 'docs/quality/COMPONENT_PROPERTY_MATRIX_2_0.md'
@@ -1493,6 +1541,7 @@ Test-SkinManagerActiveSkinNameApi
 Test-SkinIdentityIconDataApi
 Test-SkinEditorPreviewMinimizeSync
 Test-SkinEditorAppearanceModeDetection
+Test-RegisteredPaletteComponentDocumentation
 Test-TwoPointZeroPlanningDocs
 Test-ForbiddenFiles
 

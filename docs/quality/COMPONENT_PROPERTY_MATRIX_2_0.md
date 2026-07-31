@@ -23,6 +23,12 @@ a clear mental model.
 | `TLazRibbonApplicationButton` | Office File/Application button behavior. | `Menu` when the selected mode uses a popup menu; BackStage is linked through owner `TLazRibbon.BackstageView` | `Caption`, `Visible`, `Mode`, `Style`, `Glyph`, `ImageIndex`, `ScreenTip*`, `OnClick` |
 | `TLazRibbonQuickAccessToolBar` | Quick Access Toolbar command surface. | `Items`, `CustomizeActionList` | `Position`, `Visible`, `ButtonFrameStyle`, `AllowCustomizing`, `ShowCustomizeButton`, `AllowPositionChange`, `ShowPositionMenuItem`, `AllowMinimizeRibbon`, `ShowMinimizeRibbonMenuItem` |
 
+## Popup Menus
+
+| Component | Role | Connect through | Configure with |
+| --- | --- | --- | --- |
+| `TLazRibbonPopupMenu` | Owner-drawn Lazarus popup menu that follows Ribbon popup appearance. | Assign it to `ApplicationButton.Menu` when `ApplicationButton.Mode = abmPopupMenu`, or to a Ribbon button `DropdownMenu`. | Inherited `TPopupMenu` menu items, images and events. `Appearance` is assigned by the connected Ribbon/button rather than edited as a first-level Object Inspector decision. |
+
 ## Ribbon Structure
 
 | Component | Role | Connect through | Configure with |

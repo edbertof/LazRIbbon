@@ -143,6 +143,14 @@ Source: `source/runtime/LazRibbon_Core.pas`
 - `ScreenTipShortcut`: `property ScreenTipShortcut: String read FScreenTipShortcut write SetScreenTipShortcut;`
 - `ScreenTipFooter`: `property ScreenTipFooter: String read FScreenTipFooter write SetScreenTipFooter;`
 
+## Command Surfaces
+
+### TLazRibbonPopupMenu
+
+Source: `source/runtime/LazRibbon_Popup.pas`
+
+- No direct published properties.
+
 ## Ribbon Structure
 
 ### TLazRibbonTab

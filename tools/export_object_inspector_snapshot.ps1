@@ -26,6 +26,8 @@ $targets = @(
   [pscustomobject]@{ Group = 'Top-Level Shell'; ClassName = 'TLazRibbonQuickAccessToolBar'; UnitPath = 'source/runtime/LazRibbon_Core.pas' },
   [pscustomobject]@{ Group = 'Top-Level Shell'; ClassName = 'TLazRibbonQuickAccessItem'; UnitPath = 'source/runtime/LazRibbon_Core.pas' },
 
+  [pscustomobject]@{ Group = 'Command Surfaces'; ClassName = 'TLazRibbonPopupMenu'; UnitPath = 'source/runtime/LazRibbon_Popup.pas' },
+
   [pscustomobject]@{ Group = 'Ribbon Structure'; ClassName = 'TLazRibbonTab'; UnitPath = 'source/runtime/LazRibbon_Tabs.pas' },
   [pscustomobject]@{ Group = 'Ribbon Structure'; ClassName = 'TLazRibbonPane'; UnitPath = 'source/runtime/LazRibbon_Groups.pas' },
   [pscustomobject]@{ Group = 'Ribbon Structure'; ClassName = 'TLazRibbonCustomRibbonExtItem'; UnitPath = 'source/runtime/LazRibbon_RibbonExtItems.pas' },
