@@ -58,6 +58,15 @@ type
     asecAll
   );
 
+  TLazRibbonSkinPreviewMode = (
+    spmNormal,
+    spmActiveStates,
+    spmDisabledStates,
+    spmMinimizedRibbon,
+    spmBackstageOpen,
+    spmPopupMenuFocus
+  );
+
   TLazRibbonAppearancePropertyBinding = class
   public
     Section: TLazRibbonSkinAppearanceSection;
@@ -74,6 +83,7 @@ type
 
   TfrmLazRibbonSkinEditor = class(TForm)
     cbBaseSkin: TComboBox;
+    cbPreviewMode: TComboBox;
     ColorDialog: TColorDialog;
     edtAuthor: TEdit;
     edtDisplayName: TEdit;
@@ -96,6 +106,7 @@ type
     lblAuthor: TLabel;
     lblBaseSkin: TLabel;
     lblBaseHint: TLabel;
+    lblPreviewMode: TLabel;
     lblDisplayName: TLabel;
     lblGroupName: TLabel;
     lblIcon16: TLabel;
@@ -198,6 +209,7 @@ type
     procedure btnSaveAsClick(Sender: TObject);
     procedure BaseGallerySkinSelected(Sender: TObject);
     procedure cbBaseSkinChange(Sender: TObject);
+    procedure cbPreviewModeChange(Sender: TObject);
     procedure ColorPanelClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
@@ -236,6 +248,10 @@ type
     procedure RefreshValidationReport;
     procedure SetupPreviewToolbar;
     procedure SetupWorkflowGuide;
+    procedure SetupPreviewModeSelector;
+    function PreviewModeCaption(AMode: TLazRibbonSkinPreviewMode): String;
+    function SelectedPreviewMode: TLazRibbonSkinPreviewMode;
+    procedure ApplyPreviewMode(AAnnounce: Boolean = True);
     procedure SyncLivePreviewHeight;
     procedure UpdateWorkflowGuide(const AStatusText: String = '');
     procedure UpdateEditingState;
@@ -768,6 +784,8 @@ begin
   lblLivePreview.Caption := 'Pré-visualização da skin em tempo real';
   lblStatus.Caption := 'Clique em Nova skin, escolha uma base, ajuste as cores, valide e salve a skin.';
   lblBaseSkin.Caption := 'Base:';
+  if Assigned(lblPreviewMode) then
+    lblPreviewMode.Caption := 'Preview:';
   lblBaseHint.Caption := 'Escolha uma base, crie uma skin editável, ajuste as cores, valide e salve.';
   cbBaseSkin.Enabled := True;
   lblSkinListTitle.Caption := 'Bases disponíveis';
@@ -795,6 +813,7 @@ begin
   CreateMetadataAssetControls;
   ApplyInternalTabLayout;
   SetupWorkflowGuide;
+  SetupPreviewModeSelector;
 
   PreviewSkinManager.AutoRefreshControls := True;
   PreviewSkinManager.LoadBuiltInSkins;
@@ -2763,6 +2782,7 @@ begin
   if PreviewToolbar.Tabs.Count > 0 then
     PreviewToolbar.TabIndex := 0;
 
+  ApplyPreviewMode(False);
   UpdateEditingState;
 end;
 
@@ -2822,6 +2842,7 @@ begin
   PreviewToolbar.ForceRepaint;
   SyncLivePreviewHeight;
   PreviewToolbar.Invalidate;
+  ApplyPreviewMode(False);
 end;
 
 procedure TfrmLazRibbonSkinEditor.RefreshBaseCombo;
@@ -2968,6 +2989,19 @@ begin
     cbBaseSkin.OnChange := @cbBaseSkinChange;
   end;
 
+  if Assigned(lblPreviewMode) then
+  begin
+    lblPreviewMode.Caption := 'Preview:';
+    lblPreviewMode.SetBounds(236, 8, 44, 13);
+  end;
+
+  if Assigned(cbPreviewMode) then
+  begin
+    cbPreviewMode.Enabled := True;
+    cbPreviewMode.SetBounds(286, 4, 154, 21);
+    cbPreviewMode.OnChange := @cbPreviewModeChange;
+  end;
+
   if Assigned(btnTopNewFromBase) then
   begin
     btnTopNewFromBase.Visible := False;
@@ -2996,13 +3030,13 @@ begin
   begin
     lblWorkflow.Caption := 'Etapa:';
     lblWorkflow.Visible := True;
-    lblWorkflow.SetBounds(246, 8, 42, 13);
+    lblWorkflow.SetBounds(458, 8, 42, 13);
   end;
 
   if Assigned(lblBaseHint) then
   begin
     lblBaseHint.AutoSize := False;
-    lblBaseHint.SetBounds(294, 8, 720, 13);
+    lblBaseHint.SetBounds(506, 8, 530, 13);
   end;
 
   if Assigned(pcMain) then
@@ -3012,6 +3046,167 @@ begin
     btnRefreshValidation.Caption := 'Atualizar relatório';
 
   UpdateWorkflowGuide;
+end;
+
+procedure TfrmLazRibbonSkinEditor.SetupPreviewModeSelector;
+begin
+  if cbPreviewMode = nil then
+    Exit;
+
+  cbPreviewMode.OnChange := nil;
+  try
+    cbPreviewMode.Items.BeginUpdate;
+    try
+      cbPreviewMode.Items.Clear;
+      cbPreviewMode.Items.Add(PreviewModeCaption(spmNormal));
+      cbPreviewMode.Items.Add(PreviewModeCaption(spmActiveStates));
+      cbPreviewMode.Items.Add(PreviewModeCaption(spmDisabledStates));
+      cbPreviewMode.Items.Add(PreviewModeCaption(spmMinimizedRibbon));
+      cbPreviewMode.Items.Add(PreviewModeCaption(spmBackstageOpen));
+      cbPreviewMode.Items.Add(PreviewModeCaption(spmPopupMenuFocus));
+    finally
+      cbPreviewMode.Items.EndUpdate;
+    end;
+    cbPreviewMode.ItemIndex := Ord(spmNormal);
+  finally
+    cbPreviewMode.OnChange := @cbPreviewModeChange;
+  end;
+end;
+
+function TfrmLazRibbonSkinEditor.PreviewModeCaption(
+  AMode: TLazRibbonSkinPreviewMode): String;
+begin
+  case AMode of
+    spmActiveStates: Result := 'Estados ativos';
+    spmDisabledStates: Result := 'Desabilitado';
+    spmMinimizedRibbon: Result := 'Ribbon minimizado';
+    spmBackstageOpen: Result := 'BackStage aberto';
+    spmPopupMenuFocus: Result := 'Dropdown/menu';
+  else
+    Result := 'Normal';
+  end;
+end;
+
+function TfrmLazRibbonSkinEditor.SelectedPreviewMode: TLazRibbonSkinPreviewMode;
+begin
+  Result := spmNormal;
+  if (cbPreviewMode <> nil) and
+     (cbPreviewMode.ItemIndex >= Ord(Low(TLazRibbonSkinPreviewMode))) and
+     (cbPreviewMode.ItemIndex <= Ord(High(TLazRibbonSkinPreviewMode))) then
+    Result := TLazRibbonSkinPreviewMode(cbPreviewMode.ItemIndex);
+end;
+
+procedure TfrmLazRibbonSkinEditor.ApplyPreviewMode(AAnnounce: Boolean);
+var
+  Mode: TLazRibbonSkinPreviewMode;
+begin
+  if PreviewToolbar = nil then
+    Exit;
+
+  Mode := SelectedPreviewMode;
+
+  if (EditorBackstage <> nil) and EditorBackstage.Visible then
+    EditorBackstage.HideBackstage;
+  if PreviewToolbar.RibbonMinimized then
+    PreviewToolbar.RibbonMinimized := False;
+
+  if PreviewToolbar.Tabs.Count > 0 then
+    PreviewToolbar.TabIndex := 0;
+
+  if Assigned(PreviewLargeNew) then PreviewLargeNew.Enabled := True;
+  if Assigned(PreviewSmallOpen) then PreviewSmallOpen.Enabled := True;
+  if Assigned(PreviewSmallSave) then PreviewSmallSave.Enabled := False;
+  if Assigned(PreviewLargeZoom) then PreviewLargeZoom.Enabled := False;
+  if Assigned(PreviewLargePaste) then PreviewLargePaste.Enabled := True;
+  if Assigned(PreviewSmallCopy) then
+  begin
+    PreviewSmallCopy.Enabled := True;
+    PreviewSmallCopy.Checked := True;
+  end;
+  if Assigned(PreviewSmallCut) then PreviewSmallCut.Enabled := True;
+  if Assigned(PreviewCheckAuto) then
+  begin
+    PreviewCheckAuto.Enabled := True;
+    PreviewCheckAuto.Checked := True;
+    PreviewCheckAuto.State := cbChecked;
+  end;
+  if Assigned(PreviewCheckDisabled) then
+  begin
+    PreviewCheckDisabled.Enabled := False;
+    PreviewCheckDisabled.Checked := False;
+    PreviewCheckDisabled.State := cbUnchecked;
+  end;
+
+  case Mode of
+    spmActiveStates:
+      begin
+        if PreviewToolbar.Tabs.Count > 1 then
+          PreviewToolbar.TabIndex := 1;
+        if Assigned(PreviewSmallSave) then PreviewSmallSave.Enabled := True;
+        if Assigned(PreviewLargeZoom) then PreviewLargeZoom.Enabled := True;
+        if Assigned(PreviewSmallCopy) then PreviewSmallCopy.Checked := True;
+        if Assigned(PreviewCheckAuto) then
+        begin
+          PreviewCheckAuto.Checked := True;
+          PreviewCheckAuto.State := cbChecked;
+        end;
+      end;
+
+    spmDisabledStates:
+      begin
+        if PreviewToolbar.Tabs.Count > 1 then
+          PreviewToolbar.TabIndex := 1;
+        if Assigned(PreviewLargeNew) then PreviewLargeNew.Enabled := False;
+        if Assigned(PreviewSmallOpen) then PreviewSmallOpen.Enabled := False;
+        if Assigned(PreviewSmallSave) then PreviewSmallSave.Enabled := False;
+        if Assigned(PreviewLargeZoom) then PreviewLargeZoom.Enabled := False;
+        if Assigned(PreviewLargePaste) then PreviewLargePaste.Enabled := False;
+        if Assigned(PreviewSmallCopy) then PreviewSmallCopy.Enabled := False;
+        if Assigned(PreviewSmallCut) then PreviewSmallCut.Enabled := False;
+        if Assigned(PreviewCheckAuto) then
+          PreviewCheckAuto.Enabled := False;
+      end;
+
+    spmMinimizedRibbon:
+      begin
+        if PreviewToolbar.Tabs.Count > 0 then
+          PreviewToolbar.TabIndex := 0;
+        PreviewToolbar.RibbonMinimized := True;
+      end;
+
+    spmBackstageOpen:
+      begin
+        if PreviewToolbar.Tabs.Count > 0 then
+          PreviewToolbar.TabIndex := 0;
+        if EditorBackstage <> nil then
+        begin
+          EditorBackstage.ActivePageIndex := 0;
+          EditorBackstage.ShowBackstage;
+        end;
+      end;
+
+    spmPopupMenuFocus:
+      begin
+        if PreviewToolbar.Tabs.Count > 1 then
+          PreviewToolbar.TabIndex := 1;
+        if Assigned(PreviewLargePaste) then PreviewLargePaste.Enabled := True;
+        if Assigned(PreviewSmallCut) then PreviewSmallCut.Enabled := True;
+        if Assigned(PreviewSmallCopy) then
+        begin
+          PreviewSmallCopy.Enabled := True;
+          PreviewSmallCopy.Checked := True;
+        end;
+      end;
+  end;
+
+  SyncLivePreviewHeight;
+  PreviewToolbar.ForceRepaint;
+  PreviewToolbar.Invalidate;
+  if (EditorBackstage <> nil) and EditorBackstage.Visible then
+    EditorBackstage.Invalidate;
+
+  if AAnnounce then
+    UpdateWorkflowGuide('Preview: ' + PreviewModeCaption(Mode) + '.');
 end;
 
 procedure TfrmLazRibbonSkinEditor.UpdateWorkflowGuide(const AStatusText: String);
@@ -3742,6 +3937,11 @@ begin
   LoadSkinToEditor(Skin);
   UpdateWorkflowGuide('Base em foco: ' + Skin.DisplayName +
     '. Clique em Nova skin para escolher uma base e iniciar uma skin editável.');
+end;
+
+procedure TfrmLazRibbonSkinEditor.cbPreviewModeChange(Sender: TObject);
+begin
+  ApplyPreviewMode(True);
 end;
 
 procedure TfrmLazRibbonSkinEditor.lstSkinsClick(Sender: TObject);

@@ -829,6 +829,21 @@ function Test-SkinEditorPreviewMinimizeSync {
   if ($lfm -notmatch 'object\s+PreviewToolbar:\s+TLazRibbon[\s\S]*?Align\s*=\s*alTop') {
     Add-Failure 'Skin Editor PreviewToolbar must stream Align = alTop.'
   }
+  foreach ($required in @(
+    'TLazRibbonSkinPreviewMode',
+    'SetupPreviewModeSelector',
+    'ApplyPreviewMode',
+    'cbPreviewModeChange',
+    'spmBackstageOpen',
+    'spmPopupMenuFocus'
+  )) {
+    if ($pas -notmatch [regex]::Escape($required)) {
+      Add-Failure "Skin Editor preview mode workflow is missing $required."
+    }
+  }
+  if ($lfm -notmatch 'object\s+cbPreviewMode:\s+TComboBox') {
+    Add-Failure 'Skin Editor must expose the preview mode selector at design time.'
+  }
 }
 
 function Test-SkinEditorAppearanceModeDetection {

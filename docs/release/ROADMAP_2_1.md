@@ -83,6 +83,8 @@ The standalone Skin Editor Appearance inspector now treats base comparison as an
 
 The Skin Editor authoring flow keeps file commands in BackStage instead of duplicating them in the top workflow strip. The `Nova skin` dialog now asks for the target `.skin` file up front, suggests a path from the selected base/name and lets `Salvar` behave as the normal document save command immediately after creation.
 
+The live Ribbon preview now has a top-level preview mode selector. Skin authors can switch between normal, active-state, disabled-state, minimized Ribbon, open BackStage and dropdown/menu-focused scenarios while editing the same skin, making color and Appearance validation faster.
+
 ## Initial Coverage Snapshot
 
 The first generated Skin Editor 2.1 coverage report finds 87 published `Appearance` properties across `Tab`, `MenuButton`, `Pane`, `Element` and `Popup`. The native appearance editor mentions all of them, and the standalone Skin Editor has generic RTTI inspector coverage for the full model. The 2.1 work should therefore focus on workflow quality, preview states and high-value direct helpers rather than manually duplicating every property as a standalone control.

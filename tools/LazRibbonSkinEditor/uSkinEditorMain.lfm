@@ -478,7 +478,7 @@ object frmLazRibbonSkinEditor: TfrmLazRibbonSkinEditor
       Layout = tlCenter
     end
     object lblWorkflow: TLabel
-      Left = 246
+      Left = 458
       Height = 13
       Top = 8
       Width = 42
@@ -486,11 +486,19 @@ object frmLazRibbonSkinEditor: TfrmLazRibbonSkinEditor
       Font.Style = [fsBold]
       ParentFont = False
     end
-    object lblBaseHint: TLabel
-      Left = 294
+    object lblPreviewMode: TLabel
+      Left = 236
       Height = 13
       Top = 8
-      Width = 720
+      Width = 44
+      Caption = 'Preview:'
+      Layout = tlCenter
+    end
+    object lblBaseHint: TLabel
+      Left = 506
+      Height = 13
+      Top = 8
+      Width = 530
       AutoSize = False
       Caption = 'Escolha uma base, crie uma skin editável, ajuste as cores, valide e salve.'
     end
@@ -503,6 +511,16 @@ object frmLazRibbonSkinEditor: TfrmLazRibbonSkinEditor
       Style = csDropDownList
       TabOrder = 0
       OnChange = cbBaseSkinChange
+    end
+    object cbPreviewMode: TComboBox
+      Left = 286
+      Height = 21
+      Top = 4
+      Width = 154
+      ItemHeight = 13
+      Style = csDropDownList
+      TabOrder = 1
+      OnChange = cbPreviewModeChange
     end
   end
   object pnlLeft: TPanel
