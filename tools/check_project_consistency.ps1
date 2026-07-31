@@ -845,6 +845,12 @@ function Test-SkinEditorAppearanceModeDetection {
   if ($pas -notmatch 'procedure\s+TfrmLazRibbonSkinEditor\.RefreshFullAppearanceEditedFromCurrentSkin') {
     Add-Failure 'Skin Editor must centralize the full-Appearance edit state detection.'
   }
+  if ($pas -notmatch 'procedure\s+TfrmLazRibbonSkinEditor\.ResetAppearanceSectionFromBase') {
+    Add-Failure 'Skin Editor must restore an entire Appearance section from the selected base skin.'
+  }
+  if ($pas -notmatch 'btnResetAppearanceSectionFromBaseClick') {
+    Add-Failure 'Skin Editor Appearance inspector must expose a reset-section command.'
+  }
   if ($pas -match 'procedure\s+TfrmLazRibbonSkinEditor\.btnNewFromBaseClick[\s\S]*?FFullAppearanceEdited\s*:=\s*True;[\s\S]*?procedure\s+TfrmLazRibbonSkinEditor\.btnOpenClick') {
     Add-Failure 'New-from-base must not blindly mark Appearance as manually edited.'
   }
