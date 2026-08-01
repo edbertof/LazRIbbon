@@ -50,6 +50,10 @@ technical model. Palette pages, preview modes and validation use workflow
 language, while the complete low-level `Appearance` surface remains available
 as `Ajuste avancado` for detailed edits.
 
+The base difference summary in `Ajuste avancado` is now navigable: clicking a
+changed property selects the matching Appearance property in the inspector, and
+double-clicking it opens the property editor.
+
 ## Safe Cleanup Decisions
 
 - Keep `RibbonAppearance` readable in old `.lfm` files.
@@ -63,15 +67,13 @@ as `Ajuste avancado` for detailed edits.
 
 ## Next High-Value Increments
 
-1. Add a clickable difference list in the Skin Editor that selects the matching
-   Appearance property.
-2. Add a practical CRUD/workbench demo that uses `TLazRibbonForm`,
+1. Add a practical CRUD/workbench demo that uses `TLazRibbonForm`,
    `TLazRibbonSkinManager`, BackStage and normal client controls together.
-3. Regenerate the Object Inspector snapshot after each meaningful API-surface
+2. Regenerate the Object Inspector snapshot after each meaningful API-surface
    change.
-4. Keep the manual and component reference synchronized with every new
+3. Keep the manual and component reference synchronized with every new
    design-time workflow.
-5. Validate every public ZIP from an extracted clean source tree before tagging.
+4. Validate every public ZIP from an extracted clean source tree before tagging.
 
 ## Release Gate
 

@@ -136,6 +136,10 @@ colors, BackStage colors and validation. Use `5 Ajuste avancado` only when the
 skin needs detailed control over fonts, gradients, item states or menu/popup
 properties that are not covered by the palette pages.
 
+In `5 Ajuste avancado`, the base comparison summary is also a navigator. Click a
+changed property in the differences list to select the same property in the main
+Appearance inspector; double-click it to open the property editor.
+
 ## 6. KeyTips And ScreenTips
 
 `TLazRibbon.ShowKeyTips` enables staged keyboard hints. Set `KeyTip` on tabs,

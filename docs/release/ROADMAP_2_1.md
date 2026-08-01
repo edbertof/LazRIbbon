@@ -97,6 +97,11 @@ technical `Appearance` labels in the primary path. The normal path is described
 as palette-driven editing, while the low-level Appearance editor is presented as
 `Ajuste avancado` for cases where the simple palette is not enough.
 
+The advanced visual page now makes base differences actionable. The difference
+summary includes a clickable list of changed Appearance properties; selecting an
+item moves the main inspector to the matching property, and double-clicking opens
+the property editor directly.
+
 The live Ribbon preview now has a top-level preview mode selector. Skin authors can switch between normal, active-state, disabled-state, minimized Ribbon, open BackStage and dropdown/menu-focused scenarios while editing the same skin, making color and Appearance validation faster.
 
 The dropdown/menu preview mode now has a fixed popup sample on the validation page. It renders normal, hot, checked, disabled, shortcut, divider and gutter states from `Appearance.Popup`, giving skin authors a direct visual check for menu colors without opening a transient system popup.
