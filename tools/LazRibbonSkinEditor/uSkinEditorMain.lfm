@@ -234,9 +234,7 @@ object frmLazRibbonSkinEditor: TfrmLazRibbonSkinEditor
         Caption = 'Página inicial'
         Panes = (
           'EditorPaneBases'
-          'EditorPaneFile'
           'EditorPaneAppearance'
-          'EditorPaneExport'
         )
         object EditorPaneBases: TLazRibbonPane
           Caption = 'Bases'
@@ -252,24 +250,6 @@ object frmLazRibbonSkinEditor: TfrmLazRibbonSkinEditor
             OnSkinSelected = BaseGallerySkinSelected
           end
         end
-        object EditorPaneFile: TLazRibbonPane
-          Caption = 'Arquivo'
-          Visible = False
-          Items = (
-            'EditorLargeNewFromBase'
-            'EditorSmallOpen'
-            'EditorSmallSaveAs'
-          )
-          object EditorLargeNewFromBase: TLazRibbonLargeButton
-            Caption = 'Nova skin'
-          end
-          object EditorSmallOpen: TLazRibbonSmallButton
-            Caption = 'Abrir'
-          end
-          object EditorSmallSaveAs: TLazRibbonSmallButton
-            Caption = 'Salvar como'
-          end
-        end
         object EditorPaneAppearance: TLazRibbonPane
           Caption = 'Appearance'
           ShowDialogLauncher = True
@@ -282,16 +262,6 @@ object frmLazRibbonSkinEditor: TfrmLazRibbonSkinEditor
           end
           object EditorSmallApplyPaletteAppearance: TLazRibbonSmallButton
             Caption = 'Sincronizar'
-          end
-        end
-        object EditorPaneExport: TLazRibbonPane
-          Caption = 'Exportar'
-          Visible = False
-          Items = (
-            'EditorLargeExportBuiltIns'
-          )
-          object EditorLargeExportBuiltIns: TLazRibbonLargeButton
-            Caption = 'Exportar'
           end
         end
       end

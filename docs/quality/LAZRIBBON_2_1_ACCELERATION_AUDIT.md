@@ -32,6 +32,19 @@ internal rendering state, hidden from the Object Inspector.
 | Demos | Showcase plus focused demos cover the main integration points. | Keep Showcase as the full integration smoke test and use focused demos to document one concept at a time. |
 | Distribution | Source ZIP audit, clean checkout validation, manuals, screenshots and GitHub docs exist. | Keep GitHub templates and release notes aligned with Lazarus/FPC compatibility reports. |
 
+## Skin Editor Workflow Update
+
+The Skin Editor now treats file/project commands as BackStage-owned commands.
+The visible Ribbon keeps base selection, Appearance tools and preview samples;
+`Nova skin`, `Abrir`, `Salvar`, `Salvar como...` and built-in skin export stay
+in the `Arquivo` BackStage surface.
+
+The `Nova skin` dialog now follows a project-style flow: choose the base skin,
+define internal/display names, choose the target folder and confirm the exact
+`.skin` file that will be created. Selecting a folder updates the suggested
+file path, while choosing an explicit file keeps the destination folder
+synchronized.
+
 ## Safe Cleanup Decisions
 
 - Keep `RibbonAppearance` readable in old `.lfm` files.
@@ -63,4 +76,3 @@ For a 2.1 stabilization build, these commands must pass from the source root:
 powershell -ExecutionPolicy Bypass -File tools\check_project_consistency.ps1 -ExpectedVersion 2.1.4
 powershell -ExecutionPolicy Bypass -File tools\build_all_projects.ps1 -CleanArtifacts
 ```
-

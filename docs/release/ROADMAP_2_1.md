@@ -85,6 +85,13 @@ The standalone Skin Editor Appearance inspector now treats base comparison as an
 
 The Skin Editor authoring flow keeps file commands in BackStage instead of duplicating them in the top workflow strip. The `Nova skin` dialog now asks for the target `.skin` file up front, suggests a path from the selected base/name and lets `Salvar` behave as the normal document save command immediately after creation.
 
+The main Skin Editor Ribbon now removes the hidden file/export panes from its
+visual pane list. The top Ribbon is dedicated to base selection, Appearance
+editing and preview samples, while BackStage owns `Nova skin`, `Abrir`,
+`Salvar`, `Salvar como...` and export. The new skin dialog also exposes a
+destination folder field, so changing the folder recalculates the generated
+`.skin` path before the skin is created.
+
 The live Ribbon preview now has a top-level preview mode selector. Skin authors can switch between normal, active-state, disabled-state, minimized Ribbon, open BackStage and dropdown/menu-focused scenarios while editing the same skin, making color and Appearance validation faster.
 
 The dropdown/menu preview mode now has a fixed popup sample on the validation page. It renders normal, hot, checked, disabled, shortcut, divider and gutter states from `Appearance.Popup`, giving skin authors a direct visual check for menu colors without opening a transient system popup.

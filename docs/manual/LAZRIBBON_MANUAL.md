@@ -125,6 +125,12 @@ Use this order when building a distributable Office-like interface:
 5. Use the Skin Editor validation page to check identity, embedded icons,
    base differences and contrast before shipping.
 
+In the standalone Skin Editor, file operations belong to the `Arquivo`
+BackStage surface. Use `Arquivo > Nova skin...` to choose the base skin,
+destination folder and generated `.skin` file; after creation, `Arquivo >
+Salvar` writes to that file directly. The visible Ribbon is reserved for base
+selection, detailed Appearance tools and preview samples.
+
 ## 6. KeyTips And ScreenTips
 
 `TLazRibbon.ShowKeyTips` enables staged keyboard hints. Set `KeyTip` on tabs,

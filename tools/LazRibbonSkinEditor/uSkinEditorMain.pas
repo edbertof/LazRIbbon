@@ -404,7 +404,9 @@ type
     FEdtName: TEdit;
     FEdtDisplayName: TEdit;
     FEdtFileName: TEdit;
+    FEdtProjectLocation: TEdit;
     FBtnBrowseFile: TButton;
+    FBtnBrowseFolder: TButton;
     FStatus: TLabel;
     FOkButton: TButton;
     FUpdating: Boolean;
@@ -416,7 +418,9 @@ type
     function GetSelectedBaseSkin: TLazRibbonSkinDefinition;
     function GetSkinName: String;
     procedure BrowseFileClick(Sender: TObject);
+    procedure BrowseFolderClick(Sender: TObject);
     procedure EditChange(Sender: TObject);
+    procedure ProjectLocationChange(Sender: TObject);
     procedure SelectTemplateIndex(AIndex: Integer);
     procedure TemplateClick(Sender: TObject);
     procedure TemplateClickCheck(Sender: TObject);
@@ -447,85 +451,121 @@ begin
   inherited CreateNew(AOwner, 1);
   FEditor := AEditor;
 
-  Caption := 'Nova skin';
+  Caption := 'Nova skin pela base';
   BorderStyle := bsDialog;
   Position := poMainFormCenter;
-  ClientWidth := 470;
-  ClientHeight := 462;
+  ClientWidth := 560;
+  ClientHeight := 540;
 
   L := TLabel.Create(Self);
   L.Parent := Self;
-  L.SetBounds(12, 14, 92, 18);
+  L.SetBounds(16, 14, 520, 26);
+  L.Caption := 'Criar nova skin';
+  L.Font.Height := -18;
+  L.Font.Style := [fsBold];
+  L.ParentFont := False;
+
+  L := TLabel.Create(Self);
+  L.Parent := Self;
+  L.AutoSize := False;
+  L.SetBounds(16, 42, 520, 34);
+  L.Caption := 'Escolha uma skin-base, defina a identidade e informe onde o arquivo .skin sera criado.';
+  L.WordWrap := True;
+
+  Line := TBevel.Create(Self);
+  Line.Parent := Self;
+  Line.Shape := bsTopLine;
+  Line.SetBounds(16, 76, 520, 8);
+
+  L := TLabel.Create(Self);
+  L.Parent := Self;
+  L.SetBounds(16, 92, 110, 18);
   L.Caption := 'Nome interno:';
 
   FEdtName := TEdit.Create(Self);
   FEdtName.Parent := Self;
-  FEdtName.SetBounds(112, 10, 340, 24);
+  FEdtName.SetBounds(132, 88, 404, 24);
   FEdtName.OnChange := @EditChange;
 
   L := TLabel.Create(Self);
   L.Parent := Self;
-  L.SetBounds(12, 46, 92, 18);
+  L.SetBounds(16, 124, 110, 18);
   L.Caption := 'Nome exibido:';
 
   FEdtDisplayName := TEdit.Create(Self);
   FEdtDisplayName.Parent := Self;
-  FEdtDisplayName.SetBounds(112, 42, 340, 24);
+  FEdtDisplayName.SetBounds(132, 120, 404, 24);
   FEdtDisplayName.OnChange := @EditChange;
 
   L := TLabel.Create(Self);
   L.Parent := Self;
-  L.SetBounds(12, 78, 92, 18);
+  L.SetBounds(16, 156, 110, 18);
+  L.Caption := 'Pasta destino:';
+
+  FEdtProjectLocation := TEdit.Create(Self);
+  FEdtProjectLocation.Parent := Self;
+  FEdtProjectLocation.SetBounds(132, 152, 368, 24);
+  FEdtProjectLocation.OnChange := @ProjectLocationChange;
+
+  FBtnBrowseFolder := TButton.Create(Self);
+  FBtnBrowseFolder.Parent := Self;
+  FBtnBrowseFolder.SetBounds(510, 151, 26, 26);
+  FBtnBrowseFolder.Caption := '...';
+  FBtnBrowseFolder.OnClick := @BrowseFolderClick;
+
+  L := TLabel.Create(Self);
+  L.Parent := Self;
+  L.SetBounds(16, 188, 110, 18);
   L.Caption := 'Arquivo .skin:';
 
   FEdtFileName := TEdit.Create(Self);
   FEdtFileName.Parent := Self;
-  FEdtFileName.SetBounds(112, 74, 306, 24);
+  FEdtFileName.SetBounds(132, 184, 368, 24);
   FEdtFileName.OnChange := @EditChange;
 
   FBtnBrowseFile := TButton.Create(Self);
   FBtnBrowseFile.Parent := Self;
-  FBtnBrowseFile.SetBounds(426, 73, 26, 26);
+  FBtnBrowseFile.SetBounds(510, 183, 26, 26);
   FBtnBrowseFile.Caption := '...';
   FBtnBrowseFile.OnClick := @BrowseFileClick;
 
   Line := TBevel.Create(Self);
   Line.Parent := Self;
   Line.Shape := bsTopLine;
-  Line.SetBounds(12, 110, 440, 8);
+  Line.SetBounds(16, 222, 520, 8);
 
   L := TLabel.Create(Self);
   L.Parent := Self;
-  L.SetBounds(12, 120, 160, 18);
-  L.Caption := 'Bases disponiveis:';
+  L.SetBounds(16, 232, 260, 18);
+  L.Caption := 'Templates / skins-base disponiveis:';
 
   FTemplates := TCheckListBox.Create(Self);
   FTemplates.Parent := Self;
-  FTemplates.SetBounds(12, 142, 440, 218);
+  FTemplates.SetBounds(16, 256, 520, 176);
   FTemplates.OnClick := @TemplateClick;
   FTemplates.OnClickCheck := @TemplateClickCheck;
 
   FStatus := TLabel.Create(Self);
   FStatus.Parent := Self;
   FStatus.AutoSize := False;
-  FStatus.SetBounds(12, 368, 440, 38);
+  FStatus.SetBounds(16, 442, 520, 42);
   FStatus.WordWrap := True;
 
   Line := TBevel.Create(Self);
   Line.Parent := Self;
   Line.Shape := bsTopLine;
-  Line.SetBounds(12, 414, 440, 8);
+  Line.SetBounds(16, 492, 520, 8);
 
   FOkButton := TButton.Create(Self);
   FOkButton.Parent := Self;
-  FOkButton.SetBounds(280, 426, 82, 26);
-  FOkButton.Caption := 'OK';
+  FOkButton.SetBounds(370, 504, 78, 26);
+  FOkButton.Caption := 'Criar';
   FOkButton.Default := True;
   FOkButton.ModalResult := mrOK;
 
   CancelButton := TButton.Create(Self);
   CancelButton.Parent := Self;
-  CancelButton.SetBounds(370, 426, 82, 26);
+  CancelButton.SetBounds(458, 504, 78, 26);
   CancelButton.Caption := 'Cancelar';
   CancelButton.Cancel := True;
   CancelButton.ModalResult := mrCancel;
@@ -603,7 +643,37 @@ begin
       if ExtractFileExt(TargetFileName) = '' then
         TargetFileName := ChangeFileExt(TargetFileName, '.skin');
       FUserEditedFileName := True;
+      FUpdating := True;
+      try
+        if FEdtProjectLocation <> nil then
+          FEdtProjectLocation.Text := ExtractFileDir(TargetFileName);
+      finally
+        FUpdating := False;
+      end;
       FEdtFileName.Text := TargetFileName;
+      ValidateDialog;
+    end;
+  finally
+    Dlg.Free;
+  end;
+end;
+
+procedure TLazRibbonNewSkinDialog.BrowseFolderClick(Sender: TObject);
+var
+  Dlg: TSelectDirectoryDialog;
+begin
+  Dlg := TSelectDirectoryDialog.Create(Self);
+  try
+    Dlg.Title := 'Escolha a pasta onde a skin sera criada';
+    if (FEdtProjectLocation <> nil) and
+       (Trim(FEdtProjectLocation.Text) <> '') then
+      Dlg.FileName := FEdtProjectLocation.Text;
+
+    if Dlg.Execute then
+    begin
+      FUserEditedFileName := False;
+      FEdtProjectLocation.Text := Dlg.FileName;
+      UpdateSuggestedFileName(GetSkinName);
       ValidateDialog;
     end;
   finally
@@ -627,6 +697,16 @@ begin
   else if Sender = FEdtFileName then
     FUserEditedFileName := True;
 
+  ValidateDialog;
+end;
+
+procedure TLazRibbonNewSkinDialog.ProjectLocationChange(Sender: TObject);
+begin
+  if FUpdating then
+    Exit;
+
+  if not FUserEditedFileName then
+    UpdateSuggestedFileName(GetSkinName);
   ValidateDialog;
 end;
 
@@ -669,7 +749,7 @@ end;
 procedure TLazRibbonNewSkinDialog.UpdateSuggestedNames(
   ASkin: TLazRibbonSkinDefinition);
 var
-  SuggestedName: String;
+  SuggestedName, SuggestedFileName, BaseDir: String;
 begin
   if (FEditor = nil) or (ASkin = nil) then
     Exit;
@@ -683,8 +763,21 @@ begin
       SuggestedName := FEdtName.Text;
     if not FUserEditedDisplayName then
       FEdtDisplayName.Text := FEditor.CustomDisplayNameForBase(ASkin);
+    SuggestedFileName := FEditor.DefaultSkinFileNameForIdentifier(SuggestedName);
+    if (FEdtProjectLocation <> nil) and
+       (Trim(FEdtProjectLocation.Text) = '') then
+      FEdtProjectLocation.Text := ExtractFileDir(SuggestedFileName);
     if not FUserEditedFileName then
-      FEdtFileName.Text := FEditor.DefaultSkinFileNameForIdentifier(SuggestedName);
+    begin
+      BaseDir := '';
+      if FEdtProjectLocation <> nil then
+        BaseDir := Trim(FEdtProjectLocation.Text);
+      if BaseDir = '' then
+        FEdtFileName.Text := SuggestedFileName
+      else
+        FEdtFileName.Text := IncludeTrailingPathDelimiter(BaseDir) +
+          ChangeFileExt(SuggestedName, '.skin');
+    end;
   finally
     FUpdating := False;
   end;
@@ -692,13 +785,27 @@ end;
 
 procedure TLazRibbonNewSkinDialog.UpdateSuggestedFileName(
   const ASkinName: String);
+var
+  BaseDir, FileStem: String;
 begin
   if (FEditor = nil) or (FEdtFileName = nil) then
     Exit;
 
   FUpdating := True;
   try
-    FEdtFileName.Text := FEditor.DefaultSkinFileNameForIdentifier(ASkinName);
+    FileStem := FEditor.SafeSkinIdentifier(ASkinName);
+    if FileStem = 'Skin' then
+      FileStem := 'MinhaSkin';
+
+    BaseDir := '';
+    if FEdtProjectLocation <> nil then
+      BaseDir := Trim(FEdtProjectLocation.Text);
+
+    if BaseDir = '' then
+      FEdtFileName.Text := FEditor.DefaultSkinFileNameForIdentifier(FileStem)
+    else
+      FEdtFileName.Text := IncludeTrailingPathDelimiter(BaseDir) +
+        ChangeFileExt(FileStem, '.skin');
   finally
     FUpdating := False;
   end;
@@ -720,6 +827,8 @@ begin
     MessageText := 'Informe o nome exibido da skin.'
   else if SkinFileName = '' then
     MessageText := 'Informe o arquivo .skin de destino.'
+  else if ExtractFileDir(SkinFileName) = '' then
+    MessageText := 'Informe uma pasta de destino para o arquivo .skin.'
   else if not SameText(ExtractFileExt(SkinFileName), '.skin') then
     MessageText := 'Use um arquivo com extensao .skin.'
   else if FileExists(SkinFileName) then
@@ -731,7 +840,7 @@ begin
   if FStatus <> nil then
   begin
     if MessageText = '' then
-      FStatus.Caption := 'A nova skin sera criada como copia completa da base selecionada. Use Salvar para gravar o arquivo .skin.'
+      FStatus.Caption := 'Pronto: a nova skin sera criada como copia completa da base selecionada e ficara vinculada ao arquivo .skin indicado.'
     else
       FStatus.Caption := MessageText;
   end;
