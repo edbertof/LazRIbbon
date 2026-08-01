@@ -87,6 +87,8 @@ The live Ribbon preview now has a top-level preview mode selector. Skin authors 
 
 The dropdown/menu preview mode now has a fixed popup sample on the validation page. It renders normal, hot, checked, disabled, shortcut, divider and gutter states from `Appearance.Popup`, giving skin authors a direct visual check for menu colors without opening a transient system popup.
 
+The BackStage information page now behaves as a document-status panel instead of a static help page. It shows the current skin, target file, comparison base, edit/save state and next workflow step, while the old top-strip file command residue was removed from the form class.
+
 The release audit now accepts only official LazRibbon source ZIPs in the root delivery folder, using the `LazRibbon_<version>_source_<timestamp>.zip` pattern. This keeps `D:\Ribbon4Lazarus` usable as both the working delivery folder and the place where release packages are stored, while arbitrary ZIP files remain blocked from the source tree. The build cleanup also removes the Skin Editor `.lps` state file so a local Lazarus session does not block a clean source-package audit.
 
 ## Initial Coverage Snapshot

@@ -107,10 +107,6 @@ type
     btnIcon32: TButton;
     btnPreviewImage: TButton;
     btnRefreshValidation: TButton;
-    btnTopNewFromBase: TButton;
-    btnTopOpen: TButton;
-    btnTopSave: TButton;
-    btnTopSaveAs: TButton;
     imgSkinIcon: TImage;
     lblAuthor: TLabel;
     lblBaseSkin: TLabel;
@@ -177,6 +173,16 @@ type
     BackstagePageInfo: TLazRibbonBackstagePage;
     BackstageLabelInfoTitle: TLabel;
     BackstageLabelInfoText: TLabel;
+    BackstageLabelCurrentSkinTitle: TLabel;
+    BackstageLabelCurrentSkinValue: TLabel;
+    BackstageLabelFileTitle: TLabel;
+    BackstageLabelFileValue: TLabel;
+    BackstageLabelBaseTitle: TLabel;
+    BackstageLabelBaseValue: TLabel;
+    BackstageLabelStateTitle: TLabel;
+    BackstageLabelStateValue: TLabel;
+    BackstageLabelNextStepTitle: TLabel;
+    BackstageLabelNextStepValue: TLabel;
     EditorTabSkin: TLazRibbonTab;
     EditorTabPreview: TLazRibbonTab;
     EditorPaneFile: TLazRibbonPane;
@@ -268,6 +274,7 @@ type
       const ACaption, AShortcut: String; AState: TLazRibbonPopupPreviewItemState);
     procedure RefreshPopupPreview;
     procedure SyncLivePreviewHeight;
+    procedure UpdateBackstageInfo(const AStatusHint: String = '');
     procedure UpdateWorkflowGuide(const AStatusText: String = '');
     procedure UpdateEditingState;
     procedure PreviewToolbarRibbonMinimizedChanged(Sender: TObject);
@@ -3025,6 +3032,73 @@ begin
     paintPopupPreview.Invalidate;
 end;
 
+procedure TfrmLazRibbonSkinEditor.UpdateBackstageInfo(
+  const AStatusHint: String);
+var
+  BaseSkin: TLazRibbonSkinDefinition;
+  SkinText, FileText, BaseText, StateText, StepText: String;
+
+  procedure SetLabelText(ALabel: TLabel; const AText: String);
+  begin
+    if ALabel <> nil then
+      ALabel.Caption := AText;
+  end;
+
+begin
+  SkinText := '(nenhuma skin)';
+  FileText := '(sem arquivo externo)';
+  BaseText := '(nenhuma base selecionada)';
+  StateText := 'Aguardando';
+  StepText := Trim(AStatusHint);
+
+  if FCurrentSkin <> nil then
+  begin
+    SkinText := Trim(FCurrentSkin.DisplayName);
+    if SkinText = '' then
+      SkinText := Trim(FCurrentSkin.Name);
+    if SkinText = '' then
+      SkinText := '(skin sem identificacao)';
+
+    if Trim(FCurrentSkin.FileName) <> '' then
+      FileText := FCurrentSkin.FileName
+    else if FCurrentSkin.Source in [sssCustom, sssExternal] then
+      FileText := '(use Arquivo > Salvar como...)'
+    else
+      FileText := '(skin interna do LazRibbon)';
+
+    if FCurrentSkin.Source in [sssCustom, sssExternal] then
+    begin
+      if FModified then
+        StateText := 'Editavel, com alteracoes nao salvas'
+      else if Trim(FCurrentSkin.FileName) <> '' then
+        StateText := 'Editavel, salvo em arquivo .skin'
+      else
+        StateText := 'Editavel, ainda sem arquivo';
+    end
+    else
+      StateText := 'Base interna, somente leitura';
+  end;
+
+  BaseSkin := SelectedBaseSkin;
+  if BaseSkin <> nil then
+  begin
+    BaseText := Trim(BaseSkin.DisplayName);
+    if BaseText = '' then
+      BaseText := Trim(BaseSkin.Name);
+    if BaseText = '' then
+      BaseText := '(base sem nome)';
+  end;
+
+  if StepText = '' then
+    StepText := 'Escolha uma base, crie uma skin editavel, ajuste, valide e salve.';
+
+  SetLabelText(BackstageLabelCurrentSkinValue, SkinText);
+  SetLabelText(BackstageLabelFileValue, FileText);
+  SetLabelText(BackstageLabelBaseValue, BaseText);
+  SetLabelText(BackstageLabelStateValue, StateText);
+  SetLabelText(BackstageLabelNextStepValue, StepText);
+end;
+
 procedure TfrmLazRibbonSkinEditor.RefreshBaseCombo;
 var
   I: Integer;
@@ -3182,30 +3256,6 @@ begin
     cbPreviewMode.OnChange := @cbPreviewModeChange;
   end;
 
-  if Assigned(btnTopNewFromBase) then
-  begin
-    btnTopNewFromBase.Visible := False;
-    btnTopNewFromBase.Enabled := False;
-  end;
-
-  if Assigned(btnTopOpen) then
-  begin
-    btnTopOpen.Visible := False;
-    btnTopOpen.Enabled := False;
-  end;
-
-  if Assigned(btnTopSave) then
-  begin
-    btnTopSave.Visible := False;
-    btnTopSave.Enabled := False;
-  end;
-
-  if Assigned(btnTopSaveAs) then
-  begin
-    btnTopSaveAs.Visible := False;
-    btnTopSaveAs.Enabled := False;
-  end;
-
   if Assigned(lblWorkflow) then
   begin
     lblWorkflow.Caption := 'Etapa:';
@@ -3230,6 +3280,23 @@ begin
   if Assigned(paintPopupPreview) then
     paintPopupPreview.OnPaint := @paintPopupPreviewPaint;
 
+  if Assigned(BackstageLabelInfoTitle) then
+    BackstageLabelInfoTitle.Caption := 'Arquivo da skin';
+  if Assigned(BackstageLabelInfoText) then
+    BackstageLabelInfoText.Caption :=
+      'Use esta area para criar, abrir, salvar e exportar skins. O estado abaixo acompanha a skin em edicao e ajuda a manter claro o arquivo que sera gravado.';
+  if Assigned(BackstageLabelCurrentSkinTitle) then
+    BackstageLabelCurrentSkinTitle.Caption := 'Skin atual';
+  if Assigned(BackstageLabelFileTitle) then
+    BackstageLabelFileTitle.Caption := 'Arquivo';
+  if Assigned(BackstageLabelBaseTitle) then
+    BackstageLabelBaseTitle.Caption := 'Base';
+  if Assigned(BackstageLabelStateTitle) then
+    BackstageLabelStateTitle.Caption := 'Estado';
+  if Assigned(BackstageLabelNextStepTitle) then
+    BackstageLabelNextStepTitle.Caption := 'Proximo passo';
+
+  UpdateBackstageInfo;
   UpdateWorkflowGuide;
 end;
 
@@ -3477,11 +3544,6 @@ begin
       lblBaseHint.Caption := ContextText + ': ' + SkinText + ' | ' + ShortHint;
   end;
 
-  if Assigned(btnTopSave) then
-    btnTopSave.Enabled := CurrentSkinIsEditable;
-  if Assigned(btnTopSaveAs) then
-    btnTopSaveAs.Enabled := FCurrentSkin <> nil;
-
   UpdateEditingState;
 
   if Assigned(lblStatus) then
@@ -3491,6 +3553,11 @@ begin
     else
       lblStatus.Caption := StatusHint;
   end;
+
+  if Trim(AStatusText) <> '' then
+    UpdateBackstageInfo(AStatusText)
+  else
+    UpdateBackstageInfo(StatusHint);
 end;
 
 procedure TfrmLazRibbonSkinEditor.UpdateEditingState;

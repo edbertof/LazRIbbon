@@ -868,12 +868,18 @@ function Test-SkinEditorPreviewMinimizeSync {
 
 function Test-SkinEditorAppearanceModeDetection {
   $pasPath = Join-Path $SourceRoot 'tools/LazRibbonSkinEditor/uSkinEditorMain.pas'
+  $lfmPath = Join-Path $SourceRoot 'tools/LazRibbonSkinEditor/uSkinEditorMain.lfm'
   if (-not (Test-Path -LiteralPath $pasPath)) {
     Add-Failure 'Missing Skin Editor main unit.'
     return
   }
+  if (-not (Test-Path -LiteralPath $lfmPath)) {
+    Add-Failure 'Missing Skin Editor main form.'
+    return
+  }
 
   $pas = Get-Content -LiteralPath $pasPath -Raw
+  $lfm = Get-Content -LiteralPath $lfmPath -Raw
   if ($pas -notmatch 'function\s+TfrmLazRibbonSkinEditor\.SkinAppearanceMatchesPalette') {
     Add-Failure 'Skin Editor must detect whether a skin Appearance still matches the simple palette.'
   }
@@ -901,8 +907,16 @@ function Test-SkinEditorAppearanceModeDetection {
   if ($pas -notmatch 'ForceDirectories\(TargetDir\)') {
     Add-Failure 'Skin Editor save must create the target folder when needed.'
   }
-  if ($pas -notmatch 'btnTopNewFromBase\.Visible\s*:=\s*False') {
-    Add-Failure 'Skin Editor top workflow strip must not duplicate BackStage file commands.'
+  if ($pas -match 'btnTop(NewFromBase|Open|Save|SaveAs)') {
+    Add-Failure 'Skin Editor top workflow strip must not keep legacy duplicated file command fields.'
+  }
+  if ($pas -notmatch 'procedure\s+TfrmLazRibbonSkinEditor\.UpdateBackstageInfo') {
+    Add-Failure 'Skin Editor BackStage info page must be synchronized with the current skin state.'
+  }
+  if ($lfm -notmatch 'object\s+BackstageLabelCurrentSkinValue:\s+TLabel' -or
+      $lfm -notmatch 'object\s+BackstageLabelFileValue:\s+TLabel' -or
+      $lfm -notmatch 'object\s+BackstageLabelStateValue:\s+TLabel') {
+    Add-Failure 'Skin Editor BackStage info page must expose current skin, file and state labels at design time.'
   }
   if ($pas -match 'procedure\s+TfrmLazRibbonSkinEditor\.btnNewFromBaseClick[\s\S]*?FFullAppearanceEdited\s*:=\s*True;[\s\S]*?procedure\s+TfrmLazRibbonSkinEditor\.btnOpenClick') {
     Add-Failure 'New-from-base must not blindly mark Appearance as manually edited.'

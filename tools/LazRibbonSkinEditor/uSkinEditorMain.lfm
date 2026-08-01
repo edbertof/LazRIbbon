@@ -1192,7 +1192,7 @@ object frmLazRibbonSkinEditor: TfrmLazRibbonSkinEditor
         Height = 32
         Top = 32
         Width = 403
-        Caption = 'Gerenciador de skins do LazRibbon'
+        Caption = 'Arquivo da skin'
         Font.Height = -24
         Font.Style = [fsBold]
         ParentFont = False
@@ -1204,6 +1204,93 @@ object frmLazRibbonSkinEditor: TfrmLazRibbonSkinEditor
         Width = 580
         AutoSize = False
         Caption = 'Use esta área para criar, abrir, salvar e exportar skins. O Ribbon visível no editor funciona como pré-visualização real da skin em edição.'
+        WordWrap = True
+      end
+      object BackstageLabelCurrentSkinTitle: TLabel
+        Left = 38
+        Height = 13
+        Top = 190
+        Width = 120
+        Caption = 'Skin atual'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object BackstageLabelCurrentSkinValue: TLabel
+        Left = 180
+        Height = 18
+        Top = 190
+        Width = 440
+        AutoSize = False
+        Caption = '-'
+      end
+      object BackstageLabelFileTitle: TLabel
+        Left = 38
+        Height = 13
+        Top = 222
+        Width = 120
+        Caption = 'Arquivo'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object BackstageLabelFileValue: TLabel
+        Left = 180
+        Height = 36
+        Top = 222
+        Width = 440
+        AutoSize = False
+        Caption = '-'
+        WordWrap = True
+      end
+      object BackstageLabelBaseTitle: TLabel
+        Left = 38
+        Height = 13
+        Top = 270
+        Width = 120
+        Caption = 'Base'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object BackstageLabelBaseValue: TLabel
+        Left = 180
+        Height = 18
+        Top = 270
+        Width = 440
+        AutoSize = False
+        Caption = '-'
+      end
+      object BackstageLabelStateTitle: TLabel
+        Left = 38
+        Height = 13
+        Top = 302
+        Width = 120
+        Caption = 'Estado'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object BackstageLabelStateValue: TLabel
+        Left = 180
+        Height = 18
+        Top = 302
+        Width = 440
+        AutoSize = False
+        Caption = '-'
+      end
+      object BackstageLabelNextStepTitle: TLabel
+        Left = 38
+        Height = 13
+        Top = 338
+        Width = 120
+        Caption = 'Proximo passo'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object BackstageLabelNextStepValue: TLabel
+        Left = 180
+        Height = 52
+        Top = 338
+        Width = 440
+        AutoSize = False
+        Caption = '-'
         WordWrap = True
       end
     end
