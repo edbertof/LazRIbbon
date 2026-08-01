@@ -1089,15 +1089,34 @@ object frmLazRibbonSkinEditor: TfrmLazRibbonSkinEditor
           AutoSize = False
           Caption = 'Nenhuma validacao executada.'
         end
+        object lblPopupPreviewTitle: TLabel
+          Left = 666
+          Height = 13
+          Top = 92
+          Width = 340
+          Anchors = [akTop, akRight]
+          AutoSize = False
+          Caption = 'Amostra Popup/Menu'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
         object memValidationReport: TMemo
           Left = 16
           Height = 350
           Top = 112
-          Width = 1000
-          Anchors = [akTop, akLeft, akRight, akBottom]
+          Width = 630
+          Anchors = [akTop, akLeft, akBottom]
           ReadOnly = True
           ScrollBars = ssAutoBoth
           TabOrder = 1
+        end
+        object paintPopupPreview: TPaintBox
+          Left = 666
+          Height = 220
+          Top = 112
+          Width = 340
+          Anchors = [akTop, akRight]
+          OnPaint = paintPopupPreviewPaint
         end
       end
     end

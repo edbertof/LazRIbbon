@@ -22,7 +22,8 @@ uses
   Buttons, ComCtrls, Types, CheckLst,
   LazRibbon_Core, LazRibbon_Tabs, LazRibbon_Groups, LazRibbon_Buttons, LazRibbon_Checkboxes,
   LazRibbon_Appearance, LazRibbon_SkinDefinition, LazRibbon_SkinManager,
-  LazRibbon_AppearanceEditor, LazRibbon_Backstage, LazRibbon_RibbonExtItems;
+  LazRibbon_AppearanceEditor, LazRibbon_Backstage, LazRibbon_RibbonExtItems,
+  LazRibbon_GUITools;
 
 type
   TLazRibbonEditorPaletteField = (
@@ -65,6 +66,14 @@ type
     spmMinimizedRibbon,
     spmBackstageOpen,
     spmPopupMenuFocus
+  );
+
+  TLazRibbonPopupPreviewItemState = (
+    ppisNormal,
+    ppisHot,
+    ppisChecked,
+    ppisDisabled,
+    ppisSeparator
   );
 
   TLazRibbonAppearancePropertyBinding = class
@@ -118,6 +127,7 @@ type
     lblHintSimple: TLabel;
     lblLivePreview: TLabel;
     lblPreviewInfo: TLabel;
+    lblPopupPreviewTitle: TLabel;
     lblValidationSummary: TLabel;
     lblSkinListTitle: TLabel;
     lblWorkflow: TLabel;
@@ -160,6 +170,7 @@ type
     pnlPreviewHost: TPanel;
     pnlSimpleColors: TPanel;
     pnlTop: TPanel;
+    paintPopupPreview: TPaintBox;
     PreviewSkinManager: TLazRibbonSkinManager;
     PreviewToolbar: TLazRibbon;
     EditorBackstage: TLazRibbonBackstageView;
@@ -217,6 +228,7 @@ type
     procedure IconFileButtonClick(Sender: TObject);
     procedure lstSkinsClick(Sender: TObject);
     procedure MetadataChanged(Sender: TObject);
+    procedure paintPopupPreviewPaint(Sender: TObject);
     procedure pcMainChange(Sender: TObject);
   private
     FManager: TLazRibbonSkinManager;
@@ -252,6 +264,9 @@ type
     function PreviewModeCaption(AMode: TLazRibbonSkinPreviewMode): String;
     function SelectedPreviewMode: TLazRibbonSkinPreviewMode;
     procedure ApplyPreviewMode(AAnnounce: Boolean = True);
+    procedure DrawPopupPreviewItem(ACanvas: TCanvas; const ARect: TRect;
+      const ACaption, AShortcut: String; AState: TLazRibbonPopupPreviewItemState);
+    procedure RefreshPopupPreview;
     procedure SyncLivePreviewHeight;
     procedure UpdateWorkflowGuide(const AStatusText: String = '');
     procedure UpdateEditingState;
@@ -2845,6 +2860,171 @@ begin
   ApplyPreviewMode(False);
 end;
 
+procedure TfrmLazRibbonSkinEditor.DrawPopupPreviewItem(ACanvas: TCanvas;
+  const ARect: TRect; const ACaption, AShortcut: String;
+  AState: TLazRibbonPopupPreviewItemState);
+const
+  PreviewGutterWidth = 34;
+var
+  Popup: TLazRibbonPopupMenuAppearance;
+  CheckRect, LineRect, MidRect: TRect;
+  TextColor, FrameColor, FillFrom, FillTo: TColor;
+  GradientKind: TBackgroundKind;
+  TextLeft, TextTop, ShortcutWidth, Radius: Integer;
+
+  function SafeColor(AColor, AFallback: TColor): TColor;
+  begin
+    if AColor = clNone then
+      Result := ColorToRGB(AFallback)
+    else
+      Result := ColorToRGB(AColor);
+  end;
+
+  procedure FillStyledRect(const R: TRect; AFrom, ATo: TColor;
+    AKind: TBackgroundKind; AFallback: TColor);
+  var
+    StartColor, StopColor: TColor;
+  begin
+    StartColor := SafeColor(AFrom, AFallback);
+    StopColor := SafeColor(ATo, StartColor);
+    if (AKind = bkSolid) or (StartColor = StopColor) then
+    begin
+      ACanvas.Brush.Color := StartColor;
+      ACanvas.FillRect(R);
+      Exit;
+    end;
+
+    case AKind of
+      bkHorizontalGradient:
+        ACanvas.GradientFill(R, StartColor, StopColor, gdHorizontal);
+      bkConcave:
+        begin
+          MidRect := Rect(R.Left, R.Top, R.Right, (R.Top + R.Bottom) div 2);
+          ACanvas.GradientFill(MidRect, StartColor, StopColor, gdVertical);
+          MidRect := Rect(R.Left, (R.Top + R.Bottom) div 2, R.Right, R.Bottom);
+          ACanvas.GradientFill(MidRect, StopColor, StartColor, gdVertical);
+        end;
+    else
+      ACanvas.GradientFill(R, StartColor, StopColor, gdVertical);
+    end;
+  end;
+
+  procedure DrawFrame(const R: TRect; AColor: TColor; ARadius: Integer);
+  begin
+    if AColor = clNone then
+      Exit;
+
+    ACanvas.Brush.Style := bsClear;
+    ACanvas.Pen.Color := SafeColor(AColor, clBtnShadow);
+    if ARadius > 0 then
+      ACanvas.RoundRect(R.Left, R.Top, R.Right, R.Bottom, ARadius, ARadius)
+    else
+      ACanvas.Rectangle(R);
+    ACanvas.Brush.Style := bsSolid;
+  end;
+
+begin
+  if (PreviewSkinManager = nil) or (PreviewSkinManager.Appearance = nil) then
+    Exit;
+
+  Popup := PreviewSkinManager.Appearance.Popup;
+  if Popup = nil then
+    Exit;
+
+  if (ACaption = '') and (AShortcut = '') and (AState = ppisNormal) then
+  begin
+    FillStyledRect(ARect, Popup.IdleGradientFromColor,
+      Popup.IdleGradientToColor, Popup.IdleGradientType, clWindow);
+    if Popup.Style = psGutter then
+    begin
+      LineRect := Rect(ARect.Left + 1, ARect.Top + 1,
+        ARect.Left + PreviewGutterWidth + 4, ARect.Bottom - 1);
+      FillStyledRect(LineRect, Popup.GutterGradientFromColor,
+        Popup.GutterGradientToColor, Popup.GutterGradientType, clBtnFace);
+      if Popup.GutterFrameColor <> clNone then
+      begin
+        ACanvas.Pen.Color := SafeColor(Popup.GutterFrameColor, clBtnShadow);
+        ACanvas.Line(LineRect.Right, LineRect.Top, LineRect.Right,
+          LineRect.Bottom);
+      end;
+    end;
+    DrawFrame(ARect, Popup.DividerLineColor, 0);
+    Exit;
+  end;
+
+  if AState = ppisSeparator then
+  begin
+    ACanvas.Pen.Color := SafeColor(Popup.DividerLineColor, clBtnShadow);
+    TextTop := (ARect.Top + ARect.Bottom) div 2;
+    ACanvas.Line(ARect.Left + PreviewGutterWidth + 8, TextTop,
+      ARect.Right - 8, TextTop);
+    Exit;
+  end;
+
+  FillFrom := Popup.IdleGradientFromColor;
+  FillTo := Popup.IdleGradientToColor;
+  GradientKind := Popup.IdleGradientType;
+  FrameColor := clNone;
+  TextColor := Popup.IdleCaptionColor;
+  Radius := 0;
+
+  case AState of
+    ppisHot:
+      begin
+        FillFrom := Popup.HotTrackGradientFromColor;
+        FillTo := Popup.HotTrackGradientToColor;
+        GradientKind := Popup.HotTrackGradientType;
+        FrameColor := Popup.HotTrackFrameColor;
+        TextColor := Popup.HotTrackCaptionColor;
+        if Popup.SelectionShape = ssRounded then
+          Radius := 6;
+      end;
+    ppisDisabled:
+      TextColor := Popup.DisabledCaptionColor;
+  end;
+
+  FillStyledRect(ARect, FillFrom, FillTo, GradientKind, clWindow);
+  DrawFrame(ARect, FrameColor, Radius);
+
+  if AState = ppisChecked then
+  begin
+    CheckRect := Rect(ARect.Left + 5, ARect.Top + 4,
+      ARect.Left + PreviewGutterWidth - 4, ARect.Bottom - 4);
+    FillStyledRect(CheckRect, Popup.CheckedGradientFromColor,
+      Popup.CheckedGradientToColor, Popup.CheckedGradientType, clWindow);
+    DrawFrame(CheckRect, Popup.CheckedFrameColor, 0);
+
+    ACanvas.Pen.Color := SafeColor(Popup.IdleCaptionColor, clWindowText);
+    ACanvas.Pen.Width := 2;
+    ACanvas.Line(CheckRect.Left + 7, CheckRect.Top + 10,
+      CheckRect.Left + 11, CheckRect.Bottom - 6);
+    ACanvas.Line(CheckRect.Left + 11, CheckRect.Bottom - 6,
+      CheckRect.Right - 6, CheckRect.Top + 6);
+    ACanvas.Pen.Width := 1;
+  end;
+
+  ACanvas.Font.Assign(Popup.CaptionFont);
+  ACanvas.Font.Color := SafeColor(TextColor, clWindowText);
+  ACanvas.Brush.Style := bsClear;
+  TextLeft := ARect.Left + PreviewGutterWidth + 10;
+  TextTop := ARect.Top + ((ARect.Bottom - ARect.Top) -
+    ACanvas.TextHeight('Tg')) div 2;
+  ACanvas.TextOut(TextLeft, TextTop, ACaption);
+
+  if AShortcut <> '' then
+  begin
+    ShortcutWidth := ACanvas.TextWidth(AShortcut);
+    ACanvas.TextOut(ARect.Right - ShortcutWidth - 10, TextTop, AShortcut);
+  end;
+  ACanvas.Brush.Style := bsSolid;
+end;
+
+procedure TfrmLazRibbonSkinEditor.RefreshPopupPreview;
+begin
+  if Assigned(paintPopupPreview) then
+    paintPopupPreview.Invalidate;
+end;
+
 procedure TfrmLazRibbonSkinEditor.RefreshBaseCombo;
 var
   I: Integer;
@@ -3045,6 +3225,11 @@ begin
   if Assigned(btnRefreshValidation) then
     btnRefreshValidation.Caption := 'Atualizar relatório';
 
+  if Assigned(lblPopupPreviewTitle) then
+    lblPopupPreviewTitle.Caption := 'Amostra Popup/Menu';
+  if Assigned(paintPopupPreview) then
+    paintPopupPreview.OnPaint := @paintPopupPreviewPaint;
+
   UpdateWorkflowGuide;
 end;
 
@@ -3187,6 +3372,8 @@ begin
 
     spmPopupMenuFocus:
       begin
+        if Assigned(pcMain) and Assigned(tabPreview) then
+          pcMain.ActivePage := tabPreview;
         if PreviewToolbar.Tabs.Count > 1 then
           PreviewToolbar.TabIndex := 1;
         if Assigned(PreviewLargePaste) then PreviewLargePaste.Enabled := True;
@@ -3204,6 +3391,7 @@ begin
   PreviewToolbar.Invalidate;
   if (EditorBackstage <> nil) and EditorBackstage.Visible then
     EditorBackstage.Invalidate;
+  RefreshPopupPreview;
 
   if AAnnounce then
     UpdateWorkflowGuide('Preview: ' + PreviewModeCaption(Mode) + '.');
@@ -3973,6 +4161,57 @@ begin
   RefreshValidationReport;
   MarkSkinModified;
   UpdateWorkflowGuide(lblStatus.Caption);
+end;
+
+procedure TfrmLazRibbonSkinEditor.paintPopupPreviewPaint(Sender: TObject);
+const
+  PopupPreviewRowHeight = 28;
+var
+  C: TCanvas;
+  MenuRect, RowRect: TRect;
+  Y: Integer;
+begin
+  if (paintPopupPreview = nil) or (PreviewSkinManager = nil) then
+    Exit;
+
+  C := paintPopupPreview.Canvas;
+  C.Brush.Color := pnlPreviewHost.Color;
+  C.FillRect(paintPopupPreview.ClientRect);
+
+  MenuRect := Rect(6, 6, paintPopupPreview.Width - 6,
+    paintPopupPreview.Height - 6);
+  DrawPopupPreviewItem(C, MenuRect, '', '', ppisNormal);
+
+  Y := MenuRect.Top + 8;
+  RowRect := Rect(MenuRect.Left + 6, Y, MenuRect.Right - 6,
+    Y + PopupPreviewRowHeight);
+  DrawPopupPreviewItem(C, RowRect, 'Colar', 'Ctrl+V', ppisNormal);
+
+  Inc(Y, PopupPreviewRowHeight);
+  RowRect := Rect(MenuRect.Left + 6, Y, MenuRect.Right - 6,
+    Y + PopupPreviewRowHeight);
+  DrawPopupPreviewItem(C, RowRect, 'Recortar', 'Ctrl+X', ppisHot);
+
+  Inc(Y, PopupPreviewRowHeight);
+  RowRect := Rect(MenuRect.Left + 6, Y, MenuRect.Right - 6,
+    Y + PopupPreviewRowHeight);
+  DrawPopupPreviewItem(C, RowRect, 'Tema selecionado', '', ppisChecked);
+
+  Inc(Y, PopupPreviewRowHeight);
+  RowRect := Rect(MenuRect.Left + 6, Y, MenuRect.Right - 6,
+    Y + 12);
+  DrawPopupPreviewItem(C, RowRect, '', '', ppisSeparator);
+
+  Inc(Y, 12);
+  RowRect := Rect(MenuRect.Left + 6, Y, MenuRect.Right - 6,
+    Y + PopupPreviewRowHeight);
+  DrawPopupPreviewItem(C, RowRect, 'Comando indisponivel', 'Ctrl+F4',
+    ppisDisabled);
+
+  Inc(Y, PopupPreviewRowHeight);
+  RowRect := Rect(MenuRect.Left + 6, Y, MenuRect.Right - 6,
+    Y + PopupPreviewRowHeight);
+  DrawPopupPreviewItem(C, RowRect, 'Mais opcoes', '>', ppisNormal);
 end;
 
 procedure TfrmLazRibbonSkinEditor.pcMainChange(Sender: TObject);

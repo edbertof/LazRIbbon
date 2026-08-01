@@ -849,7 +849,10 @@ function Test-SkinEditorPreviewMinimizeSync {
     'ApplyPreviewMode',
     'cbPreviewModeChange',
     'spmBackstageOpen',
-    'spmPopupMenuFocus'
+    'spmPopupMenuFocus',
+    'paintPopupPreviewPaint',
+    'DrawPopupPreviewItem',
+    'RefreshPopupPreview'
   )) {
     if ($pas -notmatch [regex]::Escape($required)) {
       Add-Failure "Skin Editor preview mode workflow is missing $required."
@@ -857,6 +860,9 @@ function Test-SkinEditorPreviewMinimizeSync {
   }
   if ($lfm -notmatch 'object\s+cbPreviewMode:\s+TComboBox') {
     Add-Failure 'Skin Editor must expose the preview mode selector at design time.'
+  }
+  if ($lfm -notmatch 'object\s+paintPopupPreview:\s+TPaintBox') {
+    Add-Failure 'Skin Editor must expose the popup/menu preview surface at design time.'
   }
 }
 
