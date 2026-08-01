@@ -93,6 +93,8 @@ The dedicated BackStage editing step now has design-time controls for all BackSt
 
 The validation step now separates full audit details from actionable feedback. It keeps the complete memo report, but adds design-time counters for errors, warnings, informational notes and OK checks plus a short action list generated from the current validation findings.
 
+The advanced Appearance inspector now shows a live base-difference summary beside the property list. It counts changed Appearance properties by section and, when a property is selected, shows the current value, base value and whether that property is unchanged or customized.
+
 The release audit now accepts only official LazRibbon source ZIPs in the root delivery folder, using the `LazRibbon_<version>_source_<timestamp>.zip` pattern. This keeps `D:\Ribbon4Lazarus` usable as both the working delivery folder and the place where release packages are stored, while arbitrary ZIP files remain blocked from the source tree. The build cleanup also removes the Skin Editor `.lps` state file so a local Lazarus session does not block a clean source-package audit.
 
 ## Initial Coverage Snapshot

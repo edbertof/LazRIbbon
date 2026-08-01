@@ -964,6 +964,17 @@ function Test-SkinEditorAppearanceModeDetection {
       Add-Failure "Skin Editor validation report must include actionable validation workflow symbol $required."
     }
   }
+  foreach ($required in @(
+    'RefreshAppearanceDifferenceSummary',
+    'memAppearanceDiffSummary',
+    'lblAppearanceDiffTitle',
+    'lstAppearancePropertiesClick',
+    'CountSectionDifferences'
+  )) {
+    if ($pas -notmatch [regex]::Escape($required)) {
+      Add-Failure "Skin Editor Appearance inspector must expose base-difference guidance symbol $required."
+    }
+  }
   if ($pas -match 'procedure\s+TfrmLazRibbonSkinEditor\.btnNewFromBaseClick[\s\S]*?FFullAppearanceEdited\s*:=\s*True;[\s\S]*?procedure\s+TfrmLazRibbonSkinEditor\.btnOpenClick') {
     Add-Failure 'New-from-base must not blindly mark Appearance as manually edited.'
   }

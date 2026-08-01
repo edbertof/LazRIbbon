@@ -285,6 +285,8 @@ type
     chkAppearanceOnlyBaseDifferences: TCheckBox;
     btnClearAppearanceFilter: TButton;
     lstAppearanceProperties: TListBox;
+    lblAppearanceDiffTitle: TLabel;
+    memAppearanceDiffSummary: TMemo;
     btnEditAppearanceProperty: TButton;
     btnResetAppearancePropertyFromBase: TButton;
     btnResetAppearanceSectionFromBase: TButton;
@@ -295,6 +297,7 @@ type
     procedure CreateAppearanceInspectorControls;
     procedure ClearAppearancePropertyBindings;
     procedure RefreshAppearanceInspector;
+    procedure RefreshAppearanceDifferenceSummary;
     procedure CreateMetadataAssetControls;
     procedure ApplyInternalTabLayout;
     procedure RefreshIconPreview;
@@ -351,6 +354,7 @@ type
     procedure edtAppearanceFilterChange(Sender: TObject);
     procedure chkAppearanceOnlyBaseDifferencesChange(Sender: TObject);
     procedure btnClearAppearanceFilterClick(Sender: TObject);
+    procedure lstAppearancePropertiesClick(Sender: TObject);
     procedure lstAppearancePropertiesDblClick(Sender: TObject);
     procedure btnOpenAppearancePageClick(Sender: TObject);
     procedure btnOpenSelectedAppearanceSectionClick(Sender: TObject);
@@ -1243,10 +1247,32 @@ begin
   lstAppearanceProperties.Parent := Sec;
   lstAppearanceProperties.Left := 16;
   lstAppearanceProperties.Top := 124;
-  lstAppearanceProperties.Width := 950;
+  lstAppearanceProperties.Width := 568;
   lstAppearanceProperties.Height := 106;
   lstAppearanceProperties.ItemHeight := 18;
+  lstAppearanceProperties.OnClick := @lstAppearancePropertiesClick;
   lstAppearanceProperties.OnDblClick := @lstAppearancePropertiesDblClick;
+
+  lblAppearanceDiffTitle := TLabel.Create(Self);
+  lblAppearanceDiffTitle.Parent := Sec;
+  lblAppearanceDiffTitle.Left := 604;
+  lblAppearanceDiffTitle.Top := 124;
+  lblAppearanceDiffTitle.Width := 362;
+  lblAppearanceDiffTitle.Height := 18;
+  lblAppearanceDiffTitle.AutoSize := False;
+  lblAppearanceDiffTitle.Font.Style := [fsBold];
+  lblAppearanceDiffTitle.Caption := 'Diferencas contra a base';
+
+  memAppearanceDiffSummary := TMemo.Create(Self);
+  memAppearanceDiffSummary.Parent := Sec;
+  memAppearanceDiffSummary.Left := 604;
+  memAppearanceDiffSummary.Top := 144;
+  memAppearanceDiffSummary.Width := 362;
+  memAppearanceDiffSummary.Height := 86;
+  memAppearanceDiffSummary.ReadOnly := True;
+  memAppearanceDiffSummary.ScrollBars := ssAutoVertical;
+  memAppearanceDiffSummary.WordWrap := True;
+  memAppearanceDiffSummary.TabOrder := 8;
 end;
 
 procedure TfrmLazRibbonSkinEditor.ClearAppearancePropertyBindings;
@@ -1618,6 +1644,140 @@ begin
   else
   begin
     AddAppearanceSectionProperties(Section);
+  end;
+
+  RefreshAppearanceDifferenceSummary;
+end;
+
+procedure TfrmLazRibbonSkinEditor.RefreshAppearanceDifferenceSummary;
+const
+  Sections: array[0..4] of TLazRibbonSkinAppearanceSection = (
+    asecTab,
+    asecMenuButton,
+    asecPane,
+    asecElement,
+    asecPopup
+  );
+var
+  Lines: TStringList;
+  BaseSkin: TLazRibbonSkinDefinition;
+  SelectedSection: TLazRibbonSkinAppearanceSection;
+  Binding: TLazRibbonAppearancePropertyBinding;
+  Obj: TPersistent;
+  PropInfo: PPropInfo;
+  I, TotalDiffs, SectionDiffs: Integer;
+  BaseValue, CurrentValue, FilterText, StatusText: String;
+
+  function CountSectionDifferences(ASection: TLazRibbonSkinAppearanceSection): Integer;
+  var
+    SectionObj: TPersistent;
+    PropList: PPropList;
+    PropCount, PropIndex: Integer;
+    IgnoredBaseValue: String;
+  begin
+    Result := 0;
+    SectionObj := AppearanceSectionObject(ASection);
+    if SectionObj = nil then
+      Exit;
+
+    PropList := nil;
+    PropCount := GetPropList(SectionObj, PropList);
+    try
+      for PropIndex := 0 to PropCount - 1 do
+        if (PropList^[PropIndex] <> nil) and
+           AppearancePropertyMatchesFilter(ASection, SectionObj,
+             PropList^[PropIndex], FilterText) and
+           AppearancePropertyDiffersFromBase(ASection, SectionObj,
+             PropList^[PropIndex], IgnoredBaseValue) then
+          Inc(Result);
+    finally
+      if PropList <> nil then
+        FreeMem(PropList);
+    end;
+  end;
+
+  procedure AddSectionSummary(ASection: TLazRibbonSkinAppearanceSection);
+  begin
+    SectionDiffs := CountSectionDifferences(ASection);
+    Inc(TotalDiffs, SectionDiffs);
+    Lines.Add(Format('%s: %d', [AppearanceSectionCaption(ASection), SectionDiffs]));
+  end;
+
+begin
+  if memAppearanceDiffSummary = nil then
+    Exit;
+
+  Lines := TStringList.Create;
+  try
+    BaseSkin := SelectedBaseSkin;
+    if FCurrentSkin = nil then
+      Lines.Add('Nenhuma skin carregada.')
+    else if BaseSkin = nil then
+      Lines.Add('Nenhuma base em foco para comparar.')
+    else
+    begin
+      FilterText := '';
+      if edtAppearanceFilter <> nil then
+        FilterText := edtAppearanceFilter.Text;
+      TotalDiffs := 0;
+      SelectedSection := SelectedAppearanceSection;
+
+      if SelectedSection = asecAll then
+      begin
+        for I := Low(Sections) to High(Sections) do
+          AddSectionSummary(Sections[I]);
+      end
+      else
+        AddSectionSummary(SelectedSection);
+
+      Lines.Add('');
+      if TotalDiffs = 0 then
+        Lines.Add('Appearance igual a base nas secoes exibidas.')
+      else if Trim(FilterText) <> '' then
+        Lines.Add(Format('Total filtrado: %d diferencas.', [TotalDiffs]))
+      else
+        Lines.Add(Format('Total nas secoes: %d diferencas.', [TotalDiffs]));
+
+      if (lstAppearanceProperties <> nil) and
+         (lstAppearanceProperties.ItemIndex >= 0) then
+      begin
+        Binding := TLazRibbonAppearancePropertyBinding(
+          lstAppearanceProperties.Items.Objects[lstAppearanceProperties.ItemIndex]);
+        if Binding <> nil then
+        begin
+          Obj := AppearanceSectionObject(Binding.Section);
+          if Obj <> nil then
+          begin
+            PropInfo := GetPropInfo(Obj, Binding.PropName);
+            if PropInfo <> nil then
+            begin
+              CurrentValue := FormatAppearancePropertyValue(Obj, PropInfo);
+              if AppearancePropertyDiffersFromBase(Binding.Section, Obj,
+                PropInfo, BaseValue) then
+                StatusText := 'alterada'
+              else
+                StatusText := 'igual a base';
+
+              Lines.Add('');
+              Lines.Add(AppearanceSectionCaption(Binding.Section) + '.' +
+                Binding.PropName);
+              Lines.Add('Estado: ' + StatusText);
+              Lines.Add('Atual: ' + CompactInlineValue(CurrentValue, 72));
+              Lines.Add('Base: ' + CompactInlineValue(BaseValue, 72));
+            end;
+          end;
+        end;
+      end;
+    end;
+
+    memAppearanceDiffSummary.Lines.BeginUpdate;
+    try
+      memAppearanceDiffSummary.Lines.Assign(Lines);
+    finally
+      memAppearanceDiffSummary.Lines.EndUpdate;
+    end;
+  finally
+    Lines.Free;
   end;
 end;
 
@@ -2056,6 +2216,11 @@ begin
 
   edtAppearanceFilter.Clear;
   RefreshAppearanceInspector;
+end;
+
+procedure TfrmLazRibbonSkinEditor.lstAppearancePropertiesClick(Sender: TObject);
+begin
+  RefreshAppearanceDifferenceSummary;
 end;
 
 procedure TfrmLazRibbonSkinEditor.lstAppearancePropertiesDblClick(Sender: TObject);
