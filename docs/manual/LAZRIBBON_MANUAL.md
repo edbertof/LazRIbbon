@@ -131,6 +131,11 @@ destination folder and generated `.skin` file; after creation, `Arquivo >
 Salvar` writes to that file directly. The visible Ribbon is reserved for base
 selection, detailed Appearance tools and preview samples.
 
+The recommended editing path is the simple palette first: identity, Ribbon
+colors, BackStage colors and validation. Use `5 Ajuste avancado` only when the
+skin needs detailed control over fonts, gradients, item states or menu/popup
+properties that are not covered by the palette pages.
+
 ## 6. KeyTips And ScreenTips
 
 `TLazRibbon.ShowKeyTips` enables staged keyboard hints. Set `KeyTip` on tabs,

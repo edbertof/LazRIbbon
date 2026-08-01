@@ -45,6 +45,11 @@ define internal/display names, choose the target folder and confirm the exact
 file path, while choosing an explicit file keeps the destination folder
 synchronized.
 
+The main Skin Editor window now separates the everyday authoring path from the
+technical model. Palette pages, preview modes and validation use workflow
+language, while the complete low-level `Appearance` surface remains available
+as `Ajuste avancado` for detailed edits.
+
 ## Safe Cleanup Decisions
 
 - Keep `RibbonAppearance` readable in old `.lfm` files.

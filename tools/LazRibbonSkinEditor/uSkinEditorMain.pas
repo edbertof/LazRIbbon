@@ -1139,8 +1139,8 @@ begin
   end;
 
   SecTech := CreateEditorSection(Self, tabAdvanced,
-    'Editor visual do Appearance',
-    'Fluxo completo inspirado no editor nativo do SpkToolBar: preview real, cores, fontes, gradientes, estilos, importacao e exportacao.',
+    'Ajuste visual avancado',
+    'Use esta area quando a paleta simples nao for suficiente. Ela abre o editor completo de fontes, gradientes, estilos e estados visuais.',
     12, 14, 1000, 190);
 
   B := TButton.Create(Self);
@@ -1149,16 +1149,16 @@ begin
   B.Top := 68;
   B.Width := 230;
   B.Height := 28;
-  B.Caption := 'Abrir editor visual completo...';
+  B.Caption := 'Abrir editor completo...';
   B.OnClick := @btnEditFullAppearanceClick;
 
-  AddVisualEditorButton('Menu Button', 0, 16, 108, 106);
-  AddVisualEditorButton('Tab', 1, 132, 108, 76);
-  AddVisualEditorButton('Pane', 2, 218, 108, 76);
-  AddVisualEditorButton('Item', 3, 304, 108, 76);
-  AddVisualEditorButton('Dropdown', 4, 390, 108, 96);
-  AddVisualEditorButton('Import/Export', 5, 496, 108, 108);
-  AddVisualEditorButton('Tools', 6, 614, 108, 76);
+  AddVisualEditorButton('Botao Arquivo', 0, 16, 108, 112);
+  AddVisualEditorButton('Abas', 1, 138, 108, 76);
+  AddVisualEditorButton('Panes', 2, 224, 108, 76);
+  AddVisualEditorButton('Itens', 3, 310, 108, 76);
+  AddVisualEditorButton('Menus', 4, 396, 108, 86);
+  AddVisualEditorButton('Importar/exportar', 5, 492, 108, 126);
+  AddVisualEditorButton('Ferramentas', 6, 628, 108, 96);
 
   btnApplyPaletteAppearance := TButton.Create(Self);
   btnApplyPaletteAppearance.Parent := SecTech;
@@ -1166,7 +1166,7 @@ begin
   btnApplyPaletteAppearance.Top := 148;
   btnApplyPaletteAppearance.Width := 246;
   btnApplyPaletteAppearance.Height := 28;
-  btnApplyPaletteAppearance.Caption := 'Sincronizar paleta -> Appearance';
+  btnApplyPaletteAppearance.Caption := 'Regerar visual pela paleta';
   btnApplyPaletteAppearance.OnClick := @btnApplyPaletteToAppearanceClick;
 
   lblAppearanceMode := TLabel.Create(Self);
@@ -1187,7 +1187,7 @@ begin
   L.Height := 36;
   L.AutoSize := False;
   L.WordWrap := True;
-  L.Caption := 'Use os atalhos para abrir diretamente a pagina certa do editor visual. A paleta simples continua disponivel para criar skins rapidamente; o editor visual faz o ajuste fino do Appearance.';
+  L.Caption := 'Ajuste primeiro pela paleta. Use estes atalhos apenas para detalhes que exigem controle fino do modelo visual.';
 
   CreateAppearanceInspectorControls;
 end;
@@ -1250,15 +1250,15 @@ begin
     Exit;
 
   Sec := CreateEditorSection(Self, tabAdvanced,
-    'Inspetor completo do Appearance',
-    'Lista todas as propriedades publicadas de Tab, MenuButton, Pane, Element e Popup. Edite aqui os mesmos dados salvos no arquivo da skin.',
+    'Propriedades avancadas e diferencas',
+    'Mostra os grupos visuais salvos no arquivo da skin. Use para ajuste fino, comparacao com a base e restauracao pontual.',
     12, 218, 1000, 258);
 
   L := TLabel.Create(Self);
   L.Parent := Sec;
   L.Left := 16;
   L.Top := 68;
-  L.Caption := 'Secao';
+  L.Caption := 'Grupo';
 
   cbAppearanceSection := TComboBox.Create(Self);
   cbAppearanceSection.Parent := Sec;
@@ -1266,12 +1266,12 @@ begin
   cbAppearanceSection.Top := 64;
   cbAppearanceSection.Width := 160;
   cbAppearanceSection.Style := csDropDownList;
-  cbAppearanceSection.Items.Add('Todas as secoes');
-  cbAppearanceSection.Items.Add('Tab');
-  cbAppearanceSection.Items.Add('MenuButton');
-  cbAppearanceSection.Items.Add('Pane');
-  cbAppearanceSection.Items.Add('Element');
-  cbAppearanceSection.Items.Add('Popup');
+  cbAppearanceSection.Items.Add('Todos os grupos');
+  cbAppearanceSection.Items.Add('Abas');
+  cbAppearanceSection.Items.Add('Botao Arquivo');
+  cbAppearanceSection.Items.Add('Panes');
+  cbAppearanceSection.Items.Add('Itens');
+  cbAppearanceSection.Items.Add('Menus');
   cbAppearanceSection.ItemIndex := 0;
   cbAppearanceSection.OnChange := @cbAppearanceSectionChange;
 
@@ -1281,7 +1281,7 @@ begin
   btnEditAppearanceProperty.Top := 63;
   btnEditAppearanceProperty.Width := 136;
   btnEditAppearanceProperty.Height := 26;
-  btnEditAppearanceProperty.Caption := 'Editar selecionado';
+  btnEditAppearanceProperty.Caption := 'Editar propriedade';
   btnEditAppearanceProperty.OnClick := @btnEditAppearancePropertyClick;
 
   btnResetAppearancePropertyFromBase := TButton.Create(Self);
@@ -1290,7 +1290,7 @@ begin
   btnResetAppearancePropertyFromBase.Top := 63;
   btnResetAppearancePropertyFromBase.Width := 136;
   btnResetAppearancePropertyFromBase.Height := 26;
-  btnResetAppearancePropertyFromBase.Caption := 'Restaurar da base';
+  btnResetAppearancePropertyFromBase.Caption := 'Restaurar valor';
   btnResetAppearancePropertyFromBase.OnClick := @btnResetAppearancePropertyFromBaseClick;
 
   B := TButton.Create(Self);
@@ -1299,7 +1299,7 @@ begin
   B.Top := 63;
   B.Width := 118;
   B.Height := 26;
-  B.Caption := 'Abrir secao';
+  B.Caption := 'Abrir grupo';
   B.OnClick := @btnOpenSelectedAppearanceSectionClick;
 
   chkAppearanceOnlyBaseDifferences := TCheckBox.Create(Self);
@@ -1308,7 +1308,7 @@ begin
   chkAppearanceOnlyBaseDifferences.Top := 96;
   chkAppearanceOnlyBaseDifferences.Width := 220;
   chkAppearanceOnlyBaseDifferences.Height := 22;
-  chkAppearanceOnlyBaseDifferences.Caption := 'Somente diferentes da base';
+  chkAppearanceOnlyBaseDifferences.Caption := 'So alterados';
   chkAppearanceOnlyBaseDifferences.OnChange := @chkAppearanceOnlyBaseDifferencesChange;
 
   L := TLabel.Create(Self);
@@ -1339,7 +1339,7 @@ begin
   btnResetAppearanceSectionFromBase.Top := 91;
   btnResetAppearanceSectionFromBase.Width := 130;
   btnResetAppearanceSectionFromBase.Height := 26;
-  btnResetAppearanceSectionFromBase.Caption := 'Restaurar secao';
+  btnResetAppearanceSectionFromBase.Caption := 'Restaurar grupo';
   btnResetAppearanceSectionFromBase.OnClick := @btnResetAppearanceSectionFromBaseClick;
 
   lblAppearanceInspectorHint := TLabel.Create(Self);
@@ -1350,7 +1350,7 @@ begin
   lblAppearanceInspectorHint.Height := 24;
   lblAppearanceInspectorHint.AutoSize := False;
   lblAppearanceInspectorHint.WordWrap := True;
-  lblAppearanceInspectorHint.Caption := 'Dica: duplo clique em uma propriedade tambem edita. Cores, fontes, inteiros, booleanos e enums sao tratados automaticamente.';
+  lblAppearanceInspectorHint.Caption := 'Duplo clique edita. Use o filtro para encontrar cores, fontes, booleanos, enums e medidas.';
 
   lstAppearanceProperties := TListBox.Create(Self);
   lstAppearanceProperties.Parent := Sec;
@@ -1370,7 +1370,7 @@ begin
   lblAppearanceDiffTitle.Height := 18;
   lblAppearanceDiffTitle.AutoSize := False;
   lblAppearanceDiffTitle.Font.Style := [fsBold];
-  lblAppearanceDiffTitle.Caption := 'Diferencas contra a base';
+  lblAppearanceDiffTitle.Caption := 'Diferencas da base';
 
   memAppearanceDiffSummary := TMemo.Create(Self);
   memAppearanceDiffSummary.Parent := Sec;
@@ -1439,13 +1439,13 @@ function TfrmLazRibbonSkinEditor.AppearanceSectionCaption(
   ASection: TLazRibbonSkinAppearanceSection): String;
 begin
   case ASection of
-    asecMenuButton: Result := 'MenuButton';
-    asecPane: Result := 'Pane';
-    asecElement: Result := 'Element';
-    asecPopup: Result := 'Popup';
-    asecAll: Result := 'Todas';
+    asecMenuButton: Result := 'Botao Arquivo';
+    asecPane: Result := 'Panes';
+    asecElement: Result := 'Itens';
+    asecPopup: Result := 'Menus';
+    asecAll: Result := 'Todos';
   else
-    Result := 'Tab';
+    Result := 'Abas';
   end;
 end;
 
@@ -1841,7 +1841,7 @@ begin
 
       Lines.Add('');
       if TotalDiffs = 0 then
-        Lines.Add('Appearance igual a base nas secoes exibidas.')
+        Lines.Add('Visual avancado igual a base nos grupos exibidos.')
       else if Trim(FilterText) <> '' then
         Lines.Add(Format('Total filtrado: %d diferencas.', [TotalDiffs]))
       else
@@ -2060,7 +2060,7 @@ begin
   ApplyCurrentSkinToPreview;
   UpdateAppearanceModeLabel;
   MarkSkinModified;
-  UpdateWorkflowGuide('Appearance atualizado em ' +
+  UpdateWorkflowGuide('Visual avancado atualizado em ' +
     AppearanceSectionCaption(ABinding.Section) + '.' + ABinding.PropName + '.');
   RefreshValidationReport;
 end;
@@ -2077,7 +2077,7 @@ begin
   AErrorMessage := '';
   if (ABaseObj = nil) or (ACurrentObj = nil) then
   begin
-    AErrorMessage := 'Secao de Appearance indisponivel.';
+    AErrorMessage := 'Grupo visual avancado indisponivel.';
     Exit;
   end;
 
@@ -2165,7 +2165,7 @@ begin
   UpdateAppearanceModeLabel;
   RefreshValidationReport;
   MarkSkinModified;
-  UpdateWorkflowGuide('Appearance restaurado da base em ' +
+  UpdateWorkflowGuide('Visual avancado restaurado da base em ' +
     AppearanceSectionCaption(ABinding.Section) + '.' + ABinding.PropName + '.');
 end;
 
@@ -2199,7 +2199,7 @@ var
       Inc(FailedCount);
       if FirstError = '' then
         FirstError := AppearanceSectionCaption(AResetSection) +
-          ': secao de Appearance indisponivel.';
+          ': grupo visual avancado indisponivel.';
       Exit;
     end;
 
@@ -2248,7 +2248,7 @@ var
 begin
   if not CurrentSkinIsEditable then
   begin
-    UpdateWorkflowGuide('Use Arquivo > Nova skin... para criar uma skin editavel antes de restaurar secoes do Appearance.');
+    UpdateWorkflowGuide('Use Arquivo > Nova skin... para criar uma skin editavel antes de restaurar grupos visuais avancados.');
     Exit;
   end;
 
@@ -2294,10 +2294,10 @@ begin
   MarkSkinModified;
 
   if ASection = asecAll then
-    UpdateWorkflowGuide('Appearance restaurado da base em todas as secoes (' +
+    UpdateWorkflowGuide('Visual avancado restaurado da base em todos os grupos (' +
       IntToStr(ChangedCount) + ' propriedades).')
   else
-    UpdateWorkflowGuide('Appearance restaurado da base na secao ' +
+    UpdateWorkflowGuide('Visual avancado restaurado da base no grupo ' +
       AppearanceSectionCaption(ASection) + ' (' + IntToStr(ChangedCount) +
       ' propriedades).');
 end;
@@ -2540,7 +2540,7 @@ begin
   if Assigned(lblPreviewInfo) then
   begin
     lblPreviewInfo.SetBounds(12, 12, 950, 30);
-    lblPreviewInfo.Caption := 'Valide a skin antes de salvar: identidade, arquivos de imagem, dados embutidos, contraste de texto e estado do Appearance detalhado.';
+    lblPreviewInfo.Caption := 'Valide a skin antes de salvar: identidade, arquivos de imagem, dados embutidos, contraste de texto e estado do visual avancado.';
   end;
 
   if Assigned(btnRefreshValidation) then
@@ -3037,13 +3037,13 @@ begin
     AddBaseComparison;
     AddBlank;
 
-    Lines.Add('Appearance');
-    Lines.Add('----------');
+    Lines.Add('Visual detalhado');
+    Lines.Add('----------------');
     if FFullAppearanceEdited then
-      AddMessage('INFO', 'Appearance detalhado foi editado e sera preservado. Use "Regerar Appearance pela paleta" somente se quiser substituir esses ajustes.')
+      AddMessage('INFO', 'O visual avancado foi editado e sera preservado. Use "Regerar visual pela paleta" somente se quiser substituir esses ajustes.')
     else
-      AddMessage('OK', 'Appearance esta sincronizado pelo fluxo de paleta simples.');
-    AddMessage('OK', 'Inspetor tecnico cobre Tab, MenuButton, Pane, Element e Popup.');
+      AddMessage('OK', 'O visual detalhado esta sincronizado pelo fluxo de paleta simples.');
+    AddMessage('OK', 'Inspetor tecnico cobre abas, botao Arquivo, panes, itens e menus.');
     AddBlank;
 
     Lines.Add('Contraste');
@@ -3168,6 +3168,24 @@ begin
     EditorLargeFullAppearance.Caption := 'Editor visual';
   if Assigned(EditorSmallApplyPaletteAppearance) then
     EditorSmallApplyPaletteAppearance.Caption := 'Sincronizar';
+
+  if Assigned(EditorTabSkin) then EditorTabSkin.Caption := 'Editar skin';
+  if Assigned(EditorTabPreview) then EditorTabPreview.Caption := 'Previa';
+  if Assigned(EditorPaneBases) then EditorPaneBases.Caption := 'Skins-base';
+  if Assigned(PreviewBaseGallery) then
+    PreviewBaseGallery.Caption := 'Escolha a base';
+  if Assigned(EditorPaneAppearance) then
+    EditorPaneAppearance.Caption := 'Ajuste visual';
+  if Assigned(PreviewPaneView) then
+    PreviewPaneView.Caption := 'Estados';
+  if Assigned(EditorPaneSampleEdit) then
+    EditorPaneSampleEdit.Caption := 'Comandos';
+  if Assigned(EditorPaneSampleOptions) then
+    EditorPaneSampleOptions.Caption := 'Opcoes';
+  if Assigned(EditorLargeFullAppearance) then
+    EditorLargeFullAppearance.Caption := 'Editor completo';
+  if Assigned(EditorSmallApplyPaletteAppearance) then
+    EditorSmallApplyPaletteAppearance.Caption := 'Regerar';
   if Assigned(PreviewLargePaste) then
   begin
     PreviewLargePaste.Caption := 'Colar';
@@ -3756,6 +3774,23 @@ begin
   if Assigned(lblAppearanceMode) then
   begin
     if FFullAppearanceEdited then
+      lblAppearanceMode.Caption := 'Modo atual: visual avancado preservado. A paleta continua salva, mas nao recalcula os detalhes automaticamente.'
+    else
+      lblAppearanceMode.Caption := 'Modo atual: paleta simples controla o visual. Este e o caminho recomendado para novas skins.';
+  end;
+
+  if Assigned(lblHintSimple) then
+  begin
+    if FFullAppearanceEdited then
+      lblHintSimple.Caption := 'Clique nas amostras para salvar cores da paleta. Os detalhes avancados ficam preservados ate voce usar Regerar visual pela paleta.'
+    else
+      lblHintSimple.Caption := 'Clique nas amostras de cor. A paleta simples atualiza imediatamente a previa real do LazRibbon acima.';
+  end;
+  {$IFDEF LAZRIBBON_SKIN_EDITOR_LEGACY_TEXT}
+
+  if Assigned(lblAppearanceMode) then
+  begin
+    if FFullAppearanceEdited then
       lblAppearanceMode.Caption := 'Modo atual: ajustes visuais detalhados preservados. Alterações nas cores simples atualizam a paleta salva, mas não recalculam automaticamente o Appearance detalhado.'
     else
       lblAppearanceMode.Caption := 'Modo atual: paleta simples controla o Appearance. Este é o modo recomendado para criar skins de forma rápida e previsível.';
@@ -3768,6 +3803,7 @@ begin
     else
       lblHintSimple.Caption := 'Clique em uma amostra de cor. O editor atualiza a paleta e aplica o resultado imediatamente no LazRibbon real acima.';
   end;
+  {$ENDIF}
 end;
 
 procedure TfrmLazRibbonSkinEditor.SetupWorkflowGuide;
@@ -3822,6 +3858,40 @@ begin
     lblBaseHint.AutoSize := False;
     lblBaseHint.SetBounds(506, 8, 530, 13);
   end;
+
+  if Assigned(tabSimpleColors) then tabSimpleColors.Caption := '2 Paleta do Ribbon';
+  if Assigned(tabPreview) then tabPreview.Caption := '4 Validar';
+  if Assigned(tabAdvanced) then tabAdvanced.Caption := '5 Ajuste avancado';
+
+  if Assigned(pnlTop) then
+    pnlTop.Height := 34;
+
+  if Assigned(lblBaseSkin) then
+  begin
+    lblBaseSkin.Caption := 'Base em foco:';
+    lblBaseSkin.SetBounds(10, 9, 72, 13);
+  end;
+
+  if Assigned(cbBaseSkin) then
+    cbBaseSkin.SetBounds(86, 5, 166, 21);
+
+  if Assigned(lblPreviewMode) then
+  begin
+    lblPreviewMode.Caption := 'Previa:';
+    lblPreviewMode.SetBounds(262, 9, 42, 13);
+  end;
+
+  if Assigned(cbPreviewMode) then
+    cbPreviewMode.SetBounds(310, 5, 154, 21);
+
+  if Assigned(lblWorkflow) then
+  begin
+    lblWorkflow.Caption := 'Status:';
+    lblWorkflow.SetBounds(478, 9, 42, 13);
+  end;
+
+  if Assigned(lblBaseHint) then
+    lblBaseHint.SetBounds(526, 9, 500, 13);
 
   if Assigned(pcMain) then
     pcMain.OnChange := @pcMainChange;
@@ -4066,6 +4136,13 @@ begin
       ShortHint := 'ajuste fino opcional';
       StatusHint := 'Avançado: use o editor visual ou o inspetor RTTI somente quando a paleta simples não for suficiente.';
     end;
+  end;
+
+  if Assigned(pcMain) and Assigned(tabAdvanced) and
+     (pcMain.ActivePage = tabAdvanced) then
+  begin
+    ShortHint := 'ajuste fino opcional';
+    StatusHint := 'Etapa 5: use o ajuste avancado apenas quando a paleta simples nao resolver o detalhe visual desejado.';
   end;
 
   ContextText := 'Base';
@@ -4364,9 +4441,9 @@ begin
   if FFullAppearanceEdited then
     WorkflowMessage := 'Nova skin criada como copia completa de ' +
       BaseDisplayName +
-      '. O Appearance detalhado da base sera preservado ate uma sincronizacao explicita.'
+      '. O visual avancado da base sera preservado ate uma regeneracao explicita.'
   else
-    WorkflowMessage := 'Nova skin criada com a paleta simples controlando o Appearance.';
+    WorkflowMessage := 'Nova skin criada com a paleta simples controlando o visual.';
 
   if Trim(FCurrentSkin.FileName) <> '' then
     WorkflowMessage := WorkflowMessage + ' Salvar gravara: ' +
@@ -4974,7 +5051,7 @@ procedure TfrmLazRibbonSkinEditor.btnApplyPaletteToAppearanceClick(Sender: TObje
 begin
   if not CurrentSkinIsEditable then
   begin
-    UpdateWorkflowGuide('Use Arquivo > Nova skin... para criar uma skin editável antes de sincronizar o Appearance.');
+    UpdateWorkflowGuide('Use Arquivo > Nova skin... para criar uma skin editavel antes de regenerar o visual pela paleta.');
     Exit;
   end;
   FCurrentSkin.ApplyPaletteToAppearance;
@@ -4985,7 +5062,7 @@ begin
   UpdateAppearanceModeLabel;
   RefreshValidationReport;
   MarkSkinModified;
-  UpdateWorkflowGuide('Paleta sincronizada com o Appearance. Ajustes visuais detalhados anteriores foram substituídos pela paleta.');
+  UpdateWorkflowGuide('Visual detalhado regenerado pela paleta. Ajustes avancados anteriores foram substituidos.');
 end;
 
 procedure TfrmLazRibbonSkinEditor.OpenFullAppearanceEditor(AInitialPageIndex: Integer);
@@ -5016,7 +5093,7 @@ begin
       UpdateAppearanceModeLabel;
       RefreshValidationReport;
       MarkSkinModified;
-      UpdateWorkflowGuide('Appearance atualizado pelo editor visual. Use sincronização explícita para substituir esses ajustes pela paleta.');
+      UpdateWorkflowGuide('Visual avancado atualizado pelo editor completo. Use Regerar visual pela paleta somente se quiser substituir esses ajustes.');
     end;
   finally
     AppearanceEditor.Free;
