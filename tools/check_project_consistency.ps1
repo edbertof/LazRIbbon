@@ -943,6 +943,27 @@ function Test-SkinEditorAppearanceModeDetection {
       Add-Failure "Skin Editor BackStage tab must expose $required at design time."
     }
   }
+  foreach ($required in @(
+    'lblValidationErrors',
+    'lblValidationWarnings',
+    'lblValidationInfos',
+    'lblValidationOk',
+    'lblValidationActionsTitle',
+    'memValidationActions'
+  )) {
+    if ($lfm -notmatch ('object\s+' + [regex]::Escape($required) + ':')) {
+      Add-Failure "Skin Editor validation page must expose $required at design time."
+    }
+  }
+  foreach ($required in @(
+    'ActionLines',
+    'PublishActions',
+    'UpdateCounterLabels'
+  )) {
+    if ($pas -notmatch [regex]::Escape($required)) {
+      Add-Failure "Skin Editor validation report must include actionable validation workflow symbol $required."
+    }
+  }
   if ($pas -match 'procedure\s+TfrmLazRibbonSkinEditor\.btnNewFromBaseClick[\s\S]*?FFullAppearanceEdited\s*:=\s*True;[\s\S]*?procedure\s+TfrmLazRibbonSkinEditor\.btnOpenClick') {
     Add-Failure 'New-from-base must not blindly mark Appearance as manually edited.'
   }

@@ -143,6 +143,11 @@ type
     lblLivePreview: TLabel;
     lblPreviewInfo: TLabel;
     lblPopupPreviewTitle: TLabel;
+    lblValidationActionsTitle: TLabel;
+    lblValidationErrors: TLabel;
+    lblValidationWarnings: TLabel;
+    lblValidationInfos: TLabel;
+    lblValidationOk: TLabel;
     lblValidationSummary: TLabel;
     lblSkinListTitle: TLabel;
     lblWorkflow: TLabel;
@@ -161,6 +166,7 @@ type
     lblColorRibbonTop: TLabel;
     lblColorText: TLabel;
     lstSkins: TListBox;
+    memValidationActions: TMemo;
     memDescription: TMemo;
     memValidationReport: TMemo;
     OpenDialog: TOpenDialog;
@@ -2267,13 +2273,42 @@ begin
     btnRefreshValidation.SetBounds(12, 52, 150, 28);
 
   if Assigned(lblValidationSummary) then
-    lblValidationSummary.SetBounds(176, 58, 800, 22);
+    lblValidationSummary.SetBounds(176, 58, 830, 22);
+
+  if Assigned(lblValidationErrors) then
+    lblValidationErrors.SetBounds(16, 96, 94, 18);
+  if Assigned(lblValidationWarnings) then
+    lblValidationWarnings.SetBounds(116, 96, 94, 18);
+  if Assigned(lblValidationInfos) then
+    lblValidationInfos.SetBounds(216, 96, 94, 18);
+  if Assigned(lblValidationOk) then
+    lblValidationOk.SetBounds(316, 96, 94, 18);
+
+  if Assigned(lblValidationActionsTitle) then
+    lblValidationActionsTitle.SetBounds(456, 108, 190, 18);
+  if Assigned(memValidationActions) then
+  begin
+    memValidationActions.SetBounds(456, 130, 190,
+      pnlPreviewHost.ClientHeight - 148);
+    memValidationActions.Anchors := [akTop, akLeft, akBottom];
+    memValidationActions.ReadOnly := True;
+    memValidationActions.ScrollBars := ssAutoVertical;
+    memValidationActions.WordWrap := True;
+  end;
+
+  if Assigned(lblPopupPreviewTitle) then
+    lblPopupPreviewTitle.SetBounds(666, 108, 340, 18);
+  if Assigned(paintPopupPreview) then
+  begin
+    paintPopupPreview.SetBounds(666, 130, 340, 220);
+    paintPopupPreview.Anchors := [akTop, akRight];
+  end;
 
   if Assigned(memValidationReport) then
   begin
-    memValidationReport.SetBounds(12, 90, pnlPreviewHost.ClientWidth - 24,
-      pnlPreviewHost.ClientHeight - 108);
-    memValidationReport.Anchors := [akTop, akLeft, akRight, akBottom];
+    memValidationReport.SetBounds(12, 130, 424,
+      pnlPreviewHost.ClientHeight - 148);
+    memValidationReport.Anchors := [akTop, akLeft, akBottom];
   end;
 end;
 
@@ -2317,22 +2352,73 @@ var
   Lines: TStringList;
   DiffLines: TStringList;
   DifferenceSummary: TStringList;
+  ActionLines: TStringList;
   ErrorCount, WarningCount, InfoCount, OkCount: Integer;
   DifferenceCount, DifferenceDetailCount: Integer;
   P: TLazRibbonSkinPalette;
+
+  procedure AddAction(const AText: String);
+  begin
+    if (ActionLines = nil) or (Trim(AText) = '') then
+      Exit;
+    if ActionLines.IndexOf(AText) < 0 then
+      ActionLines.Add(AText);
+  end;
 
   procedure AddMessage(const AKind, AText: String);
   begin
     if Lines = nil then Exit;
     if SameText(AKind, 'ERRO') then
-      Inc(ErrorCount)
+    begin
+      Inc(ErrorCount);
+      AddAction('Corrigir: ' + AText);
+    end
     else if SameText(AKind, 'AVISO') then
-      Inc(WarningCount)
+    begin
+      Inc(WarningCount);
+      AddAction('Revisar: ' + AText);
+    end
     else if SameText(AKind, 'INFO') then
       Inc(InfoCount)
     else if SameText(AKind, 'OK') then
       Inc(OkCount);
     Lines.Add('[' + AKind + '] ' + AText);
+  end;
+
+  procedure SetCounterLabel(ALabel: TLabel; const ACaption: String;
+    ACount: Integer; AColor: TColor);
+  begin
+    if ALabel = nil then
+      Exit;
+
+    ALabel.Caption := Format('%s: %d', [ACaption, ACount]);
+    ALabel.Font.Color := AColor;
+    ALabel.Font.Style := [fsBold];
+  end;
+
+  procedure UpdateCounterLabels;
+  begin
+    SetCounterLabel(lblValidationErrors, 'Erros', ErrorCount, clRed);
+    SetCounterLabel(lblValidationWarnings, 'Avisos', WarningCount, clMaroon);
+    SetCounterLabel(lblValidationInfos, 'Infos', InfoCount, clNavy);
+    SetCounterLabel(lblValidationOk, 'OK', OkCount, clGreen);
+  end;
+
+  procedure PublishActions;
+  begin
+    if memValidationActions = nil then
+      Exit;
+
+    memValidationActions.Lines.BeginUpdate;
+    try
+      memValidationActions.Lines.Clear;
+      if ActionLines.Count = 0 then
+        memValidationActions.Lines.Add('Nenhuma acao critica pendente.')
+      else
+        memValidationActions.Lines.Assign(ActionLines);
+    finally
+      memValidationActions.Lines.EndUpdate;
+    end;
   end;
 
   procedure AddBlank;
@@ -2618,6 +2704,7 @@ begin
   Lines := TStringList.Create;
   DiffLines := TStringList.Create;
   DifferenceSummary := TStringList.Create;
+  ActionLines := TStringList.Create;
   try
     ErrorCount := 0;
     WarningCount := 0;
@@ -2630,6 +2717,10 @@ begin
     if FCurrentSkin = nil then
     begin
       lblValidationSummary.Caption := 'Nenhuma skin carregada.';
+      lblValidationSummary.Font.Color := clGray;
+      AddAction('Crie uma nova skin ou abra um arquivo .skin para validar.');
+      UpdateCounterLabels;
+      PublishActions;
       Exit;
     end;
 
@@ -2640,7 +2731,13 @@ begin
     if Trim(FCurrentSkin.FileName) <> '' then
       Lines.Add('Arquivo: ' + FCurrentSkin.FileName)
     else
+    begin
       Lines.Add('Arquivo: ainda nao salvo.');
+      if CurrentSkinIsEditable then
+        AddAction('Definir o arquivo .skin com Arquivo > Salvar como...');
+    end;
+    if not CurrentSkinIsEditable then
+      AddAction('Criar uma nova skin baseada na base em foco antes de salvar.');
     AddBlank;
 
     Lines.Add('Identidade');
@@ -2699,7 +2796,10 @@ begin
       lblValidationSummary.Font.Color := clMaroon
     else
       lblValidationSummary.Font.Color := clGreen;
+    UpdateCounterLabels;
+    PublishActions;
   finally
+    ActionLines.Free;
     DifferenceSummary.Free;
     DiffLines.Free;
     Lines.Free;
@@ -3454,6 +3554,17 @@ begin
 
   if Assigned(btnRefreshValidation) then
     btnRefreshValidation.Caption := 'Atualizar relatório';
+
+  if Assigned(lblValidationActionsTitle) then
+    lblValidationActionsTitle.Caption := 'Acoes recomendadas';
+  if Assigned(lblValidationErrors) then
+    lblValidationErrors.Caption := 'Erros: 0';
+  if Assigned(lblValidationWarnings) then
+    lblValidationWarnings.Caption := 'Avisos: 0';
+  if Assigned(lblValidationInfos) then
+    lblValidationInfos.Caption := 'Infos: 0';
+  if Assigned(lblValidationOk) then
+    lblValidationOk.Caption := 'OK: 0';
 
   if Assigned(lblPopupPreviewTitle) then
     lblPopupPreviewTitle.Caption := 'Amostra Popup/Menu';

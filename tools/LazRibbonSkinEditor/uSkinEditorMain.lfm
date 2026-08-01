@@ -1272,10 +1272,56 @@ object frmLazRibbonSkinEditor: TfrmLazRibbonSkinEditor
           AutoSize = False
           Caption = 'Nenhuma validacao executada.'
         end
+        object lblValidationErrors: TLabel
+          Left = 16
+          Height = 18
+          Top = 96
+          Width = 94
+          Caption = 'Erros: 0'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object lblValidationWarnings: TLabel
+          Left = 116
+          Height = 18
+          Top = 96
+          Width = 94
+          Caption = 'Avisos: 0'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object lblValidationInfos: TLabel
+          Left = 216
+          Height = 18
+          Top = 96
+          Width = 94
+          Caption = 'Infos: 0'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object lblValidationOk: TLabel
+          Left = 316
+          Height = 18
+          Top = 96
+          Width = 94
+          Caption = 'OK: 0'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object lblValidationActionsTitle: TLabel
+          Left = 456
+          Height = 18
+          Top = 108
+          Width = 190
+          AutoSize = False
+          Caption = 'Acoes recomendadas'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
         object lblPopupPreviewTitle: TLabel
           Left = 666
           Height = 13
-          Top = 92
+          Top = 108
           Width = 340
           Anchors = [akTop, akRight]
           AutoSize = False
@@ -1285,18 +1331,29 @@ object frmLazRibbonSkinEditor: TfrmLazRibbonSkinEditor
         end
         object memValidationReport: TMemo
           Left = 16
-          Height = 350
-          Top = 112
-          Width = 630
+          Height = 332
+          Top = 130
+          Width = 424
           Anchors = [akTop, akLeft, akBottom]
           ReadOnly = True
           ScrollBars = ssAutoBoth
           TabOrder = 1
         end
+        object memValidationActions: TMemo
+          Left = 456
+          Height = 332
+          Top = 130
+          Width = 190
+          Anchors = [akTop, akLeft, akBottom]
+          ReadOnly = True
+          ScrollBars = ssAutoVertical
+          TabOrder = 2
+          WordWrap = True
+        end
         object paintPopupPreview: TPaintBox
           Left = 666
           Height = 220
-          Top = 112
+          Top = 130
           Width = 340
           Anchors = [akTop, akRight]
           OnPaint = paintPopupPreviewPaint
