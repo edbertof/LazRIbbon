@@ -76,6 +76,13 @@ type
     ppisSeparator
   );
 
+  TLazRibbonBackstagePreviewItemState = (
+    bpisNormal,
+    bpisHover,
+    bpisSelected,
+    bpisMuted
+  );
+
   TLazRibbonAppearancePropertyBinding = class
   public
     Section: TLazRibbonSkinAppearanceSection;
@@ -109,6 +116,18 @@ type
     btnRefreshValidation: TButton;
     imgSkinIcon: TImage;
     lblAuthor: TLabel;
+    lblBackstageHint: TLabel;
+    lblBackstageNavTitle: TLabel;
+    lblBackstageNavColor: TLabel;
+    lblBackstageNavTextColor: TLabel;
+    lblBackstageNavMutedTextColor: TLabel;
+    lblBackstageStatesTitle: TLabel;
+    lblBackstageNavHoverColor: TLabel;
+    lblBackstageNavHoverTextColor: TLabel;
+    lblBackstageNavSelectedColor: TLabel;
+    lblBackstageNavSelectedTextColor: TLabel;
+    lblBackstageNavSelectedFrameColor: TLabel;
+    lblBackstagePreviewTitle: TLabel;
     lblBaseSkin: TLabel;
     lblBaseHint: TLabel;
     lblPreviewMode: TLabel;
@@ -160,12 +179,21 @@ type
     pnlColorRibbonTabHot: TPanel;
     pnlColorRibbonTop: TPanel;
     pnlColorText: TPanel;
+    pnlBackstageNavColor: TPanel;
+    pnlBackstageNavTextColor: TPanel;
+    pnlBackstageNavMutedTextColor: TPanel;
+    pnlBackstageNavHoverColor: TPanel;
+    pnlBackstageNavHoverTextColor: TPanel;
+    pnlBackstageNavSelectedColor: TPanel;
+    pnlBackstageNavSelectedTextColor: TPanel;
+    pnlBackstageNavSelectedFrameColor: TPanel;
     pnlLeft: TPanel;
     pnlLivePreview: TPanel;
     pnlMetadata: TPanel;
     pnlPreviewHost: TPanel;
     pnlSimpleColors: TPanel;
     pnlTop: TPanel;
+    paintBackstagePreview: TPaintBox;
     paintPopupPreview: TPaintBox;
     PreviewSkinManager: TLazRibbonSkinManager;
     PreviewToolbar: TLazRibbon;
@@ -234,6 +262,7 @@ type
     procedure IconFileButtonClick(Sender: TObject);
     procedure lstSkinsClick(Sender: TObject);
     procedure MetadataChanged(Sender: TObject);
+    procedure paintBackstagePreviewPaint(Sender: TObject);
     procedure paintPopupPreviewPaint(Sender: TObject);
     procedure pcMainChange(Sender: TObject);
   private
@@ -265,6 +294,7 @@ type
     procedure RefreshIconPreview;
     procedure RefreshValidationReport;
     procedure SetupPreviewToolbar;
+    procedure SetupBackstageTab;
     procedure SetupWorkflowGuide;
     procedure SetupPreviewModeSelector;
     function PreviewModeCaption(AMode: TLazRibbonSkinPreviewMode): String;
@@ -272,6 +302,9 @@ type
     procedure ApplyPreviewMode(AAnnounce: Boolean = True);
     procedure DrawPopupPreviewItem(ACanvas: TCanvas; const ARect: TRect;
       const ACaption, AShortcut: String; AState: TLazRibbonPopupPreviewItemState);
+    procedure DrawBackstagePreviewItem(ACanvas: TCanvas; const ARect: TRect;
+      const ACaption, ADetail: String; AState: TLazRibbonBackstagePreviewItemState);
+    procedure RefreshBackstagePreview;
     procedure RefreshPopupPreview;
     procedure SyncLivePreviewHeight;
     procedure UpdateBackstageInfo(const AStatusHint: String = '');
@@ -899,6 +932,14 @@ begin
   FColorPanels[pfRibbonTabHotColor] := pnlColorRibbonTabHot;
   FColorPanels[pfRibbonGroupColor] := pnlColorRibbonGroup;
   FColorPanels[pfRibbonGroupFrameColor] := pnlColorRibbonGroupFrame;
+  FColorPanels[pfBackstageNavColor] := pnlBackstageNavColor;
+  FColorPanels[pfBackstageNavTextColor] := pnlBackstageNavTextColor;
+  FColorPanels[pfBackstageNavMutedTextColor] := pnlBackstageNavMutedTextColor;
+  FColorPanels[pfBackstageNavHoverColor] := pnlBackstageNavHoverColor;
+  FColorPanels[pfBackstageNavHoverTextColor] := pnlBackstageNavHoverTextColor;
+  FColorPanels[pfBackstageNavSelectedColor] := pnlBackstageNavSelectedColor;
+  FColorPanels[pfBackstageNavSelectedTextColor] := pnlBackstageNavSelectedTextColor;
+  FColorPanels[pfBackstageNavSelectedFrameColor] := pnlBackstageNavSelectedFrameColor;
 end;
 
 procedure TfrmLazRibbonSkinEditor.CreateAdvancedColorPanels;
@@ -927,6 +968,8 @@ var
   end;
 
 begin
+  if pnlBackstageNavColor = nil then
+  begin
   { BackStage colors are now presented as two visual groups instead of a flat
     property list. This keeps the technical model unchanged but makes the editor
     easier to understand for end users. }
@@ -973,6 +1016,7 @@ begin
     FColorPanels[F].Caption := '';
     FColorPanels[F].OnClick := @ColorPanelClick;
     FColorPanels[F].TabOrder := Ord(F) - Ord(pfBackstageNavColor);
+  end;
   end;
 
   SecTech := CreateEditorSection(Self, tabAdvanced,
@@ -1027,6 +1071,54 @@ begin
   L.Caption := 'Use os atalhos para abrir diretamente a pagina certa do editor visual. A paleta simples continua disponivel para criar skins rapidamente; o editor visual faz o ajuste fino do Appearance.';
 
   CreateAppearanceInspectorControls;
+end;
+
+procedure TfrmLazRibbonSkinEditor.SetupBackstageTab;
+
+  procedure SetCaption(ALabel: TLabel; const ACaption: String);
+  begin
+    if ALabel <> nil then
+      ALabel.Caption := ACaption;
+  end;
+
+  procedure BindPanel(APanel: TPanel);
+  begin
+    if APanel <> nil then
+    begin
+      APanel.BevelOuter := bvLowered;
+      APanel.ParentBackground := False;
+      APanel.OnClick := @ColorPanelClick;
+    end;
+  end;
+
+begin
+  SetCaption(lblBackstageHint,
+    'Ajuste aqui as cores especificas do BackStage. Use a previa ao lado para conferir navegacao normal, hover, selecao e texto secundario.');
+  SetCaption(lblBackstageNavTitle, 'Navegacao');
+  SetCaption(lblBackstageStatesTitle, 'Estados');
+  SetCaption(lblBackstagePreviewTitle, 'Previa da navegacao');
+
+  SetCaption(lblBackstageNavColor, PaletteFieldCaption(pfBackstageNavColor));
+  SetCaption(lblBackstageNavTextColor, PaletteFieldCaption(pfBackstageNavTextColor));
+  SetCaption(lblBackstageNavMutedTextColor, PaletteFieldCaption(pfBackstageNavMutedTextColor));
+  SetCaption(lblBackstageNavHoverColor, PaletteFieldCaption(pfBackstageNavHoverColor));
+  SetCaption(lblBackstageNavHoverTextColor, PaletteFieldCaption(pfBackstageNavHoverTextColor));
+  SetCaption(lblBackstageNavSelectedColor, PaletteFieldCaption(pfBackstageNavSelectedColor));
+  SetCaption(lblBackstageNavSelectedTextColor, PaletteFieldCaption(pfBackstageNavSelectedTextColor));
+  SetCaption(lblBackstageNavSelectedFrameColor, PaletteFieldCaption(pfBackstageNavSelectedFrameColor));
+
+  BindPanel(pnlBackstageNavColor);
+  BindPanel(pnlBackstageNavTextColor);
+  BindPanel(pnlBackstageNavMutedTextColor);
+  BindPanel(pnlBackstageNavHoverColor);
+  BindPanel(pnlBackstageNavHoverTextColor);
+  BindPanel(pnlBackstageNavSelectedColor);
+  BindPanel(pnlBackstageNavSelectedTextColor);
+  BindPanel(pnlBackstageNavSelectedFrameColor);
+
+  if paintBackstagePreview <> nil then
+    paintBackstagePreview.OnPaint := @paintBackstagePreviewPaint;
+  RefreshBackstagePreview;
 end;
 
 procedure TfrmLazRibbonSkinEditor.CreateAppearanceInspectorControls;
@@ -2865,6 +2957,93 @@ begin
   SyncLivePreviewHeight;
   PreviewToolbar.Invalidate;
   ApplyPreviewMode(False);
+  RefreshBackstagePreview;
+end;
+
+procedure TfrmLazRibbonSkinEditor.DrawBackstagePreviewItem(ACanvas: TCanvas;
+  const ARect: TRect; const ACaption, ADetail: String;
+  AState: TLazRibbonBackstagePreviewItemState);
+var
+  P: TLazRibbonSkinPalette;
+  FillColor, TextColor, DetailColor, BorderColor: TColor;
+  AccentRect, TextRect: TRect;
+  TextTop: Integer;
+begin
+  if FCurrentSkin = nil then
+    Exit;
+
+  P := FCurrentSkin.Palette;
+  FillColor := P.BackstageNavColor;
+  TextColor := P.BackstageNavTextColor;
+  DetailColor := P.BackstageNavMutedTextColor;
+  BorderColor := P.BackstageNavSelectedFrameColor;
+
+  case AState of
+    bpisHover:
+      begin
+        FillColor := P.BackstageNavHoverColor;
+        TextColor := P.BackstageNavHoverTextColor;
+        DetailColor := LazEnsureContrastTextColor(FillColor,
+          P.BackstageNavMutedTextColor);
+      end;
+    bpisSelected:
+      begin
+        FillColor := P.BackstageNavSelectedColor;
+        TextColor := P.BackstageNavSelectedTextColor;
+        DetailColor := LazEnsureContrastTextColor(FillColor,
+          P.BackstageNavMutedTextColor);
+      end;
+    bpisMuted:
+      begin
+        TextColor := P.BackstageNavMutedTextColor;
+        DetailColor := P.BackstageNavMutedTextColor;
+      end;
+  end;
+
+  ACanvas.Brush.Style := bsSolid;
+  ACanvas.Brush.Color := ColorToRGB(FillColor);
+  ACanvas.Pen.Style := psClear;
+  ACanvas.Rectangle(ARect);
+  ACanvas.Pen.Style := psSolid;
+
+  if AState = bpisHover then
+  begin
+    ACanvas.Brush.Style := bsClear;
+    ACanvas.Pen.Color := ColorToRGB(BorderColor);
+    ACanvas.Rectangle(ARect);
+    ACanvas.Brush.Style := bsSolid;
+  end
+  else if AState = bpisSelected then
+  begin
+    AccentRect := Rect(ARect.Left, ARect.Top, ARect.Left + 5, ARect.Bottom);
+    ACanvas.Brush.Color := ColorToRGB(BorderColor);
+    ACanvas.Pen.Color := ColorToRGB(BorderColor);
+    ACanvas.Rectangle(AccentRect);
+  end;
+
+  ACanvas.Brush.Style := bsClear;
+  ACanvas.Font.Name := 'Segoe UI';
+  ACanvas.Font.Height := -12;
+  ACanvas.Font.Style := [];
+  ACanvas.Font.Color := LazEnsureContrastTextColor(FillColor, TextColor);
+  TextRect := Rect(ARect.Left + 14, ARect.Top + 6, ARect.Right - 10,
+    ARect.Bottom - 4);
+  TextTop := TextRect.Top;
+  ACanvas.TextOut(TextRect.Left, TextTop, ACaption);
+
+  if Trim(ADetail) <> '' then
+  begin
+    ACanvas.Font.Height := -10;
+    ACanvas.Font.Color := LazEnsureContrastTextColor(FillColor, DetailColor);
+    ACanvas.TextOut(TextRect.Left, TextTop + 17, ADetail);
+  end;
+  ACanvas.Brush.Style := bsSolid;
+end;
+
+procedure TfrmLazRibbonSkinEditor.RefreshBackstagePreview;
+begin
+  if Assigned(paintBackstagePreview) then
+    paintBackstagePreview.Invalidate;
 end;
 
 procedure TfrmLazRibbonSkinEditor.DrawPopupPreviewItem(ACanvas: TCanvas;
@@ -3195,6 +3374,7 @@ begin
       FColorPanels[F].Font.Color := LazEnsureContrastTextColor(FColorPanels[F].Color, clBlack);
     end;
   end;
+  RefreshBackstagePreview;
 end;
 
 procedure TfrmLazRibbonSkinEditor.UpdateAppearanceModeLabel;
@@ -3279,6 +3459,8 @@ begin
     lblPopupPreviewTitle.Caption := 'Amostra Popup/Menu';
   if Assigned(paintPopupPreview) then
     paintPopupPreview.OnPaint := @paintPopupPreviewPaint;
+
+  SetupBackstageTab;
 
   if Assigned(BackstageLabelInfoTitle) then
     BackstageLabelInfoTitle.Caption := 'Arquivo da skin';
@@ -4230,6 +4412,91 @@ begin
   UpdateWorkflowGuide(lblStatus.Caption);
 end;
 
+procedure TfrmLazRibbonSkinEditor.paintBackstagePreviewPaint(Sender: TObject);
+var
+  C: TCanvas;
+  P: TLazRibbonSkinPalette;
+  R, NavRect, ContentRect, ItemRect, TitleRect: TRect;
+  ContentTitle, SkinText: String;
+begin
+  if (paintBackstagePreview = nil) or (FCurrentSkin = nil) then
+    Exit;
+
+  P := FCurrentSkin.Palette;
+  C := paintBackstagePreview.Canvas;
+  R := paintBackstagePreview.ClientRect;
+
+  C.Brush.Style := bsSolid;
+  C.Brush.Color := clBtnFace;
+  C.FillRect(R);
+
+  InflateRect(R, -4, -4);
+  NavRect := Rect(R.Left, R.Top, R.Left + 150, R.Bottom);
+  ContentRect := Rect(NavRect.Right, R.Top, R.Right, R.Bottom);
+
+  C.Brush.Color := ColorToRGB(P.BackstageNavColor);
+  C.Pen.Color := ColorToRGB(P.FrameColor);
+  C.Rectangle(NavRect);
+
+  C.Brush.Color := ColorToRGB(P.BackColor);
+  C.Pen.Color := ColorToRGB(P.FrameColor);
+  C.Rectangle(ContentRect);
+
+  C.Pen.Color := ColorToRGB(P.FrameColor);
+  C.Line(NavRect.Right, NavRect.Top, NavRect.Right, NavRect.Bottom);
+
+  TitleRect := Rect(NavRect.Left + 14, NavRect.Top + 12, NavRect.Right - 12,
+    NavRect.Top + 38);
+  C.Brush.Style := bsClear;
+  C.Font.Name := 'Segoe UI';
+  C.Font.Height := -13;
+  C.Font.Style := [fsBold];
+  C.Font.Color := LazEnsureContrastTextColor(P.BackstageNavColor,
+    P.BackstageNavTextColor);
+  C.TextOut(TitleRect.Left, TitleRect.Top, 'Arquivo');
+  C.Font.Style := [];
+  C.Brush.Style := bsSolid;
+
+  ItemRect := Rect(NavRect.Left + 8, NavRect.Top + 48, NavRect.Right - 8,
+    NavRect.Top + 86);
+  DrawBackstagePreviewItem(C, ItemRect, 'Informacoes', 'item normal',
+    bpisNormal);
+
+  OffsetRect(ItemRect, 0, 42);
+  DrawBackstagePreviewItem(C, ItemRect, 'Nova skin', 'mouse sobre',
+    bpisHover);
+
+  OffsetRect(ItemRect, 0, 42);
+  DrawBackstagePreviewItem(C, ItemRect, 'Recentes', 'pagina atual',
+    bpisSelected);
+
+  OffsetRect(ItemRect, 0, 42);
+  DrawBackstagePreviewItem(C, ItemRect, 'Fechar', 'indisponivel',
+    bpisMuted);
+
+  SkinText := Trim(FCurrentSkin.DisplayName);
+  if SkinText = '' then
+    SkinText := Trim(FCurrentSkin.Name);
+  if SkinText = '' then
+    SkinText := 'Skin sem nome';
+
+  ContentTitle := 'Previa do BackStage';
+  C.Brush.Style := bsClear;
+  C.Font.Name := 'Segoe UI';
+  C.Font.Height := -15;
+  C.Font.Style := [fsBold];
+  C.Font.Color := LazEnsureContrastTextColor(P.BackColor, P.TextColor);
+  C.TextOut(ContentRect.Left + 24, ContentRect.Top + 24, ContentTitle);
+
+  C.Font.Height := -11;
+  C.Font.Style := [];
+  C.Font.Color := LazEnsureContrastTextColor(P.BackColor, P.MutedTextColor);
+  C.TextOut(ContentRect.Left + 24, ContentRect.Top + 54, SkinText);
+  C.TextOut(ContentRect.Left + 24, ContentRect.Top + 78,
+    'Amostra estatica para conferir contraste.');
+  C.Brush.Style := bsSolid;
+end;
+
 procedure TfrmLazRibbonSkinEditor.paintPopupPreviewPaint(Sender: TObject);
 const
   PopupPreviewRowHeight = 28;
@@ -4285,6 +4552,8 @@ procedure TfrmLazRibbonSkinEditor.pcMainChange(Sender: TObject);
 begin
   if Assigned(pcMain) and (pcMain.ActivePage = tabPreview) then
     RefreshValidationReport;
+  if Assigned(pcMain) and (pcMain.ActivePage = tabBackstage) then
+    RefreshBackstagePreview;
   UpdateWorkflowGuide;
 end;
 

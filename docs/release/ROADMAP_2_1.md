@@ -89,6 +89,8 @@ The dropdown/menu preview mode now has a fixed popup sample on the validation pa
 
 The BackStage information page now behaves as a document-status panel instead of a static help page. It shows the current skin, target file, comparison base, edit/save state and next workflow step, while the old top-strip file command residue was removed from the form class.
 
+The dedicated BackStage editing step now has design-time controls for all BackStage navigation palette colors and a fixed preview surface. Skin authors can adjust normal, muted, hover, selected and selected-border colors while seeing a representative BackStage navigation sample without opening the real BackStage overlay.
+
 The release audit now accepts only official LazRibbon source ZIPs in the root delivery folder, using the `LazRibbon_<version>_source_<timestamp>.zip` pattern. This keeps `D:\Ribbon4Lazarus` usable as both the working delivery folder and the place where release packages are stored, while arbitrary ZIP files remain blocked from the source tree. The build cleanup also removes the Skin Editor `.lps` state file so a local Lazarus session does not block a clean source-package audit.
 
 ## Initial Coverage Snapshot

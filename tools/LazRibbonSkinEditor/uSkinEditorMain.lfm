@@ -1047,6 +1047,189 @@ object frmLazRibbonSkinEditor: TfrmLazRibbonSkinEditor
     end
     object tabBackstage: TTabSheet
       Caption = '3 BackStage'
+      ClientHeight = 474
+      ClientWidth = 1036
+      object lblBackstageHint: TLabel
+        Left = 16
+        Height = 34
+        Top = 16
+        Width = 660
+        AutoSize = False
+        Caption = 'Ajuste aqui as cores especificas do BackStage. Use a previa ao lado para conferir navegacao normal, hover, selecao e texto secundario.'
+        WordWrap = True
+      end
+      object lblBackstageNavTitle: TLabel
+        Left = 24
+        Height = 13
+        Top = 66
+        Width = 180
+        Caption = 'Navegacao'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object lblBackstageNavColor: TLabel
+        Left = 24
+        Height = 13
+        Top = 96
+        Width = 164
+        Caption = 'Fundo da navegacao'
+      end
+      object lblBackstageNavTextColor: TLabel
+        Left = 24
+        Height = 13
+        Top = 132
+        Width = 164
+        Caption = 'Texto normal'
+      end
+      object lblBackstageNavMutedTextColor: TLabel
+        Left = 24
+        Height = 13
+        Top = 168
+        Width = 164
+        Caption = 'Texto secundario'
+      end
+      object lblBackstageStatesTitle: TLabel
+        Left = 360
+        Height = 13
+        Top = 66
+        Width = 180
+        Caption = 'Estados'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object lblBackstageNavHoverColor: TLabel
+        Left = 360
+        Height = 13
+        Top = 96
+        Width = 168
+        Caption = 'Fundo em hover'
+      end
+      object lblBackstageNavHoverTextColor: TLabel
+        Left = 360
+        Height = 13
+        Top = 132
+        Width = 168
+        Caption = 'Texto em hover'
+      end
+      object lblBackstageNavSelectedColor: TLabel
+        Left = 360
+        Height = 13
+        Top = 168
+        Width = 168
+        Caption = 'Fundo selecionado'
+      end
+      object lblBackstageNavSelectedTextColor: TLabel
+        Left = 360
+        Height = 13
+        Top = 204
+        Width = 168
+        Caption = 'Texto selecionado'
+      end
+      object lblBackstageNavSelectedFrameColor: TLabel
+        Left = 360
+        Height = 13
+        Top = 240
+        Width = 168
+        Caption = 'Borda selecionada'
+      end
+      object lblBackstagePreviewTitle: TLabel
+        Left = 708
+        Height = 13
+        Top = 66
+        Width = 300
+        Anchors = [akTop, akRight]
+        Caption = 'Previa da navegacao'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object pnlBackstageNavColor: TPanel
+        Left = 204
+        Height = 24
+        Top = 90
+        Width = 124
+        BevelOuter = bvLowered
+        ParentBackground = False
+        TabOrder = 0
+        OnClick = ColorPanelClick
+      end
+      object pnlBackstageNavTextColor: TPanel
+        Left = 204
+        Height = 24
+        Top = 126
+        Width = 124
+        BevelOuter = bvLowered
+        ParentBackground = False
+        TabOrder = 1
+        OnClick = ColorPanelClick
+      end
+      object pnlBackstageNavMutedTextColor: TPanel
+        Left = 204
+        Height = 24
+        Top = 162
+        Width = 124
+        BevelOuter = bvLowered
+        ParentBackground = False
+        TabOrder = 2
+        OnClick = ColorPanelClick
+      end
+      object pnlBackstageNavHoverColor: TPanel
+        Left = 544
+        Height = 24
+        Top = 90
+        Width = 124
+        BevelOuter = bvLowered
+        ParentBackground = False
+        TabOrder = 3
+        OnClick = ColorPanelClick
+      end
+      object pnlBackstageNavHoverTextColor: TPanel
+        Left = 544
+        Height = 24
+        Top = 126
+        Width = 124
+        BevelOuter = bvLowered
+        ParentBackground = False
+        TabOrder = 4
+        OnClick = ColorPanelClick
+      end
+      object pnlBackstageNavSelectedColor: TPanel
+        Left = 544
+        Height = 24
+        Top = 162
+        Width = 124
+        BevelOuter = bvLowered
+        ParentBackground = False
+        TabOrder = 5
+        OnClick = ColorPanelClick
+      end
+      object pnlBackstageNavSelectedTextColor: TPanel
+        Left = 544
+        Height = 24
+        Top = 198
+        Width = 124
+        BevelOuter = bvLowered
+        ParentBackground = False
+        TabOrder = 6
+        OnClick = ColorPanelClick
+      end
+      object pnlBackstageNavSelectedFrameColor: TPanel
+        Left = 544
+        Height = 24
+        Top = 234
+        Width = 124
+        BevelOuter = bvLowered
+        ParentBackground = False
+        TabOrder = 7
+        OnClick = ColorPanelClick
+      end
+      object paintBackstagePreview: TPaintBox
+        Left = 708
+        Height = 260
+        Top = 88
+        Width = 300
+        Anchors = [akTop, akRight]
+        OnPaint = paintBackstagePreviewPaint
+      end
     end
     object tabPreview: TTabSheet
       Caption = '4 Validar e salvar'

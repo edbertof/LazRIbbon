@@ -918,6 +918,31 @@ function Test-SkinEditorAppearanceModeDetection {
       $lfm -notmatch 'object\s+BackstageLabelStateValue:\s+TLabel') {
     Add-Failure 'Skin Editor BackStage info page must expose current skin, file and state labels at design time.'
   }
+  foreach ($required in @(
+    'SetupBackstageTab',
+    'paintBackstagePreviewPaint',
+    'DrawBackstagePreviewItem',
+    'RefreshBackstagePreview'
+  )) {
+    if ($pas -notmatch [regex]::Escape($required)) {
+      Add-Failure "Skin Editor BackStage tab workflow is missing $required."
+    }
+  }
+  foreach ($required in @(
+    'pnlBackstageNavColor',
+    'pnlBackstageNavTextColor',
+    'pnlBackstageNavMutedTextColor',
+    'pnlBackstageNavHoverColor',
+    'pnlBackstageNavHoverTextColor',
+    'pnlBackstageNavSelectedColor',
+    'pnlBackstageNavSelectedTextColor',
+    'pnlBackstageNavSelectedFrameColor',
+    'paintBackstagePreview'
+  )) {
+    if ($lfm -notmatch ('object\s+' + [regex]::Escape($required) + ':')) {
+      Add-Failure "Skin Editor BackStage tab must expose $required at design time."
+    }
+  }
   if ($pas -match 'procedure\s+TfrmLazRibbonSkinEditor\.btnNewFromBaseClick[\s\S]*?FFullAppearanceEdited\s*:=\s*True;[\s\S]*?procedure\s+TfrmLazRibbonSkinEditor\.btnOpenClick') {
     Add-Failure 'New-from-base must not blindly mark Appearance as manually edited.'
   }
