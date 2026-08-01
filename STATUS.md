@@ -1,6 +1,8 @@
 # LazRibbon Status
 
-`2.1.4 - SkinManager appearance workflow` is the current build.
+`2.1.5 - Workbench CRUD demo` is the current build.
+
+The `2.1.5` build adds an application-style Workbench CRUD demo to validate how the main LazRibbon components connect in a realistic administrative system shell. It combines `TLazRibbonForm`, `TLazRibbon`, Quick Access Toolbar, BackStage, recent files, `TLazRibbonSkinManager`, `TLazRibbonSkinGalleryItem`, `TLazRibbonPopupMenu` and normal LCL client controls in one project. Runtime and design-time package metadata are now `2.1.5`. No new published component API was added.
 
 The `2.1.4` build continues the post-2.0 Skin Editor workflow line. Runtime and design-time package metadata are now `2.1.4`, `TLazRibbon.RibbonAppearance` is hidden from the Lazarus Object Inspector for new projects, and the complete Appearance editor is available through the `TLazRibbonSkinManager` design-time editor. The internal `RibbonAppearance` object remains available for rendering and old `.lfm` streaming compatibility.
 

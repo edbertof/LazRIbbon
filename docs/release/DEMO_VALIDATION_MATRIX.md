@@ -27,6 +27,7 @@ Use `-CleanArtifacts` for release validation so generated `bin`, `lib`, `obj`,
 
 | Demo | Project | Primary validation |
 | --- | --- | --- |
+| Workbench CRUD | `demos/workbench_crud/project1.lpi` | Application-style composition with `TLazRibbonForm`, QAT, BackStage, recent files, SkinManager, skin gallery, Ribbon popup menu and normal LCL CRUD controls. |
 | Showcase | `demos/showcase/project1.lpi` | Combined Ribbon form chrome, QAT, BackStage, recent files, skins, ScreenTips, KeyTips and contextual tabs. |
 | Ribbon Form | `demos/ribbon_form/project1.lpi` | `TLazRibbonForm`, custom title bar, Ribbon alignment and form-level integration. |
 | Basic | `demos/basic/Project1.lpi` | Minimal design-time component streaming and package installation sanity. |

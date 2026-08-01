@@ -1,6 +1,6 @@
 # LazRibbon Manual
 
-Target: LazRibbon 2.1.4, Lazarus 4.8.
+Target: LazRibbon 2.1.5, Lazarus 4.8.
 
 This manual explains how to install the package, how the components connect to
 each other, and which published properties and events are part of the public
@@ -46,7 +46,7 @@ Standalone Skin Editor:
 Recommended validation command before distributing or reinstalling from source:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File tools\verify_release_candidate.ps1 -Version 2.1.4 -ReleaseVersion 2.1.4 -OutputDirectory D:\Ribbon4Lazarus\Releases
+powershell -ExecutionPolicy Bypass -File tools\verify_release_candidate.ps1 -Version 2.1.5 -ReleaseVersion 2.1.5 -OutputDirectory D:\Ribbon4Lazarus\Releases
 ```
 
 ## 2. Component Model
@@ -139,6 +139,16 @@ properties that are not covered by the palette pages.
 In `5 Ajuste avancado`, the base comparison summary is also a navigator. Click a
 changed property in the differences list to select the same property in the main
 Appearance inspector; double-click it to open the property editor.
+
+## 5.1 Workbench CRUD Demo
+
+`demos/workbench_crud/project1.lpi` is the recommended integrated sample for
+application developers. It shows a normal administrative screen composed with
+`TLazRibbonForm`, `TLazRibbon`, Quick Access Toolbar, BackStage, recent files,
+`TLazRibbonSkinManager`, `TLazRibbonSkinGalleryItem`, `TLazRibbonPopupMenu` and
+ordinary LCL controls such as `TStringGrid`, edits, combo boxes and buttons.
+Use it to understand how the Ribbon shell and the client area should be
+connected in a real CRUD/workbench application.
 
 ## 6. KeyTips And ScreenTips
 
@@ -505,5 +515,5 @@ powershell -ExecutionPolicy Bypass -File tools\export_2_0_api_freeze_readiness.p
 Then run:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File tools\check_project_consistency.ps1 -ExpectedVersion 2.1.4
+powershell -ExecutionPolicy Bypass -File tools\check_project_consistency.ps1 -ExpectedVersion 2.1.5
 ```

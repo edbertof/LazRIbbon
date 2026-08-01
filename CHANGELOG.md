@@ -2,6 +2,12 @@
 
 - No unreleased changes.
 
+## 2.1.5 - Workbench CRUD demo
+
+- Adds `demos/workbench_crud`, an application-style sample that combines `TLazRibbonForm`, `TLazRibbon`, QAT, BackStage, recent files, SkinManager, skin gallery, Ribbon popup menu and normal LCL CRUD controls.
+- Adds the Workbench CRUD demo to the full build matrix, release cleanup and demo validation matrix.
+- Updates runtime and design-time package metadata to `2.1.5`.
+
 ## 2.1.4 - SkinManager appearance workflow
 
 - Hides `TLazRibbon.RibbonAppearance` from the Lazarus Object Inspector so new projects use the skin-based workflow instead of the inherited low-level editor.

@@ -1,0 +1,708 @@
+object Form1: TForm1
+  Left = 220
+  Height = 680
+  Top = 120
+  Width = 1120
+  Caption = 'LazRibbon Demo - Workbench CRUD'
+  BorderStyle = bsSizeable
+  OnCreate = FormCreate
+  ClientHeight = 680
+  ClientWidth = 1120
+  Color = clBtnFace
+  Font.Height = -12
+  Font.Name = 'Segoe UI'
+  ParentFont = False
+  LCLVersion = '4.8.0.0'
+  Ribbon = LazRibbon1
+  SkinManager = LazRibbonSkinManager1
+  UseCustomTitleBar = True
+  TitleBarHeight = 32
+  ShowSystemButtons = True
+  ShowTitleIcon = True
+  TitleAlignment = taCenter
+  object ActionList1: TActionList
+    Left = 24
+    Top = 184
+    object actNewCustomer: TAction
+      Caption = 'Novo'
+      Hint = 'Criar um novo cliente'
+      OnExecute = ActionExecute
+    end
+    object actEditCustomer: TAction
+      Caption = 'Editar'
+      Hint = 'Editar o cliente selecionado'
+      OnExecute = ActionExecute
+    end
+    object actSaveCustomer: TAction
+      Caption = 'Salvar'
+      Hint = 'Salvar o cliente atual'
+      OnExecute = ActionExecute
+    end
+    object actDeleteCustomer: TAction
+      Caption = 'Excluir'
+      Hint = 'Excluir o cliente selecionado'
+      OnExecute = ActionExecute
+    end
+    object actRefresh: TAction
+      Caption = 'Atualizar'
+      Hint = 'Atualizar a grade'
+      OnExecute = ActionExecute
+    end
+    object actFind: TAction
+      Caption = 'Filtrar'
+      Hint = 'Filtrar clientes'
+      OnExecute = ActionExecute
+    end
+    object actClearFilter: TAction
+      Caption = 'Limpar'
+      Hint = 'Limpar filtro'
+      OnExecute = ActionExecute
+    end
+    object actExport: TAction
+      Caption = 'Exportar'
+      Hint = 'Exportar registros'
+      OnExecute = ActionExecute
+    end
+    object actPrint: TAction
+      Caption = 'Imprimir'
+      Hint = 'Imprimir a lista'
+      OnExecute = ActionExecute
+    end
+    object actCloseMonth: TAction
+      Caption = 'Fechar mes'
+      Hint = 'Executar rotina mensal'
+      OnExecute = ActionExecute
+    end
+    object actOptions: TAction
+      Caption = 'Opcoes'
+      Hint = 'Abrir opcoes'
+      OnExecute = ActionExecute
+    end
+    object actHelp: TAction
+      Caption = 'Ajuda'
+      Hint = 'Ajuda do demo'
+      OnExecute = ActionExecute
+    end
+    object actExit: TAction
+      Caption = 'Sair'
+      Hint = 'Sair do demo'
+      OnExecute = ActionExecute
+    end
+  end
+  object LazRibbonSkinManager1: TLazRibbonSkinManager
+    ActiveSkinName = 'ModernLight'
+    Left = 120
+    Top = 184
+  end
+  object LazRibbon1: TLazRibbon
+    Left = 0
+    Height = 112
+    Top = 0
+    Width = 1120
+    Align = alTop
+    ApplicationButton.Caption = 'Arquivo'
+    ApplicationButton.KeyTip = 'A'
+    ApplicationButton.Hint = 'Abrir o BackStage do cadastro'
+    ApplicationButton.Visible = True
+    ApplicationButton.Mode = abmBackstage
+    ShowContextualGroupHeaders = True
+    ContextualGroupHeaderHeight = 18
+    QuickAccessToolBar.Visible = True
+    QuickAccessToolBar.Position = qapTitleBar
+    QuickAccessToolBar.Items = <
+      item
+        Action = actNewCustomer
+        KeyTip = '1'
+        LinkedItem = BtnNewCustomer
+      end
+      item
+        Action = actSaveCustomer
+        KeyTip = '2'
+        LinkedItem = BtnSaveCustomer
+      end
+      item
+        Action = actRefresh
+        KeyTip = '3'
+        LinkedItem = BtnRefresh
+      end>
+    QuickAccessToolBar.CustomizeActionList = ActionList1
+    QuickAccessToolBar.CustomizeMenuTitle = 'Personalizar Barra de Acesso Rapido'
+    QuickAccessToolBar.MoreCommandsCaption = 'Mais comandos...'
+    QuickAccessToolBar.ShowAboveRibbonCaption = 'Mostrar acima da Faixa de Opcoes'
+    QuickAccessToolBar.ShowBelowRibbonCaption = 'Mostrar abaixo da Faixa de Opcoes'
+    QuickAccessToolBar.MinimizeRibbonCaption = 'Minimizar a Faixa de Opcoes'
+    QuickAccessToolBar.RestoreRibbonCaption = 'Restaurar a Faixa de Opcoes'
+    QuickAccessToolBar.ResetToDefaultsCaption = 'Restaurar Barra de Acesso Rapido'
+    BackstageView = BackstageView
+    AppearanceSource = asSkinManager
+    SkinManager = LazRibbonSkinManager1
+    ShowHint = True
+    Tabs = (
+      'TabHome'
+      'TabData'
+      'TabView'
+      'TabCustomerTools'
+    )
+    TabIndex = 0
+    object TabHome: TLazRibbonTab
+      Caption = 'Inicio'
+      KeyTip = 'I'
+      Panes = (
+        'PaneRecords'
+        'PaneSearch'
+        'PaneWorkflow'
+      )
+      object PaneRecords: TLazRibbonPane
+        Caption = 'Registros'
+        ShowDialogLauncher = True
+        OnDialogLauncherClick = PaneDialogLauncherClick
+        Items = (
+          'BtnNewCustomer'
+          'BtnSaveCustomer'
+          'BtnEditCustomer'
+          'BtnDeleteCustomer'
+        )
+        object BtnNewCustomer: TLazRibbonLargeButton
+          Action = actNewCustomer
+          KeyTip = 'N'
+          ScreenTipTitle = 'Novo cliente'
+          ScreenTipText = 'Limpa o painel de edicao para cadastrar um novo cliente.'
+          ScreenTipShortcut = 'Ctrl+N'
+        end
+        object BtnSaveCustomer: TLazRibbonLargeButton
+          Action = actSaveCustomer
+          KeyTip = 'S'
+          ScreenTipTitle = 'Salvar cliente'
+          ScreenTipText = 'Grava o conteudo do painel de edicao na grade.'
+          ScreenTipShortcut = 'Ctrl+S'
+        end
+        object BtnEditCustomer: TLazRibbonSmallButton
+          Action = actEditCustomer
+          KeyTip = 'E'
+          ShowCaption = True
+          TableBehaviour = tbBeginsRow
+        end
+        object BtnDeleteCustomer: TLazRibbonSmallButton
+          Action = actDeleteCustomer
+          KeyTip = 'D'
+          ShowCaption = True
+          TableBehaviour = tbBeginsRow
+        end
+      end
+      object PaneSearch: TLazRibbonPane
+        Caption = 'Busca'
+        Items = (
+          'BtnFind'
+          'BtnClearFilter'
+          'BtnRefresh'
+        )
+        object BtnFind: TLazRibbonLargeButton
+          Action = actFind
+          KeyTip = 'F'
+          ScreenTipTitle = 'Filtrar'
+          ScreenTipText = 'Aplica o filtro informado acima da grade.'
+        end
+        object BtnClearFilter: TLazRibbonSmallButton
+          Action = actClearFilter
+          KeyTip = 'L'
+          ShowCaption = True
+          TableBehaviour = tbBeginsRow
+        end
+        object BtnRefresh: TLazRibbonSmallButton
+          Action = actRefresh
+          KeyTip = 'R'
+          ShowCaption = True
+          TableBehaviour = tbBeginsRow
+        end
+      end
+      object PaneWorkflow: TLazRibbonPane
+        Caption = 'Rotina'
+        Items = (
+          'BtnCloseMonth'
+          'BtnOptions'
+          'BtnHelp'
+        )
+        object BtnCloseMonth: TLazRibbonSmallButton
+          Action = actCloseMonth
+          KeyTip = 'FM'
+          ShowCaption = True
+        end
+        object BtnOptions: TLazRibbonSmallButton
+          Action = actOptions
+          KeyTip = 'OP'
+          ShowCaption = True
+          TableBehaviour = tbBeginsRow
+        end
+        object BtnHelp: TLazRibbonSmallButton
+          Action = actHelp
+          KeyTip = 'H'
+          ShowCaption = True
+          TableBehaviour = tbBeginsRow
+        end
+      end
+    end
+    object TabData: TLazRibbonTab
+      Caption = 'Dados'
+      KeyTip = 'D'
+      Panes = (
+        'PaneOutput'
+      )
+      object PaneOutput: TLazRibbonPane
+        Caption = 'Saida'
+        Items = (
+          'BtnExport'
+          'BtnPrint'
+        )
+        object BtnExport: TLazRibbonLargeButton
+          Action = actExport
+          KeyTip = 'EX'
+          DropdownMenu = PopupGrid
+          ScreenTipTitle = 'Exportar'
+          ScreenTipText = 'Mostra um comando com menu de contexto Ribbon associado.'
+        end
+        object BtnPrint: TLazRibbonLargeButton
+          Action = actPrint
+          KeyTip = 'PR'
+          ScreenTipTitle = 'Imprimir'
+          ScreenTipText = 'Executa uma impressao ficticia da lista de clientes.'
+        end
+      end
+    end
+    object TabView: TLazRibbonTab
+      Caption = 'Exibir'
+      KeyTip = 'V'
+      Panes = (
+        'PaneView'
+      )
+      object PaneView: TLazRibbonPane
+        Caption = 'Aparencia'
+        Items = (
+          'SkinGallery'
+        )
+        object SkinGallery: TLazRibbonSkinGalleryItem
+          Caption = 'Skins'
+          KeyTip = 'K'
+          DisplayMode = rimLarge
+          Width = 190
+          SkinManager = LazRibbonSkinManager1
+          Columns = 4
+          IconWidth = 22
+          IconHeight = 22
+          MaxVisibleItems = 8
+          ShowHints = True
+        end
+      end
+    end
+    object TabCustomerTools: TLazRibbonTab
+      Caption = 'Cliente'
+      KeyTip = 'C'
+      Contextual = True
+      ContextualGroupCaption = 'Cliente selecionado'
+      ContextualColor = 32768
+      Visible = False
+      Panes = (
+        'PaneCustomer'
+      )
+      object PaneCustomer: TLazRibbonPane
+        Caption = 'Acoes do cliente'
+        Items = (
+          'BtnCustomerPrint'
+          'BtnCustomerEdit'
+          'BtnCustomerDelete'
+        )
+        object BtnCustomerPrint: TLazRibbonLargeButton
+          Action = actPrint
+          KeyTip = 'IP'
+          ScreenTipTitle = 'Imprimir ficha'
+          ScreenTipText = 'Exemplo de comando contextual para o cliente selecionado.'
+        end
+        object BtnCustomerEdit: TLazRibbonSmallButton
+          Action = actEditCustomer
+          KeyTip = 'ED'
+          ShowCaption = True
+          TableBehaviour = tbBeginsRow
+        end
+        object BtnCustomerDelete: TLazRibbonSmallButton
+          Action = actDeleteCustomer
+          KeyTip = 'XC'
+          ShowCaption = True
+          TableBehaviour = tbBeginsRow
+        end
+      end
+    end
+  end
+  object StatusBar1: TStatusBar
+    Left = 0
+    Height = 22
+    Top = 658
+    Width = 1120
+    Align = alBottom
+    SimplePanel = True
+    SimpleText = 'Pronto.'
+  end
+  object PanelClient: TPanel
+    Left = 0
+    Height = 546
+    Top = 112
+    Width = 1120
+    Align = alClient
+    BevelOuter = bvNone
+    Color = clWhite
+    ParentColor = False
+    TabOrder = 0
+    object PanelHeader: TPanel
+      Left = 0
+      Height = 76
+      Top = 0
+      Width = 1120
+      Align = alTop
+      BevelOuter = bvNone
+      Color = 16448250
+      ParentColor = False
+      TabOrder = 0
+      object LabelTitle: TLabel
+        Left = 24
+        Height = 26
+        Top = 12
+        Width = 260
+        Caption = 'Cadastro de clientes'
+        Font.Height = -21
+        Font.Name = 'Segoe UI'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object LabelSubtitle: TLabel
+        Left = 26
+        Height = 18
+        Top = 44
+        Width = 470
+        Caption = 'Demo integrado com Ribbon, BackStage, QAT, SkinManager, popup e area cliente.'
+        Font.Height = -12
+        Font.Name = 'Segoe UI'
+        ParentFont = False
+      end
+      object EditSearch: TEdit
+        Left = 760
+        Height = 24
+        Top = 26
+        Width = 240
+        Anchors = [akTop, akRight]
+        TabOrder = 0
+      end
+      object ButtonSearch: TButton
+        Left = 1008
+        Height = 26
+        Top = 25
+        Width = 86
+        Anchors = [akTop, akRight]
+        Caption = 'Filtrar'
+        OnClick = ButtonSearchClick
+        TabOrder = 1
+      end
+    end
+    object GridCustomers: TStringGrid
+      Left = 0
+      Height = 470
+      Top = 76
+      Width = 704
+      Align = alClient
+      ColCount = 6
+      DefaultRowHeight = 24
+      FixedCols = 0
+      Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goRowSelect, goThumbTracking]
+      PopupMenu = PopupGrid
+      RowCount = 1
+      TabOrder = 1
+      OnSelectCell = GridCustomersSelectCell
+    end
+    object Splitter1: TSplitter
+      Left = 704
+      Height = 470
+      Top = 76
+      Width = 5
+      Align = alRight
+    end
+    object PanelEditor: TPanel
+      Left = 709
+      Height = 470
+      Top = 76
+      Width = 411
+      Align = alRight
+      BevelOuter = bvNone
+      Color = 15790320
+      ParentColor = False
+      TabOrder = 2
+      object LabelEditorTitle: TLabel
+        Left = 22
+        Height = 24
+        Top = 20
+        Width = 190
+        Caption = 'Ficha do cliente'
+        Font.Height = -19
+        Font.Name = 'Segoe UI'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object LabelCode: TLabel
+        Left = 24
+        Height = 15
+        Top = 62
+        Width = 52
+        Caption = 'Codigo'
+      end
+      object LabelName: TLabel
+        Left = 24
+        Height = 15
+        Top = 112
+        Width = 42
+        Caption = 'Nome'
+      end
+      object LabelCity: TLabel
+        Left = 24
+        Height = 15
+        Top = 162
+        Width = 42
+        Caption = 'Cidade'
+      end
+      object LabelStatus: TLabel
+        Left = 222
+        Height = 15
+        Top = 162
+        Width = 38
+        Caption = 'Status'
+      end
+      object LabelLimit: TLabel
+        Left = 24
+        Height = 15
+        Top = 212
+        Width = 84
+        Caption = 'Limite credito'
+      end
+      object EditCode: TEdit
+        Left = 24
+        Height = 24
+        Top = 82
+        Width = 130
+        ReadOnly = True
+        TabOrder = 0
+      end
+      object EditName: TEdit
+        Left = 24
+        Height = 24
+        Top = 132
+        Width = 356
+        TabOrder = 1
+      end
+      object EditCity: TEdit
+        Left = 24
+        Height = 24
+        Top = 182
+        Width = 180
+        TabOrder = 2
+      end
+      object ComboStatus: TComboBox
+        Left = 222
+        Height = 24
+        Top = 182
+        Width = 158
+        Style = csDropDownList
+        TabOrder = 3
+      end
+      object EditLimit: TEdit
+        Left = 24
+        Height = 24
+        Top = 232
+        Width = 130
+        TabOrder = 4
+      end
+      object MemoNotes: TMemo
+        Left = 24
+        Height = 92
+        Top = 272
+        Width = 356
+        Lines.Strings = (
+          ''
+        )
+        ScrollBars = ssAutoVertical
+        TabOrder = 5
+      end
+      object ButtonNew: TButton
+        Left = 24
+        Height = 30
+        Top = 386
+        Width = 92
+        Action = actNewCustomer
+        TabOrder = 6
+      end
+      object ButtonSave: TButton
+        Left = 128
+        Height = 30
+        Top = 386
+        Width = 92
+        Action = actSaveCustomer
+        TabOrder = 7
+      end
+      object ButtonDelete: TButton
+        Left = 232
+        Height = 30
+        Top = 386
+        Width = 92
+        Action = actDeleteCustomer
+        TabOrder = 8
+      end
+    end
+  end
+  object BackstageView: TLazRibbonBackstageView
+    Left = 0
+    Height = 546
+    Top = 112
+    Width = 1120
+    Align = alClient
+    OverlayMode = bomCoverClientArea
+    ActivePageIndex = 0
+    BackstageTabCaption = 'Arquivo'
+    BackButtonHint = 'Voltar'
+    NavigationWidth = 190
+    ItemHeight = 42
+    LinkedToolbar = LazRibbon1
+    SkinManager = LazRibbonSkinManager1
+    Visible = False
+    Buttons = <
+      item
+        Caption = 'Informacoes'
+        Page = BackstagePageInfo
+      end
+      item
+        Caption = 'Bases recentes'
+        Page = BackstagePageRecent
+      end
+      item
+        Caption = 'Opcoes'
+        Page = BackstagePageOptions
+        BeginGroup = True
+      end
+      item
+        Kind = bbkSeparator
+      end
+      item
+        Kind = bbkCommand
+        Action = actSaveCustomer
+        CloseBackstageOnClick = False
+      end
+      item
+        Kind = bbkCommand
+        Action = actExport
+        CloseBackstageOnClick = False
+      end
+      item
+        Kind = bbkCommand
+        Action = actExit
+        Section = bbsBottom
+      end>
+    object BackstagePageInfo: TLazRibbonBackstagePage
+      Left = 190
+      Height = 546
+      Top = 0
+      Width = 930
+      Caption = 'Informacoes'
+      object LabelBackstageInfoTitle: TLabel
+        Left = 36
+        Height = 30
+        Top = 32
+        Width = 320
+        Caption = 'Workbench CRUD'
+        Font.Height = -24
+        Font.Name = 'Segoe UI'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object LabelBackstageInfoText: TLabel
+        Left = 38
+        Height = 94
+        Top = 82
+        Width = 680
+        Caption = 'Este demo mostra uma composicao de aplicacao administrativa: Ribbon no topo, BackStage cobrindo a area cliente, Quick Access Toolbar, SkinManager, galeria de skins, popup Ribbon, grade de dados e painel de edicao.'
+        Font.Height = -13
+        Font.Name = 'Segoe UI'
+        ParentFont = False
+        WordWrap = True
+      end
+    end
+    object BackstagePageRecent: TLazRibbonBackstagePage
+      Left = 190
+      Height = 546
+      Top = 0
+      Width = 930
+      Caption = 'Bases recentes'
+      object RecentList: TLazRibbonBackstageRecentList
+        Left = 32
+        Height = 446
+        Top = 36
+        Width = 820
+        Anchors = [akTop, akLeft, akRight, akBottom]
+        AppearanceSource = asSkinManager
+        ItemHeight = 54
+        MaxRecentItems = 20
+        ScrollBarMode = rsmAuto
+        StorageSection = 'WorkbenchRecentDatabases'
+        Items.Strings = (
+          'Clientes 2026=sample-data\clientes'
+          'Prospects regional sul=sample-data\prospects'
+          'Contratos ativos=sample-data\contratos'
+          'Pedidos pendentes=sample-data\pedidos'
+        )
+        SelectedIndex = 0
+        SkinManager = LazRibbonSkinManager1
+        OnItemClick = BackstageRecentClick
+      end
+    end
+    object BackstagePageOptions: TLazRibbonBackstagePage
+      Left = 190
+      Height = 546
+      Top = 0
+      Width = 930
+      Caption = 'Opcoes'
+      object LabelBackstageOptionsTitle: TLabel
+        Left = 36
+        Height = 30
+        Top = 32
+        Width = 220
+        Caption = 'Opcoes'
+        Font.Height = -24
+        Font.Name = 'Segoe UI'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object LabelBackstageOptionsText: TLabel
+        Left = 38
+        Height = 86
+        Top = 82
+        Width = 680
+        Caption = 'Area reservada para preferencias globais, conexao de dados, auditoria, exportacao e configuracoes de usuario. Em sistemas reais, estas paginas recebem controles LCL comuns dentro do BackStage.'
+        Font.Height = -13
+        Font.Name = 'Segoe UI'
+        ParentFont = False
+        WordWrap = True
+      end
+    end
+  end
+  object PopupGrid: TLazRibbonPopupMenu
+    Left = 224
+    Top = 184
+    object MenuNewCustomer: TMenuItem
+      Action = actNewCustomer
+    end
+    object MenuEditCustomer: TMenuItem
+      Action = actEditCustomer
+    end
+    object MenuDeleteCustomer: TMenuItem
+      Action = actDeleteCustomer
+    end
+    object MenuSeparator1: TMenuItem
+      Caption = '-'
+    end
+    object MenuExport: TMenuItem
+      Action = actExport
+    end
+  end
+end

@@ -36,6 +36,7 @@ $packages = @(
 
 $projects = @(
   'tools\LazRibbonSkinEditor\LazRibbonSkinEditor.lpi',
+  'demos\workbench_crud\project1.lpi',
   'demos\showcase\project1.lpi',
   'demos\ribbon_form\project1.lpi',
   'demos\basic\Project1.lpi',
@@ -87,6 +88,9 @@ function Remove-GeneratedArtifacts {
     'tools\LazRibbonSkinEditor\obj',
     'tools\LazRibbonSkinEditor\LazRibbonSkinEditor.lps',
     'tools\LazRibbonSkinEditor\LazRibbonSkinEditor.res',
+    'demos\workbench_crud\bin',
+    'demos\workbench_crud\lib',
+    'demos\workbench_crud\project1.res',
     'demos\actions\bin',
     'demos\actions\lib',
     'demos\actions\project1.res',

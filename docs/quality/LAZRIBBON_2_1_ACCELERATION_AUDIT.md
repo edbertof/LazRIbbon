@@ -54,6 +54,11 @@ The base difference summary in `Ajuste avancado` is now navigable: clicking a
 changed property selects the matching Appearance property in the inspector, and
 double-clicking it opens the property editor.
 
+The Workbench CRUD demo now provides the practical application shell requested
+for the 2.1 line. It combines `TLazRibbonForm`, `TLazRibbon`, QAT, BackStage,
+recent files, `TLazRibbonSkinManager`, `TLazRibbonSkinGalleryItem`,
+`TLazRibbonPopupMenu` and normal LCL CRUD controls in one build target.
+
 ## Safe Cleanup Decisions
 
 - Keep `RibbonAppearance` readable in old `.lfm` files.
@@ -67,19 +72,17 @@ double-clicking it opens the property editor.
 
 ## Next High-Value Increments
 
-1. Add a practical CRUD/workbench demo that uses `TLazRibbonForm`,
-   `TLazRibbonSkinManager`, BackStage and normal client controls together.
-2. Regenerate the Object Inspector snapshot after each meaningful API-surface
+1. Regenerate the Object Inspector snapshot after each meaningful API-surface
    change.
-3. Keep the manual and component reference synchronized with every new
+2. Keep the manual and component reference synchronized with every new
    design-time workflow.
-4. Validate every public ZIP from an extracted clean source tree before tagging.
+3. Validate every public ZIP from an extracted clean source tree before tagging.
 
 ## Release Gate
 
 For a 2.1 stabilization build, these commands must pass from the source root:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File tools\check_project_consistency.ps1 -ExpectedVersion 2.1.4
+powershell -ExecutionPolicy Bypass -File tools\check_project_consistency.ps1 -ExpectedVersion 2.1.5
 powershell -ExecutionPolicy Bypass -File tools\build_all_projects.ps1 -CleanArtifacts
 ```

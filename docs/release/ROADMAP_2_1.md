@@ -46,7 +46,7 @@ Deliver a post-2.0 package that feels easier to adopt and maintain:
 
 ## 2.1 Gates
 
-- `tools/check_project_consistency.ps1 -ExpectedVersion 2.1.4` passes.
+- `tools/check_project_consistency.ps1 -ExpectedVersion 2.1.5` passes.
 - `tools/export_skin_editor_2_1_coverage.ps1` regenerates the Skin Editor coverage report.
 - The Skin Editor opens, previews built-in skins and saves a self-contained `.skin` file.
 - The main demos compile with Lazarus 4.8.
@@ -78,6 +78,10 @@ The Skin Editor now behaves more like a normal document editor: it tracks unsave
 ## 2.1.4 Snapshot
 
 The SkinManager is now the preferred design-time path for detailed visual styling: `TLazRibbon.RibbonAppearance` is hidden from the Object Inspector, while the `TLazRibbonSkinManager` component editor exposes the complete Appearance editor through `Editar Appearance completo...`. This keeps old forms readable while guiding new projects toward distributable `.skin` files.
+
+## 2.1.5 Snapshot
+
+The new `demos/workbench_crud` project validates the real application composition path: `TLazRibbonForm`, `TLazRibbon`, Quick Access Toolbar, BackStage, recent files, `TLazRibbonSkinManager`, `TLazRibbonSkinGalleryItem`, `TLazRibbonPopupMenu` and normal LCL CRUD controls share one administrative workbench screen. No new published component API was added.
 
 ## Current Skin Editor Workflow Pass
 

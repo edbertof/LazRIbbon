@@ -1,3 +1,11 @@
+﻿## 2.1.5 check
+
+- Package metadata updated to 2.1.5 for the runtime and design-time packages.
+- Public release ZIP/tag label is `2.1.5` through the `-ReleaseVersion` workflow.
+- The final build matrix includes `demos/workbench_crud/project1.lpi` as the application-style composition demo.
+- The final release preflight validates the full build matrix, clean checkout install path and release ZIP hygiene before publishing.
+- Public ZIP created as `LazRibbon_2.1.5_source_20260801_141044.zip` with SHA256 `64B6AE0B1101C1923CD4C7816711DCE0C4F8E2CDCD806670CE91D03920385393`.
+
 ## 2.1.4 check
 
 - Package metadata updated to 2.1.4 for the runtime and design-time packages.

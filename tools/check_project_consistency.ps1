@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
   [string]$SourceRoot = '',
-  [string]$ExpectedVersion = '2.1.4'
+  [string]$ExpectedVersion = '2.1.5'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -1073,6 +1073,7 @@ function Test-TwoPointZeroPlanningDocs {
     'packages\LazRibbonRuntime.lpk',
     'packages\LazRibbonDesign.lpk',
     'tools\LazRibbonSkinEditor\LazRibbonSkinEditor.lpi',
+    'demos\workbench_crud\project1.lpi',
     'demos\showcase\project1.lpi',
     'demos\ribbon_form\project1.lpi',
     'demos\basic\Project1.lpi',
@@ -1455,7 +1456,7 @@ function Test-TwoPointZeroPlanningDocs {
       'Repeated published property names reviewed: 48',
       'Unclassified repeated property names: 0',
       'Design-time property skip rules: 30',
-      'Package/tool/demo build targets listed: 18',
+      'Package/tool/demo build targets listed: 19',
       'Gates ready: 13',
       'Gates requiring manual RC validation: 0',
       'Gates needing review: 0',
