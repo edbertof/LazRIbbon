@@ -1059,6 +1059,9 @@ function Test-TwoPointZeroPlanningDocs {
   $screenshotCaptureScriptPath = Join-Path $SourceRoot 'tools/capture_release_screenshots.ps1'
   $screenshotAssetsReadmePath = Join-Path $SourceRoot 'docs/assets/screenshots/README.md'
   $readmePath = Join-Path $SourceRoot 'README.md'
+  $roadmap21Path = Join-Path $SourceRoot 'docs/release/ROADMAP_2_1.md'
+  $accelerationAuditPath = Join-Path $SourceRoot 'docs/quality/LAZRIBBON_2_1_ACCELERATION_AUDIT.md'
+  $compatibilityTemplatePath = Join-Path $SourceRoot '.github/ISSUE_TEMPLATE/lazarus_compatibility.md'
   $screenshotAssetPaths = @(
     'docs/assets/screenshots/showcase-main.png',
     'docs/assets/screenshots/showcase-backstage.png',
@@ -1487,9 +1490,66 @@ function Test-TwoPointZeroPlanningDocs {
   }
   else {
     $readme = Get-Content -LiteralPath $readmePath -Raw
-    foreach ($required in @('Screenshots', 'docs/assets/screenshots/showcase-main.png', 'tools/capture_release_screenshots.ps1', 'ReleaseVersion', 'RELEASE_2_0_0.md', 'First Ribbon Form', 'TLazRibbonForm', 'TLazRibbon.BackstageView', 'tools/build_all_projects.ps1', 'tools/verify_release_candidate.ps1', 'tools/verify_clean_checkout.ps1', 'OBJECT_INSPECTOR_REDUNDANCY_AUDIT_2_0.md', 'DESIGN_TIME_PROPERTY_SKIP_AUDIT_2_0.md', 'API_FREEZE_READINESS_2_0.md', 'CLEAN_CHECKOUT_VALIDATION.md')) {
+    foreach ($required in @('Screenshots', 'docs/assets/screenshots/showcase-main.png', 'tools/capture_release_screenshots.ps1', 'ReleaseVersion', 'RELEASE_2_0_0.md', 'First Ribbon Form', 'TLazRibbonForm', 'TLazRibbon.BackstageView', 'tools/build_all_projects.ps1', 'tools/verify_release_candidate.ps1', 'tools/verify_clean_checkout.ps1', 'OBJECT_INSPECTOR_REDUNDANCY_AUDIT_2_0.md', 'DESIGN_TIME_PROPERTY_SKIP_AUDIT_2_0.md', 'API_FREEZE_READINESS_2_0.md', 'CLEAN_CHECKOUT_VALIDATION.md', 'LAZRIBBON_2_1_ACCELERATION_AUDIT.md', 'TLazRibbonSkinManager', 'asSkinManager')) {
       if ($readme -notmatch [regex]::Escape($required)) {
         Add-Failure "README must include $required for the 2.0 onboarding workflow."
+      }
+    }
+  }
+
+  if (-not (Test-Path -LiteralPath $accelerationAuditPath)) {
+    Add-Failure 'Missing LazRibbon 2.1 acceleration audit.'
+  }
+  else {
+    $accelerationAudit = Get-Content -LiteralPath $accelerationAuditPath -Raw
+    foreach ($required in @(
+      'Skin Editor workflow',
+      'SpkToolBar compatibility cleanup',
+      'Object Inspector clarity',
+      'Demos',
+      'Distribution',
+      'TLazRibbonSkinManager',
+      'RibbonAppearance',
+      'Release Gate'
+    )) {
+      if ($accelerationAudit -notmatch [regex]::Escape($required)) {
+        Add-Failure "LazRibbon 2.1 acceleration audit must mention $required."
+      }
+    }
+  }
+
+  if (-not (Test-Path -LiteralPath $compatibilityTemplatePath)) {
+    Add-Failure 'Missing GitHub Lazarus compatibility issue template.'
+  }
+  else {
+    $compatibilityTemplate = Get-Content -LiteralPath $compatibilityTemplatePath -Raw
+    foreach ($required in @(
+      'Lazarus version',
+      'Free Pascal version',
+      'Widgetset',
+      'Package installation',
+      'Form designer / `.lfm` loading',
+      'Skin loading / Skin Editor'
+    )) {
+      if ($compatibilityTemplate -notmatch [regex]::Escape($required)) {
+        Add-Failure "GitHub Lazarus compatibility issue template must mention $required."
+      }
+    }
+  }
+
+  if (-not (Test-Path -LiteralPath $roadmap21Path)) {
+    Add-Failure 'Missing LazRibbon 2.1 roadmap.'
+  }
+  else {
+    $roadmap21 = Get-Content -LiteralPath $roadmap21Path -Raw
+    foreach ($required in @(
+      'LAZRIBBON_2_1_ACCELERATION_AUDIT.md',
+      'Lazarus compatibility issue template',
+      'Skin Editor workflow',
+      'Object Inspector'
+    )) {
+      if ($roadmap21 -notmatch [regex]::Escape($required)) {
+        Add-Failure "LazRibbon 2.1 roadmap must include $required."
       }
     }
   }

@@ -30,7 +30,7 @@ Use `-CleanArtifacts` for release validation so generated `bin`, `lib`, `obj`,
 | Showcase | `demos/showcase/project1.lpi` | Combined Ribbon form chrome, QAT, BackStage, recent files, skins, ScreenTips, KeyTips and contextual tabs. |
 | Ribbon Form | `demos/ribbon_form/project1.lpi` | `TLazRibbonForm`, custom title bar, Ribbon alignment and form-level integration. |
 | Basic | `demos/basic/Project1.lpi` | Minimal design-time component streaming and package installation sanity. |
-| Runtime | `demos/runtime/project1.lpi` | Runtime creation of Ribbon, tabs, panes and items using current API names such as `RibbonAppearance`. |
+| Runtime | `demos/runtime/project1.lpi` | Runtime creation of Ribbon, tabs, panes and items using the current composition API. |
 | Application Button | `demos/application_button/project1.lpi` | Office Application Button caption, menu/event modes and button-focused API. |
 | Quick Access Toolbar | `demos/quick_access_toolbar/project1.lpi` | QAT item composition, command links and customize/minimize menu behavior. |
 | BackStage | `demos/backstage/project1.lpi` | `TLazRibbon.BackstageView`, BackStage buttons and Office-style overlay behavior. |
@@ -51,3 +51,10 @@ the FPC compile/link result must be successful.
 For stable release validation, the matrix should also pass through
 `tools/verify_clean_checkout.ps1` so the package is proven from an extracted
 release-style source tree.
+
+## Demo Style Guidance
+
+New demos should prefer `TLazRibbonSkinManager` for visual styling. Existing
+demos may still stream `RibbonAppearance.*` where they intentionally preserve
+legacy visual coverage, but new examples should demonstrate the documented
+SkinManager/SkinEditor workflow.

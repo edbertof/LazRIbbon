@@ -98,6 +98,10 @@ Some property pairs look similar but describe different decisions:
   published Object Inspector surface. `TLazRibbon.BackstageView` is the
   canonical composition property. The Application Button accessor remains public
   only as a source-level compatibility delegate.
+- `TLazRibbon.RibbonAppearance` is no longer the recommended design-time style
+  entry point. It remains internal/streaming-compatible rendering state so old
+  `.lfm` files keep loading, while `TLazRibbonSkinManager` owns the visible
+  SkinManager/SkinEditor workflow for new projects.
 - `TLazRibbonSeparator` is a structural pane item. The design-time package hides
   inherited command and ScreenTip properties such as `Action`, `Caption`,
   `Enabled`, `Hint`, `KeyTip`, `ShowScreenTip`, `ScreenTip*` and `OnClick`.
@@ -125,3 +129,5 @@ Some property pairs look similar but describe different decisions:
 
 - Keep validating new published properties against the component property
   matrix before the 2.0 API freeze.
+- Keep migration notes explicit whenever a compatibility-only property remains
+  public in source code but hidden from the Object Inspector.

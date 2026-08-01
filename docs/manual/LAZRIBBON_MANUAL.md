@@ -108,6 +108,23 @@ BackStage pages are content containers. New projects should not treat
 Use `TLazRibbonSkinSelector` as a standalone selector or
 `TLazRibbonSkinGalleryItem` inside a Ribbon pane.
 
+### Appearance workflow
+
+For new projects, treat `TLazRibbonSkinManager` as the owner of visual style.
+`TLazRibbon.RibbonAppearance` is kept for internal rendering and legacy `.lfm`
+compatibility, but it is hidden from the normal Object Inspector workflow.
+
+Use this order when building a distributable Office-like interface:
+
+1. Create or select a skin in `TLazRibbonSkinManager`.
+2. Assign the manager to the Ribbon and BackStage components.
+3. Use the Skin Manager component editor or the standalone Skin Editor to edit
+   the complete `Appearance`.
+4. Save the result as a self-contained `.skin` file when the application should
+   load the visual style outside the IDE.
+5. Use the Skin Editor validation page to check identity, embedded icons,
+   base differences and contrast before shipping.
+
 ## 6. KeyTips And ScreenTips
 
 `TLazRibbon.ShowKeyTips` enables staged keyboard hints. Set `KeyTip` on tabs,

@@ -60,6 +60,17 @@ The next development line is tracked in `docs/release/ROADMAP_2_1.md`. Its first
 
 `tools/export_skin_editor_2_1_coverage.ps1` generates `docs/quality/SKIN_EDITOR_APPEARANCE_COVERAGE_2_1.md`, a report that compares the published `Appearance` sections with the native visual appearance editor and the standalone Skin Editor.
 
+The accelerated 2.1 cleanup plan is tracked in `docs/quality/LAZRIBBON_2_1_ACCELERATION_AUDIT.md`. It keeps the next work grouped around Skin Editor workflow, SpkToolBar compatibility cleanup, Object Inspector clarity, stronger demos and GitHub/distribution readiness.
+
+### Appearance and skins in new projects
+
+`TLazRibbon.RibbonAppearance` is still readable for old forms and internal rendering, but it is not the preferred design-time API. New projects should use:
+
+1. `TLazRibbonSkinManager` to own built-in and external skins.
+2. `TLazRibbon.SkinManager` plus `TLazRibbon.AppearanceSource = asSkinManager`.
+3. `TLazRibbonSkinManager.Appearance` and the Skin Editor for complete visual tuning.
+4. `.skin` files when a skin must be distributed with another application.
+
 ## Screenshots
 
 The public screenshot set is generated with `tools/capture_release_screenshots.ps1`.
