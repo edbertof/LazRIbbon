@@ -85,6 +85,8 @@ The Skin Editor authoring flow keeps file commands in BackStage instead of dupli
 
 The live Ribbon preview now has a top-level preview mode selector. Skin authors can switch between normal, active-state, disabled-state, minimized Ribbon, open BackStage and dropdown/menu-focused scenarios while editing the same skin, making color and Appearance validation faster.
 
+The release audit now accepts only official LazRibbon source ZIPs in the root delivery folder, using the `LazRibbon_<version>_source_<timestamp>.zip` pattern. This keeps `D:\Ribbon4Lazarus` usable as both the working delivery folder and the place where release packages are stored, while arbitrary ZIP files remain blocked from the source tree. The build cleanup also removes the Skin Editor `.lps` state file so a local Lazarus session does not block a clean source-package audit.
+
 ## Initial Coverage Snapshot
 
 The first generated Skin Editor 2.1 coverage report finds 87 published `Appearance` properties across `Tab`, `MenuButton`, `Pane`, `Element` and `Popup`. The native appearance editor mentions all of them, and the standalone Skin Editor has generic RTTI inspector coverage for the full model. The 2.1 work should therefore focus on workflow quality, preview states and high-value direct helpers rather than manually duplicating every property as a standalone control.

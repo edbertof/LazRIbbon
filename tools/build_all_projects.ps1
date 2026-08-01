@@ -85,6 +85,7 @@ function Remove-GeneratedArtifacts {
     'lib',
     'tools\LazRibbonSkinEditor\bin',
     'tools\LazRibbonSkinEditor\obj',
+    'tools\LazRibbonSkinEditor\LazRibbonSkinEditor.lps',
     'tools\LazRibbonSkinEditor\LazRibbonSkinEditor.res',
     'demos\actions\bin',
     'demos\actions\lib',

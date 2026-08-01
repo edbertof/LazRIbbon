@@ -126,10 +126,24 @@ function Test-ForbiddenFiles {
         Add-Failure "Forbidden local Lazarus file found: $relative"
       }
       if ($forbiddenExtensions -contains $_.Extension.ToLowerInvariant()) {
+        if ((Test-AllowedRootReleaseZip -RelativePath $relative)) {
+          return
+        }
         Add-Failure "Forbidden generated file found: $relative"
       }
     }
   }
+}
+
+function Test-AllowedRootReleaseZip {
+  param([Parameter(Mandatory = $true)][string]$RelativePath)
+
+  $normalized = $RelativePath -replace '\\','/'
+  if ($normalized -match '/') {
+    return $false
+  }
+
+  return $normalized -match '^LazRibbon_\d+\.\d+\.\d+_source_\d{8}_\d{6}\.zip$'
 }
 
 function Test-RibbonAppearanceStreaming {
