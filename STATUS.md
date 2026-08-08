@@ -1,6 +1,8 @@
 # LazRibbon Status
 
-`2.1.5 - Workbench CRUD demo` is the current build.
+`2.1.6 - Skin Editor sample XML fix` is the current build.
+
+The `2.1.6` build fixes the distributed `demos/skin_editor_sample/MeuSkin.lazskin` file. The sample skin now writes the author metadata with the correct `<Author>...</Author>` XML element, so the Skin Editor Sample demo opens and runs without the XML parser exception caused by the malformed `<Autor>...<Author/>` tag. Runtime and design-time package metadata are now `2.1.6`. No new published component API was added.
 
 The `2.1.5` build adds an application-style Workbench CRUD demo to validate how the main LazRibbon components connect in a realistic administrative system shell. It combines `TLazRibbonForm`, `TLazRibbon`, Quick Access Toolbar, BackStage, recent files, `TLazRibbonSkinManager`, `TLazRibbonSkinGalleryItem`, `TLazRibbonPopupMenu` and normal LCL client controls in one project. Runtime and design-time package metadata are now `2.1.5`. No new published component API was added.
 

@@ -1,4 +1,13 @@
-﻿## 2.1.5 check
+﻿## 2.1.6 check
+
+- Package metadata updated to 2.1.6 for the runtime and design-time packages.
+- Public release ZIP/tag label is `2.1.6` through the `-ReleaseVersion` workflow.
+- The distributed `demos/skin_editor_sample/MeuSkin.lazskin` sample metadata now uses the valid `<Author>...</Author>` element.
+- The corrected sample skin was validated with `TLazRibbonSkinDefinition.LoadFromFile`.
+- The full package, tool and demo build matrix completed successfully before packaging.
+- Public ZIP created as `LazRibbon_2.1.6_source_20260808_103214.zip` with SHA256 `CB143419575ECDAF187CF7DEE481E9AE9463B1EBAAF49490EF2DF742CE29760D`.
+
+## 2.1.5 check
 
 - Package metadata updated to 2.1.5 for the runtime and design-time packages.
 - Public release ZIP/tag label is `2.1.5` through the `-ReleaseVersion` workflow.

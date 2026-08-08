@@ -50,9 +50,9 @@ tools/LazRibbonSkinEditor/
 
 ## Current version
 
-This distribution is **LazRibbon 2.1.5 development release candidate**.
+This distribution is **LazRibbon 2.1.6 development release candidate**.
 
-The `2.1.5` build continues the post-2.0 workflow line by adding an application-style Workbench CRUD demo. It keeps the 2.0 public API direction, advances runtime and design-time package metadata to `2.1.5`, and validates the documented component composition path with `TLazRibbonForm`, `TLazRibbon`, QAT, BackStage, recent files, SkinManager, skin gallery, Ribbon popup menu and normal LCL CRUD controls working together. The public release notes are in `docs/release/RELEASE_2_1_5.md`; the stable 2.0 baseline remains documented in `docs/release/RELEASE_2_0_0.md`.
+The `2.1.6` build continues the post-2.0 workflow line with a focused Skin Editor Sample fix. It keeps the 2.0 public API direction, advances runtime and design-time package metadata to `2.1.6`, and corrects the distributed `MeuSkin.lazskin` XML metadata so the sample skin loads without a parser exception. The public release notes are in `docs/release/RELEASE_2_1_6.md`; the stable 2.0 baseline remains documented in `docs/release/RELEASE_2_0_0.md`.
 
 ## Post-2.0 development
 
@@ -85,7 +85,8 @@ The public screenshot set is generated with `tools/capture_release_screenshots.p
 
 Highlights in the current LazRibbon line:
 
-- Runtime and design-time package metadata are aligned on `2.1.5`.
+- Runtime and design-time package metadata are aligned on `2.1.6`.
+- The Skin Editor Sample demo ships with a valid `MeuSkin.lazskin` author metadata tag.
 - A Workbench CRUD demo validates the full application-style composition path with Ribbon form chrome, QAT, BackStage, SkinManager, popup menu and normal LCL controls.
 - `TLazRibbon.RibbonAppearance` remains internal/streaming-compatible state and is hidden from the Object Inspector; new visual styling goes through `TLazRibbonSkinManager`.
 - The `TLazRibbonSkinManager` component editor exposes `Editar Appearance completo...` so the complete low-level visual editor is available inside the skin workflow.
@@ -293,14 +294,14 @@ powershell -ExecutionPolicy Bypass -File tools/build_all_projects.ps1 -CleanArti
 To validate the package from an extracted clean source tree:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File tools/verify_clean_checkout.ps1 -Version 2.1.5 -ReleaseVersion 2.1.5
+powershell -ExecutionPolicy Bypass -File tools/verify_clean_checkout.ps1 -Version 2.1.6 -ReleaseVersion 2.1.6
 ```
 
 For a complete release preflight, including consistency checks and ZIP
 audit:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File tools/verify_release_candidate.ps1 -Version 2.1.5 -ReleaseVersion 2.1.5 -OutputDirectory D:\Ribbon4Lazarus\Releases
+powershell -ExecutionPolicy Bypass -File tools/verify_release_candidate.ps1 -Version 2.1.6 -ReleaseVersion 2.1.6 -OutputDirectory D:\Ribbon4Lazarus\Releases
 ```
 
 The purpose of each demo is documented in

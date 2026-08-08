@@ -59,6 +59,11 @@ for the 2.1 line. It combines `TLazRibbonForm`, `TLazRibbon`, QAT, BackStage,
 recent files, `TLazRibbonSkinManager`, `TLazRibbonSkinGalleryItem`,
 `TLazRibbonPopupMenu` and normal LCL CRUD controls in one build target.
 
+The Skin Editor Sample demo now uses valid skin XML metadata. Its distributed
+`MeuSkin.lazskin` file writes author data as `<Author>...</Author>`, matching
+the loader and avoiding the parser exception previously caused by the malformed
+`<Autor>...<Author/>` tag.
+
 ## Safe Cleanup Decisions
 
 - Keep `RibbonAppearance` readable in old `.lfm` files.
@@ -83,6 +88,6 @@ recent files, `TLazRibbonSkinManager`, `TLazRibbonSkinGalleryItem`,
 For a 2.1 stabilization build, these commands must pass from the source root:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File tools\check_project_consistency.ps1 -ExpectedVersion 2.1.5
+powershell -ExecutionPolicy Bypass -File tools\check_project_consistency.ps1 -ExpectedVersion 2.1.6
 powershell -ExecutionPolicy Bypass -File tools\build_all_projects.ps1 -CleanArtifacts
 ```

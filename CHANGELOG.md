@@ -2,6 +2,12 @@
 
 - No unreleased changes.
 
+## 2.1.6 - Skin Editor sample XML fix
+
+- Fixes `demos/skin_editor_sample/MeuSkin.lazskin`, replacing the malformed `<Autor>...<Author/>` metadata with the valid `<Author>...</Author>` element.
+- Validates that the sample skin loads through `TLazRibbonSkinDefinition.LoadFromFile`.
+- Updates runtime and design-time package metadata to `2.1.6`.
+
 ## 2.1.5 - Workbench CRUD demo
 
 - Adds `demos/workbench_crud`, an application-style sample that combines `TLazRibbonForm`, `TLazRibbon`, QAT, BackStage, recent files, SkinManager, skin gallery, Ribbon popup menu and normal LCL CRUD controls.
