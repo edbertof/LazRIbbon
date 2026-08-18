@@ -46,7 +46,7 @@ Deliver a post-2.0 package that feels easier to adopt and maintain:
 
 ## 2.1 Gates
 
-- `tools/check_project_consistency.ps1 -ExpectedVersion 2.1.6` passes.
+- `tools/check_project_consistency.ps1 -ExpectedVersion 2.1.7` passes.
 - `tools/export_skin_editor_2_1_coverage.ps1` regenerates the Skin Editor coverage report.
 - The Skin Editor opens, previews built-in skins and saves a self-contained `.skin` file.
 - The main demos compile with Lazarus 4.8.
@@ -89,6 +89,15 @@ The Skin Editor Sample demo now ships with a valid `MeuSkin.lazskin` metadata
 section. The malformed `<Autor>...<Author/>` element was replaced by the
 canonical `<Author>...</Author>` element used by `TLazRibbonSkinDefinition`,
 removing the runtime XML parser exception when the sample skin is loaded.
+
+## 2.1.7 Snapshot
+
+The standalone Skin Editor now behaves more consistently as a document editor.
+Unsaved edits are resolved before `Nova skin` or `Abrir` show their next
+dialogs, save targets without an extension are normalized to `.skin`, and the
+top workflow strip, BackStage information page and window caption share the
+same current-skin, file, base and edit-state model. No new published component
+API was added.
 
 ## Current Skin Editor Workflow Pass
 

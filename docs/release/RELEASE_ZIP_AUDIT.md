@@ -1,4 +1,14 @@
-﻿## 2.1.6 check
+﻿## 2.1.7 check
+
+- Package metadata updated to 2.1.7 for the runtime and design-time packages.
+- Public release ZIP/tag label is `2.1.7` through the `-ReleaseVersion` workflow.
+- The standalone Skin Editor resolves unsaved edits before opening the next new/open dialog.
+- Save/open commands use the same default skin-folder logic, and save targets without an extension are normalized to `.skin`.
+- The top workflow strip, BackStage status panel and window caption share one current-skin, target-file, base and edit-state model.
+- The full package, tool and demo preflight completed successfully before packaging.
+- Public ZIP created as `LazRibbon_2.1.7_source_20260818_172038.zip` with SHA256 `A9AD067C1C1E2D68687A88BAD17606BB6A2071DD5EFDEAFF398A13E3489450BB`.
+
+## 2.1.6 check
 
 - Package metadata updated to 2.1.6 for the runtime and design-time packages.
 - Public release ZIP/tag label is `2.1.6` through the `-ReleaseVersion` workflow.

@@ -382,6 +382,16 @@ type
     function CustomDisplayNameForBase(ABaseSkin: TLazRibbonSkinDefinition): String;
     function IsValidSkinIdentifier(const AValue: String): Boolean;
     function ValidateCurrentSkinForSave: Boolean;
+    function DefaultSkinDirectory: String;
+    function NormalizeSkinSaveFileName(const AFileName: String): String;
+    function SkinDisplayText(ASkin: TLazRibbonSkinDefinition;
+      const AEmptyText: String): String;
+    function SelectedBaseDisplayText: String;
+    function CurrentSkinDisplayText: String;
+    function CurrentSkinFileText(ACompact: Boolean): String;
+    function CurrentSkinStateText: String;
+    procedure PrepareOpenDialog;
+    procedure PrepareSaveDialog;
     procedure UpdateWindowCaption;
     procedure MarkSkinModified;
     procedure ClearSkinModified;
@@ -3713,7 +3723,6 @@ end;
 procedure TfrmLazRibbonSkinEditor.UpdateBackstageInfo(
   const AStatusHint: String);
 var
-  BaseSkin: TLazRibbonSkinDefinition;
   SkinText, FileText, BaseText, StateText, StepText: String;
 
   procedure SetLabelText(ALabel: TLabel; const AText: String);
@@ -3723,49 +3732,11 @@ var
   end;
 
 begin
-  SkinText := '(nenhuma skin)';
-  FileText := '(sem arquivo externo)';
-  BaseText := '(nenhuma base selecionada)';
-  StateText := 'Aguardando';
+  SkinText := CurrentSkinDisplayText;
+  FileText := CurrentSkinFileText(False);
+  BaseText := SelectedBaseDisplayText;
+  StateText := CurrentSkinStateText;
   StepText := Trim(AStatusHint);
-
-  if FCurrentSkin <> nil then
-  begin
-    SkinText := Trim(FCurrentSkin.DisplayName);
-    if SkinText = '' then
-      SkinText := Trim(FCurrentSkin.Name);
-    if SkinText = '' then
-      SkinText := '(skin sem identificacao)';
-
-    if Trim(FCurrentSkin.FileName) <> '' then
-      FileText := FCurrentSkin.FileName
-    else if FCurrentSkin.Source in [sssCustom, sssExternal] then
-      FileText := '(use Arquivo > Salvar como...)'
-    else
-      FileText := '(skin interna do LazRibbon)';
-
-    if FCurrentSkin.Source in [sssCustom, sssExternal] then
-    begin
-      if FModified then
-        StateText := 'Editavel, com alteracoes nao salvas'
-      else if Trim(FCurrentSkin.FileName) <> '' then
-        StateText := 'Editavel, salvo em arquivo .skin'
-      else
-        StateText := 'Editavel, ainda sem arquivo';
-    end
-    else
-      StateText := 'Base interna, somente leitura';
-  end;
-
-  BaseSkin := SelectedBaseSkin;
-  if BaseSkin <> nil then
-  begin
-    BaseText := Trim(BaseSkin.DisplayName);
-    if BaseText = '' then
-      BaseText := Trim(BaseSkin.Name);
-    if BaseText = '' then
-      BaseText := '(base sem nome)';
-  end;
 
   if StepText = '' then
     StepText := 'Escolha uma base, crie uma skin editavel, ajuste, valide e salve.';
@@ -4210,8 +4181,7 @@ end;
 
 procedure TfrmLazRibbonSkinEditor.UpdateWorkflowGuide(const AStatusText: String);
 var
-  ShortHint, StatusHint, ContextText, SkinText, StateText: String;
-  BaseSkin: TLazRibbonSkinDefinition;
+  ShortHint, StatusHint, ContextText, SkinText, StateText, FileText: String;
 begin
   ShortHint := 'Escolha uma base';
   StatusHint := 'Clique em Nova skin, escolha uma base, ajuste as cores, valide e salve a skin.';
@@ -4253,47 +4223,40 @@ begin
   end;
 
   ContextText := 'Base';
-  SkinText := '';
+  SkinText := SelectedBaseDisplayText;
   if FCurrentSkin <> nil then
   begin
-    SkinText := Trim(FCurrentSkin.DisplayName);
-    if SkinText = '' then
-      SkinText := Trim(FCurrentSkin.Name);
     if FCurrentSkin.Source in [sssCustom, sssExternal] then
+    begin
       ContextText := 'Editando';
-  end;
-
-  if SkinText = '' then
-  begin
-    BaseSkin := SelectedBaseSkin;
-    if BaseSkin <> nil then
-      SkinText := BaseSkin.DisplayName;
+      SkinText := CurrentSkinDisplayText;
+    end
+    else
+      SkinText := SelectedBaseDisplayText;
   end;
 
   if SkinText = '' then
     SkinText := '(nenhuma skin)';
+  SkinText := CompactInlineValue(SkinText, 30);
 
-  StateText := '';
-  if FCurrentSkin <> nil then
+  StateText := 'somente leitura';
+  if (FCurrentSkin <> nil) and
+     (FCurrentSkin.Source in [sssCustom, sssExternal]) then
   begin
     if FModified then
       StateText := 'alterada'
-    else if FCurrentSkin.Source in [sssCustom, sssExternal] then
-    begin
-      if Trim(FCurrentSkin.FileName) <> '' then
-        StateText := 'salva'
-      else
-        StateText := 'ainda não salva';
-    end;
+    else if Trim(FCurrentSkin.FileName) <> '' then
+      StateText := 'salva'
+    else
+      StateText := 'sem arquivo';
   end;
+  FileText := CompactInlineValue(CurrentSkinFileText(True), 32);
 
   if Assigned(lblBaseHint) then
-  begin
-    if StateText <> '' then
-      lblBaseHint.Caption := ContextText + ': ' + SkinText + ' (' + StateText + ') | ' + ShortHint
-    else
-      lblBaseHint.Caption := ContextText + ': ' + SkinText + ' | ' + ShortHint;
-  end;
+    lblBaseHint.Caption := ContextText + ': ' + SkinText +
+      ' | Estado: ' + StateText +
+      ' | Arquivo: ' + FileText +
+      ' | ' + ShortHint;
 
   UpdateEditingState;
 
@@ -4571,32 +4534,13 @@ end;
 function TfrmLazRibbonSkinEditor.DefaultSkinFileNameForIdentifier(
   const AIdentifier: String): String;
 var
-  BaseDir, FileStem: String;
-
-  function PathLooksAbsolute(const APath: String): Boolean;
-  begin
-    Result := (ExtractFileDrive(APath) <> '') or
-      ((APath <> '') and (APath[1] in ['/', '\']));
-  end;
-
+  FileStem: String;
 begin
   FileStem := SafeSkinIdentifier(AIdentifier);
   if FileStem = 'Skin' then
     FileStem := 'MinhaSkin';
 
-  BaseDir := '';
-  if (FManager <> nil) and (Trim(FManager.SkinFolder) <> '') then
-  begin
-    BaseDir := Trim(FManager.SkinFolder);
-    if not PathLooksAbsolute(BaseDir) then
-      BaseDir := ExpandFileName(IncludeTrailingPathDelimiter(
-        ExtractFilePath(Application.ExeName)) + BaseDir);
-  end;
-
-  if (BaseDir = '') or not DirectoryExists(BaseDir) then
-    BaseDir := ExtractFilePath(Application.ExeName);
-
-  Result := IncludeTrailingPathDelimiter(BaseDir) +
+  Result := IncludeTrailingPathDelimiter(DefaultSkinDirectory) +
     ChangeFileExt(FileStem, '.skin');
 end;
 
@@ -4752,18 +4696,155 @@ begin
   Result := True;
 end;
 
-procedure TfrmLazRibbonSkinEditor.UpdateWindowCaption;
+function TfrmLazRibbonSkinEditor.DefaultSkinDirectory: String;
 var
-  SkinText: String;
+  BaseDir: String;
+
+  function PathLooksAbsolute(const APath: String): Boolean;
+  begin
+    Result := (ExtractFileDrive(APath) <> '') or
+      ((APath <> '') and (APath[1] in ['/', '\']));
+  end;
+
+begin
+  Result := ExtractFilePath(Application.ExeName);
+  if (FManager = nil) or (Trim(FManager.SkinFolder) = '') then
+    Exit;
+
+  BaseDir := Trim(FManager.SkinFolder);
+  if not PathLooksAbsolute(BaseDir) then
+    BaseDir := ExpandFileName(IncludeTrailingPathDelimiter(
+      ExtractFilePath(Application.ExeName)) + BaseDir);
+  if DirectoryExists(BaseDir) then
+    Result := IncludeTrailingPathDelimiter(BaseDir);
+end;
+
+function TfrmLazRibbonSkinEditor.NormalizeSkinSaveFileName(
+  const AFileName: String): String;
+begin
+  Result := Trim(AFileName);
+  if (Result <> '') and (ExtractFileExt(Result) = '') then
+    Result := ChangeFileExt(Result, '.skin');
+end;
+
+function TfrmLazRibbonSkinEditor.SkinDisplayText(
+  ASkin: TLazRibbonSkinDefinition; const AEmptyText: String): String;
+begin
+  Result := '';
+  if ASkin <> nil then
+  begin
+    Result := Trim(ASkin.DisplayName);
+    if Result = '' then
+      Result := Trim(ASkin.Name);
+  end;
+  if Result = '' then
+    Result := AEmptyText;
+end;
+
+function TfrmLazRibbonSkinEditor.SelectedBaseDisplayText: String;
+begin
+  Result := SkinDisplayText(SelectedBaseSkin, '(nenhuma base selecionada)');
+end;
+
+function TfrmLazRibbonSkinEditor.CurrentSkinDisplayText: String;
+begin
+  Result := SkinDisplayText(FCurrentSkin, '(nenhuma skin)');
+end;
+
+function TfrmLazRibbonSkinEditor.CurrentSkinFileText(ACompact: Boolean): String;
+var
+  FileName, DirName: String;
+begin
+  Result := '(sem arquivo externo)';
+  if FCurrentSkin = nil then
+    Exit;
+
+  FileName := Trim(FCurrentSkin.FileName);
+  if FileName = '' then
+  begin
+    if FCurrentSkin.Source in [sssCustom, sssExternal] then
+      Result := '(use Arquivo > Salvar como...)'
+    else
+      Result := '(skin interna do LazRibbon)';
+    Exit;
+  end;
+
+  if not ACompact then
+    Exit(FileName);
+
+  Result := ExtractFileName(FileName);
+  DirName := ExcludeTrailingPathDelimiter(ExtractFileDir(FileName));
+  if DirName <> '' then
+    Result := '...' + PathDelim + ExtractFileName(DirName) +
+      PathDelim + Result;
+end;
+
+function TfrmLazRibbonSkinEditor.CurrentSkinStateText: String;
+begin
+  Result := 'Aguardando';
+  if FCurrentSkin = nil then
+    Exit;
+
+  if not (FCurrentSkin.Source in [sssCustom, sssExternal]) then
+    Exit('Base interna, somente leitura');
+
+  if FModified then
+    Exit('Editavel, com alteracoes nao salvas');
+  if Trim(FCurrentSkin.FileName) <> '' then
+    Exit('Editavel, salvo em arquivo .skin');
+  Result := 'Editavel, ainda sem arquivo';
+end;
+
+procedure TfrmLazRibbonSkinEditor.PrepareOpenDialog;
+var
+  CurrentDir: String;
+begin
+  if OpenDialog = nil then
+    Exit;
+
+  CurrentDir := '';
+  if (FCurrentSkin <> nil) and (Trim(FCurrentSkin.FileName) <> '') then
+    CurrentDir := ExtractFileDir(FCurrentSkin.FileName);
+  if (CurrentDir = '') or (not DirectoryExists(CurrentDir)) then
+    CurrentDir := DefaultSkinDirectory;
+  if CurrentDir <> '' then
+    OpenDialog.InitialDir := CurrentDir;
+end;
+
+procedure TfrmLazRibbonSkinEditor.PrepareSaveDialog;
+var
+  SuggestedName, TargetFileName, TargetDir: String;
+begin
+  if (SaveDialog = nil) or (FCurrentSkin = nil) then
+    Exit;
+
+  if Trim(FCurrentSkin.FileName) <> '' then
+    TargetFileName := FCurrentSkin.FileName
+  else
+  begin
+    SuggestedName := SafeSkinIdentifier(FCurrentSkin.Name);
+    if SuggestedName = 'Skin' then
+      SuggestedName := SafeSkinIdentifier(FCurrentSkin.DisplayName);
+    if SuggestedName = 'Skin' then
+      SuggestedName := 'MinhaSkin';
+    TargetFileName := IncludeTrailingPathDelimiter(DefaultSkinDirectory) +
+      ChangeFileExt(SuggestedName, '.skin');
+  end;
+
+  TargetFileName := NormalizeSkinSaveFileName(TargetFileName);
+  SaveDialog.FileName := TargetFileName;
+  TargetDir := ExtractFileDir(TargetFileName);
+  if (TargetDir <> '') and DirectoryExists(TargetDir) then
+    SaveDialog.InitialDir := TargetDir;
+end;
+
+procedure TfrmLazRibbonSkinEditor.UpdateWindowCaption;
 begin
   Caption := 'LazRibbon Skin Editor';
   if FCurrentSkin <> nil then
   begin
-    SkinText := Trim(FCurrentSkin.DisplayName);
-    if SkinText = '' then
-      SkinText := Trim(FCurrentSkin.Name);
-    if SkinText <> '' then
-      Caption := Caption + ' - ' + SkinText;
+    if CurrentSkinDisplayText <> '(nenhuma skin)' then
+      Caption := Caption + ' - ' + CurrentSkinDisplayText;
   end;
   if FModified then
     Caption := Caption + ' *';
@@ -4798,7 +4879,7 @@ var
   TargetDir, TargetFileName: String;
 begin
   Result := False;
-  TargetFileName := Trim(AFileName);
+  TargetFileName := NormalizeSkinSaveFileName(AFileName);
   if TargetFileName = '' then
     Exit(SaveCurrentSkinWithDialog);
 
@@ -4821,25 +4902,13 @@ begin
 end;
 
 function TfrmLazRibbonSkinEditor.SaveCurrentSkinWithDialog: Boolean;
-var
-  SuggestedName: String;
 begin
   Result := False;
   UpdateSkinFromEditor;
   if FCurrentSkin = nil then
     Exit;
 
-  if Trim(FCurrentSkin.FileName) <> '' then
-    SaveDialog.FileName := FCurrentSkin.FileName
-  else
-  begin
-    SuggestedName := SafeSkinIdentifier(FCurrentSkin.Name);
-    if SuggestedName = 'Skin' then
-      SuggestedName := SafeSkinIdentifier(FCurrentSkin.DisplayName);
-    if SuggestedName = 'Skin' then
-      SuggestedName := 'MinhaSkin';
-    SaveDialog.FileName := ChangeFileExt(SuggestedName, '.skin');
-  end;
+  PrepareSaveDialog;
 
   if SaveDialog.Execute then
   begin
@@ -4855,6 +4924,7 @@ function TfrmLazRibbonSkinEditor.ConfirmDiscardUnsavedChanges(
   const AActionCaption: String): Boolean;
 var
   Response: Integer;
+  FileText: String;
 begin
   Result := True;
   if FCurrentSkin = nil then
@@ -4862,8 +4932,10 @@ begin
   if not FModified then
     Exit;
 
+  FileText := CurrentSkinFileText(False);
   Response := MessageDlg('Alterações não salvas',
-    'A skin atual tem alterações não salvas.' + LineEnding + LineEnding +
+    'A skin "' + CurrentSkinDisplayText + '" tem alterações não salvas.' +
+    LineEnding + 'Arquivo: ' + FileText + LineEnding + LineEnding +
     'Deseja salvar antes de ' + AActionCaption + '?',
     mtConfirmation, [mbYes, mbNo, mbCancel], 0);
 
@@ -5222,13 +5294,14 @@ var
   Skin: TLazRibbonSkinDefinition;
   NewSkinName, NewDisplayName, NewSkinFileName: String;
 begin
+  if not ConfirmDiscardUnsavedChanges('criar uma nova skin pela base') then
+    Exit;
+
   if not PromptNewSkinFromBase(Skin, NewSkinName, NewDisplayName,
     NewSkinFileName) then
     Exit;
 
   if Skin = nil then
-    Exit;
-  if not ConfirmDiscardUnsavedChanges('criar uma nova skin pela base') then
     Exit;
 
   CreateSkinFromBase(Skin, NewSkinName, NewDisplayName, NewSkinFileName);
@@ -5236,10 +5309,12 @@ end;
 
 procedure TfrmLazRibbonSkinEditor.btnOpenClick(Sender: TObject);
 begin
+  if not ConfirmDiscardUnsavedChanges('abrir outra skin') then
+    Exit;
+
+  PrepareOpenDialog;
   if OpenDialog.Execute then
   begin
-    if not ConfirmDiscardUnsavedChanges('abrir outra skin') then
-      Exit;
     FCurrentSkin.LoadFromFile(OpenDialog.FileName);
     RefreshFullAppearanceEditedFromCurrentSkin;
     UpdateEditorFromSkin;

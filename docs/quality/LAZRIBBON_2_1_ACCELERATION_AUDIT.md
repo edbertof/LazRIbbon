@@ -64,6 +64,12 @@ The Skin Editor Sample demo now uses valid skin XML metadata. Its distributed
 the loader and avoiding the parser exception previously caused by the malformed
 `<Autor>...<Author/>` tag.
 
+The Skin Editor document workflow now resolves unsaved edits before launching
+the next `Nova skin` or `Abrir` dialog. Save/open commands share the same
+default skin-folder logic, save targets without an extension are normalized to
+`.skin`, and the top workflow strip, BackStage status panel and window caption
+use the same current-skin, target-file, base and edit-state text helpers.
+
 ## Safe Cleanup Decisions
 
 - Keep `RibbonAppearance` readable in old `.lfm` files.
@@ -88,6 +94,6 @@ the loader and avoiding the parser exception previously caused by the malformed
 For a 2.1 stabilization build, these commands must pass from the source root:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File tools\check_project_consistency.ps1 -ExpectedVersion 2.1.6
+powershell -ExecutionPolicy Bypass -File tools\check_project_consistency.ps1 -ExpectedVersion 2.1.7
 powershell -ExecutionPolicy Bypass -File tools\build_all_projects.ps1 -CleanArtifacts
 ```

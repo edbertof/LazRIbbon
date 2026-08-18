@@ -1,6 +1,8 @@
 # LazRibbon Status
 
-`2.1.6 - Skin Editor sample XML fix` is the current build.
+`2.1.7 - Skin Editor document workflow polish` is the current build.
+
+The `2.1.7` build tightens the standalone Skin Editor's document workflow. `Nova skin` and `Abrir` now resolve unsaved edits before showing the next dialog, `Salvar` and `Salvar como...` share the same default skin folder and file-name normalization, and the top workflow strip/backstage status now use one consistent source for current skin, target file, base and edit state. Runtime and design-time package metadata are now `2.1.7`. No new published component API was added.
 
 The `2.1.6` build fixes the distributed `demos/skin_editor_sample/MeuSkin.lazskin` file. The sample skin now writes the author metadata with the correct `<Author>...</Author>` XML element, so the Skin Editor Sample demo opens and runs without the XML parser exception caused by the malformed `<Autor>...<Author/>` tag. Runtime and design-time package metadata are now `2.1.6`. No new published component API was added.
 

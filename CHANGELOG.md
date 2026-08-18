@@ -2,6 +2,13 @@
 
 - No unreleased changes.
 
+## 2.1.7 - Skin Editor document workflow polish
+
+- Resolves unsaved Skin Editor edits before opening the `Nova skin` or `Abrir` dialogs, matching normal document-editor behavior.
+- Centralizes current skin, target file, selected base and edit-state text across the top workflow strip, BackStage status panel and window caption.
+- Normalizes save targets without an extension to `.skin` and reuses the same default skin folder for new-skin, open and save workflows.
+- Updates runtime and design-time package metadata to `2.1.7`.
+
 ## 2.1.6 - Skin Editor sample XML fix
 
 - Fixes `demos/skin_editor_sample/MeuSkin.lazskin`, replacing the malformed `<Autor>...<Author/>` metadata with the valid `<Author>...</Author>` element.
