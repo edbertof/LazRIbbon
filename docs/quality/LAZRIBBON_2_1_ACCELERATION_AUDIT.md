@@ -70,6 +70,11 @@ default skin-folder logic, save targets without an extension are normalized to
 `.skin`, and the top workflow strip, BackStage status panel and window caption
 use the same current-skin, target-file, base and edit-state text helpers.
 
+The validation page now gives skin authors an always-visible visual review
+surface beside the audit text. It draws normal Ribbon, minimized Ribbon,
+BackStage navigation and contrast swatches from the current skin, and keeps the
+Popup/Menu state sample on the same page for menu-specific Appearance checks.
+
 ## Safe Cleanup Decisions
 
 - Keep `RibbonAppearance` readable in old `.lfm` files.
@@ -94,6 +99,6 @@ use the same current-skin, target-file, base and edit-state text helpers.
 For a 2.1 stabilization build, these commands must pass from the source root:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File tools\check_project_consistency.ps1 -ExpectedVersion 2.1.7
+powershell -ExecutionPolicy Bypass -File tools\check_project_consistency.ps1 -ExpectedVersion 2.1.8
 powershell -ExecutionPolicy Bypass -File tools\build_all_projects.ps1 -CleanArtifacts
 ```

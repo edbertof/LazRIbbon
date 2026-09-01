@@ -1,4 +1,13 @@
-﻿## 2.1.7 check
+## 2.1.8 check
+
+- Package metadata updated to 2.1.8 for the runtime and design-time packages.
+- Public release ZIP/tag label is `2.1.8` through the `-ReleaseVersion` workflow.
+- The Skin Editor validation page now draws normal Ribbon, minimized Ribbon, BackStage navigation and text-contrast samples from the current skin.
+- The Popup/Menu preview remains on the validation page and covers normal, hot, checked, disabled, divider and shortcut states in the compact layout.
+- `tools/verify_release_candidate.ps1 -Version 2.1.8 -ReleaseVersion 2.1.8` passed, including clean-checkout ZIP extraction and full build validation.
+- Public ZIP created as `LazRibbon_2.1.8_source_20260901_141208.zip` with SHA256 `F14803872E7E0901AAE64E75A075752FF17CDABE2B8EB0D027B502722BEF89A1`.
+
+## 2.1.7 check
 
 - Package metadata updated to 2.1.7 for the runtime and design-time packages.
 - Public release ZIP/tag label is `2.1.7` through the `-ReleaseVersion` workflow.

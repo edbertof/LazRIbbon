@@ -2,6 +2,13 @@
 
 - No unreleased changes.
 
+## 2.1.8 - Skin Editor visual validation panel
+
+- Adds a compact visual dashboard to the Skin Editor validation page, covering normal Ribbon, minimized Ribbon, BackStage navigation and text-contrast swatches from the active skin.
+- Keeps the Popup/Menu sample on the same validation page and resizes it for normal, hot, checked, disabled, divider and shortcut states.
+- Refreshes the visual samples whenever the current skin, palette, Appearance or validation state changes.
+- Updates runtime and design-time package metadata to `2.1.8`.
+
 ## 2.1.7 - Skin Editor document workflow polish
 
 - Resolves unsaved Skin Editor edits before opening the `Nova skin` or `Abrir` dialogs, matching normal document-editor behavior.

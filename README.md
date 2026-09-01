@@ -50,9 +50,9 @@ tools/LazRibbonSkinEditor/
 
 ## Current version
 
-This distribution is **LazRibbon 2.1.7 development release candidate**.
+This distribution is **LazRibbon 2.1.8 development release candidate**.
 
-The `2.1.7` build continues the post-2.0 workflow line with Skin Editor document-flow polish. It keeps the 2.0 public API direction, advances runtime and design-time package metadata to `2.1.7`, resolves unsaved edits before `Nova skin` or `Abrir` open their next dialogs, normalizes new save targets to `.skin`, and keeps current skin/file/base/status text consistent across the top workflow strip and BackStage information page. The public release notes are in `docs/release/RELEASE_2_1_7.md`; the stable 2.0 baseline remains documented in `docs/release/RELEASE_2_0_0.md`.
+The `2.1.8` build continues the post-2.0 Skin Editor line with a compact visual validation dashboard. It keeps the 2.0 public API direction, advances runtime and design-time package metadata to `2.1.8`, and adds fixed samples for normal Ribbon, minimized Ribbon, BackStage navigation, text contrast and Popup/Menu states directly on the `Validar e salvar` page. The public release notes are in `docs/release/RELEASE_2_1_8.md`; the stable 2.0 baseline remains documented in `docs/release/RELEASE_2_0_0.md`.
 
 ## Post-2.0 development
 
@@ -85,8 +85,9 @@ The public screenshot set is generated with `tools/capture_release_screenshots.p
 
 Highlights in the current LazRibbon line:
 
-- Runtime and design-time package metadata are aligned on `2.1.7`.
-- The Skin Editor now resolves unsaved edits before opening the next new/open dialog and keeps skin, file, base and edit-state text consistent across the visible workflow surfaces.
+- Runtime and design-time package metadata are aligned on `2.1.8`.
+- The Skin Editor validation page now includes a visual dashboard for normal Ribbon, minimized Ribbon, BackStage navigation and text-contrast states, with the Popup/Menu sample kept on the same page.
+- The Skin Editor resolves unsaved edits before opening the next new/open dialog and keeps skin, file, base and edit-state text consistent across the visible workflow surfaces.
 - The Skin Editor Sample demo ships with a valid `MeuSkin.lazskin` author metadata tag.
 - A Workbench CRUD demo validates the full application-style composition path with Ribbon form chrome, QAT, BackStage, SkinManager, popup menu and normal LCL controls.
 - `TLazRibbon.RibbonAppearance` remains internal/streaming-compatible state and is hidden from the Object Inspector; new visual styling goes through `TLazRibbonSkinManager`.
@@ -295,14 +296,14 @@ powershell -ExecutionPolicy Bypass -File tools/build_all_projects.ps1 -CleanArti
 To validate the package from an extracted clean source tree:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File tools/verify_clean_checkout.ps1 -Version 2.1.7 -ReleaseVersion 2.1.7
+powershell -ExecutionPolicy Bypass -File tools/verify_clean_checkout.ps1 -Version 2.1.8 -ReleaseVersion 2.1.8
 ```
 
 For a complete release preflight, including consistency checks and ZIP
 audit:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File tools/verify_release_candidate.ps1 -Version 2.1.7 -ReleaseVersion 2.1.7 -OutputDirectory D:\Ribbon4Lazarus\Releases
+powershell -ExecutionPolicy Bypass -File tools/verify_release_candidate.ps1 -Version 2.1.8 -ReleaseVersion 2.1.8 -OutputDirectory D:\Ribbon4Lazarus\Releases
 ```
 
 The purpose of each demo is documented in

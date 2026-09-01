@@ -46,7 +46,7 @@ Deliver a post-2.0 package that feels easier to adopt and maintain:
 
 ## 2.1 Gates
 
-- `tools/check_project_consistency.ps1 -ExpectedVersion 2.1.7` passes.
+- `tools/check_project_consistency.ps1 -ExpectedVersion 2.1.8` passes.
 - `tools/export_skin_editor_2_1_coverage.ps1` regenerates the Skin Editor coverage report.
 - The Skin Editor opens, previews built-in skins and saves a self-contained `.skin` file.
 - The main demos compile with Lazarus 4.8.
@@ -99,6 +99,15 @@ top workflow strip, BackStage information page and window caption share the
 same current-skin, file, base and edit-state model. No new published component
 API was added.
 
+## 2.1.8 Snapshot
+
+The Skin Editor validation step now includes a compact visual dashboard. The
+`Validar e salvar` page draws normal Ribbon, minimized Ribbon, BackStage
+navigation and text-contrast samples from the current skin, and keeps the fixed
+Popup/Menu sample on the same page. This gives skin authors an immediate visual
+review surface beside the audit report without adding any new published
+component API.
+
 ## Current Skin Editor Workflow Pass
 
 The standalone Skin Editor Appearance inspector now treats base comparison as an editing workflow, not only a report. A skin author can restore the selected Appearance section, or all sections when `Todas as secoes` is selected, from the focused base skin while preserving the same typed property-copying path used by single-property restore.
@@ -131,6 +140,10 @@ The BackStage information page now behaves as a document-status panel instead of
 The dedicated BackStage editing step now has design-time controls for all BackStage navigation palette colors and a fixed preview surface. Skin authors can adjust normal, muted, hover, selected and selected-border colors while seeing a representative BackStage navigation sample without opening the real BackStage overlay.
 
 The validation step now separates full audit details from actionable feedback. It keeps the complete memo report, but adds design-time counters for errors, warnings, informational notes and OK checks plus a short action list generated from the current validation findings.
+
+The validation step now also contains a visual review dashboard. Normal Ribbon,
+minimized Ribbon, BackStage navigation and contrast swatches are drawn from the
+current skin beside the report, with the Popup/Menu sample retained below it.
 
 The advanced Appearance inspector now shows a live base-difference summary beside the property list. It counts changed Appearance properties by section and, when a property is selected, shows the current value, base value and whether that property is unchanged or customized.
 

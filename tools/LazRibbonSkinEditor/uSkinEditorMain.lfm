@@ -1288,10 +1288,21 @@ object frmLazRibbonSkinEditor: TfrmLazRibbonSkinEditor
           Font.Style = [fsBold]
           ParentFont = False
         end
+        object lblVisualPreviewTitle: TLabel
+          Left = 666
+          Height = 18
+          Top = 108
+          Width = 340
+          Anchors = [akTop, akRight]
+          AutoSize = False
+          Caption = 'Painel visual da skin'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
         object lblPopupPreviewTitle: TLabel
           Left = 666
-          Height = 13
-          Top = 108
+          Height = 18
+          Top = 312
           Width = 340
           Anchors = [akTop, akRight]
           AutoSize = False
@@ -1322,11 +1333,19 @@ object frmLazRibbonSkinEditor: TfrmLazRibbonSkinEditor
         end
         object paintPopupPreview: TPaintBox
           Left = 666
-          Height = 220
-          Top = 130
+          Height = 128
+          Top = 334
           Width = 340
           Anchors = [akTop, akRight]
           OnPaint = paintPopupPreviewPaint
+        end
+        object paintVisualPreview: TPaintBox
+          Left = 666
+          Height = 172
+          Top = 130
+          Width = 340
+          Anchors = [akTop, akRight]
+          OnPaint = paintVisualPreviewPaint
         end
       end
     end

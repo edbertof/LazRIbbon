@@ -1,6 +1,8 @@
 # LazRibbon Status
 
-`2.1.7 - Skin Editor document workflow polish` is the current build.
+`2.1.8 - Skin Editor visual validation panel` is the current build.
+
+The `2.1.8` build improves the standalone Skin Editor validation step with a compact visual dashboard. The `Validar e salvar` page now shows fixed Canvas samples for normal Ribbon, minimized Ribbon, BackStage navigation and text-contrast swatches, while keeping the Popup/Menu sample below it. Runtime and design-time package metadata are now `2.1.8`. No new published component API was added.
 
 The `2.1.7` build tightens the standalone Skin Editor's document workflow. `Nova skin` and `Abrir` now resolve unsaved edits before showing the next dialog, `Salvar` and `Salvar como...` share the same default skin folder and file-name normalization, and the top workflow strip/backstage status now use one consistent source for current skin, target file, base and edit state. Runtime and design-time package metadata are now `2.1.7`. No new published component API was added.
 
