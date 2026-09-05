@@ -75,6 +75,11 @@ surface beside the audit text. It draws normal Ribbon, minimized Ribbon,
 BackStage navigation and contrast swatches from the current skin, and keeps the
 Popup/Menu state sample on the same page for menu-specific Appearance checks.
 
+The color page now gives skin authors a palette map while they edit simple
+colors. It draws a compact Ribbon sample, command states, BackStage selection
+and contrast ratios beside the color controls, keeping the visual feedback in
+the same workflow step where the palette is changed.
+
 ## Safe Cleanup Decisions
 
 - Keep `RibbonAppearance` readable in old `.lfm` files.
@@ -99,6 +104,6 @@ Popup/Menu state sample on the same page for menu-specific Appearance checks.
 For a 2.1 stabilization build, these commands must pass from the source root:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File tools\check_project_consistency.ps1 -ExpectedVersion 2.1.8
+powershell -ExecutionPolicy Bypass -File tools\check_project_consistency.ps1 -ExpectedVersion 2.1.9
 powershell -ExecutionPolicy Bypass -File tools\build_all_projects.ps1 -CleanArtifacts
 ```

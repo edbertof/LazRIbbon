@@ -141,6 +141,7 @@ type
     lblDescription: TLabel;
     lblHintSimple: TLabel;
     lblLivePreview: TLabel;
+    lblPalettePreviewTitle: TLabel;
     lblPreviewInfo: TLabel;
     lblVisualPreviewTitle: TLabel;
     lblPopupPreviewTitle: TLabel;
@@ -201,6 +202,7 @@ type
     pnlSimpleColors: TPanel;
     pnlTop: TPanel;
     paintBackstagePreview: TPaintBox;
+    paintPalettePreview: TPaintBox;
     paintVisualPreview: TPaintBox;
     paintPopupPreview: TPaintBox;
     PreviewSkinManager: TLazRibbonSkinManager;
@@ -271,6 +273,7 @@ type
     procedure lstSkinsClick(Sender: TObject);
     procedure MetadataChanged(Sender: TObject);
     procedure paintBackstagePreviewPaint(Sender: TObject);
+    procedure paintPalettePreviewPaint(Sender: TObject);
     procedure paintPopupPreviewPaint(Sender: TObject);
     procedure paintVisualPreviewPaint(Sender: TObject);
     procedure pcMainChange(Sender: TObject);
@@ -319,6 +322,7 @@ type
     procedure DrawBackstagePreviewItem(ACanvas: TCanvas; const ARect: TRect;
       const ACaption, ADetail: String; AState: TLazRibbonBackstagePreviewItemState);
     procedure RefreshBackstagePreview;
+    procedure RefreshPalettePreview;
     procedure RefreshPopupPreview;
     procedure RefreshVisualPreview;
     procedure SyncLivePreviewHeight;
@@ -2618,6 +2622,22 @@ begin
   PlaceLabelAndColor(lblColorHot, pnlColorHot, SecStates, 16, 100, 126);
   PlaceLabelAndColor(lblColorActive, pnlColorActive, SecStates, 16, 130, 126);
 
+  if Assigned(lblPalettePreviewTitle) then
+  begin
+    lblPalettePreviewTitle.Parent := pnlSimpleColors;
+    lblPalettePreviewTitle.SetBounds(16, 314, 960, 18);
+    lblPalettePreviewTitle.Caption := 'Mapa visual da paleta';
+  end;
+
+  if Assigned(paintPalettePreview) then
+  begin
+    paintPalettePreview.Parent := pnlSimpleColors;
+    paintPalettePreview.SetBounds(16, 338, 988,
+      pnlSimpleColors.ClientHeight - 350);
+    paintPalettePreview.Anchors := [akTop, akLeft, akRight, akBottom];
+    paintPalettePreview.OnPaint := @paintPalettePreviewPaint;
+  end;
+
   { Validation tab }
   lblPreviewInfo.Parent := pnlPreviewHost;
   lblPreviewInfo.Left := 20;
@@ -3488,6 +3508,7 @@ begin
   PreviewToolbar.Invalidate;
   ApplyPreviewMode(False);
   RefreshBackstagePreview;
+  RefreshPalettePreview;
   RefreshPopupPreview;
   RefreshVisualPreview;
 end;
@@ -3576,6 +3597,12 @@ procedure TfrmLazRibbonSkinEditor.RefreshBackstagePreview;
 begin
   if Assigned(paintBackstagePreview) then
     paintBackstagePreview.Invalidate;
+end;
+
+procedure TfrmLazRibbonSkinEditor.RefreshPalettePreview;
+begin
+  if Assigned(paintPalettePreview) then
+    paintPalettePreview.Invalidate;
 end;
 
 procedure TfrmLazRibbonSkinEditor.DrawPopupPreviewItem(ACanvas: TCanvas;
@@ -3874,6 +3901,8 @@ begin
     end;
   end;
   RefreshBackstagePreview;
+  RefreshPalettePreview;
+  RefreshVisualPreview;
 end;
 
 procedure TfrmLazRibbonSkinEditor.UpdateAppearanceModeLabel;
@@ -5167,6 +5196,190 @@ begin
   C.Brush.Style := bsSolid;
 end;
 
+procedure TfrmLazRibbonSkinEditor.paintPalettePreviewPaint(Sender: TObject);
+var
+  C: TCanvas;
+  P: TLazRibbonSkinPalette;
+  R, RibbonR, StripR, AppR, TabR, PaneR, CaptionR, ButtonR: TRect;
+  SwatchR: TRect;
+  SwatchX, SwatchY, SwatchW, SwatchH, Gap, TextTop: Integer;
+
+  function SafeColor(AColor, AFallback: TColor): TColor;
+  begin
+    if AColor = clNone then
+      Result := ColorToRGB(AFallback)
+    else
+      Result := ColorToRGB(AColor);
+  end;
+
+  procedure FillColor(const ARect: TRect; AColor: TColor);
+  begin
+    C.Brush.Style := bsSolid;
+    C.Brush.Color := SafeColor(AColor, clWindow);
+    C.Pen.Style := psClear;
+    C.Rectangle(ARect);
+    C.Pen.Style := psSolid;
+  end;
+
+  procedure FrameColor(const ARect: TRect; AColor: TColor);
+  begin
+    C.Brush.Style := bsClear;
+    C.Pen.Color := SafeColor(AColor, clBtnShadow);
+    C.Rectangle(ARect);
+    C.Brush.Style := bsSolid;
+  end;
+
+  procedure DrawTextOn(const ABackColor, ATextColor: TColor; X, Y: Integer;
+    const AText: String; ABold: Boolean);
+  begin
+    C.Brush.Style := bsClear;
+    C.Font.Name := 'Segoe UI';
+    C.Font.Height := -10;
+    if ABold then
+      C.Font.Style := [fsBold]
+    else
+      C.Font.Style := [];
+    C.Font.Color := LazEnsureContrastTextColor(ABackColor, ATextColor);
+    C.TextOut(X, Y, AText);
+    C.Brush.Style := bsSolid;
+  end;
+
+  procedure DrawSwatch(const ACaption: String; ABackColor, ATextColor: TColor;
+    out ARect: TRect);
+  var
+    RatioText: String;
+  begin
+    ARect := Rect(SwatchX, SwatchY, SwatchX + SwatchW, SwatchY + SwatchH);
+    FillColor(ARect, ABackColor);
+    FrameColor(ARect, P.FrameColor);
+    DrawTextOn(ABackColor, ATextColor, ARect.Left + 8, ARect.Top + 5,
+      ACaption, False);
+    RatioText := FormatFloat('0.0', LazContrastRatio(ABackColor, ATextColor)) +
+      ':1';
+    DrawTextOn(ABackColor, ATextColor, ARect.Right - 44, ARect.Top + 5,
+      RatioText, False);
+
+    Inc(SwatchY, SwatchH + Gap);
+    if SwatchY + SwatchH > R.Bottom - 8 then
+    begin
+      SwatchY := R.Top + 12;
+      Inc(SwatchX, SwatchW + Gap);
+    end;
+  end;
+
+begin
+  if paintPalettePreview = nil then
+    Exit;
+
+  C := paintPalettePreview.Canvas;
+  R := paintPalettePreview.ClientRect;
+  C.Brush.Color := pnlSimpleColors.Color;
+  C.FillRect(R);
+
+  if FCurrentSkin = nil then
+  begin
+    DrawTextOn(pnlSimpleColors.Color, clGray, R.Left + 8, R.Top + 8,
+      'Nenhuma skin carregada.', False);
+    Exit;
+  end;
+
+  P := FCurrentSkin.Palette;
+  InflateRect(R, -4, -4);
+  FillColor(R, P.BackColor);
+  FrameColor(R, P.FrameColor);
+
+  RibbonR := Rect(R.Left + 10, R.Top + 12, R.Left + 430, R.Bottom - 12);
+  FillColor(RibbonR, P.BackColor);
+  FrameColor(RibbonR, P.FrameColor);
+
+  StripR := Rect(RibbonR.Left + 1, RibbonR.Top + 1, RibbonR.Right - 1,
+    RibbonR.Top + 34);
+  C.GradientFill(StripR, SafeColor(P.RibbonTopColor, clBtnFace),
+    SafeColor(P.RibbonBottomColor, clBtnFace), gdVertical);
+  FrameColor(StripR, P.FrameColor);
+
+  AppR := Rect(StripR.Left + 8, StripR.Top + 5, StripR.Left + 70,
+    StripR.Bottom + 1);
+  FillColor(AppR, P.NavigationColor);
+  FrameColor(AppR, P.FrameColor);
+  DrawTextOn(P.NavigationColor, P.TextColor, AppR.Left + 13, AppR.Top + 6,
+    'Arquivo', False);
+
+  TabR := Rect(AppR.Right + 8, StripR.Top + 6, AppR.Right + 76,
+    StripR.Bottom + 1);
+  FillColor(TabR, P.RibbonTabActiveColor);
+  FrameColor(TabR, P.FrameColor);
+  DrawTextOn(P.RibbonTabActiveColor, P.TextColor, TabR.Left + 10,
+    TabR.Top + 6, 'Inicio', False);
+
+  TabR := Rect(TabR.Right + 6, StripR.Top + 8, TabR.Right + 72,
+    StripR.Bottom);
+  FillColor(TabR, P.RibbonTabHotColor);
+  FrameColor(TabR, P.FrameColor);
+  DrawTextOn(P.RibbonTabHotColor, P.TextColor, TabR.Left + 10,
+    TabR.Top + 5, 'Exibir', False);
+
+  PaneR := Rect(RibbonR.Left + 10, StripR.Bottom + 10, RibbonR.Right - 10,
+    RibbonR.Bottom - 8);
+  FillColor(PaneR, P.RibbonGroupColor);
+  FrameColor(PaneR, P.RibbonGroupFrameColor);
+  CaptionR := Rect(PaneR.Left + 1, PaneR.Bottom - 18, PaneR.Right - 1,
+    PaneR.Bottom - 1);
+  FillColor(CaptionR, P.RibbonBottomColor);
+  DrawTextOn(P.RibbonBottomColor, P.TextColor, CaptionR.Left + 154,
+    CaptionR.Top + 3, 'Grupo/Painel', False);
+
+  ButtonR := Rect(PaneR.Left + 12, PaneR.Top + 12, PaneR.Left + 80,
+    CaptionR.Top - 8);
+  FillColor(ButtonR, P.BackColor);
+  FrameColor(ButtonR, P.FrameColor);
+  DrawTextOn(P.BackColor, P.TextColor, ButtonR.Left + 18, ButtonR.Top + 12,
+    'Normal', False);
+
+  ButtonR := Rect(ButtonR.Right + 10, ButtonR.Top, ButtonR.Right + 78,
+    ButtonR.Bottom);
+  FillColor(ButtonR, P.HotColor);
+  FrameColor(ButtonR, P.FrameColor);
+  DrawTextOn(P.HotColor, P.TextColor, ButtonR.Left + 20, ButtonR.Top + 12,
+    'Hover', False);
+
+  ButtonR := Rect(ButtonR.Right + 10, ButtonR.Top, ButtonR.Right + 78,
+    ButtonR.Bottom);
+  FillColor(ButtonR, P.ActiveColor);
+  FrameColor(ButtonR, P.FrameColor);
+  DrawTextOn(P.ActiveColor, P.TextColor, ButtonR.Left + 18, ButtonR.Top + 12,
+    'Ativo', False);
+
+  ButtonR := Rect(ButtonR.Right + 10, ButtonR.Top, ButtonR.Right + 78,
+    ButtonR.Bottom);
+  FillColor(ButtonR, P.BackstageNavSelectedColor);
+  FrameColor(ButtonR, P.BackstageNavSelectedFrameColor);
+  DrawTextOn(P.BackstageNavSelectedColor, P.BackstageNavSelectedTextColor,
+    ButtonR.Left + 8, ButtonR.Top + 12, 'BackStage', False);
+
+  TextTop := RibbonR.Bottom - 18;
+  DrawTextOn(P.BackColor, P.MutedTextColor, RibbonR.Left + 2, TextTop,
+    CurrentSkinStateText, False);
+
+  SwatchX := RibbonR.Right + 18;
+  SwatchY := R.Top + 12;
+  SwatchW := 144;
+  SwatchH := 21;
+  Gap := 5;
+
+  DrawSwatch('Fundo geral', P.BackColor, P.TextColor, SwatchR);
+  DrawSwatch('Texto secundario', P.BackColor, P.MutedTextColor, SwatchR);
+  DrawSwatch('Ribbon topo', P.RibbonTopColor, P.TextColor, SwatchR);
+  DrawSwatch('Ribbon base', P.RibbonBottomColor, P.TextColor, SwatchR);
+  DrawSwatch('Aba ativa', P.RibbonTabActiveColor, P.TextColor, SwatchR);
+  DrawSwatch('Aba hover', P.RibbonTabHotColor, P.TextColor, SwatchR);
+  DrawSwatch('Pane', P.RibbonGroupColor, P.TextColor, SwatchR);
+  DrawSwatch('Hover', P.HotColor, P.TextColor, SwatchR);
+  DrawSwatch('Ativo', P.ActiveColor, P.TextColor, SwatchR);
+  DrawSwatch('BackStage', P.BackstageNavSelectedColor,
+    P.BackstageNavSelectedTextColor, SwatchR);
+end;
+
 procedure TfrmLazRibbonSkinEditor.paintPopupPreviewPaint(Sender: TObject);
 const
   PopupPreviewRowHeight = 20;
@@ -5453,6 +5666,8 @@ begin
   end;
   if Assigned(pcMain) and (pcMain.ActivePage = tabBackstage) then
     RefreshBackstagePreview;
+  if Assigned(pcMain) and (pcMain.ActivePage = tabSimpleColors) then
+    RefreshPalettePreview;
   UpdateWorkflowGuide;
 end;
 

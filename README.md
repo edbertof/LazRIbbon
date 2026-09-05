@@ -50,9 +50,9 @@ tools/LazRibbonSkinEditor/
 
 ## Current version
 
-This distribution is **LazRibbon 2.1.8 development release candidate**.
+This distribution is **LazRibbon 2.1.9 development release candidate**.
 
-The `2.1.8` build continues the post-2.0 Skin Editor line with a compact visual validation dashboard. It keeps the 2.0 public API direction, advances runtime and design-time package metadata to `2.1.8`, and adds fixed samples for normal Ribbon, minimized Ribbon, BackStage navigation, text contrast and Popup/Menu states directly on the `Validar e salvar` page. The public release notes are in `docs/release/RELEASE_2_1_8.md`; the stable 2.0 baseline remains documented in `docs/release/RELEASE_2_0_0.md`.
+The `2.1.9` build continues the post-2.0 Skin Editor line with a visual palette map on the `Cores do Ribbon` page. It keeps the 2.0 public API direction, advances runtime and design-time package metadata to `2.1.9`, and lets skin authors see how the simple palette affects tabs, panes, command states, BackStage selection and text contrast before moving to validation. The public release notes are in `docs/release/RELEASE_2_1_9.md`; the stable 2.0 baseline remains documented in `docs/release/RELEASE_2_0_0.md`.
 
 ## Post-2.0 development
 
@@ -85,7 +85,8 @@ The public screenshot set is generated with `tools/capture_release_screenshots.p
 
 Highlights in the current LazRibbon line:
 
-- Runtime and design-time package metadata are aligned on `2.1.8`.
+- Runtime and design-time package metadata are aligned on `2.1.9`.
+- The Skin Editor `Cores do Ribbon` page now includes a visual palette map for Ribbon tabs, panes, command states, BackStage selection and contrast ratios.
 - The Skin Editor validation page now includes a visual dashboard for normal Ribbon, minimized Ribbon, BackStage navigation and text-contrast states, with the Popup/Menu sample kept on the same page.
 - The Skin Editor resolves unsaved edits before opening the next new/open dialog and keeps skin, file, base and edit-state text consistent across the visible workflow surfaces.
 - The Skin Editor Sample demo ships with a valid `MeuSkin.lazskin` author metadata tag.
@@ -296,14 +297,14 @@ powershell -ExecutionPolicy Bypass -File tools/build_all_projects.ps1 -CleanArti
 To validate the package from an extracted clean source tree:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File tools/verify_clean_checkout.ps1 -Version 2.1.8 -ReleaseVersion 2.1.8
+powershell -ExecutionPolicy Bypass -File tools/verify_clean_checkout.ps1 -Version 2.1.9 -ReleaseVersion 2.1.9
 ```
 
 For a complete release preflight, including consistency checks and ZIP
 audit:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File tools/verify_release_candidate.ps1 -Version 2.1.8 -ReleaseVersion 2.1.8 -OutputDirectory D:\Ribbon4Lazarus\Releases
+powershell -ExecutionPolicy Bypass -File tools/verify_release_candidate.ps1 -Version 2.1.9 -ReleaseVersion 2.1.9 -OutputDirectory D:\Ribbon4Lazarus\Releases
 ```
 
 The purpose of each demo is documented in

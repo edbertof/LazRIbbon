@@ -1,3 +1,13 @@
+## 2.1.9 check
+
+- Package metadata updated to 2.1.9 for the runtime and design-time packages.
+- Public release ZIP/tag label is `2.1.9` through the `-ReleaseVersion` workflow.
+- The Skin Editor `Cores do Ribbon` page includes a design-time palette-map
+  preview for Ribbon tabs, panes, command states, BackStage selection and
+  contrast-ratio checks.
+- `tools/verify_release_candidate.ps1 -Version 2.1.9 -ReleaseVersion 2.1.9` passed, including clean-checkout ZIP extraction and full build validation.
+- Public ZIP created as `LazRibbon_2.1.9_source_20260905_125941.zip` with SHA256 `196BC5F682F39D702A06663A9B13F5EC6DDC88CC35DB95C5E8CF0AF88CEFABD9`.
+
 ## 2.1.8 check
 
 - Package metadata updated to 2.1.8 for the runtime and design-time packages.

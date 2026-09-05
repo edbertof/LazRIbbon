@@ -46,7 +46,7 @@ Deliver a post-2.0 package that feels easier to adopt and maintain:
 
 ## 2.1 Gates
 
-- `tools/check_project_consistency.ps1 -ExpectedVersion 2.1.8` passes.
+- `tools/check_project_consistency.ps1 -ExpectedVersion 2.1.9` passes.
 - `tools/export_skin_editor_2_1_coverage.ps1` regenerates the Skin Editor coverage report.
 - The Skin Editor opens, previews built-in skins and saves a self-contained `.skin` file.
 - The main demos compile with Lazarus 4.8.
@@ -108,6 +108,15 @@ Popup/Menu sample on the same page. This gives skin authors an immediate visual
 review surface beside the audit report without adding any new published
 component API.
 
+## 2.1.9 Snapshot
+
+The Skin Editor color step now includes a visual palette map. The `Cores do
+Ribbon` page draws a compact Ribbon sample, command-state samples, BackStage
+selection color and contrast-ratio swatches from the current simple palette, so
+skin authors can see the effect of color changes before moving to the final
+validation page. The new controls are stored in `uSkinEditorMain.lfm`; no new
+published component API was added.
+
 ## Current Skin Editor Workflow Pass
 
 The standalone Skin Editor Appearance inspector now treats base comparison as an editing workflow, not only a report. A skin author can restore the selected Appearance section, or all sections when `Todas as secoes` is selected, from the focused base skin while preserving the same typed property-copying path used by single-property restore.
@@ -144,6 +153,10 @@ The validation step now separates full audit details from actionable feedback. I
 The validation step now also contains a visual review dashboard. Normal Ribbon,
 minimized Ribbon, BackStage navigation and contrast swatches are drawn from the
 current skin beside the report, with the Popup/Menu sample retained below it.
+
+The color step now also contains a visual palette map. It uses the active
+simple palette to draw tabs, panes, pane captions, command states, BackStage
+selection and contrast-ratio swatches directly beside the editable color fields.
 
 The advanced Appearance inspector now shows a live base-difference summary beside the property list. It counts changed Appearance properties by section and, when a property is selected, shows the current value, base value and whether that property is unchanged or customized.
 

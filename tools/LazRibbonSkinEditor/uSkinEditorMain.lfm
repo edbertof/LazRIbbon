@@ -1013,6 +1013,24 @@ object frmLazRibbonSkinEditor: TfrmLazRibbonSkinEditor
           TabOrder = 12
           OnClick = ColorPanelClick
         end
+        object lblPalettePreviewTitle: TLabel
+          Left = 16
+          Height = 18
+          Top = 314
+          Width = 960
+          AutoSize = False
+          Caption = 'Mapa visual da paleta'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object paintPalettePreview: TPaintBox
+          Left = 16
+          Height = 124
+          Top = 338
+          Width = 988
+          Anchors = [akTop, akLeft, akRight, akBottom]
+          OnPaint = paintPalettePreviewPaint
+        end
       end
     end
     object tabBackstage: TTabSheet

@@ -2,6 +2,14 @@
 
 - No unreleased changes.
 
+## 2.1.9 - Skin Editor palette map preview
+
+- Adds a visual palette map to the Skin Editor `Cores do Ribbon` page, showing how the active simple palette affects tabs, panes, pane captions, command states and BackStage selection.
+- Shows contrast ratios for key color pairs directly beside the editable color swatches.
+- Keeps the new palette preview title and `TPaintBox` in `uSkinEditorMain.lfm` so the layout remains visible at design time.
+- Refreshes the palette map when colors, skins, preview state or the active workflow page change.
+- Updates runtime and design-time package metadata to `2.1.9`.
+
 ## 2.1.8 - Skin Editor visual validation panel
 
 - Adds a compact visual dashboard to the Skin Editor validation page, covering normal Ribbon, minimized Ribbon, BackStage navigation and text-contrast swatches from the active skin.
