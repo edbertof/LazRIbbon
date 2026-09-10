@@ -1,3 +1,14 @@
+## 2.1.10 check
+
+- Package metadata updated to 2.1.10 for the runtime and design-time packages.
+- Public release ZIP/tag label is `2.1.10` through the `-ReleaseVersion` workflow.
+- The Skin Editor validation page includes a side-by-side `Base x skin atual`
+  preview for comparing the selected base and current skin before saving.
+- The comparison draws Ribbon, pane, command-state, BackStage and contrast
+  samples, then reports the palette color difference count.
+- `tools/verify_release_candidate.ps1 -Version 2.1.10 -ReleaseVersion 2.1.10` passed, including clean-checkout ZIP extraction and full build validation.
+- Public ZIP created as `LazRibbon_2.1.10_source_20260910_175901.zip` with SHA256 `0E8E797A0ACB4412A20F9DBD5A7967CF968717B1C052F24AA7B8C22BD09207D9`.
+
 ## 2.1.9 check
 
 - Package metadata updated to 2.1.9 for the runtime and design-time packages.

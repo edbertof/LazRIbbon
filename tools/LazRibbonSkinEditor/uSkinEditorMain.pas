@@ -2681,7 +2681,7 @@ begin
   if Assigned(lblPreviewInfo) then
   begin
     lblPreviewInfo.SetBounds(12, 12, 950, 30);
-    lblPreviewInfo.Caption := 'Valide a skin antes de salvar: identidade, imagens embutidas, diferenças da base, contraste e amostras visuais de Ribbon, BackStage e Popup/Menu.';
+    lblPreviewInfo.Caption := 'Valide a skin antes de salvar: identidade, imagens embutidas, comparação com a base, contraste e amostras visuais de Ribbon, BackStage e Popup/Menu.';
   end;
 
   if Assigned(btnRefreshValidation) then
@@ -2714,7 +2714,7 @@ begin
   if Assigned(lblVisualPreviewTitle) then
   begin
     lblVisualPreviewTitle.SetBounds(666, 108, 340, 18);
-    lblVisualPreviewTitle.Caption := 'Painel visual da skin';
+    lblVisualPreviewTitle.Caption := 'Base x skin atual';
   end;
 
   if Assigned(paintVisualPreview) then
@@ -5433,12 +5433,13 @@ end;
 
 procedure TfrmLazRibbonSkinEditor.paintVisualPreviewPaint(Sender: TObject);
 const
-  CardGap = 6;
+  ColumnGap = 8;
 var
   C: TCanvas;
-  P: TLazRibbonSkinPalette;
-  R, CardR: TRect;
-  CardW, CardH: Integer;
+  BaseSkin: TLazRibbonSkinDefinition;
+  BasePalette, CurrentPalette: TLazRibbonSkinPalette;
+  R, StatusR, BaseR, CurrentR: TRect;
+  ColumnW, DifferenceCount: Integer;
 
   function SafeColor(AColor, AFallback: TColor): TColor;
   begin
@@ -5470,7 +5471,7 @@ var
   begin
     C.Brush.Style := bsClear;
     C.Font.Name := 'Segoe UI';
-    C.Font.Height := -10;
+    C.Font.Height := -9;
     if ABold then
       C.Font.Style := [fsBold]
     else
@@ -5480,19 +5481,44 @@ var
     C.Brush.Style := bsSolid;
   end;
 
-  function PrepareCard(const ARect: TRect; const ATitle: String): TRect;
-  var
-    TitleRect: TRect;
+  function CountPaletteDifferences(const ABase,
+    ACurrent: TLazRibbonSkinPalette): Integer;
+
+    procedure CompareColor(ABaseColor, ACurrentColor: TColor);
+    begin
+      if ColorToRGB(ABaseColor) <> ColorToRGB(ACurrentColor) then
+        Inc(Result);
+    end;
+
   begin
-    FillColor(ARect, P.BackColor);
-    FrameColor(ARect, P.FrameColor);
-    TitleRect := Rect(ARect.Left + 1, ARect.Top + 1, ARect.Right - 1,
-      ARect.Top + 16);
-    FillColor(TitleRect, P.RibbonTopColor);
-    DrawTextOn(P.RibbonTopColor, P.TextColor, TitleRect.Left + 5,
-      TitleRect.Top + 2, ATitle, True);
-    Result := Rect(ARect.Left + 5, ARect.Top + 20, ARect.Right - 5,
-      ARect.Bottom - 5);
+    Result := 0;
+    CompareColor(ABase.BackColor, ACurrent.BackColor);
+    CompareColor(ABase.NavigationColor, ACurrent.NavigationColor);
+    CompareColor(ABase.ActiveColor, ACurrent.ActiveColor);
+    CompareColor(ABase.HotColor, ACurrent.HotColor);
+    CompareColor(ABase.FrameColor, ACurrent.FrameColor);
+    CompareColor(ABase.TextColor, ACurrent.TextColor);
+    CompareColor(ABase.MutedTextColor, ACurrent.MutedTextColor);
+    CompareColor(ABase.BackstageNavColor, ACurrent.BackstageNavColor);
+    CompareColor(ABase.BackstageNavTextColor, ACurrent.BackstageNavTextColor);
+    CompareColor(ABase.BackstageNavMutedTextColor,
+      ACurrent.BackstageNavMutedTextColor);
+    CompareColor(ABase.BackstageNavHoverColor,
+      ACurrent.BackstageNavHoverColor);
+    CompareColor(ABase.BackstageNavHoverTextColor,
+      ACurrent.BackstageNavHoverTextColor);
+    CompareColor(ABase.BackstageNavSelectedColor,
+      ACurrent.BackstageNavSelectedColor);
+    CompareColor(ABase.BackstageNavSelectedTextColor,
+      ACurrent.BackstageNavSelectedTextColor);
+    CompareColor(ABase.BackstageNavSelectedFrameColor,
+      ACurrent.BackstageNavSelectedFrameColor);
+    CompareColor(ABase.RibbonTopColor, ACurrent.RibbonTopColor);
+    CompareColor(ABase.RibbonBottomColor, ACurrent.RibbonBottomColor);
+    CompareColor(ABase.RibbonTabActiveColor, ACurrent.RibbonTabActiveColor);
+    CompareColor(ABase.RibbonTabHotColor, ACurrent.RibbonTabHotColor);
+    CompareColor(ABase.RibbonGroupColor, ACurrent.RibbonGroupColor);
+    CompareColor(ABase.RibbonGroupFrameColor, ACurrent.RibbonGroupFrameColor);
   end;
 
   procedure DrawMiniButton(const ARect: TRect; AFillColor, AFrameColor,
@@ -5500,160 +5526,164 @@ var
   begin
     FillColor(ARect, AFillColor);
     FrameColor(ARect, AFrameColor);
-    DrawTextOn(AFillColor, ATextColor, ARect.Left + 5, ARect.Top + 3,
+    DrawTextOn(AFillColor, ATextColor, ARect.Left + 4, ARect.Top + 3,
       ACaption, False);
   end;
 
-  procedure DrawRibbonNormal(const ARect: TRect);
+  procedure DrawContrastSwatch(const ARect: TRect;
+    const APalette: TLazRibbonSkinPalette; const ACaption: String;
+    ABackColor, ATextColor: TColor);
   var
-    B, StripR, TabR, PaneR, FooterR, BtnR: TRect;
+    RatioText: String;
   begin
-    B := PrepareCard(ARect, 'Ribbon');
-
-    StripR := Rect(B.Left, B.Top, B.Right, B.Top + 18);
-    C.GradientFill(StripR, SafeColor(P.RibbonTopColor, clBtnFace),
-      SafeColor(P.RibbonBottomColor, clBtnFace), gdVertical);
-    FrameColor(StripR, P.FrameColor);
-
-    TabR := Rect(StripR.Left + 6, StripR.Top + 2, StripR.Left + 54,
-      StripR.Bottom + 1);
-    FillColor(TabR, P.RibbonTabActiveColor);
-    FrameColor(TabR, P.FrameColor);
-    DrawTextOn(P.RibbonTabActiveColor, P.TextColor, TabR.Left + 7,
-      TabR.Top + 3, 'Inicio', False);
-
-    TabR := Rect(TabR.Right + 4, StripR.Top + 3, TabR.Right + 44,
-      StripR.Bottom);
-    FillColor(TabR, P.RibbonTabHotColor);
-    FrameColor(TabR, P.FrameColor);
-
-    PaneR := Rect(B.Left + 4, StripR.Bottom + 5, B.Right - 4, B.Bottom);
-    FillColor(PaneR, P.RibbonGroupColor);
-    FrameColor(PaneR, P.RibbonGroupFrameColor);
-    FooterR := Rect(PaneR.Left + 1, PaneR.Bottom - 13, PaneR.Right - 1,
-      PaneR.Bottom - 1);
-    FillColor(FooterR, P.RibbonBottomColor);
-    DrawTextOn(P.RibbonBottomColor, P.TextColor, FooterR.Left + 48,
-      FooterR.Top + 1, 'Grupo', False);
-
-    BtnR := Rect(PaneR.Left + 8, PaneR.Top + 7, PaneR.Left + 45,
-      PaneR.Bottom - 18);
-    DrawMiniButton(BtnR, P.BackColor, P.FrameColor, P.TextColor, 'Novo');
-    BtnR := Rect(BtnR.Right + 6, BtnR.Top, BtnR.Right + 43, BtnR.Bottom);
-    DrawMiniButton(BtnR, P.HotColor, P.FrameColor, P.TextColor, 'Hot');
-    BtnR := Rect(BtnR.Right + 6, BtnR.Top, BtnR.Right + 43, BtnR.Bottom);
-    DrawMiniButton(BtnR, P.ActiveColor, P.FrameColor, P.TextColor, 'Atv');
+    FillColor(ARect, ABackColor);
+    FrameColor(ARect, APalette.FrameColor);
+    RatioText := FormatFloat('0.0', LazContrastRatio(ABackColor, ATextColor)) +
+      ':1';
+    DrawTextOn(ABackColor, ATextColor, ARect.Left + 4, ARect.Top + 2,
+      ACaption, False);
+    DrawTextOn(ABackColor, ATextColor, ARect.Right - 36, ARect.Top + 2,
+      RatioText, False);
   end;
 
-  procedure DrawRibbonMinimized(const ARect: TRect);
+  procedure DrawPaletteColumn(const ARect: TRect;
+    const APalette: TLazRibbonSkinPalette; const ATitle, ADetail: String;
+    AChangedCount: Integer);
   var
-    B, StripR, TabR, QatR: TRect;
-  begin
-    B := PrepareCard(ARect, 'Minimizado');
-    StripR := Rect(B.Left, B.Top + 6, B.Right, B.Top + 28);
-    C.GradientFill(StripR, SafeColor(P.RibbonTopColor, clBtnFace),
-      SafeColor(P.RibbonBottomColor, clBtnFace), gdVertical);
-    FrameColor(StripR, P.FrameColor);
-
-    QatR := Rect(StripR.Left + 7, StripR.Top + 5, StripR.Left + 43,
-      StripR.Bottom - 5);
-    FillColor(QatR, P.BackColor);
-    FrameColor(QatR, P.FrameColor);
-
-    TabR := Rect(StripR.Left + 54, StripR.Top + 2, StripR.Left + 104,
-      StripR.Bottom + 1);
-    FillColor(TabR, P.RibbonTabActiveColor);
-    FrameColor(TabR, P.FrameColor);
-    DrawTextOn(P.RibbonTabActiveColor, P.TextColor, TabR.Left + 7,
-      TabR.Top + 3, 'Exibir', False);
-
-    DrawTextOn(P.BackColor, P.MutedTextColor, B.Left + 8, StripR.Bottom + 8,
-      'só cabeçalhos visíveis', False);
-  end;
-
-  procedure DrawBackstageCard(const ARect: TRect);
-  var
-    B, NavR, ContentR, ItemR: TRect;
-  begin
-    B := PrepareCard(ARect, 'BackStage');
-    NavR := Rect(B.Left, B.Top, B.Left + 58, B.Bottom);
-    ContentR := Rect(NavR.Right, B.Top, B.Right, B.Bottom);
-    FillColor(NavR, P.BackstageNavColor);
-    FillColor(ContentR, P.BackColor);
-    FrameColor(Rect(B.Left, B.Top, B.Right, B.Bottom), P.FrameColor);
-
-    ItemR := Rect(NavR.Left + 4, NavR.Top + 6, NavR.Right - 4,
-      NavR.Top + 22);
-    FillColor(ItemR, P.BackstageNavSelectedColor);
-    FrameColor(ItemR, P.BackstageNavSelectedFrameColor);
-    DrawTextOn(P.BackstageNavSelectedColor, P.BackstageNavSelectedTextColor,
-      ItemR.Left + 4, ItemR.Top + 2, 'Info', False);
-
-    OffsetRect(ItemR, 0, 19);
-    FillColor(ItemR, P.BackstageNavHoverColor);
-    DrawTextOn(P.BackstageNavHoverColor, P.BackstageNavHoverTextColor,
-      ItemR.Left + 4, ItemR.Top + 2, 'Novo', False);
-
-    DrawTextOn(P.BackColor, P.TextColor, ContentR.Left + 9, ContentR.Top + 7,
-      'Arquivo', True);
-    DrawTextOn(P.BackColor, P.MutedTextColor, ContentR.Left + 9,
-      ContentR.Top + 25, CurrentSkinDisplayText, False);
-  end;
-
-  procedure DrawContrastCard(const ARect: TRect);
-  var
-    B, SwatchR: TRect;
+    HeaderR, BodyR, StripR, TabR, PaneR, CaptionR, BtnR: TRect;
+    BackstageR, NavR, ItemR, SwatchR: TRect;
     Y: Integer;
-
-    procedure DrawSwatch(const ACaption: String; ABackColor, ATextColor: TColor);
-    var
-      RatioText: String;
-    begin
-      SwatchR := Rect(B.Left + 6, Y, B.Right - 6, Y + 15);
-      FillColor(SwatchR, ABackColor);
-      FrameColor(SwatchR, P.FrameColor);
-      RatioText := FormatFloat('0.0', LazContrastRatio(ABackColor, ATextColor)) + ':1';
-      DrawTextOn(ABackColor, ATextColor, SwatchR.Left + 5, SwatchR.Top + 1,
-        ACaption, False);
-      DrawTextOn(ABackColor, ATextColor, SwatchR.Right - 38, SwatchR.Top + 1,
-        RatioText, False);
-      Inc(Y, 18);
-    end;
-
   begin
-    B := PrepareCard(ARect, 'Contraste');
-    Y := B.Top + 2;
-    DrawSwatch('Geral', P.BackColor, P.TextColor);
-    DrawSwatch('Hover', P.HotColor, P.TextColor);
-    DrawSwatch('Ativo', P.ActiveColor, P.TextColor);
+    FillColor(ARect, APalette.BackColor);
+    FrameColor(ARect, APalette.FrameColor);
+
+    HeaderR := Rect(ARect.Left + 1, ARect.Top + 1, ARect.Right - 1,
+      ARect.Top + 19);
+    C.GradientFill(HeaderR, SafeColor(APalette.RibbonTopColor, clBtnFace),
+      SafeColor(APalette.RibbonBottomColor, clBtnFace), gdVertical);
+    DrawTextOn(APalette.RibbonTopColor, APalette.TextColor, HeaderR.Left + 5,
+      HeaderR.Top + 3, ATitle, True);
+
+    BodyR := Rect(ARect.Left + 5, HeaderR.Bottom + 5, ARect.Right - 5,
+      ARect.Bottom - 5);
+    DrawTextOn(APalette.BackColor, APalette.MutedTextColor, BodyR.Left,
+      BodyR.Top, CompactInlineValue(ADetail, 18), False);
+
+    StripR := Rect(BodyR.Left, BodyR.Top + 15, BodyR.Right, BodyR.Top + 33);
+    C.GradientFill(StripR, SafeColor(APalette.RibbonTopColor, clBtnFace),
+      SafeColor(APalette.RibbonBottomColor, clBtnFace), gdVertical);
+    FrameColor(StripR, APalette.FrameColor);
+
+    TabR := Rect(StripR.Left + 5, StripR.Top + 2, StripR.Left + 48,
+      StripR.Bottom + 1);
+    FillColor(TabR, APalette.RibbonTabActiveColor);
+    FrameColor(TabR, APalette.FrameColor);
+    DrawTextOn(APalette.RibbonTabActiveColor, APalette.TextColor,
+      TabR.Left + 6, TabR.Top + 3, 'Inicio', False);
+
+    TabR := Rect(TabR.Right + 4, StripR.Top + 3, TabR.Right + 38,
+      StripR.Bottom);
+    FillColor(TabR, APalette.RibbonTabHotColor);
+    FrameColor(TabR, APalette.FrameColor);
+
+    PaneR := Rect(BodyR.Left, StripR.Bottom + 5, BodyR.Right,
+      StripR.Bottom + 58);
+    FillColor(PaneR, APalette.RibbonGroupColor);
+    FrameColor(PaneR, APalette.RibbonGroupFrameColor);
+    CaptionR := Rect(PaneR.Left + 1, PaneR.Bottom - 13, PaneR.Right - 1,
+      PaneR.Bottom - 1);
+    FillColor(CaptionR, APalette.RibbonBottomColor);
+    DrawTextOn(APalette.RibbonBottomColor, APalette.TextColor,
+      CaptionR.Left + 47, CaptionR.Top + 1, 'Pane', False);
+
+    BtnR := Rect(PaneR.Left + 6, PaneR.Top + 7, PaneR.Left + 44,
+      CaptionR.Top - 4);
+    DrawMiniButton(BtnR, APalette.BackColor, APalette.FrameColor,
+      APalette.TextColor, 'N');
+    BtnR := Rect(BtnR.Right + 4, BtnR.Top, BtnR.Right + 38, BtnR.Bottom);
+    DrawMiniButton(BtnR, APalette.HotColor, APalette.FrameColor,
+      APalette.TextColor, 'H');
+    BtnR := Rect(BtnR.Right + 4, BtnR.Top, BtnR.Right + 38, BtnR.Bottom);
+    DrawMiniButton(BtnR, APalette.ActiveColor, APalette.FrameColor,
+      APalette.TextColor, 'A');
+
+    BackstageR := Rect(BodyR.Left, PaneR.Bottom + 5, BodyR.Right,
+      PaneR.Bottom + 31);
+    NavR := Rect(BackstageR.Left, BackstageR.Top, BackstageR.Left + 56,
+      BackstageR.Bottom);
+    FillColor(NavR, APalette.BackstageNavColor);
+    FillColor(Rect(NavR.Right, BackstageR.Top, BackstageR.Right,
+      BackstageR.Bottom), APalette.BackColor);
+    FrameColor(BackstageR, APalette.FrameColor);
+    ItemR := Rect(NavR.Left + 3, NavR.Top + 5, NavR.Right - 3,
+      NavR.Bottom - 5);
+    FillColor(ItemR, APalette.BackstageNavSelectedColor);
+    FrameColor(ItemR, APalette.BackstageNavSelectedFrameColor);
+    DrawTextOn(APalette.BackstageNavSelectedColor,
+      APalette.BackstageNavSelectedTextColor, ItemR.Left + 4, ItemR.Top + 2,
+      'Info', False);
+
+    Y := BackstageR.Bottom + 5;
+    SwatchR := Rect(BodyR.Left, Y, BodyR.Right, Y + 14);
+    DrawContrastSwatch(SwatchR, APalette, 'Geral', APalette.BackColor,
+      APalette.TextColor);
+    Inc(Y, 17);
+    SwatchR := Rect(BodyR.Left, Y, BodyR.Right, Y + 14);
+    DrawContrastSwatch(SwatchR, APalette, 'Ativo', APalette.ActiveColor,
+      APalette.TextColor);
+
+    if AChangedCount > 0 then
+      DrawTextOn(APalette.BackColor, APalette.MutedTextColor, BodyR.Left,
+        BodyR.Bottom - 11, IntToStr(AChangedCount) + ' cores alteradas',
+        False);
   end;
 
 begin
-  if (paintVisualPreview = nil) or (FCurrentSkin = nil) then
+  if paintVisualPreview = nil then
     Exit;
 
   C := paintVisualPreview.Canvas;
-  P := FCurrentSkin.Palette;
   R := paintVisualPreview.ClientRect;
   C.Brush.Color := pnlPreviewHost.Color;
   C.FillRect(R);
 
+  if FCurrentSkin = nil then
+  begin
+    DrawTextOn(pnlPreviewHost.Color, clGray, R.Left + 8, R.Top + 8,
+      'Nenhuma skin carregada.', False);
+    Exit;
+  end;
+
+  BaseSkin := SelectedBaseSkin;
+  CurrentPalette := FCurrentSkin.Palette;
+  if BaseSkin <> nil then
+    BasePalette := BaseSkin.Palette
+  else
+    BasePalette := CurrentPalette;
+  DifferenceCount := CountPaletteDifferences(BasePalette, CurrentPalette);
+
   InflateRect(R, -4, -4);
-  CardW := (R.Right - R.Left - CardGap) div 2;
-  CardH := (R.Bottom - R.Top - CardGap) div 2;
+  StatusR := Rect(R.Left, R.Bottom - 14, R.Right, R.Bottom);
+  Dec(R.Bottom, 18);
 
-  CardR := Rect(R.Left, R.Top, R.Left + CardW, R.Top + CardH);
-  DrawRibbonNormal(CardR);
+  ColumnW := (R.Right - R.Left - ColumnGap) div 2;
+  BaseR := Rect(R.Left, R.Top, R.Left + ColumnW, R.Bottom);
+  CurrentR := Rect(BaseR.Right + ColumnGap, R.Top, R.Right, R.Bottom);
 
-  CardR := Rect(R.Left + CardW + CardGap, R.Top, R.Right, R.Top + CardH);
-  DrawRibbonMinimized(CardR);
+  DrawPaletteColumn(BaseR, BasePalette, 'Base',
+    SkinDisplayText(BaseSkin, 'base nao selecionada'), 0);
+  DrawPaletteColumn(CurrentR, CurrentPalette, 'Skin atual',
+    CurrentSkinDisplayText, DifferenceCount);
 
-  CardR := Rect(R.Left, R.Top + CardH + CardGap, R.Left + CardW, R.Bottom);
-  DrawBackstageCard(CardR);
-
-  CardR := Rect(R.Left + CardW + CardGap, R.Top + CardH + CardGap,
-    R.Right, R.Bottom);
-  DrawContrastCard(CardR);
+  if BaseSkin = nil then
+    DrawTextOn(pnlPreviewHost.Color, clGray, StatusR.Left, StatusR.Top,
+      'Escolha uma base para comparar.', False)
+  else if DifferenceCount = 0 then
+    DrawTextOn(pnlPreviewHost.Color, clGreen, StatusR.Left, StatusR.Top,
+      'Paleta igual a base selecionada.', False)
+  else
+    DrawTextOn(pnlPreviewHost.Color, clNavy, StatusR.Left, StatusR.Top,
+      Format('%d cores da paleta diferem da base.', [DifferenceCount]), False);
 end;
 
 procedure TfrmLazRibbonSkinEditor.pcMainChange(Sender: TObject);

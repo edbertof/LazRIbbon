@@ -1,6 +1,8 @@
 # LazRibbon Status
 
-`2.1.9 - Skin Editor palette map preview` is the current build.
+`2.1.10 - Skin Editor base comparison preview` is the current build.
+
+The `2.1.10` build improves the standalone Skin Editor validation workflow with a direct `Base x skin atual` preview. The validation page now draws the selected base and the current skin side by side, including Ribbon strip, pane caption/body, command states, BackStage selection and contrast swatches, then summarizes how many palette colors differ from the base. Runtime and design-time package metadata are now `2.1.10`. No new published component API was added.
 
 The `2.1.9` build improves the standalone Skin Editor color workflow with a visual palette map on the `Cores do Ribbon` page. The page now shows how the simple palette affects Ribbon tabs, panes, pane captions, command states, BackStage selection and key contrast ratios while colors are being edited. Runtime and design-time package metadata are now `2.1.9`. No new published component API was added.
 

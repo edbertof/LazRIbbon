@@ -2,6 +2,14 @@
 
 - No unreleased changes.
 
+## 2.1.10 - Skin Editor base comparison preview
+
+- Converts the Skin Editor validation visual panel into a side-by-side `Base x skin atual` comparison.
+- Draws representative Ribbon, pane caption/body, command-state, BackStage selection and contrast swatch samples for both palettes.
+- Shows a concise count of palette colors that differ from the selected base.
+- Updates the validation guidance text so the comparison role is clear in the Skin Editor.
+- Updates runtime and design-time package metadata to `2.1.10`.
+
 ## 2.1.9 - Skin Editor palette map preview
 
 - Adds a visual palette map to the Skin Editor `Cores do Ribbon` page, showing how the active simple palette affects tabs, panes, pane captions, command states and BackStage selection.

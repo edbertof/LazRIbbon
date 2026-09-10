@@ -46,7 +46,7 @@ Deliver a post-2.0 package that feels easier to adopt and maintain:
 
 ## 2.1 Gates
 
-- `tools/check_project_consistency.ps1 -ExpectedVersion 2.1.9` passes.
+- `tools/check_project_consistency.ps1 -ExpectedVersion 2.1.10` passes.
 - `tools/export_skin_editor_2_1_coverage.ps1` regenerates the Skin Editor coverage report.
 - The Skin Editor opens, previews built-in skins and saves a self-contained `.skin` file.
 - The main demos compile with Lazarus 4.8.
@@ -116,6 +116,14 @@ selection color and contrast-ratio swatches from the current simple palette, so
 skin authors can see the effect of color changes before moving to the final
 validation page. The new controls are stored in `uSkinEditorMain.lfm`; no new
 published component API was added.
+
+## 2.1.10 Snapshot
+
+The Skin Editor validation step now includes a side-by-side `Base x skin atual`
+comparison. The visual panel draws compact Ribbon, pane, command-state,
+BackStage and contrast samples for the selected base and the current skin, then
+reports how many palette colors differ from the base. No new published
+component API was added.
 
 ## Current Skin Editor Workflow Pass
 

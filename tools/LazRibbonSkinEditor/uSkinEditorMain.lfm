@@ -1313,7 +1313,7 @@ object frmLazRibbonSkinEditor: TfrmLazRibbonSkinEditor
           Width = 340
           Anchors = [akTop, akRight]
           AutoSize = False
-          Caption = 'Painel visual da skin'
+          Caption = 'Base x skin atual'
           Font.Style = [fsBold]
           ParentFont = False
         end

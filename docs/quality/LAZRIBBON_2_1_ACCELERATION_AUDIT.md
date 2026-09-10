@@ -80,6 +80,11 @@ colors. It draws a compact Ribbon sample, command states, BackStage selection
 and contrast ratios beside the color controls, keeping the visual feedback in
 the same workflow step where the palette is changed.
 
+The validation page now compares the selected base and current skin side by
+side. The `Base x skin atual` panel draws representative Ribbon, pane,
+command-state, BackStage and contrast samples for each palette and reports how
+many palette colors differ from the base before the skin is saved.
+
 ## Safe Cleanup Decisions
 
 - Keep `RibbonAppearance` readable in old `.lfm` files.
@@ -104,6 +109,6 @@ the same workflow step where the palette is changed.
 For a 2.1 stabilization build, these commands must pass from the source root:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File tools\check_project_consistency.ps1 -ExpectedVersion 2.1.9
+powershell -ExecutionPolicy Bypass -File tools\check_project_consistency.ps1 -ExpectedVersion 2.1.10
 powershell -ExecutionPolicy Bypass -File tools\build_all_projects.ps1 -CleanArtifacts
 ```
