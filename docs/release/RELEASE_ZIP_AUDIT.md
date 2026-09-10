@@ -1,3 +1,12 @@
+## 2.1.11 check
+
+- Package metadata updated to 2.1.11 for the runtime and design-time packages.
+- Public release ZIP/tag label is `2.1.11` through the `-ReleaseVersion` workflow.
+- The Skin Editor validation page now includes a `Decisao e proximos passos` decision panel with save-readiness status, blockers, distribution-review warnings and next workflow guidance.
+- Built-in read-only base skins are marked as a review state instead of a green ready-to-save state.
+- `tools/verify_release_candidate.ps1 -Version 2.1.11 -ReleaseVersion 2.1.11` passed, including clean-checkout ZIP extraction and full build validation.
+- Public ZIP created as `LazRibbon_2.1.11_source_20260910_181426.zip` with SHA256 `AA989FA19C5AC59B5D85FA1A08C829A73973FD28985048CC77C0876CAE68B64D`.
+
 ## 2.1.10 check
 
 - Package metadata updated to 2.1.10 for the runtime and design-time packages.

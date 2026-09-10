@@ -1302,7 +1302,7 @@ object frmLazRibbonSkinEditor: TfrmLazRibbonSkinEditor
           Top = 108
           Width = 190
           AutoSize = False
-          Caption = 'Acoes recomendadas'
+          Caption = 'Decisao e proximos passos'
           Font.Style = [fsBold]
           ParentFont = False
         end

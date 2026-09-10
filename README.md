@@ -50,9 +50,9 @@ tools/LazRibbonSkinEditor/
 
 ## Current version
 
-This distribution is **LazRibbon 2.1.10 development release candidate**.
+This distribution is **LazRibbon 2.1.11 development release candidate**.
 
-The `2.1.10` build continues the post-2.0 Skin Editor line with a direct `Base x skin atual` comparison on the validation page. It keeps the 2.0 public API direction, advances runtime and design-time package metadata to `2.1.10`, and lets skin authors compare the selected base and editable skin side by side before saving. The public release notes are in `docs/release/RELEASE_2_1_10.md`; the stable 2.0 baseline remains documented in `docs/release/RELEASE_2_0_0.md`.
+The `2.1.11` build continues the post-2.0 Skin Editor line with a clearer validation decision panel. It keeps the 2.0 public API direction, advances runtime and design-time package metadata to `2.1.11`, and turns the validation actions area into a save-readiness summary with blocking issues, distribution-review warnings and next-step guidance. The public release notes are in `docs/release/RELEASE_2_1_11.md`; the stable 2.0 baseline remains documented in `docs/release/RELEASE_2_0_0.md`.
 
 ## Post-2.0 development
 
@@ -85,7 +85,8 @@ The public screenshot set is generated with `tools/capture_release_screenshots.p
 
 Highlights in the current LazRibbon line:
 
-- Runtime and design-time package metadata are aligned on `2.1.10`.
+- Runtime and design-time package metadata are aligned on `2.1.11`.
+- The Skin Editor validation page now includes a `Decisao e proximos passos` panel with save-readiness status, blockers, review warnings and next-step guidance.
 - The Skin Editor validation page now compares `Base x skin atual` side by side, including Ribbon, pane, command, BackStage and contrast samples.
 - The Skin Editor `Cores do Ribbon` page now includes a visual palette map for Ribbon tabs, panes, command states, BackStage selection and contrast ratios.
 - The Skin Editor validation page now includes a visual dashboard for normal Ribbon, minimized Ribbon, BackStage navigation and text-contrast states, with the Popup/Menu sample kept on the same page.
@@ -298,14 +299,14 @@ powershell -ExecutionPolicy Bypass -File tools/build_all_projects.ps1 -CleanArti
 To validate the package from an extracted clean source tree:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File tools/verify_clean_checkout.ps1 -Version 2.1.10 -ReleaseVersion 2.1.10
+powershell -ExecutionPolicy Bypass -File tools/verify_clean_checkout.ps1 -Version 2.1.11 -ReleaseVersion 2.1.11
 ```
 
 For a complete release preflight, including consistency checks and ZIP
 audit:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File tools/verify_release_candidate.ps1 -Version 2.1.10 -ReleaseVersion 2.1.10 -OutputDirectory D:\Ribbon4Lazarus\Releases
+powershell -ExecutionPolicy Bypass -File tools/verify_release_candidate.ps1 -Version 2.1.11 -ReleaseVersion 2.1.11 -OutputDirectory D:\Ribbon4Lazarus\Releases
 ```
 
 The purpose of each demo is documented in

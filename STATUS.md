@@ -1,6 +1,8 @@
 # LazRibbon Status
 
-`2.1.10 - Skin Editor base comparison preview` is the current build.
+`2.1.11 - Skin Editor validation decision panel` is the current build.
+
+The `2.1.11` build improves the standalone Skin Editor validation workflow with a clearer decision panel. The former recommended-actions memo now starts with an explicit save-readiness status, separates blocking issues from distribution-review warnings, lists the next normal workflow step, and colors the summary consistently when the current skin is a read-only built-in base. Runtime and design-time package metadata are now `2.1.11`. No new published component API was added.
 
 The `2.1.10` build improves the standalone Skin Editor validation workflow with a direct `Base x skin atual` preview. The validation page now draws the selected base and the current skin side by side, including Ribbon strip, pane caption/body, command states, BackStage selection and contrast swatches, then summarizes how many palette colors differ from the base. Runtime and design-time package metadata are now `2.1.10`. No new published component API was added.
 

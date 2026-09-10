@@ -2,6 +2,14 @@
 
 - No unreleased changes.
 
+## 2.1.11 - Skin Editor validation decision panel
+
+- Renames the Skin Editor validation actions area to `Decisao e proximos passos`.
+- Adds an explicit save-readiness status before the validation action list.
+- Separates blocking issues, distribution-review warnings and the next normal workflow step.
+- Keeps read-only built-in base skins visually marked as a review state instead of a green ready-to-save state.
+- Updates runtime and design-time package metadata to `2.1.11`.
+
 ## 2.1.10 - Skin Editor base comparison preview
 
 - Converts the Skin Editor validation visual panel into a side-by-side `Base x skin atual` comparison.

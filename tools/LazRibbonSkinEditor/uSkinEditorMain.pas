@@ -2781,17 +2781,32 @@ var
   Lines: TStringList;
   DiffLines: TStringList;
   DifferenceSummary: TStringList;
-  ActionLines: TStringList;
+  BlockerActionLines, ReviewActionLines, NextActionLines: TStringList;
   ErrorCount, WarningCount, InfoCount, OkCount: Integer;
   DifferenceCount, DifferenceDetailCount: Integer;
   P: TLazRibbonSkinPalette;
 
-  procedure AddAction(const AText: String);
+  procedure AddActionTo(AList: TStringList; const AText: String);
   begin
-    if (ActionLines = nil) or (Trim(AText) = '') then
+    if (AList = nil) or (Trim(AText) = '') then
       Exit;
-    if ActionLines.IndexOf(AText) < 0 then
-      ActionLines.Add(AText);
+    if AList.IndexOf(AText) < 0 then
+      AList.Add(AText);
+  end;
+
+  procedure AddBlockerAction(const AText: String);
+  begin
+    AddActionTo(BlockerActionLines, AText);
+  end;
+
+  procedure AddReviewAction(const AText: String);
+  begin
+    AddActionTo(ReviewActionLines, AText);
+  end;
+
+  procedure AddNextAction(const AText: String);
+  begin
+    AddActionTo(NextActionLines, AText);
   end;
 
   procedure AddMessage(const AKind, AText: String);
@@ -2800,12 +2815,12 @@ var
     if SameText(AKind, 'ERRO') then
     begin
       Inc(ErrorCount);
-      AddAction('Corrigir: ' + AText);
+      AddBlockerAction(AText);
     end
     else if SameText(AKind, 'AVISO') then
     begin
       Inc(WarningCount);
-      AddAction('Revisar: ' + AText);
+      AddReviewAction(AText);
     end
     else if SameText(AKind, 'INFO') then
       Inc(InfoCount)
@@ -2833,7 +2848,40 @@ var
     SetCounterLabel(lblValidationOk, 'OK', OkCount, clGreen);
   end;
 
+  function ValidationDecisionText: String;
+  begin
+    if FCurrentSkin = nil then
+      Exit('Status: carregue ou crie uma skin para iniciar a validacao.');
+    if ErrorCount > 0 then
+      Exit(Format('Status: bloqueada para salvar. Corrija %d erro(s).',
+        [ErrorCount]));
+    if not CurrentSkinIsEditable then
+      Exit('Status: base interna somente leitura. Crie uma skin editavel.');
+    if WarningCount > 0 then
+      Exit(Format('Status: pode salvar, mas revise %d aviso(s).',
+        [WarningCount]));
+    if Trim(FCurrentSkin.FileName) = '' then
+      Exit('Status: pronta. Defina o arquivo .skin com Salvar como.');
+    if FModified then
+      Exit('Status: pronta para salvar as alteracoes.');
+    Result := 'Status: validada e salva.';
+  end;
+
   procedure PublishActions;
+    procedure AddActionSection(const ATitle: String; AList: TStringList);
+    var
+      J: Integer;
+    begin
+      if (AList = nil) or (AList.Count = 0) then
+        Exit;
+      if memValidationActions.Lines.Count > 0 then
+        memValidationActions.Lines.Add('');
+      memValidationActions.Lines.Add(ATitle);
+      memValidationActions.Lines.Add(StringOfChar('-', Length(ATitle)));
+      for J := 0 to AList.Count - 1 do
+        memValidationActions.Lines.Add('- ' + AList[J]);
+    end;
+
   begin
     if memValidationActions = nil then
       Exit;
@@ -2841,10 +2889,17 @@ var
     memValidationActions.Lines.BeginUpdate;
     try
       memValidationActions.Lines.Clear;
-      if ActionLines.Count = 0 then
-        memValidationActions.Lines.Add('Nenhuma acao critica pendente.')
-      else
-        memValidationActions.Lines.Assign(ActionLines);
+      memValidationActions.Lines.Add(ValidationDecisionText);
+      AddActionSection('Bloqueia salvamento', BlockerActionLines);
+      AddActionSection('Revisar antes de distribuir', ReviewActionLines);
+      AddActionSection('Proximo passo', NextActionLines);
+      if (BlockerActionLines.Count = 0) and
+         (ReviewActionLines.Count = 0) and
+         (NextActionLines.Count = 0) then
+      begin
+        memValidationActions.Lines.Add('');
+        memValidationActions.Lines.Add('Nenhuma acao pendente.');
+      end;
     finally
       memValidationActions.Lines.EndUpdate;
     end;
@@ -3136,7 +3191,9 @@ begin
   Lines := TStringList.Create;
   DiffLines := TStringList.Create;
   DifferenceSummary := TStringList.Create;
-  ActionLines := TStringList.Create;
+  BlockerActionLines := TStringList.Create;
+  ReviewActionLines := TStringList.Create;
+  NextActionLines := TStringList.Create;
   try
     ErrorCount := 0;
     WarningCount := 0;
@@ -3150,7 +3207,7 @@ begin
     begin
       lblValidationSummary.Caption := 'Nenhuma skin carregada.';
       lblValidationSummary.Font.Color := clGray;
-      AddAction('Crie uma nova skin ou abra um arquivo .skin para validar.');
+      AddNextAction('Crie uma nova skin ou abra um arquivo .skin para validar.');
       UpdateCounterLabels;
       PublishActions;
       Exit;
@@ -3166,10 +3223,10 @@ begin
     begin
       Lines.Add('Arquivo: ainda nao salvo.');
       if CurrentSkinIsEditable then
-        AddAction('Definir o arquivo .skin com Arquivo > Salvar como...');
+        AddNextAction('Definir o arquivo .skin com Arquivo > Salvar como...');
     end;
     if not CurrentSkinIsEditable then
-      AddAction('Criar uma nova skin baseada na base em foco antes de salvar.');
+      AddBlockerAction('Criar uma nova skin baseada na base em foco antes de salvar.');
     AddBlank;
 
     Lines.Add('Identidade');
@@ -3220,10 +3277,13 @@ begin
     CheckContrast('BackStage selecionado', P.BackstageNavSelectedColor, P.BackstageNavSelectedTextColor, LAZRIBBON_MIN_TEXT_CONTRAST);
 
     memValidationReport.Lines.Assign(Lines);
-    lblValidationSummary.Caption := Format('Erros: %d   Avisos: %d   Infos: %d   OK: %d',
+    lblValidationSummary.Caption := ValidationDecisionText + Format(
+      '   Erros: %d   Avisos: %d   Infos: %d   OK: %d',
       [ErrorCount, WarningCount, InfoCount, OkCount]);
     if ErrorCount > 0 then
       lblValidationSummary.Font.Color := clRed
+    else if not CurrentSkinIsEditable then
+      lblValidationSummary.Font.Color := clMaroon
     else if WarningCount > 0 then
       lblValidationSummary.Font.Color := clMaroon
     else
@@ -3231,7 +3291,9 @@ begin
     UpdateCounterLabels;
     PublishActions;
   finally
-    ActionLines.Free;
+    NextActionLines.Free;
+    ReviewActionLines.Free;
+    BlockerActionLines.Free;
     DifferenceSummary.Free;
     DiffLines.Free;
     Lines.Free;
@@ -4036,7 +4098,7 @@ begin
     btnRefreshValidation.Caption := 'Atualizar relatório';
 
   if Assigned(lblValidationActionsTitle) then
-    lblValidationActionsTitle.Caption := 'Acoes recomendadas';
+    lblValidationActionsTitle.Caption := 'Decisao e proximos passos';
   if Assigned(lblValidationErrors) then
     lblValidationErrors.Caption := 'Erros: 0';
   if Assigned(lblValidationWarnings) then
