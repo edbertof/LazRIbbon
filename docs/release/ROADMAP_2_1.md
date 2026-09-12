@@ -46,7 +46,7 @@ Deliver a post-2.0 package that feels easier to adopt and maintain:
 
 ## 2.1 Gates
 
-- `tools/check_project_consistency.ps1 -ExpectedVersion 2.1.11` passes.
+- `tools/check_project_consistency.ps1 -ExpectedVersion 2.1.12` passes.
 - `tools/export_skin_editor_2_1_coverage.ps1` regenerates the Skin Editor coverage report.
 - The Skin Editor opens, previews built-in skins and saves a self-contained `.skin` file.
 - The main demos compile with Lazarus 4.8.
@@ -132,6 +132,15 @@ former recommended-actions memo starts with an explicit save-readiness status,
 groups blocking issues, distribution-review warnings and next-step guidance,
 and keeps read-only built-in base skins from being presented as green
 ready-to-save states. No new published component API was added.
+
+## 2.1.12 Snapshot
+
+The Skin Editor advanced Appearance inspector now gives selected properties
+better context. The selected property is preserved across refreshes when it is
+still visible, edit/reset actions stay disabled until a valid editable property
+is selected, and the difference/detail panel shows the property section, type,
+current value, base value and editing guidance. No new published component API
+was added.
 
 ## Current Skin Editor Workflow Pass
 

@@ -347,6 +347,7 @@ type
     function AppearanceSectionObject(ASection: TLazRibbonSkinAppearanceSection): TPersistent;
     function AppearanceSectionCaption(ASection: TLazRibbonSkinAppearanceSection): String;
     function IsColorAppearanceProperty(APropInfo: PPropInfo): Boolean;
+    function AppearancePropertyTypeCaption(APropInfo: PPropInfo): String;
     function FormatAppearancePropertyValue(AObject: TPersistent; APropInfo: PPropInfo): String;
     function CompactInlineValue(const AValue: String; AMaxLength: Integer): String;
     function AppearancePropertyDiffersFromBase(ASection: TLazRibbonSkinAppearanceSection;
@@ -357,6 +358,8 @@ type
     function SkinAppearanceMatchesPalette(ASkin: TLazRibbonSkinDefinition): Boolean;
     procedure RefreshFullAppearanceEditedFromCurrentSkin;
     procedure AddAppearanceSectionProperties(ASection: TLazRibbonSkinAppearanceSection);
+    function SelectedAppearanceBinding: TLazRibbonAppearancePropertyBinding;
+    procedure UpdateAppearanceInspectorActionState;
     procedure EditAppearanceProperty(ABinding: TLazRibbonAppearancePropertyBinding);
     procedure ResetAppearancePropertyFromBase(ABinding: TLazRibbonAppearancePropertyBinding);
     procedure ResetAppearanceSectionFromBase(ASection: TLazRibbonSkinAppearanceSection);
@@ -1275,7 +1278,7 @@ begin
   Sec := CreateEditorSection(Self, tabAdvanced,
     'Propriedades avancadas e diferencas',
     'Mostra os grupos visuais salvos no arquivo da skin. Use para ajuste fino, comparacao com a base e restauracao pontual.',
-    12, 218, 1000, 258);
+    12, 206, 1000, 268);
 
   L := TLabel.Create(Self);
   L.Parent := Sec;
@@ -1380,7 +1383,7 @@ begin
   lstAppearanceProperties.Left := 16;
   lstAppearanceProperties.Top := 124;
   lstAppearanceProperties.Width := 568;
-  lstAppearanceProperties.Height := 106;
+  lstAppearanceProperties.Height := 126;
   lstAppearanceProperties.ItemHeight := 18;
   lstAppearanceProperties.OnClick := @lstAppearancePropertiesClick;
   lstAppearanceProperties.OnDblClick := @lstAppearancePropertiesDblClick;
@@ -1393,7 +1396,7 @@ begin
   lblAppearanceDiffTitle.Height := 18;
   lblAppearanceDiffTitle.AutoSize := False;
   lblAppearanceDiffTitle.Font.Style := [fsBold];
-  lblAppearanceDiffTitle.Caption := 'Diferencas da base';
+  lblAppearanceDiffTitle.Caption := 'Diferencas e detalhe';
 
   lstAppearanceDifferences := TListBox.Create(Self);
   lstAppearanceDifferences.Parent := Sec;
@@ -1408,9 +1411,9 @@ begin
   memAppearanceDiffSummary := TMemo.Create(Self);
   memAppearanceDiffSummary.Parent := Sec;
   memAppearanceDiffSummary.Left := 604;
-  memAppearanceDiffSummary.Top := 198;
+  memAppearanceDiffSummary.Top := 200;
   memAppearanceDiffSummary.Width := 362;
-  memAppearanceDiffSummary.Height := 32;
+  memAppearanceDiffSummary.Height := 50;
   memAppearanceDiffSummary.ReadOnly := True;
   memAppearanceDiffSummary.ScrollBars := ssAutoVertical;
   memAppearanceDiffSummary.WordWrap := True;
@@ -1499,6 +1502,18 @@ function TfrmLazRibbonSkinEditor.IsColorAppearanceProperty(
 begin
   Result := (APropInfo <> nil) and
     SameText(String(APropInfo^.PropType^.Name), 'TColor');
+end;
+
+function TfrmLazRibbonSkinEditor.AppearancePropertyTypeCaption(
+  APropInfo: PPropInfo): String;
+begin
+  Result := '';
+  if APropInfo = nil then
+    Exit;
+
+  Result := String(APropInfo^.PropType^.Name);
+  if IsColorAppearanceProperty(APropInfo) then
+    Result := 'TColor';
 end;
 
 function TfrmLazRibbonSkinEditor.FormatAppearancePropertyValue(
@@ -1603,7 +1618,7 @@ function TfrmLazRibbonSkinEditor.AppearancePropertyDisplay(
 var
   Obj: TPersistent;
   PropInfo: PPropInfo;
-  TypeName, BaseValue: String;
+  BaseValue: String;
   DiffersFromBase: Boolean;
 begin
   Result := '';
@@ -1611,19 +1626,19 @@ begin
     Exit;
 
   Obj := AppearanceSectionObject(ABinding.Section);
+  if Obj = nil then
+    Exit;
+
   PropInfo := GetPropInfo(Obj, ABinding.PropName);
   if PropInfo = nil then
     Exit;
-
-  TypeName := String(PropInfo^.PropType^.Name);
-  if IsColorAppearanceProperty(PropInfo) then
-    TypeName := 'TColor';
 
   DiffersFromBase := AppearancePropertyDiffersFromBase(ABinding.Section, Obj,
     PropInfo, BaseValue);
 
   Result := AppearanceSectionCaption(ABinding.Section) + '.' + ABinding.PropName +
-    ' [' + TypeName + '] = ' + FormatAppearancePropertyValue(Obj, PropInfo);
+    ' [' + AppearancePropertyTypeCaption(PropInfo) + '] = ' +
+    FormatAppearancePropertyValue(Obj, PropInfo);
   if DiffersFromBase then
     Result := '[alterado] ' + Result + ' | base = ' +
       CompactInlineValue(BaseValue, 72);
@@ -1771,6 +1786,36 @@ begin
   end;
 end;
 
+function TfrmLazRibbonSkinEditor.SelectedAppearanceBinding:
+  TLazRibbonAppearancePropertyBinding;
+begin
+  Result := nil;
+  if (lstAppearanceProperties = nil) or
+     (lstAppearanceProperties.ItemIndex < 0) or
+     (lstAppearanceProperties.ItemIndex >= lstAppearanceProperties.Items.Count) then
+    Exit;
+
+  Result := TLazRibbonAppearancePropertyBinding(
+    lstAppearanceProperties.Items.Objects[lstAppearanceProperties.ItemIndex]);
+end;
+
+procedure TfrmLazRibbonSkinEditor.UpdateAppearanceInspectorActionState;
+var
+  HasProperty, CanEditAdvanced: Boolean;
+begin
+  HasProperty := SelectedAppearanceBinding <> nil;
+  CanEditAdvanced := CurrentSkinIsEditable and HasProperty;
+
+  if btnEditAppearanceProperty <> nil then
+    btnEditAppearanceProperty.Enabled := CanEditAdvanced;
+  if btnResetAppearancePropertyFromBase <> nil then
+    btnResetAppearancePropertyFromBase.Enabled := CanEditAdvanced and
+      (SelectedBaseSkin <> nil);
+  if btnResetAppearanceSectionFromBase <> nil then
+    btnResetAppearanceSectionFromBase.Enabled := CurrentSkinIsEditable and
+      (SelectedBaseSkin <> nil);
+end;
+
 procedure TfrmLazRibbonSkinEditor.RefreshAppearanceInspector;
 const
   Sections: array[0..4] of TLazRibbonSkinAppearanceSection = (
@@ -1781,11 +1826,23 @@ const
     asecPopup
   );
 var
-  I: Integer;
+  I, RestoreIndex: Integer;
   Section: TLazRibbonSkinAppearanceSection;
+  PreviousBinding, Binding: TLazRibbonAppearancePropertyBinding;
+  PreviousSection: TLazRibbonSkinAppearanceSection;
+  PreviousPropName: String;
 begin
   if lstAppearanceProperties = nil then
     Exit;
+
+  PreviousSection := asecAll;
+  PreviousPropName := '';
+  PreviousBinding := SelectedAppearanceBinding;
+  if PreviousBinding <> nil then
+  begin
+    PreviousSection := PreviousBinding.Section;
+    PreviousPropName := PreviousBinding.PropName;
+  end;
 
   ClearAppearancePropertyBindings;
 
@@ -1800,7 +1857,29 @@ begin
     AddAppearanceSectionProperties(Section);
   end;
 
+  RestoreIndex := -1;
+  if PreviousPropName <> '' then
+  begin
+    for I := 0 to lstAppearanceProperties.Items.Count - 1 do
+    begin
+      Binding := TLazRibbonAppearancePropertyBinding(
+        lstAppearanceProperties.Items.Objects[I]);
+      if (Binding <> nil) and (Binding.Section = PreviousSection) and
+         SameText(Binding.PropName, PreviousPropName) then
+      begin
+        RestoreIndex := I;
+        Break;
+      end;
+    end;
+  end;
+
+  if RestoreIndex >= 0 then
+    lstAppearanceProperties.ItemIndex := RestoreIndex
+  else if lstAppearanceProperties.Items.Count > 0 then
+    lstAppearanceProperties.ItemIndex := 0;
+
   RefreshAppearanceDifferenceSummary;
+  UpdateAppearanceInspectorActionState;
 end;
 
 procedure TfrmLazRibbonSkinEditor.RefreshAppearanceDifferenceSummary;
@@ -1917,33 +1996,56 @@ begin
       else
         Lines.Add(Format('Total nas secoes: %d diferencas.', [TotalDiffs]));
 
-      if (lstAppearanceProperties <> nil) and
-         (lstAppearanceProperties.ItemIndex >= 0) then
-      begin
-        Binding := TLazRibbonAppearancePropertyBinding(
-          lstAppearanceProperties.Items.Objects[lstAppearanceProperties.ItemIndex]);
-        if Binding <> nil then
-        begin
-          Obj := AppearanceSectionObject(Binding.Section);
-          if Obj <> nil then
-          begin
-            PropInfo := GetPropInfo(Obj, Binding.PropName);
-            if PropInfo <> nil then
-            begin
-              CurrentValue := FormatAppearancePropertyValue(Obj, PropInfo);
-              if AppearancePropertyDiffersFromBase(Binding.Section, Obj,
-                PropInfo, BaseValue) then
-                StatusText := 'alterada'
-              else
-                StatusText := 'igual a base';
+      Lines.Add('');
+      Lines.Add('Propriedade selecionada');
 
-              Lines.Add('');
-              Lines.Add(AppearanceSectionCaption(Binding.Section) + '.' +
-                Binding.PropName);
-              Lines.Add('Estado: ' + StatusText);
-              Lines.Add('Atual: ' + CompactInlineValue(CurrentValue, 72));
-              Lines.Add('Base: ' + CompactInlineValue(BaseValue, 72));
-            end;
+      Binding := SelectedAppearanceBinding;
+      if Binding = nil then
+        Lines.Add('Selecione uma propriedade da lista para ver detalhes.')
+      else
+      begin
+        Obj := AppearanceSectionObject(Binding.Section);
+        if Obj = nil then
+          Lines.Add('Grupo visual indisponivel.')
+        else
+        begin
+          PropInfo := GetPropInfo(Obj, Binding.PropName);
+          if PropInfo = nil then
+            Lines.Add('Propriedade nao encontrada no grupo visual.')
+          else
+          begin
+            CurrentValue := FormatAppearancePropertyValue(Obj, PropInfo);
+            if AppearancePropertyDiffersFromBase(Binding.Section, Obj,
+              PropInfo, BaseValue) then
+              StatusText := 'alterada em relacao a base'
+            else
+              StatusText := 'igual a base';
+
+            Lines.Add('Nome: ' + AppearanceSectionCaption(Binding.Section) + '.' +
+              Binding.PropName);
+            Lines.Add('Tipo: ' + AppearancePropertyTypeCaption(PropInfo));
+            Lines.Add('Estado: ' + StatusText);
+            Lines.Add('Atual: ' + CompactInlineValue(CurrentValue, 96));
+            Lines.Add('Base: ' + CompactInlineValue(BaseValue, 96));
+
+            if IsColorAppearanceProperty(PropInfo) then
+              Lines.Add('Edicao: abre o seletor de cor.')
+            else
+              case PropInfo^.PropType^.Kind of
+                tkBool:
+                  Lines.Add('Edicao: alterna entre True e False.');
+                tkEnumeration:
+                  Lines.Add('Edicao: informe um valor da enumeracao.');
+                tkInteger, tkInt64, tkQWord, tkFloat:
+                  Lines.Add('Edicao: informe um valor numerico.');
+                tkClass:
+                  if GetObjectProp(Obj, PropInfo) is TFont then
+                    Lines.Add('Edicao: abre o seletor de fonte.')
+                  else
+                    Lines.Add('Edicao: use o editor completo do grupo.');
+              else
+                Lines.Add('Edicao: use o editor completo do grupo.');
+              end;
           end;
         end;
       end;
@@ -2400,6 +2502,7 @@ end;
 procedure TfrmLazRibbonSkinEditor.lstAppearancePropertiesClick(Sender: TObject);
 begin
   RefreshAppearanceDifferenceSummary;
+  UpdateAppearanceInspectorActionState;
 end;
 
 procedure TfrmLazRibbonSkinEditor.lstAppearanceDifferencesClick(Sender: TObject);
@@ -2449,6 +2552,8 @@ begin
       Break;
     end;
   end;
+
+  UpdateAppearanceInspectorActionState;
 end;
 
 procedure TfrmLazRibbonSkinEditor.lstAppearanceDifferencesDblClick(Sender: TObject);
@@ -2489,24 +2594,26 @@ begin
 end;
 
 procedure TfrmLazRibbonSkinEditor.btnEditAppearancePropertyClick(Sender: TObject);
+var
+  Binding: TLazRibbonAppearancePropertyBinding;
 begin
-  if (lstAppearanceProperties = nil) or
-     (lstAppearanceProperties.ItemIndex < 0) then
+  Binding := SelectedAppearanceBinding;
+  if Binding = nil then
     Exit;
 
-  EditAppearanceProperty(TLazRibbonAppearancePropertyBinding(
-    lstAppearanceProperties.Items.Objects[lstAppearanceProperties.ItemIndex]));
+  EditAppearanceProperty(Binding);
 end;
 
 procedure TfrmLazRibbonSkinEditor.btnResetAppearancePropertyFromBaseClick(
   Sender: TObject);
+var
+  Binding: TLazRibbonAppearancePropertyBinding;
 begin
-  if (lstAppearanceProperties = nil) or
-     (lstAppearanceProperties.ItemIndex < 0) then
+  Binding := SelectedAppearanceBinding;
+  if Binding = nil then
     Exit;
 
-  ResetAppearancePropertyFromBase(TLazRibbonAppearancePropertyBinding(
-    lstAppearanceProperties.Items.Objects[lstAppearanceProperties.ItemIndex]));
+  ResetAppearancePropertyFromBase(Binding);
 end;
 
 procedure TfrmLazRibbonSkinEditor.btnResetAppearanceSectionFromBaseClick(
@@ -4457,6 +4564,7 @@ begin
 
   SetBackstageCommandEnabled('Salvar', CanEdit);
   SetBackstageCommandEnabled('Salvar como...', CanEdit);
+  UpdateAppearanceInspectorActionState;
 end;
 
 procedure TfrmLazRibbonSkinEditor.SetPaletteColor(AField: TLazRibbonEditorPaletteField; AColor: TColor);

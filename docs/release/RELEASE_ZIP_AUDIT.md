@@ -1,3 +1,12 @@
+## 2.1.12 check
+
+- Package metadata updated to 2.1.12 for the runtime and design-time packages.
+- Public release ZIP/tag label is `2.1.12` through the `-ReleaseVersion` workflow.
+- The Skin Editor `Ajuste avancado` page now keeps the selected Appearance property stable across refreshes and uses a richer `Diferencas e detalhe` panel for selected-property context.
+- Advanced edit/reset buttons remain disabled until a valid editable property is selected, preserving the skin workflow's read-only/editable distinction.
+- `tools/verify_release_candidate.ps1 -Version 2.1.12 -ReleaseVersion 2.1.12` passed, including clean-checkout ZIP extraction and full build validation.
+- Public ZIP created as `LazRibbon_2.1.12_source_20260912_102843.zip` with SHA256 `62AFC04F4774FE222A8FA2E8063DFD006E6ABDF153BAA987FD3E294DE551101B`.
+
 ## 2.1.11 check
 
 - Package metadata updated to 2.1.11 for the runtime and design-time packages.

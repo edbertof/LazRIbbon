@@ -90,6 +90,12 @@ save-readiness status, groups blocking issues separately from warnings worth
 reviewing before distribution, and keeps the next normal workflow step visible
 without requiring the user to interpret the full audit memo.
 
+The advanced Appearance inspector now gives context for the selected property.
+It preserves the selected item across refreshes when possible, disables
+edit/reset actions until a valid editable property is selected, and shows the
+property section, type, current value, base value and editing path in the
+difference/detail panel.
+
 ## Safe Cleanup Decisions
 
 - Keep `RibbonAppearance` readable in old `.lfm` files.
@@ -114,6 +120,6 @@ without requiring the user to interpret the full audit memo.
 For a 2.1 stabilization build, these commands must pass from the source root:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File tools\check_project_consistency.ps1 -ExpectedVersion 2.1.11
+powershell -ExecutionPolicy Bypass -File tools\check_project_consistency.ps1 -ExpectedVersion 2.1.12
 powershell -ExecutionPolicy Bypass -File tools\build_all_projects.ps1 -CleanArtifacts
 ```

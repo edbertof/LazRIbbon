@@ -1,6 +1,8 @@
 # LazRibbon Status
 
-`2.1.11 - Skin Editor validation decision panel` is the current build.
+`2.1.12 - Skin Editor advanced property detail` is the current build.
+
+The `2.1.12` build improves the standalone Skin Editor `Ajuste avancado` workflow. The Appearance inspector now keeps the selected property stable across refreshes when possible, disables edit/reset actions until a valid editable property is selected, and expands the difference/detail panel with the selected property's section, type, current value, base value and editing guidance. Runtime and design-time package metadata are now `2.1.12`. No new published component API was added.
 
 The `2.1.11` build improves the standalone Skin Editor validation workflow with a clearer decision panel. The former recommended-actions memo now starts with an explicit save-readiness status, separates blocking issues from distribution-review warnings, lists the next normal workflow step, and colors the summary consistently when the current skin is a read-only built-in base. Runtime and design-time package metadata are now `2.1.11`. No new published component API was added.
 

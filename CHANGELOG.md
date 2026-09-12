@@ -2,6 +2,14 @@
 
 - No unreleased changes.
 
+## 2.1.12 - Skin Editor advanced property detail
+
+- Improves the standalone Skin Editor `Ajuste avancado` page with clearer selected-property details in the Appearance inspector.
+- Preserves the selected Appearance property after filtering, editing or refreshing the advanced property list when the same item is still visible.
+- Keeps advanced edit/reset buttons disabled until a valid editable property is selected.
+- Expands the difference/detail panel with property name, type, current value, base value and editing guidance.
+- Updates runtime and design-time package metadata to `2.1.12`.
+
 ## 2.1.11 - Skin Editor validation decision panel
 
 - Renames the Skin Editor validation actions area to `Decisao e proximos passos`.

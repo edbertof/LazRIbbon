@@ -50,9 +50,9 @@ tools/LazRibbonSkinEditor/
 
 ## Current version
 
-This distribution is **LazRibbon 2.1.11 development release candidate**.
+This distribution is **LazRibbon 2.1.12 development release candidate**.
 
-The `2.1.11` build continues the post-2.0 Skin Editor line with a clearer validation decision panel. It keeps the 2.0 public API direction, advances runtime and design-time package metadata to `2.1.11`, and turns the validation actions area into a save-readiness summary with blocking issues, distribution-review warnings and next-step guidance. The public release notes are in `docs/release/RELEASE_2_1_11.md`; the stable 2.0 baseline remains documented in `docs/release/RELEASE_2_0_0.md`.
+The `2.1.12` build continues the post-2.0 Skin Editor line by making the advanced Appearance inspector easier to use. It keeps the 2.0 public API direction, advances runtime and design-time package metadata to `2.1.12`, preserves the selected advanced property across refreshes when possible, and expands the detail panel with property name, type, current value, base value and editing guidance. The public release notes are in `docs/release/RELEASE_2_1_12.md`; the stable 2.0 baseline remains documented in `docs/release/RELEASE_2_0_0.md`.
 
 ## Post-2.0 development
 
@@ -85,7 +85,8 @@ The public screenshot set is generated with `tools/capture_release_screenshots.p
 
 Highlights in the current LazRibbon line:
 
-- Runtime and design-time package metadata are aligned on `2.1.11`.
+- Runtime and design-time package metadata are aligned on `2.1.12`.
+- The Skin Editor `Ajuste avancado` page now keeps the selected Appearance property stable across refreshes and shows a clearer selected-property detail panel.
 - The Skin Editor validation page now includes a `Decisao e proximos passos` panel with save-readiness status, blockers, review warnings and next-step guidance.
 - The Skin Editor validation page now compares `Base x skin atual` side by side, including Ribbon, pane, command, BackStage and contrast samples.
 - The Skin Editor `Cores do Ribbon` page now includes a visual palette map for Ribbon tabs, panes, command states, BackStage selection and contrast ratios.
@@ -299,14 +300,14 @@ powershell -ExecutionPolicy Bypass -File tools/build_all_projects.ps1 -CleanArti
 To validate the package from an extracted clean source tree:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File tools/verify_clean_checkout.ps1 -Version 2.1.11 -ReleaseVersion 2.1.11
+powershell -ExecutionPolicy Bypass -File tools/verify_clean_checkout.ps1 -Version 2.1.12 -ReleaseVersion 2.1.12
 ```
 
 For a complete release preflight, including consistency checks and ZIP
 audit:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File tools/verify_release_candidate.ps1 -Version 2.1.11 -ReleaseVersion 2.1.11 -OutputDirectory D:\Ribbon4Lazarus\Releases
+powershell -ExecutionPolicy Bypass -File tools/verify_release_candidate.ps1 -Version 2.1.12 -ReleaseVersion 2.1.12 -OutputDirectory D:\Ribbon4Lazarus\Releases
 ```
 
 The purpose of each demo is documented in
