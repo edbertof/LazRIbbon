@@ -36,6 +36,13 @@ Run the source-tree audit before packaging:
 powershell -ExecutionPolicy Bypass -File tools/check_project_consistency.ps1
 ```
 
+Regenerate the professional-readiness report when changing repository docs,
+demos, screenshots, GitHub templates, release scripts or quality reports:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File tools/export_professional_readiness_2_1.ps1 -OutputPath docs/quality/PROFESSIONAL_READINESS_2_1.md
+```
+
 Build a clean source ZIP with:
 
 ```powershell

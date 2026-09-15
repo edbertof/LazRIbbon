@@ -10,7 +10,8 @@ Deliver a post-2.0 package that feels easier to adopt and maintain:
 - the Object Inspector property model remains clear and intentional;
 - demos show realistic application composition patterns;
 - documentation guides new users from install to first usable Ribbon form;
-- release validation remains repeatable from a clean checkout and published ZIP.
+- release validation remains repeatable from a clean checkout and published ZIP;
+- professional readiness is measured as a repeatable package-quality gate, not only as a subjective review.
 
 ## Scope
 
@@ -43,10 +44,11 @@ Deliver a post-2.0 package that feels easier to adopt and maintain:
 - Add repository issue templates for bug reports, feature requests and Lazarus compatibility reports.
 - Prepare the package for a later Lazarus Online Package Manager review, including clear license notes and source-only release ZIP hygiene.
 - Validate the published ZIP after every public release by downloading it from GitHub and auditing the extracted source tree.
+- Keep `docs/quality/PROFESSIONAL_READINESS_2_1.md` regenerated so repository trust, onboarding, demos, Skin Editor workflow and release automation stay aligned.
 
 ## 2.1 Gates
 
-- `tools/check_project_consistency.ps1 -ExpectedVersion 2.1.12` passes.
+- `tools/check_project_consistency.ps1 -ExpectedVersion 2.1.13` passes.
 - `tools/export_skin_editor_2_1_coverage.ps1` regenerates the Skin Editor coverage report.
 - The Skin Editor opens, previews built-in skins and saves a self-contained `.skin` file.
 - The main demos compile with Lazarus 4.8.
@@ -54,6 +56,7 @@ Deliver a post-2.0 package that feels easier to adopt and maintain:
 - No new published Object Inspector property is added without a documented role.
 - `docs/quality/LAZRIBBON_2_1_ACCELERATION_AUDIT.md` remains aligned with the
   active Skin Editor, API clarity, demo and distribution work tracks.
+- `docs/quality/PROFESSIONAL_READINESS_2_1.md` reports zero review gates before a public 2.1 stabilization release.
 
 ## First Work Items
 
@@ -141,6 +144,16 @@ still visible, edit/reset actions stay disabled until a valid editable property
 is selected, and the difference/detail panel shows the property section, type,
 current value, base value and editing guidance. No new published component API
 was added.
+
+## 2.1.13 Snapshot
+
+The package now has a generated professional-readiness report for the post-2.0
+line. `tools/export_professional_readiness_2_1.ps1` checks repository trust
+files, onboarding docs, manuals, screenshots, GitHub templates, API governance,
+Skin Editor workflow coverage, demo coverage and release automation together,
+and the consistency audit compares the generated output with
+`docs/quality/PROFESSIONAL_READINESS_2_1.md`. No new published component API was
+added.
 
 ## Current Skin Editor Workflow Pass
 

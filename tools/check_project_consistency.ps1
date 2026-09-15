@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
   [string]$SourceRoot = '',
-  [string]$ExpectedVersion = '2.1.12'
+  [string]$ExpectedVersion = '2.1.13'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -1697,6 +1697,43 @@ function Test-TwoPointZeroPlanningDocs {
   }
 }
 
+function Test-TwoPointOneProfessionalReadiness {
+  $scriptPath = Join-Path $SourceRoot 'tools/export_professional_readiness_2_1.ps1'
+  $reportPath = Join-Path $SourceRoot 'docs/quality/PROFESSIONAL_READINESS_2_1.md'
+
+  if (-not (Test-Path -LiteralPath $scriptPath)) {
+    Add-Failure 'Missing LazRibbon 2.1 professional readiness generator.'
+    return
+  }
+
+  if (-not (Test-Path -LiteralPath $reportPath)) {
+    Add-Failure 'Missing LazRibbon 2.1 professional readiness report.'
+    return
+  }
+
+  $report = Get-Content -LiteralPath $reportPath -Raw
+  foreach ($required in @(
+    'Professional Readiness',
+    'Repository trust',
+    'Developer onboarding',
+    'Technical planning',
+    'Skin authoring',
+    'Demos and examples',
+    'Release automation',
+    'Gates needing review: 0',
+    'PROFESSIONAL_READINESS_2_1.md'
+  )) {
+    if ($report -notmatch [regex]::Escape($required)) {
+      Add-Failure "LazRibbon 2.1 professional readiness report must mention $required."
+    }
+  }
+
+  $generated = (& $scriptPath -SourceRoot $SourceRoot -Version $ExpectedVersion) -join [Environment]::NewLine
+  if ($report.Trim() -ne $generated.Trim()) {
+    Add-Failure 'LazRibbon 2.1 professional readiness report is out of date; regenerate it with tools/export_professional_readiness_2_1.ps1.'
+  }
+}
+
 if ([string]::IsNullOrWhiteSpace($SourceRoot)) {
   $scriptPath = if (-not [string]::IsNullOrWhiteSpace($PSCommandPath)) {
     $PSCommandPath
@@ -1736,6 +1773,7 @@ Test-SkinEditorPreviewMinimizeSync
 Test-SkinEditorAppearanceModeDetection
 Test-RegisteredPaletteComponentDocumentation
 Test-TwoPointZeroPlanningDocs
+Test-TwoPointOneProfessionalReadiness
 Test-ForbiddenFiles
 
 if ($failures.Count -eq 0) {

@@ -1,6 +1,8 @@
 # LazRibbon Status
 
-`2.1.12 - Skin Editor advanced property detail` is the current build.
+`2.1.13 - Professional readiness gate` is the current build.
+
+The `2.1.13` build adds a generated professional-readiness gate for the post-2.0 package. `tools/export_professional_readiness_2_1.ps1` now produces `docs/quality/PROFESSIONAL_READINESS_2_1.md`, checking repository trust files, onboarding docs, manuals, screenshots, GitHub templates, API governance, Skin Editor workflow coverage, demo coverage and release automation as one adoption-readiness view. The main consistency audit regenerates and compares that report so professional package quality cannot drift silently. Runtime and design-time package metadata are now `2.1.13`. No new published component API was added.
 
 The `2.1.12` build improves the standalone Skin Editor `Ajuste avancado` workflow. The Appearance inspector now keeps the selected property stable across refreshes when possible, disables edit/reset actions until a valid editable property is selected, and expands the difference/detail panel with the selected property's section, type, current value, base value and editing guidance. Runtime and design-time package metadata are now `2.1.12`. No new published component API was added.
 

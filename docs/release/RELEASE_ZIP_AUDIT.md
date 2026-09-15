@@ -1,3 +1,13 @@
+## 2.1.13 check
+
+- Package metadata updated to 2.1.13 for the runtime and design-time packages.
+- Public release ZIP/tag label is `2.1.13` through the `-ReleaseVersion` workflow.
+- The release adds `tools/export_professional_readiness_2_1.ps1` and `docs/quality/PROFESSIONAL_READINESS_2_1.md` so repository trust, onboarding, Skin Editor workflow, demo coverage and release automation are checked together.
+- `tools/check_project_consistency.ps1` now regenerates and compares the professional-readiness report during the normal audit.
+- `SUPPORT.md` and `SECURITY.md` document public support and vulnerability-reporting expectations.
+- `tools/verify_release_candidate.ps1 -Version 2.1.13 -ReleaseVersion 2.1.13` passed, including clean-checkout ZIP extraction and full build validation.
+- Public ZIP created as `LazRibbon_2.1.13_source_20260915_153429.zip` with SHA256 `6FC75CC2A0ABCD545B51A7168CB2103A0156393B89D7A0FEE8390D8FFE6D0915`.
+
 ## 2.1.12 check
 
 - Package metadata updated to 2.1.12 for the runtime and design-time packages.

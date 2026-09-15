@@ -4,6 +4,8 @@ This report keeps the accelerated post-2.0 work organized across the five
 tracks that matter for a shared/public package: Skin Editor workflow,
 SpkToolBar compatibility cleanup, Object Inspector clarity, demos and
 distribution readiness.
+The `docs/quality/PROFESSIONAL_READINESS_2_1.md` report turns that broader
+package polish into an explicit generated gate.
 
 ## Current Direction
 
@@ -30,7 +32,7 @@ internal rendering state, hidden from the Object Inspector.
 | SpkToolBar inheritance cleanup | Low-level `TLazRibbonToolbarAppearance` still exists as the internal render model and complete editor surface. | Do not expose it as the normal Ribbon design-time path; keep SkinManager as the visible skin authoring surface. |
 | Object Inspector clarity | Redundancy and property-skip audits classify repeated or compatibility-only properties. | Any new published property must be classified before release and must fit the composition model. |
 | Demos | Showcase plus focused demos cover the main integration points. | Keep Showcase as the full integration smoke test and use focused demos to document one concept at a time. |
-| Distribution | Source ZIP audit, clean checkout validation, manuals, screenshots and GitHub docs exist. | Keep GitHub templates and release notes aligned with Lazarus/FPC compatibility reports. |
+| Distribution | Source ZIP audit, clean checkout validation, manuals, screenshots, GitHub docs and professional readiness evidence exist. | Keep GitHub templates, release notes and generated readiness reports aligned with Lazarus/FPC compatibility reports. |
 
 ## Skin Editor Workflow Update
 
@@ -96,6 +98,13 @@ edit/reset actions until a valid editable property is selected, and shows the
 property section, type, current value, base value and editing path in the
 difference/detail panel.
 
+The project now has a generated professional readiness report. It checks the
+repository trust files, onboarding documentation, manuals, screenshots, GitHub
+templates, API governance reports, Skin Editor workflow coverage, demo matrix
+and release automation as one adoption-readiness surface. The main consistency
+audit regenerates this report and fails when it drifts from the checked-in
+version.
+
 ## Safe Cleanup Decisions
 
 - Keep `RibbonAppearance` readable in old `.lfm` files.
@@ -113,13 +122,16 @@ difference/detail panel.
    change.
 2. Keep the manual and component reference synchronized with every new
    design-time workflow.
-3. Validate every public ZIP from an extracted clean source tree before tagging.
+3. Regenerate `docs/quality/PROFESSIONAL_READINESS_2_1.md` whenever repository
+   trust files, demos, manuals, screenshots or release scripts change.
+4. Validate every public ZIP from an extracted clean source tree before tagging.
 
 ## Release Gate
 
 For a 2.1 stabilization build, these commands must pass from the source root:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File tools\check_project_consistency.ps1 -ExpectedVersion 2.1.12
+powershell -ExecutionPolicy Bypass -File tools\check_project_consistency.ps1 -ExpectedVersion 2.1.13
+powershell -ExecutionPolicy Bypass -File tools\export_professional_readiness_2_1.ps1 -OutputPath docs\quality\PROFESSIONAL_READINESS_2_1.md
 powershell -ExecutionPolicy Bypass -File tools\build_all_projects.ps1 -CleanArtifacts
 ```

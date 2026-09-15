@@ -50,9 +50,9 @@ tools/LazRibbonSkinEditor/
 
 ## Current version
 
-This distribution is **LazRibbon 2.1.12 development release candidate**.
+This distribution is **LazRibbon 2.1.13 development release candidate**.
 
-The `2.1.12` build continues the post-2.0 Skin Editor line by making the advanced Appearance inspector easier to use. It keeps the 2.0 public API direction, advances runtime and design-time package metadata to `2.1.12`, preserves the selected advanced property across refreshes when possible, and expands the detail panel with property name, type, current value, base value and editing guidance. The public release notes are in `docs/release/RELEASE_2_1_12.md`; the stable 2.0 baseline remains documented in `docs/release/RELEASE_2_0_0.md`.
+The `2.1.13` build adds a professional-readiness gate for the post-2.0 package. It keeps the 2.0 public API direction, advances runtime and design-time package metadata to `2.1.13`, and adds `tools/export_professional_readiness_2_1.ps1` plus `docs/quality/PROFESSIONAL_READINESS_2_1.md` so repository trust files, onboarding docs, manuals, screenshots, GitHub templates, API governance, Skin Editor workflow, demos and release automation are checked together. The public release notes are in `docs/release/RELEASE_2_1_13.md`; the stable 2.0 baseline remains documented in `docs/release/RELEASE_2_0_0.md`.
 
 ## Post-2.0 development
 
@@ -61,6 +61,8 @@ The next development line is tracked in `docs/release/ROADMAP_2_1.md`. Its first
 `tools/export_skin_editor_2_1_coverage.ps1` generates `docs/quality/SKIN_EDITOR_APPEARANCE_COVERAGE_2_1.md`, a report that compares the published `Appearance` sections with the native visual appearance editor and the standalone Skin Editor.
 
 The accelerated 2.1 cleanup plan is tracked in `docs/quality/LAZRIBBON_2_1_ACCELERATION_AUDIT.md`. It keeps the next work grouped around Skin Editor workflow, SpkToolBar compatibility cleanup, Object Inspector clarity, stronger demos and GitHub/distribution readiness.
+
+`tools/export_professional_readiness_2_1.ps1` generates `docs/quality/PROFESSIONAL_READINESS_2_1.md`, a package-level adoption report that checks whether the public repository, documentation, demos, Skin Editor workflow and release automation still look coherent as the project evolves.
 
 ### Appearance and skins in new projects
 
@@ -85,7 +87,9 @@ The public screenshot set is generated with `tools/capture_release_screenshots.p
 
 Highlights in the current LazRibbon line:
 
-- Runtime and design-time package metadata are aligned on `2.1.12`.
+- Runtime and design-time package metadata are aligned on `2.1.13`.
+- A generated professional-readiness report now checks repository trust files, onboarding docs, manuals, screenshots, GitHub templates, API governance, Skin Editor workflow, demos and release automation as one adoption-readiness view.
+- The main consistency audit regenerates that report so project polish and packaging evidence stay synchronized with code changes.
 - The Skin Editor `Ajuste avancado` page now keeps the selected Appearance property stable across refreshes and shows a clearer selected-property detail panel.
 - The Skin Editor validation page now includes a `Decisao e proximos passos` panel with save-readiness status, blockers, review warnings and next-step guidance.
 - The Skin Editor validation page now compares `Base x skin atual` side by side, including Ribbon, pane, command, BackStage and contrast samples.
@@ -290,6 +294,9 @@ After installation, test at least:
 - `demos/basic/project1.lpi`
 - `demos/skins_gallery/project1.lpi`
 - `demos/backstage/project1.lpi`
+- `demos/backstage_recent_files/project1.lpi`
+- `demos/ribbon_form/project1.lpi`
+- `demos/skin_editor_sample/project1.lpi`
 
 For release validation, build the complete matrix:
 
@@ -300,22 +307,18 @@ powershell -ExecutionPolicy Bypass -File tools/build_all_projects.ps1 -CleanArti
 To validate the package from an extracted clean source tree:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File tools/verify_clean_checkout.ps1 -Version 2.1.12 -ReleaseVersion 2.1.12
+powershell -ExecutionPolicy Bypass -File tools/verify_clean_checkout.ps1 -Version 2.1.13 -ReleaseVersion 2.1.13
 ```
 
 For a complete release preflight, including consistency checks and ZIP
 audit:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File tools/verify_release_candidate.ps1 -Version 2.1.12 -ReleaseVersion 2.1.12 -OutputDirectory D:\Ribbon4Lazarus\Releases
+powershell -ExecutionPolicy Bypass -File tools/verify_release_candidate.ps1 -Version 2.1.13 -ReleaseVersion 2.1.13 -OutputDirectory D:\Ribbon4Lazarus\Releases
 ```
 
 The purpose of each demo is documented in
 `docs/release/DEMO_VALIDATION_MATRIX.md`.
-- `demos/backstage_recent_files/project1.lpi`
-- `demos/ribbon_form/project1.lpi`
-- `demos/skin_editor_sample/project1.lpi`
-
 
 ## Demo overview
 
@@ -344,6 +347,8 @@ See `STATUS.md` for the current technical status, known limitations, and recomme
 ## Repository docs
 
 - `CONTRIBUTING.md`: contribution and validation expectations.
+- `SUPPORT.md`: supported environment and issue-reporting guidance.
+- `SECURITY.md`: responsible vulnerability-reporting guidance.
 - `docs/manual/LAZRIBBON_MANUAL.md`: illustrated installation and component usage manual.
 - `docs/manual/LAZRIBBON_COMPONENT_REFERENCE.md`: property-by-property and event-by-event component reference.
 - `docs/manual/LAZRIBBON_MANUAL.docx`: Word version of the illustrated manual.
@@ -366,7 +371,7 @@ LazRibbon is currently developed and validated for:
 - LCL applications
 - Windows as the primary validation platform
 
-Lazarus 4.6 was the previous validation target and may still work, but the active support target for the current 1.2 stabilization line is Lazarus 4.8.
+Lazarus 4.6 was the previous validation target and may still work, but the active support target for the current 2.1 line is Lazarus 4.8.
 
 ## Release hygiene
 
@@ -381,22 +386,11 @@ By default, new release ZIPs are stored in `D:\Ribbon4Lazarus`.
 
 ## Publishing on GitHub
 
-Before creating a public release, run the checklist in `docs/quality/VALIDATION_LAZARUS_4_8.md`, regenerate the public screenshot set with `tools/capture_release_screenshots.ps1` and follow `docs/release/GITHUB_PUBLISHING.md`.
+Before creating a public release, run the checklist in `docs/quality/VALIDATION_LAZARUS_4_8.md`, regenerate the public screenshot set with `tools/capture_release_screenshots.ps1`, regenerate `docs/quality/PROFESSIONAL_READINESS_2_1.md` and follow `docs/release/GITHUB_PUBLISHING.md`.
 
+## Additional runtime features
 
-## 1.1 development line
-
-The 1.1 line is reserved for controlled architectural stabilization. The first priorities are:
-
-- keep Lazarus 4.8 as the official target;
-- preserve 1.0.0 behavior unless a change is deliberate and tested;
-- reduce unsafe coupling gradually;
-- plan interfaces before refactoring `LazRibbon_Core.pas`;
-- avoid broad compiler-mode conversion until regression checks are stronger.
-
-See `docs/release/ROADMAP_1_1.md`.
-
-
+The following runtime capabilities are part of the current 2.x package and are covered by demos, quality reports and release validation.
 
 ### Contextual tabs
 
@@ -415,5 +409,5 @@ This remains explicit application logic. The Ribbon does not try to infer which 
 
 ### KeyTips
 
-The `TLazRibbon.ShowKeyTips` property enables the lightweight KeyTips overlay. With the Ribbon focused, press `Alt` to show/hide KeyTips and `Esc` to hide them. `KeyTip` metadata can be set on the Application Button, tabs, Quick Access Toolbar items and Ribbon items. In 1.1.46 the keyboard path activates the Application Button, tabs, QAT items and visible/enabled command items in the active tab. In 1.1.47 the visual overlay also covers QAT items hosted by `TLazRibbonForm` in the custom title bar. Button, button-dropdown and toggle items execute through `TLazRibbonBaseItem.ExecuteKeyTip`; pure dropdown buttons open their dropdown menu when available.
+`TLazRibbon.ShowKeyTips` enables the lightweight KeyTips overlay. With the Ribbon focused, press `Alt` to show or hide root-level KeyTips and `Esc` to step back or close them. `KeyTip` metadata can be set on the Application Button, tabs, Quick Access Toolbar items and Ribbon items. The staged keyboard path activates the Application Button, visible tabs, QAT items and visible/enabled command items in the active tab. The visual overlay also covers QAT items hosted by `TLazRibbonForm` in the custom title bar. Button, button-dropdown and toggle items execute through `TLazRibbonBaseItem.ExecuteKeyTip`; pure dropdown buttons open their dropdown menu when available.
 

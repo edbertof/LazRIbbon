@@ -2,6 +2,15 @@
 
 - No unreleased changes.
 
+## 2.1.13 - Professional readiness gate
+
+- Adds `tools/export_professional_readiness_2_1.ps1`, a generated adoption-readiness audit for repository trust, onboarding docs, manuals, screenshots, GitHub templates, API governance, Skin Editor workflow, demos and release automation.
+- Adds `docs/quality/PROFESSIONAL_READINESS_2_1.md` as the checked-in professional-readiness report for the 2.1 line.
+- Adds `SUPPORT.md` and `SECURITY.md` so public support and vulnerability-reporting expectations are documented at repository level.
+- Extends `tools/check_project_consistency.ps1` so the professional-readiness report is regenerated and compared during the normal project audit.
+- Updates README, status, roadmap and release documentation to make professional package readiness an explicit 2.1 gate.
+- Updates runtime and design-time package metadata to `2.1.13`.
+
 ## 2.1.12 - Skin Editor advanced property detail
 
 - Improves the standalone Skin Editor `Ajuste avancado` page with clearer selected-property details in the Appearance inspector.
