@@ -1,6 +1,6 @@
 # Design-time quick creation verbs
 
-Introduced in LazRibbon 1.1.58 and extended in LazRibbon 1.1.61.
+Introduced in LazRibbon 1.1.58 and extended in LazRibbon 1.1.61 and 2.1.15.
 
 When `LazRibbonDesign.lpk` is installed, the `TLazRibbon` component editor exposes two scaffold actions:
 
@@ -39,6 +39,9 @@ Introduced in LazRibbon 1.1.61.
 This design-time verb creates a fuller starter structure for a new application:
 
 - Application Button captioned `Arquivo`;
+- `TLazRibbonSkinManager` created or reused and assigned to the Ribbon;
+- `TLazRibbonBackstageView` created or reused and assigned to `TLazRibbon.BackstageView`;
+- BackStage starter pages, page navigation buttons, a separator and bottom command entries;
 - Quick Access Toolbar enabled in the title bar;
 - QAT entries linked to generated `Novo`, `Abrir` and `Salvar` commands;
 - normal tabs `Início`, `Inserir` and `Exibir`;
@@ -46,6 +49,15 @@ This design-time verb creates a fuller starter structure for a new application:
 - panes, large/small commands, KeyTips and ScreenTip metadata.
 
 It is intentionally a scaffold, not a framework generator. The developer must still assign actions, images, event handlers, persistence and application-specific behavior.
+
+## 2.1.15 starter-composition check
+
+- Compile `LazRibbonDesign.lpk`.
+- Drop a `TLazRibbon` on a normal Lazarus form.
+- Run `Add starter Ribbon layout`.
+- Confirm that a `TLazRibbonSkinManager` exists and is assigned to `TLazRibbon.SkinManager`.
+- Confirm that a `TLazRibbonBackstageView` exists, is assigned to `TLazRibbon.BackstageView`, uses `OverlayMode = bomCoverClientArea` and contains starter page buttons in `Buttons`.
+- Confirm that the existing Ribbon tabs, QAT entries and KeyTips are still generated.
 
 ## 1.1.62 hotfix check
 

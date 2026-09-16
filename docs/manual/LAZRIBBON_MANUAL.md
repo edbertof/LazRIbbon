@@ -1,6 +1,6 @@
 # LazRibbon Manual
 
-Target: LazRibbon 2.1.14, Lazarus 4.8.
+Target: LazRibbon 2.1.15, Lazarus 4.8.
 
 This manual explains how to install the package, how the components connect to
 each other, and which published properties and events are part of the public
@@ -47,7 +47,7 @@ Standalone Skin Editor:
 Recommended validation command before distributing or reinstalling from source:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File tools\verify_release_candidate.ps1 -Version 2.1.14 -ReleaseVersion 2.1.14 -OutputDirectory D:\Ribbon4Lazarus\Releases
+powershell -ExecutionPolicy Bypass -File tools\verify_release_candidate.ps1 -Version 2.1.15 -ReleaseVersion 2.1.15 -OutputDirectory D:\Ribbon4Lazarus\Releases
 ```
 
 ## 2. Component Model
@@ -79,6 +79,14 @@ The smallest useful setup is:
 
 Use `Images` and `LargeImages` on `TLazRibbon` for shared command icons. Standard
 `Action` objects can be assigned to Ribbon buttons and Quick Access items.
+
+With the design-time package installed, a quicker first pass is available from
+the `TLazRibbon` component editor. Right-click the Ribbon and choose
+`Add starter Ribbon layout` to generate an Office-like starter composition with
+normal tabs, a contextual tab, starter commands, title-bar Quick Access Toolbar,
+a linked `TLazRibbonSkinManager`, and a linked BackStage with starter pages and
+navigation buttons. This is only a scaffold: rename captions, assign images,
+actions and event handlers before using it in a real application.
 
 ## 4. BackStage Setup
 
@@ -518,5 +526,5 @@ powershell -ExecutionPolicy Bypass -File tools\export_professional_readiness_2_1
 Then run:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File tools\check_project_consistency.ps1 -ExpectedVersion 2.1.14
+powershell -ExecutionPolicy Bypass -File tools\check_project_consistency.ps1 -ExpectedVersion 2.1.15
 ```

@@ -30,7 +30,7 @@ When `LazRibbonDesign.lpk` is installed in Lazarus, selecting a `TLazRibbon` exp
 - `Add starter Ribbon layout`
 - `Validate KeyTips`
 
-`Add basic tab` creates a starter tab with one pane, one large command and one small command. `Add contextual tab` creates a visible contextual tab with `Contextual = True`, a group caption, a contextual color and one starter command. `Add starter Ribbon layout` creates a fuller Office-like scaffold with tabs, panes, starter commands, KeyTips, ScreenTips and title-bar QAT entries. `Validate KeyTips` audits missing, duplicated and prefix-ambiguous KeyTips in the staged overlay model. These verbs are intended as scaffolding only; developers should rename captions, assign actions, images and shortcuts according to the application.
+`Add basic tab` creates a starter tab with one pane, one large command and one small command. `Add contextual tab` creates a visible contextual tab with `Contextual = True`, a group caption, a contextual color and one starter command. `Add starter Ribbon layout` creates a fuller Office-like scaffold with tabs, panes, starter commands, KeyTips, ScreenTips, title-bar QAT entries, a linked `TLazRibbonSkinManager` and a linked BackStage with starter pages and navigation buttons. `Validate KeyTips` audits missing, duplicated and prefix-ambiguous KeyTips in the staged overlay model. These verbs are intended as scaffolding only; developers should rename captions, assign actions, images and shortcuts according to the application.
 
 ## Package layout
 
@@ -50,9 +50,9 @@ tools/LazRibbonSkinEditor/
 
 ## Current version
 
-This distribution is **LazRibbon 2.1.14 development release candidate**.
+This distribution is **LazRibbon 2.1.15 development release candidate**.
 
-The `2.1.14` build adds a generated component API governance gate for the post-2.0 package. It keeps the 2.0 public API direction, advances runtime and design-time package metadata to `2.1.14`, and adds `tools/export_component_api_governance_2_1.ps1` plus `docs/quality/COMPONENT_API_GOVERNANCE_2_1.md` so every package-facing component role, canonical connection property, compatibility-only hide rule and repeated property name stays explainable. The public release notes are in `docs/release/RELEASE_2_1_14.md`; the stable 2.0 baseline remains documented in `docs/release/RELEASE_2_0_0.md`.
+The `2.1.15` build improves the `TLazRibbon` design-time starter layout so the first generated form follows the documented composition model more closely. The starter action now creates or reuses a `TLazRibbonSkinManager`, links it to the Ribbon, creates or reuses a `TLazRibbonBackstageView`, adds starter BackStage pages/navigation buttons, and keeps the existing tabs, panes, commands, KeyTips, ScreenTips and title-bar QAT entries. The public release notes are in `docs/release/RELEASE_2_1_15.md`; the stable 2.0 baseline remains documented in `docs/release/RELEASE_2_0_0.md`.
 
 ## Post-2.0 development
 
@@ -89,7 +89,8 @@ The public screenshot set is generated with `tools/capture_release_screenshots.p
 
 Highlights in the current LazRibbon line:
 
-- Runtime and design-time package metadata are aligned on `2.1.14`.
+- Runtime and design-time package metadata are aligned on `2.1.15`.
+- The `TLazRibbon` design-time starter layout now creates the first Office-like composition with SkinManager and BackStage already linked.
 - A generated component API governance report now maps the effective Object Inspector surface to the intended component composition model.
 - A generated professional-readiness report now checks repository trust files, onboarding docs, manuals, screenshots, GitHub templates, API governance, Skin Editor workflow, demos and release automation as one adoption-readiness view.
 - The main consistency audit regenerates the component API governance and professional-readiness reports so project polish, public API clarity and packaging evidence stay synchronized with code changes.
@@ -310,14 +311,14 @@ powershell -ExecutionPolicy Bypass -File tools/build_all_projects.ps1 -CleanArti
 To validate the package from an extracted clean source tree:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File tools/verify_clean_checkout.ps1 -Version 2.1.14 -ReleaseVersion 2.1.14
+powershell -ExecutionPolicy Bypass -File tools/verify_clean_checkout.ps1 -Version 2.1.15 -ReleaseVersion 2.1.15
 ```
 
 For a complete release preflight, including consistency checks and ZIP
 audit:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File tools/verify_release_candidate.ps1 -Version 2.1.14 -ReleaseVersion 2.1.14 -OutputDirectory D:\Ribbon4Lazarus\Releases
+powershell -ExecutionPolicy Bypass -File tools/verify_release_candidate.ps1 -Version 2.1.15 -ReleaseVersion 2.1.15 -OutputDirectory D:\Ribbon4Lazarus\Releases
 ```
 
 The purpose of each demo is documented in

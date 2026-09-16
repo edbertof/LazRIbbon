@@ -2,6 +2,15 @@
 
 - No unreleased changes.
 
+## 2.1.15 - Design-time starter composition
+
+- Expands the `TLazRibbon` component-editor `Add starter Ribbon layout` verb so it creates or reuses a `TLazRibbonSkinManager` and assigns it to the Ribbon.
+- Creates or reuses a linked `TLazRibbonBackstageView` with Office-like client-area overlay defaults.
+- Adds starter BackStage pages, page navigation buttons, a separator and bottom command entries through `TLazRibbonBackstageView.Buttons`.
+- Keeps the existing starter tabs, panes, commands, KeyTips, ScreenTips and title-bar Quick Access Toolbar scaffold intact.
+- Updates README, manuals, design-time quick-creation notes, status, roadmap and release documentation for the `2.1.15` package line.
+- Updates runtime and design-time package metadata to `2.1.15`.
+
 ## 2.1.14 - Component API governance
 
 - Adds `tools/export_component_api_governance_2_1.ps1`, a generated audit that maps package-facing components to their role in the LazRibbon composition model.

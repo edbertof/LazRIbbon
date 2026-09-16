@@ -50,7 +50,7 @@ Deliver a post-2.0 package that feels easier to adopt and maintain:
 
 ## 2.1 Gates
 
-- `tools/check_project_consistency.ps1 -ExpectedVersion 2.1.14` passes.
+- `tools/check_project_consistency.ps1 -ExpectedVersion 2.1.15` passes.
 - `tools/export_skin_editor_2_1_coverage.ps1` regenerates the Skin Editor coverage report.
 - The Skin Editor opens, previews built-in skins and saves a self-contained `.skin` file.
 - The main demos compile with Lazarus 4.8.
@@ -166,6 +166,16 @@ Object Inspector snapshot, repeated-name audit, design-time hide audit and
 documentation to map each package-facing component to its intended role,
 canonical connection properties and forbidden visible compatibility names. No
 new published component API was added.
+
+## 2.1.15 Snapshot
+
+The `TLazRibbon` design-time starter layout now follows the documented
+composition model more closely. Running `Add starter Ribbon layout` creates or
+reuses a `TLazRibbonSkinManager`, assigns it to the Ribbon, creates or reuses a
+linked `TLazRibbonBackstageView`, configures the Office-like client-area
+BackStage mode and adds starter BackStage pages plus navigation/command entries
+through `TLazRibbonBackstageView.Buttons`. No new published component API was
+added.
 
 ## Current Skin Editor Workflow Pass
 

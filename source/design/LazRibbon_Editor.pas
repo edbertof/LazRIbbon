@@ -21,7 +21,8 @@ uses Forms, Controls, Classes, ComponentEditors, PropEdits, LazarusPackageIntf, 
      SysUtils, ImgList, GraphPropEdits, Graphics,
      LazRibbon_Core, LazRibbon_Tabs, LazRibbon_Groups, LazRibbon_Buttons,
      LazRibbon_BaseItem, LazRibbon_Types, LazRibbon_EditWindow,
-     LazRibbon_AppearanceEditor;
+     LazRibbon_AppearanceEditor, LazRibbon_Backstage, LazRibbon_SkinManager,
+     StdCtrls;
 
 const PROPERTY_CONTENTS_NAME = 'Contents';
       PROPERTY_CONTENTS_VALUE = 'Open editor...';
@@ -466,6 +467,9 @@ procedure TLazRibbonEditor.DoAddStarterLayout;
 var
   Ribbon: TLazRibbon;
   OwnerForNames: TComponent;
+  ParentControl: TWinControl;
+  SkinManager: TLazRibbonSkinManager;
+  Backstage: TLazRibbonBackstageView;
   TabHome, TabInsert, TabView, TabImage: TLazRibbonTab;
   PaneClipboard, PaneFile, PaneInsert, PaneView, PaneImage: TLazRibbonPane;
   BtnPaste, BtnCut, BtnCopy, BtnNew, BtnOpen, BtnSave: TLazRibbonBaseButton;
@@ -500,19 +504,164 @@ var
     QATItem.KeyTip := AKeyTip;
   end;
 
+  function FindOwnedSkinManager(AOwner: TComponent): TLazRibbonSkinManager;
+  var
+    I: Integer;
+  begin
+    Result := nil;
+    if AOwner = nil then
+      Exit;
+
+    for I := 0 to AOwner.ComponentCount - 1 do
+    begin
+      if AOwner.Components[I] is TLazRibbonSkinManager then
+        Exit(TLazRibbonSkinManager(AOwner.Components[I]));
+      Result := FindOwnedSkinManager(AOwner.Components[I]);
+      if Result <> nil then
+        Exit;
+    end;
+  end;
+
+  function FindOwnedBackstageView(AOwner: TComponent): TLazRibbonBackstageView;
+  var
+    I: Integer;
+  begin
+    Result := nil;
+    if AOwner = nil then
+      Exit;
+
+    for I := 0 to AOwner.ComponentCount - 1 do
+    begin
+      if (AOwner.Components[I] is TLazRibbonBackstageView) and
+         (TLazRibbonBackstageView(AOwner.Components[I]).LinkedToolbar = Ribbon) then
+        Exit(TLazRibbonBackstageView(AOwner.Components[I]));
+      Result := FindOwnedBackstageView(AOwner.Components[I]);
+      if Result <> nil then
+        Exit;
+    end;
+  end;
+
+  function EnsureSkinManager: TLazRibbonSkinManager;
+  begin
+    Result := Ribbon.SkinManager;
+    if Result = nil then
+      Result := FindOwnedSkinManager(OwnerForNames);
+    if Result = nil then
+    begin
+      Result := TLazRibbonSkinManager.Create(OwnerForNames);
+      Result.Name := MakeUniqueComponentName(OwnerForNames, 'LazRibbonSkinManager');
+      Result.ActiveSkinName := 'OfficeBlue';
+    end;
+
+    Ribbon.SkinManager := Result;
+    Ribbon.AppearanceSource := asSkinManager;
+  end;
+
+  procedure AddBackstagePage(const ACaption, ADescription: string);
+  var
+    Page: TLazRibbonBackstagePage;
+    TitleLabel, DescriptionLabel: TLabel;
+  begin
+    Page := Backstage.AddPage(ACaption);
+    Page.Name := MakeUniqueComponentName(OwnerForNames, 'LazRibbonBackstagePage');
+    Page.Color := clWhite;
+
+    TitleLabel := TLabel.Create(OwnerForNames);
+    TitleLabel.Name := MakeUniqueComponentName(OwnerForNames, 'LazRibbonBackstageTitle');
+    TitleLabel.Parent := Page;
+    TitleLabel.Left := 32;
+    TitleLabel.Top := 28;
+    TitleLabel.Caption := ACaption;
+    TitleLabel.Font.Height := -22;
+    TitleLabel.Font.Style := [fsBold];
+    TitleLabel.ParentFont := False;
+
+    DescriptionLabel := TLabel.Create(OwnerForNames);
+    DescriptionLabel.Name := MakeUniqueComponentName(OwnerForNames, 'LazRibbonBackstageText');
+    DescriptionLabel.Parent := Page;
+    DescriptionLabel.Left := 34;
+    DescriptionLabel.Top := 70;
+    DescriptionLabel.Width := 520;
+    DescriptionLabel.Caption := ADescription;
+    DescriptionLabel.WordWrap := True;
+
+    Backstage.Buttons.AddPage(Page, ACaption);
+  end;
+
+  procedure PopulateBackstageIfEmpty;
+  var
+    Command: TLazRibbonBackstageButton;
+  begin
+    if (Backstage.Buttons.Count > 0) or (Backstage.PageCount > 0) then
+      Exit;
+
+    AddBackstagePage('Informações',
+      'Página inicial do BackStage. Use esta área para resumo, propriedades do documento ou estado da aplicação.');
+    AddBackstagePage('Novo',
+      'Página de criação. Coloque aqui modelos, assistentes ou opções para iniciar um novo registro.');
+    AddBackstagePage('Abrir',
+      'Página de abertura. Combine listas recentes, pesquisa ou botões para carregar dados existentes.');
+
+    Backstage.Buttons.AddSeparator;
+
+    Command := Backstage.Buttons.AddCommand(nil, 'Salvar');
+    Command.CloseBackstageOnClick := False;
+
+    Command := Backstage.Buttons.AddCommand(nil, 'Opções');
+    Command.Section := bbsBottom;
+
+    Command := Backstage.Buttons.AddCommand(nil, 'Sair');
+    Command.Section := bbsBottom;
+  end;
+
+  function EnsureBackstageView: TLazRibbonBackstageView;
+  begin
+    if Ribbon.BackstageView is TLazRibbonBackstageView then
+      Result := TLazRibbonBackstageView(Ribbon.BackstageView)
+    else
+      Result := FindOwnedBackstageView(OwnerForNames);
+
+    if Result = nil then
+    begin
+      Result := TLazRibbonBackstageView.Create(OwnerForNames);
+      Result.Name := MakeUniqueComponentName(OwnerForNames, 'LazRibbonBackstageView');
+      Result.Parent := ParentControl;
+      Result.Align := alClient;
+      Result.Visible := False;
+      Result.OverlayMode := bomCoverClientArea;
+      Result.NavigationWidth := 205;
+      Result.ItemHeight := 46;
+    end
+    else if (Result.Parent = nil) and (ParentControl <> nil) then
+      Result.Parent := ParentControl;
+
+    Result.SkinManager := SkinManager;
+    Result.AttachToToolbar(Ribbon, 'Arquivo');
+    Ribbon.BackstageView := Result;
+  end;
+
 begin
   Ribbon := GetRibbon;
   if Ribbon = nil then
     Exit;
 
-  OwnerForNames := Ribbon;
+  if Ribbon.Owner <> nil then
+    OwnerForNames := Ribbon.Owner
+  else
+    OwnerForNames := Ribbon;
+
+  ParentControl := Ribbon.Parent;
   Ribbon.BeginUpdate;
   try
+    SkinManager := EnsureSkinManager;
+    Backstage := EnsureBackstageView;
+    PopulateBackstageIfEmpty;
+
     Ribbon.ApplicationButton.Visible := True;
     Ribbon.ApplicationButton.Caption := 'Arquivo';
     Ribbon.ApplicationButton.KeyTip := 'A';
     Ribbon.ApplicationButton.ScreenTipTitle := 'Arquivo';
-    Ribbon.ApplicationButton.ScreenTipText := 'Abre comandos globais da aplicação, como abrir, salvar, imprimir e opções.';
+    Ribbon.ApplicationButton.ScreenTipText := 'Abre o BackStage da aplicação, com comandos globais e páginas de trabalho.';
     Ribbon.ShowKeyTips := True;
     Ribbon.ShowMinimizeRibbonButton := True;
     Ribbon.ShowHelpButton := True;

@@ -1,3 +1,12 @@
+## 2.1.15 check
+
+- Package metadata updated to 2.1.15 for the runtime and design-time packages.
+- Public release ZIP/tag label is `2.1.15` through the `-ReleaseVersion` workflow.
+- The `TLazRibbon` design-time `Add starter Ribbon layout` verb now creates or reuses `TLazRibbonSkinManager` and `TLazRibbonBackstageView`, links them through the canonical `SkinManager` and `BackstageView` properties, and adds starter BackStage pages plus navigation and command entries through `TLazRibbonBackstageView.Buttons`.
+- The existing generated Ribbon tabs, panes, starter commands, KeyTips, ScreenTips and title-bar QAT entries are preserved.
+- `tools/verify_release_candidate.ps1 -Version 2.1.15 -ReleaseVersion 2.1.15` passed, including clean-checkout ZIP extraction and full build validation.
+- Public ZIP created as `LazRibbon_2.1.15_source_20260916_173830.zip` with SHA256 `0D20169EE11CECB46C1712C2206120C27610289A76D79E2C30035E1415B39D49`.
+
 ## 2.1.14 check
 
 - Package metadata updated to 2.1.14 for the runtime and design-time packages.
