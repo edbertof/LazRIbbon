@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
   [string]$SourceRoot = '',
-  [string]$ExpectedVersion = '2.1.13'
+  [string]$ExpectedVersion = '2.1.14'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -1734,6 +1734,46 @@ function Test-TwoPointOneProfessionalReadiness {
   }
 }
 
+function Test-TwoPointOneComponentApiGovernance {
+  $scriptPath = Join-Path $SourceRoot 'tools/export_component_api_governance_2_1.ps1'
+  $reportPath = Join-Path $SourceRoot 'docs/quality/COMPONENT_API_GOVERNANCE_2_1.md'
+
+  if (-not (Test-Path -LiteralPath $scriptPath)) {
+    Add-Failure 'Missing LazRibbon 2.1 component API governance generator.'
+    return
+  }
+
+  if (-not (Test-Path -LiteralPath $reportPath)) {
+    Add-Failure 'Missing LazRibbon 2.1 component API governance report.'
+    return
+  }
+
+  $report = Get-Content -LiteralPath $reportPath -Raw
+  foreach ($required in @(
+    'Component API Governance',
+    'Component roles mapped',
+    'Canonical property checks ready',
+    'Forbidden visible properties present: 0',
+    'Legacy SelectedSkin properties visible: 0',
+    'Gates needing review: 0',
+    'TLazRibbonForm',
+    'TLazRibbon.BackstageView',
+    'TLazRibbonBackstageView.Buttons',
+    'TLazRibbonSkinManager',
+    'RibbonAppearance',
+    'COMPONENT_API_GOVERNANCE_2_1.md'
+  )) {
+    if ($report -notmatch [regex]::Escape($required)) {
+      Add-Failure "LazRibbon 2.1 component API governance report must mention $required."
+    }
+  }
+
+  $generated = (& $scriptPath -SourceRoot $SourceRoot -Version $ExpectedVersion) -join [Environment]::NewLine
+  if ($report.Trim() -ne $generated.Trim()) {
+    Add-Failure 'LazRibbon 2.1 component API governance report is out of date; regenerate it with tools/export_component_api_governance_2_1.ps1.'
+  }
+}
+
 if ([string]::IsNullOrWhiteSpace($SourceRoot)) {
   $scriptPath = if (-not [string]::IsNullOrWhiteSpace($PSCommandPath)) {
     $PSCommandPath
@@ -1773,6 +1813,7 @@ Test-SkinEditorPreviewMinimizeSync
 Test-SkinEditorAppearanceModeDetection
 Test-RegisteredPaletteComponentDocumentation
 Test-TwoPointZeroPlanningDocs
+Test-TwoPointOneComponentApiGovernance
 Test-TwoPointOneProfessionalReadiness
 Test-ForbiddenFiles
 

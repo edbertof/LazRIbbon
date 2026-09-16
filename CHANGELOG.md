@@ -2,6 +2,15 @@
 
 - No unreleased changes.
 
+## 2.1.14 - Component API governance
+
+- Adds `tools/export_component_api_governance_2_1.ps1`, a generated audit that maps package-facing components to their role in the LazRibbon composition model.
+- Adds `docs/quality/COMPONENT_API_GOVERNANCE_2_1.md` with component roles, canonical connection/configuration properties, forbidden visible compatibility names and release gates.
+- Extends `tools/check_project_consistency.ps1` so the component API governance report is regenerated and compared during the normal project audit.
+- Extends the professional-readiness gate so package quality now includes component API governance, not only repository/docs/release readiness.
+- Updates README, status, roadmap, manuals and release documentation for the `2.1.14` package line.
+- Updates runtime and design-time package metadata to `2.1.14`.
+
 ## 2.1.13 - Professional readiness gate
 
 - Adds `tools/export_professional_readiness_2_1.ps1`, a generated adoption-readiness audit for repository trust, onboarding docs, manuals, screenshots, GitHub templates, API governance, Skin Editor workflow, demos and release automation.

@@ -11,7 +11,8 @@ Deliver a post-2.0 package that feels easier to adopt and maintain:
 - demos show realistic application composition patterns;
 - documentation guides new users from install to first usable Ribbon form;
 - release validation remains repeatable from a clean checkout and published ZIP;
-- professional readiness is measured as a repeatable package-quality gate, not only as a subjective review.
+- professional readiness is measured as a repeatable package-quality gate, not only as a subjective review;
+- component API governance is measured as a repeatable gate for Object Inspector clarity and component composition.
 
 ## Scope
 
@@ -31,6 +32,7 @@ Deliver a post-2.0 package that feels easier to adopt and maintain:
 - Continue classifying repeated property names through the 2.0 quality reports before adding new published properties.
 - Document any new compatibility-only alias immediately and hide it from the Object Inspector when it does not guide new projects.
 - Preserve the composition model: `Ribbon -> Tabs -> Panes -> Items`, `Ribbon -> BackstageView`, `SkinManager -> skins`, `TLazRibbonForm -> Office-like shell`.
+- Keep `docs/quality/COMPONENT_API_GOVERNANCE_2_1.md` regenerated so every package-facing component has an explicit role, canonical connection model and compatibility rule.
 
 ### 3. Demos And Examples
 
@@ -48,7 +50,7 @@ Deliver a post-2.0 package that feels easier to adopt and maintain:
 
 ## 2.1 Gates
 
-- `tools/check_project_consistency.ps1 -ExpectedVersion 2.1.13` passes.
+- `tools/check_project_consistency.ps1 -ExpectedVersion 2.1.14` passes.
 - `tools/export_skin_editor_2_1_coverage.ps1` regenerates the Skin Editor coverage report.
 - The Skin Editor opens, previews built-in skins and saves a self-contained `.skin` file.
 - The main demos compile with Lazarus 4.8.
@@ -57,6 +59,7 @@ Deliver a post-2.0 package that feels easier to adopt and maintain:
 - `docs/quality/LAZRIBBON_2_1_ACCELERATION_AUDIT.md` remains aligned with the
   active Skin Editor, API clarity, demo and distribution work tracks.
 - `docs/quality/PROFESSIONAL_READINESS_2_1.md` reports zero review gates before a public 2.1 stabilization release.
+- `docs/quality/COMPONENT_API_GOVERNANCE_2_1.md` reports zero review gates before a public 2.1 stabilization release.
 
 ## First Work Items
 
@@ -154,6 +157,15 @@ Skin Editor workflow coverage, demo coverage and release automation together,
 and the consistency audit compares the generated output with
 `docs/quality/PROFESSIONAL_READINESS_2_1.md`. No new published component API was
 added.
+
+## 2.1.14 Snapshot
+
+The package now has a generated component API governance report for the post-2.0
+line. `tools/export_component_api_governance_2_1.ps1` reads the effective
+Object Inspector snapshot, repeated-name audit, design-time hide audit and
+documentation to map each package-facing component to its intended role,
+canonical connection properties and forbidden visible compatibility names. No
+new published component API was added.
 
 ## Current Skin Editor Workflow Pass
 

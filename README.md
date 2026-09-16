@@ -50,9 +50,9 @@ tools/LazRibbonSkinEditor/
 
 ## Current version
 
-This distribution is **LazRibbon 2.1.13 development release candidate**.
+This distribution is **LazRibbon 2.1.14 development release candidate**.
 
-The `2.1.13` build adds a professional-readiness gate for the post-2.0 package. It keeps the 2.0 public API direction, advances runtime and design-time package metadata to `2.1.13`, and adds `tools/export_professional_readiness_2_1.ps1` plus `docs/quality/PROFESSIONAL_READINESS_2_1.md` so repository trust files, onboarding docs, manuals, screenshots, GitHub templates, API governance, Skin Editor workflow, demos and release automation are checked together. The public release notes are in `docs/release/RELEASE_2_1_13.md`; the stable 2.0 baseline remains documented in `docs/release/RELEASE_2_0_0.md`.
+The `2.1.14` build adds a generated component API governance gate for the post-2.0 package. It keeps the 2.0 public API direction, advances runtime and design-time package metadata to `2.1.14`, and adds `tools/export_component_api_governance_2_1.ps1` plus `docs/quality/COMPONENT_API_GOVERNANCE_2_1.md` so every package-facing component role, canonical connection property, compatibility-only hide rule and repeated property name stays explainable. The public release notes are in `docs/release/RELEASE_2_1_14.md`; the stable 2.0 baseline remains documented in `docs/release/RELEASE_2_0_0.md`.
 
 ## Post-2.0 development
 
@@ -63,6 +63,8 @@ The next development line is tracked in `docs/release/ROADMAP_2_1.md`. Its first
 The accelerated 2.1 cleanup plan is tracked in `docs/quality/LAZRIBBON_2_1_ACCELERATION_AUDIT.md`. It keeps the next work grouped around Skin Editor workflow, SpkToolBar compatibility cleanup, Object Inspector clarity, stronger demos and GitHub/distribution readiness.
 
 `tools/export_professional_readiness_2_1.ps1` generates `docs/quality/PROFESSIONAL_READINESS_2_1.md`, a package-level adoption report that checks whether the public repository, documentation, demos, Skin Editor workflow and release automation still look coherent as the project evolves.
+
+`tools/export_component_api_governance_2_1.ps1` generates `docs/quality/COMPONENT_API_GOVERNANCE_2_1.md`, a component-level API governance report that maps how `TLazRibbonForm`, `TLazRibbon`, BackStage, QAT, Ribbon items and skin components are expected to connect in new applications.
 
 ### Appearance and skins in new projects
 
@@ -87,9 +89,10 @@ The public screenshot set is generated with `tools/capture_release_screenshots.p
 
 Highlights in the current LazRibbon line:
 
-- Runtime and design-time package metadata are aligned on `2.1.13`.
+- Runtime and design-time package metadata are aligned on `2.1.14`.
+- A generated component API governance report now maps the effective Object Inspector surface to the intended component composition model.
 - A generated professional-readiness report now checks repository trust files, onboarding docs, manuals, screenshots, GitHub templates, API governance, Skin Editor workflow, demos and release automation as one adoption-readiness view.
-- The main consistency audit regenerates that report so project polish and packaging evidence stay synchronized with code changes.
+- The main consistency audit regenerates the component API governance and professional-readiness reports so project polish, public API clarity and packaging evidence stay synchronized with code changes.
 - The Skin Editor `Ajuste avancado` page now keeps the selected Appearance property stable across refreshes and shows a clearer selected-property detail panel.
 - The Skin Editor validation page now includes a `Decisao e proximos passos` panel with save-readiness status, blockers, review warnings and next-step guidance.
 - The Skin Editor validation page now compares `Base x skin atual` side by side, including Ribbon, pane, command, BackStage and contrast samples.
@@ -307,14 +310,14 @@ powershell -ExecutionPolicy Bypass -File tools/build_all_projects.ps1 -CleanArti
 To validate the package from an extracted clean source tree:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File tools/verify_clean_checkout.ps1 -Version 2.1.13 -ReleaseVersion 2.1.13
+powershell -ExecutionPolicy Bypass -File tools/verify_clean_checkout.ps1 -Version 2.1.14 -ReleaseVersion 2.1.14
 ```
 
 For a complete release preflight, including consistency checks and ZIP
 audit:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File tools/verify_release_candidate.ps1 -Version 2.1.13 -ReleaseVersion 2.1.13 -OutputDirectory D:\Ribbon4Lazarus\Releases
+powershell -ExecutionPolicy Bypass -File tools/verify_release_candidate.ps1 -Version 2.1.14 -ReleaseVersion 2.1.14 -OutputDirectory D:\Ribbon4Lazarus\Releases
 ```
 
 The purpose of each demo is documented in

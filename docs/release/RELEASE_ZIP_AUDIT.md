@@ -1,3 +1,13 @@
+## 2.1.14 check
+
+- Package metadata updated to 2.1.14 for the runtime and design-time packages.
+- Public release ZIP/tag label is `2.1.14` through the `-ReleaseVersion` workflow.
+- The release adds `tools/export_component_api_governance_2_1.ps1` and `docs/quality/COMPONENT_API_GOVERNANCE_2_1.md` so component roles, canonical Object Inspector properties and hidden compatibility names are checked together.
+- `tools/check_project_consistency.ps1` now regenerates and compares the component API governance report during the normal audit.
+- `docs/quality/PROFESSIONAL_READINESS_2_1.md` now includes component API governance as part of package adoption readiness.
+- `tools/verify_release_candidate.ps1 -Version 2.1.14 -ReleaseVersion 2.1.14` passed, including clean-checkout ZIP extraction and full build validation.
+- Public ZIP created as `LazRibbon_2.1.14_source_20260915_165445.zip` with SHA256 `D7FF4E6A1475BDBAFB7E1E6F6E7B6930097A9AE7A2409A8326B314BB02C2F0C4`.
+
 ## 2.1.13 check
 
 - Package metadata updated to 2.1.13 for the runtime and design-time packages.

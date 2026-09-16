@@ -1,12 +1,13 @@
 # LazRibbon Manual
 
-Target: LazRibbon 2.1.13, Lazarus 4.8.
+Target: LazRibbon 2.1.14, Lazarus 4.8.
 
 This manual explains how to install the package, how the components connect to
 each other, and which published properties and events are part of the public
 surface. The exact generated Object Inspector source of truth remains
 `docs/quality/OBJECT_INSPECTOR_SURFACE_SNAPSHOT_2_0.md`; this manual turns that
-surface into a usage guide.
+surface into a usage guide. The component-level governance view is generated in
+`docs/quality/COMPONENT_API_GOVERNANCE_2_1.md`.
 
 For property-by-property and event-by-event explanations, use
 `docs/manual/LAZRIBBON_COMPONENT_REFERENCE.md`.
@@ -46,7 +47,7 @@ Standalone Skin Editor:
 Recommended validation command before distributing or reinstalling from source:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File tools\verify_release_candidate.ps1 -Version 2.1.13 -ReleaseVersion 2.1.13 -OutputDirectory D:\Ribbon4Lazarus\Releases
+powershell -ExecutionPolicy Bypass -File tools\verify_release_candidate.ps1 -Version 2.1.14 -ReleaseVersion 2.1.14 -OutputDirectory D:\Ribbon4Lazarus\Releases
 ```
 
 ## 2. Component Model
@@ -66,7 +67,7 @@ LazRibbon is composed as an object graph:
 Palette components are dropped directly on a form. No-icon item classes are
 created through the Ribbon designer, pane item editors or collections.
 
-## 3. First Ribbon
+## 3. First Ribbon Form
 
 The smallest useful setup is:
 
@@ -510,11 +511,12 @@ powershell -ExecutionPolicy Bypass -File tools\export_object_inspector_snapshot.
 powershell -ExecutionPolicy Bypass -File tools\export_object_inspector_redundancy_audit.ps1 -OutputPath docs\quality\OBJECT_INSPECTOR_REDUNDANCY_AUDIT_2_0.md
 powershell -ExecutionPolicy Bypass -File tools\export_design_time_property_skip_audit.ps1 -OutputPath docs\quality\DESIGN_TIME_PROPERTY_SKIP_AUDIT_2_0.md
 powershell -ExecutionPolicy Bypass -File tools\export_2_0_api_freeze_readiness.ps1 -OutputPath docs\release\API_FREEZE_READINESS_2_0.md
+powershell -ExecutionPolicy Bypass -File tools\export_component_api_governance_2_1.ps1 -OutputPath docs\quality\COMPONENT_API_GOVERNANCE_2_1.md
 powershell -ExecutionPolicy Bypass -File tools\export_professional_readiness_2_1.ps1 -OutputPath docs\quality\PROFESSIONAL_READINESS_2_1.md
 ```
 
 Then run:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File tools\check_project_consistency.ps1 -ExpectedVersion 2.1.13
+powershell -ExecutionPolicy Bypass -File tools\check_project_consistency.ps1 -ExpectedVersion 2.1.14
 ```

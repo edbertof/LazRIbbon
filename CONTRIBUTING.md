@@ -43,6 +43,14 @@ demos, screenshots, GitHub templates, release scripts or quality reports:
 powershell -ExecutionPolicy Bypass -File tools/export_professional_readiness_2_1.ps1 -OutputPath docs/quality/PROFESSIONAL_READINESS_2_1.md
 ```
 
+Regenerate the component API governance report when changing published
+properties, design-time property hiding, component roles or Object Inspector
+workflow:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File tools/export_component_api_governance_2_1.ps1 -OutputPath docs/quality/COMPONENT_API_GOVERNANCE_2_1.md
+```
+
 Build a clean source ZIP with:
 
 ```powershell

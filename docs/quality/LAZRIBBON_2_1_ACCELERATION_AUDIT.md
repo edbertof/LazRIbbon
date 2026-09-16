@@ -6,6 +6,8 @@ SpkToolBar compatibility cleanup, Object Inspector clarity, demos and
 distribution readiness.
 The `docs/quality/PROFESSIONAL_READINESS_2_1.md` report turns that broader
 package polish into an explicit generated gate.
+The `docs/quality/COMPONENT_API_GOVERNANCE_2_1.md` report turns Object
+Inspector clarity into a generated component-by-component API governance gate.
 
 ## Current Direction
 
@@ -30,7 +32,7 @@ internal rendering state, hidden from the Object Inspector.
 | --- | --- | --- |
 | Skin Editor | Workflow covers base selection, identity, icons, palette, BackStage colors, full Appearance inspector, validation and base difference summaries. | Continue moving user-facing workflow controls into clear pages and keep generated/dynamic controls only where lists are inherently runtime data. |
 | SpkToolBar inheritance cleanup | Low-level `TLazRibbonToolbarAppearance` still exists as the internal render model and complete editor surface. | Do not expose it as the normal Ribbon design-time path; keep SkinManager as the visible skin authoring surface. |
-| Object Inspector clarity | Redundancy and property-skip audits classify repeated or compatibility-only properties. | Any new published property must be classified before release and must fit the composition model. |
+| Object Inspector clarity | Redundancy, property-skip and component API governance audits classify repeated, compatibility-only and role-specific properties. | Any new published property must be classified before release and must fit the composition model. |
 | Demos | Showcase plus focused demos cover the main integration points. | Keep Showcase as the full integration smoke test and use focused demos to document one concept at a time. |
 | Distribution | Source ZIP audit, clean checkout validation, manuals, screenshots, GitHub docs and professional readiness evidence exist. | Keep GitHub templates, release notes and generated readiness reports aligned with Lazarus/FPC compatibility reports. |
 
@@ -105,6 +107,13 @@ and release automation as one adoption-readiness surface. The main consistency
 audit regenerates this report and fails when it drifts from the checked-in
 version.
 
+The project now also has a generated component API governance report. It reads
+the effective Object Inspector snapshot, redundancy audit, design-time hide
+audit and documentation, then verifies that the main components still follow a
+clear composition model: form shell, Ribbon root, QAT, tabs, panes, command
+items, BackStage and skin system. It currently reports all canonical component
+property checks ready and no forbidden visible properties.
+
 ## Safe Cleanup Decisions
 
 - Keep `RibbonAppearance` readable in old `.lfm` files.
@@ -124,14 +133,17 @@ version.
    design-time workflow.
 3. Regenerate `docs/quality/PROFESSIONAL_READINESS_2_1.md` whenever repository
    trust files, demos, manuals, screenshots or release scripts change.
-4. Validate every public ZIP from an extracted clean source tree before tagging.
+4. Regenerate `docs/quality/COMPONENT_API_GOVERNANCE_2_1.md` whenever a
+   package-facing component property is added, hidden, renamed or removed.
+5. Validate every public ZIP from an extracted clean source tree before tagging.
 
 ## Release Gate
 
 For a 2.1 stabilization build, these commands must pass from the source root:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File tools\check_project_consistency.ps1 -ExpectedVersion 2.1.13
+powershell -ExecutionPolicy Bypass -File tools\check_project_consistency.ps1 -ExpectedVersion 2.1.14
+powershell -ExecutionPolicy Bypass -File tools\export_component_api_governance_2_1.ps1 -OutputPath docs\quality\COMPONENT_API_GOVERNANCE_2_1.md
 powershell -ExecutionPolicy Bypass -File tools\export_professional_readiness_2_1.ps1 -OutputPath docs\quality\PROFESSIONAL_READINESS_2_1.md
 powershell -ExecutionPolicy Bypass -File tools\build_all_projects.ps1 -CleanArtifacts
 ```

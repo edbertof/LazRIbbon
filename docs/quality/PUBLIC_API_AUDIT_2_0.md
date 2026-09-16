@@ -27,6 +27,12 @@ The generated freeze readiness report lives in
 API audit coverage, generated Object Inspector reports and release workflow
 gates before the stable 2.0 release.
 
+The generated post-2.0 component API governance report lives in
+`docs/quality/COMPONENT_API_GOVERNANCE_2_1.md` and is produced by
+`tools/export_component_api_governance_2_1.ps1`. It maps component roles,
+canonical connection properties and hidden compatibility aliases against the
+effective Object Inspector surface.
+
 The clean checkout validation guide lives in
 `docs/release/CLEAN_CHECKOUT_VALIDATION.md` and is executed by
 `tools/verify_clean_checkout.ps1`. It proves the package can be built from an
@@ -206,11 +212,13 @@ readiness:
    with the final Object Inspector names.
 6. Keep `COMPONENT_PROPERTY_MATRIX_2_0.md` synchronized with any new published
    component property.
-7. Keep `docs/release/DEMO_VALIDATION_MATRIX.md` synchronized with the demos
+7. Keep `COMPONENT_API_GOVERNANCE_2_1.md` regenerated when a package-facing
+   component role or Object Inspector property changes.
+8. Keep `docs/release/DEMO_VALIDATION_MATRIX.md` synchronized with the demos
    and `tools/build_all_projects.ps1`.
-8. Prepare screenshot guidance/assets for the main Ribbon, BackStage, Skin
+9. Prepare screenshot guidance/assets for the main Ribbon, BackStage, Skin
    Gallery and Skin Editor.
-9. Run `tools/verify_release_candidate.ps1` before tagging
+10. Run `tools/verify_release_candidate.ps1` before tagging
    `2.0.0`.
 
 This keeps the public API surface quiet while shifting the remaining work toward

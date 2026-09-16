@@ -5,6 +5,10 @@ This matrix complements `COMPONENT_COMPOSITION_MODEL_2_0.md` and
 component in the Lazarus Object Inspector, the visible properties should follow
 a clear mental model.
 
+The generated post-2.0 governance view lives in
+`COMPONENT_API_GOVERNANCE_2_1.md`. It verifies this component role model
+against the current effective Object Inspector snapshot.
+
 ## Reading The Matrix
 
 - `Connect through` lists component references or collections that build the
@@ -128,3 +132,5 @@ of these roles:
   classified in `OBJECT_INSPECTOR_REDUNDANCY_AUDIT_2_0.md`.
 - If it is hidden by the design package, the hide rule is documented in
   `DESIGN_TIME_PROPERTY_SKIP_AUDIT_2_0.md`.
+- The role and connection model remains green in
+  `COMPONENT_API_GOVERNANCE_2_1.md`.

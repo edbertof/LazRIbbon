@@ -1,11 +1,13 @@
 # LazRibbon Component Reference
 
-Target: LazRibbon 2.1.13.
+Target: LazRibbon 2.1.14.
 
 This reference describes the purpose of each package component, published
 property and published event. It complements `LAZRIBBON_MANUAL.md` and the
 generated Object Inspector snapshot in
-`docs/quality/OBJECT_INSPECTOR_SURFACE_SNAPSHOT_2_0.md`.
+`docs/quality/OBJECT_INSPECTOR_SURFACE_SNAPSHOT_2_0.md`. The role and
+composition rules behind those properties are checked by
+`docs/quality/COMPONENT_API_GOVERNANCE_2_1.md`.
 
 ## Reading This Reference
 
