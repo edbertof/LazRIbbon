@@ -1,3 +1,12 @@
+## 2.1.16 check
+
+- Package metadata updated to 2.1.16 for the runtime and design-time packages.
+- Public release ZIP/tag label is `2.1.16` through the `-ReleaseVersion` workflow.
+- `TLazRibbonBackstageView` now has direct design-time commands for adding pages, commands and separators and for linking to the Ribbon on the same form.
+- The linking command uses the canonical `BackstageView`, `LinkedToolbar` and `SkinManager` properties and applies Office-like client-area defaults.
+- `tools/verify_release_candidate.ps1 -Version 2.1.16 -ReleaseVersion 2.1.16` passed, including clean-checkout ZIP extraction and full build validation.
+- Public ZIP created as `LazRibbon_2.1.16_source_20260917_181703.zip` with SHA256 `158E399F9CAE83E9EAC9E79F2B903A8DF6EE609BCC9669DB5CB24A11E896972C`.
+
 ## 2.1.15 check
 
 - Package metadata updated to 2.1.15 for the runtime and design-time packages.

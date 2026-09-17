@@ -183,6 +183,7 @@ begin
   FormEditingHook.RegisterDesignerBaseClass(TLazRibbonForm);
 
   RegisterComponentEditor(TLazRibbon, TLazRibbonEditor);
+  RegisterComponentEditor(TLazRibbonBackstageView, TLazRibbonBackstageViewEditor);
   RegisterComponentEditor(TLazRibbonSkinManager, TLazRibbonSkinManagerEditor);
   RegisterPropertyEditor(TypeInfo(string), TLazRibbonTab, 'Caption',
     TLazRibbonCaptionEditor);

@@ -1,6 +1,6 @@
 # Design-time quick creation verbs
 
-Introduced in LazRibbon 1.1.58 and extended in LazRibbon 1.1.61 and 2.1.15.
+Introduced in LazRibbon 1.1.58 and extended in LazRibbon 1.1.61, 2.1.15 and 2.1.16.
 
 When `LazRibbonDesign.lpk` is installed, the `TLazRibbon` component editor exposes two scaffold actions:
 
@@ -58,6 +58,17 @@ It is intentionally a scaffold, not a framework generator. The developer must st
 - Confirm that a `TLazRibbonSkinManager` exists and is assigned to `TLazRibbon.SkinManager`.
 - Confirm that a `TLazRibbonBackstageView` exists, is assigned to `TLazRibbon.BackstageView`, uses `OverlayMode = bomCoverClientArea` and contains starter page buttons in `Buttons`.
 - Confirm that the existing Ribbon tabs, QAT entries and KeyTips are still generated.
+
+## 2.1.16 BackStage composition commands
+
+The `TLazRibbonBackstageView` component editor adds these direct design-time commands:
+
+- `Add BackStage page` creates a content page and its navigation entry, assigns a unique component name and selects the page in the Object Inspector.
+- `Add BackStage command` appends a command entry to `Buttons`.
+- `Add BackStage separator` appends a structural separator to `Buttons`.
+- `Link to Ribbon on this form` finds the form's Ribbon, assigns the canonical `TLazRibbon.BackstageView` link, inherits its `SkinManager` and applies the Office-like client-area overlay defaults.
+
+These commands compose the existing public model and do not introduce duplicate properties or a second BackStage ownership path.
 
 ## 1.1.62 hotfix check
 

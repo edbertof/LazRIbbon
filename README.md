@@ -50,9 +50,9 @@ tools/LazRibbonSkinEditor/
 
 ## Current version
 
-This distribution is **LazRibbon 2.1.15 development release candidate**.
+This distribution is **LazRibbon 2.1.16 development release candidate**.
 
-The `2.1.15` build improves the `TLazRibbon` design-time starter layout so the first generated form follows the documented composition model more closely. The starter action now creates or reuses a `TLazRibbonSkinManager`, links it to the Ribbon, creates or reuses a `TLazRibbonBackstageView`, adds starter BackStage pages/navigation buttons, and keeps the existing tabs, panes, commands, KeyTips, ScreenTips and title-bar QAT entries. The public release notes are in `docs/release/RELEASE_2_1_15.md`; the stable 2.0 baseline remains documented in `docs/release/RELEASE_2_0_0.md`.
+The `2.1.16` build adds design-time composition commands to `TLazRibbonBackstageView`. Its component editor can create pages, commands and separators and connect the BackStage to the Ribbon on the same form while applying the canonical Office-like defaults. The public release notes are in `docs/release/RELEASE_2_1_16.md`; the stable 2.0 baseline remains documented in `docs/release/RELEASE_2_0_0.md`.
 
 ## Post-2.0 development
 
@@ -89,7 +89,8 @@ The public screenshot set is generated with `tools/capture_release_screenshots.p
 
 Highlights in the current LazRibbon line:
 
-- Runtime and design-time package metadata are aligned on `2.1.15`.
+- Runtime and design-time package metadata are aligned on `2.1.16`.
+- `TLazRibbonBackstageView` offers direct design-time commands for its normal composition workflow.
 - The `TLazRibbon` design-time starter layout now creates the first Office-like composition with SkinManager and BackStage already linked.
 - A generated component API governance report now maps the effective Object Inspector surface to the intended component composition model.
 - A generated professional-readiness report now checks repository trust files, onboarding docs, manuals, screenshots, GitHub templates, API governance, Skin Editor workflow, demos and release automation as one adoption-readiness view.
@@ -311,14 +312,14 @@ powershell -ExecutionPolicy Bypass -File tools/build_all_projects.ps1 -CleanArti
 To validate the package from an extracted clean source tree:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File tools/verify_clean_checkout.ps1 -Version 2.1.15 -ReleaseVersion 2.1.15
+powershell -ExecutionPolicy Bypass -File tools/verify_clean_checkout.ps1 -Version 2.1.16 -ReleaseVersion 2.1.16
 ```
 
 For a complete release preflight, including consistency checks and ZIP
 audit:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File tools/verify_release_candidate.ps1 -Version 2.1.15 -ReleaseVersion 2.1.15 -OutputDirectory D:\Ribbon4Lazarus\Releases
+powershell -ExecutionPolicy Bypass -File tools/verify_release_candidate.ps1 -Version 2.1.16 -ReleaseVersion 2.1.16 -OutputDirectory D:\Ribbon4Lazarus\Releases
 ```
 
 The purpose of each demo is documented in

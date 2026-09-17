@@ -1,6 +1,8 @@
 # LazRibbon Status
 
-`2.1.15 - Design-time starter composition` is the current build.
+`2.1.16 - BackStage design-time composition` is the current build.
+
+The `2.1.16` build makes `TLazRibbonBackstageView` easier to compose in the Lazarus form designer. Its component editor now adds pages, commands and separators directly and links the BackStage to the Ribbon on the same form with Office-like defaults, canonical `BackstageView` ownership and inherited `SkinManager`. Newly created pages receive unique names and are selected in the Object Inspector. Runtime and design-time package metadata are now `2.1.16`. No new published component API was added.
 
 The `2.1.15` build makes the `TLazRibbon` design-time starter layout more useful for the first minutes of a new project. The `Add starter Ribbon layout` component-editor verb now creates or reuses a `TLazRibbonSkinManager`, links the Ribbon to it, creates or reuses a `TLazRibbonBackstageView`, configures Office-like client-area BackStage defaults, adds starter pages and creates BackStage navigation/command entries through `TLazRibbonBackstageView.Buttons`. The existing starter tabs, panes, commands, KeyTips, ScreenTips and title-bar QAT entries remain in place. Runtime and design-time package metadata are now `2.1.15`. No new published component API was added.
 

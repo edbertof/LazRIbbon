@@ -2,6 +2,15 @@
 
 - No unreleased changes.
 
+## 2.1.16 - BackStage design-time composition
+
+- Adds a `TLazRibbonBackstageView` component editor with direct commands to create pages, commands and separators.
+- Adds a design-time command that locates the Ribbon on the same form and links it through the canonical `TLazRibbon.BackstageView` property.
+- Applies Office-like BackStage defaults and inherits the linked Ribbon's `SkinManager` during design-time linking.
+- Gives generated BackStage pages unique component names and selects each new page in the Object Inspector.
+- Keeps the change entirely in the design-time package, with no new published runtime property or event.
+- Updates runtime and design-time package metadata to `2.1.16`.
+
 ## 2.1.15 - Design-time starter composition
 
 - Expands the `TLazRibbon` component-editor `Add starter Ribbon layout` verb so it creates or reuses a `TLazRibbonSkinManager` and assigns it to the Ribbon.

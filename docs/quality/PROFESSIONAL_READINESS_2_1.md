@@ -9,9 +9,9 @@ Regenerate after changing package metadata, docs, screenshots, GitHub templates,
 
 ## Summary
 
-- Target version: 2.1.15
-- Runtime package version: 2.1.15
-- Design-time package version: 2.1.15
+- Target version: 2.1.16
+- Runtime package version: 2.1.16
+- Design-time package version: 2.1.16
 - Demo projects discovered: 16
 - Screenshot assets ready: 4/4
 - GitHub templates ready: 4/4
@@ -27,7 +27,7 @@ Regenerate after changing package metadata, docs, screenshots, GitHub templates,
 
 | Area | Gate | Status | Evidence | Next step |
 | --- | --- | --- | --- | --- |
-| Repository trust | Package metadata aligned | Ready | Runtime 2.1.15; design 2.1.15; expected 2.1.15. | Keep runtime and design package versions synchronized before tagging. |
+| Repository trust | Package metadata aligned | Ready | Runtime 2.1.16; design 2.1.16; expected 2.1.16. | Keep runtime and design package versions synchronized before tagging. |
 | Repository trust | Public identity files present | Ready | 7 of 7 README/license/changelog/status/contribution/support/security files are present. | Keep the top-level repository readable before a user opens Lazarus. |
 | Repository trust | GitHub collaboration templates present | Ready | 4 of 4 GitHub templates are present. | Keep bug, feature, Lazarus compatibility and pull-request intake structured. |
 | Developer onboarding | README explains the normal composition model | Ready | README covers first form creation, SkinManager styling, BackStage linking and release validation. | Keep first-use instructions aligned with the Object Inspector model. |
@@ -40,7 +40,7 @@ Regenerate after changing package metadata, docs, screenshots, GitHub templates,
 | Skin authoring | Skin Editor workflow is documented and covered | Ready | The standalone Skin Editor has full Appearance coverage and documented workflow improvements. | Keep workflow language, preview states and validation behavior aligned. |
 | Demos and examples | Demo matrix reflects real adoption paths | Ready | 16 demo projects found and the matrix names the main adoption scenarios. | Add focused demos only when they teach a distinct composition pattern. |
 | Release automation | Release scripts present | Ready | 6 of 6 release and validation scripts are present. | Keep release validation executable from a clean checkout. |
-| Release automation | Current release notes staged | Ready | docs/release/RELEASE_2_1_15.md is the expected release note document for 2.1.15. | Create release notes before building the public ZIP. |
+| Release automation | Current release notes staged | Ready | docs/release/RELEASE_2_1_16.md is the expected release note document for 2.1.16. | Create release notes before building the public ZIP. |
 | Release automation | 2.1 roadmap tracks professional readiness | Ready | The 2.1 roadmap links workflow quality, distribution polish and readiness criteria. | Keep the roadmap focused on developer adoption rather than ad hoc feature growth. |
 
 ## Current Conclusion

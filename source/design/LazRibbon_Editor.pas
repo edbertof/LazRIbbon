@@ -106,6 +106,23 @@ type TLazRibbonEditor = class(TComponentEditor)
        function GetVerbCount: Integer; override;
      end;
 
+type TLazRibbonBackstageViewEditor = class(TComponentEditor)
+     protected
+       function GetBackstageView: TLazRibbonBackstageView;
+       function FindOwnedRibbon(AOwner: TComponent): TLazRibbon;
+       function MakeUniqueComponentName(AOwner: TComponent; const APrefix: string): string;
+       procedure MarkDesignerModified;
+       procedure DoAddPage;
+       procedure DoAddCommand;
+       procedure DoAddSeparator;
+       procedure DoAttachToRibbon;
+     public
+       procedure Edit; override;
+       procedure ExecuteVerb(Index: Integer); override;
+       function GetVerb(Index: Integer): string; override;
+       function GetVerbCount: Integer; override;
+     end;
+
 type TLazRibbonImageIndexPropertyEditor = class(TImageIndexPropertyEditor)
      protected
        function GetImageList: TCustomImageList; override;
@@ -143,6 +160,191 @@ begin
     else
       Current := RibbonComponent.Parent;
   end;
+end;
+
+{ TLazRibbonBackstageViewEditor }
+
+function TLazRibbonBackstageViewEditor.GetBackstageView: TLazRibbonBackstageView;
+begin
+  if GetComponent is TLazRibbonBackstageView then
+    Result := TLazRibbonBackstageView(GetComponent)
+  else
+    Result := nil;
+end;
+
+function TLazRibbonBackstageViewEditor.FindOwnedRibbon(AOwner: TComponent): TLazRibbon;
+var
+  I: Integer;
+begin
+  Result := nil;
+  if AOwner = nil then
+    Exit;
+
+  for I := 0 to AOwner.ComponentCount - 1 do
+  begin
+    if AOwner.Components[I] is TLazRibbon then
+      Exit(TLazRibbon(AOwner.Components[I]));
+    Result := FindOwnedRibbon(AOwner.Components[I]);
+    if Result <> nil then
+      Exit;
+  end;
+end;
+
+function TLazRibbonBackstageViewEditor.MakeUniqueComponentName(AOwner: TComponent;
+  const APrefix: string): string;
+
+  function NameExists(AComponent: TComponent; const AName: string): Boolean;
+  var
+    I: Integer;
+  begin
+    Result := False;
+    if AComponent = nil then
+      Exit;
+    if SameText(AComponent.Name, AName) then
+      Exit(True);
+    for I := 0 to AComponent.ComponentCount - 1 do
+      if NameExists(AComponent.Components[I], AName) then
+        Exit(True);
+  end;
+
+var
+  I: Integer;
+begin
+  I := 1;
+  repeat
+    Result := APrefix + IntToStr(I);
+    Inc(I);
+  until not NameExists(AOwner, Result);
+end;
+
+procedure TLazRibbonBackstageViewEditor.MarkDesignerModified;
+begin
+  if Designer <> nil then
+    Designer.Modified;
+end;
+
+procedure TLazRibbonBackstageViewEditor.DoAddPage;
+var
+  View: TLazRibbonBackstageView;
+  OwnerForNames: TComponent;
+  Page: TLazRibbonBackstagePage;
+  Caption: string;
+begin
+  View := GetBackstageView;
+  if View = nil then
+    Exit;
+
+  OwnerForNames := View.Owner;
+  if OwnerForNames = nil then
+    OwnerForNames := View;
+  Caption := 'Nova página';
+  if View.PageCount > 0 then
+    Caption := Caption + ' ' + IntToStr(View.PageCount + 1);
+
+  Page := View.AddPage(Caption);
+  Page.Name := MakeUniqueComponentName(OwnerForNames, 'LazRibbonBackstagePage');
+  View.Buttons.AddPage(Page, Caption);
+  View.ActivePageIndex := View.PageCount - 1;
+  MarkDesignerModified;
+  if Designer <> nil then
+    Designer.SelectOnlyThisComponent(Page);
+end;
+
+procedure TLazRibbonBackstageViewEditor.DoAddCommand;
+var
+  View: TLazRibbonBackstageView;
+  CommandCount, I: Integer;
+begin
+  View := GetBackstageView;
+  if View = nil then
+    Exit;
+
+  CommandCount := 0;
+  for I := 0 to View.Buttons.Count - 1 do
+    if View.Buttons[I].Kind = bbkCommand then
+      Inc(CommandCount);
+  View.Buttons.AddCommand(nil, 'Novo comando ' + IntToStr(CommandCount + 1));
+  MarkDesignerModified;
+end;
+
+procedure TLazRibbonBackstageViewEditor.DoAddSeparator;
+var
+  View: TLazRibbonBackstageView;
+begin
+  View := GetBackstageView;
+  if View = nil then
+    Exit;
+  View.Buttons.AddSeparator;
+  MarkDesignerModified;
+end;
+
+procedure TLazRibbonBackstageViewEditor.DoAttachToRibbon;
+var
+  View: TLazRibbonBackstageView;
+  OwnerForSearch: TComponent;
+  Ribbon: TLazRibbon;
+begin
+  View := GetBackstageView;
+  if View = nil then
+    Exit;
+
+  Ribbon := View.LinkedToolbar;
+  if Ribbon = nil then
+  begin
+    OwnerForSearch := View.Owner;
+    if OwnerForSearch = nil then
+      OwnerForSearch := View;
+    Ribbon := FindOwnedRibbon(OwnerForSearch);
+  end;
+
+  if Ribbon = nil then
+  begin
+    ShowMessage('No TLazRibbon was found on this form. Add a Ribbon before linking the BackStage.');
+    Exit;
+  end;
+
+  View.AttachToToolbar(Ribbon, 'Arquivo');
+  View.OverlayMode := bomCoverClientArea;
+  View.NavigationStyle := bnsOffice;
+  View.AppearanceSource := asLinkedToolbar;
+  View.SkinManager := Ribbon.SkinManager;
+  Ribbon.BackstageView := View;
+  Ribbon.ApplicationButton.Visible := True;
+  Ribbon.ApplicationButton.Caption := 'Arquivo';
+  MarkDesignerModified;
+end;
+
+procedure TLazRibbonBackstageViewEditor.Edit;
+begin
+  DoAddPage;
+end;
+
+procedure TLazRibbonBackstageViewEditor.ExecuteVerb(Index: Integer);
+begin
+  case Index of
+    0: DoAddPage;
+    1: DoAddCommand;
+    2: DoAddSeparator;
+    4: DoAttachToRibbon;
+  end;
+end;
+
+function TLazRibbonBackstageViewEditor.GetVerb(Index: Integer): string;
+begin
+  case Index of
+    0: Result := 'Add BackStage page';
+    1: Result := 'Add BackStage command';
+    2: Result := 'Add BackStage separator';
+    3: Result := '-';
+    4: Result := 'Link to Ribbon on this form';
+  else
+    Result := '';
+  end;
+end;
+
+function TLazRibbonBackstageViewEditor.GetVerbCount: Integer;
+begin
+  Result := 5;
 end;
 
 procedure RefreshRibbonForPersistent(AInstance: TPersistent);

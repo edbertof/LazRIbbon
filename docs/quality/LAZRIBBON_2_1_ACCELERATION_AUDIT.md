@@ -142,7 +142,7 @@ property checks ready and no forbidden visible properties.
 For a 2.1 stabilization build, these commands must pass from the source root:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File tools\check_project_consistency.ps1 -ExpectedVersion 2.1.15
+powershell -ExecutionPolicy Bypass -File tools\check_project_consistency.ps1 -ExpectedVersion 2.1.16
 powershell -ExecutionPolicy Bypass -File tools\export_component_api_governance_2_1.ps1 -OutputPath docs\quality\COMPONENT_API_GOVERNANCE_2_1.md
 powershell -ExecutionPolicy Bypass -File tools\export_professional_readiness_2_1.ps1 -OutputPath docs\quality\PROFESSIONAL_READINESS_2_1.md
 powershell -ExecutionPolicy Bypass -File tools\build_all_projects.ps1 -CleanArtifacts

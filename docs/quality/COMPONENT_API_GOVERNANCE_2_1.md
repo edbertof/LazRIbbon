@@ -9,9 +9,9 @@ Regenerate after adding, removing, renaming, publishing or hiding component prop
 
 ## Summary
 
-- Target version: 2.1.15
-- Runtime package version: 2.1.15
-- Design-time package version: 2.1.15
+- Target version: 2.1.16
+- Runtime package version: 2.1.16
+- Design-time package version: 2.1.16
 - Components inventoried: 24
 - Effective Object Inspector properties inventoried: 306
 - Component roles mapped: 23/23
@@ -37,7 +37,7 @@ A new application should read the component model from top to bottom:
 
 | Area | Gate | Status | Evidence | Next step |
 | --- | --- | --- | --- | --- |
-| Versioning | Package metadata aligned | Ready | Runtime 2.1.15; design 2.1.15; expected 2.1.15. | Keep runtime and design package versions synchronized before tagging. |
+| Versioning | Package metadata aligned | Ready | Runtime 2.1.16; design 2.1.16; expected 2.1.16. | Keep runtime and design package versions synchronized before tagging. |
 | Inventory | Object Inspector snapshot parsed | Ready | 24 components and 306 effective properties were parsed from the snapshot. | Regenerate OBJECT_INSPECTOR_SURFACE_SNAPSHOT_2_0.md after published property changes. |
 | Inventory | Component roles mapped | Ready | 23 of 23 governed component roles are present. | Add new public components to this governance map before release. |
 | Canonical API | Required composition properties present | Ready | 111 of 111 required composition properties are present. | A missing canonical property usually means the component model drifted from the documented workflow. |
@@ -47,7 +47,7 @@ A new application should read the component model from top to bottom:
 | Design-time filtering | Compatibility-only properties are hidden | Ready | Design-time skip audit covers RibbonAppearance, BackStage page command aliases, hosted-control metadata and skin selection aliases. | Keep design-time hide rules documented when compatibility aliases remain public. |
 | Redundancy | Repeated names remain classified | Ready | The repeated-name audit has zero unclassified names. | Classify or rename any new repeated property name. |
 | Documentation | Developer docs explain the composition model | Ready | README/manual/reference documentation use the same shell-to-skin composition vocabulary. | Update docs together with any public Object Inspector change. |
-| Release | Current release notes exist | Ready | docs/release/RELEASE_2_1_15.md is the expected release note document for 2.1.15. | Create release notes before running the release candidate preflight. |
+| Release | Current release notes exist | Ready | docs/release/RELEASE_2_1_16.md is the expected release note document for 2.1.16. | Create release notes before running the release candidate preflight. |
 | Release | Roadmap tracks API governance | Ready | The 2.1 roadmap keeps API clarity tied to professional readiness. | Keep future public API changes tied to a generated governance report. |
 
 ## Component Governance Map
