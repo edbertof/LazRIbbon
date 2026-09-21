@@ -9,10 +9,10 @@ Regenerate after changing package metadata, API audits, Object Inspector reports
 
 ## Summary
 
-- Package version: 2.1.17
+- Package version: 2.1.18
 - Stable API candidates listed: 47
-- Effective Object Inspector properties listed: 307
-- Repeated published property names reviewed: 48
+- Effective Object Inspector properties listed: 308
+- Repeated published property names reviewed: 49
 - Unclassified repeated property names: 0
 - Design-time property skip rules: 30
 - Nil property-editor hide rules: 5
@@ -25,11 +25,11 @@ Regenerate after changing package metadata, API audits, Object Inspector reports
 
 | Gate | Status | Evidence |
 | --- | --- | --- |
-| Package metadata aligned | Ready | Runtime 2.1.17; design 2.1.17. |
+| Package metadata aligned | Ready | Runtime 2.1.18; design 2.1.18. |
 | Public API audit exists | Ready | 47 stable API candidates listed. |
 | Component property matrix exists | Ready | Release gate section is present. |
-| Object Inspector surface snapshot exists | Ready | 307 effective Object Inspector properties listed. |
-| Repeated property names classified | Ready | 48 repeated names; 0 unclassified. |
+| Object Inspector surface snapshot exists | Ready | 308 effective Object Inspector properties listed. |
+| Repeated property names classified | Ready | 49 repeated names; 0 unclassified. |
 | Design-time hidden properties documented | Ready | 30 skip rules; 5 nil property-editor hide rules; 9 component classes. |
 | Build matrix documented | Ready | 19 package/tool/demo targets listed. |
 | Release preflight script exists | Ready | One-command preflight script is present. |

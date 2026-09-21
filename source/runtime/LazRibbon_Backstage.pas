@@ -206,6 +206,7 @@ type
   TLazRibbonBackstageRecentList = class(TCustomControl)
   private
     FAppearanceSource: TLazRibbonAppearanceSource;
+    FCloseBackstageOnClick: Boolean;
     FHoverIndex: Integer;
     FImageIndex: Integer;
     FImages: TCustomImageList;
@@ -222,6 +223,7 @@ type
     FStorageSection: String;
     FOnItemClick: TLazRibbonBackstageRecentItemClickEvent;
     procedure ItemsChanged(Sender: TObject);
+    function FindBackstageView: TLazRibbonBackstageView;
     function GetItems: TStrings;
     function GetMaxScrollOffset: Integer;
     function GetVisibleRight: Integer;
@@ -266,6 +268,7 @@ type
     property Anchors;
     property BorderSpacing;
     property Color default clWhite;
+    property CloseBackstageOnClick: Boolean read FCloseBackstageOnClick write FCloseBackstageOnClick default True;
     property Constraints;
     property Enabled;
     property Font;
@@ -1458,6 +1461,7 @@ begin
   inherited Create(AOwner);
   ControlStyle := ControlStyle + [csOpaque, csAcceptsControls];
   FAppearanceSource := asInternalStyle;
+  FCloseBackstageOnClick := True;
   Color := clWhite;
   ParentFont := False;
   Font.Name := 'Segoe UI';
@@ -1503,6 +1507,23 @@ begin
   ClampScrollOffset;
   UpdateScrollBar;
   Invalidate;
+end;
+
+function TLazRibbonBackstageRecentList.FindBackstageView: TLazRibbonBackstageView;
+var
+  Control: TControl;
+begin
+  Result := nil;
+  Control := Parent;
+  while Control <> nil do
+  begin
+    if Control is TLazRibbonBackstageView then
+    begin
+      Result := TLazRibbonBackstageView(Control);
+      Exit;
+    end;
+    Control := Control.Parent;
+  end;
 end;
 
 function TLazRibbonBackstageRecentList.GetItems: TStrings;
@@ -1622,6 +1643,7 @@ end;
 
 procedure TLazRibbonBackstageRecentList.MouseDown(Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 var
+  BackstageView: TLazRibbonBackstageView;
   Index: Integer;
   TitleText, DetailText: String;
 begin
@@ -1635,8 +1657,12 @@ begin
 
   SelectedIndex := Index;
   ParseItem(Index, TitleText, DetailText);
+  BackstageView := FindBackstageView;
   if Assigned(FOnItemClick) then
     FOnItemClick(Self, Index, TitleText, DetailText);
+  if FCloseBackstageOnClick and (BackstageView <> nil) and
+    not (csDestroying in BackstageView.ComponentState) then
+    BackstageView.HideBackstage;
 end;
 
 procedure TLazRibbonBackstageRecentList.MouseLeave;

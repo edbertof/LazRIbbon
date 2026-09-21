@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
   [string]$SourceRoot = '',
-  [string]$Version = '2.1.17',
+  [string]$Version = '2.1.18',
   [string]$OutputPath = ''
 )
 
@@ -229,7 +229,7 @@ $roles = @(
 
   (New-Role 'BackStage' 'TLazRibbonBackstageButton' 'BackStage navigation, command or separator entry.' 'Page, Action, LinkedItem' 'Kind, Section, Caption, Page, CloseBackstageOnClick, OnExecute' 'BackStage navigation is represented by button entries; pages remain content containers.' @('Kind', 'Section', 'Caption', 'Page', 'CloseBackstageOnClick', 'OnExecute') @('ItemKind')),
   (New-Role 'BackStage' 'TLazRibbonBackstagePage' 'BackStage content page.' 'Normal child controls placed on the page' 'Caption and ordinary layout/control properties' 'A page is a content container; navigation and commands belong to TLazRibbonBackstageView.Buttons.' @('Caption') @('Action', 'Command', 'CloseBackstageOnClick', 'ItemKind', 'OnExecute')),
-  (New-Role 'BackStage' 'TLazRibbonBackstageRecentList' 'Recent document/file list.' 'Items, SkinManager or linked appearance source' 'AppearanceSource, ItemHeight, MaxRecentItems, SelectionStyle, StorageSection, OnItemClick' 'Recent-list data and storage are kept on the list; visuals come from the selected appearance source.' @('AppearanceSource', 'Items', 'SkinManager', 'StorageSection', 'OnItemClick') @('UseToolbarAppearance', 'UseSkinManager')),
+  (New-Role 'BackStage' 'TLazRibbonBackstageRecentList' 'Recent document/file list.' 'Items, SkinManager or linked appearance source' 'AppearanceSource, CloseBackstageOnClick, ItemHeight, MaxRecentItems, SelectionStyle, StorageSection, OnItemClick' 'Recent-list data and storage are kept on the list; visuals come from the selected appearance source; selection returns to the main screen by default.' @('AppearanceSource', 'CloseBackstageOnClick', 'Items', 'SkinManager', 'StorageSection', 'OnItemClick') @('UseToolbarAppearance', 'UseSkinManager')),
   (New-Role 'BackStage' 'TLazRibbonBackstageView' 'Office-like BackStage overlay.' 'Buttons, LinkedToolbar, SkinManager, pages' 'AppearanceSource, OverlayMode, BackButtonVisible, NavigationStyle, PageButtonVisualMode' 'The BackStage view owns overlay/navigation behavior; linked toolbar or SkinManager owns visuals.' @('Buttons', 'AppearanceSource', 'OverlayMode', 'BackButtonVisible', 'LinkedToolbar', 'SkinManager') @('ShowCloseButton', 'UseToolbarAppearance', 'UseSkinManager')),
 
   (New-Role 'Skin System' 'TLazRibbonSkinManager' 'Skin repository and active skin source.' 'Assigned to Ribbon, BackStage, skin gallery or skin selector' 'SkinFolder, ActiveSkinName, Appearance, General, Accent, Backstage, RecentList, Ribbon' 'The manager is the canonical visual source for new projects and owns the complete Appearance model.' @('SkinFolder', 'ActiveSkinName', 'Appearance', 'General', 'Accent', 'Backstage', 'RecentList', 'Ribbon') @('ActiveSkin', 'BackColor', 'NavigationColor', 'HotColor', 'RecentOddColor')),

@@ -114,6 +114,7 @@ foreach ($name in @('Enabled', 'Hint', 'OnClick', 'OnResize')) {
 
 foreach ($name in @(
   'Action',
+  'CloseBackstageOnClick',
   'ImageIndex',
   'LargeImageIndex',
   'LinkedItem',

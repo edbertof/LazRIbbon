@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
   [string]$SourceRoot = '',
-  [string]$ExpectedVersion = '2.1.17'
+  [string]$ExpectedVersion = '2.1.18'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -1452,8 +1452,8 @@ function Test-TwoPointZeroPlanningDocs {
     foreach ($required in @(
       'LazRibbon 2.0 API Freeze Readiness',
       'Stable API candidates listed: 47',
-      'Effective Object Inspector properties listed: 307',
-      'Repeated published property names reviewed: 48',
+      'Effective Object Inspector properties listed: 308',
+      'Repeated published property names reviewed: 49',
       'Unclassified repeated property names: 0',
       'Design-time property skip rules: 30',
       'Package/tool/demo build targets listed: 19',

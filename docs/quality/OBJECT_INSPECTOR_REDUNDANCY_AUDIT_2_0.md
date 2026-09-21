@@ -9,8 +9,8 @@ Regenerate after refreshing the Object Inspector surface snapshot:
 
 ## Summary
 
-- Effective Object Inspector properties scanned: 307
-- Repeated published property names reviewed: 48
+- Effective Object Inspector properties scanned: 308
+- Repeated published property names reviewed: 49
 - Unclassified repeated property names: 0
 - No unclassified repeated property names were found.
 
@@ -40,6 +40,7 @@ Regenerate after refreshing the Object Inspector surface snapshot:
 | `AppearanceSource` | Visual source and appearance vocabulary | `TLazRibbon`, `TLazRibbonBackstageRecentList`, `TLazRibbonBackstageView` | Visual model or source decision. This is acceptable only where the component owns or chooses its own appearance model. |
 | `BorderSpacing` | Inherited LCL surface | `TLazRibbon`, `TLazRibbonBackstagePage`, `TLazRibbonBackstageRecentList`, `TLazRibbonBackstageView`, `TLazRibbonSkinSelector` | Standard Lazarus control state or layout property. It is repeated because these classes descend from LCL controls or components. |
 | `Caption` | Display text vocabulary | `TLazRibbonApplicationButton`, `TLazRibbonBackstageButton`, `TLazRibbonBackstagePage`, `TLazRibbonCustomRibbonExtItem`, `TLazRibbonPane`, `TLazRibbonQuickAccessItem`, `TLazRibbonTab` | Visible text for tabs, panes, buttons and command-like items. This is the expected Pascal/LCL name for a label shown to the user. |
+| `CloseBackstageOnClick` | Command surface vocabulary | `TLazRibbonBackstageButton`, `TLazRibbonBackstageRecentList` | Shared command metadata used by Ribbon, QAT and BackStage command entries. |
 | `Color` | Inherited LCL surface | `TLazRibbon`, `TLazRibbonBackstagePage`, `TLazRibbonBackstageRecentList`, `TLazRibbonBackstageView`, `TLazRibbonSkinSelector` | Standard Lazarus control state or layout property. It is repeated because these classes descend from LCL controls or components. |
 | `Columns` | Selector and gallery vocabulary | `TLazRibbonGalleryItem`, `TLazRibbonSkinSelector` | Grid, icon or selection setting shared by gallery-like controls and skin selector surfaces. |
 | `Constraints` | Inherited LCL surface | `TLazRibbonBackstagePage`, `TLazRibbonBackstageRecentList`, `TLazRibbonBackstageView`, `TLazRibbonSkinSelector` | Standard Lazarus control state or layout property. It is repeated because these classes descend from LCL controls or components. |

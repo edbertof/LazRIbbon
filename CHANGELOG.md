@@ -2,6 +2,14 @@
 
 - No unreleased changes.
 
+## 2.1.18 - Recent-file BackStage return flow
+
+- Adds `TLazRibbonBackstageRecentList.CloseBackstageOnClick`, enabled by default.
+- Executes `OnItemClick` first so the application can open the selected recent file.
+- Closes the containing `TLazRibbonBackstageView` after the event and returns to the main application screen.
+- Supports recent lists nested inside ordinary page controls by locating the BackStage through the parent hierarchy.
+- Updates runtime and design-time package metadata to `2.1.18`.
+
 ## 2.1.17 - Uniform BackStage navigation icons
 
 - Stops `bbkPage` from selecting `LargeImages` merely because it represents a page.

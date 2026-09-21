@@ -1,3 +1,12 @@
+## 2.1.18 check
+
+- Package metadata updated to 2.1.18 for the runtime and design-time packages.
+- `TLazRibbonBackstageRecentList.CloseBackstageOnClick` now defaults to `True` and closes the containing BackStage after `OnItemClick` opens the selected recent document.
+- The recent-list lookup follows the parent control hierarchy, supporting direct and nested placement inside BackStage pages.
+- The property is classified as shared BackStage command-flow vocabulary and documented in the manual and component reference.
+- `tools/verify_release_candidate.ps1 -Version 2.1.18 -ReleaseVersion 2.1.18` passed, including clean-checkout ZIP extraction and full build validation.
+- Public ZIP created as `LazRibbon_2.1.18_source_20260921_143328.zip` with SHA256 `35C1CEB808E80A134885E58DF64CCEE34366ADF106B2808084C07F9D11F74F7A`.
+
 ## 2.1.17 check
 
 - Package metadata updated to 2.1.17 for the runtime and design-time packages.

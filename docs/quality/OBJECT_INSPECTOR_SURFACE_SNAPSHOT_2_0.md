@@ -267,6 +267,7 @@ Source: `source/runtime/LazRibbon_Backstage.pas`
 - `Anchors`: `property Anchors;`
 - `BorderSpacing`: `property BorderSpacing;`
 - `Color`: `property Color default clWhite;`
+- `CloseBackstageOnClick`: `property CloseBackstageOnClick: Boolean read FCloseBackstageOnClick write FCloseBackstageOnClick default True;`
 - `Constraints`: `property Constraints;`
 - `Enabled`: `property Enabled;`
 - `Font`: `property Font;`

@@ -1,6 +1,6 @@
 # LazRibbon Component Reference
 
-Target: LazRibbon 2.1.17.
+Target: LazRibbon 2.1.18.
 
 This reference describes the purpose of each package component, published
 property and published event. It complements `LAZRIBBON_MANUAL.md` and the
@@ -481,6 +481,7 @@ Purpose: recent-file/document list for BackStage.
 | Property | Description |
 | --- | --- |
 | `AppearanceSource` | Chooses internal, linked or skin-manager visuals. |
+| `CloseBackstageOnClick` | Closes the containing BackStage after `OnItemClick`; defaults to `True`. |
 | `ImageIndex` | Default image index for entries. |
 | `Images` | Image list for entries. |
 | `ItemHeight` | Height of each recent item. |
@@ -496,7 +497,7 @@ Purpose: recent-file/document list for BackStage.
 
 | Event | Description |
 | --- | --- |
-| `OnItemClick` | Fires when a recent entry is clicked. |
+| `OnItemClick` | Fires when a recent entry is clicked, before the optional automatic BackStage close. Use `Detail` as the path or document identifier to open. |
 
 ## TLazRibbonSkinManager
 
