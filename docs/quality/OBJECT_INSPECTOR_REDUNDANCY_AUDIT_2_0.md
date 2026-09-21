@@ -9,7 +9,7 @@ Regenerate after refreshing the Object Inspector surface snapshot:
 
 ## Summary
 
-- Effective Object Inspector properties scanned: 306
+- Effective Object Inspector properties scanned: 307
 - Repeated published property names reviewed: 48
 - Unclassified repeated property names: 0
 - No unclassified repeated property names were found.
@@ -49,7 +49,7 @@ Regenerate after refreshing the Object Inspector surface snapshot:
 | `HotColor` | Skin palette vocabulary | `TLazRibbonSkinAccentColors`, `TLazRibbonSkinBackstageColors` | Low-level color slot inside skin palette subobjects, not a first-level component decision. |
 | `IconHeight` | Selector and gallery vocabulary | `TLazRibbonSkinGalleryItem`, `TLazRibbonSkinSelector` | Grid, icon or selection setting shared by gallery-like controls and skin selector surfaces. |
 | `IconWidth` | Selector and gallery vocabulary | `TLazRibbonSkinGalleryItem`, `TLazRibbonSkinSelector` | Grid, icon or selection setting shared by gallery-like controls and skin selector surfaces. |
-| `ImageIndex` | Command surface vocabulary | `TLazRibbonApplicationButton`, `TLazRibbonBackstageButton`, `TLazRibbonBackstageRecentList`, `TLazRibbonCustomRibbonExtItem`, `TLazRibbonQuickAccessItem` | Shared command metadata used by Ribbon, QAT and BackStage command entries. |
+| `ImageIndex` | Command surface vocabulary | `TLazRibbonApplicationButton`, `TLazRibbonBackstageButton`, `TLazRibbonBackstagePage`, `TLazRibbonBackstageRecentList`, `TLazRibbonCustomRibbonExtItem`, `TLazRibbonQuickAccessItem` | Shared command metadata used by Ribbon, QAT and BackStage command entries. |
 | `Images` | Component link vocabulary | `TLazRibbon`, `TLazRibbonBackstageRecentList`, `TLazRibbonBackstageView`, `TLazRibbonQuickAccessToolBar` | Reference to an external image list, owner Ribbon or skin manager used to connect components in the documented object graph. |
 | `ItemHeight` | Selector and gallery vocabulary | `TLazRibbonBackstageRecentList`, `TLazRibbonBackstageView`, `TLazRibbonGalleryItem` | Grid, icon or selection setting shared by gallery-like controls and skin selector surfaces. |
 | `Items` | Owned collection/list vocabulary | `TLazRibbonBackstageRecentList`, `TLazRibbonQuickAccessToolBar` | Owner-owned item/list storage. The name is acceptable when a component exposes a single primary collection or persisted list. |

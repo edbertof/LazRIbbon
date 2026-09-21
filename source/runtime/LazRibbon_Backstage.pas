@@ -155,10 +155,12 @@ type
     FCaption: TCaption;
     FCloseBackstageOnClick: Boolean;
     FCommand: TLazRibbonCommand;
+    FImageIndex: Integer;
     FItemKind: TLazRibbonBackstagePageKind;
     FOnExecute: TNotifyEvent;
     procedure SetCaption(const AValue: TCaption);
     procedure SetCommand(AValue: TLazRibbonCommand);
+    procedure SetImageIndex(AValue: Integer);
     procedure SetItemKind(AValue: TLazRibbonBackstagePageKind);
   protected
     procedure Notification(AComponent: TComponent; Operation: TOperation); override;
@@ -182,6 +184,7 @@ type
     property OnExecute: TNotifyEvent read FOnExecute write FOnExecute;
   published
     property Caption: TCaption read FCaption write SetCaption;
+    property ImageIndex: Integer read FImageIndex write SetImageIndex default -1;
     property Align;
     property Anchors;
     property BorderSpacing;
@@ -974,6 +977,8 @@ begin
     Result := LazRibbonActionImageIndex(FAction);
   if (Result < 0) and (FLinkedItem <> nil) then
     Result := LazRibbonLinkedImageIndex(FLinkedItem);
+  if (Result < 0) and (FPage <> nil) then
+    Result := FPage.EffectiveImageIndex;
 end;
 
 function TLazRibbonBackstageButton.EffectiveLargeImageIndex: Integer;
@@ -1227,6 +1232,7 @@ begin
   FCaption := Name;
   FCloseBackstageOnClick := True;
   FCommand := nil;
+  FImageIndex := -1;
   FItemKind := bpkPage;
 end;
 
@@ -1263,12 +1269,20 @@ end;
 
 function TLazRibbonBackstagePage.EffectiveImageIndex: Integer;
 begin
-  Result := -1;
+  Result := FImageIndex;
 
-  if Action is TAction then
+  if (Result < 0) and (Action is TAction) then
     Result := TAction(Action).ImageIndex
-  else if FCommand <> nil then
+  else if (Result < 0) and (FCommand <> nil) then
     Result := FCommand.ImageIndex;
+end;
+
+procedure TLazRibbonBackstagePage.SetImageIndex(AValue: Integer);
+begin
+  if FImageIndex = AValue then Exit;
+  FImageIndex := AValue;
+  if Parent is TLazRibbonBackstageView then
+    TLazRibbonBackstageView(Parent).Invalidate;
 end;
 
 function TLazRibbonBackstagePage.EffectiveVisible: Boolean;
@@ -3679,22 +3693,19 @@ begin
 
     S := CurrentCaption;
 
+    { Kind controls behavior, not icon size. Pages and commands use the small
+      list by default; a large icon is used only when LargeImageIndex was set
+      explicitly, regardless of the item kind. }
     IconList := FImages;
     if Btn <> nil then
     begin
-      if LazRibbonBackstageButtonEffectiveKind(Btn) = bbkPage then
+      IconIndex := Btn.EffectiveImageIndex;
+      if (Btn.LargeImageIndex >= 0) and (FLargeImages <> nil) and
+         (Btn.LargeImageIndex < FLargeImages.Count) then
       begin
-        IconIndex := Btn.EffectiveLargeImageIndex;
-        if (FLargeImages <> nil) and (IconIndex >= 0) and (IconIndex < FLargeImages.Count) then
-          IconList := FLargeImages
-        else
-        begin
-          IconIndex := Btn.EffectiveImageIndex;
-          IconList := FImages;
-        end;
-      end
-      else
-        IconIndex := Btn.EffectiveImageIndex;
+        IconIndex := Btn.LargeImageIndex;
+        IconList := FLargeImages;
+      end;
     end
     else if (Page <> nil) and (Page.Action is TAction) then
       IconIndex := TAction(Page.Action).ImageIndex

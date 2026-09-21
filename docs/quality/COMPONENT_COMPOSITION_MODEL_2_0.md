@@ -110,6 +110,10 @@ Some property pairs look similar but describe different decisions:
   `ItemKind` and `OnExecute` are public source-level compatibility only, not
   part of the published Object Inspector surface. Use
   `TLazRibbonBackstageView.Buttons` for those entries.
+- `TLazRibbonBackstagePage.ImageIndex` supplies the default navigation icon for
+  its linked page entry. BackStage pages and commands use the same small-image
+  rule; `LargeImageIndex` is an explicit item-level opt-in and is not implied by
+  `Kind`.
 - `TLazRibbonControlHostItem` uses `Control` as its public hosted-control
   reference. `Caption` remains the fallback placeholder text, and `ControlName`
   and `ControlClassName` are retained as public compatibility properties and

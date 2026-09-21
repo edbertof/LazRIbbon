@@ -1,6 +1,10 @@
 # LazRibbon Status
 
-`2.1.16 - BackStage design-time composition` is the current build.
+`2.1.17 - Uniform BackStage navigation icons` is the current build.
+
+The `2.1.17` build removes the implicit large-icon behavior from `bbkPage`. Page and command navigation entries now use `TLazRibbonBackstageView.Images` and `ImageIndex` by default; `LargeImages` is selected only by an explicitly assigned `LargeImageIndex`, regardless of `Kind`. `TLazRibbonBackstagePage.ImageIndex` is now published and becomes the linked page item's fallback icon when the item does not define its own `ImageIndex`. Runtime and design-time package metadata are now `2.1.17`.
+
+`2.1.16 - BackStage design-time composition` was the previous build.
 
 The `2.1.16` build makes `TLazRibbonBackstageView` easier to compose in the Lazarus form designer. Its component editor now adds pages, commands and separators directly and links the BackStage to the Ribbon on the same form with Office-like defaults, canonical `BackstageView` ownership and inherited `SkinManager`. Newly created pages receive unique names and are selected in the Object Inspector. Runtime and design-time package metadata are now `2.1.16`. No new published component API was added.
 

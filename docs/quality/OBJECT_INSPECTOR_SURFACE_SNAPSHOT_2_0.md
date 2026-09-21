@@ -244,6 +244,7 @@ Source: `source/runtime/LazRibbon_Backstage.pas`
 Source: `source/runtime/LazRibbon_Backstage.pas`
 
 - `Caption`: `property Caption: TCaption read FCaption write SetCaption;`
+- `ImageIndex`: `property ImageIndex: Integer read FImageIndex write SetImageIndex default -1;`
 - `Align`: `property Align;`
 - `Anchors`: `property Anchors;`
 - `BorderSpacing`: `property BorderSpacing;`

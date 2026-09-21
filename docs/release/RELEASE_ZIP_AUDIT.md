@@ -1,3 +1,12 @@
+## 2.1.17 check
+
+- Package metadata updated to 2.1.17 for the runtime and design-time packages.
+- `TLazRibbonBackstagePage.ImageIndex` now defines the normal navigation icon of a BackStage page, with the page action and command as fallbacks.
+- `bbkPage` no longer selects a large icon automatically; pages and commands use `Images` by default, while `LargeImageIndex` remains the explicit opt-in for `LargeImages`.
+- A button-level `ImageIndex` overrides the linked page icon, preserving local customization without duplicating page metadata.
+- `tools/verify_release_candidate.ps1 -Version 2.1.17 -ReleaseVersion 2.1.17` passed, including clean-checkout ZIP extraction and full build validation.
+- Public ZIP created as `LazRibbon_2.1.17_source_20260921_134610.zip` with SHA256 `C2E83B3255F184471FB7F3965B313ED9971151D7C8CCFA10ED0776A92E515366`.
+
 ## 2.1.16 check
 
 - Package metadata updated to 2.1.16 for the runtime and design-time packages.

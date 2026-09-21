@@ -1,6 +1,6 @@
 # LazRibbon Manual
 
-Target: LazRibbon 2.1.16, Lazarus 4.8.
+Target: LazRibbon 2.1.17, Lazarus 4.8.
 
 This manual explains how to install the package, how the components connect to
 each other, and which published properties and events are part of the public
@@ -47,7 +47,7 @@ Standalone Skin Editor:
 Recommended validation command before distributing or reinstalling from source:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File tools\verify_release_candidate.ps1 -Version 2.1.16 -ReleaseVersion 2.1.16 -OutputDirectory D:\Ribbon4Lazarus\Releases
+powershell -ExecutionPolicy Bypass -File tools\verify_release_candidate.ps1 -Version 2.1.17 -ReleaseVersion 2.1.17 -OutputDirectory D:\Ribbon4Lazarus\Releases
 ```
 
 ## 2. Component Model
@@ -408,13 +408,17 @@ Properties: `Action`, `BeginGroup`, `Caption`, `CloseBackstageOnClick`,
 `Enabled`, `Hint`, `ImageIndex`, `LargeImageIndex`, `Kind`, `LinkedItem`,
 `Section`, `Page`, `Visible`.
 
+`Kind` does not choose icon size. Page and command items use `Images` and
+`ImageIndex` by default. Assign `LargeImageIndex` only when that specific item
+must use `LargeImages`.
+
 Events: `OnExecute`.
 
 ### TLazRibbonBackstagePage
 
 Role: BackStage content page.
 
-Properties: `Caption`, `Align`, `Anchors`, `BorderSpacing`, `Color`,
+Properties: `Caption`, `ImageIndex`, `Align`, `Anchors`, `BorderSpacing`, `Color`,
 `Constraints`, `Enabled`, `Font`, `ParentColor`, `ParentFont`,
 `ParentShowHint`, `PopupMenu`, `ShowHint`, `Visible`.
 
@@ -422,6 +426,9 @@ Events: inherited control events.
 
 Command/navigation properties are intentionally not part of the normal design
 surface; use `TLazRibbonBackstageView.Buttons`.
+
+`ImageIndex` identifies the page in the parent BackStage navigation. A linked
+button's explicit `ImageIndex` takes priority; otherwise the page value is used.
 
 ### TLazRibbonBackstageRecentList
 
@@ -526,5 +533,5 @@ powershell -ExecutionPolicy Bypass -File tools\export_professional_readiness_2_1
 Then run:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File tools\check_project_consistency.ps1 -ExpectedVersion 2.1.16
+powershell -ExecutionPolicy Bypass -File tools\check_project_consistency.ps1 -ExpectedVersion 2.1.17
 ```

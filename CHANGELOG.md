@@ -2,6 +2,15 @@
 
 - No unreleased changes.
 
+## 2.1.17 - Uniform BackStage navigation icons
+
+- Stops `bbkPage` from selecting `LargeImages` merely because it represents a page.
+- Uses `Images` and `ImageIndex` as the default icon source for both page and command navigation entries.
+- Keeps large icons as an explicit per-item choice through `LargeImageIndex`, independent of `Kind`.
+- Adds the published `TLazRibbonBackstagePage.ImageIndex` property.
+- Uses the linked page's `ImageIndex` when a page button has no explicit `ImageIndex`.
+- Updates runtime and design-time package metadata to `2.1.17`.
+
 ## 2.1.16 - BackStage design-time composition
 
 - Adds a `TLazRibbonBackstageView` component editor with direct commands to create pages, commands and separators.

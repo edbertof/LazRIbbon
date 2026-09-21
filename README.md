@@ -50,9 +50,9 @@ tools/LazRibbonSkinEditor/
 
 ## Current version
 
-This distribution is **LazRibbon 2.1.16 development release candidate**.
+This distribution is **LazRibbon 2.1.17 development release candidate**.
 
-The `2.1.16` build adds design-time composition commands to `TLazRibbonBackstageView`. Its component editor can create pages, commands and separators and connect the BackStage to the Ribbon on the same form while applying the canonical Office-like defaults. The public release notes are in `docs/release/RELEASE_2_1_16.md`; the stable 2.0 baseline remains documented in `docs/release/RELEASE_2_0_0.md`.
+The `2.1.17` build standardizes BackStage navigation icon sizing. `bbkPage` and `bbkCommand` items now use `Images`/`ImageIndex` by default; `LargeImages` is used only when `LargeImageIndex` is explicitly assigned, independently of `Kind`. `TLazRibbonBackstagePage` also exposes `ImageIndex`, which supplies the icon for its linked page item when the item has no explicit icon. The public release notes are in `docs/release/RELEASE_2_1_17.md`; the stable 2.0 baseline remains documented in `docs/release/RELEASE_2_0_0.md`.
 
 ## Post-2.0 development
 
@@ -89,7 +89,8 @@ The public screenshot set is generated with `tools/capture_release_screenshots.p
 
 Highlights in the current LazRibbon line:
 
-- Runtime and design-time package metadata are aligned on `2.1.16`.
+- Runtime and design-time package metadata are aligned on `2.1.17`.
+- BackStage page and command items now use the same icon-size rule, and pages expose their own `ImageIndex`.
 - `TLazRibbonBackstageView` offers direct design-time commands for its normal composition workflow.
 - The `TLazRibbon` design-time starter layout now creates the first Office-like composition with SkinManager and BackStage already linked.
 - A generated component API governance report now maps the effective Object Inspector surface to the intended component composition model.
@@ -312,14 +313,14 @@ powershell -ExecutionPolicy Bypass -File tools/build_all_projects.ps1 -CleanArti
 To validate the package from an extracted clean source tree:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File tools/verify_clean_checkout.ps1 -Version 2.1.16 -ReleaseVersion 2.1.16
+powershell -ExecutionPolicy Bypass -File tools/verify_clean_checkout.ps1 -Version 2.1.17 -ReleaseVersion 2.1.17
 ```
 
 For a complete release preflight, including consistency checks and ZIP
 audit:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File tools/verify_release_candidate.ps1 -Version 2.1.16 -ReleaseVersion 2.1.16 -OutputDirectory D:\Ribbon4Lazarus\Releases
+powershell -ExecutionPolicy Bypass -File tools/verify_release_candidate.ps1 -Version 2.1.17 -ReleaseVersion 2.1.17 -OutputDirectory D:\Ribbon4Lazarus\Releases
 ```
 
 The purpose of each demo is documented in

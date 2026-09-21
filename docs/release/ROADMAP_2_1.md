@@ -50,7 +50,7 @@ Deliver a post-2.0 package that feels easier to adopt and maintain:
 
 ## 2.1 Gates
 
-- `tools/check_project_consistency.ps1 -ExpectedVersion 2.1.16` passes.
+- `tools/check_project_consistency.ps1 -ExpectedVersion 2.1.17` passes.
 - `tools/export_skin_editor_2_1_coverage.ps1` regenerates the Skin Editor coverage report.
 - The Skin Editor opens, previews built-in skins and saves a self-contained `.skin` file.
 - The main demos compile with Lazarus 4.8.
@@ -180,6 +180,14 @@ added.
 ## 2.1.16 Snapshot
 
 `TLazRibbonBackstageView` now has a dedicated component editor for the normal design-time composition workflow. The developer can add page, command and separator entries directly and link the BackStage to the Ribbon on the same form. The linking command uses the existing canonical properties, carries over the Ribbon's `SkinManager` and applies Office-like overlay defaults. No new published component API was added.
+
+## 2.1.17 Snapshot
+
+BackStage navigation no longer changes icon size according to `Kind`.
+`bbkPage` and `bbkCommand` use `Images`/`ImageIndex` by default, while
+`LargeImageIndex` remains an explicit choice for either kind. Pages now expose
+their own `ImageIndex`, inherited by the linked page item when that item does
+not define an icon directly.
 
 ## Current Skin Editor Workflow Pass
 

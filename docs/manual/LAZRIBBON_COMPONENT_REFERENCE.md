@@ -1,6 +1,6 @@
 # LazRibbon Component Reference
 
-Target: LazRibbon 2.1.16.
+Target: LazRibbon 2.1.17.
 
 This reference describes the purpose of each package component, published
 property and published event. It complements `LAZRIBBON_MANUAL.md` and the
@@ -416,8 +416,8 @@ Purpose: Office-like BackStage overlay.
 | `CloseOnEscape` | Closes BackStage when Escape is pressed. |
 | `CloseOnRibbonTabClick` | Closes BackStage when a Ribbon tab is clicked. |
 | `HeaderHeight` | Optional explicit header height. |
-| `Images` | Small images for navigation items. |
-| `LargeImages` | Large images for navigation items. |
+| `Images` | Default image list for page and command navigation items. |
+| `LargeImages` | Optional large image list, used only when an item explicitly defines `LargeImageIndex`. |
 | `ItemHeight` | Height of navigation items. |
 | `LinkedToolbar` | Ribbon that owns/opens this BackStage. |
 | `NavigationStyle` | Office-like navigation rendering style. |
@@ -450,8 +450,8 @@ Purpose: one item in `TLazRibbonBackstageView.Buttons`.
 | `CloseBackstageOnClick` | Closes BackStage after command execution. |
 | `Enabled` | Enables or disables the item. |
 | `Hint` | Hint text. |
-| `ImageIndex` | Small image index. |
-| `LargeImageIndex` | Large image index. |
+| `ImageIndex` | Default image index in `BackstageView.Images`; for page items, the linked page supplies a fallback value. |
+| `LargeImageIndex` | Explicit opt-in index in `BackstageView.LargeImages`, independent of `Kind`. |
 | `Kind` | Page link, command or separator behavior. |
 | `LinkedItem` | Optional linked Ribbon item. |
 | `Section` | Top or bottom navigation section. |
@@ -469,6 +469,7 @@ Purpose: content page shown inside BackStage.
 | Property | Description |
 | --- | --- |
 | `Caption` | Page caption used by designers and page links. |
+| `ImageIndex` | Navigation icon index in the parent `BackstageView.Images`; used when the linked page button has no explicit `ImageIndex`. |
 | inherited LCL layout properties | `Align`, `Anchors`, `BorderSpacing`, `Color`, `Constraints`, `Enabled`, `Font`, `ParentColor`, `ParentFont`, `ParentShowHint`, `PopupMenu`, `ShowHint`, `Visible`. |
 
 Events: inherited control events.
