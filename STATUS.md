@@ -2,7 +2,7 @@
 
 `2.1.19 - Reliable Quick Access placement` is the current build.
 
-The `2.1.19` build makes Quick Access placement match its public names. `qapBeforeTabs` now renders the QAT before the Application/Arquivo button and then the normal tabs. `qapTitleBar` remains hosted by a visible `TLazRibbonForm` custom title bar; when that host is unavailable, the QAT falls back visibly to the before-tabs position instead of disappearing. Runtime and design-time package metadata are now `2.1.19`.
+The `2.1.19` build makes Quick Access placement match its public names. `qapBeforeTabs` renders the QAT before the Application/Arquivo button and then the normal tabs. `qapTitleBar` is hosted by a visible `TLazRibbonForm` custom title bar; on a regular `TForm`, it receives a dedicated Ribbon row above the Application button and tabs instead of becoming indistinguishable from `qapBeforeTabs`. Runtime and design-time package metadata remain `2.1.19`.
 
 `2.1.18 - Recent-file BackStage return flow` was the previous build.
 

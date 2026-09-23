@@ -1,6 +1,10 @@
 ## Unreleased
 
-- No unreleased changes.
+- Keeps `qapTitleBar` visually distinct from `qapBeforeTabs` on a regular
+  `TForm` by reserving a dedicated QAT row above the Application button and
+  tabs.
+- Preserves native title-bar hosting when the Ribbon belongs to a configured
+  `TLazRibbonForm`.
 
 ## 2.1.19 - Reliable Quick Access placement
 

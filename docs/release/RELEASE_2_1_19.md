@@ -9,8 +9,9 @@ Object Inspector and prevents commands from silently disappearing.
   followed by the normal Ribbon tabs.
 - `qapTitleBar` continues to use the visible custom title bar supplied by
   `TLazRibbonForm`.
-- When no compatible visible title-bar host exists, `qapTitleBar` falls back to
-  the before-tabs layout while preserving the configured `Position` value.
+- When no compatible visible title-bar host exists, `qapTitleBar` uses a
+  dedicated row above the Application button and tabs, remaining visually
+  distinct from `qapBeforeTabs`.
 - The effective position is used consistently by layout, painting, mouse input
   and KeyTips.
 - Runtime and design-time package metadata are updated to `2.1.19`.

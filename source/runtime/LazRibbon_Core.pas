@@ -783,6 +783,7 @@ type
     function EffectiveContextualGroupHeaderHeight: Integer;
     function HasQuickAccessTitleBarHost: Boolean;
     function EffectiveQuickAccessPosition: TLazRibbonQuickAccessPosition;
+    function InternalQuickAccessTitleBarHeight: Integer;
     procedure InvalidateHostedTitleBar;
     function QuickAccessHitTest(X, Y: Integer): Integer;
     procedure QuickAccessMouseLeave;
@@ -2667,7 +2668,8 @@ var
 begin
   if FAppearance = nil then
     Exit(0);
-  Result := EffectiveContextualGroupHeaderHeight + FAppearance.Tab.CalcCaptionHeight;
+  Result := InternalQuickAccessTitleBarHeight +
+    EffectiveContextualGroupHeaderHeight + FAppearance.Tab.CalcCaptionHeight;
   if not FRibbonMinimized then
     Inc(Result, TabHeight);
   if (FQuickAccessToolBar <> nil) and FQuickAccessToolBar.Visible and
@@ -4054,8 +4056,19 @@ begin
   if FQuickAccessToolBar = nil then
     Exit(qapBeforeTabs);
   Result := FQuickAccessToolBar.Position;
-  if (Result = qapTitleBar) and not HasQuickAccessTitleBarHost then
-    Result := qapBeforeTabs;
+end;
+
+function TLazRibbon.InternalQuickAccessTitleBarHeight: Integer;
+begin
+  Result := 0;
+  if (FQuickAccessToolBar = nil) or (not FQuickAccessToolBar.Visible) or
+     (FQuickAccessToolBar.Position <> qapTitleBar) or
+     HasQuickAccessTitleBarHost then
+    Exit;
+  if FQuickAccessToolBar.ButtonSize > 0 then
+    Result := FQuickAccessToolBar.ButtonSize + 6
+  else if FAppearance <> nil then
+    Result := Max(18, FAppearance.Tab.CalcCaptionHeight - 6) + 6;
 end;
 
 procedure TLazRibbon.SetShowKeyTips(AValue: Boolean);
@@ -5166,7 +5179,9 @@ procedure TLazRibbon.ValidateBuffer;
             SameText(FTabs[J + 1].ContextualGroupCaption, GroupCaption) do
         Inc(J);
 
-      R := Rect(FTabRects[I].Left, 0, FTabRects[J].Right + 1, HeaderHeight);
+      R := Rect(FTabRects[I].Left, InternalQuickAccessTitleBarHeight,
+        FTabRects[J].Right + 1,
+        InternalQuickAccessTitleBarHeight + HeaderHeight);
       if R.Right > R.Left then
       begin
         FBuffer.Canvas.Font.Assign(FAppearance.Tab.TabHeaderFont);
@@ -6437,7 +6452,8 @@ procedure TLazRibbon.ValidateBuffer;
         DrawKeyTipBox(VisibleKeyTipText(ApplicationKeyTipText), FMenuButtonRect.ForWinAPI, False);
 
       if (FQuickAccessToolBar <> nil) and FQuickAccessToolBar.Visible and
-         (EffectiveQuickAccessPosition <> qapTitleBar) then
+         ((EffectiveQuickAccessPosition <> qapTitleBar) or
+          (not HasQuickAccessTitleBarHost)) then
         for I := 0 to High(FQuickAccessRects) do
         begin
           if I >= FQuickAccessToolBar.Items.Count then Continue;
@@ -6539,6 +6555,7 @@ var
   CollapseButtonSize, CollapseButtonReserve: Integer;
   RightButtonLeft, RightButtonRight: Integer;
   ContextHeaderHeight: Integer;
+  TitleBarQATHeight: Integer;
   HeaderCaptionWidth: Integer;
   HeaderDesiredWidth: Integer;
   GroupNaturalWidth: Integer;
@@ -6589,7 +6606,8 @@ begin
   // *** Tabs ***
 
   TabAppearance := FAppearance;
-  ContextHeaderHeight := EffectiveContextualGroupHeaderHeight;
+  TitleBarQATHeight := InternalQuickAccessTitleBarHeight;
+  ContextHeaderHeight := TitleBarQATHeight + EffectiveContextualGroupHeaderHeight;
   ContextualGroupGap := 4;
   EffectiveQATPosition := EffectiveQuickAccessPosition;
   ScaledTabCaptionHorizontalPadding := Max(0,
@@ -6797,10 +6815,36 @@ begin
           FMenuButtonRect.Right := FMenuButtonRect.Left + MenuButtonWidth;
         end;
       end;
+    end
+    else if (EffectiveQATPosition = qapTitleBar) and
+            (TitleBarQATHeight > 0) then
+    begin
+      { A regular TForm has no LazRibbon title-bar host. Keep qapTitleBar a
+        distinct position by giving it its own row above the tabs. }
+      QATY := 3;
+      if isRTL then
+        QATX := Width - ToolbarCornerRadius - QATButtonSize - 4
+      else
+        QATX := ToolbarCornerRadius + 4;
+
+      for QATI := 0 to FQuickAccessToolBar.Items.Count - 1 do
+        if FQuickAccessToolBar.Items[QATI].EffectiveVisible then
+        begin
+          FQuickAccessRects[QATI] := Rect(QATX, QATY,
+            QATX + QATButtonSize, QATY + QATButtonSize);
+          if isRTL then
+            Dec(QATX, QATButtonSize + QATGap)
+          else
+            Inc(QATX, QATButtonSize + QATGap);
+          Inc(QATWidth, QATButtonSize + QATGap);
+        end;
+      if FQuickAccessToolBar.ShowCustomizeButton then
+      begin
+        FQuickAccessCustomizeRect := Rect(QATX, QATY,
+          QATX + QATButtonSize, QATY + QATButtonSize);
+        Inc(QATWidth, QATButtonSize + QATGap);
+      end;
     end;
-    { qapTitleBar is intentionally not laid out inside TLazRibbon. It is drawn
-      and handled by TLazRibbonForm's custom title bar when the Ribbon property
-      of the form points to this TLazRibbon instance. }
   end;
 
   // Rects of tabs headings (containg top frame of component)

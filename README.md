@@ -52,7 +52,7 @@ tools/LazRibbonSkinEditor/
 
 This distribution is **LazRibbon 2.1.19 development release candidate**.
 
-The `2.1.19` build makes Quick Access placement predictable. `qapBeforeTabs` now means QAT, Application/Arquivo button, then the normal tabs. `qapTitleBar` uses the custom title bar of `TLazRibbonForm`; if no visible compatible host exists, the QAT remains accessible through an automatic before-tabs fallback instead of disappearing. The public release notes are in `docs/release/RELEASE_2_1_19.md`; the stable 2.0 baseline remains documented in `docs/release/RELEASE_2_0_0.md`.
+The `2.1.19` build makes Quick Access placement predictable. `qapBeforeTabs` means QAT, Application/Arquivo button, then the normal tabs. `qapTitleBar` uses the custom title bar of `TLazRibbonForm`; on a regular `TForm`, it uses a dedicated Ribbon row above the Application button and tabs, so the two positions remain visually distinct. The public release notes are in `docs/release/RELEASE_2_1_19.md`; the stable 2.0 baseline remains documented in `docs/release/RELEASE_2_0_0.md`.
 
 ## Post-2.0 development
 
