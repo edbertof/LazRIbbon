@@ -2,6 +2,14 @@
 
 - No unreleased changes.
 
+## 2.1.19 - Reliable Quick Access placement
+
+- Places `qapBeforeTabs` before the Application/Arquivo button, followed by the normal tabs.
+- Keeps `qapTitleBar` in the visible custom title bar of `TLazRibbonForm`.
+- Falls back from `qapTitleBar` to a visible before-tabs layout when no compatible visible title-bar host exists.
+- Applies the effective placement consistently to drawing, hit testing and KeyTips without changing the stored `Position` value.
+- Updates runtime and design-time package metadata to `2.1.19`.
+
 ## 2.1.18 - Recent-file BackStage return flow
 
 - Adds `TLazRibbonBackstageRecentList.CloseBackstageOnClick`, enabled by default.

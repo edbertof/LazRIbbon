@@ -1,6 +1,10 @@
 # LazRibbon Status
 
-`2.1.18 - Recent-file BackStage return flow` is the current build.
+`2.1.19 - Reliable Quick Access placement` is the current build.
+
+The `2.1.19` build makes Quick Access placement match its public names. `qapBeforeTabs` now renders the QAT before the Application/Arquivo button and then the normal tabs. `qapTitleBar` remains hosted by a visible `TLazRibbonForm` custom title bar; when that host is unavailable, the QAT falls back visibly to the before-tabs position instead of disappearing. Runtime and design-time package metadata are now `2.1.19`.
+
+`2.1.18 - Recent-file BackStage return flow` was the previous build.
 
 The `2.1.18` build completes the expected recent-file workflow. After `TLazRibbonBackstageRecentList.OnItemClick` opens the selected document, the containing BackStage closes automatically and returns to the main application screen. The new `CloseBackstageOnClick` property defaults to `True` and allows specialized workflows to keep the BackStage open. Runtime and design-time package metadata are now `2.1.18`.
 

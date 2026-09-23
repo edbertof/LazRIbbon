@@ -1,3 +1,12 @@
+## 2.1.19 check
+
+- Package metadata updated to 2.1.19 for the runtime and design-time packages.
+- `qapBeforeTabs` now places the QAT before the Application/Arquivo button and normal tabs.
+- `qapTitleBar` uses a visible `TLazRibbonForm` title-bar host and falls back to the visible before-tabs layout when that host is unavailable.
+- Layout, painting, mouse interaction and KeyTips share the same effective position without changing the stored `Position` value.
+- `tools/verify_release_candidate.ps1 -Version 2.1.19 -ReleaseVersion 2.1.19` passed, including clean-checkout ZIP extraction and full build validation.
+- Public ZIP created as `LazRibbon_2.1.19_source_20260923_184646.zip` with SHA256 `E11340257A16338244AAB41DBFB156A6AEA2B55E3763D9F04EB06A150F9F921A`.
+
 ## 2.1.18 check
 
 - Package metadata updated to 2.1.18 for the runtime and design-time packages.

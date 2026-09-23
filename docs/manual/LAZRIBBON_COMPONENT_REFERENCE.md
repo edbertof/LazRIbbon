@@ -1,6 +1,6 @@
 # LazRibbon Component Reference
 
-Target: LazRibbon 2.1.18.
+Target: LazRibbon 2.1.19.
 
 This reference describes the purpose of each package component, published
 property and published event. It complements `LAZRIBBON_MANUAL.md` and the
@@ -174,7 +174,7 @@ Purpose: Quick Access Toolbar shown before tabs, above the Ribbon or below it.
 | Property | Description |
 | --- | --- |
 | `Visible` | Shows or hides the QAT. |
-| `Position` | Selects the QAT placement. |
+| `Position` | Selects `qapBeforeTabs`, `qapTitleBar` or `qapBelowRibbon`. Before-tabs places the QAT before Arquivo; title-bar placement falls back visibly to before-tabs when no custom title-bar host exists. |
 | `Items` | Collection of `TLazRibbonQuickAccessItem` entries. |
 | `ButtonFrameStyle` | Controls when item frames are drawn. |
 | `ButtonSize` | Explicit button size; `0` uses default metrics. |

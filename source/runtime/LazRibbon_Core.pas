@@ -781,6 +781,8 @@ type
     procedure SetTabCaptionSpacing(AValue: Integer);
     procedure SetMinTabCaptionWidth(AValue: Integer);
     function EffectiveContextualGroupHeaderHeight: Integer;
+    function HasQuickAccessTitleBarHost: Boolean;
+    function EffectiveQuickAccessPosition: TLazRibbonQuickAccessPosition;
     procedure InvalidateHostedTitleBar;
     function QuickAccessHitTest(X, Y: Integer): Integer;
     procedure QuickAccessMouseLeave;
@@ -4021,6 +4023,41 @@ begin
     InvalidateTitleBarsIn(Parent);
 end;
 
+function TLazRibbon.HasQuickAccessTitleBarHost: Boolean;
+var
+  HostForm: TCustomForm;
+
+  function ContainsVisibleTitleBar(AParent: TWinControl): Boolean;
+  var
+    I: Integer;
+    C: TControl;
+  begin
+    Result := False;
+    if AParent = nil then Exit;
+    for I := 0 to AParent.ControlCount - 1 do
+    begin
+      C := AParent.Controls[I];
+      if SameText(C.ClassName, 'TLazRibbonTitleBar') and C.Visible then
+        Exit(True);
+      if (C is TWinControl) and ContainsVisibleTitleBar(TWinControl(C)) then
+        Exit(True);
+    end;
+  end;
+
+begin
+  HostForm := GetParentForm(Self);
+  Result := (HostForm <> nil) and ContainsVisibleTitleBar(HostForm);
+end;
+
+function TLazRibbon.EffectiveQuickAccessPosition: TLazRibbonQuickAccessPosition;
+begin
+  if FQuickAccessToolBar = nil then
+    Exit(qapBeforeTabs);
+  Result := FQuickAccessToolBar.Position;
+  if (Result = qapTitleBar) and not HasQuickAccessTitleBarHost then
+    Result := qapBeforeTabs;
+end;
+
 procedure TLazRibbon.SetShowKeyTips(AValue: Boolean);
 begin
   if FShowKeyTips = AValue then Exit;
@@ -6400,7 +6437,7 @@ procedure TLazRibbon.ValidateBuffer;
         DrawKeyTipBox(VisibleKeyTipText(ApplicationKeyTipText), FMenuButtonRect.ForWinAPI, False);
 
       if (FQuickAccessToolBar <> nil) and FQuickAccessToolBar.Visible and
-         (FQuickAccessToolBar.Position <> qapTitleBar) then
+         (EffectiveQuickAccessPosition <> qapTitleBar) then
         for I := 0 to High(FQuickAccessRects) do
         begin
           if I >= FQuickAccessToolBar.Items.Count then Continue;
@@ -6512,6 +6549,7 @@ var
   ScaledTabCaptionHorizontalPadding: Integer;
   ScaledTabCaptionSpacing: Integer;
   ScaledMinTabCaptionWidth: Integer;
+  EffectiveQATPosition: TLazRibbonQuickAccessPosition;
  {$IFDEF LCLCocoa}
   scalefactor: Double;
  {$ENDIF}
@@ -6553,6 +6591,7 @@ begin
   TabAppearance := FAppearance;
   ContextHeaderHeight := EffectiveContextualGroupHeaderHeight;
   ContextualGroupGap := 4;
+  EffectiveQATPosition := EffectiveQuickAccessPosition;
   ScaledTabCaptionHorizontalPadding := Max(0,
     LazScaleX(FTabCaptionHorizontalPadding, 96, Screen.PixelsPerInch));
   ScaledTabCaptionSpacing := Max(0,
@@ -6683,7 +6722,7 @@ begin
     for QATI := 0 to High(FQuickAccessRects) do
       FQuickAccessRects[QATI] := Rect(-1, -1, -1, -1);
 
-    if FQuickAccessToolBar.Position = qapBelowRibbon then
+    if EffectiveQATPosition = qapBelowRibbon then
     begin
       { The Office/DevExpress behavior is: "show below the Ribbon" means a
         narrow row below all panes/groups, not a row between the tab captions
@@ -6712,14 +6751,11 @@ begin
         Inc(QATWidth, QATButtonSize + QATGap);
       end;
     end
-    else if FQuickAccessToolBar.Position = qapBeforeTabs then
+    else if EffectiveQATPosition = qapBeforeTabs then
     begin
       if isRTL then
       begin
-        if FShowMenuButton then
-          QATX := FMenuButtonRect.Left - QATGap - QATButtonSize
-        else
-          QATX := Width - ToolbarCornerRadius - QATButtonSize - 2;
+        QATX := Width - ToolbarCornerRadius - QATButtonSize - 2;
 
         for QATI := 0 to FQuickAccessToolBar.Items.Count - 1 do
           if FQuickAccessToolBar.Items[QATI].EffectiveVisible then
@@ -6733,13 +6769,15 @@ begin
           FQuickAccessCustomizeRect := Rect(QATX, ContextHeaderHeight + 3, QATX + QATButtonSize, ContextHeaderHeight + 3 + QATButtonSize);
           Inc(QATWidth, QATButtonSize + QATGap);
         end;
+        if FShowMenuButton then
+        begin
+          FMenuButtonRect.Right := Width - ToolbarCornerRadius - QATWidth - 2;
+          FMenuButtonRect.Left := FMenuButtonRect.Right - MenuButtonWidth;
+        end;
       end
       else
       begin
-        if FShowMenuButton then
-          QATX := FMenuButtonRect.Right + QATGap + 2
-        else
-          QATX := ToolbarCornerRadius + 2;
+        QATX := ToolbarCornerRadius + 2;
 
         for QATI := 0 to FQuickAccessToolBar.Items.Count - 1 do
           if FQuickAccessToolBar.Items[QATI].EffectiveVisible then
@@ -6752,6 +6790,11 @@ begin
         begin
           FQuickAccessCustomizeRect := Rect(QATX, ContextHeaderHeight + 3, QATX + QATButtonSize, ContextHeaderHeight + 3 + QATButtonSize);
           Inc(QATWidth, QATButtonSize + QATGap);
+        end;
+        if FShowMenuButton then
+        begin
+          FMenuButtonRect.Left := ToolbarCornerRadius + QATWidth + 2;
+          FMenuButtonRect.Right := FMenuButtonRect.Left + MenuButtonWidth;
         end;
       end;
     end;
@@ -6776,7 +6819,7 @@ begin
       inc(x, sgn * (ToolbarCornerRadius + 1));
 
     if (FQuickAccessToolBar <> nil) and (FQuickAccessToolBar.Visible) and
-       (FQuickAccessToolBar.Position = qapBeforeTabs) and (QATWidth > 0) then
+       (EffectiveQATPosition = qapBeforeTabs) and (QATWidth > 0) then
       inc(x, sgn * (QATWidth + 4));
 
     PrevVisibleTabIndex := -1;

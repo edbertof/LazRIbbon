@@ -9,7 +9,7 @@ Regenerate after changing package metadata, API audits, Object Inspector reports
 
 ## Summary
 
-- Package version: 2.1.18
+- Package version: 2.1.19
 - Stable API candidates listed: 47
 - Effective Object Inspector properties listed: 308
 - Repeated published property names reviewed: 49
@@ -25,7 +25,7 @@ Regenerate after changing package metadata, API audits, Object Inspector reports
 
 | Gate | Status | Evidence |
 | --- | --- | --- |
-| Package metadata aligned | Ready | Runtime 2.1.18; design 2.1.18. |
+| Package metadata aligned | Ready | Runtime 2.1.19; design 2.1.19. |
 | Public API audit exists | Ready | 47 stable API candidates listed. |
 | Component property matrix exists | Ready | Release gate section is present. |
 | Object Inspector surface snapshot exists | Ready | 308 effective Object Inspector properties listed. |
