@@ -1788,7 +1788,10 @@ end;
 procedure TLazRibbonQuickAccessToolBar.Changed;
 begin
   if (FOwner <> nil) and not (csDestroying in FOwner.ComponentState) then
+  begin
     FOwner.NotifyMetricsChanged;
+    FOwner.InvalidateHostedTitleBar;
+  end;
 end;
 
 function TLazRibbonQuickAccessToolBar.GetOwner: TPersistent;

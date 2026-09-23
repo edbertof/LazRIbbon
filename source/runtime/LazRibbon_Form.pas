@@ -116,6 +116,7 @@ type
     procedure RequestCloseFromTitleBar;
     procedure MinimizeFromTitleBar;
     procedure RemoveAccidentalStreamedTitleBars;
+    procedure AutoConnectSingleRibbon;
     procedure CMTextChanged(var Message: TLMessage); message CM_TEXTCHANGED;
     procedure SetRibbon(AValue: TLazRibbon);
     procedure SetSkinManager(AValue: TLazRibbonSkinManager);
@@ -1603,6 +1604,29 @@ begin
   end;
 end;
 
+procedure TLazRibbonForm.AutoConnectSingleRibbon;
+var
+  I: Integer;
+  Candidate: TLazRibbon;
+begin
+  if FRibbon <> nil then
+    Exit;
+
+  Candidate := nil;
+  for I := 0 to ComponentCount - 1 do
+    if Components[I] is TLazRibbon then
+    begin
+      { Automatic connection is intentionally limited to an unambiguous form.
+        Forms containing multiple Ribbons must keep using the Ribbon property. }
+      if Candidate <> nil then
+        Exit;
+      Candidate := TLazRibbon(Components[I]);
+    end;
+
+  if Candidate <> nil then
+    SetRibbon(Candidate);
+end;
+
 procedure TLazRibbonForm.KeyDown(var Key: Word; Shift: TShiftState);
 begin
   { While the Office-like KeyTips overlay is active, Backspace is part of the
@@ -1637,6 +1661,7 @@ procedure TLazRibbonForm.Loaded;
 begin
   inherited Loaded;
   RemoveAccidentalStreamedTitleBars;
+  AutoConnectSingleRibbon;
 
   { Capture the border style that was actually streamed from the .lfm before
     the custom chrome removes the native frame.  The resize policy must be

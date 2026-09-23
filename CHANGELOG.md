@@ -5,6 +5,10 @@
   tabs.
 - Preserves native title-bar hosting when the Ribbon belongs to a configured
   `TLazRibbonForm`.
+- Automatically connects the only `TLazRibbon` owned by a `TLazRibbonForm`
+  when the streamed `Ribbon` reference is unavailable during form loading.
+- Repaints the hosted title bar immediately when QAT visibility, position or
+  items change.
 
 ## 2.1.19 - Reliable Quick Access placement
 
