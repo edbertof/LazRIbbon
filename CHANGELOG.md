@@ -1,5 +1,9 @@
 ## Unreleased
 
+- Removes the duplicated custom-title-bar inset from
+  `TLazRibbonBackstageView` at design time, eliminating the large blank space
+  above the BackStage return button while preserving full-client run-time
+  overlay behavior.
 - Keeps `qapTitleBar` visually distinct from `qapBeforeTabs` on a regular
   `TForm` by reserving a dedicated QAT row above the Application button and
   tabs.

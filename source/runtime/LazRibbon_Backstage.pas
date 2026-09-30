@@ -2937,6 +2937,11 @@ var
   Ctrl: TControl;
 begin
   Result := 0;
+  { At design time the BackStage keeps its ordinary aligned bounds and already
+    starts below the form's top-aligned controls. Applying the run-time client
+    overlay inset here would count the title bar/Ribbon area a second time and
+    leave a large blank band above the return button. }
+  if csDesigning in ComponentState then Exit;
   if FOverlayMode <> bomCoverClientArea then Exit;
   if Parent = nil then Exit;
 
