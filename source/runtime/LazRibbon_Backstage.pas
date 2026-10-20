@@ -798,6 +798,17 @@ begin
     Result := TAction(AAction).ImageIndex;
 end;
 
+function LazRibbonActionImages(AAction: TBasicAction): TCustomImageList;
+var
+  ContainedAction: TContainedAction;
+begin
+  Result := nil;
+  if not (AAction is TContainedAction) then Exit;
+  ContainedAction := TContainedAction(AAction);
+  if ContainedAction.ActionList <> nil then
+    Result := ContainedAction.ActionList.Images;
+end;
+
 function LazRibbonActionVisible(AAction: TBasicAction): Boolean;
 begin
   Result := True;
@@ -3167,6 +3178,7 @@ var
   S: String;
   Page, ActivePaintPage: TLazRibbonBackstagePage;
   Btn: TLazRibbonBackstageButton;
+  IconAction: TBasicAction;
   CloseR: TRect;
   A: TLazRibbonToolbarAppearance;
   IdleCaptionColor, HotCaptionColor, ActiveCaptionColor, SelectedCaptionColor: TColor;
@@ -3718,6 +3730,7 @@ begin
       list by default; a large icon is used only when LargeImageIndex was set
       explicitly, regardless of the item kind. }
     IconList := FImages;
+    IconAction := nil;
     if Btn <> nil then
     begin
       IconIndex := Btn.EffectiveImageIndex;
@@ -3726,10 +3739,25 @@ begin
       begin
         IconIndex := Btn.LargeImageIndex;
         IconList := FLargeImages;
+      end
+      else if Btn.ImageIndex < 0 then
+      begin
+        { An inherited Action.ImageIndex belongs to ActionList.Images, not to
+          BackStage.Images. Explicit button indexes continue to use the
+          BackStage image lists. }
+        IconAction := Btn.Action;
+        if (IconAction = nil) and (Btn.LinkedItem <> nil) then
+          IconAction := LazRibbonLinkedAction(Btn.LinkedItem);
+        if (IconAction <> nil) and (LazRibbonActionImages(IconAction) <> nil) then
+          IconList := LazRibbonActionImages(IconAction);
       end;
     end
     else if (Page <> nil) and (Page.Action is TAction) then
-      IconIndex := TAction(Page.Action).ImageIndex
+    begin
+      IconIndex := TAction(Page.Action).ImageIndex;
+      if (Page.ImageIndex < 0) and (LazRibbonActionImages(Page.Action) <> nil) then
+        IconList := LazRibbonActionImages(Page.Action);
+    end
     else if Page <> nil then
       IconIndex := Page.EffectiveImageIndex
     else

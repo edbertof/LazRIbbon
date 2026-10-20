@@ -1,5 +1,8 @@
 ## Unreleased
 
+- Resolves icons inherited from a BackStage button/page `Action` against the
+  owning `ActionList.Images`; explicit `ImageIndex` and `LargeImageIndex`
+  values continue to use `BackStage.Images` and `BackStage.LargeImages`.
 - Makes `TLazRibbonBackstageView.ItemHeight` control every clickable navigation
   entry, both page and command items; only visual separators retain their
   compact fixed height.
