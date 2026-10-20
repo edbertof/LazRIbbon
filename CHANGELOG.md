@@ -1,5 +1,8 @@
 ## Unreleased
 
+- Makes `TLazRibbonBackstageView.ItemHeight` control every clickable navigation
+  entry, both page and command items; only visual separators retain their
+  compact fixed height.
 - Removes the duplicated custom-title-bar inset from
   `TLazRibbonBackstageView` at design time, eliminating the large blank space
   above the BackStage return button while preserving full-client run-time

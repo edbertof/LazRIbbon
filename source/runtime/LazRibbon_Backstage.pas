@@ -2649,12 +2649,7 @@ begin
     end;
     case LazRibbonBackstageButtonEffectiveKind(Btn) of
       bbkSeparator: Result := 14;
-      bbkCommand: Result := 30;
-      bbkPage:
-        if FItemHeight > 44 then
-          Result := FItemHeight
-        else
-          Result := 44;
+      bbkCommand, bbkPage: Result := FItemHeight;
     else
       Result := FItemHeight;
     end;
@@ -2670,12 +2665,7 @@ begin
   if Page <> nil then
     case Page.ItemKind of
       bpkSeparator: Result := 14;
-      bpkCommand: Result := 30;
-      bpkPage:
-        if FItemHeight > 44 then
-          Result := FItemHeight
-        else
-          Result := 44;
+      bpkCommand, bpkPage: Result := FItemHeight;
     end;
 end;
 
