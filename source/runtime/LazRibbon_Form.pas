@@ -552,43 +552,36 @@ begin
 end;
 
 function TLazRibbonTitleBar.TryLoadIconFromExecutableResource: TIcon;
-const
-  LR_IMAGE_ICON      = 1;
-  LR_DEFAULTCOLOR    = $0000;
-  LR_DEFAULTSIZE     = $0040;
 var
-  H: HICON;
-  Sz: Integer;
+  ResourceIcon: TIcon;
 
-  procedure TryLoadByName(const AName: PChar);
+  function TryLoadByName(const AName: String): Boolean;
   begin
-    if H <> 0 then Exit;
-    H := HICON(Windows.LoadImage(HInstance, AName, LR_IMAGE_ICON, Sz, Sz, LR_DEFAULTCOLOR));
-    if H = 0 then
-      H := HICON(Windows.LoadImage(HInstance, AName, LR_IMAGE_ICON, 0, 0, LR_DEFAULTSIZE));
+    Result := False;
+    if Windows.FindResource(HInstance, PChar(AName), RT_GROUP_ICON) = 0 then Exit;
+    try
+      ResourceIcon.LoadFromResourceName(HInstance, AName);
+      Result := not ResourceIcon.Empty;
+    except
+      ResourceIcon.Clear;
+    end;
   end;
 
 begin
   Result := nil;
-  H := 0;
-  Sz := Min(16, Max(0, Height - 8));
-  if Sz < 12 then
-    Sz := 16;
-
-  { Lazarus normally stores the project icon as MAINICON, but some projects
-    and resource scripts use another conventional name. }
-  TryLoadByName(PChar('MAINICON'));
-  TryLoadByName(PChar('APPICON'));
-  TryLoadByName(PChar('ICON'));
-
-  if H = 0 then Exit;
-
-  { LoadImage was intentionally called without LR_SHARED, so the returned
-    icon handle is owned by the TIcon assigned below and will be released when
-    FCachedIcon is freed. }
-  FCachedIcon := TIcon.Create;
-  FCachedIcon.Handle := H;
-  Result := FCachedIcon;
+  ResourceIcon := TIcon.Create;
+  try
+    { Keep every ICO resolution. LoadImage at the target size would already
+      have enlarged a small source before DrawFormIcon could fit it. }
+    if TryLoadByName('MAINICON') or TryLoadByName('APPICON') or TryLoadByName('ICON') then
+    begin
+      FCachedIcon := ResourceIcon;
+      ResourceIcon := nil;
+      Result := FCachedIcon;
+    end;
+  finally
+    ResourceIcon.Free;
+  end;
 end;
 
 function TLazRibbonTitleBar.TryExtractIconFromExecutable: TIcon;
@@ -625,14 +618,14 @@ begin
     Exit;
 
   FCachedIcon := TIcon.Create;
-  if SmallIcon <> 0 then
+  if BigIcon <> 0 then
   begin
-    FCachedIcon.Handle := SmallIcon;
-    if BigIcon <> 0 then
-      Windows.DestroyIcon(BigIcon);
+    FCachedIcon.Handle := BigIcon;
+    if SmallIcon <> 0 then
+      Windows.DestroyIcon(SmallIcon);
   end
-  else if BigIcon <> 0 then
-    FCachedIcon.Handle := BigIcon
+  else if SmallIcon <> 0 then
+    FCachedIcon.Handle := SmallIcon
   else if AssocIcon <> 0 then
     FCachedIcon.Handle := AssocIcon;
 
@@ -644,13 +637,49 @@ end;
 {$ENDIF}
 
 function TLazRibbonTitleBar.FormIconRect: TRect;
+{$IFDEF MSWINDOWS}
+type
+  TGetSystemMetricsForDpi = function(AIndex: Integer; ADpi: UINT): Integer; stdcall;
+{$ENDIF}
 var
-  Sz: Integer;
+  IconWidth, IconHeight, AvailableHeight, LeftInset: Integer;
+  {$IFDEF MSWINDOWS}
+  GetMetricsForDpi: TGetSystemMetricsForDpi;
+  Dpi: UINT;
+  {$ENDIF}
 begin
-  Sz := Min(16, Max(0, Height - 8));
-  if Sz < 12 then
-    Sz := 12;
-  Result := Types.Rect(6, (Height - Sz) div 2, 6 + Sz, (Height - Sz) div 2 + Sz);
+  { Match a native title bar's small icon, rather than requesting 24px at 96 DPI
+    and reducing a 32px ICO frame even when a sharp 16px frame is available. }
+  IconWidth := Scale96ToForm(16);
+  IconHeight := IconWidth;
+  {$IFDEF MSWINDOWS}
+  { Resolve dynamically so older Windows versions remain supported. Use the
+    form's current DPI so moving between monitors does not double-scale metrics. }
+  Dpi := Max(1, Scale96ToForm(96));
+  GetMetricsForDpi := TGetSystemMetricsForDpi(Windows.GetProcAddress(
+    Windows.GetModuleHandle('user32.dll'), 'GetSystemMetricsForDpi'));
+  if Assigned(GetMetricsForDpi) then
+  begin
+    IconWidth := GetMetricsForDpi(SM_CXSMICON, Dpi);
+    IconHeight := GetMetricsForDpi(SM_CYSMICON, Dpi);
+  end
+  else
+  begin
+    IconWidth := Windows.GetSystemMetrics(SM_CXSMICON);
+    IconHeight := Windows.GetSystemMetrics(SM_CYSMICON);
+  end;
+  {$ENDIF}
+  if IconWidth <= 0 then IconWidth := Max(1, Scale96ToForm(16));
+  if IconHeight <= 0 then IconHeight := Max(1, Scale96ToForm(16));
+  AvailableHeight := Max(1, Height - Scale96ToForm(8));
+  if IconHeight > AvailableHeight then
+  begin
+    IconWidth := Max(1, MulDiv(IconWidth, AvailableHeight, IconHeight));
+    IconHeight := AvailableHeight;
+  end;
+  LeftInset := Scale96ToForm(6);
+  Result := Types.Rect(LeftInset, (Height - IconHeight) div 2,
+    LeftInset + IconWidth, (Height - IconHeight) div 2 + IconHeight);
 end;
 
 function TLazRibbonTitleBar.FormIconVisible: Boolean;
@@ -659,16 +688,65 @@ begin
     not FOwnerForm.BackstageClientOverlayActive;
 end;
 
+function LazRibbonTitleIconImageIndex(AIcon: TIcon; ATargetSize: Integer): Integer;
+var
+  I, ImageSize, Distance, BestDistance, BestDepth: Integer;
+  ImageWidth, ImageHeight: Word;
+  Format: TPixelFormat;
+  LargeEnough, BestLargeEnough: Boolean;
+begin
+  Result := -1;
+  BestDistance := MaxInt;
+  BestDepth := -1;
+  BestLargeEnough := False;
+  for I := 0 to AIcon.Count - 1 do
+  begin
+    AIcon.GetDescription(I, Format, ImageHeight, ImageWidth);
+    if (ImageWidth = 0) or (ImageHeight = 0) then Continue;
+    ImageSize := Max(ImageWidth, ImageHeight);
+    LargeEnough := ImageSize >= ATargetSize;
+    Distance := Abs(ImageSize - ATargetSize);
+    if (Result < 0) or (LargeEnough and not BestLargeEnough) or
+      ((LargeEnough = BestLargeEnough) and
+       ((Distance < BestDistance) or
+        ((Distance = BestDistance) and (Ord(Format) > BestDepth)))) then
+    begin
+      Result := I;
+      BestLargeEnough := LargeEnough;
+      BestDistance := Distance;
+      BestDepth := Ord(Format);
+    end;
+  end;
+end;
+
+function LazRibbonFitTitleIcon(const ABounds: TRect; AWidth, AHeight: Integer): TRect;
+var
+  Factor: Double;
+  W, H, X, Y: Integer;
+begin
+  Result := ABounds;
+  if (AWidth <= 0) or (AHeight <= 0) then Exit;
+  Factor := Math.Min(1.0, Math.Min((ABounds.Right - ABounds.Left) / AWidth,
+    (ABounds.Bottom - ABounds.Top) / AHeight));
+  W := Max(1, Round(AWidth * Factor));
+  H := Max(1, Round(AHeight * Factor));
+  X := ABounds.Left + ((ABounds.Right - ABounds.Left) - W) div 2;
+  Y := ABounds.Top + ((ABounds.Bottom - ABounds.Top) - H) div 2;
+  Result := Types.Rect(X, Y, X + W, Y + H);
+end;
+
 procedure TLazRibbonTitleBar.DrawFormIcon(ACanvas: TCanvas);
 {$IFDEF MSWINDOWS}
 const
   LR_DI_NORMAL = $0003;
 {$ENDIF}
 var
-  R: TRect;
-  LIcon: TIcon;
+  R, DrawR: TRect;
+  LIcon, IconView: TIcon;
+  ImageIndex: Integer;
   {$IFDEF MSWINDOWS}
   LWinIcon: HICON;
+  IconInfo: Windows.TIconInfo;
   {$ENDIF}
 begin
   if not FormIconVisible then
@@ -681,7 +759,36 @@ begin
   LIcon := EffectiveFormIcon;
   if LIcon <> nil then
   begin
-    ACanvas.StretchDraw(R, LIcon);
+    { Prefer an exact-size ICO frame; otherwise reduce the nearest larger one.
+      Keep the source selection unchanged for native captions and taskbar icons. }
+    IconView := TIcon.Create;
+    try
+      IconView.Assign(LIcon);
+      ImageIndex := LazRibbonTitleIconImageIndex(IconView,
+        Max(R.Right - R.Left, R.Bottom - R.Top));
+      if ImageIndex >= 0 then
+        IconView.Current := ImageIndex;
+      DrawR := LazRibbonFitTitleIcon(R, IconView.Width, IconView.Height);
+      {$IFDEF MSWINDOWS}
+      { Build from this frame's bitmaps rather than a potentially cached HICON
+        for another frame. Windows also preserves icon masks and alpha here. }
+      FillChar(IconInfo, SizeOf(IconInfo), 0);
+      IconInfo.fIcon := True;
+      IconInfo.hbmColor := IconView.BitmapHandle;
+      IconInfo.hbmMask := IconView.MaskHandle;
+      LWinIcon := Windows.CreateIconIndirect(@IconInfo);
+      if LWinIcon <> 0 then
+      try
+        if Windows.DrawIconEx(ACanvas.Handle, DrawR.Left, DrawR.Top, LWinIcon,
+          DrawR.Right - DrawR.Left, DrawR.Bottom - DrawR.Top, 0, 0, LR_DI_NORMAL) then Exit;
+      finally
+        Windows.DestroyIcon(LWinIcon);
+      end;
+      {$ENDIF}
+      ACanvas.StretchDraw(DrawR, IconView);
+    finally
+      IconView.Free;
+    end;
     Exit;
   end;
 
@@ -1117,6 +1224,7 @@ var
   CX, CY, S: Integer;
   RR: TRect;
   SM: TLazRibbonSkinManager;
+  OldBrushStyle: TBrushStyle;
 begin
   if IsRectEmpty(R) then Exit;
 
@@ -1186,6 +1294,7 @@ begin
 
   if Fill <> clNone then
   begin
+    ACanvas.Brush.Style := bsSolid;
     ACanvas.Brush.Color := Fill;
     ACanvas.Pen.Color := Frame;
     ACanvas.Rectangle(R);
@@ -1202,31 +1311,39 @@ begin
 
   ACanvas.Pen.Color := Glyph;
   ACanvas.Pen.Width := 1;
-  case AButton of
-    rfbMinimize:
-      begin
-        ACanvas.Line(CX - S div 2, CY + S div 3, CX + S div 2 + 1, CY + S div 3);
-      end;
-    rfbMaximize:
-      begin
-        if (FOwnerForm <> nil) and (FOwnerForm.WindowState = wsMaximized) then
+  { Glyph rectangles are outlines. Never fill them with a brush color left by
+    another button or a previous paint (in particular the Close hover red). }
+  OldBrushStyle := ACanvas.Brush.Style;
+  ACanvas.Brush.Style := bsClear;
+  try
+    case AButton of
+      rfbMinimize:
         begin
-          RR := Types.Rect(CX - S div 2 + 2, CY - S div 2, CX + S div 2 + 2, CY + S div 2);
-          ACanvas.Rectangle(RR);
-          OffsetRect(RR, -3, 3);
-          ACanvas.Rectangle(RR);
-        end
-        else
-        begin
-          RR := Types.Rect(CX - S div 2, CY - S div 2, CX + S div 2 + 1, CY + S div 2 + 1);
-          ACanvas.Rectangle(RR);
+          ACanvas.Line(CX - S div 2, CY + S div 3, CX + S div 2 + 1, CY + S div 3);
         end;
-      end;
-    rfbClose:
-      begin
-        ACanvas.Line(CX - S div 2, CY - S div 2, CX + S div 2 + 1, CY + S div 2 + 1);
-        ACanvas.Line(CX + S div 2, CY - S div 2, CX - S div 2 - 1, CY + S div 2 + 1);
-      end;
+      rfbMaximize:
+        begin
+          if (FOwnerForm <> nil) and (FOwnerForm.WindowState = wsMaximized) then
+          begin
+            RR := Types.Rect(CX - S div 2 + 2, CY - S div 2, CX + S div 2 + 2, CY + S div 2);
+            ACanvas.Rectangle(RR);
+            OffsetRect(RR, -3, 3);
+            ACanvas.Rectangle(RR);
+          end
+          else
+          begin
+            RR := Types.Rect(CX - S div 2, CY - S div 2, CX + S div 2 + 1, CY + S div 2 + 1);
+            ACanvas.Rectangle(RR);
+          end;
+        end;
+      rfbClose:
+        begin
+          ACanvas.Line(CX - S div 2, CY - S div 2, CX + S div 2 + 1, CY + S div 2 + 1);
+          ACanvas.Line(CX + S div 2, CY - S div 2, CX - S div 2 - 1, CY + S div 2 + 1);
+        end;
+    end;
+  finally
+    ACanvas.Brush.Style := OldBrushStyle;
   end;
   ACanvas.Pen.Width := 1;
 end;

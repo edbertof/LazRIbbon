@@ -94,6 +94,9 @@ type
     procedure Click; virtual;
     procedure DoActionChange(Sender: TObject);
     function GetDefaultCaption: String; virtual;
+    function ResolveButtonImageIndex(AImageIndex: TImageIndex): TImageIndex;
+    function ResolveButtonImages(AImages: TCustomImageList;
+      AImageIndex: TImageIndex): TCustomImageList;
     function GetScreenTipDefaultTitle: TTranslateString; override;
     function MouseOnActivePart(X, Y: Integer): Boolean; virtual;
 
@@ -311,10 +314,12 @@ begin
     Exit;
 
   if (FClient is TLazRibbonSmallButton) then
-    Result := TLazRibbonSmallButton(FClient).ImageIndex = TCustomAction(Action).ImageIndex
+    Result := (TLazRibbonSmallButton(FClient).ImageIndex < 0) or
+      (TLazRibbonSmallButton(FClient).ImageIndex = TCustomAction(Action).ImageIndex)
   else
-  if (FClient is TLazRibbonLargeButton) then
-    Result := TLazRibbonLargeButton(FClient).LargeImageIndex = TCustomAction(Action).ImageIndex
+  if (FClient is TLazRibbonCustomLargeButton) then
+    Result := (TLazRibbonCustomLargeButton(FClient).LargeImageIndex < 0) or
+      (TLazRibbonCustomLargeButton(FClient).LargeImageIndex = TCustomAction(Action).ImageIndex)
   else
     Result := false;
 end;
@@ -370,8 +375,8 @@ begin
     if (FClient is TLazRibbonSmallButton) then
       (TLazRibbonSmallButton(FClient)).ImageIndex := Value
     else
-    if (FClient is TLazRibbonLargeButton) then
-      (TLazRibbonLargeButton(FClient)).LargeImageIndex := Value;
+    if (FClient is TLazRibbonCustomLargeButton) then
+      TLazRibbonCustomLargeButton(FClient).LargeImageIndex := Value;
   end;
 end;
 
@@ -473,9 +478,9 @@ begin
       if not CheckDefaults or (TLazRibbonSmallButton(self).ImageIndex < 0) then
         TLazRibbonSmallButton(self).ImageIndex := newAction.ImageIndex;
     end;
-    if self is TLazRibbonLargeButton then begin
-      if not CheckDefaults or (TLazRibbonLargeButton(self).LargeImageIndex < 0) then
-        TLazRibbonLargeButton(self).LargeImageIndex := newAction.ImageIndex;
+    if self is TLazRibbonCustomLargeButton then begin
+      if not CheckDefaults or (TLazRibbonCustomLargeButton(self).LargeImageIndex < 0) then
+        TLazRibbonCustomLargeButton(self).LargeImageIndex := newAction.ImageIndex;
     end;
 
     { wp: !!! Helpcontext not yet supported !!!
@@ -601,6 +606,28 @@ end;
 function TLazRibbonBaseButton.GetDefaultCaption: String;
 begin
   Result := 'Button';
+end;
+
+function TLazRibbonBaseButton.ResolveButtonImageIndex(AImageIndex: TImageIndex): TImageIndex;
+begin
+  Result := AImageIndex;
+  if (Result < 0) and (Action is TCustomAction) then
+    Result := TCustomAction(Action).ImageIndex;
+end;
+
+function TLazRibbonBaseButton.ResolveButtonImages(AImages: TCustomImageList;
+  AImageIndex: TImageIndex): TCustomImageList;
+var
+  ButtonAction: TCustomAction;
+begin
+  { Keep the Ribbon's dedicated small/large image lists when configured.
+    Otherwise, a linked action index belongs to its own ActionList.Images. }
+  Result := AImages;
+  if (Result <> nil) or (AImageIndex < 0) or not (Action is TCustomAction) then
+    Exit;
+  ButtonAction := TCustomAction(Action);
+  if (AImageIndex = ButtonAction.ImageIndex) and (ButtonAction.ActionList <> nil) then
+    Result := ButtonAction.ActionList.Images;
 end;
 
 function TLazRibbonBaseButton.GetRootComponent: TComponent;
@@ -967,6 +994,8 @@ begin
   begin
     FActionLink.Free;
     FActionLink := nil;
+    if Assigned(FToolbarDispatch) then
+      FToolbarDispatch.NotifyMetricsChanged;
   end else
   begin
     if FActionLink = nil then
@@ -1191,7 +1220,8 @@ var
   y: Integer;
   delta: Integer;
   cornerRadius: Integer;
-  imgList: TImageList;
+  imgList: TCustomImageList;
+  imgIndex: TImageIndex;
   imgSize: TSize;
   txtHeight: Integer;
   breakPos, breakWidth: Integer;
@@ -1385,15 +1415,16 @@ begin
   end;
 
   // Icon
+  imgIndex := ResolveButtonImageIndex(FLargeImageIndex);
   if not FEnabled and (FDisabledLargeImages <> nil) then
     imgList := FDisabledLargeImages
   else
   begin
-    imgList := FLargeImages;
+    imgList := ResolveButtonImages(FLargeImages, imgIndex);
     if not FEnabled then drawImgEnabled := false;
   end;
 
-  if (imgList <> nil) and (FLargeImageIndex >= 0) and (FLargeImageIndex < imgList.Count) then
+  if (imgList <> nil) and (imgIndex >= 0) and (imgIndex < imgList.Count) then
   begin
     ppi := FAppearance.Element.CaptionFont.PixelsPerInch;
     {$IF LCL_FULLVERSION >= 1090000}
@@ -1406,7 +1437,7 @@ begin
       FButtonRect.Left + (FButtonRect.Width - imgSize.CX) div 2 + pressedOffset,
       FButtonRect.Top + LargeButtonBorderSize + LargeButtonGlyphMargin + pressedOffset
     );
-    TGUITools.DrawImage(ABuffer.Canvas, imgList, FLargeImageIndex, P, ClipRect,
+    TGUITools.DrawImage(ABuffer.Canvas, imgList, imgIndex, P, ClipRect,
       FLargeImagesWidth, ppi, 1.0, drawImgEnabled);
   end;
 
@@ -1535,6 +1566,7 @@ end;
 
 function TLazRibbonCustomLargeButton.GetWidth: integer;
 var
+  GlyphImages: TCustomImageList;
   GlyphWidth: integer;
   TextWidth: integer;
   Bitmap: TBitmap;
@@ -1558,8 +1590,9 @@ begin
     exit;
 
   // Glyph
-  if FLargeImages <> nil then
-    GlyphWidth := 2 * LargeButtonGlyphMargin + FLargeImages.WidthForPPI[FLargeImagesWidth, Screen.PixelsPerInch]
+  GlyphImages := ResolveButtonImages(FLargeImages, ResolveButtonImageIndex(FLargeImageIndex));
+  if GlyphImages <> nil then
+    GlyphWidth := 2 * LargeButtonGlyphMargin + GlyphImages.WidthForPPI[FLargeImagesWidth, Screen.PixelsPerInch]
   else
     GlyphWidth := 0;
 
@@ -1687,7 +1720,7 @@ begin
   AdditionalPadding := false;
 
   // Icon
-  if FImageIndex <> -1 then
+  if ResolveButtonImageIndex(FImageIndex) >= 0 then
   begin
     BtnWidth := BtnWidth + SmallButtonPadding + SmallButtonGlyphWidth;
     AdditionalPadding := true;
@@ -1816,7 +1849,8 @@ var
   delta: Integer;
   cornerRadius: Integer;
   ppi, sgn: Integer;
-  imgList: TImageList;
+  imgList: TCustomImageList;
+  imgIndex: TImageIndex;
   imgSize: TSize;
   drawBtn: Boolean;
   R: TRect;
@@ -1933,15 +1967,16 @@ begin
   end;
 
   // Icon
+  imgIndex := ResolveButtonImageIndex(FImageIndex);
   if not FEnabled and (FDisabledImages <> nil) then
     imgList := FDisabledImages
   else
   begin
-    imgList := FImages;
+    imgList := ResolveButtonImages(FImages, imgIndex);
     if not FEnabled then drawImgEnabled := false;
   end;
 
-  if (imgList <> nil) and (FImageIndex >= 0) and (FImageIndex < imgList.Count) then
+  if (imgList <> nil) and (imgIndex >= 0) and (imgIndex < imgList.Count) then
   begin
     ppi := FAppearance.Element.CaptionFont.PixelsPerInch;
     {$IF LCL_FULLVERSION >= 1090000}
@@ -1960,7 +1995,7 @@ begin
     TGUITools.DrawImage(
       ABuffer.Canvas,
       imgList,
-      FImageIndex,
+      imgIndex,
       P,
       ClipRect,
       FImagesWidth,
@@ -1999,7 +2034,7 @@ begin
     else
       inc(x, sgn * SmallButtonBorderWidth);
 
-    if FImageIndex <> -1 then
+    if imgIndex >= 0 then
       inc(x, sgn * (2 * SmallButtonPadding + SmallButtonGlyphWidth))
     else
       inc(x, sgn * SmallButtonPadding);

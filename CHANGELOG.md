@@ -1,5 +1,20 @@
 ## Unreleased
 
+- Uses linked `ActionList.Images` for small and large Ribbon buttons when
+  dedicated Ribbon image lists are not configured, including inherited
+  custom large-button classes and action image-index updates.
+- Keeps the maximize/restore title-bar glyph hollow when another system
+  button is hovered or pressed, preventing the Close button's red brush from
+  filling the glyph on subsequent paints.
+- Filters `TLazRibbonBackstageRecentList` entries at runtime when items change,
+  after form loading and whenever the list is shown. Only existing files that
+  can be opened for reading remain; unavailable entries are also excluded from
+  INI persistence and cannot trigger `OnItemClick` or close BackStage.
+- Uses the recent entry's detail as its file path, falling back to its title
+  when no detail is supplied, while retaining sample entries at design time.
+- Uses the Windows small-icon metrics at the form's current DPI for the
+  `TLazRibbonForm` custom title bar, selecting the native 16px ICO frame at
+  100% scaling instead of reducing a 32px frame to a forced 24px size.
 - Resolves icons inherited from a BackStage button/page `Action` against the
   owning `ActionList.Images`; explicit `ImageIndex` and `LargeImageIndex`
   values continue to use `BackStage.Images` and `BackStage.LargeImages`.

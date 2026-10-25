@@ -449,6 +449,12 @@ Properties: `Align`, `Anchors`, `BorderSpacing`, `Color`, `Constraints`,
 
 Events: `OnItemClick`.
 
+Entries use `Title=FilePath`, or just a file path. At runtime, items are checked
+for existence and read access when changed, after form loading, when the list
+is shown and before saving. Missing or unavailable files are removed before
+applying `MaxRecentItems`; design-time samples remain editable. A clicked file
+is checked again before `OnItemClick` runs.
+
 The normal Office-like flow is automatic: `OnItemClick` first receives the
 selected title and detail so the application can open the document; when the
 handler returns, the containing BackStage closes and the main screen becomes

@@ -13,7 +13,7 @@ unit LazRibbon_Backstage;
 interface
 
 uses
-  Classes, SysUtils, Math, Graphics, Controls, Forms, StdCtrls, Types, LCLType, LCLIntf, ActnList, ImgList, IniFiles,
+  Classes, SysUtils, Math, Graphics, Controls, Forms, StdCtrls, Types, LCLType, LCLIntf, LMessages, ActnList, ImgList, IniFiles, LazFileUtils,
   LazRibbon_Core, LazRibbon_Appearance, LazRibbon_Dispatch, LazRibbon_RibbonCommands, LazRibbon_SkinManager,
   LazRibbon_GUITools, LazRibbon_BackstageBase, LazRibbon_BaseItem, LazRibbon_Buttons;
 
@@ -221,12 +221,15 @@ type
     FSelectedIndex: Integer;
     FSelectionStyle: TLazRibbonBackstageRecentSelectionStyle;
     FStorageSection: String;
+    FUpdatingItems: Boolean;
     FOnItemClick: TLazRibbonBackstageRecentItemClickEvent;
     procedure ItemsChanged(Sender: TObject);
+    procedure CMShowingChanged(var Message: TLMessage); message CM_SHOWINGCHANGED;
     function FindBackstageView: TLazRibbonBackstageView;
     function GetItems: TStrings;
     function GetMaxScrollOffset: Integer;
     function GetVisibleRight: Integer;
+    function IsRecentFileAvailable(const ATitle, ADetail: String): Boolean;
     procedure ClampScrollOffset;
     procedure EnsureItemVisible(AIndex: Integer);
     procedure ParseItem(AIndex: Integer; out ATitle, ADetail: String);
@@ -246,6 +249,7 @@ type
     procedure SetStorageSection(const AValue: String);
     procedure UpdateScrollBar;
   protected
+    procedure Loaded; override;
     procedure MouseDown(Button: TMouseButton; Shift: TShiftState; X, Y: Integer); override;
     procedure MouseLeave; override;
     procedure MouseMove(Shift: TShiftState; X, Y: Integer); override;
@@ -1510,7 +1514,43 @@ begin
 end;
 
 procedure TLazRibbonBackstageRecentList.ItemsChanged(Sender: TObject);
+var
+  I: Integer;
+  TitleText, DetailText: String;
 begin
+  if (FItems = nil) or FUpdatingItems then
+    Exit;
+
+  FUpdatingItems := True;
+  FItems.BeginUpdate;
+  try
+    if [csDesigning, csLoading, csDestroying] * ComponentState = [] then
+      for I := FItems.Count - 1 downto 0 do
+      begin
+        ParseItem(I, TitleText, DetailText);
+        if not IsRecentFileAvailable(TitleText, DetailText) then
+        begin
+          FItems.Delete(I);
+          if FSelectedIndex = I then
+            FSelectedIndex := -1
+          else if FSelectedIndex > I then
+            Dec(FSelectedIndex);
+          if FHoverIndex = I then
+            FHoverIndex := -1
+          else if FHoverIndex > I then
+            Dec(FHoverIndex);
+        end;
+      end;
+    { Apply the limit after filtering, so stale paths do not displace files
+      that are still available. }
+    if not (csLoading in ComponentState) and (FMaxRecentItems > 0) then
+      while FItems.Count > FMaxRecentItems do
+        FItems.Delete(FItems.Count - 1);
+  finally
+    FItems.EndUpdate;
+    FUpdatingItems := False;
+  end;
+
   if FSelectedIndex >= FItems.Count then
     FSelectedIndex := -1;
   if FHoverIndex >= FItems.Count then
@@ -1518,6 +1558,40 @@ begin
   ClampScrollOffset;
   UpdateScrollBar;
   Invalidate;
+end;
+
+procedure TLazRibbonBackstageRecentList.CMShowingChanged(var Message: TLMessage);
+begin
+  if Showing then
+    ItemsChanged(FItems);
+  inherited;
+end;
+
+procedure TLazRibbonBackstageRecentList.Loaded;
+begin
+  inherited Loaded;
+  ItemsChanged(FItems);
+end;
+
+function TLazRibbonBackstageRecentList.IsRecentFileAvailable(
+  const ATitle, ADetail: String): Boolean;
+var
+  FileName: String;
+  FileHandle: THandle;
+begin
+  Result := False;
+  FileName := ADetail;
+  if FileName = '' then
+    FileName := ATitle;
+  if (Trim(FileName) = '') or not FileExistsUTF8(FileName) then
+    Exit;
+
+  { Read access is enough; allow documents already open by another process. }
+  FileHandle := FileOpenUTF8(FileName, fmOpenRead or fmShareDenyNone);
+  if FileHandle = THandle(-1) then
+    Exit;
+  FileClose(FileHandle);
+  Result := True;
 end;
 
 function TLazRibbonBackstageRecentList.FindBackstageView: TLazRibbonBackstageView;
@@ -1666,8 +1740,14 @@ begin
   if Index < 0 then
     Exit;
 
-  SelectedIndex := Index;
   ParseItem(Index, TitleText, DetailText);
+  if not IsRecentFileAvailable(TitleText, DetailText) then
+  begin
+    ItemsChanged(FItems);
+    Exit;
+  end;
+
+  SelectedIndex := Index;
   BackstageView := FindBackstageView;
   if Assigned(FOnItemClick) then
     FOnItemClick(Self, Index, TitleText, DetailText);
@@ -1920,11 +2000,7 @@ begin
     AValue := 0;
   if FMaxRecentItems = AValue then Exit;
   FMaxRecentItems := AValue;
-  if FMaxRecentItems > 0 then
-    while FItems.Count > FMaxRecentItems do
-      FItems.Delete(FItems.Count - 1);
-  UpdateScrollBar;
-  Invalidate;
+  ItemsChanged(FItems);
 end;
 
 procedure TLazRibbonBackstageRecentList.SetScrollBarMode(AValue: TLazRibbonBackstageRecentScrollBarMode);
@@ -1994,7 +2070,11 @@ var
   I: Integer;
   TitleText, DetailText, S: String;
 begin
+  ItemsChanged(FItems);
   if Trim(ATitle) = '' then
+    Exit;
+  if ([csDesigning, csLoading] * ComponentState = []) and
+    not IsRecentFileAvailable(ATitle, ADetail) then
     Exit;
 
   S := ATitle;
@@ -2010,9 +2090,6 @@ begin
         FItems.Delete(I);
     end;
     FItems.Insert(0, S);
-    if FMaxRecentItems > 0 then
-      while FItems.Count > FMaxRecentItems do
-        FItems.Delete(FItems.Count - 1);
   finally
     FItems.EndUpdate;
   end;
@@ -2043,7 +2120,10 @@ begin
     SectionName := 'RecentFiles';
 
   if not FileExists(AFileName) then
+  begin
+    ItemsChanged(FItems);
     Exit;
+  end;
 
   Ini := TIniFile.Create(AFileName);
   try
@@ -2074,6 +2154,7 @@ var
   SectionName: String;
   I: Integer;
 begin
+  ItemsChanged(FItems);
   SectionName := ASection;
   if SectionName = '' then
     SectionName := FStorageSection;
@@ -2145,12 +2226,6 @@ end;
 procedure TLazRibbonBackstageRecentList.SetItems(AValue: TStrings);
 begin
   FItems.Assign(AValue);
-  if FMaxRecentItems > 0 then
-    while FItems.Count > FMaxRecentItems do
-      FItems.Delete(FItems.Count - 1);
-  ClampScrollOffset;
-  UpdateScrollBar;
-  Invalidate;
 end;
 
 { TLazRibbonBackstageView }
@@ -4227,6 +4302,21 @@ end;
 
 
 procedure TLazRibbonBackstageView.UpdatePages;
+
+  procedure RefreshRecentLists(AControl: TWinControl);
+  var
+    J: Integer;
+  begin
+    if not AControl.Visible then
+      Exit;
+    if AControl is TLazRibbonBackstageRecentList then
+      TLazRibbonBackstageRecentList(AControl).ItemsChanged(nil)
+    else
+      for J := 0 to AControl.ControlCount - 1 do
+        if AControl.Controls[J] is TWinControl then
+          RefreshRecentLists(TWinControl(AControl.Controls[J]));
+  end;
+
 var
   I: Integer;
   R: TRect;
@@ -4265,6 +4355,9 @@ begin
         page is visible, z-order changes are unnecessary and harmful. }
     end;
   end;
+  { LCL can keep child handles in Showing state while an ancestor is hidden.
+    Revalidate explicitly when opening BackStage or changing its active page. }
+  RefreshRecentLists(Self);
 end;
 
 end.

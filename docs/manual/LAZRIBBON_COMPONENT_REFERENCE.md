@@ -478,6 +478,12 @@ Events: inherited control events.
 
 Purpose: recent-file/document list for BackStage.
 
+Entries use `Title=FilePath`, or just a file path when no detail is supplied.
+At runtime the list checks file existence and read access whenever items change,
+after form loading, when shown and before saving. Unavailable files are removed
+before applying `MaxRecentItems`. Design-time sample entries remain editable.
+The clicked file is checked again before firing `OnItemClick`.
+
 | Property | Description |
 | --- | --- |
 | `AppearanceSource` | Chooses internal, linked or skin-manager visuals. |
@@ -497,7 +503,7 @@ Purpose: recent-file/document list for BackStage.
 
 | Event | Description |
 | --- | --- |
-| `OnItemClick` | Fires when a recent entry is clicked, before the optional automatic BackStage close. Use `Detail` as the path or document identifier to open. |
+| `OnItemClick` | Fires when an available recent file is clicked, before the optional automatic BackStage close. Open `Detail`, or `Title` when `Detail` is empty. |
 
 ## TLazRibbonSkinManager
 

@@ -64,9 +64,9 @@ end;
 
 procedure TForm1.FormCreate(Sender: TObject);
 begin
-  { The list is designed in the .lfm. At runtime it is loaded from an INI file,
-    when one exists. If no INI file exists yet, the design-time sample items
-    remain visible. }
+  { The list is designed in the .lfm and loaded from an INI file when present.
+    At runtime the component keeps only existing, readable files, including
+    any sample paths streamed from the form. }
   LazRibbonBackstageRecentList1.StorageSection := 'RecentDatabases';
   LazRibbonBackstageRecentList1.MaxRecentItems := 25;
   if FileExists(RecentIniFileName) then
