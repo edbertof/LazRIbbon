@@ -14,7 +14,7 @@ interface
 
 uses
   Classes, SysUtils, Graphics, Controls, Forms,
-  LazRibbon_GUITools, LazRibbon_GraphTools, LazRibbon_Appearance, LazRibbon_Dispatch, LazRibbon_XMLParser, LazRibbon_SkinDefinition;
+  LazRibbon_GUITools, LazRibbon_GraphTools, LazRibbon_Appearance, LazRibbon_Dispatch, LazRibbon_SkinDefinition;
 
 type
   { Defines where a component obtains the appearance used for painting.
@@ -266,14 +266,39 @@ type
 implementation
 
 type
-  TLazRibbonSkinChangeHandlerItem = class
+  TLazRibbonSkinChangeHandlerItem = class(TComponent)
+  protected
+    procedure Notification(AComponent: TComponent; Operation: TOperation); override;
   public
-    Owner: TComponent;
+    Listener: TComponent;
     Handler: TNotifyEvent;
+    RegistrationId: QWord;
+    destructor Destroy; override;
   end;
 
 var
   GSkinChangeHandlers: TList = nil;
+  GNextSkinHandlerId: QWord = 0;
+
+destructor TLazRibbonSkinChangeHandlerItem.Destroy;
+begin
+  if GSkinChangeHandlers <> nil then
+    GSkinChangeHandlers.Remove(Self);
+  if Listener <> nil then
+    Listener.RemoveFreeNotification(Self);
+  inherited Destroy;
+end;
+
+procedure TLazRibbonSkinChangeHandlerItem.Notification(AComponent: TComponent;
+  Operation: TOperation);
+begin
+  inherited Notification(AComponent, Operation);
+  if (Operation = opRemove) and (AComponent = Listener) then
+  begin
+    Listener := nil;
+    Free;
+  end;
+end;
 
 function LazBuiltInSkinCount: Integer;
 begin
@@ -372,15 +397,20 @@ begin
   for I := 0 to GSkinChangeHandlers.Count - 1 do
   begin
     Item := TLazRibbonSkinChangeHandlerItem(GSkinChangeHandlers[I]);
-    if Item.Owner = AOwner then
+    if Item.Listener = AOwner then
     begin
       Item.Handler := AHandler;
       Exit;
     end;
   end;
-  Item := TLazRibbonSkinChangeHandlerItem.Create;
-  Item.Owner := AOwner;
+  { Free notification avoids adding implementation objects to the listener's
+    owned components or serialized form. }
+  Item := TLazRibbonSkinChangeHandlerItem.Create(nil);
+  Item.Listener := AOwner;
+  AOwner.FreeNotification(Item);
   Item.Handler := AHandler;
+  Inc(GNextSkinHandlerId);
+  Item.RegistrationId := GNextSkinHandlerId;
   GSkinChangeHandlers.Add(Item);
 end;
 
@@ -394,7 +424,7 @@ begin
   for I := GSkinChangeHandlers.Count - 1 downto 0 do
   begin
     Item := TLazRibbonSkinChangeHandlerItem(GSkinChangeHandlers[I]);
-    if Item.Owner = AOwner then
+    if Item.Listener = AOwner then
     begin
       GSkinChangeHandlers.Delete(I);
       Item.Free;
@@ -403,51 +433,35 @@ begin
 end;
 
 procedure LazNotifySkinChangeHandlers(ASender: TObject);
+type
+  THandlerSnapshot = record
+    Item: TLazRibbonSkinChangeHandlerItem;
+    RegistrationId: QWord;
+  end;
 var
   I: Integer;
   Item: TLazRibbonSkinChangeHandlerItem;
+  Snapshot: array of THandlerSnapshot;
 begin
   if GSkinChangeHandlers = nil then
     Exit;
-  for I := GSkinChangeHandlers.Count - 1 downto 0 do
+  SetLength(Snapshot, GSkinChangeHandlers.Count);
+  for I := 0 to High(Snapshot) do
   begin
-    Item := TLazRibbonSkinChangeHandlerItem(GSkinChangeHandlers[I]);
-    if (Item.Owner <> nil) and
-       not (csDestroying in Item.Owner.ComponentState) and
+    Snapshot[I].Item := TLazRibbonSkinChangeHandlerItem(GSkinChangeHandlers[I]);
+    Snapshot[I].RegistrationId := Snapshot[I].Item.RegistrationId;
+  end;
+  for I := High(Snapshot) downto 0 do
+  begin
+    Item := Snapshot[I].Item;
+    { A callback may unregister itself or destroy another listener. Check
+      membership before dereferencing the pointer captured in the snapshot. }
+    if GSkinChangeHandlers.IndexOf(Item) < 0 then Continue;
+    if Item.RegistrationId <> Snapshot[I].RegistrationId then Continue;
+    if (Item.Listener <> nil) and
+       not (csDestroying in Item.Listener.ComponentState) and
        Assigned(Item.Handler) then
       Item.Handler(ASender);
-  end;
-end;
-
-function LazColorToHex(AColor: TColor): String;
-var
-  C: LongInt;
-begin
-  C := ColorToRGB(AColor);
-  Result := '#' +
-    IntToHex(C and $FF, 2) +
-    IntToHex((C shr 8) and $FF, 2) +
-    IntToHex((C shr 16) and $FF, 2);
-end;
-
-function LazHexToColor(const AValue: String; ADefault: TColor): TColor;
-var
-  S: String;
-  R, G, B: Integer;
-begin
-  Result := ADefault;
-  S := Trim(AValue);
-  if S = '' then Exit;
-  if S[1] = '#' then
-    Delete(S, 1, 1);
-  if Length(S) <> 6 then Exit;
-  try
-    R := StrToInt('$' + Copy(S, 1, 2));
-    G := StrToInt('$' + Copy(S, 3, 2));
-    B := StrToInt('$' + Copy(S, 5, 2));
-    Result := RGBToColor(R, G, B);
-  except
-    Result := ADefault;
   end;
 end;
 
@@ -495,11 +509,6 @@ begin
 
   if DirectoryExists(AppFolder) then
     Result := AppFolder;
-end;
-
-function LazReadSkinColor(AStrings: TStrings; const AName: String; ADefault: TColor): TColor;
-begin
-  Result := LazHexToColor(AStrings.Values[AName], ADefault);
 end;
 
 { TLazRibbonSkinAppearanceDispatch }
@@ -1074,22 +1083,6 @@ begin
   Changed;
 end;
 
-function LazFileLooksLikeXML(const AFileName: String): Boolean;
-var
-  L: TStringList;
-  S: String;
-begin
-  Result := False;
-  L := TStringList.Create;
-  try
-    L.LoadFromFile(AFileName);
-    S := Trim(L.Text);
-    Result := (S <> '') and (S[1] = '<');
-  finally
-    L.Free;
-  end;
-end;
-
 procedure TLazRibbonSkinManager.LoadFromFile(const AFileName: String);
 var
   Skin: TLazRibbonSkinDefinition;
@@ -1554,7 +1547,6 @@ finalization
   while (GSkinChangeHandlers <> nil) and (GSkinChangeHandlers.Count > 0) do
   begin
     TObject(GSkinChangeHandlers[0]).Free;
-    GSkinChangeHandlers.Delete(0);
   end;
   GSkinChangeHandlers.Free;
   GSkinChangeHandlers := nil;

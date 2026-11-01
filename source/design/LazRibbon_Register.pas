@@ -21,13 +21,15 @@ uses
   Classes, SysUtils, PropEdits, ComponentEditors, LazarusPackageIntf;
 
 procedure Register;
+procedure RegisterLazRibbonImageIndexEditors;
 
 implementation
 uses
   ImgList, Controls, LResources, FormEditingIntf,
   LazRibbon_Core, LazRibbon_Editor, LazRibbon_Popup, LazRibbon_Buttons, LazRibbon_Checkboxes,
   LazRibbon_Groups, LazRibbon_Tabs, LazRibbon_Appearance, LazRibbon_Backstage, LazRibbon_SkinManager,
-  LazRibbon_SkinSelector, LazRibbon_SkinManagerEditor, LazRibbon_RibbonExtItems, LazRibbon_Form;
+  LazRibbon_SkinSelector, LazRibbon_SkinManagerEditor, LazRibbon_RibbonExtItems, LazRibbon_Form,
+  LazRibbon_BaseItem, LazRibbon_RibbonCommands;
 
 procedure RegisterUnitLazRibbon;
 begin
@@ -158,6 +160,35 @@ begin
 
 end;
 
+procedure RegisterLazRibbonImageIndexEditors;
+begin
+  { Restrict registrations by property name: several Ribbon properties use
+    plain Integer rather than the distinct TImageIndex type. Register on the
+    base item as well so custom button descendants inherit the editor. }
+  RegisterPropertyEditor(TypeInfo(TImageIndex), TLazRibbonBaseItem, 'ImageIndex',
+    TLazRibbonImageIndexPropertyEditor);
+  RegisterPropertyEditor(TypeInfo(TImageIndex), TLazRibbonBaseItem, 'LargeImageIndex',
+    TLazRibbonImageIndexPropertyEditor);
+  RegisterPropertyEditor(TypeInfo(Integer), TLazRibbonBaseItem, 'ImageIndex',
+    TLazRibbonImageIndexPropertyEditor);
+  RegisterPropertyEditor(TypeInfo(Integer), TLazRibbonBaseItem, 'LargeImageIndex',
+    TLazRibbonImageIndexPropertyEditor);
+  RegisterPropertyEditor(TypeInfo(Integer), TLazRibbonApplicationButton, 'ImageIndex',
+    TLazRibbonImageIndexPropertyEditor);
+  RegisterPropertyEditor(TypeInfo(Integer), TLazRibbonQuickAccessItem, 'ImageIndex',
+    TLazRibbonImageIndexPropertyEditor);
+  RegisterPropertyEditor(TypeInfo(Integer), TLazRibbonBackstageButton, 'ImageIndex',
+    TLazRibbonImageIndexPropertyEditor);
+  RegisterPropertyEditor(TypeInfo(Integer), TLazRibbonBackstageButton, 'LargeImageIndex',
+    TLazRibbonImageIndexPropertyEditor);
+  RegisterPropertyEditor(TypeInfo(Integer), TLazRibbonBackstagePage, 'ImageIndex',
+    TLazRibbonImageIndexPropertyEditor);
+  RegisterPropertyEditor(TypeInfo(Integer), TLazRibbonBackstageRecentList, 'ImageIndex',
+    TLazRibbonImageIndexPropertyEditor);
+  RegisterPropertyEditor(TypeInfo(TImageIndex), TLazRibbonCommand, 'ImageIndex',
+    TLazRibbonImageIndexPropertyEditor);
+end;
+
 procedure Register;
 begin
   { Do not call RegisterUnit for units that belong to LazRibbonRuntime.
@@ -193,13 +224,7 @@ begin
     TLazRibbonCaptionEditor);
   RegisterPropertyEditor(TypeInfo(TCaption), TLazRibbonCustomRibbonExtItem,
     'Caption', TLazRibbonCaptionEditor);
-  RegisterPropertyEditor(TypeInfo(TImageIndex), TLazRibbonLargeButton, '',
-    TLazRibbonImageIndexPropertyEditor);
-  RegisterPropertyEditor(TypeInfo(TImageIndex), TLazRibbonSmallButton, '',
-    TLazRibbonImageIndexPropertyEditor);
-
-  //todo: register Caption Editor
-
+  RegisterLazRibbonImageIndexEditors;
   SkipObsoleteProperties;
 end;
 

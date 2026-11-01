@@ -241,7 +241,7 @@ begin
   B := ARGB.rgbtBlue/255;
 
   RGBmin := min(R, min(G, B));
-  RGBmax := max(R, min(G, B));
+  RGBmax := max(R, max(G, B));
   RGBrange := RGBmax - RGBmin;
 
   H := 0;
@@ -260,7 +260,7 @@ begin
   if (B = RGBmax) then
     H := pi/3 * (R-G) / RGBrange + 4*pi/3;
 
-  L := RGBrange / 2;
+  L := (RGBmax + RGBmin) / 2;
 
   S:=0;
   if (L < NUM_ZERO) or (rgbMin = rgbMax) then

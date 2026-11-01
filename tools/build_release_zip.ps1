@@ -45,6 +45,7 @@ if (Test-Path -LiteralPath $zipPath) {
 
 $excludedDirectories = @(
   '.git',
+  '.tools',
   '.lazarus-pcp',
   'lib',
   'bin',

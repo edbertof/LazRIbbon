@@ -2507,10 +2507,7 @@ var
 begin
   { Keep the BackStage return button compact.  It should be a small title-area
     command, not a large navigation item competing with the menu entries. }
-  if FBackButtonStyle = bbsCircleChevron then
-    S := 22
-  else
-    S := 22;
+  S := 22;
   TopInset := GetClientOverlayTopInset;
   HeaderContentHeight := GetEffectiveHeaderHeight - TopInset;
   TopY := TopInset + (HeaderContentHeight - S) div 2;
@@ -3256,7 +3253,7 @@ var
   IconAction: TBasicAction;
   CloseR: TRect;
   A: TLazRibbonToolbarAppearance;
-  IdleCaptionColor, HotCaptionColor, ActiveCaptionColor, SelectedCaptionColor: TColor;
+  IdleCaptionColor, HotCaptionColor, SelectedCaptionColor: TColor;
   ActiveFrameColor, SelectedBackColor, HoverBackColor, HoverFrameColor, CaptionBackColor, CaptionTextColor: TColor;
   IsPageItem, IsCommandItem, IsActive, IsHot, IsPressed, IsEnabled, IsBeginGroup: Boolean;
   IsFixedPageItem, VisualActive, VisualHot, VisualPressed: Boolean;
@@ -3570,33 +3567,6 @@ var
       Result := '';
   end;
 
-  function SamplePaintedNavColor(const ARect: TRect; AFallback: TColor): TColor;
-  var
-    X, Y: Integer;
-  begin
-    Result := ColorToRGB(AFallback);
-    if (ARect.Right <= ARect.Left) or (ARect.Bottom <= ARect.Top) then Exit;
-    if (ClientWidth <= 0) or (ClientHeight <= 0) then Exit;
-
-    X := (ARect.Left + ARect.Right) div 2;
-    Y := (ARect.Top + ARect.Bottom) div 2;
-
-    if X < 0 then X := 0;
-    if Y < 0 then Y := 0;
-    if X >= ClientWidth then X := ClientWidth - 1;
-    if Y >= ClientHeight then Y := ClientHeight - 1;
-
-    { The real painted surface is the only reliable basis for caption contrast.
-      Several skins and linked toolbar appearances produce selected colors that
-      are transformed by DrawNavFill before the caption is drawn.  Sampling the
-      already-painted rectangle avoids white-on-white and black-on-dark cases. }
-    try
-      Result := ColorToRGB(Canvas.Pixels[X, Y]);
-    except
-      Result := ColorToRGB(AFallback);
-    end;
-  end;
-
 begin
   inherited Paint;
   GetColors(BackColor, NavColor, ActiveColor, HotColor, FrameColor, TextColor, MutedTextColor);
@@ -3605,10 +3575,6 @@ begin
 
   IdleCaptionColor := TextColor;
   HotCaptionColor := TextColor;
-  if LazIsDarkColor(ActiveColor) then
-    ActiveCaptionColor := clWhite
-  else
-    ActiveCaptionColor := TextColor;
 
   ActiveFrameColor := FrameColor;
   ActiveNavIndex := GetActiveNavIndex;

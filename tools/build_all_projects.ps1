@@ -35,6 +35,7 @@ $packages = @(
 )
 
 $projects = @(
+  'tests\design_audit.lpi',
   'tools\LazRibbonSkinEditor\LazRibbonSkinEditor.lpi',
   'demos\workbench_crud\project1.lpi',
   'demos\showcase\project1.lpi',

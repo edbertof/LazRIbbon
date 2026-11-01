@@ -78,7 +78,7 @@ end;
 constructor TLazRibbonXMLIni.create(filename : string);
 
 begin
-inherited create;
+Create;
 self.LoadFromFile(filename);
 end;
 

@@ -139,6 +139,13 @@ try {
     )
   }
 
+  Invoke-CleanCheckoutStep -Name 'Release archive audit regression tests' -Action {
+    Invoke-PowerShellScript -ScriptPath (Join-Path $cleanRoot 'tests\release_audit.ps1') -Arguments @(
+      '-SourceRoot', $cleanRoot,
+      '-OutputDirectory', (Join-Path $sessionRoot 'release-audit-tests')
+    )
+  }
+
   if (-not $SkipBuild) {
     Invoke-CleanCheckoutStep -Name 'Register local packages in temporary Lazarus profile' -Action {
       if ([string]::IsNullOrWhiteSpace($LazBuild)) {
@@ -165,6 +172,18 @@ try {
         $buildArgs += @('-LazBuild', $LazBuild)
       }
       Invoke-PowerShellScript -ScriptPath $cleanBuildAllScript -Arguments $buildArgs
+    }
+
+    Invoke-CleanCheckoutStep -Name 'Runtime audit regression tests' -Action {
+      Invoke-PowerShellScript -ScriptPath (Join-Path $cleanTools 'run_runtime_audit_tests.ps1') -Arguments @(
+        '-SourceRoot', $cleanRoot,
+        '-LazarusDir', $LazarusDir,
+        '-OutputDirectory', (Join-Path $sessionRoot 'runtime-audit-tests')
+      )
+    }
+
+    Invoke-CleanCheckoutStep -Name 'Design editor regression tests' -Action {
+      & (Join-Path $cleanRoot '.tools\design-audit-tests\design_audit.exe')
     }
   }
   else {

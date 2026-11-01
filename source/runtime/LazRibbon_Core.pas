@@ -107,6 +107,8 @@ type
     procedure SetScreenTipShortcut(const AValue: String);
     procedure SetScreenTipFooter(const AValue: String);
     procedure Changed;
+  protected
+    function GetOwner: TPersistent; override;
   public
     constructor Create(AOwner: TLazRibbon); reintroduce;
     destructor Destroy; override;
@@ -1193,6 +1195,11 @@ procedure TLazRibbonApplicationButton.SetGlyph(AValue: TPicture);
 begin
   FGlyph.Assign(AValue);
   Changed;
+end;
+
+function TLazRibbonApplicationButton.GetOwner: TPersistent;
+begin
+  Result := FOwner;
 end;
 
 procedure TLazRibbonApplicationButton.SetImageIndex(AValue: Integer);
@@ -4264,10 +4271,8 @@ end;
 
 procedure TLazRibbon.KeyDown(var Key: Word; Shift: TShiftState);
 var
-  I: Integer;
   Pressed: String;
   NextPrefix: String;
-  Tip: String;
 
   function CleanKeyTip(const S: String): String;
   begin
@@ -5125,7 +5130,7 @@ procedure TLazRibbon.ValidateBuffer;
     GroupCaption: String;
     GroupColor: TColor;
     R, TextR: TRect;
-    CaptionWidth, DesiredWidth, AvailableWidth: Integer;
+    AvailableWidth: Integer;
 
     function ContextualColorForHeader(index: integer): TColor;
     begin
@@ -5134,7 +5139,7 @@ procedure TLazRibbon.ValidateBuffer;
         Result := $00800080; { default purple accent }
     end;
 
-    procedure NormalizeHeaderRectForCaption(var ARect: TRect; const ACaption: String);
+    procedure ClampHeaderRect(var ARect: TRect);
     begin
       { The header must describe the contextual tab group, not float as an
         independent label.  Earlier versions expanded the header rectangle
@@ -5143,8 +5148,6 @@ procedure TLazRibbon.ValidateBuffer;
         expanded before painting, so this routine only clamps the band to the
         Ribbon client area and lets DrawText clip with ellipsis if the whole
         Ribbon is too narrow. }
-      CaptionWidth := FBuffer.Canvas.TextWidth(ACaption);
-      DesiredWidth := CaptionWidth + 16;
       AvailableWidth := Max(1, Self.Width - 2);
 
       if ARect.Left < 1 then
@@ -5189,7 +5192,7 @@ procedure TLazRibbon.ValidateBuffer;
       begin
         FBuffer.Canvas.Font.Assign(FAppearance.Tab.TabHeaderFont);
         FBuffer.Canvas.Font.Style := [];
-        NormalizeHeaderRectForCaption(R, GroupCaption);
+        ClampHeaderRect(R);
 
         { Modern contextual headers should look like a light contextual band,
           not like a heavy framed label.  Keep a subtle wash, a thin accent

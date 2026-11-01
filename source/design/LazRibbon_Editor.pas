@@ -22,7 +22,7 @@ uses Forms, Controls, Classes, ComponentEditors, PropEdits, LazarusPackageIntf, 
      LazRibbon_Core, LazRibbon_Tabs, LazRibbon_Groups, LazRibbon_Buttons,
      LazRibbon_BaseItem, LazRibbon_Types, LazRibbon_EditWindow,
      LazRibbon_AppearanceEditor, LazRibbon_Backstage, LazRibbon_SkinManager,
-     StdCtrls;
+     StdCtrls, ActnList, LazRibbon_RibbonCommands;
 
 const PROPERTY_CONTENTS_NAME = 'Contents';
       PROPERTY_CONTENTS_VALUE = 'Open editor...';
@@ -1193,16 +1193,92 @@ end;
 
 { TLazRibbonImageIndexPropertyEditor }
 
-function TLazRibbonImageIndexPropertyEditor.GetImagelist: TCustomImageList;
+type
+  TPersistentAccess = class(TPersistent);
+
+function TLazRibbonImageIndexPropertyEditor.GetImageList: TCustomImageList;
 var
   Instance: TPersistent;
+  Owner: TPersistent;
+  ParentControl: TControl;
+  Collection: TCollection;
+  View: TLazRibbonBackstageView;
+  ToolBar: TLazRibbonQuickAccessToolBar;
+  ButtonAction: TCustomAction;
+  Large: Boolean;
 begin
   Result := nil;
   Instance := GetComponent(0);
-  if (Instance is TLazRibbonLargeButton) then
-    Result := TLazRibbonLargeButton(Instance).Images
-  else if (Instance is TLazRibbonSmallButton) then
-    Result := TLazRibbonSmallButton(Instance).Images;
+  Large := SameText(GetName, 'LargeImageIndex');
+  if Instance is TLazRibbonBaseItem then
+  begin
+    if Large then
+      Result := TLazRibbonBaseItem(Instance).LargeImages
+    else
+      Result := TLazRibbonBaseItem(Instance).Images;
+    { Buttons can inherit their icons from ActionList.Images when the Ribbon
+      has no dedicated image list, just as they do when painting. }
+    if (Result = nil) and (Instance is TLazRibbonBaseButton) and
+       (TLazRibbonBaseButton(Instance).Action is TCustomAction) then
+    begin
+      ButtonAction := TCustomAction(TLazRibbonBaseButton(Instance).Action);
+      if ButtonAction.ActionList <> nil then
+        Result := ButtonAction.ActionList.Images;
+    end;
+  end
+  else if Instance is TLazRibbonBackstageButton then
+  begin
+    Collection := TLazRibbonBackstageButton(Instance).Collection;
+    if Collection is TLazRibbonBackstageButtons then
+    begin
+      View := TLazRibbonBackstageButtons(Collection).OwnerView;
+      if View <> nil then
+        if Large then
+          Result := View.LargeImages
+        else
+          Result := View.Images;
+    end;
+  end
+  else if Instance is TLazRibbonBackstagePage then
+  begin
+    ParentControl := TLazRibbonBackstagePage(Instance).Parent;
+    while (ParentControl <> nil) and
+          not (ParentControl is TLazRibbonBackstageView) do
+      ParentControl := ParentControl.Parent;
+    if ParentControl <> nil then
+      Result := TLazRibbonBackstageView(ParentControl).Images;
+  end
+  else if Instance is TLazRibbonBackstageRecentList then
+    Result := TLazRibbonBackstageRecentList(Instance).Images
+  else if Instance is TLazRibbonQuickAccessItem then
+  begin
+    Collection := TLazRibbonQuickAccessItem(Instance).Collection;
+    if Collection is TLazRibbonQuickAccessItems then
+    begin
+      ToolBar := TLazRibbonQuickAccessItems(Collection).OwnerToolBar;
+      if ToolBar <> nil then
+      begin
+        Result := ToolBar.Images;
+        Owner := TPersistentAccess(TPersistent(ToolBar)).GetOwner;
+        if (Result = nil) and (Owner is TLazRibbon) then
+          Result := TLazRibbon(Owner).Images;
+      end;
+    end;
+  end
+  else if Instance is TLazRibbonApplicationButton then
+  begin
+    Owner := TPersistentAccess(Instance).GetOwner;
+    if Owner is TLazRibbon then
+      Result := TLazRibbon(Owner).Images;
+  end
+  else if Instance is TLazRibbonCommand then
+  begin
+    Owner := TLazRibbonCommand(Instance).Owner;
+    if Owner is TLazRibbonCommandList then
+      Result := TLazRibbonCommandList(Owner).Images;
+  end
+  else
+    Result := inherited GetImageList;
 end;
 
 { TLazRibbonToolbarAppearanceEditor }

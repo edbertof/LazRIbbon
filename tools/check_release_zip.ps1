@@ -28,6 +28,7 @@ $artifactExtensions = @(
 )
 
 $artifactDirectories = @(
+  '.tools',
   'lib',
   'bin',
   'obj',
@@ -101,7 +102,9 @@ function Get-ZipViolations {
   try {
     foreach ($entry in $zip.Entries) {
       $name = $entry.FullName.TrimEnd('/')
-      if ($name -and (Test-ArtifactPath -RelativePath $name)) {
+      $parts = @($name -replace '\\', '/' -split '/')
+      $hasLocalMetadata = @($parts | Where-Object { $ignoredDirectories -contains $_ }).Count -gt 0
+      if ($name -and ($hasLocalMetadata -or (Test-ArtifactPath -RelativePath $name))) {
         $violations.Add($entry.FullName)
       }
     }

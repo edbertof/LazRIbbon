@@ -30,6 +30,11 @@ Other platforms or Lazarus versions may work, but changes should be validated ag
 
 ## Validation before sharing
 
+The clean-checkout validator builds both packages, the Skin Editor, all demos
+and the design-editor regression program. It also executes the runtime,
+design-editor and release-archive regression suites. Runtime tests can be run
+separately with `tools/run_runtime_audit_tests.ps1`; see `tests/README.md`.
+
 Run the source-tree audit before packaging:
 
 ```powershell

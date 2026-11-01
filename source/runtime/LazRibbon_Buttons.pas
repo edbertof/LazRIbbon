@@ -1841,7 +1841,7 @@ end;
 procedure TLazRibbonSmallButton.Draw(ABuffer: TBitmap; ClipRect: T2DIntRect);
 var
   fontColor: TColor;
-  frameColor, innerLightColor, innerDarkColor, knobColor, trackColor: TColor;
+  frameColor, innerLightColor, innerDarkColor: TColor;
   gradientFromColor, gradientToColor: TColor;
   gradientKind: TBackgroundKind;
   P: T2DIntPoint;

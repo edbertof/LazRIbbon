@@ -646,7 +646,7 @@ var product : extended;
 
 begin
   product:=self.CrossProductWith(AVector);
-  if product<NUM_ZERO then result:=-1 else
+  if product < -NUM_ZERO then result:=-1 else
      if product>NUM_ZERO then result:=1 else
         result:=0;
 end;
@@ -1347,11 +1347,11 @@ if self.top = self.bottom then
        LeftTop.top:=self.top;
        LeftTop.bottom:=self.top+(self.bottom-self.top) div 2;
 
-       LeftBottom.top:=self.top;
-       LeftBottom.bottom:=self.top+(self.bottom-self.top) div 2;
+       RightTop.top:=self.top;
+       RightTop.bottom:=self.top+(self.bottom-self.top) div 2;
 
-       RightTop.top:=self.top+(self.bottom-self.top) div 2 + 1;
-       RightTop.bottom:=self.bottom;
+       LeftBottom.top:=self.top+(self.bottom-self.top) div 2 + 1;
+       LeftBottom.bottom:=self.bottom;
 
        RightBottom.top:=self.top+(self.bottom-self.top) div 2 + 1;
        RightBottom.bottom:=self.bottom;
@@ -1490,7 +1490,7 @@ end;
 
 function T2DRect.Contains(APoint: T2DPoint): boolean;
 begin
-  result:=(APoint.x>=self.Left) and (APoint.y<=self.Right) and
+  result:=(APoint.x>=self.Left) and (APoint.x<=self.Right) and
         (APoint.y>=self.Top) and (APoint.y<=self.Bottom);
 end;
 
@@ -1528,15 +1528,8 @@ end;
 
 function T2DRect.IntersectsWith(ARect: T2DRect): boolean;
 begin
-  result:=( ( (ARect.left>=self.left) and (ARect.left<=self.left) ) or
-          ( (ARect.right>=self.right) and (ARect.right<=self.right) ) or
-          ( (self.left>=ARect.left) and (self.left<=ARect.right) ) or
-          ( (self.right>=ARect.left) and (self.right<=ARect.right) ) )
-        and
-        ( ( (ARect.top>=self.top) and (ARect.top<=self.top) ) or
-          ( (ARect.bottom>=self.bottom) and (ARect.bottom<=self.bottom) ) or
-          ( (self.top>=ARect.top) and (self.top<=ARect.bottom) ) or
-          ( (self.bottom>=ARect.top) and (self.bottom<=ARect.bottom) ) );
+  Result := (Max(Left, ARect.Left) <= Min(Right, ARect.Right)) and
+    (Max(Top, ARect.Top) <= Min(Bottom, ARect.Bottom));
 end;
 
 procedure T2DRect.Move(dx, dy: extended);

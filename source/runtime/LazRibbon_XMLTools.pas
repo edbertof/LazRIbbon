@@ -87,6 +87,12 @@ if assigned(Subnode) then
       if Subnode2.TextAsBoolean then
          Font.Style:=Font.Style + [fsUnderline] else
          Font.Style:=Font.Style - [fsUnderline];
+
+   Subnode2:=Subnode['StrikeOut',false];
+   if assigned(Subnode2) then
+      if Subnode2.TextAsBoolean then
+         Font.Style:=Font.Style + [fsStrikeOut] else
+         Font.Style:=Font.Style - [fsStrikeOut];
    end;
 end;
 
@@ -127,6 +133,9 @@ Subnode2.TextAsBoolean:=fsItalic in Font.Style;
 
 Subnode2:=Subnode['Underline',true];
 Subnode2.TextAsBoolean:=fsUnderline in Font.Style;
+
+Subnode2:=Subnode['StrikeOut',true];
+Subnode2.TextAsBoolean:=fsStrikeOut in Font.Style;
 end;
 
 end.

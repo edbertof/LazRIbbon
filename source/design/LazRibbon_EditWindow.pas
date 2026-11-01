@@ -1154,18 +1154,17 @@ end;
 
 procedure TfrmLazRibbonEditWindow.tvStructureDeletion(Sender:TObject; Node:TTreeNode);
 var
-  RunNode: TTreeNode;
+  Item: TObject;
 begin
   if Node = nil then
     exit;
   // Recursively delete children and destroy their data
-  RunNode := Node.GetFirstChild;
-  while RunNode <> nil do begin
-    RunNode.Delete;
-    RunNode := RunNode.GetNextSibling;
-  end;
+  while Node.GetFirstChild <> nil do
+    Node.GetFirstChild.Delete;
   // Destroy node's data
-  TLazRibbonComponent(Node.Data).Free;
+  Item := TObject(Node.Data);
+  Node.Data := nil;
+  Item.Free;
 end;
 
 procedure TfrmLazRibbonEditWindow.tvStructureEdited(Sender: TObject; Node: TTreeNode;

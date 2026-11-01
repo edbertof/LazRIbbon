@@ -192,6 +192,7 @@ type // Forward declaration for XML nodes
        FList : TObjectList;
        FTree : TBinaryTreeNode;
        FParent : TLazRibbonBaseXmlNode;
+       procedure ValidateChild(ANode: TLazRibbonXMLNode);
      protected
      // *** Operacje na drzewie AVL ***
      // Dodaje do drzewa ga³¹ z zadan¹ TLazRibbonXMLNode
@@ -478,7 +479,7 @@ i:=0;
 while (i<=high(FData)) and (FData[i]<>AData) do
       inc(i);
 
-if i<high(FData) then
+if i<=high(FData) then
    self.Delete(i);
 end;
 
@@ -585,15 +586,19 @@ end;
 
 procedure TLazRibbonXMLParameters.Add(AParameter: TLazRibbonXMLParameter);
 begin
+if (AParameter = nil) or (FList.IndexOf(AParameter) >= 0) then
+   raise Exception.Create('Missing or duplicate XML parameter!');
 FList.add(AParameter);
 end;
 
 procedure TLazRibbonXMLParameters.Insert(AIndex : integer; AParameter : TLazRibbonXMLParameter);
 
 begin
-if (AIndex<0) or (AIndex>FList.count-1) then
+if (AIndex<0) or (AIndex>FList.Count) then
    raise exception.create('Invalid index.');
 
+if (AParameter = nil) or (FList.IndexOf(AParameter) >= 0) then
+   raise Exception.Create('Missing or duplicate XML parameter!');
 FList.Insert(AIndex, AParameter);
 end;
 
@@ -784,12 +789,14 @@ procedure TLazRibbonBaseXMLNode.TreeDelete(ANode : TLazRibbonXMLNode);
         if DelNode.Left<>nil then
            begin
            FTree:=DelNode.Left;
+           DelNode.Left:=nil;
            // Mechanizmy drzewa odepn¹ automatycznie ga³¹ od DelNode, dziêki
            // czemu nie zostanie usuniête ca³e poddrzewo
            end else
         if DelNode.Right<>nil then
            begin
            FTree:=DelNode.Right;
+           DelNode.Right:=nil;
            // Mechanizmy drzewa odepn¹ automatycznie ga³¹ od DelNode, dziêki
            // czemu nie zostanie usuniête ca³e poddrzewo
            end;
@@ -849,6 +856,9 @@ procedure TLazRibbonBaseXMLNode.TreeDelete(ANode : TLazRibbonXMLNode);
             end;
 
      // Teraz usuwamy nastêpnik
+     { The entire name bucket was transferred, including duplicate names.
+       Delete the tree node rather than trying to remove ANode from that bucket. }
+     Successor.Clear;
      InternalTreeDelete(Successor);
 
      // Odwie¿amy dane dotycz¹ce poddrzew
@@ -1041,8 +1051,7 @@ if Tree<>nil then result:=Tree.Data[0] else
       result:=nil else
       begin
       XmlNode:=TLazRibbonXMLNode.create(index,xntNormal);
-      TreeAdd(XmlNode);
-      FList.add(XmlNode);
+      Add(XmlNode);
       result:=XmlNode;
       end;
    end;
@@ -1076,10 +1085,26 @@ FList.free;
 inherited destroy;
 end;
 
+procedure TLazRibbonBaseXMLNode.ValidateChild(ANode: TLazRibbonXMLNode);
+var
+  Ancestor: TLazRibbonBaseXMLNode;
+begin
+  if ANode = nil then
+    raise Exception.Create('Cannot add a nil XML node!');
+  if (ANode.Parent <> nil) or (FList.IndexOf(ANode) >= 0) then
+    raise Exception.Create('XML node already belongs to a parent!');
+  Ancestor := Self;
+  while Ancestor <> nil do
+  begin
+    if Ancestor = ANode then
+      raise Exception.Create('Cannot create a cycle in the XML tree!');
+    Ancestor := Ancestor.Parent;
+  end;
+end;
+
 procedure TLazRibbonBaseXMLNode.Add(ANode : TLazRibbonXMLNode);
 begin
-  if ANode = self then
-    raise Exception.Create('Cannot add Self to list!');
+  ValidateChild(ANode);
   if ANode.NodeType = xntNormal then
     TreeAdd(ANode);
   FList.add(ANode);
@@ -1089,11 +1114,13 @@ end;
 procedure TLazRibbonBaseXMLNode.Insert(AIndex : integer; ANode : TLazRibbonXMLNode);
 
 begin
-if (AIndex<0) or (AIndex>FList.count-1) then
+if (AIndex<0) or (AIndex>FList.Count) then
    raise exception.create('Invalid index!');
 
+ValidateChild(ANode);
+if ANode.NodeType = xntNormal then
+   TreeAdd(ANode);
 FList.Insert(AIndex, ANode);
-TreeAdd(ANode);
 ANode.Parent:=self;
 end;
 
@@ -1103,19 +1130,20 @@ begin
 if (AIndex<0) or (AIndex>FList.count-1) then
    raise exception.create('Invalid index');
 
-TreeDelete(TLazRibbonXMLNode(FList[AIndex]));
+if TLazRibbonXMLNode(FList[AIndex]).NodeType = xntNormal then
+   TreeDelete(TLazRibbonXMLNode(FList[AIndex]));
 
 // Poniewa¿ FList.OwnsObjects, automatycznie zwolni usuwany element.
 FList.delete(AIndex);
 end;
 
 procedure TLazRibbonBaseXMLNode.Remove(ANode : TLazRibbonXMLNode);
-
+var
+  Index: Integer;
 begin
-TreeDelete(ANode);
-
-// Poniewa¿ FList.OwnsObjects, automatycznie zwolni usuwany element.
-FList.Remove(ANode);
+Index := FList.IndexOf(ANode);
+if Index >= 0 then
+   Delete(Index);
 end;
 
 function TLazRibbonBaseXMLNode.IndexOf(ANode : TLazRibbonXMLNode) : integer;
@@ -1137,13 +1165,15 @@ end;
 procedure TLazRibbonBaseXMLNode.BeforeChildChangeName(AChild : TLazRibbonXmlNode);
 
 begin
-TreeDelete(AChild);
+if AChild.NodeType = xntNormal then
+   TreeDelete(AChild);
 end;
 
 procedure TLazRibbonBaseXMLNode.AfterChildChangeName(AChild : TLazRibbonXMLNode);
 
 begin
-TreeAdd(AChild);
+if AChild.NodeType = xntNormal then
+   TreeAdd(AChild);
 end;
 
 { TLazRibbonXMLNode }
@@ -1151,6 +1181,7 @@ end;
 procedure TLazRibbonXMLNode.SetName(Value : string);
 
 begin
+if FName = Value then Exit;
 if Parent<>nil then
    Parent.BeforeChildChangeName(self);
 
@@ -1449,6 +1480,7 @@ begin
 self.Clear;
 
 // Na wszelki wypadek...
+if input = nil then exit;
 if input^=#0 then exit;
 
 // Zerujemy parsowan¹ pozycjê
@@ -1999,8 +2031,7 @@ begin
   sl:=TStringList.create;
   try
     sl.LoadFromFile(AFile);
-    if length(sl.text)>0 then
-      self.Parse(PChar(sl.text));
+    self.Parse(PChar(sl.text));
   finally
     sl.free;
   end;

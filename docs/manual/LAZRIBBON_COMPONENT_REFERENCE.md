@@ -45,6 +45,15 @@ composition rules behind those properties are checked by
 
 ## Common Property Groups
 
+With `LazRibbonDesign` installed, `ImageIndex` and `LargeImageIndex` offer
+dropdowns with image previews in the Object Inspector. Assign `Images` and
+`LargeImages` on the owning Ribbon or BackStage view first; the large index
+uses the large list. Quick Access items use `QuickAccessToolBar.Images`, falling
+back to `Ribbon.Images`; recent lists and command lists use their own `Images`.
+Ribbon buttons can use their linked `ActionList.Images` when the corresponding
+Ribbon image list is unassigned. Select `-1` to leave an index unset and retain
+any applicable Action or linked-item fallback.
+
 ### Common Pane Item Properties
 
 | Property | Description |
@@ -224,7 +233,7 @@ Purpose: popup menu that can draw items with the Ribbon appearance.
 
 | Property | Description |
 | --- | --- |
-| `Appearance` | Appearance object used to draw menu items. |
+| `Appearance` | Borrowed appearance object used to draw menu items. Its owner must outlive the menu's use of it; clear or reassign this property before freeing that owner. |
 | inherited `TPopupMenu` properties | Normal Lazarus menu behavior, images and items. |
 
 Events: inherited `TPopupMenu` events.

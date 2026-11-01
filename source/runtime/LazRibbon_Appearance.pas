@@ -1377,8 +1377,6 @@ end;
 { To be used when the mouse is not over the toggle switch. }
 procedure TLazRibbonElementAppearance.GetIdleSwitchColors(IsChecked: Boolean;
   out AKnobColor, ATrackColor: TColor; ABrightenBy: Integer = 0);
-const
-  DELTA = 10;
 begin
   if IsChecked then
   begin

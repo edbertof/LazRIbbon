@@ -1,5 +1,27 @@
 ## Unreleased
 
+- Adds image-preview dropdowns for Ribbon and BackStage image-index properties,
+  including Quick Access items, the Application button, recent lists and commands.
+  Large-image indexes now select from LargeImages; Ribbon buttons also support
+  the linked ActionList.Images fallback when no dedicated list is assigned.
+- Repairs collection back-pointers and automatic removal when runtime items,
+  panes or tabs are freed; rejects nil/duplicate entries and skips unresolved
+  streamed names instead of retaining invalid component references.
+- Fixes design-editor subtree deletion so sibling navigation never accesses
+  a freed tree node and component data is cleared before destruction.
+- Corrects floating-point rectangle containment/intersection, integer rectangle
+  quadrants, collinear vector orientation and RGB-to-HSL conversion.
+- Initializes both XML-INI constructors consistently; repairs XML parent/name
+  indexes, root and duplicate-name deletion, append insertion, parameter
+  removal and comment/control-node handling. Font XML preserves strikeout,
+  and empty XML input clears previously loaded data.
+- Makes skin-change notifications tolerate listener removal during callbacks
+  and unregisters subscriptions when listener components are destroyed.
+- Removes five unused internal routines and obsolete local calculations while
+  preserving public compatibility APIs and Lazarus event/streaming hooks.
+- Excludes local `.tools` files from source ZIPs and rejects Git/IDE metadata
+  in ZIP audits. Clean-checkout validation now runs automated runtime,
+  design-editor and release-archive regression suites.
 - Uses linked `ActionList.Images` for small and large Ribbon buttons when
   dedicated Ribbon image lists are not configured, including inherited
   custom large-button classes and action image-index updates.
