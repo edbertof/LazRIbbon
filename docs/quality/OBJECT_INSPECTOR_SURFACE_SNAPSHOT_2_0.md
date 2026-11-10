@@ -21,7 +21,7 @@ Source: `source/runtime/LazRibbon_Form.pas`
 - `UseCustomTitleBar`: `property UseCustomTitleBar: Boolean read FUseCustomTitleBar write SetUseCustomTitleBar default True;`
 - `TitleBarHeight`: `property TitleBarHeight: Integer read FTitleBarHeight write SetTitleBarHeight default 32;`
 - `ShowSystemButtons`: `property ShowSystemButtons: Boolean read FShowSystemButtons write SetShowSystemButtons default True;`
-- `ShowTitleIcon`: `property ShowTitleIcon: Boolean read FShowTitleIcon write SetShowTitleIcon default True;`
+- `ShowTitleIcon`: `property ShowTitleIcon: Boolean read FShowTitleIcon write SetShowTitleIcon default False;`
 - `TitleIcon`: `property TitleIcon: TIcon read FTitleIcon write SetTitleIcon;`
 - `TitleAlignment`: `property TitleAlignment: TAlignment read FTitleAlignment write SetTitleAlignment default taCenter;`
 
@@ -217,6 +217,67 @@ Source: `source/runtime/LazRibbon_RibbonExtItems.pas`
 - `VisibleStartIndex`: `property VisibleStartIndex: Integer read FVisibleStartIndex write SetVisibleStartIndex default 0;`
 - `OverflowMode`: `property OverflowMode: TLazRibbonGalleryOverflowMode read FOverflowMode write SetOverflowMode default gomScrollButtons;`
 - `OnSkinSelected`: `property OnSkinSelected: TNotifyEvent read FOnSkinSelected write FOnSkinSelected;`
+
+### TLazRibbonCustomControlItem
+
+Source: `source/runtime/LazRibbon_ControlItems.pas`
+
+- `Caption`: `property Caption: TCaption read FCaption write SetCaption;`
+- `Width`: `property Width: Integer read FWidth write SetWidth default 120;`
+- `Layout`: `property Layout: TLazRibbonItemTableBehaviour read FLayout write SetLayout default tbBeginsRow;`
+
+### TLazRibbonCustomInputItem
+
+Source: `source/runtime/LazRibbon_ControlItems.pas`
+
+- `OnChange`: `property OnChange: TNotifyEvent read FOnChange write FOnChange;`
+
+### TLazRibbonEditItem
+
+Source: `source/runtime/LazRibbon_ControlItems.pas`
+
+- `Text`: `property Text: TCaption read GetText write SetText;`
+- `ReadOnly`: `property ReadOnly: Boolean read GetReadOnly write SetReadOnly default False;`
+
+### TLazRibbonComboBoxItem
+
+Source: `source/runtime/LazRibbon_ControlItems.pas`
+
+- `Items`: `property Items: TStrings read GetItems write SetItems;`
+- `Style`: `property Style: TComboBoxStyle read GetStyle write SetStyle default csDropDownList;`
+- `ItemIndex`: `property ItemIndex: Integer read GetItemIndex write SetItemIndex default -1;`
+- `Text`: `property Text: TCaption read GetText write SetText stored IsTextStored;`
+
+### TLazRibbonFontNameComboBoxItem
+
+Source: `source/runtime/LazRibbon_ControlItems.pas`
+
+- `FontName`: `property FontName: TFontName read FFontName write SetFontName;`
+- `ShowFontPreview`: `property ShowFontPreview: Boolean read FShowFontPreview write SetShowFontPreview default True;`
+- `DropDownCount`: `property DropDownCount: Integer read GetDropDownCount write SetDropDownCount default 12;`
+
+### TLazRibbonSpinEditItem
+
+Source: `source/runtime/LazRibbon_ControlItems.pas`
+
+- `MinValue`: `property MinValue: Integer read GetMinValue write SetMinValue default 0;`
+- `MaxValue`: `property MaxValue: Integer read GetMaxValue write SetMaxValue default 100;`
+- `Increment`: `property Increment: Integer read GetIncrement write SetIncrement default 1;`
+- `Value`: `property Value: Integer read GetValue write SetValue default 0;`
+
+### TLazRibbonStaticTextItem
+
+Source: `source/runtime/LazRibbon_ControlItems.pas`
+
+- `Alignment`: `property Alignment: TAlignment read GetAlignment write SetAlignment default taLeftJustify;`
+
+### TLazRibbonProgressBarItem
+
+Source: `source/runtime/LazRibbon_ControlItems.pas`
+
+- `Min`: `property Min: Integer read GetMin write SetMin default 0;`
+- `Max`: `property Max: Integer read GetMax write SetMax default 100;`
+- `Position`: `property Position: Integer read GetPosition write SetPosition default 0;`
 
 ## BackStage
 

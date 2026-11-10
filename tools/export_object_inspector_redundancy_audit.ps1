@@ -108,7 +108,7 @@ foreach ($name in @(
   $rules[$name] = New-Rule -Category 'Inherited LCL surface' -Rationale 'Standard Lazarus control state or layout property. It is repeated because these classes descend from LCL controls or components.'
 }
 
-foreach ($name in @('Enabled', 'Hint', 'OnClick', 'OnResize')) {
+foreach ($name in @('Enabled', 'Hint', 'OnClick', 'OnChange', 'OnResize')) {
   $rules[$name] = New-Rule -Category 'Inherited LCL and command state' -Rationale 'Normal Lazarus interaction vocabulary that remains meaningful on visible controls and command entries.'
 }
 
@@ -128,6 +128,9 @@ foreach ($name in @(
 }
 
 $rules['Caption'] = New-Rule -Category 'Display text vocabulary' -Rationale 'Visible text for tabs, panes, buttons and command-like items. This is the expected Pascal/LCL name for a label shown to the user.'
+$rules['Text'] = New-Rule -Category 'Display text vocabulary' -Rationale 'Current editable value of native edit and combo items; Caption identifies the Ribbon item separately.'
+$rules['Width'] = New-Rule -Category 'Inherited LCL surface' -Rationale 'Requested item width in the pane layout, following ordinary LCL sizing vocabulary.'
+$rules['Position'] = New-Rule -Category 'Component-specific position' -Rationale 'Typed local state: QAT placement is an enumeration; native progress position is a numeric value between Min and Max.'
 $rules['KeyTip'] = New-Rule -Category 'Office keyboard vocabulary' -Rationale 'Office-like keyboard hint used by Application Button, tabs and command entries.'
 
 foreach ($name in @('Images', 'LargeImages', 'Ribbon', 'SkinManager')) {
@@ -175,6 +178,7 @@ $sharedGroups = $properties |
 $unclassified = @($sharedGroups | Where-Object { -not $rules.ContainsKey($_.Name) })
 
 $categoryRows = @(
+  [pscustomobject]@{ Category = 'Component-specific position'; Meaning = 'Local position with a component-specific type and range.' },
   [pscustomobject]@{ Category = 'Inherited LCL surface'; Meaning = 'Properties inherited from standard Lazarus control/component behavior.' },
   [pscustomobject]@{ Category = 'Inherited LCL and command state'; Meaning = 'Common interaction state that is meaningful on controls and command entries.' },
   [pscustomobject]@{ Category = 'Command surface vocabulary'; Meaning = 'Command metadata shared by Ribbon, QAT and BackStage commands.' },

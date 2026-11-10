@@ -22,7 +22,7 @@ uses
   ImgList, ComCtrls, Menus, Grids, ExtCtrls, StdCtrls,
   LazRibbon_Core, LazRibbon_GUITools, LazRibbon_Math, LazRibbon_GraphTools, LazRibbon_Popup, LazRibbon_Tabs,
   LazRibbon_Groups, LazRibbon_Types, LazRibbon_Tools, LazRibbon_BaseItem, LazRibbon_Buttons,
-  LazRibbon_Checkboxes;
+  LazRibbon_Checkboxes, LazRibbon_ControlItems;
 
 type
 
@@ -55,6 +55,15 @@ type
     CbHorizGrid : TLazRibbonCheckbox;
     CbVertGrid: TLazRibbonCheckbox;
     CbRowSelect: TLazRibbonCheckbox;
+    FontItem: TLazRibbonFontNameComboBoxItem;
+    SizeItem: TLazRibbonSpinEditItem;
+    SearchItem: TLazRibbonEditItem;
+    ProgressItem: TLazRibbonProgressBarItem;
+    ProgressText: TLazRibbonStaticTextItem;
+    procedure CreateInputItemsDemo;
+    procedure InputFontChanged(Sender: TObject);
+    procedure InputSearchChanged(Sender: TObject);
+    procedure AdvanceProgress(Sender: TObject);
     procedure AboutHandler(Sender: TObject);
     function CreateRecentFilesPopup: TLazRibbonPopupMenu;
     function CreateStylePopup: TLazRibbonPopupMenu;
@@ -539,6 +548,95 @@ begin
       end;
     end;
   end;
+  CreateInputItemsDemo;
+end;
+
+procedure TForm1.CreateInputItemsDemo;
+var
+  Tab: TLazRibbonTab;
+  Pane: TLazRibbonPane;
+begin
+  Tab := Ribbon.Tabs.Add;
+  Tab.Caption := 'Input controls';
+  Pane := Tab.Panes.Add;
+  Pane.Caption := 'Grid font';
+  FontItem := Pane.Items.AddFontNameComboBox;
+  FontItem.Caption := 'Font name';
+  FontItem.Hint := 'Choose the font used by the grid';
+  FontItem.Width := 180;
+  FontItem.FontName := StringGrid1.Font.Name;
+  if FontItem.Items.IndexOf(FontItem.FontName) < 0 then
+    FontItem.FontName := Screen.SystemFont.Name;
+  SizeItem := Pane.Items.AddSpinEdit;
+  SizeItem.Caption := 'Font size';
+  SizeItem.Hint := 'Font size in points';
+  SizeItem.MinValue := 8;
+  SizeItem.MaxValue := 72;
+  SizeItem.Value := StringGrid1.Font.Size;
+  FontItem.OnChange := @InputFontChanged;
+  SizeItem.OnChange := @InputFontChanged;
+
+  Pane := Tab.Panes.Add;
+  Pane.Caption := 'Find in grid';
+  with Pane.Items.AddStaticText do
+  begin
+    Caption := 'Type text to find a cell:';
+    Width := 200;
+  end;
+  SearchItem := Pane.Items.AddEdit;
+  SearchItem.Caption := 'Find text';
+  SearchItem.Width := 200;
+  SearchItem.OnChange := @InputSearchChanged;
+
+  Pane := Tab.Panes.Add;
+  Pane.Caption := 'Progress';
+  ProgressText := Pane.Items.AddStaticText;
+  ProgressText.Caption := 'Progress: 0%';
+  ProgressItem := Pane.Items.AddProgressBar;
+  with Pane.Items.AddSmallButton do
+  begin
+    Caption := 'Advance';
+    TableBehaviour := tbBeginsRow;
+    OnClick := @AdvanceProgress;
+  end;
+end;
+
+procedure TForm1.InputFontChanged(Sender: TObject);
+begin
+  StringGrid1.Font.Name := FontItem.FontName;
+  StringGrid1.Font.Size := SizeItem.Value;
+end;
+
+procedure TForm1.InputSearchChanged(Sender: TObject);
+var
+  Col, Row: Integer;
+  SearchText: String;
+begin
+  SearchText := LowerCase(Trim(SearchItem.Text));
+  if SearchText = '' then
+  begin
+    StatusBar1.SimpleText := 'Type text to find a cell';
+    Exit;
+  end;
+  for Row := StringGrid1.FixedRows to StringGrid1.RowCount - 1 do
+    for Col := StringGrid1.FixedCols to StringGrid1.ColCount - 1 do
+      if Pos(SearchText, LowerCase(StringGrid1.Cells[Col, Row])) > 0 then
+      begin
+        StringGrid1.Col := Col;
+        StringGrid1.Row := Row;
+        StatusBar1.SimpleText := Format('Found at column %d, row %d', [Col, Row]);
+        Exit;
+      end;
+  StatusBar1.SimpleText := 'Text not found';
+end;
+
+procedure TForm1.AdvanceProgress(Sender: TObject);
+begin
+  if ProgressItem.Position >= ProgressItem.Max then
+    ProgressItem.Position := 0
+  else
+    ProgressItem.Position := ProgressItem.Position + 10;
+  ProgressText.Caption := Format('Progress: %d%%', [ProgressItem.Position]);
 end;
 
 procedure TForm1.ImageListGetWidthForPPI(Sender: TCustomImageList; AImageWidth,

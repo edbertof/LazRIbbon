@@ -25,11 +25,11 @@ procedure RegisterLazRibbonImageIndexEditors;
 
 implementation
 uses
-  ImgList, Controls, LResources, FormEditingIntf,
+  ImgList, Controls, Graphics, GraphPropEdits, LResources, FormEditingIntf,
   LazRibbon_Core, LazRibbon_Editor, LazRibbon_Popup, LazRibbon_Buttons, LazRibbon_Checkboxes,
   LazRibbon_Groups, LazRibbon_Tabs, LazRibbon_Appearance, LazRibbon_Backstage, LazRibbon_SkinManager,
   LazRibbon_SkinSelector, LazRibbon_SkinManagerEditor, LazRibbon_RibbonExtItems, LazRibbon_Form,
-  LazRibbon_BaseItem, LazRibbon_RibbonCommands;
+  LazRibbon_BaseItem, LazRibbon_RibbonCommands, LazRibbon_ControlItems;
 
 procedure RegisterUnitLazRibbon;
 begin
@@ -39,7 +39,9 @@ end;
 procedure RegisterUnitLazRibbonButtons;
 begin
   RegisterNoIcon([TLazRibbonLargeButton, TLazRibbonSmallButton, TLazRibbonSeparator,
-    TLazRibbonControlHostItem, TLazRibbonGalleryItem, TLazRibbonSkinGalleryItem]);
+    TLazRibbonControlHostItem, TLazRibbonGalleryItem, TLazRibbonSkinGalleryItem,
+    TLazRibbonEditItem, TLazRibbonComboBoxItem, TLazRibbonSpinEditItem,
+    TLazRibbonStaticTextItem, TLazRibbonProgressBarItem, TLazRibbonFontNameComboBoxItem]);
 end;
 
 procedure RegisterUnitLazRibbonCheckboxes;
@@ -224,6 +226,10 @@ begin
     TLazRibbonCaptionEditor);
   RegisterPropertyEditor(TypeInfo(TCaption), TLazRibbonCustomRibbonExtItem,
     'Caption', TLazRibbonCaptionEditor);
+  RegisterPropertyEditor(TypeInfo(TCaption), TLazRibbonCustomControlItem,
+    'Caption', TLazRibbonCaptionEditor);
+  RegisterPropertyEditor(TypeInfo(TFontName), TLazRibbonFontNameComboBoxItem,
+    'FontName', TFontNamePropertyEditor);
   RegisterLazRibbonImageIndexEditors;
   SkipObsoleteProperties;
 end;

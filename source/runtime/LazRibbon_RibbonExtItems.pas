@@ -451,7 +451,10 @@ end;
 destructor TLazRibbonControlHostItem.Destroy;
 begin
   if FControl <> nil then
+  begin
+    FControl.Visible := False;
     FControl.RemoveFreeNotification(Self);
+  end;
   FControl := nil;
   inherited Destroy;
 end;
@@ -494,7 +497,10 @@ procedure TLazRibbonControlHostItem.SetControl(AValue: TControl);
 begin
   if FControl = AValue then Exit;
   if FControl <> nil then
+  begin
+    FControl.Visible := False;
     FControl.RemoveFreeNotification(Self);
+  end;
   FControl := AValue;
   if FControl <> nil then
     FControl.FreeNotification(Self);

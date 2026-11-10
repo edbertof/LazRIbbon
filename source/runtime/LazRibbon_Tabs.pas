@@ -283,7 +283,8 @@ begin
     Exit;
   end;
 
-  if AtLeastOnePaneVisible then
+  { Visit hidden panes too, including when the last pane is hidden, so native
+    child controls receive invalid rectangles and cannot remain over the UI. }
   begin
     x := IfThen(isRTL, ARect.Right, ARect.Left);
     for i := 0 to FPanes.Count - 1 do
@@ -308,9 +309,9 @@ begin
       else
       begin
         {$IFDEF EnhancedRecordSupport}
-        FPanes[i].Rect := T2DIntRect.Create(-1,-1,-1,-1);
+        FPanes[i].Rect := T2DIntRect.Create(-1,-1,-2,-2);
         {$ELSE}
-        FPanes[i].Rect.Create(-1,-1,-1,-1);
+        FPanes[i].Rect := Create2DIntRect(-1,-1,-2,-2);
         {$ENDIF}
       end;
   end;

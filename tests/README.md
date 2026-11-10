@@ -20,12 +20,20 @@ collection lifetime, XML persistence/indexing, skin notifications and form strea
 separate processes. Build products and test fixtures go to `.tools/` by
 default. `-OutputDirectory` selects another output folder.
 
+The `controls` group also checks native Ribbon inputs: keyboard focus, change
+events, item/pane/tab/minimized visibility, removal and destruction, and a
+form-streaming round trip with combo choices, spin limits, captions and progress.
+It also checks automatic installed-font enumeration, font-name selection and
+change events, font refresh, missing fonts and name-based form persistence.
+
 `design_audit.lpi` compiles the contents editor against IDEIntf and exercises its
 editor deletion handler: 20 tab/pane/button subtrees, totaling 320 component
 removals. The clean-checkout validator compiles and executes this program.
 It also checks image-index editor registration, image-preview dropdown values,
 small/large list selection, Quick Access list overrides, linked ActionList
 fallbacks and missing image lists across Ribbon and BackStage properties.
+The contents-editor checks also cover the seven shared control creation actions,
+reopening without duplicate menu entries and native control subtree deletion.
 
 Run the ZIP audit checks independently:
 

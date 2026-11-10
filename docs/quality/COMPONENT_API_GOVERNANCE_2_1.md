@@ -12,10 +12,10 @@ Regenerate after adding, removing, renaming, publishing or hiding component prop
 - Target version: 2.1.19
 - Runtime package version: 2.1.19
 - Design-time package version: 2.1.19
-- Components inventoried: 24
-- Effective Object Inspector properties inventoried: 308
-- Component roles mapped: 23/23
-- Canonical property checks ready: 112/112
+- Components inventoried: 32
+- Effective Object Inspector properties inventoried: 329
+- Component roles mapped: 31/31
+- Canonical property checks ready: 133/133
 - Forbidden visible properties present: 0
 - Unexpected Appearance owners: 0
 - Legacy SelectedSkin properties visible: 0
@@ -38,9 +38,9 @@ A new application should read the component model from top to bottom:
 | Area | Gate | Status | Evidence | Next step |
 | --- | --- | --- | --- | --- |
 | Versioning | Package metadata aligned | Ready | Runtime 2.1.19; design 2.1.19; expected 2.1.19. | Keep runtime and design package versions synchronized before tagging. |
-| Inventory | Object Inspector snapshot parsed | Ready | 24 components and 308 effective properties were parsed from the snapshot. | Regenerate OBJECT_INSPECTOR_SURFACE_SNAPSHOT_2_0.md after published property changes. |
-| Inventory | Component roles mapped | Ready | 23 of 23 governed component roles are present. | Add new public components to this governance map before release. |
-| Canonical API | Required composition properties present | Ready | 112 of 112 required composition properties are present. | A missing canonical property usually means the component model drifted from the documented workflow. |
+| Inventory | Object Inspector snapshot parsed | Ready | 32 components and 329 effective properties were parsed from the snapshot. | Regenerate OBJECT_INSPECTOR_SURFACE_SNAPSHOT_2_0.md after published property changes. |
+| Inventory | Component roles mapped | Ready | 31 of 31 governed component roles are present. | Add new public components to this governance map before release. |
+| Canonical API | Required composition properties present | Ready | 133 of 133 required composition properties are present. | A missing canonical property usually means the component model drifted from the documented workflow. |
 | Canonical API | Forbidden visible properties absent | Ready | Forbidden visible properties present: 0. | Hide, rename or document role-inappropriate properties before release. |
 | Canonical API | Appearance ownership remains clear | Ready | Appearance owners: TLazRibbonSkinDefinition, TLazRibbonSkinManager. | Keep complete appearance editing on TLazRibbonSkinManager and TLazRibbonSkinDefinition. |
 | Canonical API | Skin selection uses name-based properties | Ready | Legacy SelectedSkin properties visible: 0. | Use SelectedSkinName in Object Inspector surfaces. |
@@ -63,6 +63,14 @@ A new application should read the component model from top to bottom:
 | Ribbon Structure | `TLazRibbonPane` | Command group inside a tab. | Items collection on the pane object | Caption, ShowDialogLauncher, DialogLauncherStyle, OnDialogLauncherClick | 5 | Panes group commands and optionally expose the Office Dialog Launcher pattern. |
 | Ribbon Structure | `TLazRibbonCustomRibbonExtItem` | Base visible Ribbon item behavior. | Owner pane item collection | Caption, DisplayMode, ImageIndex, LargeImageIndex, Width, OnClick | 6 | Shared visible item vocabulary remains small and command-oriented. |
 | Ribbon Structure | `TLazRibbonControlHostItem` | Hosted Lazarus control inside a Ribbon pane. | Control | Control | 1 | Hosted controls are connected by object reference; legacy string metadata stays hidden. |
+| Ribbon Structure | `TLazRibbonCustomControlItem` | Base for owned native LCL items. | Owner pane item collection | Caption, Width, Layout | 3 | Native controls are private item-owned implementation details and are recreated during form loading. |
+| Ribbon Structure | `TLazRibbonCustomInputItem` | Native input event forwarding. | Native control value | OnChange | 1 | Input handlers receive the Ribbon item as Sender. |
+| Ribbon Structure | `TLazRibbonEditItem` | Native text entry. | Text | ReadOnly, OnChange | 2 | Caption identifies the item; Text is the editable value. |
+| Ribbon Structure | `TLazRibbonComboBoxItem` | Native choice list or editable combo. | Items, ItemIndex | Text, Style, OnChange | 4 | Selection-only combos persist the exact index, including duplicate captions. |
+| Ribbon Structure | `TLazRibbonFontNameComboBoxItem` | Installed system font selector. | FontName | ShowFontPreview, DropDownCount, OnChange | 3 | Choices come from Screen.Fonts; forms persist the font name rather than a machine-specific list or index. |
+| Ribbon Structure | `TLazRibbonSpinEditItem` | Native integer input. | Value | MinValue, MaxValue, Increment, OnChange | 4 | Numeric validation follows the LCL spin editor. |
+| Ribbon Structure | `TLazRibbonStaticTextItem` | Native Ribbon label. | Caption | Alignment | 1 | Display-only item without keyboard focus. |
+| Ribbon Structure | `TLazRibbonProgressBarItem` | Native progress feedback. | Position | Min, Max | 3 | Display-only item without keyboard focus. |
 | Ribbon Structure | `TLazRibbonGalleryItem` | Generic gallery/grid Ribbon item. | Gallery item collection | Columns, ItemWidth, ItemHeight, PopupMode, PopupWidth, PopupHeight | 6 | Generic galleries use ItemWidth and ItemHeight; skin galleries use IconWidth and IconHeight. |
 | Ribbon Structure | `TLazRibbonSkinGalleryItem` | Ribbon skin selector gallery item. | SkinManager | SelectedSkinName, ShowHints, IconWidth, IconHeight, MaxVisibleItems, OverflowMode | 9 | Skin selection uses name-based selection so built-in and external skins share one API. |
 | BackStage | `TLazRibbonBackstageButton` | BackStage navigation, command or separator entry. | Page, Action, LinkedItem | Kind, Section, Caption, Page, CloseBackstageOnClick, OnExecute | 14 | BackStage navigation is represented by button entries; pages remain content containers. |

@@ -16,7 +16,7 @@
     <Description Value="LazRibbon runtime components - independent fork of LazToolbar"/>
     <License Value="Modified LGPL / same license terms preserved from LazToolbar where applicable"/>
     <Version Major="2" Minor="1" Release="19"/>
-    <Files Count="29">
+    <Files Count="30">
       <Item1>
         <Filename Value="..\source\runtime\LazRibbon_Core.pas"/>
         <UnitName Value="LazRibbon_Core"/>
@@ -133,6 +133,10 @@
         <Filename Value="..\source\runtime\LazRibbon_Form.pas"/>
         <UnitName Value="LazRibbon_Form"/>
       </Item29>
+      <Item30>
+        <Filename Value="..\source\runtime\LazRibbon_ControlItems.pas"/>
+        <UnitName Value="LazRibbon_ControlItems"/>
+      </Item30>
     </Files>
     <RequiredPkgs Count="1">
       <Item1>

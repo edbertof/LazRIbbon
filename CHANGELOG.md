@@ -1,5 +1,24 @@
 ## Unreleased
 
+- Hides the window icon by default in the custom `TLazRibbonForm` title bar.
+  The Quick Access Toolbar starts at the left inset. Set `ShowTitleIcon = True`
+  to opt in, including in forms that previously relied on the old default.
+- Adds Font name combo box items with automatic installed-font choices,
+  optional previews in each font, name-based form persistence, an Object
+  Inspector font list and a dedicated contents-editor icon. The runtime demo
+  now uses the specialized selector for grid fonts.
+- Adds distinct contents-editor menu and tree icons for Edit, Combo box,
+  Spin edit, Static text, Progress bar, Control host and Skin Gallery, rendered
+  at 16, 24 and 32 pixels for standard and high-DPI Lazarus displays.
+- Adds native LCL Ribbon items for text editing, combo choices, integer spin
+  editing, static text and progress bars, with published properties, input
+  change events, keyboard focus and form streaming. The contents editor now
+  offers these five types plus the existing generic Control host.
+- Adds an Input controls tab to the runtime demo with grid font selection,
+  font size, cell search and progress feedback. Native control regressions
+  cover lifetime, focus, events, visibility and form persistence.
+- Clears item rectangles when a Ribbon is minimized, its last pane is hidden
+  or an item is removed, so hosted controls cannot remain visible.
 - Adds image-preview dropdowns for Ribbon and BackStage image-index properties,
   including Quick Access items, the Application button, recent lists and commands.
   Large-image indexes now select from LargeImages; Ribbon buttons also support

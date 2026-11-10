@@ -484,8 +484,8 @@ function Test-ComponentCompositionApi {
 
   $corePath = Join-Path $SourceRoot 'source/runtime/LazRibbon_Core.pas'
   $core = Get-Content -LiteralPath $corePath -Raw
-  if ($core -notmatch 'for i := 0 to FTabs\.Count - 1 do\s+if i <> FTabIndex then\s+begin[\s\S]*FTabs\[i\]\.Rect := (T2DIntRect\.Create|Create2DIntRect)\(-1, -1, -2, -2\);') {
-    Add-Failure 'TLazRibbon.ValidateMetrics must clear inactive tab rectangles so hosted controls on inactive tabs are hidden.'
+  if ($core -notmatch 'for i := 0 to FTabs\.Count - 1 do\s+if \(i <> FTabIndex\) or FRibbonMinimized then\s+begin[\s\S]*FTabs\[i\]\.Rect := (T2DIntRect\.Create|Create2DIntRect)\(-1, -1, -2, -2\);') {
+    Add-Failure 'TLazRibbon.ValidateMetrics must clear inactive or minimized tab rectangles so hosted controls are hidden.'
   }
   $tabsPath = Join-Path $SourceRoot 'source/runtime/LazRibbon_Tabs.pas'
   $tabs = Get-Content -LiteralPath $tabsPath -Raw
@@ -1452,8 +1452,8 @@ function Test-TwoPointZeroPlanningDocs {
     foreach ($required in @(
       'LazRibbon 2.0 API Freeze Readiness',
       'Stable API candidates listed: 47',
-      'Effective Object Inspector properties listed: 308',
-      'Repeated published property names reviewed: 49',
+      'Effective Object Inspector properties listed: 329',
+      'Repeated published property names reviewed: 53',
       'Unclassified repeated property names: 0',
       'Design-time property skip rules: 30',
       'Package/tool/demo build targets listed: 19',

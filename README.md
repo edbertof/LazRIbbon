@@ -20,6 +20,11 @@ Runtime components include:
 
 Design-time support is provided by `LazRibbonDesign.lpk`.
 
+The contents editor also offers Edit, Combo box, Font name combo box, Spin edit,
+Static text, Progress bar and Control host items. These embed native LCL controls in Ribbon
+panes. See [Ribbon input controls](docs/manual/RIBBON_INPUT_CONTROLS.md) and
+the **Input controls** tab in `demos/runtime/project1.lpi`.
+
 ## Design-time quick creation
 
 When `LazRibbonDesign.lpk` is installed in Lazarus, selecting a `TLazRibbon` exposes component-editor verbs such as:

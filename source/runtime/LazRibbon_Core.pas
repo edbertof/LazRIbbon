@@ -6964,7 +6964,7 @@ begin
   // *** Panes ***
 
   for i := 0 to FTabs.Count - 1 do
-    if i <> FTabIndex then
+    if (i <> FTabIndex) or FRibbonMinimized then
     begin
       {$IFDEF EnhancedRecordSupport}
       FTabs[i].Rect := T2DIntRect.Create(-1, -1, -2, -2);

@@ -19,7 +19,7 @@ interface
 
 uses
   LCLIntf, LCLType, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ImgList, ComCtrls,
+  Dialogs, ImgList, ComCtrls, LazRibbon_ControlItems,
   ActnList, Menus, ComponentEditors, PropEdits,
   LazRibbon_Core, LazRibbon_Tabs, LazRibbon_Groups, LazRibbon_BaseItem, LazRibbon_Buttons, LazRibbon_Types, LazRibbon_Checkboxes, LazRibbon_RibbonExtItems;
 
@@ -115,8 +115,14 @@ type
     FToolbar: TLazRibbon;
     FDesigner: TComponentEditorDesigner;
     FAddSkinGalleryAction: TAction;
+    FControlItemActions: array[0..6] of TAction;
+    FControlTreeImages: array[0..6] of Integer;
+    FSkinGalleryTreeImage: Integer;
 
     procedure EnsureExtendedMenuItems;
+    procedure AddControlItemExecute(Sender: TObject);
+    procedure EnableControlItemActions(AEnabled: Boolean);
+    function ItemImageIndex(ItemClass: TLazRibbonBaseItemClass): Integer;
     procedure CheckActionsAvailability;
     procedure Notification(AComponent: TComponent; Operation: TOperation); override;
     procedure MarkToolbarChanged;
@@ -170,11 +176,171 @@ const
   IDX_TOGGLESWITCH = 6;
   IDX_SEPARATOR = 7;
 
+  ControlItemClasses: array[0..6] of TLazRibbonBaseItemClass = (
+    TLazRibbonEditItem, TLazRibbonComboBoxItem, TLazRibbonFontNameComboBoxItem,
+    TLazRibbonSpinEditItem, TLazRibbonStaticTextItem, TLazRibbonProgressBarItem,
+    TLazRibbonControlHostItem);
+  ControlItemCaptions: array[0..6] of String = (
+    'Edit', 'Combo box', 'Font name combo box', 'Spin edit', 'Static text',
+    'Progress bar', 'Control host');
+
+type
+  TEditorItemGlyph = (eigEdit, eigComboBox, eigFontName, eigSpinEdit,
+    eigStaticText, eigProgressBar, eigControlHost, eigSkinGallery);
+
+procedure DrawEditorItemGlyph(Bitmap: TBitmap; Kind: TEditorItemGlyph;
+  AddBadge: Boolean);
+const
+  BorderColor = $008C6546;
+  BlueColor = $00E6A65C;
+  PaleBlueColor = $00FBEAD8;
+  GreenColor = $0057AD5B;
+var
+  C: TCanvas;
+
+  function S(Value: Integer): Integer;
+  begin
+    Result := (Value * Bitmap.Width + 8) div 16;
+  end;
+
+  procedure Fill(L, T, R, B: Integer; Color: TColor);
+  begin
+    C.Brush.Color := Color;
+    C.FillRect(Rect(S(L), S(T), S(R), S(B)));
+  end;
+
+  procedure Box(L, T, R, B: Integer; Color: TColor);
+  begin
+    C.Pen.Color := BorderColor;
+    C.Brush.Color := Color;
+    C.Rectangle(S(L), S(T), S(R), S(B));
+  end;
+
+  procedure Line(X1, Y1, X2, Y2: Integer; Color: TColor);
+  begin
+    C.Pen.Color := Color;
+    C.Line(S(X1), S(Y1), S(X2), S(Y2));
+  end;
+
+begin
+  Bitmap.PixelFormat := pf24bit;
+  C := Bitmap.Canvas;
+  C.Brush.Color := clFuchsia;
+  C.FillRect(Rect(0, 0, Bitmap.Width, Bitmap.Height));
+  C.Pen.Width := S(1);
+  case Kind of
+    eigEdit, eigComboBox, eigSpinEdit, eigFontName:
+      begin
+        Box(1, 3, 15, 13, clWhite);
+        if Kind = eigEdit then
+        begin
+          Line(4, 7, 8, 7, BorderColor);
+          Line(10, 5, 10, 11, BorderColor);
+          Line(9, 5, 12, 5, BorderColor);
+          Line(9, 10, 12, 10, BorderColor);
+        end
+        else
+        begin
+          Fill(10, 4, 14, 12, PaleBlueColor);
+          Line(10, 4, 10, 12, BorderColor);
+          if Kind = eigFontName then
+          begin
+            Line(3, 10, 5, 5, BorderColor);
+            Line(5, 5, 8, 11, BorderColor);
+            Line(4, 9, 7, 9, BorderColor);
+          end
+          else
+            Line(3, 7, 8, 7, BorderColor);
+          if Kind in [eigComboBox, eigFontName] then
+          begin
+            Line(11, 7, 14, 7, BorderColor);
+            Fill(12, 8, 13, 9, BorderColor);
+          end
+          else
+          begin
+            Line(10, 8, 14, 8, BorderColor);
+            Fill(12, 5, 13, 6, BorderColor);
+            Line(11, 6, 14, 6, BorderColor);
+            Line(11, 10, 14, 10, BorderColor);
+            Fill(12, 11, 13, 12, BorderColor);
+          end;
+        end;
+      end;
+    eigStaticText:
+      begin
+        Line(2, 12, 6, 3, BorderColor);
+        Line(6, 3, 10, 12, BorderColor);
+        Line(4, 9, 9, 9, BorderColor);
+        Line(1, 12, 5, 12, BorderColor);
+        Line(8, 12, 12, 12, BorderColor);
+        Line(11, 5, 15, 5, BlueColor);
+        Line(11, 8, 15, 8, BlueColor);
+      end;
+    eigProgressBar:
+      begin
+        Box(1, 4, 15, 12, clWhite);
+        Fill(3, 6, 5, 10, GreenColor);
+        Fill(6, 6, 8, 10, GreenColor);
+        Fill(9, 6, 11, 10, GreenColor);
+      end;
+    eigControlHost:
+      begin
+        Box(1, 2, 15, 14, clWhite);
+        Fill(2, 3, 14, 5, BlueColor);
+        Box(4, 7, 12, 12, PaleBlueColor);
+        Fill(6, 8, 10, 10, $006FC8EF);
+      end;
+    eigSkinGallery:
+      begin
+        Box(1, 2, 15, 14, clWhite);
+        Fill(3, 4, 7, 7, BlueColor);
+        Fill(9, 4, 13, 7, $006FC8EF);
+        Fill(3, 9, 7, 12, GreenColor);
+        Fill(9, 9, 13, 12, $00B67AB2);
+      end;
+  end;
+  if AddBadge then
+  begin
+    C.Pen.Color := $003C853C;
+    C.Brush.Color := GreenColor;
+    C.Ellipse(S(8), S(8), S(16), S(16));
+    Line(10, 12, 15, 12, clWhite);
+    Line(12, 10, 12, 15, clWhite);
+  end;
+  Bitmap.TransparentColor := clFuchsia;
+  Bitmap.Transparent := True;
+end;
+
+function AddEditorItemGlyph(Images: TCustomImageList; Kind: TEditorItemGlyph;
+  AddBadge: Boolean): Integer;
+const
+  Sizes: array[0..2] of Integer = (16, 24, 32);
+var
+  Bitmaps: array[0..2] of TCustomBitmap;
+  I: Integer;
+begin
+  { Render each size directly so glyphs remain sharp at 100%, 150% and 200%. }
+  Images.RegisterResolutions(Sizes);
+  for I := Low(Bitmaps) to High(Bitmaps) do Bitmaps[I] := nil;
+  try
+    for I := Low(Bitmaps) to High(Bitmaps) do
+    begin
+      Bitmaps[I] := TBitmap.Create;
+      Bitmaps[I].SetSize(Sizes[I], Sizes[I]);
+      DrawEditorItemGlyph(TBitmap(Bitmaps[I]), Kind, AddBadge);
+    end;
+    Result := Images.AddMultipleResolutions(Bitmaps);
+  finally
+    for I := Low(Bitmaps) to High(Bitmaps) do Bitmaps[I].Free;
+  end;
+end;
+
 { TfrmLazRibbonEditWindow }
 
 procedure TfrmLazRibbonEditWindow.EnsureExtendedMenuItems;
 var
   MI: TMenuItem;
+  I: Integer;
 begin
   if FAddSkinGalleryAction <> nil then
     Exit;
@@ -183,6 +349,9 @@ begin
   FAddSkinGalleryAction.Caption := 'Skin Gallery';
   FAddSkinGalleryAction.Hint := 'Add LazRibbonSkinGalleryItem';
   FAddSkinGalleryAction.OnExecute := aAddSkinGalleryExecute;
+  FSkinGalleryTreeImage := AddEditorItemGlyph(ilTreeImages, eigSkinGallery, False);
+  FAddSkinGalleryAction.ImageIndex := AddEditorItemGlyph(ilActionImages,
+    eigSkinGallery, True);
   if ActionList <> nil then
     FAddSkinGalleryAction.ActionList := ActionList;
 
@@ -195,6 +364,72 @@ begin
   MI.Action := FAddSkinGalleryAction;
   MI.Caption := 'Skin Gallery';
   Additem1.Add(MI);
+
+  for I := Low(FControlItemActions) to High(FControlItemActions) do
+  begin
+    FControlItemActions[I] := TAction.Create(Self);
+    FControlItemActions[I].Caption := ControlItemCaptions[I];
+    FControlItemActions[I].Hint := 'Add ' + ControlItemClasses[I].ClassName;
+    FControlItemActions[I].Tag := I;
+    FControlItemActions[I].OnExecute := AddControlItemExecute;
+    FControlItemActions[I].ActionList := ActionList;
+    FControlTreeImages[I] := AddEditorItemGlyph(ilTreeImages, TEditorItemGlyph(I), False);
+    FControlItemActions[I].ImageIndex := AddEditorItemGlyph(ilActionImages,
+      TEditorItemGlyph(I), True);
+    MI := TMenuItem.Create(Self);
+    MI.Action := FControlItemActions[I];
+    pmAddItem.Items.Add(MI);
+    MI := TMenuItem.Create(Self);
+    MI.Action := FControlItemActions[I];
+    Additem1.Add(MI);
+  end;
+  EnableControlItemActions(False);
+end;
+
+procedure TfrmLazRibbonEditWindow.AddControlItemExecute(Sender: TObject);
+var
+  I: Integer;
+begin
+  I := TAction(Sender).Tag;
+  if (I >= Low(ControlItemClasses)) and (I <= High(ControlItemClasses)) then
+    AddItem(ControlItemClasses[I]);
+end;
+
+procedure TfrmLazRibbonEditWindow.EnableControlItemActions(AEnabled: Boolean);
+var
+  I: Integer;
+begin
+  for I := Low(FControlItemActions) to High(FControlItemActions) do
+    if FControlItemActions[I] <> nil then
+      FControlItemActions[I].Enabled := AEnabled;
+end;
+
+function TfrmLazRibbonEditWindow.ItemImageIndex(ItemClass: TLazRibbonBaseItemClass): Integer;
+var
+  I: Integer;
+begin
+  if ItemClass.InheritsFrom(TLazRibbonSkinGalleryItem) then
+    Exit(FSkinGalleryTreeImage);
+  for I := Low(ControlItemClasses) to High(ControlItemClasses) do
+    if ItemClass.InheritsFrom(ControlItemClasses[I]) then
+      Exit(FControlTreeImages[I]);
+  if ItemClass.InheritsFrom(TLazRibbonCustomRibbonExtItem) or
+    ItemClass.InheritsFrom(TLazRibbonCustomControlItem) then
+    Result := IDX_SMALLBUTTON
+  else if ItemClass.InheritsFrom(TLazRibbonLargeButton) then
+    Result := IDX_LARGEBUTTON
+  else if ItemClass.InheritsFrom(TLazRibbonSmallButton) then
+    Result := IDX_SMALLBUTTON
+  else if ItemClass.InheritsFrom(TLazRibbonCheckbox) then
+    Result := IDX_CHECKBOX
+  else if ItemClass.InheritsFrom(TLazRibbonRadioButton) then
+    Result := IDX_RADIOBUTTON
+  else if ItemClass.InheritsFrom(TLazRibbonToggleSwitch) then
+    Result := IDX_TOGGLESWITCH
+  else if ItemClass.InheritsFrom(TLazRibbonSeparator) then
+    Result := IDX_SEPARATOR
+  else
+    raise Exception.Create('Item class ' + ItemClass.ClassName + ' not supported');
 end;
 
 procedure TfrmLazRibbonEditWindow.aAddPaneExecute(Sender: TObject);
@@ -380,28 +615,7 @@ begin
   end else
     raise Exception.Create('TfrmLazRibbonEditWindow.AddItem: ' + RSIncorrectObjectInTree);
 
-  if ItemClass = TLazRibbonSkinGalleryItem then
-    NewNode.ImageIndex := IDX_SMALLBUTTON
-  else
-  if ItemClass = TLazRibbonLargeButton then
-    NewNode.ImageIndex := IDX_LARGEBUTTON
-  else
-  if ItemClass = TLazRibbonSmallButton then
-    NewNode.ImageIndex := IDX_SMALLBUTTON
-  else
-  if ItemClass = TLazRibbonCheckbox then
-    NewNode.ImageIndex := IDX_CHECKBOX
-  else
-  if ItemClass = TLazRibbonRadioButton then
-    NewNode.ImageIndex := IDX_RADIOBUTTON
-  else
-  if ItemClass = TLazRibbonToggleSwitch then
-    NewNode.ImageIndex := IDX_TOGGLESWITCH
-  else
-  if ItemClass = TLazRibbonSeparator then
-    NewNode.ImageIndex := IDX_SEPARATOR
-  else
-    raise Exception.Create('Item class ' + ItemClass.ClassName + ' not supported');
+  NewNode.ImageIndex := ItemImageIndex(ItemClass);
   NewNode.SelectedIndex := NewNode.ImageIndex;
   FDesigner.PropertyEditorHook.PersistentAdded(Item,True);
   MarkToolbarChanged;
@@ -618,6 +832,7 @@ begin
     aAddRadioButton.Enabled := false;
     aAddToggleSwitch.Enabled := false;
     if FAddSkinGalleryAction <> nil then FAddSkinGalleryAction.Enabled := false;
+    EnableControlItemActions(false);
     aRemoveItem.Enabled := false;
     aAddSeparator.Enabled := false;
     aMoveUp.Enabled := false;
@@ -640,6 +855,7 @@ begin
       aAddSeparator.Enabled := false;
       aAddToggleSwitch.Enabled := false;
       if FAddSkinGalleryAction <> nil then FAddSkinGalleryAction.Enabled := false;
+      EnableControlItemActions(false);
       aRemoveItem.Enabled := false;
       aMoveUp.Enabled := false;
       aMoveDown.Enabled := false;
@@ -668,6 +884,7 @@ begin
         aAddToggleSwitch.Enabled := false;
         aAddSeparator.Enabled := false;
         if FAddSkinGalleryAction <> nil then FAddSkinGalleryAction.Enabled := false;
+        EnableControlItemActions(false);
         aRemoveItem.Enabled := false;
 
         index := FToolbar.Tabs.IndexOf(Tab);
@@ -695,6 +912,7 @@ begin
         aAddRadiobutton.Enabled := true;
         aAddToggleSwitch.Enabled := true;
         if FAddSkinGalleryAction <> nil then FAddSkinGalleryAction.Enabled := true;
+        EnableControlItemActions(true);
         aAddSeparator.Enabled := true;
         aRemoveItem.Enabled := false;
 
@@ -723,6 +941,7 @@ begin
         aAddRadioButton.Enabled := true;
         aAddToggleSwitch.Enabled := true;
         if FAddSkinGalleryAction <> nil then FAddSkinGalleryAction.Enabled := true;
+        EnableControlItemActions(true);
         aAddSeparator.Enabled := true;
         aRemoveItem.Enabled := true;
 
@@ -804,6 +1023,8 @@ begin
     Result := TLazRibbonBaseButton(Item).Caption
   else if Item is TLazRibbonCustomRibbonExtItem then
     Result := TLazRibbonCustomRibbonExtItem(Item).Caption
+  else if Item is TLazRibbonCustomControlItem then
+    Result := TLazRibbonCustomControlItem(Item).Caption
   else
     Result := '<Unknown caption>';
 end;
@@ -838,7 +1059,9 @@ begin
   if Item is TLazRibbonBaseButton then
     TLazRibbonBaseButton(Item).Caption := Value
   else if Item is TLazRibbonCustomRibbonExtItem then
-    TLazRibbonCustomRibbonExtItem(Item).Caption := Value;
+    TLazRibbonCustomRibbonExtItem(Item).Caption := Value
+  else if Item is TLazRibbonCustomControlItem then
+    TLazRibbonCustomControlItem(Item).Caption := Value;
 end;
 
 procedure TfrmLazRibbonEditWindow.SetData(AToolbar: TLazRibbon; ADesigner: TComponentEditorDesigner);
@@ -1003,20 +1226,7 @@ begin
           Obj := FToolbar.Tabs[i].Panes[j].Items[k];
           s := GetItemCaption(Obj);
           itemnode := tvStructure.Items.AddChild(panenode,s);
-          if Obj is TLazRibbonSkinGalleryItem then
-            itemnode.ImageIndex := IDX_SMALLBUTTON
-          else if Obj is TLazRibbonLargeButton then
-            itemnode.ImageIndex := IDX_LARGEBUTTON
-          else if Obj is TLazRibbonSmallButton then
-            itemnode.ImageIndex := IDX_SMALLBUTTON
-          else if Obj is TLazRibbonCheckbox then
-            itemnode.ImageIndex := IDX_CHECKBOX
-          else if Obj is TLazRibbonRadioButton then
-            itemnode.ImageIndex := IDX_RADIOBUTTON
-          else if Obj is TLazRibbonToggleSwitch then
-            itemnode.ImageIndex := IDX_TOGGLESWITCH
-          else if Obj is TLazRibbonSeparator then
-            itemnode.ImageIndex := IDX_SEPARATOR;
+          itemnode.ImageIndex := ItemImageIndex(TLazRibbonBaseItemClass(Obj.ClassType));
           itemnode.Selectedindex := itemnode.ImageIndex;
           itemnode.Data := Obj;
         end;

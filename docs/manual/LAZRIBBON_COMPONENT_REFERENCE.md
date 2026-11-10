@@ -39,6 +39,12 @@ composition rules behind those properties are checked by
 | `TLazRibbonCheckbox` | Designer item | Checkable pane item. |
 | `TLazRibbonRadioButton` | Designer item | Mutually exclusive pane item. |
 | `TLazRibbonToggleSwitch` | Designer item | Switch-style toggle pane item. |
+| `TLazRibbonEditItem` | Designer item | Native text editor. |
+| `TLazRibbonComboBoxItem` | Designer item | Native option list or editable combo. |
+| `TLazRibbonFontNameComboBoxItem` | Designer item | Installed-font selector with optional font previews. |
+| `TLazRibbonSpinEditItem` | Designer item | Native integer spin editor. |
+| `TLazRibbonStaticTextItem` | Designer item | Native text label. |
+| `TLazRibbonProgressBarItem` | Designer item | Native progress indicator. |
 | `TLazRibbonControlHostItem` | Designer item | Hosts a real Lazarus control inside a pane. |
 | `TLazRibbonGalleryItem` | Designer item | Generic Ribbon gallery item. |
 | `TLazRibbonSkinGalleryItem` | Designer item | Ribbon skin gallery item. |
@@ -106,7 +112,7 @@ Purpose: form shell with optional custom title bar and Ribbon integration.
 | `UseCustomTitleBar` | Enables the custom client-area title bar. |
 | `TitleBarHeight` | Height of the custom title bar. |
 | `ShowSystemButtons` | Shows minimize/maximize/close buttons in the custom title bar. |
-| `ShowTitleIcon` | Shows an icon at the left of the custom title bar. |
+| `ShowTitleIcon` | Shows an icon at the left of the custom title bar when set to `True`. The default is `False`. |
 | `TitleIcon` | Explicit icon used by the custom title bar. |
 | `TitleAlignment` | Alignment of the title text. |
 
@@ -361,6 +367,20 @@ Purpose: base for extended pane items.
 | Event | Description |
 | --- | --- |
 | `OnClick` | Fires when the item is activated. |
+
+## Native Control Items
+
+For ready-to-use native editors, see [Ribbon input controls](RIBBON_INPUT_CONTROLS.md).
+`TLazRibbonEditItem`, `TLazRibbonComboBoxItem`, `TLazRibbonSpinEditItem`,
+`TLazRibbonStaticTextItem` and `TLazRibbonProgressBarItem` share `Caption`,
+`Width` and `Layout`. The three input types publish `OnChange` with the item
+as Sender; static text uses Caption as its visible label. Their internal
+controls are owned by the item and are recreated when loading forms.
+
+`TLazRibbonFontNameComboBoxItem` automatically lists installed fonts via
+`Screen.Fonts`. Set `FontName` and handle `OnChange`; `ShowFontPreview` controls
+font-name previews and `DropDownCount` controls the number of visible rows.
+Forms persist the selected name and rebuild system choices when opened.
 
 ## TLazRibbonControlHostItem
 

@@ -7,7 +7,7 @@ uses
   LazRibbon_Math, LazRibbon_GraphTools, LazRibbon_Types,
   LazRibbon_Core, LazRibbon_Tabs, LazRibbon_Groups, LazRibbon_Buttons,
   LazRibbon_XMLParser, LazRibbon_XMLIni, LazRibbon_XMLTools,
-  LazRibbon_SkinManager;
+  LazRibbon_SkinManager, control_items_audit;
 
 type
   TCollectionAccess = class(TLazRibbonCollection)
@@ -430,8 +430,9 @@ begin
       'xml': TestXML;
       'skins': TestSkinNotifications;
       'streaming': TestStreaming;
+      'controls': RunControlItemsAudit;
     else
-      raise Exception.Create('Specify geometry, colors, collections, xml, skins or streaming.');
+      raise Exception.Create('Specify geometry, colors, collections, xml, skins, streaming or controls.');
     end;
   except
     on E: Exception do

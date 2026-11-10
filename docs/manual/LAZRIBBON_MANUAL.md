@@ -360,6 +360,14 @@ Properties: `Caption`, `DisplayMode`, `ImageIndex`, `LargeImageIndex`,
 
 Events: `OnClick`.
 
+### Native Control Items
+
+The contents editor also creates ready-to-use **Edit**, **Combo box**,
+**Font name combo box**, **Spin edit**, **Static text** and **Progress bar** items. These use native LCL
+controls and publish their values on the Ribbon item. See
+[Ribbon input controls](RIBBON_INPUT_CONTROLS.md) for properties, code examples
+and the runtime demo's **Input controls** tab.
+
 ### TLazRibbonControlHostItem
 
 Role: hosts a real Lazarus control inside a Ribbon pane.

@@ -18,7 +18,8 @@ interface
 uses
   Classes, Controls, SysUtils, Dialogs,
   LazRibbon_Appearance, LazRibbon_Dispatch, LazRibbon_BaseItem, LazRibbon_Types,
-  LazRibbon_Buttons, LazRibbon_Checkboxes, LazRibbon_RibbonExtItems;
+  LazRibbon_Buttons, LazRibbon_Checkboxes, LazRibbon_RibbonExtItems,
+  LazRibbon_ControlItems, LazRibbon_Math;
 
 type
   TLazRibbonItems = class(TLazRibbonCollection)
@@ -48,6 +49,12 @@ type
     function AddSmallButton: TLazRibbonSmallButton;
     function AddCheckbox: TLazRibbonCheckbox;
     function AddRadioButton: TLazRibbonRadioButton;
+    function AddEdit: TLazRibbonEditItem;
+    function AddComboBox: TLazRibbonComboBoxItem;
+    function AddFontNameComboBox: TLazRibbonFontNameComboBoxItem;
+    function AddSpinEdit: TLazRibbonSpinEditItem;
+    function AddStaticText: TLazRibbonStaticTextItem;
+    function AddProgressBar: TLazRibbonProgressBarItem;
     function AddRibbonControlHostItem: TLazRibbonControlHostItem;
     function AddRibbonGalleryItem: TLazRibbonGalleryItem;
     function AddRibbonSkinGalleryItem: TLazRibbonSkinGalleryItem;
@@ -70,6 +77,48 @@ type
 implementation
 
 { TLazRibbonItems }
+
+function TLazRibbonItems.AddEdit: TLazRibbonEditItem;
+begin
+  Result := TLazRibbonEditItem.Create(FRootComponent);
+  Result.Parent := FRootComponent;
+  AddItem(Result);
+end;
+
+function TLazRibbonItems.AddComboBox: TLazRibbonComboBoxItem;
+begin
+  Result := TLazRibbonComboBoxItem.Create(FRootComponent);
+  Result.Parent := FRootComponent;
+  AddItem(Result);
+end;
+
+function TLazRibbonItems.AddSpinEdit: TLazRibbonSpinEditItem;
+begin
+  Result := TLazRibbonSpinEditItem.Create(FRootComponent);
+  Result.Parent := FRootComponent;
+  AddItem(Result);
+end;
+
+function TLazRibbonItems.AddFontNameComboBox: TLazRibbonFontNameComboBoxItem;
+begin
+  Result := TLazRibbonFontNameComboBoxItem.Create(FRootComponent);
+  Result.Parent := FRootComponent;
+  AddItem(Result);
+end;
+
+function TLazRibbonItems.AddStaticText: TLazRibbonStaticTextItem;
+begin
+  Result := TLazRibbonStaticTextItem.Create(FRootComponent);
+  Result.Parent := FRootComponent;
+  AddItem(Result);
+end;
+
+function TLazRibbonItems.AddProgressBar: TLazRibbonProgressBarItem;
+begin
+  Result := TLazRibbonProgressBarItem.Create(FRootComponent);
+  Result.Parent := FRootComponent;
+  AddItem(Result);
+end;
 
 function TLazRibbonItems.AddLargeButton: TLazRibbonLargeButton;
 begin
@@ -155,6 +204,9 @@ begin
       begin
         if not (csDestroying in Item.ComponentState) then
         begin
+          { A removed native control must disappear even when it outlives the
+            non-owning item collection. The next layout only visits members. }
+          TLazRibbonBaseItem(Item).Rect := Create2DIntRect(-1, -1, -2, -2);
           TLazRibbonBaseItem(Item).ToolbarDispatch := nil;
           TLazRibbonBaseItem(Item).Appearance := nil;
           TLazRibbonBaseItem(Item).Images := nil;

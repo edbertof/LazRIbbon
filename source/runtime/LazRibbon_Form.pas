@@ -163,10 +163,9 @@ type
     property TitleBarHeight: Integer read FTitleBarHeight write SetTitleBarHeight default 32;
     property ShowSystemButtons: Boolean read FShowSystemButtons write SetShowSystemButtons default True;
 
-    { Icon drawn at the far left of the custom title bar. Leave empty to use
-      the normal form/application/project icon. This explicit property is useful
-      because BorderStyle=bsNone prevents Windows from drawing the native icon. }
-    property ShowTitleIcon: Boolean read FShowTitleIcon write SetShowTitleIcon default True;
+    { Opt in to an icon in the custom title bar. An empty TitleIcon uses the
+      normal form/application/project icon when ShowTitleIcon is enabled. }
+    property ShowTitleIcon: Boolean read FShowTitleIcon write SetShowTitleIcon default False;
     property TitleIcon: TIcon read FTitleIcon write SetTitleIcon;
 
     property TitleAlignment: TAlignment read FTitleAlignment write SetTitleAlignment default taCenter;
@@ -1632,15 +1631,15 @@ end;
 
 constructor TLazRibbonForm.Create(AOwner: TComponent);
 begin
+  { The inherited constructor reads TitleIcon and ShowTitleIcon from the form resource. }
+  FTitleIcon := TIcon.Create;
   inherited Create(AOwner);
   FOriginalBorderStyle := BorderStyle;
   FUseCustomTitleBar := True;
   FTitleBarHeight := 32;
   FShowSystemButtons := True;
   FTitleAlignment := taCenter;
-  FShowTitleIcon := True;
   FClosingFromTitleBar := False;
-  FTitleIcon := TIcon.Create;
 
   { Create the internal title bar without an Owner.  If it is owned by the
     form, Lazarus may treat it as a normal design-time child component when
