@@ -9,21 +9,44 @@ procedure RunControlItemsAudit;
 implementation
 
 uses
-  Classes, SysUtils, Forms, Controls, StdCtrls, Spin, ComCtrls,
+  Classes, SysUtils, Forms, Controls, StdCtrls, Spin, ComCtrls, Calendar, EditBtn,
+  LCLType, LMessages,
   LazRibbon_Core, LazRibbon_Tabs, LazRibbon_Groups, LazRibbon_Items,
   LazRibbon_ControlItems, LazRibbon_RibbonExtItems;
 
 type
+  TDateEditAccess = class(TDateEdit);
+
   TChangeObserver = class
     Count: Integer;
     LastSender: TObject;
     procedure Changed(Sender: TObject);
+    procedure FinishCalendar(Data: PtrInt);
   end;
 
 procedure TChangeObserver.Changed(Sender: TObject);
 begin
   Inc(Count);
   LastSender := Sender;
+end;
+
+procedure TChangeObserver.FinishCalendar(Data: PtrInt);
+var
+  Dialog: TCustomForm;
+  Component: TComponent;
+begin
+  Dialog := Screen.ActiveCustomForm;
+  if (Dialog = nil) or not (fsModal in Dialog.FormState) then Exit;
+  for Component in Dialog do
+    if Component is TCalendar then
+      TCalendar(Component).DateTime := EncodeDate(2026, 12, 1);
+  for Component in Dialog do
+    if (Component is TButton) and (TButton(Component).ModalResult = Data) then
+    begin
+      TButton(Component).Click;
+      Exit;
+    end;
+  Dialog.ModalResult := mrCancel;
 end;
 
 procedure RunFontNameComboAudit;
@@ -154,6 +177,7 @@ var
   Edit: TLazRibbonEditItem;
   Combo: TLazRibbonComboBoxItem;
   SpinEdit: TLazRibbonSpinEditItem;
+  DateEdit, EmptyDateEdit, LoadedDateEdit: TLazRibbonDateEditItem;
   StaticText: TLazRibbonStaticTextItem;
   Progress: TLazRibbonProgressBarItem;
   Host: TLazRibbonControlHostItem;
@@ -179,7 +203,7 @@ begin
   Checks := 0;
   RegisterClasses([TLazRibbon, TLazRibbonTab, TLazRibbonPane,
     TLazRibbonEditItem, TLazRibbonComboBoxItem, TLazRibbonSpinEditItem,
-    TLazRibbonStaticTextItem, TLazRibbonProgressBarItem]);
+    TLazRibbonStaticTextItem, TLazRibbonProgressBarItem, TLazRibbonDateEditItem]);
   Form := TForm.CreateNew(nil);
   Restored := TForm.CreateNew(nil);
   Observer := TChangeObserver.Create;
@@ -219,11 +243,15 @@ begin
     Progress.Name := 'ProgressItem';
     Progress.Max := 400;
     Progress.Position := 123;
+    DateEdit := Pane.Items.AddDateEdit;
+    DateEdit.Name := 'ReportDateItem';
+    EmptyDateEdit := Pane.Items.AddDateEdit;
+    EmptyDateEdit.Name := 'EmptyDateItem';
     Ribbon.Tabs.Add.Caption := 'Other';
     Ribbon.TabIndex := 0;
     Form.Show;
     Layout;
-    Check(Ribbon.ControlCount = 5, 'Each native item creates exactly one Ribbon child');
+    Check(Ribbon.ControlCount = 7, 'Each native item creates exactly one Ribbon child');
     for I := 0 to Pane.Items.Count - 1 do
     begin
       Check(TLazRibbonCustomControlItem(Pane.Items[I]).Control.Parent = Ribbon,
@@ -237,6 +265,8 @@ begin
       'Static captions reach the native label');
     Check(Edit.ExecuteKeyTip and (Form.ActiveControl = Edit.Control),
       'Edit KeyTip gives the native editor keyboard focus');
+    Check(DateEdit.ExecuteKeyTip and TDateEdit(DateEdit.Control).Focused,
+      'Date Edit KeyTip gives the native date field keyboard focus');
     Check(not Progress.ExecuteKeyTip and not StaticText.ExecuteKeyTip,
       'Display-only controls do not claim keyboard focus');
     Edit.Enabled := False;
@@ -283,6 +313,36 @@ begin
       'Spin value changes report the Ribbon item as Sender');
     SpinEdit.OnChange := nil;
 
+    Check(not DateEdit.HasDate and (TDateEdit(DateEdit.Control).Text = ''),
+      'New date editors start empty');
+    DateEdit.OnChange := @Observer.Changed;
+    DateEdit.Date := EncodeDate(2026, 11, 14) + EncodeTime(17, 15, 0, 0);
+    Check(DateEdit.HasDate and (DateEdit.Date = EncodeDate(2026, 11, 14)) and
+      (Observer.Count = 4) and (Observer.LastSender = DateEdit),
+      'Setting a date keeps its day and emits one change from the item');
+    DateEdit.Date := EncodeDate(2026, 11, 14);
+    Check(Observer.Count = 4, 'Setting the same day emits no duplicate event');
+    DateEdit.ReadOnly := True;
+    TDateEditAccess(DateEdit.Control).BaseEditor.Perform(CN_KEYDOWN, VK_DELETE, 0);
+    Check(DateEdit.HasDate and (Observer.Count = 4), 'Delete respects ReadOnly');
+    DateEdit.ReadOnly := False;
+    TDateEditAccess(DateEdit.Control).BaseEditor.Perform(CN_KEYDOWN, VK_DELETE, 0);
+    Check(not DateEdit.HasDate and (Observer.Count = 5), 'Delete clears the date once');
+    DateEdit.Clear;
+    Check(Observer.Count = 5, 'Clearing an empty date emits no duplicate event');
+    Application.QueueAsyncCall(@Observer.FinishCalendar, mrCancel);
+    TDateEdit(DateEdit.Control).Button.Click;
+    Application.RemoveAsyncCalls(Observer);
+    Check(not DateEdit.HasDate and (Observer.Count = 5), 'Cancel leaves the date empty');
+    Application.QueueAsyncCall(@Observer.FinishCalendar, mrOK);
+    TDateEditAccess(DateEdit.Control).BaseEditor.Perform(CN_KEYDOWN, VK_F4, 0);
+    Application.RemoveAsyncCalls(Observer);
+    Check((DateEdit.Date = EncodeDate(2026, 12, 1)) and (Observer.Count = 6),
+      'F4 opens the native calendar and accepting a day commits it once');
+    DateEdit.OnChange := nil;
+    DateEdit.Date := 0;
+    DateEdit.ReadOnly := True;
+
     Stream.WriteComponent(Form);
     Stream.Position := 0;
     ObjectBinaryToText(Stream, TextStream);
@@ -290,7 +350,8 @@ begin
     Text.LoadFromStream(TextStream);
     Check((Pos(': TEdit', Text.Text) = 0) and
       (Pos(': TComboBox', Text.Text) = 0) and (Pos(': TSpinEdit', Text.Text) = 0) and
-      (Pos(': TLabel', Text.Text) = 0) and (Pos(': TProgressBar', Text.Text) = 0),
+      (Pos(': TLabel', Text.Text) = 0) and (Pos(': TProgressBar', Text.Text) = 0) and
+      (Pos(': TRibbonDateEdit', Text.Text) = 0),
       'Internal native controls are absent from form streaming');
     Stream.Position := 0;
     Stream.ReadComponent(Restored);
@@ -311,7 +372,12 @@ begin
       'Static caption and alignment survive form streaming');
     Check(TLazRibbonProgressBarItem(Restored.FindComponent('ProgressItem')).Position = 123,
       'Progress position survives form streaming');
-    Check(TLazRibbon(Restored.FindComponent('ControlRibbon')).Tabs[0].Panes[0].Items.Count = 5,
+    LoadedDateEdit := TLazRibbonDateEditItem(Restored.FindComponent('ReportDateItem'));
+    Check(LoadedDateEdit.HasDate and (LoadedDateEdit.Date = 0) and LoadedDateEdit.ReadOnly,
+      'The epoch date and ReadOnly survive form streaming');
+    LoadedDateEdit := TLazRibbonDateEditItem(Restored.FindComponent('EmptyDateItem'));
+    Check(not LoadedDateEdit.HasDate, 'An empty date survives form streaming');
+    Check(TLazRibbon(Restored.FindComponent('ControlRibbon')).Tabs[0].Panes[0].Items.Count = 7,
       'Native item collection survives form streaming');
 
     Pane.Items.Remove(Edit);
@@ -321,7 +387,7 @@ begin
     Check(Edit.Control.Visible, 'Reinserting an item restores its native control');
     Previous := Ribbon.ControlCount;
     Edit.Free;
-    Check((Pane.Items.Count = 4) and (Ribbon.ControlCount = Previous - 1),
+    Check((Pane.Items.Count = 6) and (Ribbon.ControlCount = Previous - 1),
       'Freeing an item releases its native control and collection entry');
 
     Host := Pane.Items.AddRibbonControlHostItem;

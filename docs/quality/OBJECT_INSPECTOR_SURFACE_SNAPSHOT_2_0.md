@@ -1,4 +1,4 @@
-﻿# LazRibbon Object Inspector Surface Snapshot for 2.0
+# LazRibbon Object Inspector Surface Snapshot for 2.0
 
 Generated from runtime source by `tools/export_object_inspector_snapshot.ps1`.
 It lists direct `published` property declarations that remain visible in the effective package-facing Object Inspector surface.
@@ -148,7 +148,34 @@ Source: `source/runtime/LazRibbon_Core.pas`
 
 Source: `source/runtime/LazRibbon_Popup.pas`
 
-- No direct published properties.
+- `Gallery`: `property Gallery: TLazRibbonPopupGallery read FGallery write SetGallery;`
+- `OnGallerySelect`: `property OnGallerySelect: TLazRibbonPopupSelectEvent read FOnGallerySelect write FOnGallerySelect;`
+
+### TLazRibbonPopupGallery
+
+Source: `source/runtime/LazRibbon_Popup.pas`
+
+- `Enabled`: `property Enabled: Boolean read FEnabled write FEnabled default False;`
+- `Columns`: `property Columns: Integer read FColumns write SetColumns default 1;`
+- `ItemWidth`: `property ItemWidth: Integer read FItemWidth write SetItemWidth default 220;`
+- `ItemHeight`: `property ItemHeight: Integer read FItemHeight write SetItemHeight default 40;`
+- `MaxHeight`: `property MaxHeight: Integer read FMaxHeight write SetMaxHeight default 320;`
+- `ShowCaptions`: `property ShowCaptions: Boolean read FShowCaptions write FShowCaptions default True;`
+- `Items`: `property Items: TLazRibbonPopupEntries read FItems write SetItems;`
+
+### TLazRibbonPopupEntry
+
+Source: `source/runtime/LazRibbon_Popup.pas`
+
+- `Caption`: `property Caption: string read FCaption write FCaption;`
+- `Description`: `property Description: string read FDescription write FDescription;`
+- `Color`: `property Color: TColor read FColor write FColor default clNone;`
+- `GradientColor`: `property GradientColor: TColor read FGradientColor write FGradientColor default clNone;`
+- `Checked`: `property Checked: Boolean read FChecked write FChecked default False;`
+- `Enabled`: `property Enabled: Boolean read FEnabled write FEnabled default True;`
+- `ImageIndex`: `property ImageIndex: TImageIndex read FImageIndex write FImageIndex default -1;`
+- `Kind`: `property Kind: TLazRibbonPopupEntryKind read FKind write FKind default pekChoice;`
+- `Tag`: `property Tag: PtrInt read FTag write FTag default 0;`
 
 ## Ribbon Structure
 
@@ -255,6 +282,57 @@ Source: `source/runtime/LazRibbon_ControlItems.pas`
 - `FontName`: `property FontName: TFontName read FFontName write SetFontName;`
 - `ShowFontPreview`: `property ShowFontPreview: Boolean read FShowFontPreview write SetShowFontPreview default True;`
 - `DropDownCount`: `property DropDownCount: Integer read GetDropDownCount write SetDropDownCount default 12;`
+
+### TLazRibbonColorComboBoxItem
+
+Source: `source/runtime/LazRibbon_ControlItems.pas`
+
+- `SelectedColor`: `property SelectedColor: TColor read FSelectedColor write SetSelectedColor default clDefault;`
+- `AutomaticColor`: `property AutomaticColor: TColor read FAutomaticColor write SetAutomaticColor default clWindowText;`
+- `GradientColor`: `property GradientColor: TColor read FGradientColor write SetGradientColor default clNone;`
+- `Options`: `property Options: TLazRibbonColorOptions read FOptions write FOptions default [coAutomatic, coThemeColors, coThemeShades, coStandardColors, coHighContrast, coMoreColors, coGradients];`
+- `ThemeColors`: `property ThemeColors: TLazRibbonColorSwatches read FThemeColors write SetThemeColors;`
+- `StandardColors`: `property StandardColors: TLazRibbonColorSwatches read FStandardColors write SetStandardColors;`
+- `PaletteCaptions`: `property PaletteCaptions: TLazRibbonColorCaptions read FPaletteCaptions write SetPaletteCaptions;`
+- `HighContrastOnly`: `property HighContrastOnly: Boolean read FHighContrastOnly write FHighContrastOnly default False;`
+- `ContrastBackground`: `property ContrastBackground: TColor read FContrastBackground write FContrastBackground default clWindow;`
+- `MinimumContrast`: `property MinimumContrast: Single read FMinimumContrast write SetMinimumContrast stored IsMinimumContrastStored;`
+- `Columns`: `property Columns: Integer read FColumns write SetColumns default 10;`
+- `SwatchSize`: `property SwatchSize: Integer read FSwatchSize write SetSwatchSize default 28;`
+- `MaxPopupHeight`: `property MaxPopupHeight: Integer read FMaxPopupHeight write SetMaxPopupHeight default 440;`
+- `ShowCaption`: `property ShowCaption default False;`
+- `ButtonKind`: `property ButtonKind default bkButtonDropdown;`
+- `OnChange`: `property OnChange: TNotifyEvent read FOnChange write FOnChange;`
+- `OnApply`: `property OnApply: TNotifyEvent read FOnApply write FOnApply;`
+
+### TLazRibbonColorSwatch
+
+Source: `source/runtime/LazRibbon_ControlItems.pas`
+
+- `Caption`: `property Caption: string read FCaption write FCaption;`
+- `Color`: `property Color: TColor read FColor write FColor default clBlack;`
+
+### TLazRibbonColorCaptions
+
+Source: `source/runtime/LazRibbon_ControlItems.pas`
+
+- `Automatic`: `property Automatic: string read FAutomatic write FAutomatic;`
+- `Theme`: `property Theme: string read FTheme write FTheme;`
+- `Standard`: `property Standard: string read FStandard write FStandard;`
+- `HighContrast`: `property HighContrast: string read FHighContrast write FHighContrast;`
+- `MoreColors`: `property MoreColors: string read FMoreColors write FMoreColors;`
+- `NoColor`: `property NoColor: string read FNoColor write FNoColor;`
+- `Gradient`: `property Gradient: string read FGradient write FGradient;`
+- `LighterGradient`: `property LighterGradient: string read FLighterGradient write FLighterGradient;`
+- `DarkerGradient`: `property DarkerGradient: string read FDarkerGradient write FDarkerGradient;`
+- `SolidColor`: `property SolidColor: string read FSolidColor write FSolidColor;`
+
+### TLazRibbonDateEditItem
+
+Source: `source/runtime/LazRibbon_ControlItems.pas`
+
+- `Date`: `property Date: TDateTime read GetDate write SetDate nodefault;`
+- `ReadOnly`: `property ReadOnly: Boolean read GetReadOnly write SetReadOnly default False;`
 
 ### TLazRibbonSpinEditItem
 

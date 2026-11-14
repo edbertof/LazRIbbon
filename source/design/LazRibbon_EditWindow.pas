@@ -41,6 +41,8 @@ type
     MenuItem4: TMenuItem;
     MenuItem5: TMenuItem;
     MenuItem6: TMenuItem;
+    AddToggleSwitchMenuItem: TMenuItem;
+    AddSeparatorMenuItem: TMenuItem;
     tvStructure: TTreeView;
     ilTreeImages: TImageList;
     tbToolBar: TToolBar;
@@ -115,8 +117,8 @@ type
     FToolbar: TLazRibbon;
     FDesigner: TComponentEditorDesigner;
     FAddSkinGalleryAction: TAction;
-    FControlItemActions: array[0..6] of TAction;
-    FControlTreeImages: array[0..6] of Integer;
+    FControlItemActions: array[0..8] of TAction;
+    FControlTreeImages: array[0..8] of Integer;
     FSkinGalleryTreeImage: Integer;
 
     procedure EnsureExtendedMenuItems;
@@ -176,17 +178,17 @@ const
   IDX_TOGGLESWITCH = 6;
   IDX_SEPARATOR = 7;
 
-  ControlItemClasses: array[0..6] of TLazRibbonBaseItemClass = (
+  ControlItemClasses: array[0..8] of TLazRibbonBaseItemClass = (
     TLazRibbonEditItem, TLazRibbonComboBoxItem, TLazRibbonFontNameComboBoxItem,
-    TLazRibbonSpinEditItem, TLazRibbonStaticTextItem, TLazRibbonProgressBarItem,
-    TLazRibbonControlHostItem);
-  ControlItemCaptions: array[0..6] of String = (
-    'Edit', 'Combo box', 'Font name combo box', 'Spin edit', 'Static text',
-    'Progress bar', 'Control host');
+    TLazRibbonColorComboBoxItem, TLazRibbonDateEditItem, TLazRibbonSpinEditItem,
+    TLazRibbonStaticTextItem, TLazRibbonProgressBarItem, TLazRibbonControlHostItem);
+  ControlItemCaptions: array[0..8] of String = (
+    'Edit', 'Combo Box', 'Font Name Combo Box', 'Color Combo Box', 'Date Edit', 'Spin Edit',
+    'Static Text', 'Progress Bar', 'Control Host');
 
 type
-  TEditorItemGlyph = (eigEdit, eigComboBox, eigFontName, eigSpinEdit,
-    eigStaticText, eigProgressBar, eigControlHost, eigSkinGallery);
+  TEditorItemGlyph = (eigEdit, eigComboBox, eigFontName, eigColorCombo, eigDateEdit,
+    eigSpinEdit, eigStaticText, eigProgressBar, eigControlHost, eigSkinGallery);
 
 procedure DrawEditorItemGlyph(Bitmap: TBitmap; Kind: TEditorItemGlyph;
   AddBadge: Boolean);
@@ -229,7 +231,7 @@ begin
   C.FillRect(Rect(0, 0, Bitmap.Width, Bitmap.Height));
   C.Pen.Width := S(1);
   case Kind of
-    eigEdit, eigComboBox, eigSpinEdit, eigFontName:
+    eigEdit, eigComboBox, eigSpinEdit, eigFontName, eigColorCombo:
       begin
         Box(1, 3, 15, 13, clWhite);
         if Kind = eigEdit then
@@ -249,9 +251,11 @@ begin
             Line(5, 5, 8, 11, BorderColor);
             Line(4, 9, 7, 9, BorderColor);
           end
+          else if Kind = eigColorCombo then
+            Fill(3, 5, 8, 10, clRed)
           else
             Line(3, 7, 8, 7, BorderColor);
-          if Kind in [eigComboBox, eigFontName] then
+          if Kind in [eigComboBox, eigFontName, eigColorCombo] then
           begin
             Line(11, 7, 14, 7, BorderColor);
             Fill(12, 8, 13, 9, BorderColor);
@@ -265,6 +269,16 @@ begin
             Fill(12, 11, 13, 12, BorderColor);
           end;
         end;
+      end;
+    eigDateEdit:
+      begin
+        Box(1, 3, 15, 14, clWhite);
+        Fill(2, 4, 14, 7, PaleBlueColor);
+        Line(4, 1, 4, 5, BorderColor);
+        Line(11, 1, 11, 5, BorderColor);
+        Line(1, 7, 14, 7, BorderColor);
+        Fill(4, 9, 6, 11, BlueColor);
+        Fill(8, 9, 10, 11, BlueColor);
       end;
     eigStaticText:
       begin

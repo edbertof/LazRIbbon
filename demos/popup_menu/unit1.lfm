@@ -1,32 +1,209 @@
 object Form1: TForm1
-  Left = 300
+  Left = 605
   Height = 360
-  Top = 200
+  Top = 205
   Width = 760
   Caption = 'LazRibbon Demo - Popup Menu'
   ClientHeight = 360
   ClientWidth = 760
   Color = clBtnFace
-  LCLVersion = '4.6.0.0'
+  LCLVersion = '4.8.0.0'
+  OnCreate = FormCreate
   object LazRibbon1: TLazRibbon
     Left = 0
     Height = 112
     Top = 0
     Width = 760
-    Align = alTop
     ApplicationButton.Caption = 'Arquivo'
     ApplicationButton.Visible = True
     ApplicationButton.Mode = abmPopupMenu
-    ApplicationButton.Menu = LazRibbonPopupMenu1
     ApplicationButton.Style = mbsCaptionDropdown
+    ApplicationButton.Menu = LazRibbonPopupMenu1
+    QuickAccessToolBar.Items = <>
+    QuickAccessToolBar.CustomizeMenuTitle = 'Personalizar Barra de Ferramentas de Acesso Rápido'
+    QuickAccessToolBar.MoreCommandsCaption = 'Mais Comandos...'
+    QuickAccessToolBar.StorageSection = 'QuickAccessToolBar'
+    QuickAccessToolBar.ShowAboveRibbonCaption = 'Mostrar Acima da Faixa de Opções'
+    QuickAccessToolBar.ShowBelowRibbonCaption = 'Mostrar Abaixo da Faixa de Opções'
+    QuickAccessToolBar.MinimizeRibbonCaption = 'Minimizar a Faixa de Opções'
+    QuickAccessToolBar.RestoreRibbonCaption = 'Restaurar a Faixa de Opções'
+    QuickAccessToolBar.ResetToDefaultsCaption = 'Restaurar Barra de Acesso Rápido'
+    MinimizeRibbonHint = 'Minimizar a Faixa de Opções'
+    RestoreRibbonHint = 'Restaurar a Faixa de Opções'
+    HelpButtonHint = 'Ajuda'
+    RibbonAppearance.Tab.TabHeaderFont.Color = 9126421
+    RibbonAppearance.Tab.BorderColor = 14922381
+    RibbonAppearance.Tab.CornerRadius = 4
+    RibbonAppearance.Tab.GradientFromColor = 16115934
+    RibbonAppearance.Tab.GradientToColor = 15587527
+    RibbonAppearance.Tab.GradientType = bkConcave
+    RibbonAppearance.Tab.InactiveTabHeaderFontColor = 9126421
+    RibbonAppearance.MenuButton.CaptionFont.Color = clWhite
+    RibbonAppearance.MenuButton.IdleFrameColor = 10569759
+    RibbonAppearance.MenuButton.IdleGradientFromColor = 14649927
+    RibbonAppearance.MenuButton.IdleGradientToColor = 12017961
+    RibbonAppearance.MenuButton.IdleGradientType = bkConcave
+    RibbonAppearance.MenuButton.IdleCaptionColor = clWhite
+    RibbonAppearance.MenuButton.HotTrackFrameColor = 10569759
+    RibbonAppearance.MenuButton.HotTrackGradientFromColor = 15179099
+    RibbonAppearance.MenuButton.HotTrackGradientToColor = 12478257
+    RibbonAppearance.MenuButton.HotTrackGradientType = bkConcave
+    RibbonAppearance.MenuButton.HotTrackCaptionColor = clWhite
+    RibbonAppearance.MenuButton.HotTrackBrightnessChange = 40
+    RibbonAppearance.MenuButton.ActiveFrameColor = 11095324
+    RibbonAppearance.MenuButton.ActiveGradientFromColor = 14518846
+    RibbonAppearance.MenuButton.ActiveGradientToColor = 12411174
+    RibbonAppearance.MenuButton.ActiveGradientType = bkConcave
+    RibbonAppearance.MenuButton.ActiveCaptionColor = clWhite
+    RibbonAppearance.MenuButton.ShapeStyle = mbssRounded
+    RibbonAppearance.Pane.BorderDarkColor = 14335646
+    RibbonAppearance.Pane.BorderLightColor = 16315117
+    RibbonAppearance.Pane.CaptionBgColor = 15849922
+    RibbonAppearance.Pane.CaptionFont.Color = 9126421
+    RibbonAppearance.Pane.GradientFromColor = 16115934
+    RibbonAppearance.Pane.GradientToColor = 15587527
+    RibbonAppearance.Pane.GradientType = bkConcave
+    RibbonAppearance.Element.IdleFrameColor = 14727067
+    RibbonAppearance.Element.IdleGradientFromColor = 15653832
+    RibbonAppearance.Element.IdleGradientToColor = 15323324
+    RibbonAppearance.Element.IdleGradientType = bkConcave
+    RibbonAppearance.Element.IdleInnerLightColor = 15852501
+    RibbonAppearance.Element.IdleInnerDarkColor = 15520702
+    RibbonAppearance.Element.IdleKnobColor = 11631958
+    RibbonAppearance.Element.IdleTrackColor = 16182242
+    RibbonAppearance.Element.IdleCaptionColor = 11631958
+    RibbonAppearance.Element.HotTrackFrameColor = 10211293
+    RibbonAppearance.Element.HotTrackGradientFromColor = 14351615
+    RibbonAppearance.Element.HotTrackGradientToColor = 5101567
+    RibbonAppearance.Element.HotTrackGradientType = bkConcave
+    RibbonAppearance.Element.HotTrackInnerLightColor = 12972543
+    RibbonAppearance.Element.HotTrackInnerDarkColor = 8045272
+    RibbonAppearance.Element.HotTrackTrackColor = 14351615
+    RibbonAppearance.Element.HotTrackCaptionColor = 8864367
+    RibbonAppearance.Element.HotTrackBrightnessChange = 40
+    RibbonAppearance.Element.ActiveFrameColor = 5535371
+    RibbonAppearance.Element.ActiveGradientFromColor = 7126014
+    RibbonAppearance.Element.ActiveGradientToColor = 4035324
+    RibbonAppearance.Element.ActiveGradientType = bkConcave
+    RibbonAppearance.Element.ActiveInnerLightColor = 961020
+    RibbonAppearance.Element.ActiveInnerDarkColor = 961020
+    RibbonAppearance.Element.ActiveKnobColor = 4035324
+    RibbonAppearance.Element.ActiveTrackColor = 12972543
+    RibbonAppearance.Element.ActiveCaptionColor = 8405614
+    RibbonAppearance.Element.KnobAsGradient = True
+    RibbonAppearance.Element.Style = esRounded
+    RibbonAppearance.Popup.CheckedFrameColor = 3577330
+    RibbonAppearance.Popup.CheckedGradientFromColor = 9823231
+    RibbonAppearance.Popup.CheckedGradientToColor = 9823231
+    RibbonAppearance.Popup.CheckedGradientType = bkSolid
+    RibbonAppearance.Popup.DisabledCaptionColor = clSilver
+    RibbonAppearance.Popup.DividerLineColor = 14922381
+    RibbonAppearance.Popup.GutterFrameColor = 12961221
+    RibbonAppearance.Popup.GutterGradientFromColor = 15658729
+    RibbonAppearance.Popup.GutterGradientToColor = 15658729
+    RibbonAppearance.Popup.GutterGradientType = bkSolid
+    RibbonAppearance.Popup.HotTrackCaptionColor = 8864367
+    RibbonAppearance.Popup.HotTrackFrameColor = 10079963
+    RibbonAppearance.Popup.HotTrackGradientFromColor = 14351615
+    RibbonAppearance.Popup.HotTrackGradientToColor = 5101567
+    RibbonAppearance.Popup.HotTrackGradientType = bkConcave
+    RibbonAppearance.Popup.IdleCaptionColor = 11631958
+    RibbonAppearance.Popup.IdleGradientFromColor = 16448250
+    RibbonAppearance.Popup.IdleGradientToColor = 16448250
+    RibbonAppearance.Popup.IdleGradientType = bkSolid
+    RibbonAppearance.Popup.SelectionShape = ssRectangle
+    RibbonAppearance.Popup.Style = psGutter
+    TabIndex = 0
     Tabs = (
       'LazRibbonTabHome'
     )
-    TabIndex = 0
     object LazRibbonTabHome: TLazRibbonTab
+      CustomAppearance.Tab.TabHeaderFont.Color = 9126421
+      CustomAppearance.Tab.BorderColor = 14922381
+      CustomAppearance.Tab.CornerRadius = 4
+      CustomAppearance.Tab.GradientFromColor = 16115934
+      CustomAppearance.Tab.GradientToColor = 15587527
+      CustomAppearance.Tab.GradientType = bkConcave
+      CustomAppearance.Tab.InactiveTabHeaderFontColor = 9126421
+      CustomAppearance.MenuButton.CaptionFont.Color = clWhite
+      CustomAppearance.MenuButton.IdleFrameColor = 10569759
+      CustomAppearance.MenuButton.IdleGradientFromColor = 14649927
+      CustomAppearance.MenuButton.IdleGradientToColor = 12017961
+      CustomAppearance.MenuButton.IdleGradientType = bkConcave
+      CustomAppearance.MenuButton.IdleCaptionColor = clWhite
+      CustomAppearance.MenuButton.HotTrackFrameColor = 10569759
+      CustomAppearance.MenuButton.HotTrackGradientFromColor = 15179099
+      CustomAppearance.MenuButton.HotTrackGradientToColor = 12478257
+      CustomAppearance.MenuButton.HotTrackGradientType = bkConcave
+      CustomAppearance.MenuButton.HotTrackCaptionColor = clWhite
+      CustomAppearance.MenuButton.HotTrackBrightnessChange = 40
+      CustomAppearance.MenuButton.ActiveFrameColor = 11095324
+      CustomAppearance.MenuButton.ActiveGradientFromColor = 14518846
+      CustomAppearance.MenuButton.ActiveGradientToColor = 12411174
+      CustomAppearance.MenuButton.ActiveGradientType = bkConcave
+      CustomAppearance.MenuButton.ActiveCaptionColor = clWhite
+      CustomAppearance.MenuButton.ShapeStyle = mbssRounded
+      CustomAppearance.Pane.BorderDarkColor = 14335646
+      CustomAppearance.Pane.BorderLightColor = 16315117
+      CustomAppearance.Pane.CaptionBgColor = 15849922
+      CustomAppearance.Pane.CaptionFont.Color = 9126421
+      CustomAppearance.Pane.GradientFromColor = 16115934
+      CustomAppearance.Pane.GradientToColor = 15587527
+      CustomAppearance.Pane.GradientType = bkConcave
+      CustomAppearance.Element.IdleFrameColor = 14727067
+      CustomAppearance.Element.IdleGradientFromColor = 15653832
+      CustomAppearance.Element.IdleGradientToColor = 15323324
+      CustomAppearance.Element.IdleGradientType = bkConcave
+      CustomAppearance.Element.IdleInnerLightColor = 15852501
+      CustomAppearance.Element.IdleInnerDarkColor = 15520702
+      CustomAppearance.Element.IdleKnobColor = 11631958
+      CustomAppearance.Element.IdleTrackColor = 16182242
+      CustomAppearance.Element.IdleCaptionColor = 11631958
+      CustomAppearance.Element.HotTrackFrameColor = 10211293
+      CustomAppearance.Element.HotTrackGradientFromColor = 14351615
+      CustomAppearance.Element.HotTrackGradientToColor = 5101567
+      CustomAppearance.Element.HotTrackGradientType = bkConcave
+      CustomAppearance.Element.HotTrackInnerLightColor = 12972543
+      CustomAppearance.Element.HotTrackInnerDarkColor = 8045272
+      CustomAppearance.Element.HotTrackTrackColor = 14351615
+      CustomAppearance.Element.HotTrackCaptionColor = 8864367
+      CustomAppearance.Element.HotTrackBrightnessChange = 40
+      CustomAppearance.Element.ActiveFrameColor = 5535371
+      CustomAppearance.Element.ActiveGradientFromColor = 7126014
+      CustomAppearance.Element.ActiveGradientToColor = 4035324
+      CustomAppearance.Element.ActiveGradientType = bkConcave
+      CustomAppearance.Element.ActiveInnerLightColor = 961020
+      CustomAppearance.Element.ActiveInnerDarkColor = 961020
+      CustomAppearance.Element.ActiveKnobColor = 4035324
+      CustomAppearance.Element.ActiveTrackColor = 12972543
+      CustomAppearance.Element.ActiveCaptionColor = 8405614
+      CustomAppearance.Element.KnobAsGradient = True
+      CustomAppearance.Element.Style = esRounded
+      CustomAppearance.Popup.CheckedFrameColor = 3577330
+      CustomAppearance.Popup.CheckedGradientFromColor = 9823231
+      CustomAppearance.Popup.CheckedGradientToColor = 9823231
+      CustomAppearance.Popup.CheckedGradientType = bkSolid
+      CustomAppearance.Popup.DisabledCaptionColor = clSilver
+      CustomAppearance.Popup.DividerLineColor = 14922381
+      CustomAppearance.Popup.GutterFrameColor = 12961221
+      CustomAppearance.Popup.GutterGradientFromColor = 15658729
+      CustomAppearance.Popup.GutterGradientToColor = 15658729
+      CustomAppearance.Popup.GutterGradientType = bkSolid
+      CustomAppearance.Popup.HotTrackCaptionColor = 8864367
+      CustomAppearance.Popup.HotTrackFrameColor = 10079963
+      CustomAppearance.Popup.HotTrackGradientFromColor = 14351615
+      CustomAppearance.Popup.HotTrackGradientToColor = 5101567
+      CustomAppearance.Popup.HotTrackGradientType = bkConcave
+      CustomAppearance.Popup.IdleCaptionColor = 11631958
+      CustomAppearance.Popup.IdleGradientFromColor = 16448250
+      CustomAppearance.Popup.IdleGradientToColor = 16448250
+      CustomAppearance.Popup.IdleGradientType = bkSolid
+      CustomAppearance.Popup.SelectionShape = ssRectangle
+      CustomAppearance.Popup.Style = psGutter
       Caption = 'Início'
       Panes = (
         'LazRibbonPaneClipboard'
+        'LazRibbonPaneOptions'
       )
       object LazRibbonPaneClipboard: TLazRibbonPane
         Caption = 'Área de transferência'
@@ -35,22 +212,167 @@ object Form1: TForm1
         )
         object LazRibbonLargeButtonPaste: TLazRibbonLargeButton
           Caption = 'Colar'
+          ButtonKind = bkDropdown
           DropdownMenu = LazRibbonPopupMenu1
+        end
+      end
+      object LazRibbonPaneOptions: TLazRibbonPane
+        Caption = 'Opções'
+        Items = (
+          'SpacingButton'
+          'BordersButton'
+          'PaperButton'
+          'ShapesButton'
+          'ColorsButton'
+        )
+        object SpacingButton: TLazRibbonLargeButton
+          Caption = 'Espaçamento'
+          ButtonKind = bkDropdown
+          DropdownMenu = SpacingMenu
+        end
+        object BordersButton: TLazRibbonLargeButton
+          Caption = 'Bordas'
+          OnClick = RepeatBorder
+          ButtonKind = bkButtonDropdown
+          DropdownMenu = BordersMenu
+        end
+        object PaperButton: TLazRibbonLargeButton
+          Caption = 'Papel'
+          ButtonKind = bkDropdown
+          DropdownMenu = PaperMenu
+        end
+        object ShapesButton: TLazRibbonLargeButton
+          Caption = 'Formas'
+          ButtonKind = bkDropdown
+          DropdownMenu = ShapesMenu
+        end
+        object ColorsButton: TLazRibbonColorComboBoxItem
+          Hint = 'Cor da fonte'
+          Caption = 'Cores'
+          SelectedColor = clRed
+          Options = [coAutomatic, coThemeColors, coThemeShades, coStandardColors, coHighContrast, coMoreColors, coNoColor, coGradients]
+          ThemeColors = <>
+          StandardColors = <>
+          PaletteCaptions.Automatic = 'Automático'
+          PaletteCaptions.Theme = 'Cores do Tema'
+          PaletteCaptions.Standard = 'Cores Padrão'
+          PaletteCaptions.HighContrast = 'Somente alto contraste'
+          PaletteCaptions.MoreColors = 'Mais Cores...'
+          PaletteCaptions.NoColor = 'Sem cor'
+          PaletteCaptions.Gradient = 'Gradiente'
+          PaletteCaptions.LighterGradient = 'Variações claras'
+          PaletteCaptions.DarkerGradient = 'Variações escuras'
+          PaletteCaptions.SolidColor = 'Cor sólida'
+          OnChange = ApplyColor
+          OnApply = ApplyColor
         end
       end
     end
   end
+  object Preview: TLabel
+    Left = 20
+    Height = 15
+    Top = 138
+    Width = 164
+    Caption = 'Escolha uma opção no Ribbon.'
+  end
+  object ColorSample: TPaintBox
+    Left = 20
+    Height = 40
+    Top = 168
+    Width = 164
+    OnPaint = PaintColorSample
+  end
   object LazRibbonPopupMenu1: TLazRibbonPopupMenu
-    left = 248
-    top = 168
+    OwnerDraw = True
+    Gallery.Items = <>
+    Left = 176
+    Top = 280
     object MenuItemNovo: TMenuItem
       Caption = 'Novo'
+      OnClick = MenuCommand
     end
     object MenuItemAbrir: TMenuItem
       Caption = 'Abrir'
+      OnClick = MenuCommand
     end
     object MenuItemSalvar: TMenuItem
       Caption = 'Salvar'
+      OnClick = MenuCommand
     end
+  end
+  object SpacingMenu: TLazRibbonPopupMenu
+    OwnerDraw = True
+    Gallery.Items = <>
+    Left = 248
+    Top = 168
+    object SpacingSingle: TMenuItem
+      AutoCheck = True
+      Caption = '1,0'
+      Checked = True
+      GroupIndex = 1
+      RadioItem = True
+      OnClick = MenuCommand
+    end
+    object SpacingOneAndHalf: TMenuItem
+      AutoCheck = True
+      Caption = '1,5'
+      GroupIndex = 1
+      RadioItem = True
+      OnClick = MenuCommand
+    end
+    object SpacingDouble: TMenuItem
+      AutoCheck = True
+      Caption = '2,0'
+      GroupIndex = 1
+      RadioItem = True
+      OnClick = MenuCommand
+    end
+  end
+  object BordersMenu: TLazRibbonPopupMenu
+    OwnerDraw = True
+    Gallery.Items = <>
+    Left = 288
+    Top = 248
+    object BorderBottom: TMenuItem
+      Caption = 'Borda inferior'
+      OnClick = MenuCommand
+    end
+    object BorderTop: TMenuItem
+      Caption = 'Borda superior'
+      OnClick = MenuCommand
+    end
+    object BorderSeparator: TMenuItem
+      Caption = '-'
+    end
+    object BorderNone: TMenuItem
+      Caption = 'Sem borda'
+      OnClick = MenuCommand
+    end
+    object BorderAll: TMenuItem
+      Caption = 'Todas as bordas'
+      OnClick = MenuCommand
+    end
+  end
+  object PaperMenu: TLazRibbonPopupMenu
+    OwnerDraw = True
+    Gallery.Enabled = True
+    Gallery.MaxHeight = 250
+    Gallery.Items = <>
+    OnGallerySelect = GallerySelect
+    Left = 376
+    Top = 240
+  end
+  object ShapesMenu: TLazRibbonPopupMenu
+    OwnerDraw = True
+    Gallery.Enabled = True
+    Gallery.Columns = 4
+    Gallery.ItemWidth = 36
+    Gallery.ItemHeight = 32
+    Gallery.ShowCaptions = False
+    Gallery.Items = <>
+    OnGallerySelect = GallerySelect
+    Left = 336
+    Top = 160
   end
 end

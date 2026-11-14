@@ -22,7 +22,7 @@ uses Forms, Controls, Classes, ComponentEditors, PropEdits, LazarusPackageIntf, 
      LazRibbon_Core, LazRibbon_Tabs, LazRibbon_Groups, LazRibbon_Buttons,
      LazRibbon_BaseItem, LazRibbon_Types, LazRibbon_EditWindow,
      LazRibbon_AppearanceEditor, LazRibbon_Backstage, LazRibbon_SkinManager,
-     StdCtrls, ActnList, LazRibbon_RibbonCommands;
+     StdCtrls, ActnList, LazRibbon_RibbonCommands, LazRibbon_Popup;
 
 const PROPERTY_CONTENTS_NAME = 'Contents';
       PROPERTY_CONTENTS_VALUE = 'Open editor...';
@@ -128,9 +128,75 @@ type TLazRibbonImageIndexPropertyEditor = class(TImageIndexPropertyEditor)
        function GetImageList: TCustomImageList; override;
      end;
 
+type TLazRibbonColorComboMenuEditor = class(TComponentPropertyEditor)
+     public
+       function AllEqual: Boolean; override;
+       function GetValue: AnsiString; override;
+       procedure GetValues(Proc: TGetStrProc); override;
+       procedure SetValue(const NewValue: AnsiString); override;
+     end;
+
+resourcestring
+  RSBuiltInPalette = '(Built-in palette)';
+
 var EditWindow : TfrmLazRibbonEditWindow;
 
 implementation
+
+uses LazRibbon_ControlItems;
+
+{ TLazRibbonColorComboMenuEditor }
+
+function TLazRibbonColorComboMenuEditor.AllEqual: Boolean;
+var
+  I: Integer;
+begin
+  if CallStoredFunction then
+    Exit(inherited AllEqual);
+  for I := 1 to PropCount - 1 do
+    if IsStoredProp(GetComponent(I), GetPropInfo) then
+      Exit(False);
+  Result := True;
+end;
+
+function TLazRibbonColorComboMenuEditor.GetValue: AnsiString;
+begin
+  if CallStoredFunction then
+    Result := inherited GetValue
+  else
+    Result := RSBuiltInPalette;
+end;
+
+procedure TLazRibbonColorComboMenuEditor.GetValues(Proc: TGetStrProc);
+begin
+  Proc(RSBuiltInPalette);
+  inherited GetValues(Proc);
+end;
+
+procedure TLazRibbonColorComboMenuEditor.SetValue(const NewValue: AnsiString);
+var
+  I: Integer;
+  Combo: TLazRibbonColorComboBoxItem;
+  Reset: Boolean;
+begin
+  if NewValue <> RSBuiltInPalette then
+  begin
+    inherited SetValue(NewValue);
+    Exit;
+  end;
+
+  Reset := False;
+  for I := 0 to PropCount - 1 do
+  begin
+    Combo := TLazRibbonColorComboBoxItem(GetComponent(I));
+    if not IsStoredProp(Combo, GetPropInfo) then Continue;
+    Combo.ResetDropdownMenu;
+    Modified(I);
+    Reset := True;
+  end;
+  if Reset and Assigned(PropertyHook) then
+    PropertyHook.ObjectReferenceChanged(Self, GetComponentReference);
+end;
 
 function FindRibbonForPersistent(AInstance: TPersistent): TLazRibbon;
 var
@@ -1270,6 +1336,16 @@ begin
     Owner := TPersistentAccess(Instance).GetOwner;
     if Owner is TLazRibbon then
       Result := TLazRibbon(Owner).Images;
+  end
+  else if Instance is TLazRibbonPopupEntry then
+  begin
+    Owner := TPersistentAccess(Instance).GetOwner;
+    if Owner is TLazRibbonPopupEntries then
+      Owner := TPersistentAccess(Owner).GetOwner;
+    if Owner is TLazRibbonPopupGallery then
+      Owner := TPersistentAccess(Owner).GetOwner;
+    if Owner is TLazRibbonPopupMenu then
+      Result := TLazRibbonPopupMenu(Owner).Images;
   end
   else if Instance is TLazRibbonCommand then
   begin

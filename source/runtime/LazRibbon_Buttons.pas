@@ -88,6 +88,7 @@ type
     // button's rectangle and the dropdown menu depending on FButtonState
     procedure CalcRects; virtual; abstract;
     function GetDropdownPoint: T2DIntPoint; virtual; abstract;
+    function OpenDropdown: Boolean;
 
     // *** Action support ***
     procedure ActionChange(Sender: TObject; CheckDefaults: Boolean); virtual;
@@ -111,12 +112,15 @@ type
     procedure SetChecked(const Value: Boolean); virtual;
     procedure SetEnabled(const Value: boolean); override;
     procedure SetRect(const Value: T2DIntRect); override;
+    procedure Notification(AComponent: TComponent; Operation: TOperation); override;
+    function IsDropdownMenuStored: Boolean; virtual;
 
     function IsHintStored: Boolean; override;
 
     property AllowAllUp: Boolean read FAllowAllUp write SetAllowAllUp default false;
     property ButtonKind: TLazRibbonButtonKind read FButtonKind write SetButtonKind default bkButton;
-    property DropdownMenu: TPopupMenu read FDropdownMenu write SetDropdownMenu;
+    property DropdownMenu: TPopupMenu read FDropdownMenu write SetDropdownMenu
+      stored IsDropdownMenuStored;
     property GroupIndex: Integer read FGroupIndex write SetGroupIndex default 0;
 
   public
@@ -223,6 +227,9 @@ type
   protected
     procedure CalcRects; override;
     function GetDropdownPoint: T2DIntPoint; override;
+    function HasDefaultGlyph: Boolean; virtual;
+    procedure DrawDefaultGlyph(ACanvas: TCanvas; const ARect: TRect;
+      AColor: TColor); virtual;
   public
     constructor Create(AOwner: TComponent); override;
     procedure Draw(ABuffer: TBitmap; ClipRect: T2DIntRect); override;
@@ -538,8 +545,6 @@ begin
 end;
 
 function TLazRibbonBaseButton.ExecuteKeyTip: Boolean;
-var
-  DropPoint: T2DIntPoint;
 begin
   Result := False;
   if (not FVisible) or (not FEnabled) then
@@ -556,16 +561,26 @@ begin
     Exit;
   end;
 
-  if (FButtonKind = bkDropdown) and Assigned(FDropdownMenu) and Assigned(FToolbarDispatch) then
-  begin
-    DropPoint := FToolbarDispatch.ClientToScreen(GetDropdownPoint);
-    if IsRightToLeft then
-      FDropDownMenu.BiDiMode := bdRightToLeft
-    else
-      FDropDownMenu.BiDiMode := bdLeftToRight;
-    FDropdownMenu.Popup(DropPoint.x, DropPoint.y);
-    Result := True;
-  end;
+  if FButtonKind = bkDropdown then
+    Result := OpenDropdown;
+end;
+
+function TLazRibbonBaseButton.OpenDropdown: Boolean;
+var
+  DropPoint: T2DIntPoint;
+begin
+  Result := Assigned(FDropdownMenu) and Assigned(FToolbarDispatch);
+  if not Result then Exit;
+
+  DropPoint := FToolbarDispatch.ClientToScreen(GetDropdownPoint);
+  if (FDropdownMenu is TLazRibbonPopupMenu) and
+    TLazRibbonPopupMenu(FDropdownMenu).Gallery.Enabled then
+    TLazRibbonPopupMenu(FDropdownMenu).Appearance := Appearance;
+  if IsRightToLeft then
+    FDropdownMenu.BiDiMode := bdRightToLeft
+  else
+    FDropdownMenu.BiDiMode := bdLeftToRight;
+  FDropdownMenu.Popup(DropPoint.x, DropPoint.y);
 end;
 
 procedure TLazRibbonBaseButton.DoActionChange(Sender: TObject);
@@ -659,6 +674,13 @@ begin
   begin
     DropDownMenu := nil;
   end;
+end;
+
+procedure TLazRibbonBaseButton.Notification(AComponent: TComponent; Operation: TOperation);
+begin
+  inherited Notification(AComponent, Operation);
+  if (Operation = opRemove) and (AComponent = FDropdownMenu) then
+    FDropdownMenu := nil;
 end;
 
 procedure TLazRibbonBaseButton.MouseDown(Button: TMouseButton; Shift: TShiftState;
@@ -872,7 +894,6 @@ procedure TLazRibbonBaseButton.MouseUp(Button: TMouseButton; Shift: TShiftState;
   X, Y: Integer);
 var
   ClearActive: boolean;
-  DropPoint: T2DIntPoint;
 begin
   if FEnabled then
   begin
@@ -894,20 +915,11 @@ begin
             FToolbarDispatch.NotifyVisualsChanged;
           Click;
         end else
-        if FButtonKind = bkDropdown then
+        if (FButtonKind = bkDropdown) and OpenDropdown then
         begin
-          if Assigned(FDropdownMenu) then
-          begin
-            DropPoint := FToolbarDispatch.ClientToScreen(GetDropdownPoint);
-            if IsRightToLeft then
-              FDropDownMenu.BiDiMode := bdRightToLeft
-            else
-              FDropDownMenu.BiDiMode := bdLeftToRight;
-            FDropdownMenu.Popup(DropPoint.x, DropPoint.y);
-            FButtonState := bsBtnHottrack;
-            if Assigned(FToolbarDispatch) then
-              FToolbarDispatch.NotifyVisualsChanged;
-          end;
+          FButtonState := bsBtnHottrack;
+          if Assigned(FToolbarDispatch) then
+            FToolbarDispatch.NotifyVisualsChanged;
         end;
       end;
     end else
@@ -915,20 +927,11 @@ begin
     begin
       // The event only works if the mouse button has been released above the
       // DropDown button
-      if FMouseHoverElement = beDropDown then
+      if (FMouseHoverElement = beDropDown) and OpenDropdown then
       begin
-        if Assigned(FDropdownMenu) then
-        begin
-          DropPoint := FToolbarDispatch.ClientToScreen(GetDropdownPoint);
-          if IsRightToLeft then
-            FDropDownMenu.BiDiMode := bdRightToLeft
-          else
-            FDropDownMenu.BiDiMode := bdLeftToRight;
-          FDropdownMenu.Popup(DropPoint.x, DropPoint.y);
-          FButtonState := bsBtnHottrack;
-          if Assigned(FToolbarDispatch) then
-            FToolbarDispatch.NotifyVisualsChanged;
-        end;
+        FButtonState := bsBtnHottrack;
+        if Assigned(FToolbarDispatch) then
+          FToolbarDispatch.NotifyVisualsChanged;
       end;
     end;
 
@@ -1057,11 +1060,20 @@ begin
   if FDropDownMenu = Value then
     exit;
 
+  if FDropdownMenu <> nil then
+    FDropdownMenu.RemoveFreeNotification(Self);
   FDropdownMenu := Value;
+  if FDropdownMenu <> nil then
+    FDropdownMenu.FreeNotification(Self);
   if (FDropdownMenu is TLazRibbonPopupMenu) then
     TLazRibbonPopupMenu(FDropdownMenu).Appearance := Self.Appearance;
   if Assigned(FToolbarDispatch) then
      FToolbarDispatch.NotifyMetricsChanged;
+end;
+
+function TLazRibbonBaseButton.IsDropdownMenuStored: Boolean;
+begin
+  Result := True;
 end;
 
 procedure TLazRibbonBaseButton.SetEnabled(const Value: boolean);
@@ -1686,6 +1698,16 @@ begin
   end;
 end;
 
+function TLazRibbonSmallButton.HasDefaultGlyph: Boolean;
+begin
+  Result := False;
+end;
+
+procedure TLazRibbonSmallButton.DrawDefaultGlyph(ACanvas: TCanvas;
+  const ARect: TRect; AColor: TColor);
+begin
+end;
+
 procedure TLazRibbonSmallButton.ConstructRects(out BtnRect, DropRect: T2DIntRect);
 var
   BtnWidth: integer;
@@ -1720,7 +1742,7 @@ begin
   AdditionalPadding := false;
 
   // Icon
-  if ResolveButtonImageIndex(FImageIndex) >= 0 then
+  if (ResolveButtonImageIndex(FImageIndex) >= 0) or HasDefaultGlyph then
   begin
     BtnWidth := BtnWidth + SmallButtonPadding + SmallButtonGlyphWidth;
     AdditionalPadding := true;
@@ -2019,6 +2041,18 @@ begin
   if not FEnabled then
     fontColor := LazRibbonDisabledTextColor(fontColor, FAppearance.Pane.GradientToColor);
 
+  if (imgIndex < 0) and HasDefaultGlyph then
+  begin
+    x := IfThen(isRTL, FButtonRect.Right - SmallButtonGlyphWidth, FButtonRect.Left);
+    if FGroupBehaviour in [gbContinuesGroup, gbEndsGroup] then
+      Inc(x, sgn * (SmallButtonHalfBorderWidth + SmallButtonPadding))
+    else
+      Inc(x, sgn * (SmallButtonBorderWidth + SmallButtonPadding));
+    y := FButtonRect.Top + (FButtonRect.Height - SmallButtonGlyphWidth) div 2;
+    DrawDefaultGlyph(ABuffer.Canvas, Bounds(x + pressedOffset, y + pressedOffset,
+      SmallButtonGlyphWidth, SmallButtonGlyphWidth), fontColor);
+  end;
+
   // Text
   if FShowCaption and (FCaption <> '') then
   begin
@@ -2034,7 +2068,7 @@ begin
     else
       inc(x, sgn * SmallButtonBorderWidth);
 
-    if imgIndex >= 0 then
+    if (imgIndex >= 0) or HasDefaultGlyph then
       inc(x, sgn * (2 * SmallButtonPadding + SmallButtonGlyphWidth))
     else
       inc(x, sgn * SmallButtonPadding);

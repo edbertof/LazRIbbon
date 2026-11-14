@@ -9,13 +9,13 @@ Regenerate after adding, removing, renaming, publishing or hiding component prop
 
 ## Summary
 
-- Target version: 2.1.19
-- Runtime package version: 2.1.19
-- Design-time package version: 2.1.19
-- Components inventoried: 32
-- Effective Object Inspector properties inventoried: 329
-- Component roles mapped: 31/31
-- Canonical property checks ready: 133/133
+- Target version: 2.1.20
+- Runtime package version: 2.1.20
+- Design-time package version: 2.1.20
+- Components inventoried: 38
+- Effective Object Inspector properties inventoried: 378
+- Component roles mapped: 38/38
+- Canonical property checks ready: 157/157
 - Forbidden visible properties present: 0
 - Unexpected Appearance owners: 0
 - Legacy SelectedSkin properties visible: 0
@@ -37,17 +37,17 @@ A new application should read the component model from top to bottom:
 
 | Area | Gate | Status | Evidence | Next step |
 | --- | --- | --- | --- | --- |
-| Versioning | Package metadata aligned | Ready | Runtime 2.1.19; design 2.1.19; expected 2.1.19. | Keep runtime and design package versions synchronized before tagging. |
-| Inventory | Object Inspector snapshot parsed | Ready | 32 components and 329 effective properties were parsed from the snapshot. | Regenerate OBJECT_INSPECTOR_SURFACE_SNAPSHOT_2_0.md after published property changes. |
-| Inventory | Component roles mapped | Ready | 31 of 31 governed component roles are present. | Add new public components to this governance map before release. |
-| Canonical API | Required composition properties present | Ready | 133 of 133 required composition properties are present. | A missing canonical property usually means the component model drifted from the documented workflow. |
+| Versioning | Package metadata aligned | Ready | Runtime 2.1.20; design 2.1.20; expected 2.1.20. | Keep runtime and design package versions synchronized before tagging. |
+| Inventory | Object Inspector snapshot parsed | Ready | 38 components and 378 effective properties were parsed from the snapshot. | Regenerate OBJECT_INSPECTOR_SURFACE_SNAPSHOT_2_0.md after published property changes. |
+| Inventory | Component roles mapped | Ready | 38 of 38 governed component roles are present. | Add new public components to this governance map before release. |
+| Canonical API | Required composition properties present | Ready | 157 of 157 required composition properties are present. | A missing canonical property usually means the component model drifted from the documented workflow. |
 | Canonical API | Forbidden visible properties absent | Ready | Forbidden visible properties present: 0. | Hide, rename or document role-inappropriate properties before release. |
 | Canonical API | Appearance ownership remains clear | Ready | Appearance owners: TLazRibbonSkinDefinition, TLazRibbonSkinManager. | Keep complete appearance editing on TLazRibbonSkinManager and TLazRibbonSkinDefinition. |
 | Canonical API | Skin selection uses name-based properties | Ready | Legacy SelectedSkin properties visible: 0. | Use SelectedSkinName in Object Inspector surfaces. |
 | Design-time filtering | Compatibility-only properties are hidden | Ready | Design-time skip audit covers RibbonAppearance, BackStage page command aliases, hosted-control metadata and skin selection aliases. | Keep design-time hide rules documented when compatibility aliases remain public. |
 | Redundancy | Repeated names remain classified | Ready | The repeated-name audit has zero unclassified names. | Classify or rename any new repeated property name. |
 | Documentation | Developer docs explain the composition model | Ready | README/manual/reference documentation use the same shell-to-skin composition vocabulary. | Update docs together with any public Object Inspector change. |
-| Release | Current release notes exist | Ready | docs/release/RELEASE_2_1_19.md is the expected release note document for 2.1.19. | Create release notes before running the release candidate preflight. |
+| Release | Current release notes exist | Ready | docs/release/RELEASE_2_1_20.md is the expected release note document for 2.1.20. | Create release notes before running the release candidate preflight. |
 | Release | Roadmap tracks API governance | Ready | The 2.1 roadmap keeps API clarity tied to professional readiness. | Keep future public API changes tied to a generated governance report. |
 
 ## Component Governance Map
@@ -59,6 +59,9 @@ A new application should read the component model from top to bottom:
 | Shell | `TLazRibbonApplicationButton` | Office File/Application button behavior. | Menu or owner TLazRibbon.BackstageView | Caption, Visible, Mode, Style, Glyph, ImageIndex, ScreenTip fields, OnClick | 15 | The button configures button behavior only; BackStage composition belongs to TLazRibbon.BackstageView. |
 | Shell | `TLazRibbonQuickAccessToolBar` | Quick Access Toolbar command surface and customization entry point. | Items, CustomizeActionList | Position, Visible, ButtonFrameStyle, Allow*, Show* menu flags | 29 | Allow* properties decide behavior; Show* properties decide which customization commands are visible. |
 | Shell | `TLazRibbonQuickAccessItem` | Single Quick Access Toolbar command entry. | Action, LinkedItem | Caption, ImageIndex, Enabled, Visible, KeyTip, ScreenTip fields | 13 | A QAT item either delegates to a command/action or links to an existing Ribbon item. |
+| Command Surfaces | `TLazRibbonPopupMenu` | Classic popup menu with an optional gallery. | Button.DropdownMenu | Gallery, OnGallerySelect | 2 | Use Gallery.Enabled to display the gallery collection. |
+| Command Surfaces | `TLazRibbonPopupGallery` | Layout and entry collection for a dropdown gallery. | TLazRibbonPopupMenu.Gallery | Enabled, Columns, ItemWidth, ItemHeight, MaxHeight, ShowCaptions, Items | 7 | Use a single column for lists or multiple columns for grids. |
+| Command Surfaces | `TLazRibbonPopupEntry` | Choice, heading or command in a dropdown gallery. | Gallery.Items | Kind, Caption, Description, Color, ImageIndex, Enabled, Tag | 9 | Images come from the popup menu image list. |
 | Ribbon Structure | `TLazRibbonTab` | Ribbon page/tab. | Panes collection on the tab object | Caption, KeyTip, Visible, contextual-tab fields | 9 | Tabs organize panes and may carry contextual metadata, but do not own commands directly. |
 | Ribbon Structure | `TLazRibbonPane` | Command group inside a tab. | Items collection on the pane object | Caption, ShowDialogLauncher, DialogLauncherStyle, OnDialogLauncherClick | 5 | Panes group commands and optionally expose the Office Dialog Launcher pattern. |
 | Ribbon Structure | `TLazRibbonCustomRibbonExtItem` | Base visible Ribbon item behavior. | Owner pane item collection | Caption, DisplayMode, ImageIndex, LargeImageIndex, Width, OnClick | 6 | Shared visible item vocabulary remains small and command-oriented. |
@@ -68,6 +71,10 @@ A new application should read the component model from top to bottom:
 | Ribbon Structure | `TLazRibbonEditItem` | Native text entry. | Text | ReadOnly, OnChange | 2 | Caption identifies the item; Text is the editable value. |
 | Ribbon Structure | `TLazRibbonComboBoxItem` | Native choice list or editable combo. | Items, ItemIndex | Text, Style, OnChange | 4 | Selection-only combos persist the exact index, including duplicate captions. |
 | Ribbon Structure | `TLazRibbonFontNameComboBoxItem` | Installed system font selector. | FontName | ShowFontPreview, DropDownCount, OnChange | 3 | Choices come from Screen.Fonts; forms persist the font name rather than a machine-specific list or index. |
+| Ribbon Structure | `TLazRibbonColorComboBoxItem` | Split button with a configurable color palette. | Pane.Items | SelectedColor, AutomaticColor, GradientColor, Options, ThemeColors, StandardColors, PaletteCaptions, OnChange, OnApply | 17 | The item owns the popup and persists the selected color and custom swatches. |
+| Ribbon Structure | `TLazRibbonColorSwatch` | Named color in a palette collection. | ThemeColors or StandardColors | Caption, Color | 2 | Use Caption as the swatch hint and Color as the selectable value. |
+| Ribbon Structure | `TLazRibbonColorCaptions` | Color palette headings and command captions. | PaletteCaptions | Automatic, Theme, Standard, HighContrast, MoreColors, NoColor, Gradient | 10 | Empty values use the default resource strings. |
+| Ribbon Structure | `TLazRibbonDateEditItem` | Native calendar date selector. | Date | ReadOnly, OnChange | 2 | The date is optional. Clear removes it, and HasDate reports whether a value is selected. |
 | Ribbon Structure | `TLazRibbonSpinEditItem` | Native integer input. | Value | MinValue, MaxValue, Increment, OnChange | 4 | Numeric validation follows the LCL spin editor. |
 | Ribbon Structure | `TLazRibbonStaticTextItem` | Native Ribbon label. | Caption | Alignment | 1 | Display-only item without keyboard focus. |
 | Ribbon Structure | `TLazRibbonProgressBarItem` | Native progress feedback. | Position | Min, Max | 3 | Display-only item without keyboard focus. |

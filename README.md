@@ -9,7 +9,7 @@ The package is an independent Lazarus-oriented fork/refactoring derived from Laz
 Runtime components include:
 
 - `TLazRibbon`
-- `TLazRibbonPopupMenu`
+- `TLazRibbonPopupMenu` with classic menus and optional dropdown galleries
 - `TLazRibbonBackstageView`
 - `TLazRibbonBackstagePage`
 - `TLazRibbonBackstageRecentList`
@@ -20,9 +20,9 @@ Runtime components include:
 
 Design-time support is provided by `LazRibbonDesign.lpk`.
 
-The contents editor also offers Edit, Combo box, Font name combo box, Spin edit,
-Static text, Progress bar and Control host items. These embed native LCL controls in Ribbon
-panes. See [Ribbon input controls](docs/manual/RIBBON_INPUT_CONTROLS.md) and
+The contents editor also offers Edit, Combo Box, Font Name Combo Box, Color Combo Box,
+Date Edit, Spin Edit, Static Text, Progress Bar and Control Host items for Ribbon panes.
+See [Ribbon input controls](docs/manual/RIBBON_INPUT_CONTROLS.md) and
 the **Input controls** tab in `demos/runtime/project1.lpi`.
 
 ## Design-time quick creation
@@ -55,9 +55,9 @@ tools/LazRibbonSkinEditor/
 
 ## Current version
 
-This distribution is **LazRibbon 2.1.19 development release candidate**.
+This distribution is **LazRibbon 2.1.20**.
 
-The `2.1.19` build makes Quick Access placement predictable. `qapBeforeTabs` means QAT, Application/Arquivo button, then the normal tabs. `qapTitleBar` uses the custom title bar of `TLazRibbonForm`; on a regular `TForm`, it uses a dedicated Ribbon row above the Application button and tabs, so the two positions remain visually distinct. The public release notes are in `docs/release/RELEASE_2_1_19.md`; the stable 2.0 baseline remains documented in `docs/release/RELEASE_2_0_0.md`.
+Version `2.1.20` adds native date and color selectors, dropdown galleries and a reorganized Contents editor. See the [2.1.20 release notes](docs/release/RELEASE_2_1_20.md) and the [2.0 stable baseline](docs/release/RELEASE_2_0_0.md).
 
 ## Post-2.0 development
 
@@ -94,7 +94,7 @@ The public screenshot set is generated with `tools/capture_release_screenshots.p
 
 Highlights in the current LazRibbon line:
 
-- Runtime and design-time package metadata are aligned on `2.1.19`.
+- Runtime and design-time package metadata are aligned on `2.1.20`.
 - BackStage page and command items now use the same icon-size rule, and pages expose their own `ImageIndex`.
 - `TLazRibbonBackstageView` offers direct design-time commands for its normal composition workflow.
 - The `TLazRibbon` design-time starter layout now creates the first Office-like composition with SkinManager and BackStage already linked.
@@ -318,14 +318,14 @@ powershell -ExecutionPolicy Bypass -File tools/build_all_projects.ps1 -CleanArti
 To validate the package from an extracted clean source tree:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File tools/verify_clean_checkout.ps1 -Version 2.1.19 -ReleaseVersion 2.1.19
+powershell -ExecutionPolicy Bypass -File tools/verify_clean_checkout.ps1 -Version 2.1.20 -ReleaseVersion 2.1.20
 ```
 
 For a complete release preflight, including consistency checks and ZIP
 audit:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File tools/verify_release_candidate.ps1 -Version 2.1.19 -ReleaseVersion 2.1.19 -OutputDirectory D:\Ribbon4Lazarus\Releases
+powershell -ExecutionPolicy Bypass -File tools/verify_release_candidate.ps1 -Version 2.1.20 -ReleaseVersion 2.1.20 -OutputDirectory D:\Ribbon4Lazarus\Releases
 ```
 
 The purpose of each demo is documented in

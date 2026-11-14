@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
   [string]$SourceRoot = '',
-  [string]$Version = '2.1.19',
+  [string]$Version = '2.1.20',
   [string]$OutputPath = ''
 )
 
@@ -220,6 +220,10 @@ $roles = @(
   (New-Role 'Shell' 'TLazRibbonQuickAccessToolBar' 'Quick Access Toolbar command surface and customization entry point.' 'Items, CustomizeActionList' 'Position, Visible, ButtonFrameStyle, Allow*, Show* menu flags' 'Allow* properties decide behavior; Show* properties decide which customization commands are visible.' @('Items', 'AllowCustomizing', 'AllowPositionChange', 'AllowMinimizeRibbon', 'ShowCustomizeButton') @()),
   (New-Role 'Shell' 'TLazRibbonQuickAccessItem' 'Single Quick Access Toolbar command entry.' 'Action, LinkedItem' 'Caption, ImageIndex, Enabled, Visible, KeyTip, ScreenTip fields' 'A QAT item either delegates to a command/action or links to an existing Ribbon item.' @('Caption', 'Action', 'LinkedItem', 'ImageIndex', 'Enabled', 'Visible') @()),
 
+  (New-Role 'Command Surfaces' 'TLazRibbonPopupMenu' 'Classic popup menu with an optional gallery.' 'Button.DropdownMenu' 'Gallery, OnGallerySelect' 'Use Gallery.Enabled to display the gallery collection.' @('Gallery', 'OnGallerySelect') @()),
+  (New-Role 'Command Surfaces' 'TLazRibbonPopupGallery' 'Layout and entry collection for a dropdown gallery.' 'TLazRibbonPopupMenu.Gallery' 'Enabled, Columns, ItemWidth, ItemHeight, MaxHeight, ShowCaptions, Items' 'Use a single column for lists or multiple columns for grids.' @('Enabled', 'Columns', 'Items') @()),
+  (New-Role 'Command Surfaces' 'TLazRibbonPopupEntry' 'Choice, heading or command in a dropdown gallery.' 'Gallery.Items' 'Kind, Caption, Description, Color, ImageIndex, Enabled, Tag' 'Images come from the popup menu image list.' @('Kind', 'Caption', 'Color', 'ImageIndex') @()),
+
   (New-Role 'Ribbon Structure' 'TLazRibbonTab' 'Ribbon page/tab.' 'Panes collection on the tab object' 'Caption, KeyTip, Visible, contextual-tab fields' 'Tabs organize panes and may carry contextual metadata, but do not own commands directly.' @('Caption', 'KeyTip', 'Contextual', 'Visible') @()),
   (New-Role 'Ribbon Structure' 'TLazRibbonPane' 'Command group inside a tab.' 'Items collection on the pane object' 'Caption, ShowDialogLauncher, DialogLauncherStyle, OnDialogLauncherClick' 'Panes group commands and optionally expose the Office Dialog Launcher pattern.' @('Caption', 'ShowDialogLauncher', 'DialogLauncherStyle', 'OnDialogLauncherClick') @()),
   (New-Role 'Ribbon Structure' 'TLazRibbonCustomRibbonExtItem' 'Base visible Ribbon item behavior.' 'Owner pane item collection' 'Caption, DisplayMode, ImageIndex, LargeImageIndex, Width, OnClick' 'Shared visible item vocabulary remains small and command-oriented.' @('Caption', 'DisplayMode', 'ImageIndex', 'LargeImageIndex', 'Width', 'OnClick') @()),
@@ -229,6 +233,10 @@ $roles = @(
   (New-Role 'Ribbon Structure' 'TLazRibbonEditItem' 'Native text entry.' 'Text' 'ReadOnly, OnChange' 'Caption identifies the item; Text is the editable value.' @('Text', 'ReadOnly') @()),
   (New-Role 'Ribbon Structure' 'TLazRibbonComboBoxItem' 'Native choice list or editable combo.' 'Items, ItemIndex' 'Text, Style, OnChange' 'Selection-only combos persist the exact index, including duplicate captions.' @('Items', 'ItemIndex', 'Text', 'Style') @()),
   (New-Role 'Ribbon Structure' 'TLazRibbonFontNameComboBoxItem' 'Installed system font selector.' 'FontName' 'ShowFontPreview, DropDownCount, OnChange' 'Choices come from Screen.Fonts; forms persist the font name rather than a machine-specific list or index.' @('FontName', 'ShowFontPreview', 'DropDownCount') @('Items', 'ItemIndex', 'Style', 'Text')),
+  (New-Role 'Ribbon Structure' 'TLazRibbonColorComboBoxItem' 'Split button with a configurable color palette.' 'Pane.Items' 'SelectedColor, AutomaticColor, GradientColor, Options, ThemeColors, StandardColors, PaletteCaptions, OnChange, OnApply' 'The item owns the popup and persists the selected color and custom swatches.' @('SelectedColor', 'Options', 'ThemeColors', 'StandardColors', 'PaletteCaptions', 'OnChange', 'OnApply') @()),
+  (New-Role 'Ribbon Structure' 'TLazRibbonColorSwatch' 'Named color in a palette collection.' 'ThemeColors or StandardColors' 'Caption, Color' 'Use Caption as the swatch hint and Color as the selectable value.' @('Caption', 'Color') @()),
+  (New-Role 'Ribbon Structure' 'TLazRibbonColorCaptions' 'Color palette headings and command captions.' 'PaletteCaptions' 'Automatic, Theme, Standard, HighContrast, MoreColors, NoColor, Gradient' 'Empty values use the default resource strings.' @('Automatic', 'Theme', 'MoreColors', 'Gradient') @()),
+  (New-Role 'Ribbon Structure' 'TLazRibbonDateEditItem' 'Native calendar date selector.' 'Date' 'ReadOnly, OnChange' 'The date is optional. Clear removes it, and HasDate reports whether a value is selected.' @('Date', 'ReadOnly') @()),
   (New-Role 'Ribbon Structure' 'TLazRibbonSpinEditItem' 'Native integer input.' 'Value' 'MinValue, MaxValue, Increment, OnChange' 'Numeric validation follows the LCL spin editor.' @('Value', 'MinValue', 'MaxValue', 'Increment') @()),
   (New-Role 'Ribbon Structure' 'TLazRibbonStaticTextItem' 'Native Ribbon label.' 'Caption' 'Alignment' 'Display-only item without keyboard focus.' @('Alignment') @()),
   (New-Role 'Ribbon Structure' 'TLazRibbonProgressBarItem' 'Native progress feedback.' 'Position' 'Min, Max' 'Display-only item without keyboard focus.' @('Min', 'Max', 'Position') @()),

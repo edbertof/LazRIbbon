@@ -25,6 +25,13 @@ events, item/pane/tab/minimized visibility, removal and destruction, and a
 form-streaming round trip with combo choices, spin limits, captions and progress.
 It also checks automatic installed-font enumeration, font-name selection and
 change events, font refresh, missing fonts and name-based form persistence.
+The date editor checks cover focus, date changes, keyboard clearing, read-only
+behavior and streaming of selected and empty dates.
+
+The `popup` group checks gallery form streaming, opening via a Ribbon
+KeyTip, keyboard selection, scrolling, dismissal and component cleanup.
+It also checks the color combo's custom swatches, automatic color, contrast
+filter, gradient selection and split-button apply event.
 
 `design_audit.lpi` compiles the contents editor against IDEIntf and exercises its
 editor deletion handler: 20 tab/pane/button subtrees, totaling 320 component
@@ -32,8 +39,8 @@ removals. The clean-checkout validator compiles and executes this program.
 It also checks image-index editor registration, image-preview dropdown values,
 small/large list selection, Quick Access list overrides, linked ActionList
 fallbacks and missing image lists across Ribbon and BackStage properties.
-The contents-editor checks also cover the seven shared control creation actions,
-reopening without duplicate menu entries and native control subtree deletion.
+The contents-editor checks also cover the labels and order of the shared item
+actions, reopening without duplicate entries and native control subtree deletion.
 
 Run the ZIP audit checks independently:
 

@@ -95,7 +95,6 @@ foreach ($name in @(
   'Align',
   'Anchors',
   'BorderSpacing',
-  'Color',
   'Constraints',
   'Font',
   'ParentColor',
@@ -117,6 +116,7 @@ foreach ($name in @(
   'CloseBackstageOnClick',
   'ImageIndex',
   'LargeImageIndex',
+  'Kind',
   'LinkedItem',
   'ScreenTipFooter',
   'ScreenTipShortcut',
@@ -128,7 +128,13 @@ foreach ($name in @(
 }
 
 $rules['Caption'] = New-Rule -Category 'Display text vocabulary' -Rationale 'Visible text for tabs, panes, buttons and command-like items. This is the expected Pascal/LCL name for a label shown to the user.'
+$rules['Description'] = New-Rule -Category 'Display text vocabulary' -Rationale 'Supporting text for a gallery entry or descriptive skin metadata.'
+$rules['Color'] = New-Rule -Category 'Visual color vocabulary' -Rationale 'Background color for LCL surfaces and color value for a popup entry or palette swatch.'
+$rules['GradientColor'] = New-Rule -Category 'Visual color vocabulary' -Rationale 'Second color stop for a gradient swatch or selected color.'
+$rules['SelectedColor'] = New-Rule -Category 'Visual color vocabulary' -Rationale 'Selected palette value or highlight color, according to the component.'
+$rules['MaxPopupHeight'] = New-Rule -Category 'Selector and gallery vocabulary' -Rationale 'Height limit for a scrollable dropdown.'
 $rules['Text'] = New-Rule -Category 'Display text vocabulary' -Rationale 'Current editable value of native edit and combo items; Caption identifies the Ribbon item separately.'
+$rules['ReadOnly'] = New-Rule -Category 'Native editor state' -Rationale 'Allows the current value to be displayed while preventing user changes in a native editor.'
 $rules['Width'] = New-Rule -Category 'Inherited LCL surface' -Rationale 'Requested item width in the pane layout, following ordinary LCL sizing vocabulary.'
 $rules['Position'] = New-Rule -Category 'Component-specific position' -Rationale 'Typed local state: QAT placement is an enumeration; native progress position is a numeric value between Min and Max.'
 $rules['KeyTip'] = New-Rule -Category 'Office keyboard vocabulary' -Rationale 'Office-like keyboard hint used by Application Button, tabs and command entries.'
@@ -145,7 +151,7 @@ foreach ($name in @('Appearance', 'AppearanceSource', 'Style')) {
   $rules[$name] = New-Rule -Category 'Visual source and appearance vocabulary' -Rationale 'Visual model or source decision. This is acceptable only where the component owns or chooses its own appearance model.'
 }
 
-foreach ($name in @('Columns', 'IconHeight', 'IconWidth', 'ItemHeight', 'SelectedSkinName', 'OnSkinSelected')) {
+foreach ($name in @('Columns', 'IconHeight', 'IconWidth', 'ItemHeight', 'ItemWidth', 'SelectedSkinName', 'ShowCaptions', 'OnSkinSelected')) {
   $rules[$name] = New-Rule -Category 'Selector and gallery vocabulary' -Rationale 'Grid, icon or selection setting shared by gallery-like controls and skin selector surfaces.'
 }
 

@@ -264,6 +264,18 @@ The release audit now accepts only official LazRibbon source ZIPs in the root de
 
 The first generated Skin Editor 2.1 coverage report finds 87 published `Appearance` properties across `Tab`, `MenuButton`, `Pane`, `Element` and `Popup`. The native appearance editor mentions all of them, and the standalone Skin Editor has generic RTTI inspector coverage for the full model. The 2.1 work should therefore focus on workflow quality, preview states and high-value direct helpers rather than manually duplicating every property as a standalone control.
 
+## Ribbon item coverage in 2.1.20
+
+The Contents editor provides buttons, separators, static text, edit and combo
+controls, a calendar date selector, progress feedback, Control Host and Skin
+Gallery. Use a button's `DropdownMenu` for submenus and `TLazRibbonPopupMenu.Gallery`
+for lists, image choices and palettes. BackStage already provides a recent-file
+list through `TLazRibbonBackstageRecentList`.
+
+Data-bound lookup, hierarchical tree selection and image choices in a combo
+field remain separate candidates for native Ribbon items. `Control Host` can
+embed an existing LCL editor for applications that need those workflows today.
+
 ## Definition Of Done For 2.1
 
 LazRibbon 2.1 is ready when a developer can install 2.1, open the 2.1 Skin Editor, create a custom skin from a base, understand which visual groups changed, preview the result in realistic Ribbon states, save a self-contained `.skin` file and apply it in a demo without manual file copying or code changes.

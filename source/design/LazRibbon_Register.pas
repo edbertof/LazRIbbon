@@ -22,14 +22,41 @@ uses
 
 procedure Register;
 procedure RegisterLazRibbonImageIndexEditors;
+procedure RegisterLazRibbonColorComboMenuEditor;
 
 implementation
 uses
-  ImgList, Controls, Graphics, GraphPropEdits, LResources, FormEditingIntf,
+  ImgList, Controls, EditBtn, Graphics, Menus, GraphPropEdits, LResources, FormEditingIntf,
   LazRibbon_Core, LazRibbon_Editor, LazRibbon_Popup, LazRibbon_Buttons, LazRibbon_Checkboxes,
   LazRibbon_Groups, LazRibbon_Tabs, LazRibbon_Appearance, LazRibbon_Backstage, LazRibbon_SkinManager,
   LazRibbon_SkinSelector, LazRibbon_SkinManagerEditor, LazRibbon_RibbonExtItems, LazRibbon_Form,
   LazRibbon_BaseItem, LazRibbon_RibbonCommands, LazRibbon_ControlItems;
+
+type
+  TLazRibbonDatePropertyEditor = class(TDatePropertyEditor)
+  public
+    function GetValue: string; override;
+    procedure SetValue(const Value: string); override;
+  end;
+
+function TLazRibbonDatePropertyEditor.GetValue: string;
+var
+  Value: TDateTime;
+begin
+  Value := TDateTime(GetFloatValue);
+  if Value = NullDate then
+    Result := ''
+  else
+    Result := DateToStr(Value);
+end;
+
+procedure TLazRibbonDatePropertyEditor.SetValue(const Value: string);
+begin
+  if Trim(Value) = '' then
+    SetFloatValue(NullDate)
+  else
+    SetFloatValue(StrToDate(Value));
+end;
 
 procedure RegisterUnitLazRibbon;
 begin
@@ -41,7 +68,8 @@ begin
   RegisterNoIcon([TLazRibbonLargeButton, TLazRibbonSmallButton, TLazRibbonSeparator,
     TLazRibbonControlHostItem, TLazRibbonGalleryItem, TLazRibbonSkinGalleryItem,
     TLazRibbonEditItem, TLazRibbonComboBoxItem, TLazRibbonSpinEditItem,
-    TLazRibbonStaticTextItem, TLazRibbonProgressBarItem, TLazRibbonFontNameComboBoxItem]);
+    TLazRibbonStaticTextItem, TLazRibbonProgressBarItem, TLazRibbonFontNameComboBoxItem,
+    TLazRibbonColorComboBoxItem, TLazRibbonDateEditItem]);
 end;
 
 procedure RegisterUnitLazRibbonCheckboxes;
@@ -189,6 +217,14 @@ begin
     TLazRibbonImageIndexPropertyEditor);
   RegisterPropertyEditor(TypeInfo(TImageIndex), TLazRibbonCommand, 'ImageIndex',
     TLazRibbonImageIndexPropertyEditor);
+  RegisterPropertyEditor(TypeInfo(TImageIndex), TLazRibbonPopupEntry, 'ImageIndex',
+    TLazRibbonImageIndexPropertyEditor);
+end;
+
+procedure RegisterLazRibbonColorComboMenuEditor;
+begin
+  RegisterPropertyEditor(TypeInfo(TPopupMenu), TLazRibbonColorComboBoxItem,
+    'DropdownMenu', TLazRibbonColorComboMenuEditor);
 end;
 
 procedure Register;
@@ -231,6 +267,9 @@ begin
   RegisterPropertyEditor(TypeInfo(TFontName), TLazRibbonFontNameComboBoxItem,
     'FontName', TFontNamePropertyEditor);
   RegisterLazRibbonImageIndexEditors;
+  RegisterLazRibbonColorComboMenuEditor;
+  RegisterPropertyEditor(TypeInfo(TDateTime), TLazRibbonDateEditItem, 'Date',
+    TLazRibbonDatePropertyEditor);
   SkipObsoleteProperties;
 end;
 

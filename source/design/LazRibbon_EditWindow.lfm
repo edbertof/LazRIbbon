@@ -899,13 +899,13 @@ object frmLazRibbonEditWindow: TfrmLazRibbonEditWindow
       OnExecute = aRemovePaneExecute
     end
     object aAddSmallButton: TAction
-      Caption = 'Small button'
+      Caption = 'Small Button'
       Hint = 'Add SmallButton'
       ImageIndex = 6
       OnExecute = aAddSmallButtonExecute
     end
     object aAddLargeButton: TAction
-      Caption = 'Large button'
+      Caption = 'Large Button'
       Hint = 'Add LazLargeButton'
       ImageIndex = 4
       OnExecute = aAddLargeButtonExecute
@@ -917,19 +917,19 @@ object frmLazRibbonEditWindow: TfrmLazRibbonEditWindow
       OnExecute = aAddCheckboxExecute
     end
     object aAddRadioButton: TAction
-      Caption = 'Radio button'
+      Caption = 'Radio Button'
       Hint = 'Add LazRadioButton'
       ImageIndex = 8
       OnExecute = aAddRadioButtonExecute
     end
     object aAddToggleSwitch: TAction
-      Caption = 'Toggle switch'
+      Caption = 'Toggle Switch'
       Hint = 'Add LazToggleSwitch'
       ImageIndex = 12
       OnExecute = aAddToggleSwitchExecute
     end
     object aAddSeparator: TAction
-      Caption = 'aAddSeparator'
+      Caption = 'Separator'
       Hint = 'Add LazSeparator'
       ImageIndex = 11
       OnExecute = aAddSeparatorExecute
@@ -974,7 +974,6 @@ object frmLazRibbonEditWindow: TfrmLazRibbonEditWindow
     end
     object MenuItem5: TMenuItem
       Action = aAddSeparator
-      Caption = 'Separator'
     end
   end
   object pmStructure: TPopupMenu
@@ -1013,6 +1012,12 @@ object frmLazRibbonEditWindow: TfrmLazRibbonEditWindow
       end
       object MenuItem2: TMenuItem
         Action = aAddRadioButton
+      end
+      object AddToggleSwitchMenuItem: TMenuItem
+        Action = aAddToggleSwitch
+      end
+      object AddSeparatorMenuItem: TMenuItem
+        Action = aAddSeparator
       end
     end
     object Removeitem1: TMenuItem

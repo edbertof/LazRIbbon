@@ -1,6 +1,10 @@
 # LazRibbon Status
 
-`2.1.19 - Reliable Quick Access placement` is the current build.
+`2.1.20 - Date and color selectors and dropdown galleries` is the current build.
+
+The Contents editor creates Date Edit, Color Combo Box and Progress Bar items from the toolbar or the tree menu. Ribbon buttons can display configurable dropdown galleries. The runtime demo shows the date selector and the popup demo shows galleries for common formatting commands.
+
+`2.1.19 - Reliable Quick Access placement` was the previous build.
 
 The `2.1.19` build makes Quick Access placement match its public names. `qapBeforeTabs` renders the QAT before the Application/Arquivo button and then the normal tabs. `qapTitleBar` is hosted by a visible `TLazRibbonForm` custom title bar; on a regular `TForm`, it receives a dedicated Ribbon row above the Application button and tabs instead of becoming indistinguishable from `qapBeforeTabs`. Runtime and design-time package metadata remain `2.1.19`.
 

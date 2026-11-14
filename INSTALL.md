@@ -44,6 +44,15 @@ When testing a new ZIP version:
 2. Delete any previous `lib/` output folders if you reused a folder.
 3. Compile `LazRibbonRuntime.lpk` first.
 4. Compile/install `LazRibbonDesign.lpk` second.
+5. Rebuild and restart Lazarus before opening a form that uses a newly added
+   Ribbon item. Compiling the packages updates the units on disk. The rebuilt
+   IDE loads the updated design-time registration.
+
+If Lazarus reopens a demo from the previous session and reports an unknown
+component class, close the project without saving the partially loaded form.
+Open `LazRibbonDesign.lpk` from the current source directory and use
+**Use > Install** to rebuild the IDE. If the package is already installed,
+use **Tools > Build Lazarus with Profile**. Reopen the demo after restarting.
 
 ## Object Inspector property map
 

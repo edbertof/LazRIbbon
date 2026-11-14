@@ -1,4 +1,4 @@
-﻿# LazRibbon Object Inspector Redundancy Audit for 2.0
+# LazRibbon Object Inspector Redundancy Audit for 2.0
 
 Generated from `docs/quality/OBJECT_INSPECTOR_SURFACE_SNAPSHOT_2_0.md` by `tools/export_object_inspector_redundancy_audit.ps1`.
 It classifies repeated direct `published` property names so intentional shared vocabulary is separated from suspicious redundancy before the 2.0 API freeze.
@@ -9,8 +9,8 @@ Regenerate after refreshing the Object Inspector surface snapshot:
 
 ## Summary
 
-- Effective Object Inspector properties scanned: 329
-- Repeated published property names reviewed: 53
+- Effective Object Inspector properties scanned: 378
+- Repeated published property names reviewed: 59
 - Unclassified repeated property names: 0
 - No unclassified repeated property names were found.
 
@@ -40,28 +40,32 @@ Regenerate after refreshing the Object Inspector surface snapshot:
 | `Appearance` | Visual source and appearance vocabulary | `TLazRibbonSkinDefinition`, `TLazRibbonSkinManager` | Visual model or source decision. This is acceptable only where the component owns or chooses its own appearance model. |
 | `AppearanceSource` | Visual source and appearance vocabulary | `TLazRibbon`, `TLazRibbonBackstageRecentList`, `TLazRibbonBackstageView` | Visual model or source decision. This is acceptable only where the component owns or chooses its own appearance model. |
 | `BorderSpacing` | Inherited LCL surface | `TLazRibbon`, `TLazRibbonBackstagePage`, `TLazRibbonBackstageRecentList`, `TLazRibbonBackstageView`, `TLazRibbonSkinSelector` | Standard Lazarus control state or layout property. It is repeated because these classes descend from LCL controls or components. |
-| `Caption` | Display text vocabulary | `TLazRibbonApplicationButton`, `TLazRibbonBackstageButton`, `TLazRibbonBackstagePage`, `TLazRibbonCustomControlItem`, `TLazRibbonCustomRibbonExtItem`, `TLazRibbonPane`, `TLazRibbonQuickAccessItem`, `TLazRibbonTab` | Visible text for tabs, panes, buttons and command-like items. This is the expected Pascal/LCL name for a label shown to the user. |
+| `Caption` | Display text vocabulary | `TLazRibbonApplicationButton`, `TLazRibbonBackstageButton`, `TLazRibbonBackstagePage`, `TLazRibbonColorSwatch`, `TLazRibbonCustomControlItem`, `TLazRibbonCustomRibbonExtItem`, `TLazRibbonPane`, `TLazRibbonPopupEntry`, `TLazRibbonQuickAccessItem`, `TLazRibbonTab` | Visible text for tabs, panes, buttons and command-like items. This is the expected Pascal/LCL name for a label shown to the user. |
 | `CloseBackstageOnClick` | Command surface vocabulary | `TLazRibbonBackstageButton`, `TLazRibbonBackstageRecentList` | Shared command metadata used by Ribbon, QAT and BackStage command entries. |
-| `Color` | Inherited LCL surface | `TLazRibbon`, `TLazRibbonBackstagePage`, `TLazRibbonBackstageRecentList`, `TLazRibbonBackstageView`, `TLazRibbonSkinSelector` | Standard Lazarus control state or layout property. It is repeated because these classes descend from LCL controls or components. |
-| `Columns` | Selector and gallery vocabulary | `TLazRibbonGalleryItem`, `TLazRibbonSkinSelector` | Grid, icon or selection setting shared by gallery-like controls and skin selector surfaces. |
+| `Color` | Visual color vocabulary | `TLazRibbon`, `TLazRibbonBackstagePage`, `TLazRibbonBackstageRecentList`, `TLazRibbonBackstageView`, `TLazRibbonColorSwatch`, `TLazRibbonPopupEntry`, `TLazRibbonSkinSelector` | Background color for LCL surfaces and color value for a popup entry or palette swatch. |
+| `Columns` | Selector and gallery vocabulary | `TLazRibbonColorComboBoxItem`, `TLazRibbonGalleryItem`, `TLazRibbonPopupGallery`, `TLazRibbonSkinSelector` | Grid, icon or selection setting shared by gallery-like controls and skin selector surfaces. |
 | `Constraints` | Inherited LCL surface | `TLazRibbonBackstagePage`, `TLazRibbonBackstageRecentList`, `TLazRibbonBackstageView`, `TLazRibbonSkinSelector` | Standard Lazarus control state or layout property. It is repeated because these classes descend from LCL controls or components. |
-| `Enabled` | Inherited LCL and command state | `TLazRibbonBackstageButton`, `TLazRibbonBackstagePage`, `TLazRibbonBackstageRecentList`, `TLazRibbonBackstageView`, `TLazRibbonQuickAccessItem`, `TLazRibbonSkinSelector` | Normal Lazarus interaction vocabulary that remains meaningful on visible controls and command entries. |
+| `Description` | Display text vocabulary | `TLazRibbonPopupEntry`, `TLazRibbonSkinDefinition` | Supporting text for a gallery entry or descriptive skin metadata. |
+| `Enabled` | Inherited LCL and command state | `TLazRibbonBackstageButton`, `TLazRibbonBackstagePage`, `TLazRibbonBackstageRecentList`, `TLazRibbonBackstageView`, `TLazRibbonPopupEntry`, `TLazRibbonPopupGallery`, `TLazRibbonQuickAccessItem`, `TLazRibbonSkinSelector` | Normal Lazarus interaction vocabulary that remains meaningful on visible controls and command entries. |
 | `Font` | Inherited LCL surface | `TLazRibbonBackstagePage`, `TLazRibbonBackstageRecentList`, `TLazRibbonBackstageView`, `TLazRibbonSkinSelector` | Standard Lazarus control state or layout property. It is repeated because these classes descend from LCL controls or components. |
+| `GradientColor` | Visual color vocabulary | `TLazRibbonColorComboBoxItem`, `TLazRibbonPopupEntry` | Second color stop for a gradient swatch or selected color. |
 | `Hint` | Inherited LCL and command state | `TLazRibbon`, `TLazRibbonApplicationButton`, `TLazRibbonBackstageButton`, `TLazRibbonQuickAccessItem` | Normal Lazarus interaction vocabulary that remains meaningful on visible controls and command entries. |
 | `HotColor` | Skin palette vocabulary | `TLazRibbonSkinAccentColors`, `TLazRibbonSkinBackstageColors` | Low-level color slot inside skin palette subobjects, not a first-level component decision. |
 | `IconHeight` | Selector and gallery vocabulary | `TLazRibbonSkinGalleryItem`, `TLazRibbonSkinSelector` | Grid, icon or selection setting shared by gallery-like controls and skin selector surfaces. |
 | `IconWidth` | Selector and gallery vocabulary | `TLazRibbonSkinGalleryItem`, `TLazRibbonSkinSelector` | Grid, icon or selection setting shared by gallery-like controls and skin selector surfaces. |
-| `ImageIndex` | Command surface vocabulary | `TLazRibbonApplicationButton`, `TLazRibbonBackstageButton`, `TLazRibbonBackstagePage`, `TLazRibbonBackstageRecentList`, `TLazRibbonCustomRibbonExtItem`, `TLazRibbonQuickAccessItem` | Shared command metadata used by Ribbon, QAT and BackStage command entries. |
+| `ImageIndex` | Command surface vocabulary | `TLazRibbonApplicationButton`, `TLazRibbonBackstageButton`, `TLazRibbonBackstagePage`, `TLazRibbonBackstageRecentList`, `TLazRibbonCustomRibbonExtItem`, `TLazRibbonPopupEntry`, `TLazRibbonQuickAccessItem` | Shared command metadata used by Ribbon, QAT and BackStage command entries. |
 | `Images` | Component link vocabulary | `TLazRibbon`, `TLazRibbonBackstageRecentList`, `TLazRibbonBackstageView`, `TLazRibbonQuickAccessToolBar` | Reference to an external image list, owner Ribbon or skin manager used to connect components in the documented object graph. |
-| `ItemHeight` | Selector and gallery vocabulary | `TLazRibbonBackstageRecentList`, `TLazRibbonBackstageView`, `TLazRibbonGalleryItem` | Grid, icon or selection setting shared by gallery-like controls and skin selector surfaces. |
-| `Items` | Owned collection/list vocabulary | `TLazRibbonBackstageRecentList`, `TLazRibbonComboBoxItem`, `TLazRibbonQuickAccessToolBar` | Owner-owned item/list storage. The name is acceptable when a component exposes a single primary collection or persisted list. |
+| `ItemHeight` | Selector and gallery vocabulary | `TLazRibbonBackstageRecentList`, `TLazRibbonBackstageView`, `TLazRibbonGalleryItem`, `TLazRibbonPopupGallery` | Grid, icon or selection setting shared by gallery-like controls and skin selector surfaces. |
+| `Items` | Owned collection/list vocabulary | `TLazRibbonBackstageRecentList`, `TLazRibbonComboBoxItem`, `TLazRibbonPopupGallery`, `TLazRibbonQuickAccessToolBar` | Owner-owned item/list storage. The name is acceptable when a component exposes a single primary collection or persisted list. |
+| `ItemWidth` | Selector and gallery vocabulary | `TLazRibbonGalleryItem`, `TLazRibbonPopupGallery` | Grid, icon or selection setting shared by gallery-like controls and skin selector surfaces. |
 | `KeyTip` | Office keyboard vocabulary | `TLazRibbonApplicationButton`, `TLazRibbonQuickAccessItem`, `TLazRibbonTab` | Office-like keyboard hint used by Application Button, tabs and command entries. |
+| `Kind` | Command surface vocabulary | `TLazRibbonBackstageButton`, `TLazRibbonPopupEntry` | Shared command metadata used by Ribbon, QAT and BackStage command entries. |
 | `LargeImageIndex` | Command surface vocabulary | `TLazRibbonBackstageButton`, `TLazRibbonCustomRibbonExtItem` | Shared command metadata used by Ribbon, QAT and BackStage command entries. |
 | `LargeImages` | Component link vocabulary | `TLazRibbon`, `TLazRibbonBackstageView` | Reference to an external image list, owner Ribbon or skin manager used to connect components in the documented object graph. |
 | `LinkedItem` | Command surface vocabulary | `TLazRibbonBackstageButton`, `TLazRibbonQuickAccessItem` | Shared command metadata used by Ribbon, QAT and BackStage command entries. |
 | `MutedTextColor` | Skin palette vocabulary | `TLazRibbonSkinBackstageColors`, `TLazRibbonSkinGeneralColors` | Low-level color slot inside skin palette subobjects, not a first-level component decision. |
 | `NavigationColor` | Skin palette vocabulary | `TLazRibbonSkinAccentColors`, `TLazRibbonSkinBackstageColors` | Low-level color slot inside skin palette subobjects, not a first-level component decision. |
-| `OnChange` | Inherited LCL and command state | `TLazRibbonCustomInputItem`, `TLazRibbonSkinManager` | Normal Lazarus interaction vocabulary that remains meaningful on visible controls and command entries. |
+| `OnChange` | Inherited LCL and command state | `TLazRibbonColorComboBoxItem`, `TLazRibbonCustomInputItem`, `TLazRibbonSkinManager` | Normal Lazarus interaction vocabulary that remains meaningful on visible controls and command entries. |
 | `OnClick` | Inherited LCL and command state | `TLazRibbonApplicationButton`, `TLazRibbonBackstageView`, `TLazRibbonCustomRibbonExtItem`, `TLazRibbonSkinSelector`, `TLazRibbonTab` | Normal Lazarus interaction vocabulary that remains meaningful on visible controls and command entries. |
 | `OnResize` | Inherited LCL and command state | `TLazRibbon`, `TLazRibbonBackstageView` | Normal Lazarus interaction vocabulary that remains meaningful on visible controls and command entries. |
 | `OnSkinSelected` | Selector and gallery vocabulary | `TLazRibbonSkinGalleryItem`, `TLazRibbonSkinSelector` | Grid, icon or selection setting shared by gallery-like controls and skin selector surfaces. |
@@ -70,14 +74,16 @@ Regenerate after refreshing the Object Inspector surface snapshot:
 | `ParentShowHint` | Inherited LCL surface | `TLazRibbon`, `TLazRibbonBackstagePage`, `TLazRibbonBackstageRecentList`, `TLazRibbonBackstageView`, `TLazRibbonSkinSelector` | Standard Lazarus control state or layout property. It is repeated because these classes descend from LCL controls or components. |
 | `PopupMenu` | Inherited LCL surface | `TLazRibbonBackstagePage`, `TLazRibbonBackstageRecentList`, `TLazRibbonBackstageView`, `TLazRibbonSkinSelector` | Standard Lazarus control state or layout property. It is repeated because these classes descend from LCL controls or components. |
 | `Position` | Component-specific position | `TLazRibbonProgressBarItem`, `TLazRibbonQuickAccessToolBar` | Typed local state: QAT placement is an enumeration; native progress position is a numeric value between Min and Max. |
+| `ReadOnly` | Native editor state | `TLazRibbonDateEditItem`, `TLazRibbonEditItem` | Allows the current value to be displayed while preventing user changes in a native editor. |
 | `Ribbon` | Component link vocabulary | `TLazRibbonForm`, `TLazRibbonSkinManager` | Reference to an external image list, owner Ribbon or skin manager used to connect components in the documented object graph. |
 | `ScreenTipFooter` | Command surface vocabulary | `TLazRibbonApplicationButton`, `TLazRibbonQuickAccessItem` | Shared command metadata used by Ribbon, QAT and BackStage command entries. |
 | `ScreenTipShortcut` | Command surface vocabulary | `TLazRibbonApplicationButton`, `TLazRibbonQuickAccessItem` | Shared command metadata used by Ribbon, QAT and BackStage command entries. |
 | `ScreenTipText` | Command surface vocabulary | `TLazRibbonApplicationButton`, `TLazRibbonQuickAccessItem` | Shared command metadata used by Ribbon, QAT and BackStage command entries. |
 | `ScreenTipTitle` | Command surface vocabulary | `TLazRibbonApplicationButton`, `TLazRibbonQuickAccessItem` | Shared command metadata used by Ribbon, QAT and BackStage command entries. |
-| `SelectedColor` | Skin palette vocabulary | `TLazRibbonSkinBackstageColors`, `TLazRibbonSkinRecentListColors` | Low-level color slot inside skin palette subobjects, not a first-level component decision. |
+| `SelectedColor` | Skin palette vocabulary | `TLazRibbonColorComboBoxItem`, `TLazRibbonSkinBackstageColors`, `TLazRibbonSkinRecentListColors` | Low-level color slot inside skin palette subobjects, not a first-level component decision. |
 | `SelectedFrameColor` | Skin palette vocabulary | `TLazRibbonSkinBackstageColors`, `TLazRibbonSkinRecentListColors` | Low-level color slot inside skin palette subobjects, not a first-level component decision. |
 | `SelectedSkinName` | Selector and gallery vocabulary | `TLazRibbonSkinGalleryItem`, `TLazRibbonSkinSelector` | Grid, icon or selection setting shared by gallery-like controls and skin selector surfaces. |
+| `ShowCaptions` | Selector and gallery vocabulary | `TLazRibbonPopupGallery`, `TLazRibbonSkinSelector` | Grid, icon or selection setting shared by gallery-like controls and skin selector surfaces. |
 | `ShowHint` | Inherited LCL surface | `TLazRibbon`, `TLazRibbonBackstagePage`, `TLazRibbonBackstageRecentList`, `TLazRibbonBackstageView`, `TLazRibbonSkinSelector` | Standard Lazarus control state or layout property. It is repeated because these classes descend from LCL controls or components. |
 | `ShowScreenTip` | Command surface vocabulary | `TLazRibbonApplicationButton`, `TLazRibbonQuickAccessItem` | Shared command metadata used by Ribbon, QAT and BackStage command entries. |
 | `SkinManager` | Component link vocabulary | `TLazRibbon`, `TLazRibbonBackstageRecentList`, `TLazRibbonBackstageView`, `TLazRibbonForm`, `TLazRibbonSkinGalleryItem`, `TLazRibbonSkinSelector` | Reference to an external image list, owner Ribbon or skin manager used to connect components in the documented object graph. |

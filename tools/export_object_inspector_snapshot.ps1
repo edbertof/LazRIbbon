@@ -27,6 +27,8 @@ $targets = @(
   [pscustomobject]@{ Group = 'Top-Level Shell'; ClassName = 'TLazRibbonQuickAccessItem'; UnitPath = 'source/runtime/LazRibbon_Core.pas' },
 
   [pscustomobject]@{ Group = 'Command Surfaces'; ClassName = 'TLazRibbonPopupMenu'; UnitPath = 'source/runtime/LazRibbon_Popup.pas' },
+  [pscustomobject]@{ Group = 'Command Surfaces'; ClassName = 'TLazRibbonPopupGallery'; UnitPath = 'source/runtime/LazRibbon_Popup.pas' },
+  [pscustomobject]@{ Group = 'Command Surfaces'; ClassName = 'TLazRibbonPopupEntry'; UnitPath = 'source/runtime/LazRibbon_Popup.pas' },
 
   [pscustomobject]@{ Group = 'Ribbon Structure'; ClassName = 'TLazRibbonTab'; UnitPath = 'source/runtime/LazRibbon_Tabs.pas' },
   [pscustomobject]@{ Group = 'Ribbon Structure'; ClassName = 'TLazRibbonPane'; UnitPath = 'source/runtime/LazRibbon_Groups.pas' },
@@ -39,6 +41,10 @@ $targets = @(
   [pscustomobject]@{ Group = 'Ribbon Structure'; ClassName = 'TLazRibbonEditItem'; UnitPath = 'source/runtime/LazRibbon_ControlItems.pas' },
   [pscustomobject]@{ Group = 'Ribbon Structure'; ClassName = 'TLazRibbonComboBoxItem'; UnitPath = 'source/runtime/LazRibbon_ControlItems.pas' },
   [pscustomobject]@{ Group = 'Ribbon Structure'; ClassName = 'TLazRibbonFontNameComboBoxItem'; UnitPath = 'source/runtime/LazRibbon_ControlItems.pas' },
+  [pscustomobject]@{ Group = 'Ribbon Structure'; ClassName = 'TLazRibbonColorComboBoxItem'; UnitPath = 'source/runtime/LazRibbon_ControlItems.pas' },
+  [pscustomobject]@{ Group = 'Ribbon Structure'; ClassName = 'TLazRibbonColorSwatch'; UnitPath = 'source/runtime/LazRibbon_ControlItems.pas' },
+  [pscustomobject]@{ Group = 'Ribbon Structure'; ClassName = 'TLazRibbonColorCaptions'; UnitPath = 'source/runtime/LazRibbon_ControlItems.pas' },
+  [pscustomobject]@{ Group = 'Ribbon Structure'; ClassName = 'TLazRibbonDateEditItem'; UnitPath = 'source/runtime/LazRibbon_ControlItems.pas' },
   [pscustomobject]@{ Group = 'Ribbon Structure'; ClassName = 'TLazRibbonSpinEditItem'; UnitPath = 'source/runtime/LazRibbon_ControlItems.pas' },
   [pscustomobject]@{ Group = 'Ribbon Structure'; ClassName = 'TLazRibbonStaticTextItem'; UnitPath = 'source/runtime/LazRibbon_ControlItems.pas' },
   [pscustomobject]@{ Group = 'Ribbon Structure'; ClassName = 'TLazRibbonProgressBarItem'; UnitPath = 'source/runtime/LazRibbon_ControlItems.pas' },

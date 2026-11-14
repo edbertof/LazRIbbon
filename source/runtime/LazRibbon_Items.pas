@@ -52,6 +52,8 @@ type
     function AddEdit: TLazRibbonEditItem;
     function AddComboBox: TLazRibbonComboBoxItem;
     function AddFontNameComboBox: TLazRibbonFontNameComboBoxItem;
+    function AddColorComboBox: TLazRibbonColorComboBoxItem;
+    function AddDateEdit: TLazRibbonDateEditItem;
     function AddSpinEdit: TLazRibbonSpinEditItem;
     function AddStaticText: TLazRibbonStaticTextItem;
     function AddProgressBar: TLazRibbonProgressBarItem;
@@ -102,6 +104,20 @@ end;
 function TLazRibbonItems.AddFontNameComboBox: TLazRibbonFontNameComboBoxItem;
 begin
   Result := TLazRibbonFontNameComboBoxItem.Create(FRootComponent);
+  Result.Parent := FRootComponent;
+  AddItem(Result);
+end;
+
+function TLazRibbonItems.AddColorComboBox: TLazRibbonColorComboBoxItem;
+begin
+  Result := TLazRibbonColorComboBoxItem.Create(FRootComponent);
+  Result.Parent := FRootComponent;
+  AddItem(Result);
+end;
+
+function TLazRibbonItems.AddDateEdit: TLazRibbonDateEditItem;
+begin
+  Result := TLazRibbonDateEditItem.Create(FRootComponent);
   Result.Parent := FRootComponent;
   AddItem(Result);
 end;

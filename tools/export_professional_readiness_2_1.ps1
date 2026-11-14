@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
   [string]$SourceRoot = '',
-  [string]$Version = '2.1.19',
+  [string]$Version = '2.1.20',
   [string]$OutputPath = ''
 )
 
@@ -134,7 +134,8 @@ $accelerationAudit = Read-SourceText 'docs/quality/LAZRIBBON_2_1_ACCELERATION_AU
 $demoRoot = Join-SourcePath 'demos'
 $demoProjectCount = 0
 if (Test-Path -LiteralPath $demoRoot) {
-  $demoProjectCount = @(Get-ChildItem -LiteralPath $demoRoot -Recurse -File -Filter '*.lpi').Count
+  $demoProjectCount = @(Get-ChildItem -LiteralPath $demoRoot -Recurse -File -Filter '*.lpi' |
+    Where-Object { $_.FullName.Substring($demoRoot.Length) -notmatch '[\\/](backup|bin|lib)[\\/]' }).Count
 }
 
 $screenshotPaths = @(

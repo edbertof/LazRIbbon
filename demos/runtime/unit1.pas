@@ -63,6 +63,7 @@ type
     procedure CreateInputItemsDemo;
     procedure InputFontChanged(Sender: TObject);
     procedure InputSearchChanged(Sender: TObject);
+    procedure InputDateChanged(Sender: TObject);
     procedure AdvanceProgress(Sender: TObject);
     procedure AboutHandler(Sender: TObject);
     function CreateRecentFilesPopup: TLazRibbonPopupMenu;
@@ -589,6 +590,17 @@ begin
   SearchItem.OnChange := @InputSearchChanged;
 
   Pane := Tab.Panes.Add;
+  Pane.Caption := 'Date';
+  with Pane.Items.AddDateEdit do
+  begin
+    Caption := 'Report date';
+    Hint := 'Choose the report date';
+    KeyTip := 'D';
+    Date := SysUtils.Date;
+    OnChange := @InputDateChanged;
+  end;
+
+  Pane := Tab.Panes.Add;
   Pane.Caption := 'Progress';
   ProgressText := Pane.Items.AddStaticText;
   ProgressText.Caption := 'Progress: 0%';
@@ -628,6 +640,17 @@ begin
         Exit;
       end;
   StatusBar1.SimpleText := 'Text not found';
+end;
+
+procedure TForm1.InputDateChanged(Sender: TObject);
+var
+  Item: TLazRibbonDateEditItem;
+begin
+  Item := TLazRibbonDateEditItem(Sender);
+  if Item.HasDate then
+    StatusBar1.SimpleText := 'Report date: ' + DateToStr(Item.Date)
+  else
+    StatusBar1.SimpleText := 'Report date cleared';
 end;
 
 procedure TForm1.AdvanceProgress(Sender: TObject);

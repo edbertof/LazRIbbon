@@ -36,7 +36,7 @@ if ($LASTEXITCODE -ne 0) {
   exit $LASTEXITCODE
 }
 $failedGroups = 0
-foreach ($group in @('geometry', 'colors', 'collections', 'xml', 'skins', 'streaming', 'controls')) {
+foreach ($group in @('geometry', 'colors', 'collections', 'xml', 'skins', 'streaming', 'popup', 'controls')) {
   $log = Join-Path $OutputDirectory ($group + '.log')
   & (Join-Path $OutputDirectory 'runtime_audit.exe') $group (Join-Path $OutputDirectory 'fixtures') *> $log
   if ($LASTEXITCODE -ne 0) { $failedGroups++ }

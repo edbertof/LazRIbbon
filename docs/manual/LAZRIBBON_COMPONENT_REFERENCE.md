@@ -1,6 +1,6 @@
 # LazRibbon Component Reference
 
-Target: LazRibbon 2.1.19.
+Target: LazRibbon 2.1.20.
 
 This reference describes the purpose of each package component, published
 property and published event. It complements `LAZRIBBON_MANUAL.md` and the
@@ -43,6 +43,7 @@ composition rules behind those properties are checked by
 | `TLazRibbonComboBoxItem` | Designer item | Native option list or editable combo. |
 | `TLazRibbonFontNameComboBoxItem` | Designer item | Installed-font selector with optional font previews. |
 | `TLazRibbonSpinEditItem` | Designer item | Native integer spin editor. |
+| `TLazRibbonDateEditItem` | Designer item | Native calendar date selector. |
 | `TLazRibbonStaticTextItem` | Designer item | Native text label. |
 | `TLazRibbonProgressBarItem` | Designer item | Native progress indicator. |
 | `TLazRibbonControlHostItem` | Designer item | Hosts a real Lazarus control inside a pane. |
@@ -235,14 +236,41 @@ Purpose: single item inside the QAT.
 
 ## TLazRibbonPopupMenu
 
-Purpose: popup menu that can draw items with the Ribbon appearance.
+Displays a standard popup menu or an opt-in gallery with the Ribbon appearance.
 
 | Property | Description |
 | --- | --- |
 | `Appearance` | Borrowed appearance object used to draw menu items. Its owner must outlive the menu's use of it; clear or reassign this property before freeing that owner. |
 | inherited `TPopupMenu` properties | Normal Lazarus menu behavior, images and items. |
+| `Gallery.Enabled` | Enables gallery layout. Defaults to False. |
+| `Gallery.Columns` | Use 1 for a list or increase it for a grid. |
+| `Gallery.ItemWidth`, `Gallery.ItemHeight`, `Gallery.MaxHeight` | Cell and popup dimensions at 96 DPI. The popup scrolls when content exceeds the available height. |
+| `Gallery.ShowCaptions` | Controls text on choice cells. Icon and color cells can show the caption on hover. |
+| `Gallery.Items` | Collection of entries editable in the Object Inspector. |
 
-Events: inherited `TPopupMenu` events.
+Assign the popup to `DropdownMenu` on a Large Button or Small Button.
+`bkDropdown` opens the popup from the entire button. `bkButtonDropdown`
+uses the arrow to open the popup and the primary area to execute the button.
+In classic mode, populate the inherited `Items` menu. In gallery mode,
+populate `Gallery.Items`.
+
+Gallery entries can display a `Caption`, a second line from `Description`,
+an `ImageIndex` from the popup's `Images`, or a `Color` swatch. Use
+`pekHeading` for full-width section labels and `pekCommand` for full-width
+actions. Use `pekToggle` for a checkbox that stays open when activated and
+`pekSpacer` to end a partial row with spacing. `Enabled` controls activation.
+Set `GradientColor` for a two-color swatch or `Checked` for a checked entry.
+The gallery supports arrow keys, Home, End, Enter, Space and Escape.
+
+`OnGallerySelect` receives choices and commands after the popup closes.
+For `pekToggle`, it receives the new `Checked` state while the popup is open.
+Choosing a `pekChoice` updates the runtime `Gallery.SelectedIndex`.
+Choosing a `pekCommand` preserves the selection. Use `Tag` to associate
+an application value with an entry. `OnPopup` can populate the collection
+before layout, and `OnClose` fires when the gallery closes.
+
+See [the popup demo](../../demos/popup_menu/project1.lpi) for lists, shapes
+and a color palette with a custom color dialog.
 
 ## TLazRibbonTab
 
@@ -371,16 +399,21 @@ Purpose: base for extended pane items.
 ## Native Control Items
 
 For ready-to-use native editors, see [Ribbon input controls](RIBBON_INPUT_CONTROLS.md).
-`TLazRibbonEditItem`, `TLazRibbonComboBoxItem`, `TLazRibbonSpinEditItem`,
+`TLazRibbonEditItem`, `TLazRibbonComboBoxItem`, `TLazRibbonDateEditItem`, `TLazRibbonSpinEditItem`,
 `TLazRibbonStaticTextItem` and `TLazRibbonProgressBarItem` share `Caption`,
-`Width` and `Layout`. The three input types publish `OnChange` with the item
-as Sender; static text uses Caption as its visible label. Their internal
+`Width` and `Layout`. The input types publish `OnChange` with the item as
+`Sender`. Static text uses `Caption` as its visible label. Their internal
 controls are owned by the item and are recreated when loading forms.
 
 `TLazRibbonFontNameComboBoxItem` automatically lists installed fonts via
 `Screen.Fonts`. Set `FontName` and handle `OnChange`; `ShowFontPreview` controls
 font-name previews and `DropDownCount` controls the number of visible rows.
 Forms persist the selected name and rebuild system choices when opened.
+
+`TLazRibbonDateEditItem` stores a calendar day in `Date`, using the system date
+format for display. `HasDate` reports whether a day is selected, and `Clear`
+clears it. `ReadOnly` disables user changes. A date can be selected with the
+calendar button, **F4** or **Alt+Down**, and cleared with **Delete**.
 
 ## TLazRibbonControlHostItem
 
@@ -393,6 +426,36 @@ Purpose: embeds an existing Lazarus control inside the Ribbon.
 
 Compatibility: `ControlName` and `ControlClassName` are source/streaming
 compatibility helpers only. New projects should assign `Control`.
+
+## TLazRibbonColorComboBoxItem
+
+Add **Color Combo Box** to a pane in the Ribbon contents editor or call
+`Pane.Items.AddColorComboBox`. The item creates its own popup. With the
+default split button, the main area reapplies the current color and the
+arrow opens the palette. The item KeyTip also opens the palette. Set
+`ButtonKind = bkDropdown` to open it from the entire button.
+
+| Property | Purpose |
+| --- | --- |
+| `SelectedColor` | Current choice. `clDefault` means automatic and `clNone` means no color. |
+| `AutomaticColor` | Color returned by `EffectiveColor` for the automatic choice. Defaults to `clWindowText`. |
+| `GradientColor` | Second stop of a two-color gradient. `clNone` represents a solid color. |
+| `ThemeColors`, `StandardColors` | Optional collections of named swatches. An empty collection uses the built-in palette. |
+| `PaletteCaptions` | Overrides the headings and command text. Empty captions use the default resource strings. |
+| `DropdownMenu` | Selects a custom popup. Choose **(Built-in palette)** in the Object Inspector or call `ResetDropdownMenu` to restore the default palette. |
+| `Options` | Controls automatic color, theme colors, generated shades, standard colors, the contrast checkbox, custom colors, no color and the gradient gallery. |
+| `HighContrastOnly`, `ContrastBackground`, `MinimumContrast` | Configure the filter for preset swatches. Low-contrast swatches keep their grid position and cannot be selected. The default threshold is 4.5 against `clWindow`. |
+| `Columns`, `SwatchSize`, `MaxPopupHeight` | Configure the grid and scrollable height. Sizes use 96 DPI units. |
+| `ShowCaption`, `ImageIndex` | Optionally display the button label or replace the built-in color glyph with a Ribbon image. |
+
+Use `OnChange` to apply a new palette selection and `OnApply` to reapply
+the current selection from the split button. Both events receive the item
+as `Sender`. Use `EffectiveColor` and `GradientColor` to render the result
+in your application. Programmatic property changes update the item without
+firing either event. Assign `SelectedColor` before `GradientColor` when
+setting both stops in code.
+
+See the color sample in [the popup demo](../../demos/popup_menu/project1.lpi).
 
 ## TLazRibbonGalleryItem
 

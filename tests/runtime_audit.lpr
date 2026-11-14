@@ -3,11 +3,12 @@ program runtime_audit;
 {$mode objfpc}{$H+}
 
 uses
-  Interfaces, Forms, Classes, SysUtils, Graphics, Math, LCLType,
+  Interfaces, Forms, Classes, SysUtils, Graphics, Math, Menus, StdCtrls, Controls,
+  LCLType, LMessages,
   LazRibbon_Math, LazRibbon_GraphTools, LazRibbon_Types,
   LazRibbon_Core, LazRibbon_Tabs, LazRibbon_Groups, LazRibbon_Buttons,
   LazRibbon_XMLParser, LazRibbon_XMLIni, LazRibbon_XMLTools,
-  LazRibbon_SkinManager, control_items_audit;
+  LazRibbon_SkinManager, LazRibbon_Popup, LazRibbon_ControlItems, control_items_audit;
 
 type
   TCollectionAccess = class(TLazRibbonCollection)
@@ -22,6 +23,20 @@ type
     RegisterListener: TSkinObserver;
     RemoveSelf: Boolean;
     procedure SkinChanged(Sender: TObject);
+  end;
+
+  TPopupObserver = class
+    Opens, Closes, Selections: Integer;
+    LastTag: PtrInt;
+    procedure Opened(Sender: TObject);
+    procedure Closed(Sender: TObject);
+    procedure Selected(Sender: TObject; Entry: TLazRibbonPopupEntry);
+  end;
+
+  TColorComboObserver = class
+    Changes, Applies: Integer;
+    procedure Changed(Sender: TObject);
+    procedure Applied(Sender: TObject);
   end;
 
 var
@@ -51,6 +66,32 @@ begin
     LazRegisterSkinChangeHandler(RegisterListener, @RegisterListener.SkinChanged);
   if RemoveSelf then
     LazUnregisterSkinChangeHandler(Self);
+end;
+
+procedure TPopupObserver.Opened(Sender: TObject);
+begin
+  Inc(Opens);
+end;
+
+procedure TPopupObserver.Closed(Sender: TObject);
+begin
+  Inc(Closes);
+end;
+
+procedure TPopupObserver.Selected(Sender: TObject; Entry: TLazRibbonPopupEntry);
+begin
+  Inc(Selections);
+  LastTag := Entry.Tag;
+end;
+
+procedure TColorComboObserver.Changed(Sender: TObject);
+begin
+  Inc(Changes);
+end;
+
+procedure TColorComboObserver.Applied(Sender: TObject);
+begin
+  Inc(Applies);
 end;
 
 procedure TestGeometry;
@@ -420,6 +461,271 @@ begin
   end;
 end;
 
+procedure TestPopupGallery;
+var
+  Host, Restored, Window: TForm;
+  Menu, LoadedMenu: TLazRibbonPopupMenu;
+  Ribbon: TLazRibbon;
+  Pane: TLazRibbonPane;
+  Button: TLazRibbonLargeButton;
+  Entry: TLazRibbonPopupEntry;
+  Observer: TPopupObserver;
+  Stream: TMemoryStream;
+  I, FirstWindowCount: Integer;
+  ScrollBar: TScrollBar;
+
+  function GalleryWindow: TForm;
+  var
+    FormIndex: Integer;
+  begin
+    for FormIndex := 0 to Screen.FormCount - 1 do
+    begin
+      Result := Screen.Forms[FormIndex];
+      if (Result <> Host) and (Result <> Restored) and Result.Visible then Exit;
+    end;
+    raise Exception.Create('No visible gallery window');
+  end;
+
+begin
+  RegisterClasses([TLazRibbonPopupMenu, TLazRibbon, TLazRibbonTab,
+    TLazRibbonPane, TLazRibbonLargeButton]);
+  Host := TForm.CreateNew(nil);
+  Restored := TForm.CreateNew(nil);
+  Stream := TMemoryStream.Create;
+  Observer := TPopupObserver.Create;
+  try
+    Host.Name := 'PopupAuditForm';
+    Host.SetBounds(100, 100, 500, 300);
+    Ribbon := TLazRibbon.Create(Host);
+    Ribbon.Name := 'AuditRibbon';
+    Ribbon.Parent := Host;
+    Pane := Ribbon.Tabs.Add.Panes.Add;
+    Pane.Collection.RootComponent.Name := 'AuditTab';
+    Pane.Name := 'AuditPane';
+    Button := Pane.Items.AddLargeButton;
+    Button.Name := 'AuditDropdown';
+    Button.ButtonKind := bkDropdown;
+    Menu := TLazRibbonPopupMenu.Create(Host);
+    Menu.Name := 'AuditMenu';
+    Button.DropdownMenu := Menu;
+    Check(not Menu.Gallery.Enabled, 'Classic menus remain the default');
+    Menu.Gallery.Enabled := True;
+    Menu.Gallery.Columns := 2;
+    Menu.Gallery.ItemWidth := 100;
+    Menu.Gallery.ItemHeight := 40;
+    Menu.Gallery.MaxHeight := 100;
+
+    Entry := Menu.Gallery.Items.Add;
+    Entry.Kind := pekHeading;
+    Entry.Caption := 'Choices';
+    Entry := Menu.Gallery.Items.Add;
+    Entry.Caption := 'Disabled';
+    Entry.Enabled := False;
+    Entry := Menu.Gallery.Items.Add;
+    Entry.Caption := 'Choice';
+    Entry.Description := 'Description';
+    Entry.Color := clBlue;
+    Entry.Tag := 12;
+    for I := 1 to 8 do
+      Menu.Gallery.Items.Add.Caption := 'Choice ' + IntToStr(I);
+    Entry := Menu.Gallery.Items.Add;
+    Entry.Kind := pekCommand;
+    Entry.Caption := 'More';
+    Entry.Tag := 23;
+
+    Stream.WriteComponent(Host);
+    Stream.Position := 0;
+    Stream.ReadComponent(Restored);
+    LoadedMenu := TLazRibbonPopupMenu(Restored.FindComponent('AuditMenu'));
+    Check((LoadedMenu <> nil) and LoadedMenu.Gallery.Enabled and
+      (LoadedMenu.Gallery.Columns = 2) and (LoadedMenu.Gallery.Items.Count = 12),
+      'Gallery options and collection survive form streaming');
+    Check((LoadedMenu.Gallery.Items[0].Kind = pekHeading) and
+      not LoadedMenu.Gallery.Items[1].Enabled and
+      (LoadedMenu.Gallery.Items[2].Description = 'Description') and
+      (LoadedMenu.Gallery.Items[2].Color = clBlue),
+      'Gallery entry types, text, state and swatch survive form streaming');
+    Check(TLazRibbonLargeButton(Restored.FindComponent('AuditDropdown')).DropdownMenu = LoadedMenu,
+      'Dropdown menu link resolves after form streaming');
+
+    Menu.OnPopup := @Observer.Opened;
+    Menu.OnClose := @Observer.Closed;
+    Menu.OnGallerySelect := @Observer.Selected;
+    Host.Show;
+    Application.ProcessMessages;
+    FirstWindowCount := Screen.FormCount;
+    Check(Button.ExecuteKeyTip, 'Ribbon dropdown opens through its KeyTip path');
+    Application.ProcessMessages;
+    Check((ActivePopupMenu = Menu) and (Screen.FormCount = FirstWindowCount + 1),
+      'Gallery opens one popup window');
+    Window := GalleryWindow;
+    Window.Perform(CN_KEYDOWN, VK_DOWN, 0);
+    Window.Perform(CN_KEYDOWN, VK_RETURN, 0);
+    Check((Observer.Selections = 1) and (Observer.LastTag = 12) and
+      (Menu.Gallery.SelectedIndex = 2), 'Keyboard skips heading and disabled choice');
+    Check((Observer.Opens = 1) and (Observer.Closes = 1) and (ActivePopupMenu = nil),
+      'Selecting closes the popup and fires each lifecycle event once');
+    Application.ProcessMessages;
+
+    Menu.PopUp(150, 180);
+    Window := GalleryWindow;
+    ScrollBar := TScrollBar(Window.Controls[0]);
+    Window.Perform(CN_KEYDOWN, VK_END, 0);
+    Check(ScrollBar.Position > 0, 'Keyboard navigation scrolls the last row into view');
+    Window.Perform(CN_KEYDOWN, VK_RETURN, 0);
+    Check((Observer.Selections = 2) and (Observer.LastTag = 23) and
+      (Menu.Gallery.SelectedIndex = 2), 'Command at end is reachable and preserves selection');
+    Application.ProcessMessages;
+
+    Menu.PopUp(150, 180);
+    Window := GalleryWindow;
+    Window.Perform(CN_KEYDOWN, VK_ESCAPE, 0);
+    Check((Observer.Selections = 2) and (Observer.Closes = 3) and (ActivePopupMenu = nil),
+      'Escape closes without a selection event');
+    Application.ProcessMessages;
+
+    Menu.PopUp(150, 180);
+    Menu.Free;
+    Application.ProcessMessages;
+    Check((ActivePopupMenu = nil) and (Screen.FormCount = FirstWindowCount) and
+      (Button.DropdownMenu = nil), 'Destroying the menu releases its window and button link');
+  finally
+    Stream.Free;
+    Restored.Free;
+    Host.Free;
+    Observer.Free;
+  end;
+end;
+
+procedure TestColorCombo;
+var
+  Host, Restored: TForm;
+  Ribbon: TLazRibbon;
+  Tab: TLazRibbonTab;
+  Pane: TLazRibbonPane;
+  Combo, LoadedCombo: TLazRibbonColorComboBoxItem;
+  Menu: TLazRibbonPopupMenu;
+  Popup: TCustomForm;
+  Swatch: TLazRibbonColorSwatch;
+  Events: TColorComboObserver;
+  Stream: TMemoryStream;
+  X, Y: Integer;
+
+  procedure SendKey(Key: Word);
+  var
+    I: Integer;
+  begin
+    for I := 0 to Screen.CustomFormCount - 1 do
+    begin
+      Popup := Screen.CustomForms[I];
+      if (Popup <> Host) and (Popup <> Restored) and Popup.Visible then
+      begin
+        Popup.Perform(CN_KEYDOWN, Key, 0);
+        Exit;
+      end;
+    end;
+    raise Exception.Create('No visible color palette window');
+  end;
+
+begin
+  RegisterClasses([TLazRibbon, TLazRibbonTab, TLazRibbonPane, TLazRibbonColorComboBoxItem]);
+  Host := TForm.CreateNew(nil);
+  Restored := TForm.CreateNew(nil);
+  Stream := TMemoryStream.Create;
+  Events := TColorComboObserver.Create;
+  try
+    Host.Name := 'ColorAuditForm';
+    Ribbon := TLazRibbon.Create(Host);
+    Ribbon.Name := 'ColorAuditRibbon';
+    Ribbon.Parent := Host;
+    Ribbon.Align := alTop;
+    Tab := Ribbon.Tabs.Add;
+    Tab.Name := 'ColorAuditTab';
+    Pane := Tab.Panes.Add;
+    Pane.Name := 'ColorAuditPane';
+    Combo := Pane.Items.AddColorComboBox;
+    Combo.Name := 'ColorAuditCombo';
+    Combo.Options := [coHighContrast, coAutomatic, coThemeColors, coGradients];
+    Combo.ContrastBackground := clWhite;
+    Combo.MinimumContrast := 7;
+    Combo.AutomaticColor := clNavy;
+    Combo.PaletteCaptions.Automatic := 'Automatic color';
+    Combo.SelectedColor := clMaroon;
+    Combo.GradientColor := clRed;
+    Swatch := Combo.ThemeColors.Add;
+    Swatch.Caption := 'White';
+    Swatch.Color := clWhite;
+    Swatch := Combo.ThemeColors.Add;
+    Swatch.Caption := 'Black';
+    Swatch.Color := clBlack;
+
+    Stream.WriteComponent(Host);
+    Stream.Position := 0;
+    Stream.ReadComponent(Restored);
+    LoadedCombo := TLazRibbonColorComboBoxItem(Restored.FindComponent(Combo.Name));
+    Check((LoadedCombo <> nil) and (LoadedCombo.SelectedColor = clMaroon) and
+      (LoadedCombo.GradientColor = clRed) and (LoadedCombo.Options = Combo.Options),
+      'Color selection, gradient and options round-trip through form streaming');
+    Check((LoadedCombo.ThemeColors.Count = 2) and
+      (LoadedCombo.ThemeColors[0].Caption = 'White') and (LoadedCombo.MinimumContrast = 7) and
+      (LoadedCombo.PaletteCaptions.Automatic = 'Automatic color'),
+      'Custom swatches, captions and contrast setting round-trip through form streaming');
+    Check((LoadedCombo.DropdownMenu is TLazRibbonPopupMenu) and
+      (LoadedCombo.DropdownMenu.Owner = LoadedCombo) and (LoadedCombo.ComponentCount = 1),
+      'A loaded color combo owns exactly one internal popup');
+
+    Combo.OnChange := @Events.Changed;
+    Combo.OnApply := @Events.Applied;
+    Host.SetBounds(100, 100, 500, 300);
+    Host.Show;
+    Application.ProcessMessages;
+    Check(Combo.ExecuteKeyTip, 'Color combo KeyTip opens its palette');
+    Menu := TLazRibbonPopupMenu(Combo.DropdownMenu);
+    Check((ActivePopupMenu = Menu) and Menu.Gallery.Items[3].Enabled and
+      (Menu.Gallery.Items[1].Caption = 'Automatic color'),
+      'The popup uses custom captions and swatches');
+    SendKey(VK_HOME);
+    SendKey(VK_SPACE);
+    Check(Combo.HighContrastOnly and (ActivePopupMenu = Menu) and
+      not Menu.Gallery.Items[3].Enabled and Menu.Gallery.Items[4].Enabled,
+      'The filter toggles in place and uses the configured contrast background and threshold');
+    SendKey(VK_DOWN);
+    SendKey(VK_RETURN);
+    Check((Combo.SelectedColor = clDefault) and (Combo.EffectiveColor = clNavy) and
+      (Combo.GradientColor = clNone) and (Events.Changes = 1),
+      'Automatic resolves to AutomaticColor and clears the previous gradient');
+    Application.ProcessMessages;
+
+    Combo.ExecuteKeyTip;
+    SendKey(VK_END);
+    SendKey(VK_RETURN);
+    Check((ActivePopupMenu = Menu) and (Menu.Gallery.Items[1].GradientColor <> clNone),
+      'Gradient action opens a gallery of gradient swatches');
+    SendKey(VK_HOME);
+    SendKey(VK_RETURN);
+    Check((Combo.SelectedColor = clNavy) and (Combo.GradientColor <> clNone) and
+      (Events.Changes = 2), 'Selecting a gradient commits both stops in one change event');
+    Application.ProcessMessages;
+
+    X := Combo.Rect.Left + 3;
+    Y := (Combo.Rect.Top + Combo.Rect.Bottom) div 2;
+    Combo.MouseMove([], X, Y);
+    Combo.MouseDown(mbLeft, [ssLeft], X, Y);
+    Combo.MouseUp(mbLeft, [], X, Y);
+    Check((Events.Applies = 1) and (Events.Changes = 2),
+      'The main button reapplies the current selection without changing it');
+    Combo.ExecuteKeyTip;
+    Combo.Visible := False;
+    Check(ActivePopupMenu = nil, 'Hiding the color combo dismisses its popup');
+    Application.ProcessMessages;
+  finally
+    Stream.Free;
+    Restored.Free;
+    Host.Free;
+    Events.Free;
+  end;
+end;
+
 begin
   try
     Application.Initialize;
@@ -430,9 +736,14 @@ begin
       'xml': TestXML;
       'skins': TestSkinNotifications;
       'streaming': TestStreaming;
+      'popup':
+        begin
+          TestPopupGallery;
+          TestColorCombo;
+        end;
       'controls': RunControlItemsAudit;
     else
-      raise Exception.Create('Specify geometry, colors, collections, xml, skins, streaming or controls.');
+      raise Exception.Create('Specify geometry, colors, collections, xml, skins, streaming, popup or controls.');
     end;
   except
     on E: Exception do
